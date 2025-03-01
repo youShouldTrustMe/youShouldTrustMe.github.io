@@ -1,83 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TruestMe's Blog</title><link>https://example.org/algolia.json</link><description>Recent content on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 15 Mar 2023 11:00:00 -0700</lastBuildDate><atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml"/><item><title>模电</title><link>https://example.org/post/%E7%AC%94%E8%AE%B0/hello/</link><pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate><guid>https://example.org/post/%E7%AC%94%E8%AE%B0/hello/</guid><description>&lt;h1 id="参考链接">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TruestMe's Blog</title><link>https://example.org/algolia.json</link><description>Recent content on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 15 Mar 2023 11:00:00 -0700</lastBuildDate><atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml"/><item><title>hehe</title><link>https://example.org/post/test/asm/</link><pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate><guid>https://example.org/post/test/asm/</guid><description>&lt;h1 id="参考链接">
 &lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
 参考链接
-&lt;/h1>&lt;p>&lt;a href="https://www.bilibili.com/video/BV1Gt411b7Zq?spm_id_from=333.788.player.switch&amp;amp;vd_source=5ea6f41e42b6976d234828ae5251a055&amp;amp;p=2">02-PN结的形成_4K_哔哩哔哩_bilibili&lt;/a>&lt;/p>
-&lt;h1 id="绪论">
-&lt;a class="header-anchor" href="#%e7%bb%aa%e8%ae%ba">&lt;/a>
-绪论
-&lt;/h1>&lt;h2 id="模拟信号">
-&lt;a class="header-anchor" href="#%e6%a8%a1%e6%8b%9f%e4%bf%a1%e5%8f%b7">&lt;/a>
-模拟信号
-&lt;/h2>&lt;p>电子电路中信号的分类&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>数字信号：离散性&lt;/p>
-&lt;!-- raw HTML omitted -->
+&lt;/h1>&lt;p>&lt;a href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">汇编语言入门教程 - 阮一峰的网络日志&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://cankaoshouce.com/assembly/assembly-course.html">汇编语言 教程 | 参考手册 (cankaoshouce.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cs.virginia.edu/~evans/cs216/guides/x86.html">Guide to x86 Assembly&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html">GCC-Inline-Assembly-HOWTO &amp;mdash; GCC-Inline-Assembly-HOWTO&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.jianshu.com/p/10e8a7b4f980">译：GCC内联汇编入门 - 简书 (jianshu.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://developer.arm.com/documentation/ddi0597/2024-09?lang=en">Arm A-profile A32/T32 Instruction Set Architecture&lt;/a>&lt;/p>
+&lt;h1 id="基础知识">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">&lt;/a>
+基础知识
+&lt;/h1>&lt;h2 id="引言">
+&lt;a class="header-anchor" href="#%e5%bc%95%e8%a8%80">&lt;/a>
+引言
+&lt;/h2>&lt;p>我们知道，CPU 只负责计算，本身不具备智能。你输入一条指令（instruction），它就运行一次，然后停下来，等待下一条指令。&lt;/p>
+&lt;p>这些指令都是二进制的，称为操作码（opcode），比如加法指令就是&lt;code>00000011&lt;/code>。&lt;a href="https://www.ruanyifeng.com/blog/2014/11/compiler.html">编译器&lt;/a>的作用，就是将高级语言写好的程序，翻译成一条条操作码。&lt;/p>
+&lt;p>对于人类来说，二进制程序是不可读的，根本看不出来机器干了什么。为了解决可读性的问题，以及偶尔的编辑需求，就诞生了汇编语言。&lt;/p>
+&lt;p>&lt;strong>汇编语言是二进制指令的文本形式&lt;/strong>，与指令是一一对应的关系。比如，加法指令&lt;code>00000011&lt;/code>写成汇编语言就是 ADD。只要还原成二进制，汇编语言就可以被 CPU 直接执行，所以它是最底层的低级语言。&lt;/p>
 &lt;blockquote>
-&lt;p>数字信号不仅仅在时间上是离散的，在数值上也是离散的。信号必须是整数值&lt;/p>
-&lt;p>如果出现了夹在两个整数中间的小数（k&amp;rsquo;）,那么k&amp;rsquo;就需要根据阈值确定为k还是k+1&lt;/p>&lt;/blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>以下教程开发环境为NAsm，使用Inte格式。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>NASM&lt;/strong> 更适合跨平台、轻量级的汇编开发，语法简洁，灵活性高。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>模拟信号：连续性。==大多数物理量为模拟信号==。&lt;/p>
-&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/8_19_40_23_202409081940326.png" alt="模拟信号">&lt;/p>
-&lt;blockquote>
-&lt;p>模拟信号不仅在时间上连续，在数值上也是连续的&lt;/p>&lt;/blockquote>
+&lt;p>&lt;strong>MASM&lt;/strong> 则更适合 Windows 平台上的专业开发，功能丰富，语法较复杂，集成度高，适合开发大规模的 Windows 应用程序和驱动。&lt;/p>
 &lt;/li>
-&lt;/ol>
-&lt;h1 id="常见半导体">
-&lt;a class="header-anchor" href="#%e5%b8%b8%e8%a7%81%e5%8d%8a%e5%af%bc%e4%bd%93">&lt;/a>
-常见半导体
-&lt;/h1>&lt;h2 id="本征半导体">
-&lt;a class="header-anchor" href="#%e6%9c%ac%e5%be%81%e5%8d%8a%e5%af%bc%e4%bd%93">&lt;/a>
-本征半导体
-&lt;/h2>&lt;p>==纯净的具有晶体结构的半导体==称为本征半导体。&lt;/p>
-&lt;p>==半导体==&lt;/p>
-&lt;p>物质的导电性能决定于原子结构。导体一般为低价元素，它们的最外层电子极易挣脱原子核的束缚成为自由电子，在外电场的作用下产生定向移动，形成电流。高价元素（如惰性气体）或高分子物质（如橡胶），它们的最外层电子受原子核束缚力很强，很难成为自由电子，所以导电
-性极差，成为绝缘体。常用的半导体材料硅(Si)和锗(G)均为四价元素，它们的最外层电子既不像导体那么容易挣脱原子核的束缚，也不像绝缘体那样被原子核束缚得那么紧，因而其导电性介于二者之间。
-在形成晶体结构的半导体中，人为地参入特定的杂质元素时，导电性能具有可控性：并且，在光照和热辐射条件下，其导电性还有明显的变化：这些特殊的性质就决定了半导体可以制成各种电子器件。&lt;/p>
-&lt;p>==本征半导体的晶体结构==&lt;/p>
-&lt;p>==将纯净的半导体经过一定的工艺过程制成单晶体，即为本征半导体==。晶体中的原子在空间形成排列整齐的点阵，称为晶格。由于相邻原子间的距离很小，因此，相邻的两个原子的一对最外层电子（即价电子）不但各自围绕自身所属的原子核运动，而且出现在相邻原子所属的轨道上，成为共用电子，这样的组合称为共价键结构，如下图所示。图中标有“+4”的圆圈表示除价电子外的正离子。&lt;/p>
-&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/19_20_30_40_202502192030496.png" alt="本征半导体结构">&lt;/p>
-&lt;p>==本征半导体中的两种载流子==&lt;/p>
-&lt;p>晶体中的共价键具有很强的结合力，因此，在常温下，仅有极少数的价电子由于热运动（热激发)获得足够的能量，从而挣脱共价键的束缚变成为自由电子。与此同时，在共价键中留下一个空位置，称为==空穴==。原子因失掉一个价电子而带正电，或者说空穴带正电。在本征半导体中，自由电子与空穴是成对出现的，即自由电子与空穴数目相等，如下图所示。&lt;/p>
-&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/19_21_1_47_202502192101110.png" alt="本征半导体的电子和空穴">&lt;/p>
-&lt;ul>
-&lt;li>若在本征半导体两端外加一电场，则一方面自由电子将产生定向移动，形成电子电流；&lt;/li>
-&lt;li>另一方面由于空穴的存在，价电子将按一定的方向依次填补空穴，也就是说空穴也产生定向移动，形成空穴电流。&lt;/li>
-&lt;/ul>
-&lt;p>运载电荷的粒子称为载流子。导体导电只有一种载流子，即自由电子导电；==而本征半导体有两种载流子，即自由电子和空穴均参与导电==，这是半导体导电的特殊性质。&lt;/p>
+&lt;/ul>&lt;/blockquote>
 &lt;blockquote>
-&lt;p>[!tip]&lt;/p>
-&lt;p>空穴是相对运动，由于自由电子和空穴所带电荷极性不同，所以它们的运动方向相反，==本征半导体中的电流是两个电流之和==。&lt;/p>&lt;/blockquote>
-&lt;p>==本征半导体中载流子的浓度==&lt;/p>
-&lt;ul>
-&lt;li>半导体在热激发下产生自由电子和空穴对的现象称为==本征激发==。&lt;/li>
-&lt;li>自由电子在运动的过程中如果与空穴相遇就会填补空穴，使两者同时消失，将这种现象称为==复合==。&lt;/li>
-&lt;/ul>
-&lt;p>在不同的热激发下，半导体的浓度不同：&lt;/p>
-&lt;ul>
-&lt;li>在一定的温度下，本征激发所产生的自由电子与空穴对，与复合的自由电子与空穴对数目相等，故达到==动态平衡==。换言之，在一定温度下，本征半导体中载流子的浓度是一定的，并且自由电子与空穴的浓度相等。&lt;/li>
-&lt;li>当环境温度升高时，热运动加剧，挣脱共价键束缚的自由电子增多，空穴也随之增多，即载流子的浓度升高，因而必然使得导电性能增强。&lt;/li>
-&lt;li>若环境温度降低，则载流子的浓度降低，因而导电性能变差，可见，本征半导体载流子的浓度是环境温度的函数。理论分析表明，本征半导体载流子的浓度为：&lt;/li>
-&lt;/ul>
-$$
-n_i=p_i=K_iT^{\frac{3}{2}}e^{\frac{E_{co}}{2kT}}
-$$&lt;p>式中$n_i$,和$p_i$分别表示自由电子与空穴的浓度($cm^{-3}$),T为热力学温度，k为玻尔兹曼常数($8.63×10^{-5}eV/K$),$E_{co}$为热力学零度时破坏共价键所需的能量，又称禁带宽度（硅为1.21eV,锗为0.785eV),$K_i$是与半导体材料载流子有效质量、有效能级密度有关的常量（硅为$3.87×10^{16}cm^{-3} \cdot K^{\frac{-3}{2}}$,锗为$1.76×10^{16}cm^{-3} \cdot K^{\frac{-3}{2}}$)。上式表明，当T=0 K时，自由电子与空穴的浓度均为零，本征半导体成为绝缘体；在一定范围内，当温度升高时，本征半导体载流子的浓度近似按指数曲线升高。在常温下，即T=300K时，硅材料的本征载流子浓度$n_i=P_i=1.43×10^{10}cm^{-3}$,锗材料的本征载流子浓度$n_i=p_i=2.38×10^{13}cm^{-3}$。&lt;/p>
-&lt;p>应当指出，本征半导体的导电性能很差，且与环境温度密切相关。半导体材料性能对温度的这种敏感性，既可以用来制作热敏和光敏器件，又是造成半导体器件温度稳定性差的原因。&lt;/p>
-&lt;blockquote>
-&lt;p>[!tip]&lt;/p>
-&lt;p>半导体的导电能力和半导体中的载流子浓度有关。实际上本征半导体的导电能力很差，也不咋导电、也不咋绝缘。&lt;/p>
-&lt;p>从公式中可以看出，载流子的浓度和温度有关‼&lt;/p>&lt;/blockquote>
-&lt;h2 id="杂质半导体">
-&lt;a class="header-anchor" href="#%e6%9d%82%e8%b4%a8%e5%8d%8a%e5%af%bc%e4%bd%93">&lt;/a>
-杂质半导体
-&lt;/h2>&lt;p>通过扩散工艺，在本征半导体中掺入&lt;strong>少量&lt;/strong>合适的杂质元素，便可得到==杂质半导体==。按掺入的杂质元素不同，可形成N型半导体和P型半导体：控制掺入杂质元素的浓度，就可控制杂质半导体的导电性能。&lt;/p>
-&lt;h3 id="n型半导体">
-&lt;a class="header-anchor" href="#n%e5%9e%8b%e5%8d%8a%e5%af%bc%e4%bd%93">&lt;/a>
-N型半导体
-&lt;/h3>&lt;p>在纯净的硅晶体中掺入==五价元素==（如磷（P）），使之取代晶格中硅原子的位置，就形成了==N型半导体==。由于杂质原子的最外层有五个价电子，所以除了与其周围硅原子形成共价键外，还多出一个电子，如图所示。&lt;/p>
-&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/24_19_10_44_202502241910281.png" alt="N型半导体">&lt;/p>
-&lt;p>多出的电子不受共价键的束缚，只需获得很少的能量，就成为自由电子。在常温下，由于热激发，就可使它们成为自由电子。而杂质原子因在晶格上，且又缺少电子，故变为不能移动的正离子。N型半导体中，自由电子的浓度大于空穴的浓度，故称自由电子为==多数载流子==，空穴为==少数载流子==：简称前者为==多子==，后者为==少子==。&lt;/p></description></item><item><title>关于</title><link>https://example.org/about/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://example.org/about/</guid><description>&lt;p>ceshi&lt;/p></description></item><item><title>友情链接</title><link>https://example.org/friend/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://example.org/friend/</guid><description>&lt;h2 id="本站信息">
+&lt;p>[!TIP]&lt;/p>
+&lt;p>汇编语法主要有两大派系：AT&amp;amp;T语法 和 Intel语法。&lt;/p>
+&lt;p>GAS (GNU Assembler) 编译器默认是基于AT&amp;amp;T语法；&lt;a href="https://so.csdn.net/so/search?q=MASM&amp;amp;spm=1001.2101.3001.7020">MASM&lt;/a>、NASM等编译器默认基于Intel语法。&lt;/p>
+&lt;p>需要说明的是，GAS汇编器除了支持AT&amp;amp;T语法之外，自己也定义了一些额外的&lt;code>directives&lt;/code>，用于辅助完成汇编操作。关于GAS汇编器及其语法可以参考GAS的官方文档：https://sourceware.org/binutils/docs/as/&lt;/p>&lt;/blockquote>
+&lt;h2 id="寄存器">
+&lt;a class="header-anchor" href="#%e5%af%84%e5%ad%98%e5%99%a8">&lt;/a>
+寄存器
+&lt;/h2>&lt;p>CPU 本身只负责运算，不负责储存数据。数据一般都储存在内存之中，CPU 要用的时候就去内存读写数据。但是，CPU 的运算速度远高于内存的读写速度，为了避免被拖慢，CPU 都自带一级缓存和二级缓存。基本上，CPU 缓存可以看作是读写速度较快的内存。&lt;/p>
+&lt;p>但是，CPU 缓存还是不够快，另外数据在缓存里面的地址是不固定的，CPU 每次读写都要寻址也会拖慢速度。因此，除了缓存之外，CPU 还自带了寄存器（register），用来储存最常用的数据。也就是说，那些最频繁读写的数据（比如循环变量），都会放在寄存器里面，CPU 优先读写寄存器，再由寄存器跟内存交换数据。&lt;/p></description></item><item><title>Hello World</title><link>https://example.org/post/hello/</link><pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate><guid>https://example.org/post/hello/</guid><description>&lt;p>💘 博麗 霊夢 💘&lt;/p></description></item><item><title>关于</title><link>https://example.org/about/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://example.org/about/</guid><description>&lt;p>ceshi&lt;/p></description></item><item><title>友情链接</title><link>https://example.org/friend/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://example.org/friend/</guid><description>&lt;h2 id="本站信息">
 &lt;a class="header-anchor" href="#%e6%9c%ac%e7%ab%99%e4%bf%a1%e6%81%af">&lt;/a>
 本站信息
 &lt;/h2>&lt;ul>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on TruestMe's Blog</title><link>https://example.org/post/</link><description>Recent content in Posts on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 15 Mar 2023 11:00:00 -0700</lastBuildDate><atom:link href="https://example.org/post/index.xml" rel="self" type="application/rss+xml"/><item><title>hehe</title><link>https://example.org/post/test/asm/</link><pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate><guid>https://example.org/post/test/asm/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">汇编语言入门教程 - 阮一峰的网络日志&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://cankaoshouce.com/assembly/assembly-course.html">汇编语言 教程 | 参考手册 (cankaoshouce.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cs.virginia.edu/~evans/cs216/guides/x86.html">Guide to x86 Assembly&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html">GCC-Inline-Assembly-HOWTO &amp;mdash; GCC-Inline-Assembly-HOWTO&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.jianshu.com/p/10e8a7b4f980">译：GCC内联汇编入门 - 简书 (jianshu.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://developer.arm.com/documentation/ddi0597/2024-09?lang=en">Arm A-profile A32/T32 Instruction Set Architecture&lt;/a>&lt;/p>
+&lt;h1 id="基础知识">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">&lt;/a>
+基础知识
+&lt;/h1>&lt;h2 id="引言">
+&lt;a class="header-anchor" href="#%e5%bc%95%e8%a8%80">&lt;/a>
+引言
+&lt;/h2>&lt;p>我们知道，CPU 只负责计算，本身不具备智能。你输入一条指令（instruction），它就运行一次，然后停下来，等待下一条指令。&lt;/p>
+&lt;p>这些指令都是二进制的，称为操作码（opcode），比如加法指令就是&lt;code>00000011&lt;/code>。&lt;a href="https://www.ruanyifeng.com/blog/2014/11/compiler.html">编译器&lt;/a>的作用，就是将高级语言写好的程序，翻译成一条条操作码。&lt;/p>
+&lt;p>对于人类来说，二进制程序是不可读的，根本看不出来机器干了什么。为了解决可读性的问题，以及偶尔的编辑需求，就诞生了汇编语言。&lt;/p>
+&lt;p>&lt;strong>汇编语言是二进制指令的文本形式&lt;/strong>，与指令是一一对应的关系。比如，加法指令&lt;code>00000011&lt;/code>写成汇编语言就是 ADD。只要还原成二进制，汇编语言就可以被 CPU 直接执行，所以它是最底层的低级语言。&lt;/p>
+&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>以下教程开发环境为NAsm，使用Inte格式。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>NASM&lt;/strong> 更适合跨平台、轻量级的汇编开发，语法简洁，灵活性高。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>MASM&lt;/strong> 则更适合 Windows 平台上的专业开发，功能丰富，语法较复杂，集成度高，适合开发大规模的 Windows 应用程序和驱动。&lt;/p>
+&lt;/li>
+&lt;/ul>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>[!TIP]&lt;/p>
+&lt;p>汇编语法主要有两大派系：AT&amp;amp;T语法 和 Intel语法。&lt;/p>
+&lt;p>GAS (GNU Assembler) 编译器默认是基于AT&amp;amp;T语法；&lt;a href="https://so.csdn.net/so/search?q=MASM&amp;amp;spm=1001.2101.3001.7020">MASM&lt;/a>、NASM等编译器默认基于Intel语法。&lt;/p>
+&lt;p>需要说明的是，GAS汇编器除了支持AT&amp;amp;T语法之外，自己也定义了一些额外的&lt;code>directives&lt;/code>，用于辅助完成汇编操作。关于GAS汇编器及其语法可以参考GAS的官方文档：https://sourceware.org/binutils/docs/as/&lt;/p>&lt;/blockquote>
+&lt;h2 id="寄存器">
+&lt;a class="header-anchor" href="#%e5%af%84%e5%ad%98%e5%99%a8">&lt;/a>
+寄存器
+&lt;/h2>&lt;p>CPU 本身只负责运算，不负责储存数据。数据一般都储存在内存之中，CPU 要用的时候就去内存读写数据。但是，CPU 的运算速度远高于内存的读写速度，为了避免被拖慢，CPU 都自带一级缓存和二级缓存。基本上，CPU 缓存可以看作是读写速度较快的内存。&lt;/p>
+&lt;p>但是，CPU 缓存还是不够快，另外数据在缓存里面的地址是不固定的，CPU 每次读写都要寻址也会拖慢速度。因此，除了缓存之外，CPU 还自带了寄存器（register），用来储存最常用的数据。也就是说，那些最频繁读写的数据（比如循环变量），都会放在寄存器里面，CPU 优先读写寄存器，再由寄存器跟内存交换数据。&lt;/p></description></item><item><title>Hello World</title><link>https://example.org/post/hello/</link><pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate><guid>https://example.org/post/hello/</guid><description>&lt;p>💘 博麗 霊夢 💘&lt;/p></description></item></channel></rss>
