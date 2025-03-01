@@ -1,0 +1,2734 @@
+<!doctype html>
+<html
+  lang="zh-cn" 
+  
+    data-theme-mode="auto"
+  
+>
+  <head><script src="/youShouldTrustMe/youShouldTrustMe.github.io/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=youShouldTrustMe/youShouldTrustMe.github.io/livereload" data-no-instant defer></script>
+    <meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+
+
+
+
+
+
+
+  
+
+<title>
+   | TrustMe
+</title>
+<meta
+  name="description"
+  content="你要信我啊"
+/>
+
+
+
+
+
+
+
+
+
+
+<script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"clipboard\":{\"copyright\":{\"content\":\"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！\",\"count\":50,\"enable\":false},\"fail\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"success\":\"复制成功(*^▽^*)\"},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":\"本文最后更新于 {time}，请注意文中内容可能已经发生变化。\"}}");
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+    
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+
+
+
+
+
+
+  <link
+    rel="preload"
+    href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="anonymous"
+  />
+
+
+
+  
+
+
+
+
+
+
+ <link rel="stylesheet" href="/youShouldTrustMe/youShouldTrustMe.github.io/css/loader.css" />
+
+
+
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content=" | TrustMe" />
+  <meta
+    property="og:description"
+    content="你要信我啊"
+  />
+  <meta property="og:url" content="http://localhost:1313/youShouldTrustMe/youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/fs/flashdb/" />
+  <meta
+    property="og:site_name"
+    content="TruestMe&#39;s Blog"
+  />
+  <meta
+    property="og:image"
+    content="/youShouldTrustMe/youShouldTrustMe.github.io/"
+  />
+  <meta property="article:author" content="TrustMe" />
+  <meta property="article:published_time" content="0001-01-01T00:00:00&#43;00:00" />
+  <meta property="article:modified_time" content="0001-01-01T00:00:00&#43;00:00" />
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="/youShouldTrustMe/youShouldTrustMe.github.io/" />
+  
+  
+  
+  
+  
+
+
+
+
+<link rel="shortcut icon" href="/youShouldTrustMe/youShouldTrustMe.github.io/favicon.ico">
+
+
+
+
+
+
+
+ <link rel="stylesheet" href="/youShouldTrustMe/youShouldTrustMe.github.io/css/main.css" />
+
+
+
+
+
+  <link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+
+
+
+
+
+
+  <link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    
+    
+    
+    
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"
+  ></script>
+
+
+
+
+
+  
+
+
+  <link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css" />
+
+
+
+
+
+  </head>
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+          </svg>
+        
+      </div>
+      <div class="loading-word">你要信我啊...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        
+<div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/youShouldTrustMe/youShouldTrustMe.github.io/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/youShouldTrustMe/youShouldTrustMe.github.io/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/youShouldTrustMe/youShouldTrustMe.github.io/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/youShouldTrustMe/youShouldTrustMe.github.io/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    <picture>
+      
+    </picture>
+    
+      <img fetchpriority="high" src="/youShouldTrustMe/youShouldTrustMe.github.io/images/background.jpg" alt="">
+    
+  
+
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          
+        
+  
+        
+          <a href="/youShouldTrustMe/youShouldTrustMe.github.io/" id="logo">
+            <h1 data-aos="slide-up">TruestMe&#39;s Blog</h1>
+          </a>
+        
+      
+  
+      
+        
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+        <div id="content"
+          
+          class="sidebar-right"  >
+          <aside id="sidebar">
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    >
+      
+        <div class="sidebar-toc-sidebar">
+          <div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#字符串类型">字符串类型</a></li>
+    <li><a href="#blob类型">Blob类型</a></li>
+    <li><a href="#遍历迭代器">遍历（迭代器）</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#介绍">介绍</a></li>
+    <li><a href="#定义flash设备">定义Flash设备</a></li>
+    <li><a href="#定义flash设备表">定义Flash设备表</a></li>
+    <li><a href="#定义flash分区表">定义Flash分区表</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#blob">Blob</a>
+      <ul>
+        <li><a href="#构造-blob-对象">构造 blob 对象</a></li>
+        <li><a href="#读取-blob-数据">读取 blob 数据</a></li>
+      </ul>
+    </li>
+    <li><a href="#kvdb-1">KVDB</a>
+      <ul>
+        <li><a href="#初始化-kvdb">初始化 KVDB</a></li>
+        <li><a href="#控制-kvdb">控制 KVDB</a></li>
+        <li><a href="#反初始化-kvdb">反初始化 KVDB</a></li>
+        <li><a href="#设置-kv">设置 KV</a></li>
+        <li><a href="#获取-kv">获取 KV</a></li>
+        <li><a href="#删除-kv">删除 KV</a></li>
+        <li><a href="#重置-kvdb">重置 KVDB</a></li>
+        <li><a href="#打印-kvdb-中的-kv-信息">打印 KVDB 中的 KV 信息</a></li>
+        <li><a href="#kv-对象转换为-blob-对象">KV 对象转换为 blob 对象</a></li>
+        <li><a href="#初始化-kv-迭代器">初始化 KV 迭代器</a></li>
+        <li><a href="#迭代-kv">迭代 KV</a></li>
+      </ul>
+    </li>
+    <li><a href="#tsdb-1">TSDB</a>
+      <ul>
+        <li><a href="#初始化-tsdb">初始化 TSDB</a></li>
+        <li><a href="#控制-tsdb">控制 TSDB</a></li>
+        <li><a href="#反初始化-tsdb">反初始化 TSDB</a></li>
+        <li><a href="#追加-tsl">追加 TSL</a></li>
+        <li><a href="#迭代-tsl">迭代 TSL</a></li>
+        <li><a href="#逆序迭代-tsl">逆序迭代 TSL</a></li>
+        <li><a href="#按时间段迭代-tsl">按时间段迭代 TSL</a></li>
+        <li><a href="#查询-tsl-的数量">查询 TSL 的数量</a></li>
+        <li><a href="#设置-tsl-状态">设置 TSL 状态</a></li>
+        <li><a href="#清空-tsdb">清空 TSDB</a></li>
+        <li><a href="#tsl-对象转换为-blob-对象">TSL 对象转换为 blob 对象</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+        </div>
+        <div class="sidebar-common-sidebar hidden">
+          
+<div class="sidebar-author">
+  <img
+    data-src="/youShouldTrustMe/youShouldTrustMe.github.io/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="TrustMe"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">TrustMe</div>
+  <div class="sidebar-description">你要信我啊</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    
+    <div class="sidebar-state-number">60</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+    
+  </div>
+</aside>
+
+          <section id="main">
+  <article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta">
+      <div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="0001-01-01 00:00:00 &#43;0000 UTC" itemprop="datePublished"
+      >0001-01-01</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >0001-01-01</time
+    >
+  </span>
+</div>
+
+      <div class="article-category">
+  
+</div>
+
+    </div>
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接">
+<a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5"></a>
+参考链接
+</h1><p><a href="https://github.com/armink/FlashDB/blob/master/README_zh.md">FlashDB/README_zh.md at master · armink/FlashDB (github.com)</a></p>
+<h1 id="基本概念">
+<a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5"></a>
+基本概念
+</h1><ul>
+<li><strong>键值数据库（KVDB）</strong>：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。</li>
+<li><strong>时序数据（TSDB）</strong> ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 <strong>时间顺序存储</strong> 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。</li>
+<li><strong>时序记录（TSL）</strong> ：TSL (Time series log)，是 TSDB 中每条记录的简称。</li>
+<li><strong>Blob</strong> ：在计算机中，blob 常常是数据库中用来存储二进制文件的字段类型。在 FlashDB 中， KV 和 TSL 都使用 blob 类型来存储，该类型可以兼容任意变量类型。</li>
+<li><strong>迭代器（iterator）</strong>：它可以让用户透过特定的接口巡访容器中的每一个元素，而不用了解底层的实现。 TSDB 和 KVDB 都支持通过迭代器对数据库进行遍历访问。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png" alt="框架结构"></p>
+<h1 id="kvdb">
+<a class="header-anchor" href="#kvdb"></a>
+KVDB
+</h1><h2 id="字符串类型">
+<a class="header-anchor" href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b"></a>
+字符串类型
+</h2><p>使用一个名为 <code>&quot;temp&quot;</code> 的 KV 来存储温度值，分别演示了字符串 KV 从 <code>创建-&gt;读取-&gt;修改-&gt;删除</code> 的全过程。大致内容如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">kvdb_type_string_sample</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">kvdb</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;==================== kvdb_type_string_sample ====================</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* CREATE new Key-Value */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="n">temp_data</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;36C&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* It will create new KV node when &#34;temp&#34; KV not in database. */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_set</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;create the &#39;temp&#39; string KV, value is: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* GET the KV value */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="o">*</span><span class="n">return_value</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">0</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* Get the &#34;temp&#34; KV value.
+</span></span></span><span class="line"><span class="cl"><span class="cm">         * NOTE: The return value saved in fdb_kv_get&#39;s buffer. Please copy away as soon as possible.
+</span></span></span><span class="line"><span class="cl"><span class="cm">         */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">return_value</span> <span class="o">=</span> <span class="nf">fdb_kv_get</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* the return value is NULL when get the value failed */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">return_value</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">strncpy</span><span class="p">(</span><span class="n">temp_data</span><span class="p">,</span> <span class="n">return_value</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp_data</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;get the &#39;temp&#39; value is: %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* CHANGE the KV value */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">char</span> <span class="n">temp_data</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#34;38C&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* change the &#34;temp&#34; KV&#39;s value to &#34;38C&#34; */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_set</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;set &#39;temp&#39; value to %s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* DELETE the KV by name */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_del</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;delete the &#39;temp&#39; finish</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;===========================================================</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>首先创建了一个 KV 名为 <code>&quot;temp&quot;</code> ，并给予初值 36℃</li>
+<li>读取 <code>&quot;temp&quot;</code> KV 当前的值，发现与初值相同</li>
+<li>修改 <code>&quot;temp&quot;</code> KV 的值为 38℃</li>
+<li>最后删除 <code>&quot;temp&quot;</code> KV</li>
+</ul>
+<h2 id="blob类型">
+<a class="header-anchor" href="#blob%e7%b1%bb%e5%9e%8b"></a>
+Blob类型
+</h2><p>blob KV 是一个比较常用类型，其 value 是一个没有类型限制的二进制类型。在功能上，blob KV 也兼容字符串 KV 。在 API 的使用上， blob KV 拥有一套独立的 API ，可以很快速的实现各种类型 KV 到 KVDB 中的存储，比如：基本类型，数组以及结构体等。</p>
+<p>下面的代码使用一个名为 <code>&quot;temp&quot;</code> 的 KV 来存储温度值，分别演示了 blob KV 从 <code>创建-&gt;读取-&gt;修改-&gt;删除</code> 的全过程。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">kvdb_type_blob_sample</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">kvdb</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;==================== kvdb_type_blob_sample ====================</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* CREATE new Key-Value */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="mi">36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* It will create new KV node when &#34;temp&#34; KV not in database.
+</span></span></span><span class="line"><span class="cl"><span class="cm">         * fdb_blob_make: It&#39;s a blob make function, and it will return the blob when make finish.
+</span></span></span><span class="line"><span class="cl"><span class="cm">         */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_set_blob</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp_data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;create the &#39;temp&#39; blob KV, value is: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* GET the KV value */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* get the &#34;temp&#34; KV value */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_get_blob</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp_data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* the blob.saved.len is more than 0 when get the value successful */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">blob</span><span class="p">.</span><span class="n">saved</span><span class="p">.</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;get the &#39;temp&#39; value is: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* CHANGE the KV value */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="mi">38</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* change the &#34;temp&#34; KV&#39;s value to 38 */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_set_blob</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp_data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;set &#39;temp&#39; value to %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* DELETE the KV by name */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_kv_del</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;delete the &#39;temp&#39; finish</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;===========================================================</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>首先创建了一个 KV 名为 <code>&quot;temp&quot;</code> ，并给予初值 36℃</li>
+<li>读取 <code>&quot;temp&quot;</code> KV 当前的值，发现与初值相同</li>
+<li>修改 <code>&quot;temp&quot;</code> KV 的值为 38℃</li>
+<li>最后删除 <code>&quot;temp&quot;</code> KV</li>
+</ul>
+<h2 id="遍历迭代器">
+<a class="header-anchor" href="#%e9%81%8d%e5%8e%86%e8%bf%ad%e4%bb%a3%e5%99%a8"></a>
+遍历（迭代器）
+</h2><p>下面的示例代码中，首先初始化了 KVDB 的迭代器，然后使用迭代器 API ，将 KVDB 的所有 KV 逐一遍历出来。</p>
+<p>遍历出来的 KV 对象含有 KV 的一些属性，包括：key name, value saved addr, value length 等，用户通过 <code>fdb_blob_read</code> 配合 <code>fdb_kv_to_blob</code> 读取出来，做一些自己的业务处理。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">kvdb_tarversal_sample</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">kvdb</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">fdb_kv_iterator</span> <span class="n">iterator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">fdb_kv_t</span> <span class="n">cur_kv</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">size_t</span> <span class="n">data_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">data_buf</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">fdb_kv_iterator_init</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iterator</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="nf">fdb_kv_iterate</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">iterator</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cur_kv</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">iterator</span><span class="p">.</span><span class="n">curr_kv</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data_size</span> <span class="o">=</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span> <span class="n">cur_kv</span><span class="o">-&gt;</span><span class="n">value_len</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">data_buf</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span> <span class="nf">malloc</span><span class="p">(</span><span class="n">data_size</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">data_buf</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;Error: malloc failed.</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_blob_read</span><span class="p">((</span><span class="kt">fdb_db_t</span><span class="p">)</span> <span class="n">kvdb</span><span class="p">,</span> <span class="nf">fdb_kv_to_blob</span><span class="p">(</span><span class="n">cur_kv</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="n">data_buf</span><span class="p">,</span> <span class="n">data_size</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">         * balabala do what ever you like with blob...
+</span></span></span><span class="line"><span class="cl"><span class="cm">         */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">free</span><span class="p">(</span><span class="n">data_buf</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h1 id="tsdb">
+<a class="header-anchor" href="#tsdb"></a>
+TSDB
+</h1><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">tsdb_sample</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">tsdb</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;==================== tsdb_sample ====================</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* APPEND new TSL (time series log) */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">struct</span> <span class="n">env_status</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* append new log to TSDB */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">status</span><span class="p">.</span><span class="n">temp</span> <span class="o">=</span> <span class="mi">36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">status</span><span class="p">.</span><span class="n">humi</span> <span class="o">=</span> <span class="mi">85</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_tsl_append</span><span class="p">(</span><span class="n">tsdb</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">status</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;append the new status.temp (%d) and status.humi (%d)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">humi</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">status</span><span class="p">.</span><span class="n">temp</span> <span class="o">=</span> <span class="mi">38</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">status</span><span class="p">.</span><span class="n">humi</span> <span class="o">=</span> <span class="mi">90</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_tsl_append</span><span class="p">(</span><span class="n">tsdb</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">status</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;append the new status.temp (%d) and status.humi (%d)</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">humi</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* QUERY the TSDB */</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* query all TSL in TSDB by iterator */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_tsl_iter</span><span class="p">(</span><span class="n">tsdb</span><span class="p">,</span> <span class="n">query_cb</span><span class="p">,</span> <span class="n">tsdb</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* QUERY the TSDB by time */</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* prepare query time (from 1970-01-01 00:00:00 to 2020-05-05 00:00:00) */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">struct</span> <span class="n">tm</span> <span class="n">tm_from</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="n">tm_year</span> <span class="o">=</span> <span class="mi">1970</span> <span class="o">-</span> <span class="mi">1900</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="p">.</span><span class="n">tm_mon</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="p">.</span><span class="n">tm_mday</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="p">.</span><span class="n">tm_hour</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="p">.</span><span class="n">tm_min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="p">.</span><span class="n">tm_sec</span> <span class="o">=</span> <span class="mi">0</span> 
+</span></span><span class="line"><span class="cl">                            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="k">struct</span> <span class="n">tm</span> <span class="n">tm_to</span> <span class="o">=</span> <span class="p">{</span> <span class="p">.</span><span class="n">tm_year</span> <span class="o">=</span> <span class="mi">2020</span> <span class="o">-</span> <span class="mi">1900</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                           <span class="p">.</span><span class="n">tm_mon</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                           <span class="p">.</span><span class="n">tm_mday</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                           <span class="p">.</span><span class="n">tm_hour</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                           <span class="p">.</span><span class="n">tm_min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                           <span class="p">.</span><span class="n">tm_sec</span> <span class="o">=</span> <span class="mi">0</span> 
+</span></span><span class="line"><span class="cl">                          <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">time_t</span> <span class="n">from_time</span> <span class="o">=</span> <span class="nf">mktime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tm_from</span><span class="p">),</span> <span class="n">to_time</span> <span class="o">=</span> <span class="nf">mktime</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tm_to</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">size_t</span> <span class="n">count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* query all TSL in TSDB by time */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_tsl_iter_by_time</span><span class="p">(</span><span class="n">tsdb</span><span class="p">,</span> <span class="n">from_time</span><span class="p">,</span> <span class="n">to_time</span><span class="p">,</span> <span class="n">query_by_time_cb</span><span class="p">,</span> <span class="n">tsdb</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* query all FDB_TSL_WRITE status TSL&#39;s count in TSDB by time */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">count</span> <span class="o">=</span> <span class="nf">fdb_tsl_query_count</span><span class="p">(</span><span class="n">tsdb</span><span class="p">,</span> <span class="n">from_time</span><span class="p">,</span> <span class="n">to_time</span><span class="p">,</span> <span class="n">FDB_TSL_WRITE</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;query count is: %u</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">count</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="cm">/* SET the TSL status */</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* Change the TSL status by iterator or time iterator
+</span></span></span><span class="line"><span class="cl"><span class="cm">         * set_status_cb: the change operation will in this callback
+</span></span></span><span class="line"><span class="cl"><span class="cm">         *
+</span></span></span><span class="line"><span class="cl"><span class="cm">         * NOTE: The actions to modify the state must be in orderC.
+</span></span></span><span class="line"><span class="cl"><span class="cm">         *       like: FDB_TSL_WRITE -&gt; FDB_TSL_USER_STATUS1 -&gt; FDB_TSL_DELETED -&gt; FDB_TSL_USER_STATUS2
+</span></span></span><span class="line"><span class="cl"><span class="cm">         *       The intermediate states can also be ignored.
+</span></span></span><span class="line"><span class="cl"><span class="cm">         *       such as: FDB_TSL_WRITE -&gt; FDB_TSL_DELETED
+</span></span></span><span class="line"><span class="cl"><span class="cm">         */</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fdb_tsl_iter</span><span class="p">(</span><span class="n">tsdb</span><span class="p">,</span> <span class="n">set_status_cb</span><span class="p">,</span> <span class="n">tsdb</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;===========================================================</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>分别来看下这几个过程</p>
+<ul>
+<li>
+<p><strong>追加</strong>：分两次修改结构体对象 <code>status</code> 的值然后追加到 TSDB 中；</p>
+</li>
+<li>
+<p><strong>查询</strong>：通过 TSDB 的迭代器 API ，在每次迭代时会自动执行 <code>query_cb</code> 回调函数，实现对 TSDB 中所有记录的查询，回调函数内容如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">bool</span> <span class="nf">query_cb</span><span class="p">(</span><span class="kt">fdb_tsl_t</span> <span class="n">tsl</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">env_status</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">fdb_tsdb_t</span> <span class="n">db</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">fdb_blob_read</span><span class="p">((</span><span class="kt">fdb_db_t</span><span class="p">)</span> <span class="n">db</span><span class="p">,</span> <span class="nf">fdb_tsl_to_blob</span><span class="p">(</span><span class="n">tsl</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">status</span><span class="p">))));</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;[query_cb] queried a TSL: time: %ld, temp: %d, humi: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">tsl</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">humi</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>按时间查询</strong>：TSDB 还提供了按时间迭代的 API : <code>fdb_tsl_iter_by_time</code> ，可以传入起始和截至时间，此时迭代器会按照传入的时间段，对时序记录进行迭代。每次迭代时会执行 <code>query_by_time_cb</code> 回调，在回调中读取当前记录的内容，并打印出来。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">bool</span> <span class="nf">query_by_time_cb</span><span class="p">(</span><span class="kt">fdb_tsl_t</span> <span class="n">tsl</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">struct</span> <span class="n">env_status</span> <span class="n">status</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">fdb_tsdb_t</span> <span class="n">db</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">fdb_blob_read</span><span class="p">((</span><span class="kt">fdb_db_t</span><span class="p">)</span> <span class="n">db</span><span class="p">,</span> <span class="nf">fdb_tsl_to_blob</span><span class="p">(</span><span class="n">tsl</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">status</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">status</span><span class="p">))));</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;[query_by_time_cb] queried a TSL: time: %ld, temp: %d, humi: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">tsl</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">temp</span><span class="p">,</span> <span class="n">status</span><span class="p">.</span><span class="n">humi</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+<li>
+<p><strong>修改状态</strong>：每条 TSL 在被追加到 TSDB 后，都可以修改其状态，状态共有 4 种：</p>
+<ul>
+<li>
+<p><code>FDB_TSL_WRITE</code>：已写入状态，TSL 被追加到 TSDB 中后的默认状态；</p>
+</li>
+<li>
+<p><code>FDB_TSL_USER_STATUS1</code>：该状态介于写入与删除之间，用户可自定义其状态含义，比如：数据已被同步至云端；</p>
+</li>
+<li>
+<p><code>FDB_TSL_DELETED</code> ：已删除状态，当 TSL 需要删除时，修改 TSL 的状态为该状态即可；</p>
+<blockquote>
+<p>提示：在 FlashDB 中，为了提升 Flash 寿命，删除动作并不会真正的将数据从 Flash 从擦除，而是将其标记为删除状态，用户可以通过状态对不同的数据记录进行区分。</p></blockquote>
+</li>
+<li>
+<p><code>FDB_TSL_USER_STATUS2</code>：删除状态之后的自定义状态，预留给用户使用；</p>
+</li>
+</ul>
+<p>修改状态时只能按照 <code>FDB_TSL_WRITE -&gt; FDB_TSL_USER_STATUS1 -&gt; FDB_TSL_DELETED -&gt; FDB_TSL_USER_STATUS2</code> 顺序进行修改，不能逆序修改。也可以跳过中间状态，例如：从 <code>FDB_TSL_WRITE</code> 直接修改为<code>FDB_TSL_DELETED</code> 状态，跳过 <code>FDB_TSL_USER_STATUS1</code> 状态。</p>
+<p>示例中通过迭代器将当前所有的 TSL 都修改为 <code>FDB_TSL_USER_STATUS1</code> 状态，迭代器中的回调代码如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">bool</span> <span class="nf">set_status_cb</span><span class="p">(</span><span class="kt">fdb_tsl_t</span> <span class="n">tsl</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">fdb_tsdb_t</span> <span class="n">db</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;set the TSL (time %ld) status from %d to %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">tsl</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">,</span> <span class="n">tsl</span><span class="o">-&gt;</span><span class="n">status</span><span class="p">,</span> <span class="n">FDB_TSL_USER_STATUS1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">fdb_tsl_set_status</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">tsl</span><span class="p">,</span> <span class="n">FDB_TSL_USER_STATUS1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<h1 id="移植">
+<a class="header-anchor" href="#%e7%a7%bb%e6%a4%8d"></a>
+移植
+</h1><h2 id="介绍">
+<a class="header-anchor" href="#%e4%bb%8b%e7%bb%8d"></a>
+介绍
+</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_13_44_14_202412251344836.png" alt="框架图"></p>
+<p>移植的主要工作都在 FAL 这边，其他接口并不是强依赖，可以根据自己的情况进行对接。</p>
+<p>移植前建议先了解下 FAL 功能介绍，详见：http://packages.rt-thread.org/detail.html?package=fal</p>
+<p>FAL 底层将不同的 Flash 存储介质进行了统一封装，并提供了分区表机制，暴露给上层用户。</p>
+<p>FlashDB 的每个数据库就是基于 FAL 提供的分区机制，每个数据库都坐落在某个 FAL 的分区上，相当于一个分区对应一个数据库。</p>
+<h2 id="定义flash设备">
+<a class="header-anchor" href="#%e5%ae%9a%e4%b9%89flash%e8%ae%be%e5%a4%87"></a>
+定义Flash设备
+</h2><p>在定义 Flash 设备表前，需要先定义 Flash 设备。可以是片内 flash, 也可以是片外基于 SFUD 的 spi flash：</p>
+<ul>
+<li>定义片内 flash 设备可以参考 <a href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_flash_stm32f2_port.c"><code>fal_flash_stm32f2_port.c</code></a> 。</li>
+<li>定义片外 spi flash 设备可以参考 <a href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_flash_sfud_port.c"><code>fal_flash_sfud_port.c</code></a> 。</li>
+</ul>
+<p>定义具体的 Flash 设备对象，用户需要根据自己的 Flash 情况分别实现 <code>init</code>、 <code>read</code>、 <code>write</code>、 <code>erase</code> 这些操作函数：</p>
+<ul>
+<li><code>static int init(void)</code>：<strong>可选</strong> 的初始化操作。</li>
+<li><code>static int read(long offset, uint8_t *buf, size_t size)</code>：读取操作。</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">offset</td>
+          <td style="text-align: left">读取数据的 Flash 偏移地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">buf</td>
+          <td style="text-align: left">存放待读取数据的缓冲区</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">size</td>
+          <td style="text-align: left">待读取数据的大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">return</td>
+          <td style="text-align: left">返回实际读取的数据大小</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><code>static int write(long offset, const uint8_t *buf, size_t size)</code> ：写入操作。</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">offset</td>
+          <td style="text-align: left">写入数据的 Flash 偏移地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">buf</td>
+          <td style="text-align: left">存放待写入数据的缓冲区</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">size</td>
+          <td style="text-align: left">待写入数据的大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">return</td>
+          <td style="text-align: left">返回实际写入的数据大小</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><code>static int erase(long offset, size_t size)</code> ：擦除操作。</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">offset</td>
+          <td style="text-align: left">擦除区域的 Flash 偏移地址</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">size</td>
+          <td style="text-align: left">擦除区域的大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">return</td>
+          <td style="text-align: left">返回实际擦除的区域大小</td>
+      </tr>
+  </tbody>
+</table>
+<p>用户需要根据自己的 Flash 情况分别实现这些操作函数。在文件最底部定义了具体的 Flash 设备对象 ，如下示例定义了 stm32f2 片上 flash：stm32f2_onchip_flash</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">const</span> <span class="k">struct</span> <span class="n">fal_flash_dev</span> <span class="n">stm32f2_onchip_flash</span> <span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">name</span>       <span class="o">=</span> <span class="s">&#34;stm32_onchip&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">addr</span>       <span class="o">=</span> <span class="mh">0x08000000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">len</span>        <span class="o">=</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">blk_size</span>   <span class="o">=</span> <span class="mi">128</span><span class="o">*</span><span class="mi">1024</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">ops</span>        <span class="o">=</span> <span class="p">{</span><span class="n">init</span><span class="p">,</span> <span class="n">read</span><span class="p">,</span> <span class="n">write</span><span class="p">,</span> <span class="n">erase</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">write_gran</span> <span class="o">=</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div><ul>
+<li><code>&quot;stm32_onchip&quot;</code> : Flash 设备的名字。</li>
+<li><code>0x08000000</code>: 对 Flash 操作的起始地址。</li>
+<li><code>1024*1024</code>：Flash 的总大小（1MB）。</li>
+<li><code>128*1024</code>：Flash 块/扇区大小（因为 STM32F2 各块大小不均匀，所以擦除粒度为最大块的大小：128K）。</li>
+<li><code>{init, read, write, erase}</code> ：Flash 的操作函数。 如果没有 init 初始化过程，第一个操作函数位置可以置空。</li>
+<li><code>8</code> : 设置写粒度，单位 bit， 0 表示未生效（默认值为 0 ），该成员是 fal 版本大于 0.4.0 的新增成员。各个 flash 写入粒度不尽相同，可通过该成员进行设置，以下列举几种常见 Flash 写粒度：
+<ul>
+<li>nor flash: 1 bit</li>
+<li>stm32f2/f4: 8 bit</li>
+<li>stm32f1: 32 bit</li>
+<li>stm32l4: 64 bit</li>
+</ul>
+</li>
+</ul>
+<h2 id="定义flash设备表">
+<a class="header-anchor" href="#%e5%ae%9a%e4%b9%89flash%e8%ae%be%e5%a4%87%e8%a1%a8"></a>
+定义Flash设备表
+</h2><p>Flash 设备表定义在 <code>fal_cfg.h</code> 头文件中，定义分区表前需 <strong>新建 <code>fal_cfg.h</code> 文件</strong> ，请将该文件统一放在对应 BSP 或工程目录的 port 文件夹下，并将该头文件路径加入到工程。fal_cfg.h 可以参考 <a href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_cfg.h">示例文件 fal/samples/porting/fal_cfg.h</a> 完成。</p>
+<p>设备表示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/* ===================== Flash device Configuration ========================= */</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">fal_flash_dev</span> <span class="n">stm32f2_onchip_flash</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="k">struct</span> <span class="n">fal_flash_dev</span> <span class="n">nor_flash0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* flash device table */</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define FAL_FLASH_DEV_TABLE                                          \
+</span></span></span><span class="line"><span class="cl"><span class="cp">{                                                                    \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    &amp;stm32f2_onchip_flash,                                           \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    &amp;nor_flash0,                                                     \
+</span></span></span><span class="line"><span class="cl"><span class="cp">}
+</span></span></span></code></pre></div><p>Flash 设备表中，有两个 Flash 对象，一个为 STM32F2 的片内 Flash ，一个为片外的 Nor Flash。</p>
+<h2 id="定义flash分区表">
+<a class="header-anchor" href="#%e5%ae%9a%e4%b9%89flash%e5%88%86%e5%8c%ba%e8%a1%a8"></a>
+定义Flash分区表
+</h2><p>分区表也定义在 <code>fal_cfg.h</code> 头文件中。Flash 分区基于 Flash 设备，每个 Flash 设备又可以有 N 个分区，这些分区的集合就是分区表。在配置分区表前，务必保证已定义好 <strong>Flash 设备</strong> 及 <strong>设备表</strong>。fal_cfg.h 可以参考 <a href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_cfg.h">示例文件 fal/samples/porting/fal_cfg.h</a> 完成。</p>
+<p>分区表示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define NOR_FLASH_DEV_NAME             &#34;norflash0&#34;
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="cm">/* ====================== Partition Configuration ========================== */</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#ifdef FAL_PART_HAS_TABLE_CFG
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="cm">/* partition table */</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#define FAL_PART_TABLE                                                               \
+</span></span></span><span class="line"><span class="cl"><span class="cp">{                                                                                    \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    {FAL_PART_MAGIC_WORD,        &#34;bl&#34;,     &#34;stm32_onchip&#34;,         0,   64*1024, 0}, \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    {FAL_PART_MAGIC_WORD,       &#34;app&#34;,     &#34;stm32_onchip&#34;,   64*1024,  704*1024, 0}, \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    {FAL_PART_MAGIC_WORD, &#34;easyflash&#34;, NOR_FLASH_DEV_NAME,         0, 1024*1024, 0}, \
+</span></span></span><span class="line"><span class="cl"><span class="cp">    {FAL_PART_MAGIC_WORD,  &#34;download&#34;, NOR_FLASH_DEV_NAME, 1024*1024, 1024*1024, 0}, \
+</span></span></span><span class="line"><span class="cl"><span class="cp">}
+</span></span></span><span class="line"><span class="cl"><span class="cp">#endif </span><span class="cm">/* FAL_PART_HAS_TABLE_CFG */</span><span class="cp">
+</span></span></span></code></pre></div><p>上面这个分区表详细描述信息如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">分区名</th>
+          <th style="text-align: left">Flash 设备名</th>
+          <th style="text-align: left">偏移地址</th>
+          <th style="text-align: left">大小</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">“bl”</td>
+          <td style="text-align: left">“stm32_onchip”</td>
+          <td style="text-align: left">0</td>
+          <td style="text-align: left">64KB</td>
+          <td style="text-align: left">引导程序</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">“app”</td>
+          <td style="text-align: left">“stm32_onchip”</td>
+          <td style="text-align: left">64*1024</td>
+          <td style="text-align: left">704KB</td>
+          <td style="text-align: left">应用程序</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">“easyflash”</td>
+          <td style="text-align: left">“norflash0”</td>
+          <td style="text-align: left">0</td>
+          <td style="text-align: left">1MB</td>
+          <td style="text-align: left">EasyFlash 参数存储</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">“download”</td>
+          <td style="text-align: left">“norflash0”</td>
+          <td style="text-align: left">1024*1024</td>
+          <td style="text-align: left">1MB</td>
+          <td style="text-align: left">OTA 下载区</td>
+      </tr>
+  </tbody>
+</table>
+<p>用户需要修改的分区参数包括：分区名称、关联的 Flash 设备名、偏移地址（相对 Flash 设备内部）、大小，需要注意以下几点：</p>
+<ul>
+<li>分区名保证 <strong>不能重复</strong>；</li>
+<li>关联的 Flash 设备 <strong>务必已经在 Flash 设备表中定义好</strong> ，并且 <strong>名称一致</strong> ，否则会出现无法找到 Flash 设备的错误；</li>
+<li>分区的起始地址和大小 <strong>不能超过 Flash 设备的地址范围</strong> ，否则会导致包初始化错误；</li>
+</ul>
+<blockquote>
+<p>[!tip]</p>
+<p>注意：每个分区定义时，除了填写上面介绍的参数属性外，需在前面增加 <code>FAL_PART_MAGIC_WORD</code> 属性，末尾增加 <code>0</code> （目前用于保留功能）</p></blockquote>
+<h1 id="配置">
+<a class="header-anchor" href="#%e9%85%8d%e7%bd%ae"></a>
+配置
+</h1><p>FlashDB 的使用时，可以通过 fdb_cfg.h 对其进行功能配置。</p>
+<ol>
+<li>
+<p>FDB_USING_KVDB：使能 KVDB 功能</p>
+</li>
+<li>
+<p>FDB_KV_AUTO_UPDATE：使能 KV 自动升级功能。该功能使能后， <code>fdb_kvdb.ver_num</code> 存储了当前数据库的版本，如果版本发生变化时，会自动触发升级动作，将更新新的默认 KV 集合至当前数据库中。</p>
+</li>
+<li>
+<p>FDB_USING_TSDB:使能 TSDB 功能</p>
+</li>
+<li>
+<p>FDB_USING_FAL_MODE:使能 FAL 模式，FAL 里的分区用于存储数据库。该模式下，FlashDB 直接操作 Flash，所以性能较好</p>
+</li>
+<li>
+<p>FDB_USING_FILE_POSIX_MODE：使用 POSIX 的文件模式，需要系统提供 open/read/write/close 相关文件访问接口。</p>
+</li>
+<li>
+<p>FDB_USING_FILE_LIBC_MODE：使用 C 标准库的文件模式，需要系统提供 fopen/fread/fwrite/fclose 相关文件访问接口。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>FDB_USING_FILE_LIBC_MODE 与 FDB_USING_FILE_POSIX_MODE 模式只能二选一。相比 FAL 模式，文件模式下数据库的存储位置、大小及数量没有限制。</p></blockquote>
+</li>
+<li>
+<p>FDB_WRITE_GRAN:Flash 写粒度，单位为 bit。目前支持：</p>
+<ul>
+<li>1: nor flash</li>
+<li>8: stm32f2/f4 片上 Flash</li>
+<li>32: stm32f1 片上 Flash</li>
+</ul>
+<blockquote>
+<p>[!tip]</p>
+<p>如果数据库中使用了多种 Flash 规格，例如：既有 nor flash，也有 stm32f4 片上 Flash ，此时取最大值作为配置项，即：8 bit</p></blockquote>
+</li>
+<li>
+<p>FDB_BIG_ENDIAN：MCU 大小端配置，默认不配置时，系统自动使用小端配置</p>
+</li>
+<li>
+<p>FDB_PRINT(…)：打印函数宏定义配置，默认不配置时，使用 printf 作为打印日志是输出函数。用户也可以自定义新的打印函数宏定义，例如：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define FDB_PRINT(...)              my_printf(__VA_ARGS__)
+</span></span></span></code></pre></div></li>
+<li>
+<p>FDB_DEBUG_ENABLE：使能调试信息输出。关闭该配置时，系统将不会输出用于调试的日志。</p>
+</li>
+</ol>
+<h1 id="api">
+<a class="header-anchor" href="#api"></a>
+API
+</h1><h2 id="blob">
+<a class="header-anchor" href="#blob"></a>
+Blob
+</h2><h3 id="构造-blob-对象">
+<a class="header-anchor" href="#%e6%9e%84%e9%80%a0-blob-%e5%af%b9%e8%b1%a1"></a>
+构造 blob 对象
+</h3><p>构造 blob 对象的过程，其内部是对 blob 结构体初始化赋值的过程，将传入的参数写入 blob 结构体中，并进行返回</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_blob_t</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span><span class="n">value_buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">buf_len</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">blob 初始对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">value_buf</td>
+          <td style="text-align: left">存放数据的缓冲区</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">buf_len</td>
+          <td style="text-align: left">缓冲区的大小</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">创建完成后的 blob 对象</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="读取-blob-数据">
+<a class="header-anchor" href="#%e8%af%bb%e5%8f%96-blob-%e6%95%b0%e6%8d%ae"></a>
+读取 blob 数据
+</h3><p>通过 KVDB 和 TSDB 的 API 可以返回 blob 对象，此时返回的 blob 对象里存放了 blob 数据的存储地址。该 API 可以将数据库里存放的 blob 数据读取出来，并存放至 <code>blob-&gt;buf</code> 。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">size_t</span> <span class="nf">fdb_blob_read</span><span class="p">(</span><span class="kt">fdb_db_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">blob 对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">实际读取到的 blob 数据长度</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="kvdb-1">
+<a class="header-anchor" href="#kvdb-1"></a>
+KVDB
+</h2><h3 id="初始化-kvdb">
+<a class="header-anchor" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-kvdb"></a>
+初始化 KVDB
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_kvdb_init</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="k">struct</span> <span class="n">fdb_default_kv</span> <span class="o">*</span><span class="n">default_kv</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">user_data</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">数据库名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">path</td>
+          <td style="text-align: left">FAL 模式：分区表中的分区名，文件模式：数据库保存的路径</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">default_kv</td>
+          <td style="text-align: left">默认 KV 集合，第一次初始化时，将会把默认 KV 写入数据库中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">user_data</td>
+          <td style="text-align: left">用户自定义数据，没有时传入 NULL</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="控制-kvdb">
+<a class="header-anchor" href="#%e6%8e%a7%e5%88%b6-kvdb"></a>
+控制 KVDB
+</h3><p>通过命令控制字，用户可以对数据库进行一些控制操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_kvdb_control</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cmd</td>
+          <td style="text-align: left">命令控制字</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">arg</td>
+          <td style="text-align: left">控制的参数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<p>支持的命令控制字如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_SET_SEC_SIZE     0x00             </span><span class="cm">/**&lt; 设置扇区大小，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_GET_SEC_SIZE     0x01             </span><span class="cm">/**&lt; 获取扇区大小 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_SET_LOCK         0x02             </span><span class="cm">/**&lt; 设置加锁函数 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_SET_UNLOCK       0x03             </span><span class="cm">/**&lt; 设置解锁函数 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_SET_FILE_MODE    0x09             </span><span class="cm">/**&lt; 设置文件模式，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_SET_MAX_SIZE     0x0A             </span><span class="cm">/**&lt; 在文件模式下，设置数据库最大大小，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_KVDB_CTRL_SET_NOT_FORMAT   0x0B             </span><span class="cm">/**&lt; 设置初始化时不进行格式化，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span></code></pre></div><h4 id="扇区大小与块大小">
+<a class="header-anchor" href="#%e6%89%87%e5%8c%ba%e5%a4%a7%e5%b0%8f%e4%b8%8e%e5%9d%97%e5%a4%a7%e5%b0%8f"></a>
+扇区大小与块大小
+</h4><p>FlashDB 内部存储结构由 N 个扇区组成，每次格式化时是以扇区作为最小单位。而一个扇区通常是 Flash 块大小的 N 倍，比如： Nor Flash 的块大小一般为 4096。</p>
+<p>默认 KVDB 会使用 1倍 的块大小作为扇区大小，即：4096。此时，该 KVDB 无法存入超过 4096 长度的 KV 。如果想要存入比如：10K 长度的 KV ，可以通过 control 函数，设置扇区大小为 12K，或者更大大小即可。</p>
+<h3 id="反初始化-kvdb">
+<a class="header-anchor" href="#%e5%8f%8d%e5%88%9d%e5%a7%8b%e5%8c%96-kvdb"></a>
+反初始化 KVDB
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_kvdb_deinit</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="设置-kv">
+<a class="header-anchor" href="#%e8%ae%be%e7%bd%ae-kv"></a>
+设置 KV
+</h3><p>使用此方法可以实现对 KV 的增加和修改功能。</p>
+<ul>
+<li>
+<p><strong>增加</strong> ：当 KVDB 中不存在该名称的 KV 时，则会执行新增操作；</p>
+</li>
+<li>
+<p><strong>修改</strong> ：入参中的 KV 名称在当前 KVDB 中存在，则把该 KV 值修改为入参中的值；</p>
+<blockquote>
+<p>在 KVDB 内部实现中，修改 KV 会先删除旧的 KV ，再增加新的 KV，所以修改后数据库剩余容量会变小</p></blockquote>
+</li>
+</ul>
+<p>通过 KV 的名字来获取其对应的值。支持两种接口</p>
+<h4 id="设置-blob-类型kv">
+<a class="header-anchor" href="#%e8%ae%be%e7%bd%ae-blob-%e7%b1%bb%e5%9e%8bkv"></a>
+设置 blob 类型KV
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_kv_set_blob</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">key</td>
+          <td style="text-align: left">KV 的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">blob 对象，做为 KV 的 value</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="mi">36</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* 通过 fdb_blob_make 构造 blob 对象，作为 &#34;temp&#34; KV 的 value */</span>
+</span></span><span class="line"><span class="cl"><span class="nf">fdb_kv_set_blob</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp_data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)));</span>
+</span></span></code></pre></div><h4 id="设置-string-类型kv">
+<a class="header-anchor" href="#%e8%ae%be%e7%bd%ae-string-%e7%b1%bb%e5%9e%8bkv"></a>
+设置 string 类型KV
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_kv_set</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">value</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">key</td>
+          <td style="text-align: left">KV 的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">value</td>
+          <td style="text-align: left">KV 的 value</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="获取-kv">
+<a class="header-anchor" href="#%e8%8e%b7%e5%8f%96-kv"></a>
+获取 KV
+</h3><h4 id="获取-blob-类型-kv">
+<a class="header-anchor" href="#%e8%8e%b7%e5%8f%96-blob-%e7%b1%bb%e5%9e%8b-kv"></a>
+获取 blob 类型 KV
+</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">size_t</span> <span class="nf">fdb_kv_get_blob</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">key</td>
+          <td style="text-align: left">KV 的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">通过 blob 对象，返回 KV 的 blob value</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">fdb_blob</span> <span class="n">blob</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">temp_data</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* 构造 blob 对象，用于存储 get 回来的 &#34;temp&#34; KV 的 value 数据 */</span>
+</span></span><span class="line"><span class="cl"><span class="nf">fdb_kv_get_blob</span><span class="p">(</span><span class="n">kvdb</span><span class="p">,</span> <span class="s">&#34;temp&#34;</span><span class="p">,</span> <span class="nf">fdb_blob_make</span><span class="p">(</span><span class="o">&amp;</span><span class="n">blob</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp_data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* 如果有需要，可以检查 blob.saved.len 是否大于 0 ，确保 get 成功 */</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">blob</span><span class="p">.</span><span class="n">saved</span><span class="p">.</span><span class="n">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">FDB_INFO</span><span class="p">(</span><span class="s">&#34;get the &#39;temp&#39; value is: %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">temp_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h4 id="获取-kv-对象">
+<a class="header-anchor" href="#%e8%8e%b7%e5%8f%96-kv-%e5%af%b9%e8%b1%a1"></a>
+获取 KV 对象
+</h4><p>与 <code>fdb_kv_get_blob</code> API 不同，该 API 在 get 过程中并不会执行 value 数据的读取动作。返回的 KV 对象中存放了读取回来的 KV 属性，该 API 适用于 value 长度不确定，或 value 长度过长，需要分段读取的场景。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_kv_t</span> <span class="nf">fdb_kv_get_obj</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">,</span> <span class="kt">fdb_kv_t</span> <span class="n">kv</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">key</td>
+          <td style="text-align: left">KV 的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">kv</td>
+          <td style="text-align: left">通过 KV 对象，返回 KV 的属性，可以再用 <code>fdb_kv_to_blob</code> 转换为 blob 对象，再进行数据读取</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="获取字符串类型-kv">
+<a class="header-anchor" href="#%e8%8e%b7%e5%8f%96%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b-kv"></a>
+获取字符串类型 KV
+</h4><p><strong>注意</strong> ：</p>
+<ul>
+<li>该函数不允许连续使用，使用时需使用 strdup 包裹，确保每次返回回来的字符串内存空间独立；</li>
+<li>该函数不支持可重入，返回的值位于函数内部缓冲区，出于安全考虑，请加锁保护。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">char</span> <span class="o">*</span><span class="nf">fdb_kv_get</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">key</td>
+          <td style="text-align: left">KV 的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">!=NULL: KV 的 value；NULL: 获取失败</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="删除-kv">
+<a class="header-anchor" href="#%e5%88%a0%e9%99%a4-kv"></a>
+删除 KV
+</h3><blockquote>
+<p>在 KVDB 内部实现中，删除 KV 并不会完全从 KVDB 中移除，而是标记为了删除状态，所以删除后数据库剩余容量不会有变化</p></blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_kv_del</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">key</td>
+          <td style="text-align: left">KV 的名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="重置-kvdb">
+<a class="header-anchor" href="#%e9%87%8d%e7%bd%ae-kvdb"></a>
+重置 KVDB
+</h3><p>将 KVDB 中的 KV 重置为 <strong>首次初始时</strong> 的默认值</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_kv_set_default</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="打印-kvdb-中的-kv-信息">
+<a class="header-anchor" href="#%e6%89%93%e5%8d%b0-kvdb-%e4%b8%ad%e7%9a%84-kv-%e4%bf%a1%e6%81%af"></a>
+打印 KVDB 中的 KV 信息
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_kv_print</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="kv-对象转换为-blob-对象">
+<a class="header-anchor" href="#kv-%e5%af%b9%e8%b1%a1%e8%bd%ac%e6%8d%a2%e4%b8%ba-blob-%e5%af%b9%e8%b1%a1"></a>
+KV 对象转换为 blob 对象
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_blob_t</span> <span class="nf">fdb_kv_to_blob</span><span class="p">(</span><span class="kt">fdb_kv_t</span> <span class="n">kv</span><span class="p">,</span> <span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">kv</td>
+          <td style="text-align: left">待转换的 KV 对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">转换前的 blob 对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">转换后的 blob 对象</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="初始化-kv-迭代器">
+<a class="header-anchor" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-kv-%e8%bf%ad%e4%bb%a3%e5%99%a8"></a>
+初始化 KV 迭代器
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_kv_iterator_t</span> <span class="nf">fdb_kv_iterator_init</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_kv_iterator_t</span> <span class="n">itr</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">itr</td>
+          <td style="text-align: left">待初始化的迭代器对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">初始化后的迭代器对象</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="迭代-kv">
+<a class="header-anchor" href="#%e8%bf%ad%e4%bb%a3-kv"></a>
+迭代 KV
+</h3><p>使用该迭代器 API，可以遍历整个 KVDB 中的所有 KV。</p>
+<blockquote>
+<p>[!important]</p>
+<p><strong>注意</strong>：使用前请先初始化迭代器</p></blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="nf">fdb_kv_iterate</span><span class="p">(</span><span class="kt">fdb_kvdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_kv_iterator_t</span> <span class="n">itr</span><span class="p">)</span>
+</span></span></code></pre></div><h2 id="tsdb-1">
+<a class="header-anchor" href="#tsdb-1"></a>
+TSDB
+</h2><h3 id="初始化-tsdb">
+<a class="header-anchor" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-tsdb"></a>
+初始化 TSDB
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_tsdb_init</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">fdb_get_time</span> <span class="n">get_time</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">max_len</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">user_data</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">name</td>
+          <td style="text-align: left">数据库名称</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">path</td>
+          <td style="text-align: left">FAL 模式：分区表中的分区名，文件模式：数据库保存的路径</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">get_time</td>
+          <td style="text-align: left">获取当前时间戳的函数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">max_len</td>
+          <td style="text-align: left">每条 TSL 的最大长度</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">user_data</td>
+          <td style="text-align: left">用户自定义数据，没有时传入 NULL</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="控制-tsdb">
+<a class="header-anchor" href="#%e6%8e%a7%e5%88%b6-tsdb"></a>
+控制 TSDB
+</h3><p>通过命令控制字，用户可以对数据库进行一些控制操作</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_tsdb_control</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cmd</td>
+          <td style="text-align: left">命令控制字</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">arg</td>
+          <td style="text-align: left">控制的参数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<p>支持的命令控制字如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_SEC_SIZE     0x00             </span><span class="cm">/**&lt; 设置扇区大小，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_GET_SEC_SIZE     0x01             </span><span class="cm">/**&lt; 获取扇区大小 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_LOCK         0x02             </span><span class="cm">/**&lt; 设置加锁函数 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_UNLOCK       0x03             </span><span class="cm">/**&lt; 设置解锁函数 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_ROLLOVER     0x04             </span><span class="cm">/**&lt; 设置是否滚动写入，默认滚动。设置非滚动时，如果数据库写满，无法再追加写入。需要在数据库初始化后配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_GET_ROLLOVER     0x05             </span><span class="cm">/**&lt; 获取是否滚动写入 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_GET_LAST_TIME    0x06             </span><span class="cm">/**&lt; 获取上次追加 TSL 时的时间戳  */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_FILE_MODE    0x09             </span><span class="cm">/**&lt; 设置文件模式，需要在数据库初始化前配置，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_MAX_SIZE     0x0A             </span><span class="cm">/**&lt; 在文件模式下，设置数据库最大大小，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define FDB_TSDB_CTRL_SET_NOT_FORMAT   0x0B             </span><span class="cm">/**&lt; 设置初始化时不进行格式化，需要在数据库初始化前配置 */</span><span class="cp">
+</span></span></span></code></pre></div><h3 id="反初始化-tsdb">
+<a class="header-anchor" href="#%e5%8f%8d%e5%88%9d%e5%a7%8b%e5%8c%96-tsdb"></a>
+反初始化 TSDB
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_tsdb_deinit</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="追加-tsl">
+<a class="header-anchor" href="#%e8%bf%bd%e5%8a%a0-tsl"></a>
+追加 TSL
+</h3><p>对于 TSDB ，新增 TSL 的过程，就是往 TSDB 末尾追加新 TSL 的过程</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_tsl_append</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">blob 对象，做为 TSL 的数据</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="迭代-tsl">
+<a class="header-anchor" href="#%e8%bf%ad%e4%bb%a3-tsl"></a>
+迭代 TSL
+</h3><p>遍历整个 TSDB 并执行迭代回调</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_tsl_iter</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="n">fdb_tsl_cb</span> <span class="n">cb</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">cb_arg</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cb</td>
+          <td style="text-align: left">回调函数，每次遍历到 TSL 时会执行该回调</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cb_arg</td>
+          <td style="text-align: left">回调函数的参数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="逆序迭代-tsl">
+<a class="header-anchor" href="#%e9%80%86%e5%ba%8f%e8%bf%ad%e4%bb%a3-tsl"></a>
+逆序迭代 TSL
+</h3><p>逆序遍历整个 TSDB 并执行迭代回调</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_tsl_iter_reverse</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="n">fdb_tsl_cb</span> <span class="n">cb</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">cb_arg</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cb</td>
+          <td style="text-align: left">回调函数，每次遍历到 TSL 时会执行该回调</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cb_arg</td>
+          <td style="text-align: left">回调函数的参数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="按时间段迭代-tsl">
+<a class="header-anchor" href="#%e6%8c%89%e6%97%b6%e9%97%b4%e6%ae%b5%e8%bf%ad%e4%bb%a3-tsl"></a>
+按时间段迭代 TSL
+</h3><p>按时间段范围，遍历整个 TSDB 并执行迭代回调</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_tsl_iter_by_time</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_time_t</span> <span class="n">from</span><span class="p">,</span> <span class="kt">fdb_time_t</span> <span class="n">to</span><span class="p">,</span> <span class="n">fdb_tsl_cb</span> <span class="n">cb</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">cb_arg</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">from</td>
+          <td style="text-align: left">开始时间戳。如果结束时间戳比开始时间戳要小，此时将会执行逆序迭代。</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">to</td>
+          <td style="text-align: left">结束时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cb</td>
+          <td style="text-align: left">回调函数，每次遍历到 TSL 时会执行该回调</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cb_arg</td>
+          <td style="text-align: left">回调函数的参数</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="查询-tsl-的数量">
+<a class="header-anchor" href="#%e6%9f%a5%e8%af%a2-tsl-%e7%9a%84%e6%95%b0%e9%87%8f"></a>
+查询 TSL 的数量
+</h3><p>按照传入的时间段，查询符合状态的 TSL 数量</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">size_t</span> <span class="nf">fdb_tsl_query_count</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_time_t</span> <span class="n">from</span><span class="p">,</span> <span class="kt">fdb_time_t</span> <span class="n">to</span><span class="p">,</span> <span class="kt">fdb_tsl_status_t</span> <span class="n">status</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">from</td>
+          <td style="text-align: left">开始时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">to</td>
+          <td style="text-align: left">结束时间戳</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">status</td>
+          <td style="text-align: left">TSL 的状态条件</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">数量</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="设置-tsl-状态">
+<a class="header-anchor" href="#%e8%ae%be%e7%bd%ae-tsl-%e7%8a%b6%e6%80%81"></a>
+设置 TSL 状态
+</h3><p>TSL 状态详见 <code>enum fdb_tsl_status</code> ，必须按照顺序设置 TSL 状态。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_err_t</span> <span class="nf">fdb_tsl_set_status</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">,</span> <span class="kt">fdb_tsl_t</span> <span class="n">tsl</span><span class="p">,</span> <span class="kt">fdb_tsl_status_t</span> <span class="n">status</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">tsl</td>
+          <td style="text-align: left">TSL 对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">status</td>
+          <td style="text-align: left">TSL 的新状态</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="清空-tsdb">
+<a class="header-anchor" href="#%e6%b8%85%e7%a9%ba-tsdb"></a>
+清空 TSDB
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">fdb_tsl_clean</span><span class="p">(</span><span class="kt">fdb_tsdb_t</span> <span class="n">db</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">db</td>
+          <td style="text-align: left">数据库对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">错误码</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="tsl-对象转换为-blob-对象">
+<a class="header-anchor" href="#tsl-%e5%af%b9%e8%b1%a1%e8%bd%ac%e6%8d%a2%e4%b8%ba-blob-%e5%af%b9%e8%b1%a1"></a>
+TSL 对象转换为 blob 对象
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">fdb_blob_t</span> <span class="nf">fdb_tsl_to_blob</span><span class="p">(</span><span class="kt">fdb_tsl_t</span> <span class="n">tsl</span><span class="p">,</span> <span class="kt">fdb_blob_t</span> <span class="n">blob</span><span class="p">)</span>
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th style="text-align: left">参数</th>
+          <th style="text-align: left">描述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">tsl</td>
+          <td style="text-align: left">待转换的 TSL 对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">blob</td>
+          <td style="text-align: left">转换前的 blob 对象</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">返回</td>
+          <td style="text-align: left">转换后的 blob 对象</td>
+      </tr>
+  </tbody>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      <ul class="article-tag-list" itemprop="keywords">
+  
+</ul>
+
+    </footer>
+  </div>
+  
+    
+  <nav
+    id="article-nav"
+    data-aos="fade-up"
+  >
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img
+              data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
+              data-sizes="auto"
+              alt=""
+              class="lazyload"
+            />
+          
+        
+        <a href="http://localhost:1313/youShouldTrustMe/youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/rtos/freertos/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            (no title)
+          
+        </h3>
+      </div>
+    
+
+    
+      <div class="article-nav-link-wrap article-nav-link-right">
+        
+          
+          
+            <img
+              data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
+              data-sizes="auto"
+              alt=""
+              class="lazyload"
+            />
+          
+        
+        <a href="http://localhost:1313/youShouldTrustMe/youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/aspice/aspice/"></a>
+        <div class="article-nav-caption">后一篇</div>
+        <h3 class="article-nav-title">
+          
+            (no title)
+          
+        </h3>
+      </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        
+        
+        
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+<footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+      2020 -
+      2025
+      <span class="footer-info-sep rotate"></span>
+      TrustMe
+    </div>
+    
+      <div>
+        基于&nbsp;<a
+          href="https://gohugo.io/"
+          target="_blank"
+          >Hugo</a
+        >&nbsp; Theme.<a
+          href="https://github.com/D-Sketon/hugo-theme-reimu"
+          target="_blank"
+          >Reimu</a
+        >
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"
+          >&nbsp;
+            44.5k
+          </span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;
+          
+          
+
+          04:01
+        </span>
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar">
+        <div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#字符串类型">字符串类型</a></li>
+    <li><a href="#blob类型">Blob类型</a></li>
+    <li><a href="#遍历迭代器">遍历（迭代器）</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#介绍">介绍</a></li>
+    <li><a href="#定义flash设备">定义Flash设备</a></li>
+    <li><a href="#定义flash设备表">定义Flash设备表</a></li>
+    <li><a href="#定义flash分区表">定义Flash分区表</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#blob">Blob</a>
+      <ul>
+        <li><a href="#构造-blob-对象">构造 blob 对象</a></li>
+        <li><a href="#读取-blob-数据">读取 blob 数据</a></li>
+      </ul>
+    </li>
+    <li><a href="#kvdb-1">KVDB</a>
+      <ul>
+        <li><a href="#初始化-kvdb">初始化 KVDB</a></li>
+        <li><a href="#控制-kvdb">控制 KVDB</a></li>
+        <li><a href="#反初始化-kvdb">反初始化 KVDB</a></li>
+        <li><a href="#设置-kv">设置 KV</a></li>
+        <li><a href="#获取-kv">获取 KV</a></li>
+        <li><a href="#删除-kv">删除 KV</a></li>
+        <li><a href="#重置-kvdb">重置 KVDB</a></li>
+        <li><a href="#打印-kvdb-中的-kv-信息">打印 KVDB 中的 KV 信息</a></li>
+        <li><a href="#kv-对象转换为-blob-对象">KV 对象转换为 blob 对象</a></li>
+        <li><a href="#初始化-kv-迭代器">初始化 KV 迭代器</a></li>
+        <li><a href="#迭代-kv">迭代 KV</a></li>
+      </ul>
+    </li>
+    <li><a href="#tsdb-1">TSDB</a>
+      <ul>
+        <li><a href="#初始化-tsdb">初始化 TSDB</a></li>
+        <li><a href="#控制-tsdb">控制 TSDB</a></li>
+        <li><a href="#反初始化-tsdb">反初始化 TSDB</a></li>
+        <li><a href="#追加-tsl">追加 TSL</a></li>
+        <li><a href="#迭代-tsl">迭代 TSL</a></li>
+        <li><a href="#逆序迭代-tsl">逆序迭代 TSL</a></li>
+        <li><a href="#按时间段迭代-tsl">按时间段迭代 TSL</a></li>
+        <li><a href="#查询-tsl-的数量">查询 TSL 的数量</a></li>
+        <li><a href="#设置-tsl-状态">设置 TSL 状态</a></li>
+        <li><a href="#清空-tsdb">清空 TSDB</a></li>
+        <li><a href="#tsl-对象转换为-blob-对象">TSL 对象转换为 blob 对象</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+      </div>
+      <div class="sidebar-common-sidebar hidden">
+        
+<div class="sidebar-author">
+  <img
+    data-src="/youShouldTrustMe/youShouldTrustMe.github.io/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="TrustMe"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">TrustMe</div>
+  <div class="sidebar-description">你要信我啊</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    
+    <div class="sidebar-state-number">60</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/youShouldTrustMe/youShouldTrustMe.github.io/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    
+    
+    
+    
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"
+  ></script>
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    
+    
+    
+    
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"
+  ></script>
+
+
+
+
+
+
+
+
+
+  
+      
+      <script src="/youShouldTrustMe/youShouldTrustMe.github.io/js/main.js" ></script>
+      
+
+
+
+  
+
+
+
+
+
+  
+      
+      <script src="/youShouldTrustMe/youShouldTrustMe.github.io/js/aos.js" ></script>
+      
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+
+
+
+
+
+  
+      
+      <script src="/youShouldTrustMe/youShouldTrustMe.github.io/js/pjax_main.js" data-pjax></script>
+      
+
+
+
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/mouse-firework@0.1.0/dist/index.umd.js"
+    
+    
+    
+    
+    integrity="sha384-KM6i7tu43nYd6e0beIljxHMC5tZc58XBDu7pPA58w50h18Jsx7gLdimfS09RXlKv" crossorigin="anonymous"
+  ></script>
+
+
+<script>
+  if (window.firework) {
+    const options = JSON.parse("{\"excludeelements\":[\"a\",\"button\"],\"particles\":[{\"colors\":[\"#ff5252\",\"#ff7c7c\",\"#ffafaf\",\"#ffd0d0\"],\"duration\":[1200,1800],\"easing\":\"easeOutExpo\",\"move\":[\"emit\"],\"number\":20,\"shape\":\"circle\",\"shapeOptions\":{\"alpha\":[0.3,0.5],\"radius\":[16,32]}},{\"colors\":[\"#ff0000\"],\"duration\":[1200,1800],\"easing\":\"easeOutExpo\",\"move\":[\"diffuse\"],\"number\":1,\"shape\":\"circle\",\"shapeOptions\":{\"alpha\":[0.2,0.5],\"lineWidth\":6,\"radius\":20}}]}");
+    options.excludeElements = options.excludeelements;
+    delete options.excludeelements;
+    window.firework(options);
+  }
+</script>
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+        
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "TrustMe",
+          title: "",
+          url: "http:\/\/localhost:1313\/youShouldTrustMe\/youShouldTrustMe.github.io\/post\/%E5%B5%8C%E5%85%A5%E5%BC%8F\/fs\/flashdb\/",
+          description: " 参考链接 FlashDB\/README_zh.md at master · armink\/FlashDB (github.com)\n基本概念 键值数据库（KVDB）：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。 时序数据（TSDB） ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 时间顺序存储 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。 时序记录（TSL） ：TSL (Time series log)，是 TSDB 中每条记录的简称。 Blob ： …",
+          cover: "http:\/\/localhost:1313\/youShouldTrustMe\/youShouldTrustMe.github.io\/images\/background.jpg",
+        };
+      </script>
+    
+    
+    
+      
+
+
+
+
+
+  
+      
+      <script src="/youShouldTrustMe/youShouldTrustMe.github.io/js/insert_highlight.js" data-pjax></script>
+      
+
+      
+      
+      
+      
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;
+
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    
+    
+  </div>
+</div>
+
+
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    
+    async
+    
+    
+    integrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"
+  ></script>
+
+
+
+
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  </script>
+
+
+<script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script>
+
+
+
+
+  </body>
+</html>
