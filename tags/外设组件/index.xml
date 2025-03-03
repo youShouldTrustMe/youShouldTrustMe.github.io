@@ -1,0 +1,1356 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>外设组件 on TruestMe's Blog</title><link>https://youShouldTrustMe.github.io/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/</link><description>Recent content in 外设组件 on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 01 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://youShouldTrustMe.github.io/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/index.xml" rel="self" type="application/rss+xml"/><item><title>ADC</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/adc/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/adc/</guid><description>&lt;h1 id="adc简介">
+&lt;a class="header-anchor" href="#adc%e7%ae%80%e4%bb%8b">&lt;/a>
+ADC简介
+&lt;/h1>&lt;h2 id="介绍">
+&lt;a class="header-anchor" href="#%e4%bb%8b%e7%bb%8d">&lt;/a>
+介绍
+&lt;/h2>&lt;p>•ADC（Analog-Digital Converter）模拟-数字转换器&lt;/p>
+&lt;p>•ADC可以将引脚上连续变化的模拟电压转换为内存中存储的数字变量，建立模拟电路到数字电路的桥梁&lt;/p>
+&lt;p>•12位逐次逼近型ADC，1us转换时间&lt;/p>
+&lt;p>•输入电压范围：0&lt;del>3.3V，转换结果范围：0&lt;/del>4095&lt;/p>
+&lt;p>•18个输入通道，可测量16个外部和2个内部信号源&lt;/p>
+&lt;p>•规则组和注入组两个转换单元&lt;/p>
+&lt;p>•模拟看门狗自动监测输入电压范围&lt;/p>
+&lt;p>•STM32F103C8T6 ADC资源：ADC1、ADC2，10个外部输入通道&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png" alt="image-20240709090704068">&lt;/p>
+&lt;h1 id="原理">
+&lt;a class="header-anchor" href="#%e5%8e%9f%e7%90%86">&lt;/a>
+原理
+&lt;/h1>&lt;h2 id="常见adc类型">
+&lt;a class="header-anchor" href="#%e5%b8%b8%e8%a7%81adc%e7%b1%bb%e5%9e%8b">&lt;/a>
+常见ADC类型
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>ADC电路类型&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>优点&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>缺点&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;strong>并联比较型&lt;/strong>&lt;/td>
+ &lt;td>转换速度最快&lt;/td>
+ &lt;td>成本高、功耗高，分辨率低&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>逐次逼近型&lt;/strong>&lt;/td>
+ &lt;td>结构简单，功耗低&lt;/td>
+ &lt;td>转换速度较慢&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="并联比较型">
+&lt;a class="header-anchor" href="#%e5%b9%b6%e8%81%94%e6%af%94%e8%be%83%e5%9e%8b">&lt;/a>
+并联比较型
+&lt;/h2>&lt;p>将输入的参考电压和模拟电压输入进行比较，比较器会输出0或1从而获得二进制的数字量&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_21_202407090908750.png" alt="image-20240709090821671">&lt;/p>
+&lt;h2 id="逐次逼近型">
+&lt;a class="header-anchor" href="#%e9%80%90%e6%ac%a1%e9%80%bc%e8%bf%91%e5%9e%8b">&lt;/a>
+逐次逼近型
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_44_202407090908861.png" alt="image-20240709090844769">&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_50_202407090908781.png" alt="image-20240709090850698">&lt;/p>
+&lt;h1 id="特性">
+&lt;a class="header-anchor" href="#%e7%89%b9%e6%80%a7">&lt;/a>
+特性
+&lt;/h1>&lt;h2 id="特性参数">
+&lt;a class="header-anchor" href="#%e7%89%b9%e6%80%a7%e5%8f%82%e6%95%b0">&lt;/a>
+特性参数
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_10_13_202407090910385.png" alt="image-20240709091013333">&lt;/p>
+&lt;h2 id="各系列主要特性">
+&lt;a class="header-anchor" href="#%e5%90%84%e7%b3%bb%e5%88%97%e4%b8%bb%e8%a6%81%e7%89%b9%e6%80%a7">&lt;/a>
+各系列主要特性
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>主要特性&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>F1&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>F4&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>F7&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>H7&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;strong>ADC类型&lt;/strong>&lt;/td>
+ &lt;td>逐次逼近型&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>分辨率&lt;/strong>&lt;/td>
+ &lt;td>12位&lt;/td>
+ &lt;td>6/8/10/12位&lt;/td>
+ &lt;td>6/8/10/12位&lt;/td>
+ &lt;td>8/10/12/14/16位&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>ADC时钟频率&lt;/strong>&lt;/td>
+ &lt;td>14MHz（max）&lt;/td>
+ &lt;td>36MHz（max）&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>采样时间&lt;/strong>&lt;/td>
+ &lt;td>采样时间越长, 转换结果相对越准确, 但是转换速度就越慢&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>转换时间&lt;/strong>&lt;/td>
+ &lt;td>与ADC时钟频率、分辨率和采样时间等有关&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>供电电压&lt;/strong>&lt;/td>
+ &lt;td>VSSA ：0V，VDDA ：2.4V~3.6V（全速运行）&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>参考电压&lt;/strong>&lt;/td>
+ &lt;td>VREF– ：0V，VREF+一般为3.3V&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>输入电压&lt;/strong>&lt;/td>
+ &lt;td>VREF–≤VIN≤VREF+&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="整体结构">
+&lt;a class="header-anchor" href="#%e6%95%b4%e4%bd%93%e7%bb%93%e6%9e%84">&lt;/a>
+整体结构
+&lt;/h1>&lt;h2 id="结构框图">
+&lt;a class="header-anchor" href="#%e7%bb%93%e6%9e%84%e6%a1%86%e5%9b%be">&lt;/a>
+结构框图
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_11_6_202407090911343.png" alt="image-20240709091106271">&lt;/p></description></item><item><title>DAC</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/dac/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/dac/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/dengjin20104042056/article/details/108604920">【STM32】DAC详解_dac12bit-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="简述">
+&lt;a class="header-anchor" href="#%e7%ae%80%e8%bf%b0">&lt;/a>
+简述
+&lt;/h1>&lt;p>DAC,全称：Digital-to-Analog Converter,指数字/模拟转换器&lt;/p>
+&lt;p>DAC 模块是 12 位电压输出数模转换器。&lt;/p>
+&lt;ul>
+&lt;li>DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。&lt;/li>
+&lt;li>在 12 位模式下，数据可以采用左对齐或右对齐。&lt;/li>
+&lt;li>DAC 有两个输出通道，每个通道各有一个转换器。在 DAC 双通道模式下，每个通道可以单独进行转换；当两个通道组合在一起同步执行更新操作时，也可以同时进行转换。可通过一个输入参考电压引脚 V REF+ （与 ADC 共享）来提高分辨率。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png" alt="ADC和DAC过程">&lt;/p>
+&lt;blockquote>
+&lt;p>[!IMPORTANT]&lt;/p>
+&lt;p>ADC和DAC是模拟电路和数字电路之间的桥梁&lt;/p>&lt;/blockquote>
+&lt;h2 id="特性参数">
+&lt;a class="header-anchor" href="#%e7%89%b9%e6%80%a7%e5%8f%82%e6%95%b0">&lt;/a>
+特性参数
+&lt;/h2>&lt;ol>
+&lt;li>分辨率：表示模拟电压的最小增量，常用二进制位数表示，比如：8、12位等&lt;/li>
+&lt;li>建立时间：表示将一个数字量转换为稳定模拟信号所需的时间&lt;/li>
+&lt;li>精度：转换器实际特性曲线与理想特性曲线之间的最大偏差
+&lt;ol>
+&lt;li>误差源：比例系统误差、失调误差、非线性误差&lt;/li>
+&lt;li>原因：元件参数误差、基准电压不稳定、运算放大器零漂等&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="主要特性">
+&lt;a class="header-anchor" href="#%e4%b8%bb%e8%a6%81%e7%89%b9%e6%80%a7">&lt;/a>
+主要特性
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>主要特性&lt;/th>
+ &lt;th>F1&lt;/th>
+ &lt;th>F4&lt;/th>
+ &lt;th>F7&lt;/th>
+ &lt;th>H7&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>DAC输出类型&lt;/td>
+ &lt;td>电压输出型&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>分辨率&lt;/td>
+ &lt;td>8/12位&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>DAC时钟频率&lt;/td>
+ &lt;td>36MHz(APB1)&lt;/td>
+ &lt;td>42MHz(APB1) 45MHz(APB1)&lt;/td>
+ &lt;td>54MHz(APB1)&lt;/td>
+ &lt;td>120MHz(APB1)&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>建立时间&lt;/td>
+ &lt;td>3us&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>1.7us&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>供电电压&lt;/td>
+ &lt;td>Vssa : 0V, VpDa : 2.4V~3.6V&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>参考电压&lt;/td>
+ &lt;td>VReF- : OV, VREE+ 般为3.3V&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>输出通道&lt;/td>
+ &lt;td>DAC_OUT1(PA4）、DAC_OUT2(PA5) 为了避免寄生电流消耗，PA4和PA5配置为模拟功能 每个通道都有单独的转换器，可同时或单独转换，每个通道都有DMA功能&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;td>==&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;ul>
+&lt;li>两个 DAC 转换器：各对应一个输出通道&lt;/li>
+&lt;li>12 位模式下数据采用左对齐或右对齐&lt;/li>
+&lt;li>同步更新功能&lt;/li>
+&lt;li>生成噪声波&lt;/li>
+&lt;li>生成三角波&lt;/li>
+&lt;li>DAC 双通道单独或同时转换&lt;/li>
+&lt;li>每个通道都具有 DMA 功能&lt;/li>
+&lt;li>DMA 下溢错误检测&lt;/li>
+&lt;li>通过外部触发信号进行转换&lt;/li>
+&lt;li>输入参考电压 V REF+&lt;/li>
+&lt;/ul>
+&lt;h1 id="工作原理">
+&lt;a class="header-anchor" href="#%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">&lt;/a>
+工作原理
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_49_2_202409101649073.png" alt="DAC框图">&lt;/p></description></item><item><title>DMA</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/dma/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/dma/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/as480133937/article/details/104927922?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D">【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="DMA简介">&lt;/p>
+&lt;blockquote>
+&lt;p>[!IMPORTANT]&lt;/p>
+&lt;p>DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程&lt;/p>
+&lt;p>通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高&lt;/p>
+&lt;p>作用：为CPU减负&lt;/p>&lt;/blockquote>
+&lt;p>一般而言，DMA控制器将包括一条地址总线、一条数据总线和控制寄存器。高效率的DMA控制器将具有访问其所需要的任意资源的能力，而==无须处理器==本身的介入，它必须能==产生中断==。最后，它必须能在控制器内部计算出地址。&lt;/p>
+&lt;p>一个处理器可以包含多个DMA控制器。每个控制器有多个DMA通道，以及多条直接与存储器站(memory bank)和外设连接的总线。在很多高性能处理器中集成了两种类型的DMA控制器：&lt;/p>
+&lt;ol>
+&lt;li>第一类通常称为“系统DMA控制器”，可以实现对任何资源(外设和存储器)的访问，对于这种类型的控制器来说，信号周期数是以系统时钟(SCLK)来计数的，以ADI的Blackfin处理器为例，频率最高可达133MHz。&lt;/li>
+&lt;li>第二类称为内部存储器DMA控制器(IMDMA)，专门用于内部存储器所处位置之间的相互存取操作。因为存取都发生在内部(L1－L1、L1－L2，或者L2－L2)，周期数的计数则以内核时钟(CCLK)为基准来进行，该时钟的速度可以超过600MHz。&lt;/li>
+&lt;/ol>
+&lt;pre class="mermaid">graph LR
+	subgraph a[处理器]
+		L1存储器 &lt;--DMA内核总线--> DMA控制器
+		L2存储器 &lt;--DMA系统总线--> DMA控制器 &lt;--DMA存取总线--> 外设
+	end
+	DMA控制器 &lt;--DMA外部总线--> L3存储器
+&lt;/pre>
+&lt;h2 id="dma的传输方式">
+&lt;a class="header-anchor" href="#dma%e7%9a%84%e4%bc%a0%e8%be%93%e6%96%b9%e5%bc%8f">&lt;/a>
+DMA的传输方式
+&lt;/h2>&lt;p>DMA的作用就是实现数据的直接传输，而去掉了传统数据传输需要CPU寄存器参与的环节，主要涉及四种情况的数据传输，但本质上是一样的，都是从内存的某一区域传输到内存的另一区域（外设的数据寄存器本质上就是内存的一个存储单元）。四种情况的数据传输如下：&lt;/p>
+&lt;ul>
+&lt;li>外设到内存&lt;/li>
+&lt;li>内存到外设&lt;/li>
+&lt;li>内存到内存&lt;/li>
+&lt;li>外设到外设&lt;/li>
+&lt;/ul>
+&lt;h2 id="dma传输参数">
+&lt;a class="header-anchor" href="#dma%e4%bc%a0%e8%be%93%e5%8f%82%e6%95%b0">&lt;/a>
+DMA传输参数
+&lt;/h2>&lt;p>数据传输的核心参数：&lt;/p>
+&lt;ol>
+&lt;li>数据源地址&lt;/li>
+&lt;li>数据传输位置的目标地址&lt;/li>
+&lt;li>传递护具多少的数据传输量&lt;/li>
+&lt;li>进行多少次传输的传输模式&lt;/li>
+&lt;/ol>
+&lt;p>当用户将参数设置好，主要涉及源地址、目标地址、传输数据量这三个，DMA控制器就会启动数据传输，当剩余传输数据量为0时 达到传输终点，结束DMA传输 ，当然，DMA 还有循环传输模式 当到达传输终点时会重新启动DMA传输。&lt;/p>
+&lt;blockquote>
+&lt;p>[!NOTE]&lt;/p>
+&lt;p>也就是说只要剩余传输数据量不是0，而且DMA是启动状态，那么就会发生数据传输。　&lt;/p>&lt;/blockquote>
+&lt;h2 id="dma的主要特征">
+&lt;a class="header-anchor" href="#dma%e7%9a%84%e4%b8%bb%e8%a6%81%e7%89%b9%e5%be%81">&lt;/a>
+DMA的主要特征
+&lt;/h2>&lt;p>每个通道都直接连接专用的硬件DMA请求，每个通道都同样支持软件触发。这些功能通过软件来配置；&lt;/p>
+&lt;ul>
+&lt;li>在同一个DMA模块上，多个请求间的优先权可以通过软件编程设置（共有四级：很高、高、中等和低），优先权设置相等时由硬件决定（请求0优先于请求1，依此类推）；&lt;/li>
+&lt;li>独立数据源和目标数据区的传输宽度（字节、半字、全字），模拟打包和拆包的过程。源和目标地址必须按数据传输宽度对齐；&lt;/li>
+&lt;li>支持循环的缓冲器管理；&lt;/li>
+&lt;li>每个通道都有3个事件标志（DMA半传输、DMA传输完成和DMA传输出错），这3个事件标志逻辑或成为一个单独的中断请求；&lt;/li>
+&lt;li>存储器和存储器间的传输、外设和存储器、存储器和外设之间的传输；&lt;/li>
+&lt;li>闪存、SRAM、外设的SRAM、APB1、APB2和AHB外设均可作为访问的源和目标；&lt;/li>
+&lt;li>可编程的数据传输数目：最大为65535。&lt;/li>
+&lt;/ul>
+&lt;h2 id="存储器映像">
+&lt;a class="header-anchor" href="#%e5%ad%98%e5%82%a8%e5%99%a8%e6%98%a0%e5%83%8f">&lt;/a>
+存储器映像
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>类型&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>起始地址&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>存储器&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>用途&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>ROM&lt;/td>
+ &lt;td>0x0800 0000&lt;/td>
+ &lt;td>程序存储器Flash&lt;/td>
+ &lt;td>存储C语言编译后的程序代码&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>:&lt;/td>
+ &lt;td>0x1FFF F000&lt;/td>
+ &lt;td>系统存储器&lt;/td>
+ &lt;td>存储BootLoader，用于串口下载&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>:&lt;/td>
+ &lt;td>0x1FFF F800&lt;/td>
+ &lt;td>选项字节&lt;/td>
+ &lt;td>存储一些独立于程序代码的配置参数&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>RAM&lt;/td>
+ &lt;td>0x2000 0000&lt;/td>
+ &lt;td>运行内存SRAM&lt;/td>
+ &lt;td>存储运行过程中的临时变量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>:&lt;/td>
+ &lt;td>0x4000 0000&lt;/td>
+ &lt;td>外设寄存器&lt;/td>
+ &lt;td>存储各个外设的配置参数&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>:&lt;/td>
+ &lt;td>0xE000 0000&lt;/td>
+ &lt;td>内核外设寄存器&lt;/td>
+ &lt;td>存储内核各个外设的配置参数&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="dma">
+&lt;a class="header-anchor" href="#dma">&lt;/a>
+DMA
+&lt;/h1>&lt;h2 id="系统框图">
+&lt;a class="header-anchor" href="#%e7%b3%bb%e7%bb%9f%e6%a1%86%e5%9b%be">&lt;/a>
+系统框图
+&lt;/h2>&lt;p>flash为主闪存，SRAM为运行内存，各个外设可以看作是寄存器，也是一种SRAM存储器，实际上，我们可以将这个框图看作是一个cpu（cortex-M3）和存储器（框图中的所有）&lt;/p></description></item><item><title>Flash</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/flash/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/flash/</guid><description>&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" alt="类比电脑">&lt;/p>
+&lt;ul>
+&lt;li>STM32F1系列的FLASH包含程序存储器、系统存储器和选项字节三个部分，通过闪存存储器接口（外设）可以对程序存储器和选项字节进行擦除和编程&lt;/li>
+&lt;li>读写FLASH的用途：
+&lt;ul>
+&lt;li>利用程序存储器的剩余空间来保存掉电不丢失的用户数据&lt;/li>
+&lt;li>通过在程序中编程(IAP),实现程序的自我更新&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>在线编程(ln-Circuit Programming-ICP)用于更新程序存储器的全部内容，它通过JTAG、SWD协议或系统加载程序(Bootloader)下载程序&lt;/li>
+&lt;li>在程序中编程(ln-Application Programming-IAP）可以使用微控制器支持的任一种通信接口下载程序&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_19_13_202410151919603.png" alt="命名规则">&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>芯片型号&lt;/th>
+ &lt;th>主频 (MHz)&lt;/th>
+ &lt;th>FLASH容量(B)&lt;/th>
+ &lt;th>SRAM容量（ (B)&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>STM32F103RCT6&lt;/td>
+ &lt;td>72&lt;/td>
+ &lt;td>256K&lt;/td>
+ &lt;td>48K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F103ZET6&lt;/td>
+ &lt;td>72&lt;/td>
+ &lt;td>512K&lt;/td>
+ &lt;td>64K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F407ZGT6&lt;/td>
+ &lt;td>168&lt;/td>
+ &lt;td>1024K&lt;/td>
+ &lt;td>192K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F429IGT6&lt;/td>
+ &lt;td>180&lt;/td>
+ &lt;td>1024K&lt;/td>
+ &lt;td>256K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F76IGT6&lt;/td>
+ &lt;td>216&lt;/td>
+ &lt;td>1024K&lt;/td>
+ &lt;td>512K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32H7431IT6&lt;/td>
+ &lt;td>480&lt;/td>
+ &lt;td>2048K&lt;/td>
+ &lt;td>1060K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F750N8H6&lt;/td>
+ &lt;td>216&lt;/td>
+ &lt;td>64K&lt;/td>
+ &lt;td>320K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32H750XBH6&lt;/td>
+ &lt;td>400&lt;/td>
+ &lt;td>128K&lt;/td>
+ &lt;td>1060K&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32H750VBT6&lt;/td>
+ &lt;td>480&lt;/td>
+ &lt;td>128K&lt;/td>
+ &lt;td>1060K&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="内部构成">
+&lt;a class="header-anchor" href="#%e5%86%85%e9%83%a8%e6%9e%84%e6%88%90">&lt;/a>
+内部构成
+&lt;/h1>&lt;p>内部FLASH主要由三部分组成：&lt;/p>
+&lt;ol>
+&lt;li>主存储器&lt;/li>
+&lt;li>信息块&lt;/li>
+&lt;li>闪存存储器接口寄存器。&lt;/li>
+&lt;/ol>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>闪存模块的子部分&lt;/th>
+ &lt;th>作用&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>主存储器&lt;/td>
+ &lt;td>用来存放代码和数据常数 （如const类型到的数据）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>信息块&lt;/td>
+ &lt;td>分为两个部分：系统存储（启动程序代码）、选项字节（用户选择字节)&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>闪存存储器接口寄存器&lt;/td>
+ &lt;td>用于控制闪存读写等，是整个闪存模块的控制结构&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>主存储器：地址范围为0x08000000~0x0807FFFF,分为256页，每页2KB(小/中容量为1K)。当BOOT0接地，系统将从0x08000000地址处开始读取代码（从主存储器启动）。&lt;/p></description></item><item><title>GPIO</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/gpio/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/gpio/</guid><description>&lt;h1 id="是什么">
+&lt;a class="header-anchor" href="#%e6%98%af%e4%bb%80%e4%b9%88">&lt;/a>
+是什么
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="image-20240705085552462">&lt;/p>
+&lt;h1 id="特点">
+&lt;a class="header-anchor" href="#%e7%89%b9%e7%82%b9">&lt;/a>
+特点
+&lt;/h1>&lt;ol>
+&lt;li>
+&lt;p>不同型号，IO口数量可能不一样，可通过选型手册快速查询&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>快速翻转，每次翻转最快只需要两个时钟周期（F1最高速度可以到50Mhz）&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>每个IO口都可以做中断&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>支持8种工作模式&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="电气特性">
+&lt;a class="header-anchor" href="#%e7%94%b5%e6%b0%94%e7%89%b9%e6%80%a7">&lt;/a>
+电气特性
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_56_49_202407050856261.png" alt="image-20240705085649207">&lt;/p>
+&lt;h1 id="基本结构">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">&lt;/a>
+基本结构
+&lt;/h1>&lt;p>所有的GPIO都是挂载在APB2外设总线上的（每个GPIO包含16个引脚）&lt;/p>
+&lt;ul>
+&lt;li>在GPIO模块中包含寄存器和驱动器&lt;/li>
+&lt;li>寄存器是一段特殊的存储器，内核可以通过APB2总线对寄存器进行读写，这样就可以完成输出电平和读取电平的功能了，寄存器的每一位对应一个引脚，由于每个GPIO模块上面只有16个引脚，所以寄存器只有低16位用到了，高16位保留。驱动器用来增加信号的驱动能力，寄存器只负责存储数据。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_45_53_202407051045843.png" alt="image-20240705104553778">&lt;/p>
+&lt;h1 id="端口的基本结构">
+&lt;a class="header-anchor" href="#%e7%ab%af%e5%8f%a3%e7%9a%84%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">&lt;/a>
+端口的基本结构
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_47_14_202407051047297.png" alt="image-20240705104714238">&lt;/p>
+&lt;h2 id="保护二极管">
+&lt;a class="header-anchor" href="#%e4%bf%9d%e6%8a%a4%e4%ba%8c%e6%9e%81%e7%ae%a1">&lt;/a>
+保护二极管
+&lt;/h2>&lt;p>对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路&lt;/p>
+&lt;h2 id="施密特触发器">
+&lt;a class="header-anchor" href="#%e6%96%bd%e5%af%86%e7%89%b9%e8%a7%a6%e5%8f%91%e5%99%a8">&lt;/a>
+施密特触发器
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_47_58_202407051047900.png" alt="image-20240705104758837">&lt;/p>
+&lt;p>在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量&lt;/p>
+&lt;h2 id="p-mos管和n-mos管">
+&lt;a class="header-anchor" href="#p-mos%e7%ae%a1%e5%92%8cn-mos%e7%ae%a1">&lt;/a>
+P-MOS管和N-MOS管
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_48_42_202407051048750.png" alt="image-20240705104842694">&lt;/p>
+&lt;h1 id="输入输出模式">
+&lt;a class="header-anchor" href="#%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba%e6%a8%a1%e5%bc%8f">&lt;/a>
+输入输出模式
+&lt;/h1>&lt;h2 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h2>&lt;p>输入输出都相对于ST芯片而言的，比如输入就是从io口进如芯片内部，输出就是信号从芯片到IO引脚&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>GPIO&lt;/strong>八种模式&lt;/th>
+ &lt;th>&lt;strong>特点及应用&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;strong>输入浮空&lt;/strong>&lt;/td>
+ &lt;td>输入用，完全浮空，状态不定&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>输入上拉&lt;/strong>&lt;/td>
+ &lt;td>输入用，用内部上拉，默认是高电平&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>输入下拉&lt;/strong>&lt;/td>
+ &lt;td>输入用，用内部下拉，默认是低电平&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>模拟功能&lt;/strong>&lt;/td>
+ &lt;td>ADC、DAC&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>开漏输出&lt;/strong>&lt;/td>
+ &lt;td>软件IIC的SDA、SCL等&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>推挽输出&lt;/strong>&lt;/td>
+ &lt;td>驱动能力强，25mA（max），通用输出&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>开漏式复用功能&lt;/strong>&lt;/td>
+ &lt;td>片上外设功能（硬件IIC 的SDA、SCL引脚等）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;strong>推挽式复用功能&lt;/strong>&lt;/td>
+ &lt;td>片上外设功能（SPI 的SCK、MISO、MOSI引脚等）&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>模式名称&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>性质&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>特征&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>浮空输入&lt;/td>
+ &lt;td>数字输入&lt;/td>
+ &lt;td>可读取引脚电平，若引脚悬空，则电平不确定&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>上拉输入&lt;/td>
+ &lt;td>数字输入&lt;/td>
+ &lt;td>可读取引脚电平，内部连接上拉电阻，悬空时默认高电平&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>下拉输入&lt;/td>
+ &lt;td>数字输入&lt;/td>
+ &lt;td>可读取引脚电平，内部连接下拉电阻，悬空时默认低电平&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>模拟输入&lt;/td>
+ &lt;td>模拟输入&lt;/td>
+ &lt;td>GPIO无效，引脚直接接入内部ADC&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>开漏输出&lt;/td>
+ &lt;td>数字输出&lt;/td>
+ &lt;td>可输出引脚电平，高电平为高阻态，低电平接VSS&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>推挽输出&lt;/td>
+ &lt;td>数字输出&lt;/td>
+ &lt;td>可输出引脚电平，高电平接VDD，低电平接VSS&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>复用开漏输出&lt;/td>
+ &lt;td>数字输出&lt;/td>
+ &lt;td>由片上外设控制，高电平为高阻态，低电平接VSS&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>复用推挽输出&lt;/td>
+ &lt;td>数字输出&lt;/td>
+ &lt;td>由片上外设控制，高电平接VDD，低电平接VSS&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="输入浮空">
+&lt;a class="header-anchor" href="#%e8%be%93%e5%85%a5%e6%b5%ae%e7%a9%ba">&lt;/a>
+输入浮空
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_54_0_202407051054099.png" alt="image-20240705105400030">&lt;/p></description></item><item><title>PWR</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/pwr/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/pwr/</guid><description>&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;p>PWR(Power Control)电源控制，PWR负责管理STM32内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能&lt;/p>
+&lt;p>可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务&lt;/p>
+&lt;p>低功耗模式包括：&lt;/p>
+&lt;ul>
+&lt;li>睡眠模式(Sleep)&lt;/li>
+&lt;li>停机模式(Stop)&lt;/li>
+&lt;li>待机模式(Standby)&lt;/li>
+&lt;/ul>
+&lt;p>可在系统空闲时，降低STM32的功耗，延长设备使用时间&lt;/p>
+&lt;h2 id="电源系统结构">
+&lt;a class="header-anchor" href="#%e7%94%b5%e6%ba%90%e7%b3%bb%e7%bb%9f%e7%bb%93%e6%9e%84">&lt;/a>
+电源系统结构
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="电源的系统结构">&lt;/p>
+&lt;ol>
+&lt;li>VDDA供电区域，主要负责模拟部分的供电，包括AD转换、温度传感器、复位模块PLL。这些电路供电正极是VDDA，负极是VSSA，其中AD转换器还有两个参考电压引脚，分别为VREF+和VREF-&lt;/li>
+&lt;li>由两部分组成，左边部分是VDD供电区域，包括IO电路、待机电路、唤醒电路及看门狗，右边部分是VDD通过电压调节器，降压至1.8V，1.8v区域包括CPU核心、存储器和内置数字外设，stm32内部的关键电路，CPU、存储器和外设其实都是以1.8V的低电压运行的。当这些电路想要和外界进行交流时，才会通过IO电路转换到3.3v。==使用低电压运行的主要目的是为了降低功耗，电压越低，内部电路运行的功耗就相对越低==&lt;/li>
+&lt;li>VBAT后备供电区域，其中包括LSE晶体震荡器、后备寄存器、RCC BDCR寄存器和RTC，其中有一个低电压检测开关，VDD有电时，由VDD供电，VDD没电时，由VBAT供电&lt;/li>
+&lt;/ol>
+&lt;h2 id="电源监控">
+&lt;a class="header-anchor" href="#%e7%94%b5%e6%ba%90%e7%9b%91%e6%8e%a7">&lt;/a>
+电源监控
+&lt;/h2>&lt;p>电源监控即对某些电源电压(VDD/VDDA/VBAT)进行监控。POR/PDR监控器、PVD监控器、BOR监控器、AVD监控器、VBAT阈值、温度阈值&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_51_29_202410151851842.png" alt="电源监控">&lt;/p>
+&lt;ul>
+&lt;li>POR/PDR(power on/down reset):上电/掉电复位&lt;/li>
+&lt;li>PVD(programmable voltage detector)):监控V&lt;del>DD&lt;/del>电压&lt;/li>
+&lt;li>BOR(brown out reset):欠压复位&lt;/li>
+&lt;li>AVD(analog voltage detector)：监控V&lt;del>DDA&lt;/del>电压&lt;/li>
+&lt;li>VBAT阈值(battery voltage thresholds)：监控V&lt;del>BAT&lt;/del>电池电压&lt;/li>
+&lt;li>温度阈值(temperature thresholds):监控结温&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>注意：不同芯片包括的电源监控功能不同&lt;/p>&lt;/blockquote>
+&lt;h3 id="上电掉电复位">
+&lt;a class="header-anchor" href="#%e4%b8%8a%e7%94%b5%e6%8e%89%e7%94%b5%e5%a4%8d%e4%bd%8d">&lt;/a>
+上电/掉电复位
+&lt;/h3>&lt;p>当VDD或者VDDA电压过低时，内部电路会直接产生复位，让stm32复位，不能乱操作&lt;/p>
+&lt;p>在POR和PDR之间设置了一个40mV的迟滞电压，大于POR产生复位，小于PDR时保持复位，设置两个阈值的作用就是防止电压在某个阈值附近波动时，造成输出也来回抖动&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_54_11_202410151854735.png" alt="上掉电复位">&lt;/p>
+&lt;h3 id="电压检测器">
+&lt;a class="header-anchor" href="#%e7%94%b5%e5%8e%8b%e6%a3%80%e6%b5%8b%e5%99%a8">&lt;/a>
+电压检测器
+&lt;/h3>&lt;p>PVD阈值电压可以使用程序指定，可以自定义调节&lt;/p>
+&lt;p>PVD的输出信号可以去申请中断，这个中断申请是由外部中断实现的&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_55_13_202410151855604.png" alt="电压检测器">&lt;/p>
+&lt;h1 id="低功耗">
+&lt;a class="header-anchor" href="#%e4%bd%8e%e5%8a%9f%e8%80%97">&lt;/a>
+低功耗
+&lt;/h1>&lt;p>STM32具有运行、睡眠、停止和待机四种工作模式。&lt;/p>
+&lt;p>上电后默认是在运行模式，当内核不需要继续运行时，可以选择后面三种低功耗模式。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_57_38_202410151857005.png" alt="低功耗">&lt;/p>
+&lt;h2 id="睡眠模式">
+&lt;a class="header-anchor" href="#%e7%9d%a1%e7%9c%a0%e6%a8%a1%e5%bc%8f">&lt;/a>
+睡眠模式
+&lt;/h2>&lt;p>通过两个库函数进入睡眠模式：WFI和WFE，WFI和WFE是内核的指令&lt;/p>
+&lt;ul>
+&lt;li>WFI：wait for interrupt 等待中断，当中断发生，醒来之后的第一件事就是处理中断&lt;/li>
+&lt;li>WFE: wait for event 等待事件，这个事件可以事外部中断配置为事件模式，也可以是使能了中断，但是没有配置NVIC，调用的WFE进入的睡眠模式，产生唤醒事件时会立即醒来，醒来之后一般不需要进入中断函数，直接从睡眠的地方继续运行&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_59_1_202410151859916.png" alt="睡眠模式">&lt;/p>
+&lt;h2 id="停止模式">
+&lt;a class="header-anchor" href="#%e5%81%9c%e6%ad%a2%e6%a8%a1%e5%bc%8f">&lt;/a>
+停止模式
+&lt;/h2>&lt;p>==只有外部中断才能唤醒，其他中断唤醒不了。==&lt;/p></description></item><item><title>RTC</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/rtc/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/rtc/</guid><description>&lt;h1 id="时间戳">
+&lt;a class="header-anchor" href="#%e6%97%b6%e9%97%b4%e6%88%b3">&lt;/a>
+时间戳
+&lt;/h1>&lt;h2 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h2>&lt;p>Unix时间戳(Unix Timestamp)定义为从UTC/GMT的1970年1月1日0时0分0秒开始所经过的秒数，不考虑闰秒&lt;/p>
+&lt;p>时间戳存储在一个秒计数器中，秒计数器为32位/64位的整型变量&lt;/p>
+&lt;p>世界上所有时区的秒计数器相同，不同时区通过添加偏移来得到当地时间&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/7_17_9_13_202409071709780.png" alt="时间线">&lt;/p>
+&lt;h2 id="gmt和utc">
+&lt;a class="header-anchor" href="#gmt%e5%92%8cutc">&lt;/a>
+GMT和UTC
+&lt;/h2>&lt;p>GMT(Greenwich Mean Time)格林尼治标准时间是一种以地球自转为基础的时间计量系统。它将地球自转一周的时间间隔等分为24小时，以此确定计时标准&lt;/p>
+&lt;p>UTC(Universal Time Coordinated)协调世界时是一种以原子钟为基础的时间计量系统。它规定铯133原子基态的两个超精细能级间在零磁场下跃迁辐射9,192,631,770周所持续的时间为1秒。当原子钟计时一天的时间与地球自转一周的时间相差超过0.9秒时，UTC会执行闰秒来保证其计时与地球自转的协调一致&lt;/p>
+&lt;h2 id="时间戳转换">
+&lt;a class="header-anchor" href="#%e6%97%b6%e9%97%b4%e6%88%b3%e8%bd%ac%e6%8d%a2">&lt;/a>
+时间戳转换
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>函数&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>作用&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>time_t time(time_t*);&lt;/td>
+ &lt;td>获取系统时钟&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>struct tm* gmtime(const time_t*);&lt;/td>
+ &lt;td>秒计数器转换为日期时间（格林尼治时间）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>struct tm* localtime(const time_t*);&lt;/td>
+ &lt;td>秒计数器转换为日期时间（当地时间）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>time_t mktime(struct tm*);&lt;/td>
+ &lt;td>日期时间转换为秒计数器（当地时间）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>char* ctime(const time_t*);&lt;/td>
+ &lt;td>秒计数器转换为字符串（默认格式）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>char* asctime(const struct tm*);&lt;/td>
+ &lt;td>日期时间转换为字符串（默认格式）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>size_t strftime(char*, size_t, const char*, const struct tm*);&lt;/td>
+ &lt;td>日期时间转换为字符串（自定义格式）&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>[!TIP]&lt;/p>
+&lt;p>需要引入time.h才可以使用上述函数&lt;/p>&lt;/blockquote>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/7_17_13_42_202409071713702.png" alt="时间戳转换">&lt;/p>
+&lt;p>实验：时间戳转换&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span>&lt;span class="cpf">&amp;lt;time.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">time_t&lt;/span> &lt;span class="n">time_cnt&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">//秒计数器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">struct&lt;/span> &lt;span class="n">tm&lt;/span> &lt;span class="n">time_date&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">//日期时间数据类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kt">char&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">time_str&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">//字符串数据类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="p">){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_cnt&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">time&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">NULL&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//这里的time_cnt实际上就是一个长整秒，int64类型的
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nf">time&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_cnt&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//和上面的代码作用一样
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_date&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nf">gmtime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_cnt&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//加上*就可以取结构体的内容，将长整秒转换为伦敦时间，也就是格林尼治时间
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">time_date&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">tm_year&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="mi">1900&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">//由于时间的基准是1900年，所以需要加上1900
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">time_date&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">tm_mon&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_date&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nf">localtime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_cnt&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//转换长整秒为当地时间，该函数会将时间转换为当地时间
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_cnt&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">mktime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_date&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//是转换的逆过程，也就是将日期时间转换为长整秒
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_str&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">ctime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_cnt&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//将长整秒转换为字符串
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">time_str&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">asctime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_date&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//将数据类型转换为字符串类型
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">char&lt;/span> &lt;span class="n">t&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">50&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">strftime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">50&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;%H-%M-%S&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">time_date&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">//类似于printf函数，将数据类型字符串化，可以自定义输出
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="rtc">
+&lt;a class="header-anchor" href="#rtc">&lt;/a>
+RTC
+&lt;/h1>&lt;p>实时时钟(Real Time Clock,RTC),本质是一个计数器，计数频率常为秒，专门用来记录时间。&lt;/p></description></item><item><title>Timer</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/timer/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/timer/</guid><description>&lt;h1 id="定时器概述">
+&lt;a class="header-anchor" href="#%e5%ae%9a%e6%97%b6%e5%99%a8%e6%a6%82%e8%bf%b0">&lt;/a>
+定时器概述
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_17_26_23_202407051726672.png" alt="image-20240705172623623">&lt;/p>
+&lt;h2 id="定时器分类">
+&lt;a class="header-anchor" href="#%e5%ae%9a%e6%97%b6%e5%99%a8%e5%88%86%e7%b1%bb">&lt;/a>
+定时器分类
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_17_26_54_202407051726085.png" alt="image-20240705172654037">&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>定时器类型&lt;/th>
+ &lt;th>主要功能&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>基本定时器&lt;/td>
+ &lt;td>没有输入输出通道，常用作时基，即定时功能&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>通用定时器&lt;/td>
+ &lt;td>具有多路独立通道，可用于输入捕获/输出比较，也可用作时基&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>高级定时器&lt;/td>
+ &lt;td>除具备通用定时器所有功能外，还具备带死区控制的互补信号输出、刹车输入等功能（可用于电机控制、数字电源设计等）&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="特性表">
+&lt;a class="header-anchor" href="#%e7%89%b9%e6%80%a7%e8%a1%a8">&lt;/a>
+特性表
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_17_28_5_202407051728257.png" alt="image-20240705172805200">&lt;/p>
+&lt;h1 id="滴答定时器">
+&lt;a class="header-anchor" href="#%e6%bb%b4%e7%ad%94%e5%ae%9a%e6%97%b6%e5%99%a8">&lt;/a>
+滴答定时器
+&lt;/h1>&lt;p>&lt;code>SystemCoreClock / 1000&lt;/code> 表示配置 SysTick 定时器以 1ms 的间隔触发中断。具体来说，SysTick 定时器是一个递减计数器，当计数器递减到零时会触发中断，然后自动重新加载初始值继续计数。通过设置初始值为 &lt;code>SystemCoreClock / 1000&lt;/code>，我们可以使 SysTick 定时器每经过 1ms 触发一次中断。&lt;/p>
+&lt;h3 id="解释">
+&lt;a class="header-anchor" href="#%e8%a7%a3%e9%87%8a">&lt;/a>
+解释
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>SystemCoreClock&lt;/strong> 是系统核心时钟频率，单位是 Hz。它表示每秒钟内系统时钟的震荡次数。例如，如果 &lt;code>SystemCoreClock&lt;/code> 是 84MHz（84,000,000 Hz），则表示每秒钟系统时钟震荡 84,000,000 次。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>SysTick_Config(SystemCoreClock / 1000)&lt;/strong> 将 SysTick 定时器的重装载值（reload value）设置为 &lt;code>SystemCoreClock / 1000&lt;/code>。重装载值是 SysTick 计数器从这个值开始递减的初始值。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>为什么是 1ms&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>假设 &lt;code>SystemCoreClock&lt;/code> 是 84MHz。&lt;/li>
+&lt;li>&lt;code>SystemCoreClock / 1000&lt;/code> 等于 84,000,000 / 1000 = 84,000。&lt;/li>
+&lt;li>这意味着 SysTick 计数器从 84,000 开始递减，每个时钟周期递减一次。&lt;/li>
+&lt;li>因为系统时钟频率是 84MHz，即每秒钟有 84,000,000 个时钟周期，所以每 1,000 个时钟周期表示 1ms（1,000,000 / 1,000 = 1ms）。&lt;/li>
+&lt;li>当 SysTick 计数器从 84,000 递减到 0 时，刚好经过了 1ms，然后触发中断，并重新加载为 84,000 继续递减。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="systick_config-函数">
+&lt;a class="header-anchor" href="#systick_config-%e5%87%bd%e6%95%b0">&lt;/a>
+SysTick_Config 函数
+&lt;/h3>&lt;p>&lt;code>SysTick_Config&lt;/code> 是一个方便的函数，用于配置 SysTick 定时器并启用中断。其原型通常如下：&lt;/p></description></item><item><title>USART</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/usart/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/usart/</guid><description>&lt;h1 id="数据通信基础">
+&lt;a class="header-anchor" href="#%e6%95%b0%e6%8d%ae%e9%80%9a%e4%bf%a1%e5%9f%ba%e7%a1%80">&lt;/a>
+数据通信基础
+&lt;/h1>&lt;h2 id="串行并行通信">
+&lt;a class="header-anchor" href="#%e4%b8%b2%e8%a1%8c%e5%b9%b6%e8%a1%8c%e9%80%9a%e4%bf%a1">&lt;/a>
+串行/并行通信
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_49_45_202407091149342.png" alt="image-20240709114945281">&lt;/p>
+&lt;h2 id="单工半双工全双工通信">
+&lt;a class="header-anchor" href="#%e5%8d%95%e5%b7%a5%e5%8d%8a%e5%8f%8c%e5%b7%a5%e5%85%a8%e5%8f%8c%e5%b7%a5%e9%80%9a%e4%bf%a1">&lt;/a>
+单工/半双工/全双工通信
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_50_29_202407091150652.png" alt="image-20240709115029566">&lt;/p>
+&lt;h2 id="同步异步通信">
+&lt;a class="header-anchor" href="#%e5%90%8c%e6%ad%a5%e5%bc%82%e6%ad%a5%e9%80%9a%e4%bf%a1">&lt;/a>
+同步/异步通信
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_50_47_202407091150120.png" alt="image-20240709115047069">&lt;/p>
+&lt;h2 id="波特率">
+&lt;a class="header-anchor" href="#%e6%b3%a2%e7%89%b9%e7%8e%87">&lt;/a>
+波特率
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_1_202407091151890.png" alt="image-20240709115101824">&lt;/p>
+&lt;h2 id="常见通信接口">
+&lt;a class="header-anchor" href="#%e5%b8%b8%e8%a7%81%e9%80%9a%e4%bf%a1%e6%8e%a5%e5%8f%a3">&lt;/a>
+常见通信接口
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>名称&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>引脚&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>双工&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>时钟&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>电平&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>设备&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>USART&lt;/td>
+ &lt;td>TX、RX&lt;/td>
+ &lt;td>全双工&lt;/td>
+ &lt;td>异步&lt;/td>
+ &lt;td>单端&lt;/td>
+ &lt;td>点对点&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>I2C&lt;/td>
+ &lt;td>SCL、SDA&lt;/td>
+ &lt;td>半双工&lt;/td>
+ &lt;td>同步&lt;/td>
+ &lt;td>单端&lt;/td>
+ &lt;td>多设备&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SPI&lt;/td>
+ &lt;td>SCLK、MOSI、MISO、CS&lt;/td>
+ &lt;td>全双工&lt;/td>
+ &lt;td>同步&lt;/td>
+ &lt;td>单端&lt;/td>
+ &lt;td>多设备&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CAN&lt;/td>
+ &lt;td>CAN_H、CAN_L&lt;/td>
+ &lt;td>半双工&lt;/td>
+ &lt;td>异步&lt;/td>
+ &lt;td>差分&lt;/td>
+ &lt;td>多设备&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>USB&lt;/td>
+ &lt;td>DP、DM&lt;/td>
+ &lt;td>半双工&lt;/td>
+ &lt;td>异步&lt;/td>
+ &lt;td>差分&lt;/td>
+ &lt;td>点对点&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="串口">
+&lt;a class="header-anchor" href="#%e4%b8%b2%e5%8f%a3">&lt;/a>
+串口
+&lt;/h1>&lt;h2 id="概念">
+&lt;a class="header-anchor" href="#%e6%a6%82%e5%bf%b5">&lt;/a>
+概念
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_52_202407091151823.png" alt="image-20240709115152751">&lt;/p>
+&lt;h2 id="rs232-vs-cmosttl">
+&lt;a class="header-anchor" href="#rs232-vs-cmosttl">&lt;/a>
+RS232 VS CMOS/TTL
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_52_20_202407091152830.png" alt="image-20240709115220783">&lt;/p>
+&lt;h2 id="串口参数及时序">
+&lt;a class="header-anchor" href="#%e4%b8%b2%e5%8f%a3%e5%8f%82%e6%95%b0%e5%8f%8a%e6%97%b6%e5%ba%8f">&lt;/a>
+串口参数及时序
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_13_202407091153363.png" alt="image-20240709115313290">&lt;/p>
+&lt;h2 id="rs232通信">
+&lt;a class="header-anchor" href="#rs232%e9%80%9a%e4%bf%a1">&lt;/a>
+RS232通信
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_35_202407091153213.png" alt="image-20240709115335144">&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_41_202407091153702.png" alt="image-20240709115341646">&lt;/p></description></item><item><title>WDG</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/wdg/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/wdg/</guid><description>&lt;h1 id="wdg">
+&lt;a class="header-anchor" href="#wdg">&lt;/a>
+WDG
+&lt;/h1>&lt;h2 id="简介">
+&lt;a class="header-anchor" href="#%e7%ae%80%e4%bb%8b">&lt;/a>
+简介
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_19_57_202407091519564.png" alt="image-20240709151957478">&lt;/p>
+&lt;h2 id="iwdg-vs-wwdg">
+&lt;a class="header-anchor" href="#iwdg-vs-wwdg">&lt;/a>
+IWDG VS WWDG
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;/th>
+ &lt;th>&lt;strong>IWDG独立看门狗&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>WWDG窗口看门狗&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>复位&lt;/td>
+ &lt;td>计数器减到0后&lt;/td>
+ &lt;td>计数器T[5:0]减到0后、过早重装计数器&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>中断&lt;/td>
+ &lt;td>无&lt;/td>
+ &lt;td>早期唤醒中断&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>时钟源&lt;/td>
+ &lt;td>LSI（40KHz）&lt;/td>
+ &lt;td>PCLK1（36MHz）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>预分频系数&lt;/td>
+ &lt;td>4、8、32、64、128、256&lt;/td>
+ &lt;td>1、2、4、8&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>计数器&lt;/td>
+ &lt;td>12位&lt;/td>
+ &lt;td>6位（有效计数）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>超时时间&lt;/td>
+ &lt;td>0.1ms~26214.4ms&lt;/td>
+ &lt;td>113us~58.25ms&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>喂狗方式&lt;/td>
+ &lt;td>写入键寄存器，重装固定值RLR&lt;/td>
+ &lt;td>直接写入计数器，写多少重装多少&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>防误操作&lt;/td>
+ &lt;td>键寄存器和写保护&lt;/td>
+ &lt;td>无&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>用途&lt;/td>
+ &lt;td>独立工作，对时间精度要求较低&lt;/td>
+ &lt;td>要求看门狗在精确计时窗口起作用&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="溢出时间计算原理">
+&lt;a class="header-anchor" href="#%e6%ba%a2%e5%87%ba%e6%97%b6%e9%97%b4%e8%ae%a1%e7%ae%97%e5%8e%9f%e7%90%86">&lt;/a>
+溢出时间计算原理
+&lt;/h2>&lt;p>计算步骤如下&lt;/p>
+&lt;ol>
+&lt;li>首先需要知道看门狗的时钟频率，假设是60kHz&lt;/li>
+&lt;li>设置分频系数，现在设置为8分频，那么分完频之后的时钟就是60_000Hz / 8=75_00Hz,也就是1s跳动7500次&lt;/li>
+&lt;li>如果想要设置溢出时间为0.5s的话，那么就是用0.5*7500=3750，就是设置为3750&lt;/li>
+&lt;/ol>
+&lt;h1 id="iwdg">
+&lt;a class="header-anchor" href="#iwdg">&lt;/a>
+IWDG
+&lt;/h1>&lt;h2 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_22_29_202407091522425.png" alt="image-20240709152229375">&lt;/p>
+&lt;h2 id="作用">
+&lt;a class="header-anchor" href="#%e4%bd%9c%e7%94%a8">&lt;/a>
+作用
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_22_40_202407091522912.png" alt="image-20240709152240863">&lt;/p>
+&lt;h2 id="工作原理">
+&lt;a class="header-anchor" href="#%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">&lt;/a>
+工作原理
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_22_40_202407091522912.png" alt="">&lt;/p>
+&lt;h2 id="框图">
+&lt;a class="header-anchor" href="#%e6%a1%86%e5%9b%be">&lt;/a>
+框图
+&lt;/h2>&lt;p>实际上就是一个递减计数器，在程序运行期间，适当的提高计数值就可以避免出现复位，手动重装重装载寄存器的操作就是喂狗,递减计数器是12位的，所以最大的计数是 $2 ^ {12}-1 = 4095$。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>当递减计数器自减到0时，会产生一个IWDG的复位信号&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>当我们在重装载寄存器中写好值之后，在键寄存器里写一个特定的数据，控制电路进行喂狗，这个时候重装值就会将数值赋给当前计数器&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>下图分为上下两部分，上面部分工作在1.8v电压下，下面部分工作在VDD电压下&lt;/p></description></item><item><title>单片机的启动过程</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/weixin_42734533/article/details/131812546">mcu 启动流程_mcu启动过程-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.jianshu.com/p/57c6006e637a">嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com)&lt;/a>&lt;/p>
+&lt;h1 id="启动流程">
+&lt;a class="header-anchor" href="#%e5%90%af%e5%8a%a8%e6%b5%81%e7%a8%8b">&lt;/a>
+启动流程
+&lt;/h1>&lt;h2 id="mcu启动方式">
+&lt;a class="header-anchor" href="#mcu%e5%90%af%e5%8a%a8%e6%96%b9%e5%bc%8f">&lt;/a>
+MCU启动方式
+&lt;/h2>&lt;p>MCU有三种启动方式：&lt;/p>
+&lt;ol>
+&lt;li>flash启动（最常用）：stm32的flash能够擦写数十万次，用户通过JTAG或SWD模式，将程序下载至此，重新启动从此处启动&lt;/li>
+&lt;li>sytem memory （系统存储器启动）：系统存储器是芯片内的一块特定的区域，系统存储器中预置了一段bootloader,bootloder将程序下载到flash区，通过flash启动&lt;/li>
+&lt;li>内嵌SRAM启动：从内存中直接启动代码，避免因小修改反复擦写flash内存，一般用于高速调试&lt;/li>
+&lt;/ol>
+&lt;h2 id="mcu程序启动执行过程">
+&lt;a class="header-anchor" href="#mcu%e7%a8%8b%e5%ba%8f%e5%90%af%e5%8a%a8%e6%89%a7%e8%a1%8c%e8%bf%87%e7%a8%8b">&lt;/a>
+MCU程序启动执行过程
+&lt;/h2>&lt;p>对于CortexM3来说，启动过程如下：&lt;/p>
+&lt;ol>
+&lt;li>从&lt;code>0x0000 0000&lt;/code>地址处取出MSP的初始值&lt;/li>
+&lt;li>从&lt;code>0x0000 0004&lt;/code>地址处取得PC指针初始值，然后执行用户代码。&lt;/li>
+&lt;li>&lt;code>Vector Table&lt;/code>指的是中断向量表，&lt;code>Reset Handler&lt;/code>指的是复位向量。从图中我们看出&lt;code>Reset Handler&lt;/code>不过是&lt;code>0x0000 0004&lt;/code>地址的一个别名，他其中放置的便是==CPU上电后要执行的第一条用户代码指令的地址。将这个值加载到PC指针上，cpu跳转执行用户代码。==&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_10_21_2_202411061021360.png" alt="M3启动过程">&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/19_8_25_45_202408190825723.png" alt="堆栈">&lt;/p>
+&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>程序运行的第一条地址放在了Reset Handler中&lt;/p>&lt;/blockquote>
+&lt;p>以下是stm32f103的启动方式调用：&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_10_28_41_202411061028065.png" alt="不同的启动方式的地址映射">&lt;/p>
+&lt;p>&lt;code>Boot Space&lt;/code>是对一段内存空间的别名，根据不同的启动条件，映射到不同的存储设备上，但是访问地址一定是&lt;code>0x0000 0000 - 0x0005 FFFF&lt;/code>这个区间&lt;/p>
+&lt;ul>
+&lt;li>当从SRAM启动时，&lt;code>Boot Space&lt;/code>映射到SRAM上，即&lt;code>0x0000 0000&lt;/code>和&lt;code>0x2000 0000&lt;/code>两个地址是指的同一块空间&lt;/li>
+&lt;li>当从Flash启动时，&lt;code>Boot Space&lt;/code>映射到Flash上&lt;/li>
+&lt;li>当从System Memory启动（即bootloader）时，&lt;code>Boot Space&lt;/code>映射到st公司保留的System Memory上，这是一段ROM，烧写有st的bootloader代码&lt;/li>
+&lt;/ul>
+&lt;p>以上，假设单片机从flash启动，则&lt;/p>
+&lt;ul>
+&lt;li>从&lt;code>0x0000 0000 -&amp;gt; 0x08000 0000&lt;/code>地址处取出MSP的初始值&lt;/li>
+&lt;li>从&lt;code>0x0000 0004 -&amp;gt; 0x08000 0004&lt;/code>地址处取出PC指针初始值，然后执行用户代码&lt;/li>
+&lt;/ul>
+&lt;h2 id="中断向量">
+&lt;a class="header-anchor" href="#%e4%b8%ad%e6%96%ad%e5%90%91%e9%87%8f">&lt;/a>
+中断向量
+&lt;/h2>&lt;p>中断执行过程如下：&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_10_40_38_202411061040712.png" alt="中断">&lt;/p></description></item><item><title>时钟</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/dengjin20104042056/article/details/108291692">【STM32】时钟_stm32f405 定时器时钟-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="时钟相关缩写">
+&lt;a class="header-anchor" href="#%e6%97%b6%e9%92%9f%e7%9b%b8%e5%85%b3%e7%bc%a9%e5%86%99">&lt;/a>
+时钟相关缩写
+&lt;/h1>&lt;ol>
+&lt;li>&lt;strong>RCC&lt;/strong> - Reset and Clock Control（复位与时钟控制）&lt;/li>
+&lt;li>&lt;strong>RTC&lt;/strong> - Real-Time Clock（实时时钟）&lt;/li>
+&lt;li>&lt;strong>BKP&lt;/strong> - Backup Registers（备份寄存器）&lt;/li>
+&lt;li>&lt;strong>PWR&lt;/strong> - Power Control（电源控制）&lt;/li>
+&lt;li>&lt;strong>HCLK&lt;/strong> - AHB Clock（AHB总线时钟）&lt;/li>
+&lt;li>&lt;strong>USBCLK&lt;/strong> - USB Clock（USB时钟）&lt;/li>
+&lt;li>&lt;strong>LSCO&lt;/strong> - Low Speed Clock Output（低速时钟输出）&lt;/li>
+&lt;li>&lt;strong>MSI&lt;/strong> - Multi-Speed Internal Clock（多速内部时钟）&lt;/li>
+&lt;li>&lt;strong>CSS&lt;/strong> - Clock Security System（时钟安全系统）&lt;/li>
+&lt;li>&lt;strong>LPTIM&lt;/strong> - Low Power Timer（低功耗定时器）&lt;/li>
+&lt;li>&lt;strong>WDG&lt;/strong> - Watchdog Timer（看门狗定时器）&lt;/li>
+&lt;li>&lt;strong>HSE&lt;/strong> - High-Speed External Clock（高速外部时钟）&lt;/li>
+&lt;li>&lt;strong>HSI&lt;/strong> - High-Speed Internal Clock（高速内部时钟）&lt;/li>
+&lt;li>&lt;strong>LSE&lt;/strong> - Low-Speed External Clock（低速外部时钟）&lt;/li>
+&lt;li>&lt;strong>LSI&lt;/strong> - Low-Speed Internal Clock（低速内部时钟）&lt;/li>
+&lt;li>&lt;strong>PLL&lt;/strong> - Phase-Locked Loop（锁相环）&lt;/li>
+&lt;li>&lt;strong>SYSCLK&lt;/strong> - System Clock（系统时钟）&lt;/li>
+&lt;li>&lt;strong>PCLK&lt;/strong> - Peripheral Clock（外设时钟）&lt;/li>
+&lt;li>&lt;strong>APB&lt;/strong> - Advanced Peripheral Bus（高级外设总线）&lt;/li>
+&lt;li>&lt;strong>AHB&lt;/strong> - Advanced High-performance Bus（高级高性能总线）&lt;/li>
+&lt;/ol>
+&lt;h1 id="概念">
+&lt;a class="header-anchor" href="#%e6%a6%82%e5%bf%b5">&lt;/a>
+概念
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/5_15_26_11_202409051526329.png" alt="时钟信号">&lt;/p></description></item><item><title>中断</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/</guid><description>&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;p>打断CPU执行正常的程序，转而处理紧急程序，然后返回原暂停的程序继续运行，就叫中断&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/28_10_46_28_202408281046891.png" alt="中断举例">&lt;/p>
+&lt;h2 id="中断的作用和意义">
+&lt;a class="header-anchor" href="#%e4%b8%ad%e6%96%ad%e7%9a%84%e4%bd%9c%e7%94%a8%e5%92%8c%e6%84%8f%e4%b9%89">&lt;/a>
+中断的作用和意义
+&lt;/h2>&lt;ol>
+&lt;li>实时控制:在确定时间内对相应事件作出响应，如：温度监控&lt;/li>
+&lt;li>故障处理:检测到故障，需要第一时间处理，如：电梯门夹人了&lt;/li>
+&lt;li>数据传输:不确定数据何时会来，如：串口数据接收&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>[!IMPORTANT]&lt;/p>
+&lt;p>中断的意义：高效处理紧急程序，不会一直占用CPU资源&lt;/p>&lt;/blockquote>
+&lt;h2 id="中断的外部简图">
+&lt;a class="header-anchor" href="#%e4%b8%ad%e6%96%ad%e7%9a%84%e5%a4%96%e9%83%a8%e7%ae%80%e5%9b%be">&lt;/a>
+中断的外部简图
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/28_10_49_5_202408281049800.png" alt="中断的外部简图">&lt;/p>
+&lt;h2 id="执行流程">
+&lt;a class="header-anchor" href="#%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b">&lt;/a>
+执行流程
+&lt;/h2>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/28_10_49_40_202408281049592.png" alt="中断的执行流程">&lt;/p>
+&lt;h1 id="nvic">
+&lt;a class="header-anchor" href="#nvic">&lt;/a>
+NVIC
+&lt;/h1>&lt;h2 id="基本概念">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5">&lt;/a>
+基本概念
+&lt;/h2>&lt;p>用于统一分配中断优先级和管理中断的&lt;/p>
+&lt;p>==Nested vectored interrupt controller==,嵌套向量中断控制器，属于内核(M3/4/7)&lt;/p>
+&lt;p>NVIC支持：256个中断(16内核+240外部)，支持：256个优先级，允许裁剪！&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>STM32型号&lt;/th>
+ &lt;th>内核中断&lt;/th>
+ &lt;th>外部中断&lt;/th>
+ &lt;th>中断优先级&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>STM32F103xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>60&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F407xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>82&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F429xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>91&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F750xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>98&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32F767xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>110&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32H743xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>150&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>STM32H750xx&lt;/td>
+ &lt;td>10&lt;/td>
+ &lt;td>150&lt;/td>
+ &lt;td>16&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="中断向量表">
+&lt;a class="header-anchor" href="#%e4%b8%ad%e6%96%ad%e5%90%91%e9%87%8f%e8%a1%a8">&lt;/a>
+中断向量表
+&lt;/h2>&lt;p>定义一块固定的内存，以字节对齐，存放各个==中断服务函数程序的首地址==。&lt;/p>
+&lt;p>中断向量表定义在==启动文件中==，当发生中断，CPU会自动执行对应的中断服务函数&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/28_10_54_8_202408281054382.png" alt="image-20240828105408328">&lt;/p>
+&lt;h2 id="相关寄存器">
+&lt;a class="header-anchor" href="#%e7%9b%b8%e5%85%b3%e5%af%84%e5%ad%98%e5%99%a8">&lt;/a>
+相关寄存器
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>NVIC相关寄存器&lt;/th>
+ &lt;th>位数&lt;/th>
+ &lt;th>寄存器个数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>中断使能寄存器（ISER)&lt;/td>
+ &lt;td>32&lt;/td>
+ &lt;td>8&lt;/td>
+ &lt;td>每个位控制一个中断&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>中断除能寄存器（ICER)&lt;/td>
+ &lt;td>32&lt;/td>
+ &lt;td>8&lt;/td>
+ &lt;td>每个位控制一个中断&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>应用程序中断及复位控制寄存器（AIRCR)&lt;/td>
+ &lt;td>32&lt;/td>
+ &lt;td>1&lt;/td>
+ &lt;td>位[10:8]控制优先级分组&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>中断优先级寄存器 （IPR)&lt;/td>
+ &lt;td>8&lt;/td>
+ &lt;td>240&lt;/td>
+ &lt;td>8个位对应一个中断，而 STM32只使用高4位&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>NVIC还有：中断挂起，解挂，激活标志等非常用功能。&lt;/p></description></item><item><title>最小系统</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/</guid><description>&lt;h1 id="是什么">
+&lt;a class="header-anchor" href="#%e6%98%af%e4%bb%80%e4%b9%88">&lt;/a>
+是什么
+&lt;/h1>&lt;p>最小系统是保障MCU正常工作的最小电路的组成单元&lt;/p>
+&lt;pre class="mermaid">block-beta
+	columns 3
+	MCU:2
+	block
+		columns 1
+		电源电路
+		晶振电路
+	end
+	下载调试电路
+	BOOT启动电路
+	复位电路
+	其他电路:3
+	
+&lt;/pre>
+&lt;h1 id="管脚定义">
+&lt;a class="header-anchor" href="#%e7%ae%a1%e8%84%9a%e5%ae%9a%e4%b9%89">&lt;/a>
+管脚定义
+&lt;/h1>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>类型&lt;/th>
+ &lt;th>引脚名称&lt;/th>
+ &lt;th>说明&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>电源&lt;/td>
+ &lt;td>VDD/VSS&lt;/td>
+ &lt;td>电源正（VDD）/负（VSS）引脚，给STM32供电&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>VDDA/VSSA&lt;/td>
+ &lt;td>模拟部分电源正/负引脚，给STM32内部模拟部分供电 参考电压正/负引脚，给STM32内部ADC/DAC提供参考电压&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>VREF+/VREF-&lt;/td>
+ &lt;td>100脚及以上的STM32F103型号才有这两个脚&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>VBAT&lt;/td>
+ &lt;td>RTC&amp;amp;后备区域供电引脚，给RTC和后备区域供电。一般VBAT 接电池，用于断电维持RTC工作，如不需要，直接将VBAT 接VDD即可&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>复位&lt;/td>
+ &lt;td>NRST&lt;/td>
+ &lt;td>复位引脚，用于复位STM32，低电平复位 启动选择引脚，一般这两个脚各接一个下拉电阻即可&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>启动&lt;/td>
+ &lt;td>BOOT0/BOOT1&lt;/td>
+ &lt;td>其他启动配置说明详见后续分析&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>晶振&lt;/td>
+ &lt;td>OSC_IN/ OSC_OUT&lt;/td>
+ &lt;td>外部HSE晶振引脚，用于给STM32提供高精度系统时钟 如果使用内部HSI能满足使用需求，这两个脚可以不接晶振&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>OSC32_IN / OSC32_OUT&lt;/td>
+ &lt;td>外部LSE晶振引脚，用于给STM32内部RTC提供时钟 如果使用内部LSI能满足使用需求，这两个脚可以不接晶振&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>调试&lt;/td>
+ &lt;td>SWCLK/SWDIO&lt;/td>
+ &lt;td>SWD调试引脚，用于调试STM32程序，同时STM32还支持 JTAG调试，不过我们不推荐使用！因为SWD省IO！&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="电源电路">
+&lt;a class="header-anchor" href="#%e7%94%b5%e6%ba%90%e7%94%b5%e8%b7%af">&lt;/a>
+电源电路
+&lt;/h1>&lt;p>在&lt;code>GND&lt;/code>和&lt;code>POWER&lt;/code>之间一般会连接一个滤波电容，该电容==保证供电电压的稳定性==，一般遇到供电都会加上滤波电容&lt;/p>
+&lt;p>&lt;code>BAT&lt;/code>一般使用纽扣电池，备用电池是给&lt;code>RTC&lt;/code>和备份寄存器服务的，如果不需要这些则可以不使用纽扣电池，&lt;code>VBAT&lt;/code>可以直接接&lt;code>POWER&lt;/code>或者直接悬空&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/5_14_29_41_202409051429525.png" alt="电源电路">&lt;/p>
+&lt;h1 id="复位电路">
+&lt;a class="header-anchor" href="#%e5%a4%8d%e4%bd%8d%e7%94%b5%e8%b7%af">&lt;/a>
+复位电路
+&lt;/h1>&lt;ol>
+&lt;li>
+&lt;p>手动复位：当按下复位按键，&lt;code>NRST&lt;/code>直接接地，变成低电平开始复位，反之，则为高电平&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>上电复位：当芯片开始上电的时候，&lt;code>vcc&lt;/code>将会给电容充电，电容相当于短路，这时&lt;code>NRST&lt;/code>与地直接相连，变成低电平开始复位，当电容充满电时，将会变成高电平，实现了上电复位的功能&lt;/p>
+&lt;blockquote>
+&lt;p>电容==充电==过程：当电容开始充电时，它的两极板之间存在电势差，电路中的电流开始流动，电容逐渐储存电荷。刚充电时，电容像是==导线==。&lt;/p></description></item></channel></rss>

@@ -1,0 +1,1430 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程语言 on TruestMe's Blog</title><link>https://youShouldTrustMe.github.io/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</link><description>Recent content in 编程语言 on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 01 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://youShouldTrustMe.github.io/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml"/><item><title>Asm</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/asm/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/asm/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://www.ruanyifeng.com/blog/2018/01/assembly-language-primer.html">汇编语言入门教程 - 阮一峰的网络日志&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://cankaoshouce.com/assembly/assembly-course.html">汇编语言 教程 | 参考手册 (cankaoshouce.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cs.virginia.edu/~evans/cs216/guides/x86.html">Guide to x86 Assembly&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html">GCC-Inline-Assembly-HOWTO &amp;mdash; GCC-Inline-Assembly-HOWTO&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.jianshu.com/p/10e8a7b4f980">译：GCC内联汇编入门 - 简书 (jianshu.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://developer.arm.com/documentation/ddi0597/2024-09?lang=en">Arm A-profile A32/T32 Instruction Set Architecture&lt;/a>&lt;/p>
+&lt;h1 id="基础知识">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">&lt;/a>
+基础知识
+&lt;/h1>&lt;h2 id="引言">
+&lt;a class="header-anchor" href="#%e5%bc%95%e8%a8%80">&lt;/a>
+引言
+&lt;/h2>&lt;p>我们知道，CPU 只负责计算，本身不具备智能。你输入一条指令（instruction），它就运行一次，然后停下来，等待下一条指令。&lt;/p>
+&lt;p>这些指令都是二进制的，称为操作码（opcode），比如加法指令就是&lt;code>00000011&lt;/code>。&lt;a href="https://www.ruanyifeng.com/blog/2014/11/compiler.html">编译器&lt;/a>的作用，就是将高级语言写好的程序，翻译成一条条操作码。&lt;/p>
+&lt;p>对于人类来说，二进制程序是不可读的，根本看不出来机器干了什么。为了解决可读性的问题，以及偶尔的编辑需求，就诞生了汇编语言。&lt;/p>
+&lt;p>&lt;strong>汇编语言是二进制指令的文本形式&lt;/strong>，与指令是一一对应的关系。比如，加法指令&lt;code>00000011&lt;/code>写成汇编语言就是 ADD。只要还原成二进制，汇编语言就可以被 CPU 直接执行，所以它是最底层的低级语言。&lt;/p>
+&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>以下教程开发环境为NAsm，使用Inte格式。&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>NASM&lt;/strong> 更适合跨平台、轻量级的汇编开发，语法简洁，灵活性高。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>MASM&lt;/strong> 则更适合 Windows 平台上的专业开发，功能丰富，语法较复杂，集成度高，适合开发大规模的 Windows 应用程序和驱动。&lt;/p>
+&lt;/li>
+&lt;/ul>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>[!TIP]&lt;/p>
+&lt;p>汇编语法主要有两大派系：AT&amp;amp;T语法 和 Intel语法。&lt;/p>
+&lt;p>GAS (GNU Assembler) 编译器默认是基于AT&amp;amp;T语法；&lt;a href="https://so.csdn.net/so/search?q=MASM&amp;amp;spm=1001.2101.3001.7020">MASM&lt;/a>、NASM等编译器默认基于Intel语法。&lt;/p>
+&lt;p>需要说明的是，GAS汇编器除了支持AT&amp;amp;T语法之外，自己也定义了一些额外的&lt;code>directives&lt;/code>，用于辅助完成汇编操作。关于GAS汇编器及其语法可以参考GAS的官方文档：https://sourceware.org/binutils/docs/as/&lt;/p>&lt;/blockquote>
+&lt;h2 id="寄存器">
+&lt;a class="header-anchor" href="#%e5%af%84%e5%ad%98%e5%99%a8">&lt;/a>
+寄存器
+&lt;/h2>&lt;p>CPU 本身只负责运算，不负责储存数据。数据一般都储存在内存之中，CPU 要用的时候就去内存读写数据。但是，CPU 的运算速度远高于内存的读写速度，为了避免被拖慢，CPU 都自带一级缓存和二级缓存。基本上，CPU 缓存可以看作是读写速度较快的内存。&lt;/p>
+&lt;p>但是，CPU 缓存还是不够快，另外数据在缓存里面的地址是不固定的，CPU 每次读写都要寻址也会拖慢速度。因此，除了缓存之外，CPU 还自带了寄存器（register），用来储存最常用的数据。也就是说，那些最频繁读写的数据（比如循环变量），都会放在寄存器里面，CPU 优先读写寄存器，再由寄存器跟内存交换数据。&lt;/p></description></item><item><title>Batch</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/batch/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/batch/</guid><description>&lt;h1 id="批处理基础">
+&lt;a class="header-anchor" href="#%e6%89%b9%e5%a4%84%e7%90%86%e5%9f%ba%e7%a1%80">&lt;/a>
+批处理基础
+&lt;/h1>&lt;h2 id="注释">
+&lt;a class="header-anchor" href="#%e6%b3%a8%e9%87%8a">&lt;/a>
+注释
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>REM&lt;/code>&lt;/strong> 或 &lt;strong>&lt;code>::&lt;/code>&lt;/strong> 用于添加注释。注释不会被执行。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-batch" data-lang="batch">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">REM 这是一个注释&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">:&lt;/span>&lt;span class="c1">: 这也是一个注释&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h2 id="显示文本">
+&lt;a class="header-anchor" href="#%e6%98%be%e7%a4%ba%e6%96%87%e6%9c%ac">&lt;/a>
+显示文本
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>echo&lt;/code>&lt;/strong> 显示文本。&lt;code>@echo off&lt;/code> 可以关闭回显（即关闭命令本身的显示），但保留输出。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-batch" data-lang="batch">&lt;span class="line">&lt;span class="cl">&lt;span class="k">echo&lt;/span> Hello, World!
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">@&lt;/span>&lt;span class="k">echo&lt;/span> off
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">echo&lt;/span> 这行代码只显示输出，不显示命令本身
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h2 id="变量">
+&lt;a class="header-anchor" href="#%e5%8f%98%e9%87%8f">&lt;/a>
+变量
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>set&lt;/code>&lt;/strong> 用于定义变量，&lt;strong>&lt;code>%variable%&lt;/code>&lt;/strong> 用于访问变量值。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-batch" data-lang="batch">&lt;span class="line">&lt;span class="cl">&lt;span class="k">set&lt;/span> &lt;span class="nv">myVar&lt;/span>&lt;span class="p">=&lt;/span>Hello
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">echo&lt;/span> &lt;span class="nv">%myVar%&lt;/span> World!
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>set /p&lt;/code>&lt;/strong> 从用户输入中获取变量值。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-batch" data-lang="batch">&lt;span class="line">&lt;span class="cl">&lt;span class="k">set&lt;/span> &lt;span class="k">/p&lt;/span> &lt;span class="nv">userInput&lt;/span>&lt;span class="p">=&lt;/span>Please enter your name: 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">echo&lt;/span> Hello, &lt;span class="nv">%userInput%&lt;/span>!
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h2 id="条件语句">
+&lt;a class="header-anchor" href="#%e6%9d%a1%e4%bb%b6%e8%af%ad%e5%8f%a5">&lt;/a>
+条件语句
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>&lt;code>if&lt;/code>&lt;/strong> 用于执行条件检查，可以用于字符串比较、数值比较和文件存在性检查。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-batch" data-lang="batch">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">%myVar%&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="o">==&lt;/span>&lt;span class="s2">&amp;#34;Hello&amp;#34;&lt;/span> &lt;span class="k">echo&lt;/span> It is Hello!
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="k">exist&lt;/span> &lt;span class="s2">&amp;#34;file.txt&amp;#34;&lt;/span> &lt;span class="k">echo&lt;/span> File exists!
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>/i&lt;/code>：忽略大小写。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>比较操作符：&lt;/p>
+&lt;ul>
+&lt;li>字符串比较：&lt;code>==&lt;/code>&lt;/li>
+&lt;li>数值比较：&lt;code>equ（equal，等于）&lt;/code>、&lt;code>neq（not equal，不等于）&lt;/code>、&lt;code>lss（less than，小于）&lt;/code>、&lt;code>leq（less than or equal to，小于等于）&lt;/code>、&lt;code>gtr（greater than，大于）&lt;/code>、&lt;code>geq（greater than or equal to)，大于等于&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-batch" data-lang="batch">&lt;span class="line">&lt;span class="cl">&lt;span class="k">set&lt;/span> &lt;span class="k">/a&lt;/span> &lt;span class="nv">num1&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">set&lt;/span> &lt;span class="k">/a&lt;/span> &lt;span class="nv">num2&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="nv">%num1%&lt;/span> &lt;span class="ow">leq&lt;/span> &lt;span class="nv">%num2%&lt;/span> &lt;span class="k">echo&lt;/span> num1 is less than or equal to num2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>[!TIP]&lt;/p></description></item><item><title>C</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/c/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/c/</guid><description>&lt;h1 id="宏">
+&lt;a class="header-anchor" href="#%e5%ae%8f">&lt;/a>
+宏
+&lt;/h1>&lt;h2 id="宏-1">
+&lt;a class="header-anchor" href="#%e5%ae%8f-1">&lt;/a>
+宏
+&lt;/h2>&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>宏是一个纯粹的文本替换&lt;/p>&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define 宏名 宏体
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>当宏体包含运算符时，需要增加括号来==限制==宏体和外部的计算优先级&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define 宏名 (带有运算的的宏体)
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="条件编译">
+&lt;a class="header-anchor" href="#%e6%9d%a1%e4%bb%b6%e7%bc%96%e8%af%91">&lt;/a>
+条件编译
+&lt;/h2>&lt;p>条件编译语句：编译中的分支语句&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#ifdef your_macro	&lt;/span>&lt;span class="c1">//条件编译语句
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#else	&lt;/span>&lt;span class="c1">//条件编译语句
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#endif	&lt;/span>&lt;span class="c1">//条件编译语句
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#if your_macro == constant	&lt;/span>&lt;span class="c1">//条件编译语句 
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#endif	&lt;/span>&lt;span class="c1">//条件编译语句
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>提示编译语句&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#ifdef your_macro	
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#else
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#error &amp;#34;error information durnning in the compile&amp;#34;	&lt;/span>&lt;span class="c1">//在编译过程中会显示的错误信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="cp">#warning &amp;#34;warning information durnning in the compile&amp;#34;	&lt;/span>&lt;span class="c1">//在编译过程中会显示的警告信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="cp">#endif
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="宏函数">
+&lt;a class="header-anchor" href="#%e5%ae%8f%e5%87%bd%e6%95%b0">&lt;/a>
+宏函数
+&lt;/h2>&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>宏函数可以减少内存开销&lt;/p>&lt;/blockquote>
+&lt;p>简单使用&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define FUNC(a,b) a*b
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">//上面说了，带有运算的宏体需要添加括号，所以想要实现功能需要修改为如下代码
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="cp">#define FUNC(a,b) ((a)*(b))
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使用&lt;code>\&lt;/code>可以实现宏函数的多行显示&lt;/p></description></item><item><title>C++</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/c++/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/c++/</guid><description>&lt;h1 id="数据类型">
+&lt;a class="header-anchor" href="#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b">&lt;/a>
+数据类型
+&lt;/h1>&lt;h2 id="vector">
+&lt;a class="header-anchor" href="#vector">&lt;/a>
+vector
+&lt;/h2>&lt;h3 id="增加数据">
+&lt;a class="header-anchor" href="#%e5%a2%9e%e5%8a%a0%e6%95%b0%e6%8d%ae">&lt;/a>
+增加数据
+&lt;/h3>&lt;p>在C++中，可以使用&lt;code>std::vector&lt;/code>来动态管理数据。要向&lt;code>std::vector&lt;/code>中增加数据，有几种常用的方法：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>使用&lt;code>push_back&lt;/code>方法&lt;/strong>：向&lt;code>vector&lt;/code>的末尾添加一个元素。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">myVector&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">push_back&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>使用&lt;code>emplace_back&lt;/code>方法&lt;/strong>：在&lt;code>vector&lt;/code>的末尾原地构造一个元素。这通常比&lt;code>push_back&lt;/code>更高效，尤其是在处理复杂对象时。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">myVector&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">emplace_back&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">30&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>使用&lt;code>insert&lt;/code>方法&lt;/strong>：在&lt;code>vector&lt;/code>的指定位置插入一个或多个元素。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">myVector&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">insert&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">myVector&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">begin&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">40&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>使用&lt;code>resize&lt;/code>方法&lt;/strong>：调整&lt;code>vector&lt;/code>的大小，并对新增加的元素进行初始化。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 将vector大小调整为5，并用0初始化新增的元素
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">myVector&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">resize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>使用&lt;code>assign&lt;/code>方法&lt;/strong>：给&lt;code>vector&lt;/code>分配新的内容，替换其当前内容。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">myVector&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">assign&lt;/span>&lt;span class="p">({&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h2 id="hash-map">
+&lt;a class="header-anchor" href="#hash-map">&lt;/a>
+hash map
+&lt;/h2>&lt;h3 id="引入头文件">
+&lt;a class="header-anchor" href="#%e5%bc%95%e5%85%a5%e5%a4%b4%e6%96%87%e4%bb%b6">&lt;/a>
+引入头文件
+&lt;/h3>&lt;p>首先需要包含 &lt;code>unordered_map&lt;/code> 头文件：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;unordered_map&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="基本用法">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95">&lt;/a>
+基本用法
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>定义一个 &lt;code>unordered_map&lt;/code>：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">unordered_map&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">string&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">myMap&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这里定义了一个 &lt;code>unordered_map&lt;/code>，键是 &lt;code>int&lt;/code> 类型，值是 &lt;code>std::string&lt;/code> 类型。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>插入元素：&lt;/strong>&lt;/p>
+&lt;p>可以通过 &lt;code>[]&lt;/code> 运算符或 &lt;code>insert&lt;/code> 函数来插入元素。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">myMap&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;Hello&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">myMap&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;World&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 使用 insert 函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">myMap&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">insert&lt;/span>&lt;span class="p">({&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;C++&amp;#34;&lt;/span>&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>访问元素：&lt;/strong>&lt;/p>
+&lt;p>可以使用键访问元素，如果键不存在则会插入一个默认值。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">string&lt;/span> &lt;span class="n">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">myMap&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span> &lt;span class="c1">// &amp;#34;Hello&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果不确定键是否存在，可以使用 &lt;code>at&lt;/code> 方法，这样在键不存在时会抛出 &lt;code>std::out_of_range&lt;/code> 异常。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">try&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">string&lt;/span> &lt;span class="n">value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">myMap&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">at&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">);&lt;/span> &lt;span class="c1">// 会抛出异常
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span> &lt;span class="k">catch&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">out_of_range&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="s">&amp;#34;Key not found&amp;#34;&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">endl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>查找元素：&lt;/strong>&lt;/p></description></item><item><title>CAPL</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/capl/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/capl/</guid><description>&lt;h1 id="1-概述">
+&lt;a class="header-anchor" href="#1-%e6%a6%82%e8%bf%b0">&lt;/a>
+1 概述
+&lt;/h1>&lt;p>CAPL全称为Communication Access Programming Language，即通信访问编程语言。它是Vector公司专门为CANoe开发环境设计的编程语言，在语法和概念上与C语言类似。借助CAPL，用户可以编写程序并应用到网络的各个节点上，也可以利用CAPL编程加强测量分析功能，以及搭建高效的自动化测试模块。&lt;/p>
+&lt;h1 id="2-capl开发环境">
+&lt;a class="header-anchor" href="#2-capl%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83">&lt;/a>
+2 CAPL开发环境
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_15_35_34_202407081535638.png" alt="image-20240708153534486">&lt;/p>
+&lt;h1 id="3-数据类型">
+&lt;a class="header-anchor" href="#3-%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b">&lt;/a>
+3 数据类型
+&lt;/h1>&lt;h2 id="31-全局变量和局部变量">
+&lt;a class="header-anchor" href="#31-%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e5%92%8c%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f">&lt;/a>
+3.1 全局变量和局部变量
+&lt;/h2>&lt;p>在CAPL中，全局变量需要被声明在variables部分，同时可以使用直接赋值方法进行初始化。如果没有初始化，编译器会执行自动初始化，默认值为0。全局变量的作用域包括整个CAPL文件以及与此文件有链接的其他CAPL文件。&lt;/p>
+&lt;p>与C语言不同，局部变量在CAPL中总是被静态地创建。这意味着初始化只在程序体启动时执行，当再次进入程序时，局部变量被假定是上一次跳出程序时的值。局部变量的作用域，仅限于当前函数体范围内，即该函数的大括号范围内。&lt;/p>
+&lt;h2 id="32-简单变量">
+&lt;a class="header-anchor" href="#32-%e7%ae%80%e5%8d%95%e5%8f%98%e9%87%8f">&lt;/a>
+3.2 简单变量
+&lt;/h2>&lt;h3 id="321-整型">
+&lt;a class="header-anchor" href="#321-%e6%95%b4%e5%9e%8b">&lt;/a>
+3.2.1 整型
+&lt;/h3>&lt;p>整数就是没有小数部分的数字，如3、201、-3412和0。根据数值的大小不同，CAPL提供了以下几种整型。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_15_47_6_202407081547911.png" alt="image-20240708154706863">&lt;/p>
+&lt;h3 id="322-字符">
+&lt;a class="header-anchor" href="#322-%e5%ad%97%e7%ac%a6">&lt;/a>
+3.2.2 字符
+&lt;/h3>&lt;p>区别于C语言，CAPL未将char类型（长度1B）归类至整型中，这是因为在CANoe中提供了byte类型。如果数据是具体数值则应使用byte，而对于字符，则应用char（字符串使用char数组）。char类型和byte类型之间可以直接转换。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="n">byte&lt;/span> &lt;span class="n">data1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">100&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">char&lt;/span> &lt;span class="n">ch1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sc">&amp;#39;d&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ch1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mh">0x62&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">data1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sc">&amp;#39;s&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="323-浮点型">
+&lt;a class="header-anchor" href="#323-%e6%b5%ae%e7%82%b9%e5%9e%8b">&lt;/a>
+3.2.3 浮点型
+&lt;/h3>&lt;p>CAPL提供两种浮点型变量：float和double。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_15_50_19_202407081550984.png" alt="image-20240708155019947">&lt;/p>
+&lt;h2 id="33-复合类型">
+&lt;a class="header-anchor" href="#33-%e5%a4%8d%e5%90%88%e7%b1%bb%e5%9e%8b">&lt;/a>
+3.3 复合类型
+&lt;/h2>&lt;h3 id="331-结构体">
+&lt;a class="header-anchor" href="#331-%e7%bb%93%e6%9e%84%e4%bd%93">&lt;/a>
+3.3.1 结构体
+&lt;/h3>&lt;p>CAPL中可以简单地按照C语言的方法来声明结构（struct），但结构名在程序中必须是唯一的。简单类型、枚举类型或者其他的结构都可以作为结构的成员。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">struct&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="n">a1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">enum&lt;/span> &lt;span class="n">clolrs&lt;/span> &lt;span class="n">c1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">p&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">long&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>结构b中包含：一个结构成员a，变量名为a1；一个枚举成员colors，变量名为c1；一个整型变量p；最后还有一个长整型变量l。
+用户可以在类型定义时直接声明结构类型的变量，在这种情况下，类型的名称可以省略，也可以直接使用结构的名字来引用类型。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="n">cost&lt;/span> &lt;span class="n">mycost&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">chinese&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">math&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">english&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;span class="n">scores&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>关于结构初始化，可以在变量声明期间直接初始化结构成员，不需要单独命名单个成员，编译器将按照结构定义的顺序默认初始化它们。例如：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="n">Scores&lt;/span> &lt;span class="n">myScores&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Chinese&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">79&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Math&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">99&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">English&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">88&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="n">Scores&lt;/span> &lt;span class="n">myScores&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="mi">79&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">99&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">88&lt;/span>&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>使 用 “.” 操 作 符 可 以 访 问 结 构 中 的 成 员 ， 例 如 ， myScores.Chinese ＝ 100。另外，结构体可以作为参数传给函数，但不能作为函数的返回值。&lt;/p></description></item><item><title>Kconfig</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/kconfig/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/kconfig/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/wenbo13579/article/details/127464764">从零到一搭建Kconfig配置系统-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="安装">
+&lt;a class="header-anchor" href="#%e5%ae%89%e8%a3%85">&lt;/a>
+安装
+&lt;/h1>&lt;p>由于在window上使用Kconfig需要依赖Curses，所以要先安装window-curses，但是curses本身是应用在Linux平台上的，所以想要安装在window上，就需要使用whl包进行安装。&lt;/p>
+&lt;blockquote>
+&lt;p>curses的下载地址：&lt;a href="https://pypi.org/project/windows-curses/#files">windows-curses · PyPI&lt;/a>&lt;/p>&lt;/blockquote>
+&lt;p>在安装的时候需要检查一下安装的python版本，然后根据python版本安装相应的whl文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">python --version
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Latex</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/latex/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/latex/</guid><description>&lt;h1 id="公式">
+&lt;a class="header-anchor" href="#%e5%85%ac%e5%bc%8f">&lt;/a>
+公式
+&lt;/h1>&lt;h2 id="公式基本语法">
+&lt;a class="header-anchor" href="#%e5%85%ac%e5%bc%8f%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95">&lt;/a>
+公式基本语法
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>行内公式&lt;/strong>：用 &lt;code>$...$&lt;/code> 包围公式。&lt;/li>
+&lt;li>&lt;strong>块级公式&lt;/strong>：用 &lt;code>$$...$$&lt;/code> 或 &lt;code>\[...\]&lt;/code> 包围公式。&lt;/li>
+&lt;/ul>
+&lt;h2 id="数学符号">
+&lt;a class="header-anchor" href="#%e6%95%b0%e5%ad%a6%e7%ac%a6%e5%8f%b7">&lt;/a>
+数学符号
+&lt;/h2>&lt;h3 id="基本符号">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e7%ac%a6%e5%8f%b7">&lt;/a>
+基本符号
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>描述&lt;/th>
+ &lt;th>符号&lt;/th>
+ &lt;th>LaTeX 代码&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>加号&lt;/td>
+ &lt;td>$+$&lt;/td>
+ &lt;td>&lt;code>+&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>减号&lt;/td>
+ &lt;td>$-$&lt;/td>
+ &lt;td>&lt;code>-&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>正负号&lt;/td>
+ &lt;td>$\pm$&lt;/td>
+ &lt;td>&lt;code>\pm&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>乘号&lt;/td>
+ &lt;td>$\times$&lt;/td>
+ &lt;td>&lt;code>\times&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>除号&lt;/td>
+ &lt;td>\&lt;/td>
+ &lt;td>&lt;code>\&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>根号&lt;/td>
+ &lt;td>$\sqrt{x}$&lt;/td>
+ &lt;td>&lt;code>\sqrt{}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>分数&lt;/td>
+ &lt;td>$\frac{a}{b}$&lt;/td>
+ &lt;td>&lt;code>\frac{a}{b}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>等于&lt;/td>
+ &lt;td>$=$&lt;/td>
+ &lt;td>&lt;code>=&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>不等于&lt;/td>
+ &lt;td>$\neq$&lt;/td>
+ &lt;td>&lt;code>\neq&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>小于&lt;/td>
+ &lt;td>$&lt;$&lt;/td>
+ &lt;td>&lt;code>&amp;lt;&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>大于&lt;/td>
+ &lt;td>$>$&lt;/td>
+ &lt;td>&lt;code>&amp;gt;&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>小于等于&lt;/td>
+ &lt;td>$\leq$&lt;/td>
+ &lt;td>&lt;code>\leq&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>大于等于&lt;/td>
+ &lt;td>$\geq$&lt;/td>
+ &lt;td>&lt;code>\geq&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>向下取整&lt;/td>
+ &lt;td>$\lfloor x \rfloor$&lt;/td>
+ &lt;td>&lt;code>\lfloor&lt;/code>&lt;!-- raw HTML omitted -->&lt;code>\rfloor&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>向上取整&lt;/td>
+ &lt;td>$\lceil x \rceil$&lt;/td>
+ &lt;td>&lt;code>\lceil&lt;/code>&lt;!-- raw HTML omitted -->&lt;code>\rceil&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="集合符号">
+&lt;a class="header-anchor" href="#%e9%9b%86%e5%90%88%e7%ac%a6%e5%8f%b7">&lt;/a>
+集合符号
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>描述&lt;/th>
+ &lt;th>符号&lt;/th>
+ &lt;th>LaTeX 代码&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>属于&lt;/td>
+ &lt;td>$\in$&lt;/td>
+ &lt;td>&lt;code>\in&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>不属于&lt;/td>
+ &lt;td>$\notin$&lt;/td>
+ &lt;td>&lt;code>\notin&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>包含（真子集）&lt;/td>
+ &lt;td>$\subset$&lt;/td>
+ &lt;td>&lt;code>\subset&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>包含等于&lt;/td>
+ &lt;td>$\subseteq$&lt;/td>
+ &lt;td>&lt;code>\subseteq&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>并集&lt;/td>
+ &lt;td>$\cup$&lt;/td>
+ &lt;td>&lt;code>\cup&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>交集&lt;/td>
+ &lt;td>$\cap$&lt;/td>
+ &lt;td>&lt;code>\cap&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>空集&lt;/td>
+ &lt;td>$\emptyset$&lt;/td>
+ &lt;td>&lt;code>\emptyset&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>所有实数集合&lt;/td>
+ &lt;td>$\mathbb{R}$&lt;/td>
+ &lt;td>&lt;code>\mathbb{R}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>所有自然数集合&lt;/td>
+ &lt;td>$\mathbb{N}$&lt;/td>
+ &lt;td>&lt;code>\mathbb{N}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>所有整数集合&lt;/td>
+ &lt;td>$\mathbb{Z}$&lt;/td>
+ &lt;td>&lt;code>\mathbb{Z}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;hr>
+&lt;h3 id="运算符">
+&lt;a class="header-anchor" href="#%e8%bf%90%e7%ae%97%e7%ac%a6">&lt;/a>
+&lt;strong>运算符&lt;/strong>
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>描述&lt;/th>
+ &lt;th>符号&lt;/th>
+ &lt;th>LaTeX 代码&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>求和&lt;/td>
+ &lt;td>$\sum$&lt;/td>
+ &lt;td>&lt;code>\sum&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>积分&lt;/td>
+ &lt;td>$\int$&lt;/td>
+ &lt;td>&lt;code>\int&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>重积分&lt;/td>
+ &lt;td>$\iint$&lt;/td>
+ &lt;td>&lt;code>\iint&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>极限&lt;/td>
+ &lt;td>$\lim$&lt;/td>
+ &lt;td>&lt;code>\lim&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>微分&lt;/td>
+ &lt;td>$\frac{dy}{dx}$&lt;/td>
+ &lt;td>&lt;code>\frac{dy}{dx}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;hr>
+&lt;h3 id="逻辑符号">
+&lt;a class="header-anchor" href="#%e9%80%bb%e8%be%91%e7%ac%a6%e5%8f%b7">&lt;/a>
+&lt;strong>逻辑符号&lt;/strong>
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>描述&lt;/th>
+ &lt;th>符号&lt;/th>
+ &lt;th>LaTeX 代码&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>与&lt;/td>
+ &lt;td>$\land$&lt;/td>
+ &lt;td>&lt;code>\land&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>或&lt;/td>
+ &lt;td>$\lor$&lt;/td>
+ &lt;td>&lt;code>\lor&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>非&lt;/td>
+ &lt;td>$\neg$&lt;/td>
+ &lt;td>&lt;code>\neg&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>蕴含&lt;/td>
+ &lt;td>$\implies$&lt;/td>
+ &lt;td>&lt;code>\implies&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>等价&lt;/td>
+ &lt;td>$\iff$&lt;/td>
+ &lt;td>&lt;code>\iff&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;hr>
+&lt;h3 id="希腊字母">
+&lt;a class="header-anchor" href="#%e5%b8%8c%e8%85%8a%e5%ad%97%e6%af%8d">&lt;/a>
+&lt;strong>希腊字母&lt;/strong>
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>描述&lt;/th>
+ &lt;th>符号&lt;/th>
+ &lt;th>LaTeX 代码&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>α (Alpha)&lt;/td>
+ &lt;td>$\alpha$&lt;/td>
+ &lt;td>&lt;code>\alpha&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>β (Beta)&lt;/td>
+ &lt;td>$\beta$&lt;/td>
+ &lt;td>&lt;code>\beta&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>γ (Gamma)&lt;/td>
+ &lt;td>$\gamma$&lt;/td>
+ &lt;td>&lt;code>\gamma&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Δ (Delta)&lt;/td>
+ &lt;td>$\Delta$&lt;/td>
+ &lt;td>&lt;code>\Delta&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>π (Pi)&lt;/td>
+ &lt;td>$\pi$&lt;/td>
+ &lt;td>&lt;code>\pi&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Ω (Omega)&lt;/td>
+ &lt;td>$\Omega$&lt;/td>
+ &lt;td>&lt;code>\Omega&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;hr>
+&lt;h3 id="上下标">
+&lt;a class="header-anchor" href="#%e4%b8%8a%e4%b8%8b%e6%a0%87">&lt;/a>
+&lt;strong>上下标&lt;/strong>
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>描述&lt;/th>
+ &lt;th>符号&lt;/th>
+ &lt;th>LaTeX 代码&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>上标（幂）&lt;/td>
+ &lt;td>$x^2$&lt;/td>
+ &lt;td>&lt;code>x^2&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>下标&lt;/td>
+ &lt;td>$x_i$&lt;/td>
+ &lt;td>&lt;code>x_i&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>同时有上标和下标&lt;/td>
+ &lt;td>$x_i^2$&lt;/td>
+ &lt;td>&lt;code>x_i^2&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>顶部加&lt;code>^&lt;/code>&lt;/td>
+ &lt;td>$\hat{a}$&lt;/td>
+ &lt;td>&lt;code>\hat{1}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>顶部加横线&lt;/td>
+ &lt;td>$\overline{a}$&lt;/td>
+ &lt;td>&lt;code>\overline{a}$&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>顶部加波浪线&lt;/td>
+ &lt;td>$\widetilde{a}$&lt;/td>
+ &lt;td>&lt;code>\widetilde{a}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>顶部加点&lt;/td>
+ &lt;td>$\dot{a}$&lt;/td>
+ &lt;td>&lt;code>\dot{a}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>顶部加两点&lt;/td>
+ &lt;td>$\ddot{a}$&lt;/td>
+ &lt;td>&lt;code>\ddot{a}$&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>顶部加箭头&lt;/td>
+ &lt;td>$\vec{a}$&lt;/td>
+ &lt;td>&lt;code>\vec{a}&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="大括号">
+&lt;a class="header-anchor" href="#%e5%a4%a7%e6%8b%ac%e5%8f%b7">&lt;/a>
+大括号
+&lt;/h3>&lt;p>为了表示一组内容，可以使用 &lt;code>\left&lt;/code> 和 &lt;code>\right&lt;/code>，配合不同类型的括号：&lt;/p></description></item><item><title>Makefile</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/makefile/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/makefile/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://seisman.github.io/how-to-write-makefile/index.html">跟我一起写Makefile — 跟我一起写Makefile 1.0 文档 (seisman.github.io)&lt;/a>&lt;/p>
+&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-makefile" data-lang="makefile">&lt;span class="line">&lt;span class="cl">&lt;span class="nf">targets&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">prerequisites&lt;/span> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> commands
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">targets&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">prerequisties&lt;/span>;&lt;span class="n">commands&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;em>&lt;code>targets&lt;/code>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>可以是一个object file（目标文件），也可以是一个可执行文件，还可以是一个标签（label）。&lt;/li>
+&lt;li>targets是文件名，以空格分开，可以使用通配符。一般来说，我们的目标基本上是一个文件，但也有可能是多个文件。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>&lt;code>prerequisites&lt;/code>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>目标所依赖的文件（或依赖目标）。如果其中的某个文件要比目标文件要新，那么，目标就被认为是“过时的”，被认为是需要重生成的。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>&lt;code>commands&lt;/code>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>该target要执行的命令（任意的shell命令）。&lt;/li>
+&lt;li>commands是命令行，如果其不与“target:prerequisites”在一行，那么，必须以 &lt;code>Tab&lt;/code> 键开头。&lt;/li>
+&lt;li>如果和prerequisites在一行，那么可以用分号做为分隔。（见上）&lt;/li>
+&lt;li>如果命令太长，可以使用反斜杠（ &lt;code>\&lt;/code> ）作为换行符。make对一行上有多少个字符没有限制。&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>[!NOTE]&lt;/p>
+&lt;p>这是一个文件的依赖关系，也就是说，target这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在command中。说白一点就是说:&lt;/p>
+&lt;p>==prerequisites中如果有一个以上的文件比target文件要新的话，commands所定义的命令就会被执行。==&lt;/p>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>[!IMPORTANT]&lt;/p>
+&lt;p>注意：makefile有着严格的缩进格式，命令前面需要使用tab键对齐&lt;/p>&lt;/blockquote>
+&lt;p>下面将会按照以下的例子来介绍相关知识：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-makefile" data-lang="makefile">&lt;span class="line">&lt;span class="cl">&lt;span class="nf">edit &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">main&lt;/span>.&lt;span class="n">o&lt;/span> &lt;span class="n">kbd&lt;/span>.&lt;span class="n">o&lt;/span> &lt;span class="n">command&lt;/span>.&lt;span class="n">o&lt;/span> &lt;span class="n">display&lt;/span>.&lt;span class="n">o&lt;/span> \
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">insert&lt;/span>.&lt;span class="n">o&lt;/span> &lt;span class="n">search&lt;/span>.&lt;span class="n">o&lt;/span> &lt;span class="n">files&lt;/span>.&lt;span class="n">o&lt;/span> &lt;span class="n">utils&lt;/span>.&lt;span class="n">o&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -o edit main.o kbd.o command.o display.o &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> insert.o search.o files.o utils.o
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">main.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">main&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c main.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">kbd.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">kbd&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">command&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c kbd.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">command.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">command&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">command&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c command.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">display.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">display&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">buffer&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c display.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">insert.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">insert&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">buffer&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c insert.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">search.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">search&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">buffer&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c search.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">files.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">files&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">buffer&lt;/span>.&lt;span class="n">h&lt;/span> &lt;span class="n">command&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c files.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">utils.o &lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="n">utils&lt;/span>.&lt;span class="n">c&lt;/span> &lt;span class="n">defs&lt;/span>.&lt;span class="n">h&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cc -c utils.c
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nf">clean &lt;/span>&lt;span class="o">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rm edit main.o kbd.o command.o display.o &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> insert.o search.o files.o utils.o
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>反斜杠（ &lt;code>\&lt;/code> ）是换行符的意思。这样比较便于makefile的阅读。我们可以把这个内容保存在名字为“makefile”或“Makefile”的文件中，然后在该目录下直接输入命令 &lt;code>make&lt;/code> 就可以生成执行文件edit。如果要删除可执行文件和所有的中间目标文件，那么，只要简单地执行一下 &lt;code>make clean&lt;/code> 就可以了。&lt;/p></description></item><item><title>MarkDown</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/markdown/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/markdown/</guid><description>&lt;h1 id="语法">
+&lt;a class="header-anchor" href="#%e8%af%ad%e6%b3%95">&lt;/a>
+语法
+&lt;/h1>&lt;p>Markdown 是一种轻量级标记语言，使用简单的文本格式来创建格式化的文档。以下是常用的 Markdown 语法命令：&lt;/p>
+&lt;h2 id="标题">
+&lt;a class="header-anchor" href="#%e6%a0%87%e9%a2%98">&lt;/a>
+标题
+&lt;/h2>&lt;p>使用 &lt;code>#&lt;/code> 来创建标题，&lt;code>#&lt;/code> 的数量表示标题的级别。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">&lt;span class="gh"># 一级标题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gh">&lt;/span>&lt;span class="gu">## 二级标题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">### 三级标题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">#### 四级标题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">##### 五级标题
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gu">###### 六级标题
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>[!note]&lt;/p>
+&lt;p>需要注意的是，在&lt;code>#&lt;/code>符号后面需要加一个空格，这样markdown才能知道是标题&lt;/p>&lt;/blockquote>
+&lt;h2 id="字体样式">
+&lt;a class="header-anchor" href="#%e5%ad%97%e4%bd%93%e6%a0%b7%e5%bc%8f">&lt;/a>
+字体样式
+&lt;/h2>&lt;p>使用 &lt;code>**&lt;/code> 或 &lt;code>__&lt;/code> 包围文本表示粗体&lt;/p>
+&lt;p>使用 &lt;code>*&lt;/code> 或 &lt;code>_&lt;/code> 包围文本表示斜体。&lt;/p>
+&lt;p>使用&lt;code>==&lt;/code>包围为高亮&lt;/p>
+&lt;p>使用~~包围的为删除线&lt;/p>
+&lt;p>使用&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->包围为下划线&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">**这是粗体文本**
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gs">__这是粗体文本__&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="ge">*这是斜体文本*&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="ge">_这是斜体文本_&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">==这是高亮文本==
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">~~这是删除线~~&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">u&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>这是下划线&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">u&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="列表">
+&lt;a class="header-anchor" href="#%e5%88%97%e8%a1%a8">&lt;/a>
+列表
+&lt;/h2>&lt;p>无序列表使用 &lt;code>*&lt;/code>、&lt;code>-&lt;/code> 或 &lt;code>+&lt;/code> 表示，有序列表使用数字加点表示。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">&lt;span class="k">*&lt;/span> 项目 1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">*&lt;/span> 项目 2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">*&lt;/span> 子项目 2.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">*&lt;/span> 子项目 2.2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">1.&lt;/span> 项目 1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">2.&lt;/span> 项目 2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">3.&lt;/span> 项目 3
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="链接和图片">
+&lt;a class="header-anchor" href="#%e9%93%be%e6%8e%a5%e5%92%8c%e5%9b%be%e7%89%87">&lt;/a>
+链接和图片
+&lt;/h2>&lt;p>图片使用 &lt;code>![替代文本](图片URL)&lt;/code>。&lt;/p></description></item><item><title>Matlab</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/matlab/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/matlab/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://ww2.mathworks.cn/help/matlab/getting-started-with-matlab_zh_CN.html">MATLAB 快速入门 - MathWorks 中国&lt;/a>&lt;/p>
+&lt;h1 id="语言基础知识">
+&lt;a class="header-anchor" href="#%e8%af%ad%e8%a8%80%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">&lt;/a>
+语言基础知识
+&lt;/h1>&lt;h2 id="输入命令">
+&lt;a class="header-anchor" href="#%e8%be%93%e5%85%a5%e5%91%bd%e4%bb%a4">&lt;/a>
+输入命令
+&lt;/h2>&lt;p>在 MATLAB 中工作时，您可发出创建变量和调用函数的命令。有关介绍，请参阅&lt;a href="https://ww2.mathworks.cn/help/matlab/matlab_env/enter-statements-in-command-window.html">在命令行窗口中输入语句&lt;/a>。&lt;/p>
+&lt;h3 id="函数">
+&lt;a class="header-anchor" href="#%e5%87%bd%e6%95%b0">&lt;/a>
+函数
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>操作&lt;/th>
+ &lt;th>注释&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ans.html">&lt;code>ans&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>最近计算的答案&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/clc.html">&lt;code>clc&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>清空命令行窗口&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/diary.html">&lt;code>diary&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>将命令行窗口文本记录到日志文件中&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/format.html">&lt;code>format&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>设置输出显示格式&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/home.html">&lt;code>home&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>发送光标复位&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/iskeyword.html">&lt;code>iskeyword&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定输入是否为 MATLAB 关键字&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/more.html">&lt;code>more&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>控制命令行窗口中的分页输出&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/commandwindow.html">&lt;code>commandwindow&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>选择命令行窗口&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/commandhistory.html">&lt;code>commandhistory&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>打开命令历史记录窗口&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="对象">
+&lt;a class="header-anchor" href="#%e5%af%b9%e8%b1%a1">&lt;/a>
+对象
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>操作&lt;/th>
+ &lt;th>注释&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/matlab.display.displayformatoptions.html">&lt;code>DisplayFormatOptions&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>命令行窗口中的输出显示格式 &lt;em>(自 R2021a 起)&lt;/em>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="数组和矩阵">
+&lt;a class="header-anchor" href="#%e6%95%b0%e7%bb%84%e5%92%8c%e7%9f%a9%e9%98%b5">&lt;/a>
+数组和矩阵
+&lt;/h2>&lt;h3 id="创建和合并数组">
+&lt;a class="header-anchor" href="#%e5%88%9b%e5%bb%ba%e5%92%8c%e5%90%88%e5%b9%b6%e6%95%b0%e7%bb%84">&lt;/a>
+创建和合并数组
+&lt;/h3>&lt;p>要创建每行包含四个元素的数组，请使用逗号 (&lt;code>,&lt;/code>) 或空格分隔各元素。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-matlab" data-lang="matlab">&lt;span class="line">&lt;span class="cl">&lt;span class="n">a&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="mi">2&lt;/span> &lt;span class="mi">3&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>这种数组为==行向量==。要创建包含多行的矩阵，请使用分号分隔各行。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-matlab" data-lang="matlab">&lt;span class="line">&lt;span class="cl">&lt;span class="n">a&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="mi">3&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mi">2&lt;/span> &lt;span class="mi">4&lt;/span> &lt;span class="mi">6&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mi">7&lt;/span> &lt;span class="mi">8&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/zeros.html">&lt;code>zeros&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>创建全零数组&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ones.html">&lt;code>ones&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>创建全部为 1 的数组&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/rand.html">&lt;code>rand&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>均匀分布的随机数&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/true.html">&lt;code>true&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>逻辑值 1（真）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/false.html">&lt;code>false&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>逻辑 0（假）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/eye.html">&lt;code>eye&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>单位矩阵&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/diag.html">&lt;code>diag&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>创建对角矩阵或获取矩阵的对角元素&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/blkdiag.html">&lt;code>blkdiag&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>分块对角矩阵&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.cat.html">&lt;code>cat&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>串联数组。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.horzcat.html">&lt;code>horzcat&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>水平串联数组&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.vertcat.html">&lt;code>vertcat&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>垂直串联数组&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/repelem.html">&lt;code>repelem&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>重复数组元素副本&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/repmat.html">&lt;code>repmat&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>重复数组副本&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/combinations.html">&lt;code>combinations&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>生成数组的所有元素组合 &lt;em>(自 R2023a 起)&lt;/em>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="创建网格">
+&lt;a class="header-anchor" href="#%e5%88%9b%e5%bb%ba%e7%bd%91%e6%a0%bc">&lt;/a>
+创建网格
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数、参数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/linspace.html">&lt;code>linspace&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>生成线性间距向量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/logspace.html">&lt;code>logspace&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>生成对数间距向量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/freqspace.html">&lt;code>freqspace&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>频率响应的频率间距&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/meshgrid.html">&lt;code>meshgrid&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>二维和三维网格&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ndgrid.html">&lt;code>ndgrid&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>N 维空间中的矩形网格&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="确定大小和排序">
+&lt;a class="header-anchor" href="#%e7%a1%ae%e5%ae%9a%e5%a4%a7%e5%b0%8f%e5%92%8c%e6%8e%92%e5%ba%8f">&lt;/a>
+确定大小和排序
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数、参数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/length.html">&lt;code>length&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>最大数组维度的长度&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/size.html">&lt;code>size&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>数组大小&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.ndims.html">&lt;code>ndims&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>数组维度数目&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.numel.html">&lt;code>numel&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>数组元素的数目&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/isscalar.html">&lt;code>isscalar&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定输入是否为标量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/isvector.html">&lt;code>isvector&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定输入是否为向量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ismatrix.html">&lt;code>ismatrix&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定输入是否为矩阵&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/isrow.html">&lt;code>isrow&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定输入是否为行向量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/iscolumn.html">&lt;code>iscolumn&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定输入是否为列向量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.isempty.html">&lt;code>isempty&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定数组是否为空&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/issorted.html">&lt;code>issorted&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定数组是否已排序&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/issortedrows.html">&lt;code>issortedrows&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>确定矩阵或表的行是否已排序&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/isuniform.html">&lt;code>isuniform&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>Determine if vector is uniformly spaced &lt;em>(自 R2022b 起)&lt;/em>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="调整大小">
+&lt;a class="header-anchor" href="#%e8%b0%83%e6%95%b4%e5%a4%a7%e5%b0%8f">&lt;/a>
+调整大小
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数、参数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.head.html">&lt;code>head&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>获取数组或表的顶行&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.tail.html">&lt;code>tail&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>获取数组或表的底行&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/resize.html">&lt;code>resize&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>Resize data by adding or removing elements &lt;em>(自 R2023b 起)&lt;/em>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/paddata.html">&lt;code>paddata&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>Pad data by adding elements &lt;em>(自 R2023b 起)&lt;/em>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/trimdata.html">&lt;code>trimdata&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>Trim data by removing elements &lt;em>(自 R2023b 起)&lt;/em>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="重构">
+&lt;a class="header-anchor" href="#%e9%87%8d%e6%9e%84">&lt;/a>
+重构
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数、参数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/permute.html">&lt;code>permute&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>置换数组维度&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ipermute.html">&lt;code>ipermute&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>逆置换数组维度。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/shiftdim.html">&lt;code>shiftdim&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>移动数组维度&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/reshape.html">&lt;code>reshape&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>通过重新排列现有元素来重构数组&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/squeeze.html">&lt;code>squeeze&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>删除长度为 1 的维度&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="重新排序">
+&lt;a class="header-anchor" href="#%e9%87%8d%e6%96%b0%e6%8e%92%e5%ba%8f">&lt;/a>
+重新排序
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数、参数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/sort.html">&lt;code>sort&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>对数组元素排序&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/double.sortrows.html">&lt;code>sortrows&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>对矩阵行或表行进行排序&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/flip.html">&lt;code>flip&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>翻转元素顺序&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/fliplr.html">&lt;code>fliplr&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>将数组从左向右翻转&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/flipud.html">&lt;code>flipud&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>将数组从上向下翻转&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/rot90.html">&lt;code>rot90&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>将数组旋转 90 度&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/transpose.html">&lt;code>transpose&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>转置向量或矩阵&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ctranspose.html">&lt;code>ctranspose&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>复共轭转置&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/circshift.html">&lt;code>circshift&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>循环平移数组&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="索引">
+&lt;a class="header-anchor" href="#%e7%b4%a2%e5%bc%95">&lt;/a>
+索引
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>函数、参数&lt;/th>
+ &lt;th>备注&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/colon.html">&lt;code>colon&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>向量创建、数组下标和 &lt;code>for&lt;/code> 循环迭代&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/end.html">&lt;code>end&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>终止代码块或指示最大数组索引&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/ind2sub.html">&lt;code>ind2sub&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>将线性索引转换为下标&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;a href="https://ww2.mathworks.cn/help/matlab/ref/sub2ind.html">&lt;code>sub2ind&lt;/code>&lt;/a>&lt;/td>
+ &lt;td>将下标转换为线性索引&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table></description></item><item><title>Python</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/python/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/python/</guid><description>&lt;h1 id="python基础">
+&lt;a class="header-anchor" href="#python%e5%9f%ba%e7%a1%80">&lt;/a>
+Python基础
+&lt;/h1>&lt;blockquote>
+&lt;p>[!IMPORTANT]&lt;/p>
+&lt;p>Python语言有着严格的缩进模式，同一个Tab表示在同一个作用域（和Makefile同样的Tab控制）&lt;/p>
+&lt;p>在Python中的缩进相当于是C语言中的&lt;code>{}&lt;/code>，用于控制作用域&lt;/p>
+&lt;p>注意缩进❗❗❗❗❗❗&lt;/p>
+&lt;p>否则会导致程序报错或者出现很多奇奇怪怪的bug🙉&lt;/p>&lt;/blockquote>
+&lt;h2 id="数据类型">
+&lt;a class="header-anchor" href="#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b">&lt;/a>
+数据类型
+&lt;/h2>&lt;p>在Python中无需定义变量的数据类型，编译器会自动解析当前定义的变量是什么数据类型。&lt;/p>
+&lt;h3 id="整数-int">
+&lt;a class="header-anchor" href="#%e6%95%b4%e6%95%b0-int">&lt;/a>
+整数 (int)
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>定义&lt;/strong>：表示整数值。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>基本用法&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 定义整数&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">age&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">25&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">age&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：25&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 基本运算&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">sum&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">age&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">sum&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：30&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h3 id="浮点数-float">
+&lt;a class="header-anchor" href="#%e6%b5%ae%e7%82%b9%e6%95%b0-float">&lt;/a>
+浮点数 (float)
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>定义&lt;/strong>：表示带小数的数字。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>基本用法&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 定义浮点数&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">temperature&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">36.6&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">temperature&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：36.6&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 基本运算&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">area&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">3.14&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">5&lt;/span> &lt;span class="o">**&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">area&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：78.5&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h3 id="字符串-str">
+&lt;a class="header-anchor" href="#%e5%ad%97%e7%ac%a6%e4%b8%b2-str">&lt;/a>
+字符串 (str)
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>定义&lt;/strong>：表示文本数据，使用单引号或双引号包裹。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>基本用法&lt;/strong>：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 定义字符串&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;Alice&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：Alice&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 字符串拼接&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">greeting&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;Hello, &amp;#34;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">name&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s2">&amp;#34;!&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">greeting&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：Hello, Alice!&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 字符串方法&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">upper_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">upper&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">upper_name&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># 输出：ALICE&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h3 id="布尔值-bool">
+&lt;a class="header-anchor" href="#%e5%b8%83%e5%b0%94%e5%80%bc-bool">&lt;/a>
+布尔值 (bool)
+&lt;/h3>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>定义&lt;/strong>：表示真或假，只有两个值：&lt;code>True&lt;/code> 和 &lt;code>False&lt;/code>。&lt;/p></description></item><item><title>Rust</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/rust/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/rust/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://course.rs/into-rust.html">进入 Rust 编程世界 - Rust语言圣经(Rust Course)&lt;/a>&lt;/p>
+&lt;p>编程环境：&lt;/p>
+&lt;ul>
+&lt;li>Vscode&lt;/li>
+&lt;li>rust（vscode插件）&lt;/li>
+&lt;li>rust-analyzer（vscode插件，用于rust）&lt;/li>
+&lt;li>Even Better TOML（vscode插件，用于toml文件）&lt;/li>
+&lt;/ul>
+&lt;h1 id="cargo">
+&lt;a class="header-anchor" href="#cargo">&lt;/a>
+Cargo
+&lt;/h1>&lt;p>&lt;code>cargo&lt;/code> 提供了一系列的工具，从项目的建立、构建到测试、运行直至部署，为 Rust 项目的管理提供尽可能完整的手段。同时，与 Rust 语言及其编译器 &lt;code>rustc&lt;/code> 紧密结合，可以说用了后就忘不掉，如同初恋般的感觉。&lt;/p>
+&lt;p>使用cargo创建一个项目&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo new world_hello
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> world_hello
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>上述命令创建了一个cargo项目，该项目由cargo管理，创建好的项目结构如下&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ tree
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── .git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── .gitignore
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├── Cargo.toml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└── src
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> └── main.rs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="运行">
+&lt;a class="header-anchor" href="#%e8%bf%90%e8%a1%8c">&lt;/a>
+运行
+&lt;/h2>&lt;p>运行cargo程序有两种方法&lt;/p>
+&lt;ul>
+&lt;li>cargo run&lt;/li>
+&lt;li>手动运行&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>cargo run&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">cargo run
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Compiling world_hello v0.1.0 &lt;span class="o">(&lt;/span>/Users/sunfei/development/rust/world_hello&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Finished dev &lt;span class="o">[&lt;/span>unoptimized + debuginfo&lt;span class="o">]&lt;/span> target&lt;span class="o">(&lt;/span>s&lt;span class="o">)&lt;/span> in 0.43s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Running &lt;span class="sb">`&lt;/span>target/debug/world_hello&lt;span class="sb">`&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Hello, world!
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>手动运行&lt;/code>&lt;/p></description></item><item><title>Shell</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/shell/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/shell/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://wizardforcel.gitbooks.io/vbird-linux-basic-4e/content/86.html">第十章、认识与学习BASH | 鸟哥的 Linux 私房菜：基础学习篇 第四版 (gitbooks.io)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://missing-semester-cn.github.io/2020/course-shell/">课程概览与 shell · the missing semester of your cs education (missing-semester-cn.github.io)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://wizardforcel.gitbooks.io/vbird-linux-basic-4e/content/104.html">第十二章、学习 Shell Scripts | 鸟哥的 Linux 私房菜：基础学习篇 第四版 (gitbooks.io)&lt;/a>&lt;/p>
+&lt;h1 id="bash">
+&lt;a class="header-anchor" href="#bash">&lt;/a>
+BASH
+&lt;/h1></description></item><item><title>Simulink</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/simulink/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/simulink/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://ww2.mathworks.cn/help/simulink/getting-started-with-simulink.html?s_tid=CRUX_lftnav">Simulink 快速入门 - MathWorks 中国&lt;/a>&lt;/p>
+&lt;h1 id="simulink">
+&lt;a class="header-anchor" href="#simulink">&lt;/a>
+Simulink
+&lt;/h1>&lt;p>Simulink 是 MATLAB 环境中的一个扩展工具，用于多领域动态系统的建模、仿真和分析。它提供了一个图形化的用户界面，使用户能够通过拖放各种模块和连接它们来构建模型。Simulink 特别适用于以下几个领域：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>控制系统设计&lt;/strong>：用户可以设计和仿真复杂的控制系统，包括 PID 控制、模糊控制、鲁棒控制等。&lt;/li>
+&lt;li>&lt;strong>信号处理&lt;/strong>：Simulink 提供了广泛的信号处理工具箱，可以用于滤波、调制、解调等操作。&lt;/li>
+&lt;li>&lt;strong>通信系统&lt;/strong>：可以建模和仿真通信系统，包括发射机、接收机、调制解调器等。&lt;/li>
+&lt;li>&lt;strong>物理系统建模&lt;/strong>：可以建模机械、电气、热力、液压等物理系统，通过物理建模工具箱（如 Simscape）进行仿真。&lt;/li>
+&lt;li>&lt;strong>嵌入式系统&lt;/strong>：可以设计嵌入式控制器，生成 C/C++ 代码，并将其部署到嵌入式硬件上。&lt;/li>
+&lt;/ol>
+&lt;p>Simulink 的主要功能包括：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>图形化建模&lt;/strong>：通过图形化界面，用户可以拖放和连接各种模块来构建系统模型。&lt;/li>
+&lt;li>&lt;strong>仿真&lt;/strong>：可以对构建的模型进行仿真，分析系统的动态行为。&lt;/li>
+&lt;li>&lt;strong>模块化设计&lt;/strong>：支持模块化设计，可以将复杂系统分解为多个子系统，进行分层次建模。&lt;/li>
+&lt;li>&lt;strong>自动代码生成&lt;/strong>：可以自动生成 C、C++ 或 HDL 代码，方便在嵌入式系统中实现和部署。&lt;/li>
+&lt;li>&lt;strong>与 MATLAB 的集成&lt;/strong>：Simulink 和 MATLAB 无缝集成，可以使用 MATLAB 脚本控制 Simulink 仿真，或者在 Simulink 模型中调用 MATLAB 函数。。&lt;/li>
+&lt;/ol>
+&lt;h1 id="simulink-模块图">
+&lt;a class="header-anchor" href="#simulink-%e6%a8%a1%e5%9d%97%e5%9b%be">&lt;/a>
+Simulink 模块图
+&lt;/h1>&lt;p>Simulink® 是动态系统的图形建模和仿真环境。可以创建模块图，用模块表示系统的各个组成部分。模块可以表示物理组件、小型系统或函数。输入/输出关系则完整描述了模块特征。请思考下面这些示例：&lt;/p>
+&lt;ul>
+&lt;li>一个水龙头往一个水桶里注入水 - 水以一定的流速进入水桶，水桶变重。模块可以表示水桶，水的流速为输入，水桶的重量为输出。&lt;/li>
+&lt;li>您用扩音器传递声音 - 扩音器一端产生的声音在另一端被放大。扩音器是模块，输入是声源的声波，输出是您听到的声波。&lt;/li>
+&lt;li>您推动购物车使它移动 - 购物车是模块，您施加的力是输入，购物车的位置是输出。&lt;/li>
+&lt;/ul>
+&lt;p>只有定义了输入和输出，模块的定义才算完成，并且此模型定义任务需与建模目的相关。例如，如果建模目的不涉及购物车的位置，则会自然选择购物车的速度作为输出。&lt;/p>
+&lt;p>Simulink 提供了一些模块库，它们是按功能分组的模块集合。例如，要对以常量倍数放大输入的扩音器进行建模，可以使用 Math Operations 库中的 Gain 模块。&lt;/p></description></item><item><title>Stateflow</title><link>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/stateflow/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/stateflow/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://ww2.mathworks.cn/help/stateflow/getting-started.html">Stateflow 快速入门 - MathWorks 中国&lt;/a>&lt;/p>
+&lt;h1 id="stateflow简介">
+&lt;a class="header-anchor" href="#stateflow%e7%ae%80%e4%bb%8b">&lt;/a>
+Stateflow简介
+&lt;/h1>&lt;p>Stateflow是MATLAB和Simulink中的一个工具，用于设计和实现状态机和流程图。它非常适合用于建模逻辑系统，如控制逻辑、任务调度和事件驱动系统。Stateflow通过图形化的方式使复杂的逻辑系统更容易理解和实现。以下是一些关于Stateflow的基本概念和操作指南：&lt;/p>
+&lt;h1 id="stateflow基本概念">
+&lt;a class="header-anchor" href="#stateflow%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5">&lt;/a>
+Stateflow基本概念
+&lt;/h1>&lt;ol>
+&lt;li>&lt;strong>状态（State）&lt;/strong>：&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>表示系统在某一特定时间的情况或条件。每个状态可以包含子状态、图表和动作（如进入和退出动作）。&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>
+&lt;p>&lt;strong>转换（Transition）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>用箭头表示，描述从一个状态到另一个状态的条件。转换可以包含条件、动作和事件。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>事件（Event）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>触发状态转换的信号。事件可以是外部事件（来自Simulink模型）或内部事件（在Stateflow图表中定义）。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>条件（Condition）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>在方括号内定义的逻辑表达式，用于决定状态转换是否发生。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>动作（Action）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>在状态或转换中定义的操作，可以在进入、退出状态时或在转换时执行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="基本命令">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e5%91%bd%e4%bb%a4">&lt;/a>
+基本命令
+&lt;/h1>&lt;p>Stateflow是MATLAB和Simulink中的一个工具，用于设计和模拟状态机和逻辑系统。以下是一些基本的Stateflow命令和操作：&lt;/p>
+&lt;h2 id="创建和编辑图表">
+&lt;a class="header-anchor" href="#%e5%88%9b%e5%bb%ba%e5%92%8c%e7%bc%96%e8%be%91%e5%9b%be%e8%a1%a8">&lt;/a>
+创建和编辑图表
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>创建Stateflow图表&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-matlab" data-lang="matlab">&lt;span class="line">&lt;span class="cl">&lt;span class="n">sfnew&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>打开现有图表&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-matlab" data-lang="matlab">&lt;span class="line">&lt;span class="cl">&lt;span class="n">sfopen&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>保存图表&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-matlab" data-lang="matlab">&lt;span class="line">&lt;span class="cl">&lt;span class="n">sfsave&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h2 id="添加状态和转换">
+&lt;a class="header-anchor" href="#%e6%b7%bb%e5%8a%a0%e7%8a%b6%e6%80%81%e5%92%8c%e8%bd%ac%e6%8d%a2">&lt;/a>
+添加状态和转换
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>添加状态&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>在图表中右键点击并选择“Add State”，或者使用工具栏中的“Add State”按钮。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>添加转换&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>在两个状态之间绘制一条线，或者右键点击一个状态并选择“Add Transition”。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="设置状态属性">
+&lt;a class="header-anchor" href="#%e8%ae%be%e7%bd%ae%e7%8a%b6%e6%80%81%e5%b1%9e%e6%80%a7">&lt;/a>
+设置状态属性
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>设置状态名称&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>双击状态，并在对话框中输入名称。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>设置进入动作（Entry）&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>双击状态，选择“Actions”选项卡，并在“Entry”框中输入代码。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>设置退出动作（Exit）&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>双击状态，选择“Actions”选项卡，并在“Exit”框中输入代码。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="设置转换条件">
+&lt;a class="header-anchor" href="#%e8%ae%be%e7%bd%ae%e8%bd%ac%e6%8d%a2%e6%9d%a1%e4%bb%b6">&lt;/a>
+设置转换条件
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>添加条件&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>双击转换线，并在对话框中输入条件，如 &lt;code>[condition]&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>添加动作&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>在条件后面添加动作，如 &lt;code>[condition]{action}&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="仿真和调试">
+&lt;a class="header-anchor" href="#%e4%bb%bf%e7%9c%9f%e5%92%8c%e8%b0%83%e8%af%95">&lt;/a>
+仿真和调试
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>运行仿真&lt;/strong>:&lt;/p></description></item></channel></rss>

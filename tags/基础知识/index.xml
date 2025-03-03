@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>基础知识 on TruestMe's Blog</title><link>https://youShouldTrustMe.github.io/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><description>Recent content in 基础知识 on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 03 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://youShouldTrustMe.github.io/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.xml" rel="self" type="application/rss+xml"/><item><title>计算机系统基础</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</link><pubDate>Mon, 03 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://www.icourse163.org/course/NJU-1001625001">计算机系统基础(一)：程序的表示、转换与链接_南京大学_中国大学MOOC(慕课)&lt;/a>&lt;/p>
+&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;h2 id="计算机基本工作原理">
+&lt;a class="header-anchor" href="#%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%9f%ba%e6%9c%ac%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">&lt;/a>
+计算机基本工作原理
+&lt;/h2>&lt;h3 id="冯诺依曼结构">
+&lt;a class="header-anchor" href="#%e5%86%af%e8%af%ba%e4%be%9d%e6%9b%bc%e7%bb%93%e6%9e%84">&lt;/a>
+冯诺依曼结构
+&lt;/h3>&lt;p>硬件模型基本结构&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_15_6_202408061115430.png" alt="冯诺依曼结构">&lt;/p>
+&lt;p>&lt;em>模型中包含&lt;code>以下四个部分&lt;/code>&lt;/em>&lt;/p>
+&lt;ol>
+&lt;li>用来存放指令和数据的主存储器，简称==主存或内存==；&lt;/li>
+&lt;li>用来进行算术逻辑运算的部件，即算术逻辑部件(Arithmetic Logic Unit,简称==ALU==),在ALU操作控制
+信号ALUop的控制下，ALU可以对输人端A和B进行不同的运算，得到结果F;&lt;/li>
+&lt;li>用于自动逐条取出指令并进行译码的部件，即控制部件(Control Unit,简称CU),也称==控制器==；&lt;/li>
+&lt;li>用来和用户交互的==输入设备和输出设备==。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;em>CPU内部&lt;code>不同的组件&lt;/code>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>为了临时存放从主存取来的数据或运算的结果，还需要若干通用寄存器(General Purpose Register)组成通用寄存器组(==GPRs==)，ALU两个输入端A和B的数据来自通用寄存器；&lt;/li>
+&lt;li>ALU运算的结果会产生标志信息，例如，结果是否为0（零标志ZF)、是否为负数（符号标志SF)等，这些标志信息需要记录在专门的==标志寄存器==中；&lt;/li>
+&lt;li>从主存取来的指令需要临时保存在指令寄存器(Instruction Register,简称==IR==)中；&lt;/li>
+&lt;li>CPU为了自动按序读取主存中的指令，还需要有一个程序计数器(Program Counter,简称==PC==),在执行当前指令过程中，自动
+计算出下一条指令的地址并送到PC中保存。&lt;/li>
+&lt;li>通常把控制部件、运算部件和各类寄存器互连组成的电路称为中央处理器(Central Processing Unit,简称CPU),简称处理器。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>CPU读取数据&lt;code>过程&lt;/code>&lt;/em>&lt;/p>
+&lt;p>CPU需要从通用寄存器中取数据到ALU运算，或把ALU运算的结果保存到通用寄存器中，因此，需要给每个通用寄存器编号；&lt;/p>
+&lt;p>同样，主存中每个单元也需要编号，称为主存单元地址，简称主存地址。&lt;/p>
+&lt;p>通用寄存器和主存都属于存储部件，通常，计算机中的存储部件从0开始编号，例如，4个通用寄存器编号分别为0 ~ 3；16个主存单元编号分别为0 ~ 15。&lt;/p>
+&lt;p>CPU为了从主存取指令和存取数据，需要通过传输介质与主存相连，通常把连接不同部件进行信息传输的介质称为==总线==，其中，包含了用于传输地址信息、数据信息和控制信息的地址线、数据线和控制线。&lt;/p>
+&lt;p>CPU访问主存时，需先将主存地址、读/写命令分别送到总线的地址线、控制线，然后通过数据线发送或接收数据。CPU送到地址线的主存地址应先存放在主存地址寄存器(Memory Address Register,简称==MAR==)中，发送到或从数据线取来的信息存放在主存数据寄存器(Memory Data Register,简称==MDR==)中。&lt;/p>
+&lt;h3 id="程序和指令的执行过程">
+&lt;a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e5%92%8c%e6%8c%87%e4%bb%a4%e7%9a%84%e6%89%a7%e8%a1%8c%e8%bf%87%e7%a8%8b">&lt;/a>
+程序和指令的执行过程
+&lt;/h3>&lt;p>指令(instruction)是用0和1表示的一串0/1序列，用来指示CPU完成一个特定的原子操作。例如，&lt;/p>
+&lt;ul>
+&lt;li>取数指令(load)从主存单元中取出数据存放到通用寄存器中；&lt;/li>
+&lt;li>存数指令（store)将通用寄存器的内容写入主存单元；&lt;/li>
+&lt;li>加法指令(add)将两个通用寄存器内容相加后送入结果寄存器；&lt;/li>
+&lt;li>传送指令(mov)将一个通用寄存器的内容送到另一个通用寄存器；&lt;/li>
+&lt;/ul>
+&lt;p>指令通常被划分为若干个字段，有操作码、地址码等字段。&lt;/p>
+&lt;ul>
+&lt;li>操作码字段指出指令的操作类型，如取数、存数、加、减、传送、跳转等；&lt;/li>
+&lt;li>地址码字段指出指令所处理的操作数的地址，如寄存器编号、主存单元编号等。&lt;/li>
+&lt;/ul>
+&lt;p>指令格式如下&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/03/3_10_1_19_202503031001336.png" alt="指令格式">&lt;/p>
+&lt;p>实现一个程序的过程&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_41_21_202408061141156.png" alt="实现程序的过程">&lt;/p>
+&lt;p>“存储程序”工作方式规定，程序执行前，需将程序包含的指令和数据先送入主存，一旦启动程序执行，则计算机必须能够在不需操作人员干预下自动完成逐条指令取出和执行的任务。&lt;/p>
+&lt;p>一个程序的执行就是周而复始地执行一条一条指令的过程。每条指令的执行过程包括：从主存取指令、对指令进行译码、PC增量（图中的PC+“1”表示PC的内容加上当前这一条指令的长度)、取操作数并执行、将结果送主存或寄存器保存。
+程序执行前，首先将程序的起始地址存放在PC中，取指令时，将PC的内容作为地址访问主存。每条指令执行过程中，都需要计算下条将执行指令的主存地址，并送到PC中。若当前指令为顺序型指令，则下条指令地址为PC的内容加上当前指令的长度；若当前指令为跳转型指令，则下条指令地址为指令中指定的目标地址。当前指令执行完后，根据PC的值到主存中取到的是下条将要执行的指令，因而计算机能够周而复始地自动取出并执行一条一条指令。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_43_9_202408061143902.png" alt="程序执行过程">&lt;/p>
+&lt;h2 id="程序的开发与运行">
+&lt;a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%bc%80%e5%8f%91%e4%b8%8e%e8%bf%90%e8%a1%8c">&lt;/a>
+程序的开发与运行
+&lt;/h2>&lt;h3 id="程序设计语言和翻译程序">
+&lt;a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e8%af%ad%e8%a8%80%e5%92%8c%e7%bf%bb%e8%af%91%e7%a8%8b%e5%ba%8f">&lt;/a>
+程序设计语言和翻译程序
+&lt;/h3>&lt;p>从抽象层次上来分，可以分成高级语言和低级语言两类。&lt;/p></description></item><item><title>BootLoader</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/bootloader/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/bootloader/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/u012406840/article/details/108180654">基于UDS的BootLoader设计——架构设计及规范_nxp s32k144 bootloader 基于uds-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cnblogs.com/isAndyWu/p/9524089.html">Bootloader升级方式一————擦、写flash在RAM中运行 - isAndyWu - 博客园 (cnblogs.com)&lt;/a>&lt;/p>
+&lt;h1 id="基础介绍">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e7%a1%80%e4%bb%8b%e7%bb%8d">&lt;/a>
+基础介绍
+&lt;/h1>&lt;h2 id="bootloader的作用">
+&lt;a class="header-anchor" href="#bootloader%e7%9a%84%e4%bd%9c%e7%94%a8">&lt;/a>
+BootLoader的作用
+&lt;/h2>&lt;p>Boot Loader又称为引导加载程序，引导加载程序是系统上电后运行的第一段软件代码，常被用来加载系统或者更新系统等。因此，大部分的Boot Loader存在两种不同的操作模式：&lt;/p>
+&lt;ol>
+&lt;li>==启动模式==：启动加载（BootLoading）模式也称为自主模（Autonmous）式，即BootLoader从目标机上某个固态存储设备上将操作系统加载至RAM中运行，整个过程中并没有用户的介入。&lt;/li>
+&lt;li>==下载模式==：在下载（DownLoading）模式下，目标机上的Boot Loader将通过串口连接或者网络连接等通信手段下载文件，如下载内核映像和根文件系统映像等。通常文件会保存在RAM中，然后将其写入目标地址完后系统的更新等。&lt;/li>
+&lt;/ol>
+&lt;p>==Bootloader=Boot + loader==&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Boot的目的：
+最终目的：跳到C语言中；为了C语言运行程序会进行一系列的初始化，系统一上电后如何通过一系列的设置让软件程序员进入C语言/更高级语言环境的开发，这个过程就是boot的主要目的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Loader的目的：
+主要目的是开始执行应用逻辑，比如点灯：需要灯的接口开发；串口输入输出：需要串口编程；加载linux的内核：flash的编程、网卡的编程、内核启动前的初始化部分。根据不同的应用会有不同的变化。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>==一个开发板要想执行loader，要先看boot做了什么事。==&lt;/p>
+&lt;h2 id="bootloader的基本需求">
+&lt;a class="header-anchor" href="#bootloader%e7%9a%84%e5%9f%ba%e6%9c%ac%e9%9c%80%e6%b1%82">&lt;/a>
+BootLoader的基本需求
+&lt;/h2>&lt;p>两个SWC（Software Component）：&lt;/p>
+&lt;ol>
+&lt;li>启动管理——控制器的启动管理等&lt;/li>
+&lt;li>应用程序——ECU软件下载升级及标定数据再编程等&lt;/li>
+&lt;/ol>
+&lt;p>四个服务模块：&lt;/p>
+&lt;ol>
+&lt;li>内存管理——软件更新主要是将Flash中的Application及标定数据重编程，内存擦除与重写驱动必不可少的模块；&lt;/li>
+&lt;li>CAN协议栈——软件更新媒介&lt;/li>
+&lt;li>看门狗模块——软件运行保护&lt;/li>
+&lt;li>安全模块——软件数据保护，下载数据校验等&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png" alt="基本需求">&lt;/p>
+&lt;h2 id="boot设计流程">
+&lt;a class="header-anchor" href="#boot%e8%ae%be%e8%ae%a1%e6%b5%81%e7%a8%8b">&lt;/a>
+BOOT设计流程
+&lt;/h2>&lt;p>流程：&lt;/p>
+&lt;ol>
+&lt;li>关闭看门狗、中断、MMU、CACHE，通过汇编语言对相应的寄存器进行置位即可实现。&lt;/li>
+&lt;li>配置系统工作时钟，通过代码对相应寄存器进行相关配置即可实现。&lt;/li>
+&lt;li>配置SDRAM的控制器。首选空间为SDRAM，SDRAM不是系统一上电就好，所以在做（1）、（2）之前要配置SDRAM的控制器，使SDRAM可以正常工作。&lt;/li>
+&lt;li>让SP指向可读可写的设备空间中（SP为指令指针）&lt;/li>
+&lt;li>满足递减栈的规则—SP想办法放在内存的高段地址&lt;/li>
+&lt;/ol>
+&lt;h3 id="对流程1的说明">
+&lt;a class="header-anchor" href="#%e5%af%b9%e6%b5%81%e7%a8%8b1%e7%9a%84%e8%af%b4%e6%98%8e">&lt;/a>
+对流程1的说明
+&lt;/h3>&lt;p>配置系统时钟之前还有一个问题，不是配了就马上工作正常，还要经过一段时间，在这期间还要引入看门狗。看门狗就是一个定时器，在一段时间之内，如果不对定时器进行重新的喂狗，一旦减到0就会触发一个中断/复位，CPU就相当于重启了。所以要保证有足够的长的时间来执行前提条件（1）、（2）、（3）、（4），所以在配置时钟之前为了安全起见还要把看门狗给关了。同时中断也要关了，因为我们还没进入到C或者说还没进到系统处理，即使中断来了，我们还不知道该怎么处理，因为我们的函数还没注册进去，这时最好把中断也关了，在调用main函数时再将中断打开。除此之外还可以关闭MMU、CACHE，MMU一般指的是有操作系统情况下才用，裸机程序上一般情况下为了简单一点可以不要管它，对于CACHE，指令CACHE无所谓可开可关，但是数据CACHE一般情况下在这时最好关了，虽然说速度可以提高，但是由于涉及到数据完整性的问题，有可能CACHE打开后数据的完整性就会有影响，这样给后期的调试带来很大麻烦，所以先关了它。&lt;/p>
+&lt;p>BOOT阶段总结&lt;/p>
+&lt;p>==Boot最终目的是跳到C语言==&lt;/p>
+&lt;ul>
+&lt;li>在跳到C语言之前要考虑栈指针的初始化，因为C语言编译器要自动的利用SP指针来作为我们的栈空间，这样我们就必须要把SP指向一个可读可写的设备，具体赋什么值要根据规则来决定&lt;/li>
+&lt;li>然后再放到SDRAM上，紧接着SDRAM要想工作，在擦之前还要配置SDRAM，这个工作量比较大，包括：行地址数、列地址数、多少块、周期性充电问题&lt;/li>
+&lt;li>在配置SDRAM之前还要计算多久充一次电，所以还要配置系统时钟&lt;/li>
+&lt;li>而系统时钟工作还要一些前导，即关闭看门狗、中断、MMU、CACHE。&lt;/li>
+&lt;/ul>
+&lt;p>所以具体的来说，不管什么系统，要想设计一款Bootloader中的Boot阶段基本是要完成上述前提工作。最后根据每个系统的条件不同，还涉及到一个概念就是代码搬移。&lt;/p>
+&lt;p>为什么要==代码搬移==？一个芯片，系统启动时它会规定只能处理多少量的代码，如果代码量超过了规定的可处理的量，多余的代码就处理不了了，这时就要程序员自己把代码搬到一个更大的空间上去运行，要程序员自己对控制器进行控制，所以在main函数执行前也还要对相应存储器的控制器进行初始化，在代码搬移前还要初始化对应控制器，这样做软件工程师的工作量大一些，因为首先要看硬件公司用哪一个存储器启动，比如SD卡就要写SD卡的驱动，如果是NAND启动，就要写NAND的驱动，然后考虑怎么把代码快读搬到内存上，跳到内存上执行，一般来说代码搬移到RAM上，所以都要在SDRAM工作正常的基础上。其次是执行速度问题，如果代码本身之前工作在flash上，flash的执行速度比RAM慢得多，所以要把程序从存储器（nor-flash）搬移到快速的内存上运行。这就是我们说的代码搬移。&lt;/p>
+&lt;p>以上就是完成Bootloader中的Boot工作所要进行的一些事。&lt;/p>
+&lt;h3 id="对流程2的说明">
+&lt;a class="header-anchor" href="#%e5%af%b9%e6%b5%81%e7%a8%8b2%e7%9a%84%e8%af%b4%e6%98%8e">&lt;/a>
+对流程2的说明
+&lt;/h3>&lt;p>在嵌入式开发过程中这一步是最耗时的，因为后期Linux内核最终还是运行在RAM，包括很多程序都是在RAM上运行，而RAM中，如果我们给它的频率不符合这款芯片本身的物理特性，那么很容易出现程序跑飞，在PC中就可能出现程序在运行时突然蓝屏，蓝屏的原因有很多，但是大部分都是由于内存的问题，有些时候买的内存的芯片的物理结构/质量不好，响应时间会很慢。&lt;/p>
+&lt;p>举例：现在CPU要发出序列1101，现在芯片要想办法以一定的速度将这4bit发到数据总线上，或者说给到这片SDRAM上，假设CPU工作在1GHZ（这频率很快了），基本上1GHZ分之一再乘以4，这个时间就可以把4个比特发完了。SDRAM价格便宜，根本就不能同步响应1GHZ的CPU给的信息，那么内存工作就有问题，出现蓝屏。&lt;/p>
+&lt;h3 id="对流程3的说明">
+&lt;a class="header-anchor" href="#%e5%af%b9%e6%b5%81%e7%a8%8b3%e7%9a%84%e8%af%b4%e6%98%8e">&lt;/a>
+对流程3的说明
+&lt;/h3>&lt;p>​ &lt;img src="https://i-blog.csdnimg.cn/blog_migrate/5e5666aa1b3917ef8211fc16137c277d.png" alt="在这里插入图片描述">&lt;/p>
+&lt;p>CPU直接发出地址后现在要访问SDRAM，让CPU把想做的事情告诉给控制器，控制器根据我的配置（行地址数、列地址数、多少块、周期性充电问题、计算多久让它充一次电）&lt;/p></description></item><item><title>Map文件</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/map%E6%96%87%E4%BB%B6/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/map%E6%96%87%E4%BB%B6/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="http://www.openedv.com/thread-305913-1-1.html">KEIL MDK .map文件分析(必学知识点) - 正点原子倾力打造！-OpenEdv-开源电子网&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/502051758">充分理解Linux GCC 链接生成的Map文件 - 知乎 (zhihu.com)&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>可以使用AMAP可视化map文件&lt;/p>&lt;/blockquote>
+&lt;h1 id="gcc平台">
+&lt;a class="header-anchor" href="#gcc%e5%b9%b3%e5%8f%b0">&lt;/a>
+GCC平台
+&lt;/h1>&lt;h2 id="archives-linked">
+&lt;a class="header-anchor" href="#archives-linked">&lt;/a>
+Archives linked
+&lt;/h2>&lt;p>一般位于map文件的第一行&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"> Archive member included to satisfy reference by file (symbol)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(lib_a-exit.o)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o (exit)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>上面的文件信息格式如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">The archive file location (compilation unit)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 			The compilation unit referencing the archive (symbol called)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>上面内容的意思是crt0这个文件中会调用exit函数，exit函数在exit.o这个目标文件中，exit.o目标文件是被链接在libc_nano.a这个库文件里的。&lt;/p>
+&lt;h2 id="memory-configuration">
+&lt;a class="header-anchor" href="#memory-configuration">&lt;/a>
+Memory configuration
+&lt;/h2>&lt;p>Map文件中最直接的信息是实际的内存区域，这些区域具有位置、大小和访问权限:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Memory Configuration
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> Name Origin Length Attributes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> FLASH 0x0000000000001000 0x00000000000ff000 xr
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> RAM 0x0000000020000008 0x000000000003fff8 xrw
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *default* 0x0000000000000000 0xffffffffffffffff
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="linker-script-and-memory-map">
+&lt;a class="header-anchor" href="#linker-script-and-memory-map">&lt;/a>
+Linker script and memory map
+&lt;/h2>&lt;p>内存配置之后是Linker script and memory map，它给出了程序中符号的详细信息。一般来说，该段首先指示&lt;code>text&lt;/code>区域的大小及其内容(&lt;code>text&lt;/code>是编译的代码，而&lt;code>data&lt;/code>是程序数据)。&lt;/p></description></item><item><title>编程规范</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/zhengnianli/article/details/100061633">C语言 | 嵌入式C语言编程规范_函数名开头加uc-CSDN博客&lt;/a>&lt;/p>
+&lt;blockquote>
+&lt;p>[!tip]&lt;/p>
+&lt;p>以下文件排版将会按照自顶向下的方式进行编排，&lt;em>==文件夹 &amp;gt; 文件名 &amp;gt; 排版 &amp;gt; 函数 &amp;gt; 变量==&lt;/em>&lt;/p>&lt;/blockquote>
+&lt;h1 id="文件架构">
+&lt;a class="header-anchor" href="#%e6%96%87%e4%bb%b6%e6%9e%b6%e6%9e%84">&lt;/a>
+文件架构
+&lt;/h1>&lt;h2 id="缩写">
+&lt;a class="header-anchor" href="#%e7%bc%a9%e5%86%99">&lt;/a>
+缩写
+&lt;/h2>&lt;p>该项目文件树参考AUTOSAR结构，为了便于理解，此处展示部分缩写的全称：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>缩写&lt;/th>
+ &lt;th>全称&lt;/th>
+ &lt;th>描述&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>AUTOSAR&lt;/td>
+ &lt;td>AUTomotive Open System ARchitecture&lt;/td>
+ &lt;td>汽车开放系统架构，是汽车软件开发的标准框架。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>ASW&lt;/td>
+ &lt;td>Application Software&lt;/td>
+ &lt;td>应用软件，主要负责实现特定功能的业务逻辑。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>BSW&lt;/td>
+ &lt;td>Basic Software&lt;/td>
+ &lt;td>基础软件，负责底层硬件控制和通用服务的实现。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>BSP&lt;/td>
+ &lt;td>Board Support Package&lt;/td>
+ &lt;td>板级支持包，包含硬件初始化、驱动和相关工具。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>HAL&lt;/td>
+ &lt;td>Hardware Abstraction Layer&lt;/td>
+ &lt;td>硬件抽象层，提供对硬件的抽象访问接口。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>MCAL&lt;/td>
+ &lt;td>Microcontroller Abstraction Layer&lt;/td>
+ &lt;td>微控制器抽象层，提供对芯片外设的直接访问接口。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>RTE&lt;/td>
+ &lt;td>Run-Time Environment&lt;/td>
+ &lt;td>运行时环境，负责 ASW 与 BSW 的通信管理。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>UDS&lt;/td>
+ &lt;td>Unified Diagnostic Services&lt;/td>
+ &lt;td>统一诊断服务协议（ISO 14229），用于 ECU 的诊断通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Dcm&lt;/td>
+ &lt;td>Diagnostic Communication Manager&lt;/td>
+ &lt;td>诊断通信管理模块，实现 UDS 服务的解析和处理。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Dem&lt;/td>
+ &lt;td>Diagnostic Event Manager&lt;/td>
+ &lt;td>诊断事件管理模块，负责故障码存储和管理。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>PduR&lt;/td>
+ &lt;td>Protocol Data Unit Router&lt;/td>
+ &lt;td>协议数据单元路由模块，负责数据路由。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CanTp&lt;/td>
+ &lt;td>CAN Transport Protocol&lt;/td>
+ &lt;td>CAN 传输协议模块，用于实现 UDS 消息的传输。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>NvM&lt;/td>
+ &lt;td>Non-Volatile Memory Manager&lt;/td>
+ &lt;td>非易失性内存管理模块，负责数据的持久化存储。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SoAd&lt;/td>
+ &lt;td>Socket Adapter&lt;/td>
+ &lt;td>套接字适配器，用于实现基于 TCP/IP 的通信协议（如 DoIP）。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>ECU&lt;/td>
+ &lt;td>Electronic Control Unit&lt;/td>
+ &lt;td>电子控制单元，是汽车的嵌入式控制器。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>GPIO&lt;/td>
+ &lt;td>General Purpose Input/Output&lt;/td>
+ &lt;td>通用输入输出，硬件外设的一种。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>UART&lt;/td>
+ &lt;td>Universal Asynchronous Receiver-Transmitter&lt;/td>
+ &lt;td>通用异步收发器，用于串行通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SPI&lt;/td>
+ &lt;td>Serial Peripheral Interface&lt;/td>
+ &lt;td>串行外设接口，用于高性能串行通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>I2C&lt;/td>
+ &lt;td>Inter-Integrated Circuit&lt;/td>
+ &lt;td>一种常用的两线串行通信协议。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CAN&lt;/td>
+ &lt;td>Controller Area Network&lt;/td>
+ &lt;td>控制器局域网，是汽车通信总线的一种。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>FlexRay&lt;/td>
+ &lt;td>Flexible Ray&lt;/td>
+ &lt;td>一种高速汽车通信协议，用于安全关键应用。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>LIN&lt;/td>
+ &lt;td>Local Interconnect Network&lt;/td>
+ &lt;td>局域互连网络，低成本汽车通信协议。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>DoIP&lt;/td>
+ &lt;td>Diagnostics over Internet Protocol&lt;/td>
+ &lt;td>基于 IP 协议的诊断通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>OS&lt;/td>
+ &lt;td>Operating System&lt;/td>
+ &lt;td>操作系统，提供任务调度和资源管理功能。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SWC&lt;/td>
+ &lt;td>Software Component&lt;/td>
+ &lt;td>软件组件，用于实现应用逻辑，是 ASW 层的核心构成模块。&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="概览">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%a7%88">&lt;/a>
+概览
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">├─.vscode
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─ASW				此处存放与硬件平台无关代码
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─BSW				存放与硬件相关代码，所以子文件夹需要区分不同芯片型号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─BOOT				存放BOOT相关代码
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─Documents			存放项目相关的文档，为了方便使用，最好将使用的芯片的手册放于此处
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─OS				存放和系统相关的，如文件系统、操作系统、调度系统等等
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─Output			存放输出文件，请在设置Keil和IAR等软件时，选用输出到此文件夹，方便管理，并且增强Project中的整洁性
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└─Project			存放和工程相关的文件树，如KEIL、IAR、SOURCEINSIGHT、TSMATSER、CANoe、JFLASH，与项目相关的工程请放置此处
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>[!important]&lt;/p></description></item><item><title>操作系统基础</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://jyywiki.cn/OS/2024/">操作系统：设计与实现 (2024 春季学期) (jyywiki.cn)&lt;/a>&lt;/p>
+&lt;h1 id="应用视角下的操作系统">
+&lt;a class="header-anchor" href="#%e5%ba%94%e7%94%a8%e8%a7%86%e8%a7%92%e4%b8%8b%e7%9a%84%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f">&lt;/a>
+应用视角下的操作系统
+&lt;/h1>&lt;h2 id="构造一个最小程序">
+&lt;a class="header-anchor" href="#%e6%9e%84%e9%80%a0%e4%b8%80%e4%b8%aa%e6%9c%80%e5%b0%8f%e7%a8%8b%e5%ba%8f">&lt;/a>
+构造一个最小程序
+&lt;/h2>&lt;p>要理解操作系统首先要理解程序,下面是一个最简单的程序：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	&lt;span class="nf">printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hello world!&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>当生成输出文件之后，可以使用以下的命令来查看生成的可执行文件&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">objdump 工具可以查看对应的汇编代码
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">gcc --verbose 可以查看所有编译选项 &lt;span class="o">(&lt;/span>真不少&lt;span class="o">)&lt;/span>&lt;span class="nb">printf&lt;/span> 变成了 puts@plt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">gcc -Wl,--verbose 可以查看所有链接选项 &lt;span class="o">(&lt;/span>真不少&lt;span class="o">)&lt;/span>原来链接了那么多东西还解释了 end 符号的由来
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">gcc -static 会链接 libc &lt;span class="o">(&lt;/span>大量的代码&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>当使用以上工具查看生成的main的可执行文件时，发现可执行文件内容较多。编译链接的过程会链接库文件导致可执行文件变大。&lt;/p>
+&lt;p>那么我们可以尝试着手动的去链接可定位文件，可以先生成一个main.o文件，然后将这个mian.o试着手动链接编译的文件&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>直接用 ld 链接失败：因为ld 不知道怎么链接 printf&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>所以只能不调用 printf ，将程序改为以下内容&lt;/p>
+&lt;blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>运行时出现 Segmentation Fault ，调试时发现在return时出现错误&lt;/p>&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>如果改成以下代码&lt;/p>
+&lt;blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>运行时会卡在死循环中，说明我们的程序时可以运行的&lt;/p>&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>[!NOTE]&lt;/p>
+&lt;p>为什么会出现&lt;code>Segmention falut&lt;/code>？&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>当函数在&lt;code>renturn&lt;/code>时，程序会从内存的&lt;code>rsp&lt;/code>寄存器中取出地址给&lt;code>PC&lt;/code>，作为下一条执行指令的地址，然后&lt;code>rsp&lt;/code>+8,栈（&lt;code>rsp&lt;/code>存在栈中）是向下生长的&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>当执行完错误的&lt;code>return&lt;/code>语句之后，PC&lt;code>的地址变为了&lt;/code>1&lt;/p>
+&lt;blockquote>
+&lt;p>这意味着在执行&lt;code>return&lt;/code>之前，内存中的&lt;code>rsp&lt;/code>指向运行代码的地址，也就是上面的1，所以出现了问题&lt;/p>&lt;/blockquote>
+&lt;/li>
+&lt;/ol>&lt;/blockquote>
+&lt;h2 id="程序">
+&lt;a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f">&lt;/a>
+程序
+&lt;/h2>&lt;p>程序实际上是一个状态机：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="n">CPUState&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint32_t&lt;/span> &lt;span class="n">regs&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">32&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">csrs&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">CSR_COUNT&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint8_t&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">mem&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">uint32_t&lt;/span> &lt;span class="n">mem_offset&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mem_size&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>处理器：无情的、执行指令的&lt;strong>状态机&lt;/strong>&lt;/p></description></item><item><title>测试基础</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/</guid><description>&lt;h1 id="测试指标">
+&lt;a class="header-anchor" href="#%e6%b5%8b%e8%af%95%e6%8c%87%e6%a0%87">&lt;/a>
+测试指标
+&lt;/h1>&lt;h2 id="测试覆盖率">
+&lt;a class="header-anchor" href="#%e6%b5%8b%e8%af%95%e8%a6%86%e7%9b%96%e7%8e%87">&lt;/a>
+测试覆盖率
+&lt;/h2>&lt;p>测试覆盖率(（Test Coverage)是测试用例执行时，系统或代码的覆盖程度。它反映了测试是否覆盖了系统的各个方面，包括功能、代码、路径等。&lt;/p>
+&lt;p>不同的测试覆盖率指标提供了对测试的不同层面的检查。一般来说：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>语句覆盖率&lt;/strong>和&lt;strong>分支覆盖率&lt;/strong>是最常用的基础覆盖率，适用于大多数场景。&lt;/li>
+&lt;li>&lt;strong>路径覆盖率&lt;/strong>和&lt;strong>多条件覆盖率&lt;/strong>适用于复杂的系统，特别是那些有大量分支和复杂条件的系统。&lt;/li>
+&lt;li>&lt;strong>函数覆盖率&lt;/strong>、&lt;strong>调用路径覆盖率&lt;/strong>等适用于验证系统中的函数调用和路径的完整性。&lt;/li>
+&lt;/ul>
+&lt;h3 id="功能覆盖率">
+&lt;a class="header-anchor" href="#%e5%8a%9f%e8%83%bd%e8%a6%86%e7%9b%96%e7%8e%87">&lt;/a>
+功能覆盖率
+&lt;/h3>$$
+功能覆盖率 = （已执行的功能点数量 / 总功能点数量）× 100\%
+$$&lt;p>
+&lt;strong>应用场景&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>适用于验证系统是否实现了所有设计或需求文档中的功能。&lt;/li>
+&lt;li>适合功能测试，确保所有业务流程、用例和需求都已测试。&lt;/li>
+&lt;/ul>
+&lt;h3 id="语句覆盖率">
+&lt;a class="header-anchor" href="#%e8%af%ad%e5%8f%a5%e8%a6%86%e7%9b%96%e7%8e%87">&lt;/a>
+语句覆盖率
+&lt;/h3>$$
+语句覆盖率 = （已执行的语句数量 / 总语句数量）× 100\%
+$$&lt;p>
+&lt;strong>应用场景&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>适用于测试代码是否执行过每一行，特别是代码逻辑简单且不复杂时。&lt;/li>
+&lt;/ul>
+&lt;h3 id="分支覆盖率">
+&lt;a class="header-anchor" href="#%e5%88%86%e6%94%af%e8%a6%86%e7%9b%96%e7%8e%87">&lt;/a>
+分支覆盖率
+&lt;/h3>$$
+分支覆盖率 = （已执行的分支数量 / 总分支数量）× 100\%
+$$&lt;p>
+&lt;strong>应用场景&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>适用于检查条件语句（如&lt;code>if&lt;/code>、&lt;code>else&lt;/code>）的所有可能结果是否都被覆盖。&lt;/li>
+&lt;li>比语句覆盖率更精细，因为它考虑了条件的所有可能分支。&lt;/li>
+&lt;/ul>
+&lt;h3 id="条件覆盖率">
+&lt;a class="header-anchor" href="#%e6%9d%a1%e4%bb%b6%e8%a6%86%e7%9b%96%e7%8e%87">&lt;/a>
+条件覆盖率
+&lt;/h3>$$
+条件覆盖率 = （已执行的条件数量 / 总条件数量）× 100\%
+$$&lt;p>
+&lt;strong>应用场景&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>适用于对单个条件进行验证，特别是在复合条件语句中，确保每个条件都独立地进行了验证。&lt;/li>
+&lt;/ul>
+&lt;h3 id="路径覆盖率">
+&lt;a class="header-anchor" href="#%e8%b7%af%e5%be%84%e8%a6%86%e7%9b%96%e7%8e%87">&lt;/a>
+路径覆盖率
+&lt;/h3>$$
+路径覆盖率 = （已执行的路径数量 / 总路径数量）× 100\%
+$$&lt;p>
+&lt;strong>应用场景&lt;/strong>：&lt;/p></description></item><item><title>二进制文件</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/</guid><description>&lt;h1 id="bin">
+&lt;a class="header-anchor" href="#bin">&lt;/a>
+Bin
+&lt;/h1>&lt;p>BIN文件是纯二进制文件，没有固定的结构或元数据。==当想要将二进制文件烧录进单片机时，不需要再对数据进行处理==，也就是说，我们使用&lt;a href="https://github.com/WerWolv/ImHex">&lt;!-- raw HTML omitted -->ImHex&lt;!-- raw HTML omitted -->&lt;/a>打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。&lt;/p>
+&lt;h1 id="hex">
+&lt;a class="header-anchor" href="#hex">&lt;/a>
+Hex
+&lt;/h1>&lt;p>&lt;code>Hex&lt;/code> 全称 (&lt;code>Intel HEX&lt;/code>)文件是由一行行符合&lt;code>Intel HEX&lt;/code>文件格式的文本所构成的&lt;code>ASCII&lt;/code>文本文件。&lt;/p>
+&lt;p>在&lt;code>Intel HEX&lt;/code>文件中，每一行包含一个&lt;code>HEX&lt;/code>记录。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png" alt="ASCII表示">&lt;/p>
+&lt;blockquote>
+&lt;p>[!note]&lt;/p>
+&lt;p>注意：我们使用txt文件打开的时候显示的是ASCII表示，也就是一个字符串。实际上一行数据的原始数据如下图左侧所示，使用txt打开的如右图所示。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_28_45_202502140928978.png" alt="Imhex打开">&lt;/p>
+&lt;p>下面会用源数据表示左侧的数据，用ASCII表示右侧数据。&lt;/p>&lt;/blockquote>
+&lt;h2 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h2>&lt;p>&lt;a href="https://blog.csdn.net/Bruce_Qee/article/details/119089365">单片机烧录用的hex文件，文件格式解析（转载）_.hex用什么软件打开-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="http://www.interlog.com/~speff/usefulinfo/Hexfrmt.pdf">Intel Hex Format&lt;/a>&lt;/p>
+&lt;h2 id="行结构">
+&lt;a class="header-anchor" href="#%e8%a1%8c%e7%bb%93%e6%9e%84">&lt;/a>
+行结构
+&lt;/h2>&lt;p>一行Hex数据由以下结构组成：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[Start code][Byte count][Address][Record type][Data][Checksum]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>参数&lt;/th>
+ &lt;th>长度&lt;/th>
+ &lt;th>&lt;strong>说明&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Start code&lt;/td>
+ &lt;td>-&lt;/td>
+ &lt;td>每行都由冒号开头，这是固定的&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Byte count&lt;/td>
+ &lt;td>1 字节&lt;/td>
+ &lt;td>本行数据的长度,最大值是&lt;code>255 (0xFF)&lt;/code>.&lt;code> 16 (0x10)&lt;/code> 和&lt;code>32 (0x20)&lt;/code>是最常用的&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Address&lt;/td>
+ &lt;td>2字节&lt;/td>
+ &lt;td>Memory数据开始16-bit地址偏移。物理地址通常是有这个偏移加上基地址&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Record type&lt;/td>
+ &lt;td>1 字节&lt;/td>
+ &lt;td>表示不同数据段的含义&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Data&lt;/td>
+ &lt;td>可变长度&lt;/td>
+ &lt;td>具体数据 N Byte ，表示本行中数据字节的数量&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Checksum&lt;/td>
+ &lt;td>1 字节&lt;/td>
+ &lt;td>校验值&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>[!tip]&lt;/p></description></item><item><title>链接文件</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/</guid><description>&lt;h1 id="ld">
+&lt;a class="header-anchor" href="#ld">&lt;/a>
+LD
+&lt;/h1>&lt;p>&lt;code>LD&lt;/code> 文件是 GNU 工具链（如 GCC）使用的链接器脚本，用于指定如何将程序的各个部分（如代码段、数据段等）放置到目标设备的内存中。LD 脚本的语法非常灵活，支持详细的内存区域分配、段定义以及符号管理。&lt;/p>
+&lt;h2 id="基本结构">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">&lt;/a>
+基本结构
+&lt;/h2>&lt;p>LD 链接脚本主要由以下几部分组成：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>全局声明和变量&lt;/strong>：设置内存区域和段的分配。&lt;/li>
+&lt;li>&lt;strong>段定义（SECTIONS）&lt;/strong>：定义程序的各个段（如 &lt;code>.text&lt;/code>, &lt;code>.data&lt;/code>, &lt;code>.bss&lt;/code> 等）在内存中的位置。&lt;/li>
+&lt;li>&lt;strong>符号管理&lt;/strong>：可以设置一些符号（如 &lt;code>__start&lt;/code>、&lt;code>__end&lt;/code>）的地址。&lt;/li>
+&lt;/ol>
+&lt;h3 id="内存区域定义">
+&lt;a class="header-anchor" href="#%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f%e5%ae%9a%e4%b9%89">&lt;/a>
+内存区域定义
+&lt;/h3>&lt;p>使用 &lt;code>MEMORY&lt;/code> 关键字来定义目标设备的内存区域。每个内存区域指定起始地址（&lt;code>ORIGIN&lt;/code>）和长度（&lt;code>LENGTH&lt;/code>）。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">MEMORY
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1M
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> RAM (rw) : ORIGIN = 0x20000000, LENGTH = 128K
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>FLASH&lt;/code> 区域指定为可读 (&lt;code>r&lt;/code>) 和可执行 (&lt;code>x&lt;/code>)。&lt;/li>
+&lt;li>&lt;code>RAM&lt;/code> 区域指定为可读 (&lt;code>r&lt;/code>) 和可写 (&lt;code>w&lt;/code>)。&lt;/li>
+&lt;/ul>
+&lt;h3 id="段定义">
+&lt;a class="header-anchor" href="#%e6%ae%b5%e5%ae%9a%e4%b9%89">&lt;/a>
+段定义
+&lt;/h3>&lt;p>&lt;code>SECTIONS&lt;/code> 用来定义程序的各个段及其如何映射到内存中。每个段由其名称（如 &lt;code>.text&lt;/code>、&lt;code>.data&lt;/code> 等）定义，并可以指定要放置的内存区域。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">SECTIONS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">{
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> .text :
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *(.text) // 所有 .text 段的内容
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } &amp;gt; FLASH // 放置到 FLASH 区域
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> .data :
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *(.data) // 所有 .data 段的内容
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } &amp;gt; RAM // 放置到 RAM 区域
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> .bss :
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *(.bss) // 所有 .bss 段的内容
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } &amp;gt; RAM // 放置到 RAM 区域
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> .stack :
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *(.stack) // 堆栈区域
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> } &amp;gt; RAM // 放置到 RAM 区域
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>&lt;code>*()&lt;/code> 用于包含所有具有相应段名的输入部分。例如，&lt;code>*(.text)&lt;/code> 包含所有 &lt;code>.text&lt;/code> 段的内容。&lt;/li>
+&lt;li>&lt;code>&amp;gt; MEMORY_REGION&lt;/code> 用于将段放置到指定的内存区域。&lt;/li>
+&lt;/ul>
+&lt;h3 id="特殊符号定义">
+&lt;a class="header-anchor" href="#%e7%89%b9%e6%ae%8a%e7%ac%a6%e5%8f%b7%e5%ae%9a%e4%b9%89">&lt;/a>
+特殊符号定义
+&lt;/h3>&lt;p>可以在链接器脚本中定义特殊符号，来标记某些特定的位置（如段的开始和结束）。&lt;/p></description></item><item><title>软件ji'chu</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://mp.weixin.qq.com/s/reQv2l8EBYWu1P0nDd73QA">这些嵌入式知识助 你秋招，也助你进阶 (qq.com)&lt;/a>&lt;/p>
+&lt;h1 id="autosar架构">
+&lt;a class="header-anchor" href="#autosar%e6%9e%b6%e6%9e%84">&lt;/a>
+AUTOSAR架构
+&lt;/h1>&lt;p>AUTOSAR（Automotive Open System Architecture）是一个用于开发汽车电子系统的软件架构标准。它通过标准化的架构提高了软件的可重用性和可移植性，减少了开发时间和成本。以下是AUTOSAR架构的详细描述：&lt;/p>
+&lt;h3 id="autosar架构概述">
+&lt;a class="header-anchor" href="#autosar%e6%9e%b6%e6%9e%84%e6%a6%82%e8%bf%b0">&lt;/a>
+AUTOSAR架构概述
+&lt;/h3>&lt;p>AUTOSAR架构由多个层次组成，包括应用软件层（Application Layer）、运行时环境（Runtime Environment, RTE）和基础软件层（Basic Software, BSW）。这些层次共同工作，提供完整的汽车电子系统解决方案。&lt;/p>
+&lt;h3 id="autosar层次结构">
+&lt;a class="header-anchor" href="#autosar%e5%b1%82%e6%ac%a1%e7%bb%93%e6%9e%84">&lt;/a>
+AUTOSAR层次结构
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>Application Layer（应用层，ASW）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>包含所有的应用程序组件，这些组件定义了具体的功能，如传感器数据处理、控制算法等。&lt;/li>
+&lt;li>应用组件通过接口与RTE进行通信，而不是直接与硬件交互。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Runtime Environment (RTE)（运行时环境）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>作为应用层和基础软件层之间的抽象层，提供标准化的接口。&lt;/li>
+&lt;li>管理应用组件之间以及应用组件与基础软件之间的通信。&lt;/li>
+&lt;li>确保组件的独立性，使得应用软件能够在不同的硬件平台上运行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Basic Software (BSW)（基础软件层）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>包含所有的基础服务和驱动程序，为应用软件提供硬件无关的标准化服务。&lt;/li>
+&lt;li>&lt;strong>BSW&lt;/strong>进一步划分为四个主要部分：
+&lt;ul>
+&lt;li>&lt;strong>Microcontroller Abstraction Layer (MCAL)（微控制器抽象层）&lt;/strong>：提供对微控制器和外设的抽象接口。&lt;/li>
+&lt;li>&lt;strong>ECU Abstraction Layer（ECU抽象层）&lt;/strong>：实现ECU级别的硬件抽象，提供对外围设备的访问。&lt;/li>
+&lt;li>&lt;strong>Service Layer（服务层）&lt;/strong>：提供系统服务，如操作系统、存储管理、诊断服务等。&lt;/li>
+&lt;li>&lt;strong>Complex Device Drivers（复杂设备驱动）&lt;/strong>：处理复杂的硬件设备，不适合通过MCAL和ECU抽象层实现。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="autosar架构图示">
+&lt;a class="header-anchor" href="#autosar%e6%9e%b6%e6%9e%84%e5%9b%be%e7%a4%ba">&lt;/a>
+AUTOSAR架构图示
+&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">---------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| Application Layer |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| (ASW) |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">---------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| Runtime Environment (RTE) |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">---------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| Basic Software |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| (BSW) |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| - Microcontroller Abstraction |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| Layer (MCAL) |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| - ECU Abstraction Layer |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| - Services Layer |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| - Complex Device Drivers |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">---------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">| Hardware Layer |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">---------------------------------
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="主要特点和优势">
+&lt;a class="header-anchor" href="#%e4%b8%bb%e8%a6%81%e7%89%b9%e7%82%b9%e5%92%8c%e4%bc%98%e5%8a%bf">&lt;/a>
+主要特点和优势
+&lt;/h3>&lt;ol>
+&lt;li>&lt;strong>模块化&lt;/strong>：AUTOSAR架构将系统分成多个独立的模块，允许并行开发和测试。&lt;/li>
+&lt;li>&lt;strong>可重用性&lt;/strong>：标准化的接口和组件设计提高了代码的可重用性，减少了重复开发的工作量。&lt;/li>
+&lt;li>&lt;strong>可移植性&lt;/strong>：应用层组件通过RTE与硬件层交互，使得应用软件可以在不同的硬件平台上运行。&lt;/li>
+&lt;li>&lt;strong>可扩展性&lt;/strong>：灵活的架构设计允许添加新功能和扩展现有功能，而不需要对整个系统进行重大修改。&lt;/li>
+&lt;li>&lt;strong>标准化&lt;/strong>：提供了统一的标准和规范，简化了不同供应商和开发团队之间的协作。&lt;/li>
+&lt;/ol>
+&lt;h3 id="应用案例">
+&lt;a class="header-anchor" href="#%e5%ba%94%e7%94%a8%e6%a1%88%e4%be%8b">&lt;/a>
+应用案例
+&lt;/h3>&lt;p>AUTOSAR广泛应用于现代汽车电子系统的开发，如发动机控制单元（ECU）、车身控制模块（BCM）、高级驾驶辅助系统（ADAS）等。通过采用AUTOSAR架构，汽车制造商和供应商能够更高效地开发高质量的软件系统，并应对不断变化的市场需求和技术挑战。&lt;/p></description></item><item><title>项目文件树</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/</guid><description>&lt;h1 id="缩写">
+&lt;a class="header-anchor" href="#%e7%bc%a9%e5%86%99">&lt;/a>
+缩写
+&lt;/h1>&lt;p>该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>缩写&lt;/th>
+ &lt;th>全称&lt;/th>
+ &lt;th>描述&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>AUTOSAR&lt;/td>
+ &lt;td>AUTomotive Open System ARchitecture&lt;/td>
+ &lt;td>汽车开放系统架构，是汽车软件开发的标准框架。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>ASW&lt;/td>
+ &lt;td>Application Software&lt;/td>
+ &lt;td>应用软件，主要负责实现特定功能的业务逻辑。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>BSW&lt;/td>
+ &lt;td>Basic Software&lt;/td>
+ &lt;td>基础软件，负责底层硬件控制和通用服务的实现。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>BSP&lt;/td>
+ &lt;td>Board Support Package&lt;/td>
+ &lt;td>板级支持包，包含硬件初始化、驱动和相关工具。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>HAL&lt;/td>
+ &lt;td>Hardware Abstraction Layer&lt;/td>
+ &lt;td>硬件抽象层，提供对硬件的抽象访问接口。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>MCAL&lt;/td>
+ &lt;td>Microcontroller Abstraction Layer&lt;/td>
+ &lt;td>微控制器抽象层，提供对芯片外设的直接访问接口。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>RTE&lt;/td>
+ &lt;td>Run-Time Environment&lt;/td>
+ &lt;td>运行时环境，负责 ASW 与 BSW 的通信管理。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>UDS&lt;/td>
+ &lt;td>Unified Diagnostic Services&lt;/td>
+ &lt;td>统一诊断服务协议（ISO 14229），用于 ECU 的诊断通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Dcm&lt;/td>
+ &lt;td>Diagnostic Communication Manager&lt;/td>
+ &lt;td>诊断通信管理模块，实现 UDS 服务的解析和处理。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Dem&lt;/td>
+ &lt;td>Diagnostic Event Manager&lt;/td>
+ &lt;td>诊断事件管理模块，负责故障码存储和管理。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>PduR&lt;/td>
+ &lt;td>Protocol Data Unit Router&lt;/td>
+ &lt;td>协议数据单元路由模块，负责数据路由。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CanTp&lt;/td>
+ &lt;td>CAN Transport Protocol&lt;/td>
+ &lt;td>CAN 传输协议模块，用于实现 UDS 消息的传输。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>NvM&lt;/td>
+ &lt;td>Non-Volatile Memory Manager&lt;/td>
+ &lt;td>非易失性内存管理模块，负责数据的持久化存储。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SoAd&lt;/td>
+ &lt;td>Socket Adapter&lt;/td>
+ &lt;td>套接字适配器，用于实现基于 TCP/IP 的通信协议（如 DoIP）。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>ECU&lt;/td>
+ &lt;td>Electronic Control Unit&lt;/td>
+ &lt;td>电子控制单元，是汽车的嵌入式控制器。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>GPIO&lt;/td>
+ &lt;td>General Purpose Input/Output&lt;/td>
+ &lt;td>通用输入输出，硬件外设的一种。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>UART&lt;/td>
+ &lt;td>Universal Asynchronous Receiver-Transmitter&lt;/td>
+ &lt;td>通用异步收发器，用于串行通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SPI&lt;/td>
+ &lt;td>Serial Peripheral Interface&lt;/td>
+ &lt;td>串行外设接口，用于高性能串行通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>I2C&lt;/td>
+ &lt;td>Inter-Integrated Circuit&lt;/td>
+ &lt;td>一种常用的两线串行通信协议。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CAN&lt;/td>
+ &lt;td>Controller Area Network&lt;/td>
+ &lt;td>控制器局域网，是汽车通信总线的一种。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>FlexRay&lt;/td>
+ &lt;td>Flexible Ray&lt;/td>
+ &lt;td>一种高速汽车通信协议，用于安全关键应用。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>LIN&lt;/td>
+ &lt;td>Local Interconnect Network&lt;/td>
+ &lt;td>局域互连网络，低成本汽车通信协议。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>DoIP&lt;/td>
+ &lt;td>Diagnostics over Internet Protocol&lt;/td>
+ &lt;td>基于 IP 协议的诊断通信。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>OS&lt;/td>
+ &lt;td>Operating System&lt;/td>
+ &lt;td>操作系统，提供任务调度和资源管理功能。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SWC&lt;/td>
+ &lt;td>Software Component&lt;/td>
+ &lt;td>软件组件，用于实现应用逻辑，是 ASW 层的核心构成模块。&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="概览">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%a7%88">&lt;/a>
+概览
+&lt;/h1>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">├─.vscode
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─ASW				此处存放与硬件平台无关代码
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─BSW				存放与硬件相关代码，所以子文件夹需要区分不同芯片型号
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─BOOT				存放BOOT相关代码
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─Documents			存放项目相关的文档，为了方便使用，最好将使用的芯片的手册放于此处
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─OS				存放和系统相关的，如文件系统、操作系统、调度系统等等
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">├─Output			存放输出文件，请在设置Keil和IAR等软件时，选用输出到此文件夹，方便管理，并且增强Project中的整洁性
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">└─Project			存放和工程相关的文件树，如KEIL、IAR、SOURCEINSIGHT、TSMATSER、CANoe、JFLASH，与项目相关的工程请放置此处
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>[!important]&lt;/p></description></item><item><title>校验</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%A0%A1%E9%AA%8C/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%A0%A1%E9%AA%8C/</guid><description>&lt;h1 id="校验和-checksum">
+&lt;a class="header-anchor" href="#%e6%a0%a1%e9%aa%8c%e5%92%8c-checksum">&lt;/a>
+校验和 (Checksum)
+&lt;/h1>&lt;h2 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h2>&lt;p>&lt;a href="https://www.cnblogs.com/pikacq/p/18408076">CheckSum算法&amp;ndash;又名累加和校验算法 - 皮卡成球 - 博客园&lt;/a>&lt;/p>
+&lt;h2 id="原理及步骤">
+&lt;a class="header-anchor" href="#%e5%8e%9f%e7%90%86%e5%8f%8a%e6%ad%a5%e9%aa%a4">&lt;/a>
+原理及步骤
+&lt;/h2>&lt;p>**校验和（Checksum）**是网络协议使用的数据错误检测方法，并且被认为比LRC（纵向冗余校验，Longitudinal Redundancy Check，LRC），VRC和CRC（循环冗余校验（Cyclic Redundancy Codes，CRC））更可靠。此方法在发送方使用校验和生成器，在接收方使用校验和校验器。&lt;/p>
+&lt;p>&lt;strong>累加和校验算法的实现&lt;/strong>&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;em>&lt;code>发送&lt;/code>方&lt;/em>：对要数据累加，得到一个数据和，对和求反，即得到我们的校验值。然后把要发的数据和这个校验值一起发送给接收方。&lt;/p>
+&lt;p>&lt;em>&lt;code>接受&lt;/code>方&lt;/em>：对接收的数据（包括校验和）进行累加，然后加1，如果得到0，那么说明数据没有出现传输错误。&lt;/p>
+&lt;blockquote>
+&lt;p>注意，此处发送方和接收方用于保存累加结果的类型一定要一致，否则加1就无法实现溢出从而无法得到0，校验就会无效。&lt;/p>&lt;/blockquote>&lt;/blockquote>
+&lt;p>&lt;strong>步骤&lt;/strong>：&lt;/p>
+&lt;ol>
+&lt;li>校验数据以16bit为单位进行累加求和，校验数据需为偶字节数（不然无法以16bit为累加单位），奇字节数末尾填充0变为偶字节数；&lt;/li>
+&lt;li>累加和超过16bit，产生进位，将进位当作高16bit，其他数为低16bit，进行相加；&lt;/li>
+&lt;li>循环步骤2，直到没有进位产生为止，得到sum值&lt;/li>
+&lt;li>累加和取反得到校验和，即checksum值，存入数据的checksum字段即可。&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>[!important]&lt;/p>
+&lt;p>CheckSum取反主要原理是：&lt;/p>
+&lt;p>==原码+反码+1 = 0==&lt;/p>&lt;/blockquote>
+&lt;h2 id="栗子">
+&lt;a class="header-anchor" href="#%e6%a0%97%e5%ad%90">&lt;/a>
+栗子
+&lt;/h2>&lt;blockquote>
+&lt;p>八位保存累加和：&lt;/p>
+&lt;p>需要发送数据(8bit 2进制)： 10101001 00111001 00001010&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>奇字节补0:10101001 00111001 00001010 00000000&lt;/code>&lt;/li>
+&lt;li>&lt;code>10101001 + 00111001 + 00001010 + 00000000 = 11101100(sum值)&lt;/code>&lt;/li>
+&lt;li>&lt;code>~11101100 = 00010011(checksum值)&lt;/code>&lt;/li>
+&lt;li>所以发送的数据就是： 10101001 00111001 00001010 00010011&lt;/li>
+&lt;li>接收方接收到的数据是： 10101001 00111001 00001010 00010011&lt;/li>
+&lt;li>&lt;code>10101001 + 00111001 + 00001010 + 00010011 = 11111111(sum值)&lt;/code>&lt;/li>
+&lt;li>&lt;code>~11111111 = 00000000(结果是0，校验完成，没有错误)&lt;/code>&lt;/li>
+&lt;/ol>&lt;/blockquote>
+&lt;blockquote>
+&lt;p>十六位保存累加和：&lt;/p></description></item></channel></rss>

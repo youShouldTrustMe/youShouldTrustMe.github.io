@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FS on TruestMe's Blog</title><link>https://youShouldTrustMe.github.io/tags/fs/</link><description>Recent content in FS on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 01 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://youShouldTrustMe.github.io/tags/fs/index.xml" rel="self" type="application/rss+xml"/><item><title>FlashDB</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/fs/flashdb/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/fs/flashdb/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://github.com/armink/FlashDB/blob/master/README_zh.md">FlashDB/README_zh.md at master · armink/FlashDB (github.com)&lt;/a>&lt;/p>
+&lt;h1 id="基本概念">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5">&lt;/a>
+基本概念
+&lt;/h1>&lt;ul>
+&lt;li>&lt;strong>键值数据库（KVDB）&lt;/strong>：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。&lt;/li>
+&lt;li>&lt;strong>时序数据（TSDB）&lt;/strong> ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 &lt;strong>时间顺序存储&lt;/strong> 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。&lt;/li>
+&lt;li>&lt;strong>时序记录（TSL）&lt;/strong> ：TSL (Time series log)，是 TSDB 中每条记录的简称。&lt;/li>
+&lt;li>&lt;strong>Blob&lt;/strong> ：在计算机中，blob 常常是数据库中用来存储二进制文件的字段类型。在 FlashDB 中， KV 和 TSL 都使用 blob 类型来存储，该类型可以兼容任意变量类型。&lt;/li>
+&lt;li>&lt;strong>迭代器（iterator）&lt;/strong>：它可以让用户透过特定的接口巡访容器中的每一个元素，而不用了解底层的实现。 TSDB 和 KVDB 都支持通过迭代器对数据库进行遍历访问。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png" alt="框架结构">&lt;/p>
+&lt;h1 id="kvdb">
+&lt;a class="header-anchor" href="#kvdb">&lt;/a>
+KVDB
+&lt;/h1>&lt;h2 id="字符串类型">
+&lt;a class="header-anchor" href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%b1%bb%e5%9e%8b">&lt;/a>
+字符串类型
+&lt;/h2>&lt;p>使用一个名为 &lt;code>&amp;quot;temp&amp;quot;&lt;/code> 的 KV 来存储温度值，分别演示了字符串 KV 从 &lt;code>创建-&amp;gt;读取-&amp;gt;修改-&amp;gt;删除&lt;/code> 的全过程。大致内容如下：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">kvdb_type_string_sample&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">fdb_kvdb_t&lt;/span> &lt;span class="n">kvdb&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">FDB_INFO&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;==================== kvdb_type_string_sample ====================&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span> &lt;span class="cm">/* CREATE new Key-Value */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">char&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;36C&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cm">/* It will create new KV node when &amp;#34;temp&amp;#34; KV not in database. */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">fdb_kv_set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">kvdb&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;temp&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">FDB_INFO&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;create the &amp;#39;temp&amp;#39; string KV, value is: %s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span> &lt;span class="cm">/* GET the KV value */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">char&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">return_value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cm">/* Get the &amp;#34;temp&amp;#34; KV value.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm"> * NOTE: The return value saved in fdb_kv_get&amp;#39;s buffer. Please copy away as soon as possible.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm"> */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">return_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">fdb_kv_get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">kvdb&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;temp&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cm">/* the return value is NULL when get the value failed */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">return_value&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">strncpy&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">temp_data&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">return_value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">sizeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">temp_data&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">FDB_INFO&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;get the &amp;#39;temp&amp;#39; value is: %s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span> &lt;span class="cm">/* CHANGE the KV value */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">char&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;38C&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cm">/* change the &amp;#34;temp&amp;#34; KV&amp;#39;s value to &amp;#34;38C&amp;#34; */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">fdb_kv_set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">kvdb&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;temp&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">FDB_INFO&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;set &amp;#39;temp&amp;#39; value to %s&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">temp_data&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span> &lt;span class="cm">/* DELETE the KV by name */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">fdb_kv_del&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">kvdb&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;temp&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">FDB_INFO&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;delete the &amp;#39;temp&amp;#39; finish&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">FDB_INFO&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;===========================================================&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>首先创建了一个 KV 名为 &lt;code>&amp;quot;temp&amp;quot;&lt;/code> ，并给予初值 36℃&lt;/li>
+&lt;li>读取 &lt;code>&amp;quot;temp&amp;quot;&lt;/code> KV 当前的值，发现与初值相同&lt;/li>
+&lt;li>修改 &lt;code>&amp;quot;temp&amp;quot;&lt;/code> KV 的值为 38℃&lt;/li>
+&lt;li>最后删除 &lt;code>&amp;quot;temp&amp;quot;&lt;/code> KV&lt;/li>
+&lt;/ul>
+&lt;h2 id="blob类型">
+&lt;a class="header-anchor" href="#blob%e7%b1%bb%e5%9e%8b">&lt;/a>
+Blob类型
+&lt;/h2>&lt;p>blob KV 是一个比较常用类型，其 value 是一个没有类型限制的二进制类型。在功能上，blob KV 也兼容字符串 KV 。在 API 的使用上， blob KV 拥有一套独立的 API ，可以很快速的实现各种类型 KV 到 KVDB 中的存储，比如：基本类型，数组以及结构体等。&lt;/p></description></item></channel></rss>

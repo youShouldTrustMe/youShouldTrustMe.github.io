@@ -1,0 +1,1259 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>软件及工具 on TruestMe's Blog</title><link>https://youShouldTrustMe.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/</link><description>Recent content in 软件及工具 on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 01 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://youShouldTrustMe.github.io/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml"/><item><title>CANoe</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/canoe/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/canoe/</guid><description>&lt;h1 id="软件简介">
+&lt;a class="header-anchor" href="#%e8%bd%af%e4%bb%b6%e7%ae%80%e4%bb%8b">&lt;/a>
+软件简介
+&lt;/h1>&lt;p>CANoe 是一款由 Vector Informatik 提供的专业软件工具，用于开发、测试和分析基于 CAN（Controller Area Network）总线和其他汽车网络协议（如 LIN、FlexRay、Ethernet、MOST）的嵌入式系统。CANoe 是一款功能强大且广泛应用于汽车电子系统开发和测试的工具。&lt;/p>
+&lt;h2 id="canoe-的主要功能">
+&lt;a class="header-anchor" href="#canoe-%e7%9a%84%e4%b8%bb%e8%a6%81%e5%8a%9f%e8%83%bd">&lt;/a>
+CANoe 的主要功能
+&lt;/h2>&lt;ol>
+&lt;li>&lt;strong>总线仿真和分析&lt;/strong>：
+&lt;ul>
+&lt;li>支持 CAN、LIN、FlexRay、MOST、Ethernet 等多种总线协议。&lt;/li>
+&lt;li>提供实时总线仿真和消息分析功能，可以捕获和记录总线数据。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>节点仿真&lt;/strong>：
+&lt;ul>
+&lt;li>可以仿真汽车电子系统中的多个节点，支持仿真真实硬件环境下的行为。&lt;/li>
+&lt;li>支持通过 CAPL（CAN Access Programming Language）脚本编写复杂的仿真逻辑。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>网络管理&lt;/strong>：
+&lt;ul>
+&lt;li>提供网络管理功能，支持 CAN、LIN 和 FlexRay 等网络协议的管理。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>诊断功能&lt;/strong>：
+&lt;ul>
+&lt;li>支持 UDS（Unified Diagnostic Services）等诊断协议，能够执行故障诊断和错误处理。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;strong>集成开发环境&lt;/strong>：
+&lt;ul>
+&lt;li>提供图形化的用户界面和脚本编写环境，方便用户进行配置和测试。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="使用场景">
+&lt;a class="header-anchor" href="#%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af">&lt;/a>
+使用场景
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>汽车电子系统开发&lt;/strong>：CANoe 常用于汽车电子控制单元（ECU）的开发和测试，可以仿真和测试不同的汽车总线网络。&lt;/li>
+&lt;li>&lt;strong>功能验证和测试&lt;/strong>：在汽车开发过程中，用于功能验证、系统集成测试和回归测试。&lt;/li>
+&lt;li>&lt;strong>故障诊断和分析&lt;/strong>：用于捕获和分析总线数据，帮助工程师进行故障诊断和问题定位。&lt;/li>
+&lt;/ul>
+&lt;h2 id="主要组件">
+&lt;a class="header-anchor" href="#%e4%b8%bb%e8%a6%81%e7%bb%84%e4%bb%b6">&lt;/a>
+主要组件
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>Measurement Setup&lt;/strong>：配置和管理测试环境，包括总线配置、节点配置和信号监控。&lt;/li>
+&lt;li>&lt;strong>CAPL Browser&lt;/strong>：用于编写和调试 CAPL 脚本，实现复杂的仿真和测试逻辑。&lt;/li>
+&lt;li>&lt;strong>Trace Window&lt;/strong>：实时显示和记录总线上的消息和事件，方便进行分析和调试。&lt;/li>
+&lt;li>&lt;strong>Panel Designer&lt;/strong>：设计用户界面面板，用于控制和监控仿真环境中的节点和信号。&lt;/li>
+&lt;/ul>
+&lt;h1 id="canoe在ecu项目开发中的作用">
+&lt;a class="header-anchor" href="#canoe%e5%9c%a8ecu%e9%a1%b9%e7%9b%ae%e5%bc%80%e5%8f%91%e4%b8%ad%e7%9a%84%e4%bd%9c%e7%94%a8">&lt;/a>
+CANoe在ECU项目开发中的作用
+&lt;/h1>&lt;h2 id="第一阶段全仿真网络系统">
+&lt;a class="header-anchor" href="#%e7%ac%ac%e4%b8%80%e9%98%b6%e6%ae%b5%e5%85%a8%e4%bb%bf%e7%9c%9f%e7%bd%91%e7%bb%9c%e7%b3%bb%e7%bb%9f">&lt;/a>
+第一阶段：全仿真网络系统
+&lt;/h2>&lt;p>&lt;strong>也就是所有的节点都是虚拟的&lt;/strong>&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_11_7_25_202407051107514.png" alt="image-20240705110725435">&lt;/p>
+&lt;h2 id="第二阶段真实节点和部分仿真节点共存">
+&lt;a class="header-anchor" href="#%e7%ac%ac%e4%ba%8c%e9%98%b6%e6%ae%b5%e7%9c%9f%e5%ae%9e%e8%8a%82%e7%82%b9%e5%92%8c%e9%83%a8%e5%88%86%e4%bb%bf%e7%9c%9f%e8%8a%82%e7%82%b9%e5%85%b1%e5%ad%98">&lt;/a>
+第二阶段：真实节点和部分仿真节点共存
+&lt;/h2>&lt;p>可以使用部分真实的ECU代替虚拟节点，形成半虚拟半真实的网络&lt;/p></description></item><item><title>Configuration Wizard</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/configuration-wizard/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/configuration-wizard/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/u010632165/article/details/124162184">可视化的Keil工程配置模板，一招提高单片机开发效率-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/zxy18791750520/article/details/140120610">Keil5 Configuration Wizard配置向导的使用方法_keil configuration wizard-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="实现">
+&lt;a class="header-anchor" href="#%e5%ae%9e%e7%8e%b0">&lt;/a>
+实现
+&lt;/h1>&lt;p>Configuration Wizard可以实现可视化配置宏定义文件。&lt;/p>
+&lt;p>首先在官方文档（&lt;a href="https://www.keil.com/support/man/">Keil Product Manuals&lt;/a>）中搜索Configuration Wizard（&lt;a href="https://developer.arm.com/documentation/101407/0541/Utilities/Configuration-Wizard?lang=en">µVision User&amp;rsquo;s Guide (arm.com)&lt;/a>）&lt;/p>
+&lt;p>网页中的文档描述得非常详细，也提供了一个配置模板，我们只需要照着文档描述写好相应的格式即可生成一个图形化的配置界面。&lt;/p>
+&lt;blockquote>
+&lt;p>[!note]&lt;/p>
+&lt;p>&lt;strong>注意：Keil并没有那么智能，写完这个模板它并不能立马自动匹配到，需要重新关掉Keil工程再开才能加载成图形配置模板，然后才能够实现即时修改即时响应！！！&lt;/strong>&lt;/p>&lt;/blockquote>
+&lt;p>将h文件或者c文件转换为可视化界面是很简单的，只需要在文件的开头和结尾加上以下的标识符即可：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;&amp;lt;&amp;lt; Use Configuration Wizard in Context Menu &amp;gt;&amp;gt;&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;&amp;lt;&amp;lt; end of configuration section &amp;gt;&amp;gt;&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>然后关掉工程再重新打开，就可以实现可视化界面了&lt;/p>
+&lt;h1 id="语法">
+&lt;a class="header-anchor" href="#%e8%af%ad%e6%b3%95">&lt;/a>
+语法
+&lt;/h1>&lt;h2 id="注释">
+&lt;a class="header-anchor" href="#%e6%b3%a8%e9%87%8a">&lt;/a>
+注释
+&lt;/h2>&lt;p>使用标签&lt;code>i&lt;/code>来进行注释&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;i&amp;gt;这里加上注释
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="组">
+&lt;a class="header-anchor" href="#%e7%bb%84">&lt;/a>
+组
+&lt;/h2>&lt;p>使用标签&lt;code>h&lt;/code>来控制组&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;h&amp;gt; 组名
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;/h&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="复选框">
+&lt;a class="header-anchor" href="#%e5%a4%8d%e9%80%89%e6%a1%86">&lt;/a>
+复选框
+&lt;/h2>&lt;h3 id="复选框组">
+&lt;a class="header-anchor" href="#%e5%a4%8d%e9%80%89%e6%a1%86%e7%bb%84">&lt;/a>
+复选框组
+&lt;/h3>&lt;p>使用标签&lt;code>e&lt;/code>来控制复选框组&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;e&amp;gt;系统信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;q&amp;gt; 负载锁定
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="cp">#define _EPCM_LOAD_LOCK 1 &lt;/span>&lt;span class="c1">//BIT15; 0：不使能负载锁定; 1：使能负载锁定
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// &amp;lt;/e&amp;gt;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="复选框-1">
+&lt;a class="header-anchor" href="#%e5%a4%8d%e9%80%89%e6%a1%86-1">&lt;/a>
+复选框
+&lt;/h3>&lt;p>复选框&lt;code>(&amp;lt;c&amp;gt; &amp;lt;/c&amp;gt;&lt;/code> or &lt;code>&amp;lt;!c&amp;gt; &amp;lt;/c&amp;gt;&lt;/code>：创建一个复选框来取消注释或注释代码。&lt;/p></description></item><item><title>Git</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/git/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/git/</guid><description>&lt;h1 id="git-的基本概念">
+&lt;a class="header-anchor" href="#git-%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5">&lt;/a>
+Git 的基本概念
+&lt;/h1>&lt;p>Git 是一个分布式版本控制系统，广泛用于软件开发中来跟踪代码变更、协作开发和版本管理。以下是 Git 的基本使用指南，涵盖常见的操作和命令。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Repository（仓库）&lt;/strong>：存储项目及其版本历史的地方。&lt;/li>
+&lt;li>&lt;strong>Commit（提交）&lt;/strong>：对文件或目录的快照。&lt;/li>
+&lt;li>&lt;strong>Branch（分支）&lt;/strong>：代码开发的独立分支。&lt;/li>
+&lt;li>&lt;strong>Merge（合并）&lt;/strong>：将分支的修改合并到主分支中。&lt;/li>
+&lt;li>&lt;strong>Remote（远程）&lt;/strong>：存储在服务器上的仓库。&lt;/li>
+&lt;/ul>
+&lt;h1 id="git-的基本操作">
+&lt;a class="header-anchor" href="#git-%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c">&lt;/a>
+Git 的基本操作
+&lt;/h1>&lt;h2 id="安装-git">
+&lt;a class="header-anchor" href="#%e5%ae%89%e8%a3%85-git">&lt;/a>
+安装 Git
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>Windows&lt;/strong>：从 &lt;a href="https://git-scm.com/download/win">Git 官网&lt;/a> 下载并安装。&lt;/li>
+&lt;li>&lt;strong>macOS&lt;/strong>：使用 Homebrew 安装：&lt;code>brew install git&lt;/code>&lt;/li>
+&lt;li>&lt;strong>Linux&lt;/strong>：使用包管理器安装，例如 Ubuntu：&lt;code>sudo apt-get install git&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置-git">
+&lt;a class="header-anchor" href="#%e9%85%8d%e7%bd%ae-git">&lt;/a>
+配置 Git
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git config --global user.name &lt;span class="s2">&amp;#34;Your Name&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git config --global user.email &lt;span class="s2">&amp;#34;your.email@example.com&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建一个新的-git-仓库">
+&lt;a class="header-anchor" href="#%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%e6%96%b0%e7%9a%84-git-%e4%bb%93%e5%ba%93">&lt;/a>
+创建一个新的 Git 仓库
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">mkdir myproject
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> myproject
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git init
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="克隆一个现有的仓库">
+&lt;a class="header-anchor" href="#%e5%85%8b%e9%9a%86%e4%b8%80%e4%b8%aa%e7%8e%b0%e6%9c%89%e7%9a%84%e4%bb%93%e5%ba%93">&lt;/a>
+克隆一个现有的仓库
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git clone https://github.com/username/repository.git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="检查仓库状态">
+&lt;a class="header-anchor" href="#%e6%a3%80%e6%9f%a5%e4%bb%93%e5%ba%93%e7%8a%b6%e6%80%81">&lt;/a>
+检查仓库状态
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git status
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="添加文件到仓库">
+&lt;a class="header-anchor" href="#%e6%b7%bb%e5%8a%a0%e6%96%87%e4%bb%b6%e5%88%b0%e4%bb%93%e5%ba%93">&lt;/a>
+添加文件到仓库
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git add filename
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git add .
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="提交更改">
+&lt;a class="header-anchor" href="#%e6%8f%90%e4%ba%a4%e6%9b%b4%e6%94%b9">&lt;/a>
+提交更改
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git commit -m &lt;span class="s2">&amp;#34;Commit message&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="查看提交历史">
+&lt;a class="header-anchor" href="#%e6%9f%a5%e7%9c%8b%e6%8f%90%e4%ba%a4%e5%8e%86%e5%8f%b2">&lt;/a>
+查看提交历史
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git log
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="创建和切换分支">
+&lt;a class="header-anchor" href="#%e5%88%9b%e5%bb%ba%e5%92%8c%e5%88%87%e6%8d%a2%e5%88%86%e6%94%af">&lt;/a>
+创建和切换分支
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">git branch new-branch
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git checkout new-branch
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>或者创建并切换到新分支&lt;/p></description></item><item><title>JyySlide</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/jyyslide/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/jyyslide/</guid><description>&lt;h1 id="下载安装">
+&lt;a class="header-anchor" href="#%e4%b8%8b%e8%bd%bd%e5%ae%89%e8%a3%85">&lt;/a>
+下载、安装
+&lt;/h1>&lt;h2 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h2>&lt;p>&lt;a href="https://github.com/sunnysky29/jyy-slides">sunnysky29/jyy-slides: jyy OS PPT (github.com)&lt;/a>&lt;/p>
+&lt;h2 id="工具的安装">
+&lt;a class="header-anchor" href="#%e5%b7%a5%e5%85%b7%e7%9a%84%e5%ae%89%e8%a3%85">&lt;/a>
+工具的安装
+&lt;/h2>&lt;p>首先需要安装python，python版本需要在&lt;code>3.10&lt;/code>及以上&lt;/p>
+&lt;p>安装poetry&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">pip install poetry
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>克隆库&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone https://github.com/zweix123/jyyslide-md.git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> jyyslide-md
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装第三方库&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">poetry install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="转换">
+&lt;a class="header-anchor" href="#%e8%bd%ac%e6%8d%a2">&lt;/a>
+转换
+&lt;/h2>&lt;p>转换可以使用两种方法：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;blockquote>
+&lt;p>使用虚拟环境&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">poetry shell
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">python main.py 需要转换的文件地址
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;blockquote>
+&lt;p>直接转换&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">poetry run python main.py 需要转换的文件地址
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/blockquote>
+&lt;/li>
+&lt;/ol>
+&lt;p>windows的快捷转换：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>首先需要先给md文件设置一个右键命令&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;blockquote>
+&lt;p>按下 &lt;code>Win + R&lt;/code> 打开“运行”窗口，输入 &lt;code>regedit&lt;/code>，然后按回车进入注册表编辑器。&lt;/p>
+&lt;p>导航到以下路径：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">复制代码
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">HKEY_CLASSES_ROOT\*\shell
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>右键点击 &lt;code>shell&lt;/code> 文件夹，选择“新建” &amp;gt; “项”，将其命名为 &lt;code>Convert to HTML&lt;/code>。&lt;/p>
+&lt;p>在 &lt;code>Convert to HTML&lt;/code> 项下，右键点击右侧窗格中的 &lt;code>(默认)&lt;/code>，选择“修改”，将“数值数据”设置为你希望显示的右键菜单项的名称，比如“Convert Markdown to HTML”。&lt;/p></description></item><item><title>Linux</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/linux/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/linux/</guid><description>&lt;h1 id="安装">
+&lt;a class="header-anchor" href="#%e5%ae%89%e8%a3%85">&lt;/a>
+安装
+&lt;/h1>&lt;p>首先从&lt;a href="https://cn.ubuntu.com/download/desktop">下载Ubuntu桌面系统 | Ubuntu&lt;/a>上下载镜像文件，下载完成之后，下载启动盘制作工具的软件，使用&lt;a href="https://rufus.ie/zh/">Rufus - 轻松创建 USB 启动盘&lt;/a>或者&lt;a href="https://ultraiso.net/">UltraISO软碟通中文官方网站 - 光盘映像文件制作/编辑/转换工具&lt;/a>。准备一个8G以上的U盘，==注意，U盘一定要先格式化，文件系统格式为FAT32==。&lt;/p>
+&lt;p>制作启动盘请参考&lt;a href="https://blog.csdn.net/qq_43901693/article/details/95535051">UltralSO 软碟通制作U盘启动盘（图解详细 完美避坑）_软碟通怎么制作u盘启动盘-CSDN博客&lt;/a>或&lt;a href="https://zhuanlan.zhihu.com/p/370193387">Windows10怎么使用Rufus制作USB启动盘？ - 知乎 (zhihu.com)&lt;/a>&lt;/p>
+&lt;p>制作好启动盘之后，重启电脑的时候，等待出现电脑的Logo的时候，按住进入BISO的按键（华硕是F2），拖动启动顺序（Boot）&lt;/p>
+&lt;p>&lt;a href="https://cn.linux-terminal.com/?p=7582">https://cn.linux-terminal.com/?p=7582&lt;/a>&lt;/p>
+&lt;h1 id="基础工具">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e7%a1%80%e5%b7%a5%e5%85%b7">&lt;/a>
+基础工具
+&lt;/h1>&lt;h2 id="apt">
+&lt;a class="header-anchor" href="#apt">&lt;/a>
+apt
+&lt;/h2>&lt;p>&lt;code>apt&lt;/code>是包管理工具,常用命令如下：&lt;/p>
+&lt;p>&lt;code>apt&lt;/code> 常用的命令有：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>更新本地包列表：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt update
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>升级所有已安装的软件包：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt upgrade
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>安装新的软件包：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt install &amp;lt;package_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>删除已安装的软件包：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt remove &amp;lt;package_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>完全删除软件包（包括配置文件）：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt purge &amp;lt;package_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>清理系统不再需要的包：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt autoremove
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>显示有关包的信息：&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">apt show &amp;lt;package_name&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;h2 id="zsh">
+&lt;a class="header-anchor" href="#zsh">&lt;/a>
+zsh
+&lt;/h2>&lt;p>参考链接&lt;/p>
+&lt;p>&lt;a href="https://www.haoyep.com/posts/zsh-config-oh-my-zsh/">Zsh 安装与配置，使用 Oh-My-Zsh 美化终端 | Leehow的小站 (haoyep.com)&lt;/a>&lt;/p></description></item><item><title>PyQT</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/pyqt/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/pyqt/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/youcans/article/details/120925109">Python 小白从零开始 PyQt5 项目实战（8）汇总篇（完整例程）_pyqt项目实战教程-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.freecodecamp.org/chinese/learn">免费学习编程 - Python、JavaScript、Java、Git 等 (freecodecamp.org)&lt;/a>&lt;/p>
+&lt;h1 id="ui">
+&lt;a class="header-anchor" href="#ui">&lt;/a>
+UI
+&lt;/h1>&lt;h2 id="fluent-widgets">
+&lt;a class="header-anchor" href="#fluent-widgets">&lt;/a>
+fluent-widgets
+&lt;/h2>&lt;p>参考链接：&lt;a href="https://pyqt-fluent-widgets.readthedocs.io/zh-cn/latest/quick-start.html">快速上手 - PyQt-Fluent-Widgets&lt;/a>&lt;/p>
+&lt;h2 id="silicon">
+&lt;a class="header-anchor" href="#silicon">&lt;/a>
+silicon
+&lt;/h2>&lt;p>参考链接：&lt;a href="https://github.com/ChinaIceF/PyQt-SiliconUI">ChinaIceF/PyQt-SiliconUI: A powerful and artistic UI library based on PyQt5，基于 PyQt5 的UI框架，灵动、优雅而轻便 (github.com)&lt;/a>&lt;/p>
+&lt;h1 id="安装">
+&lt;a class="header-anchor" href="#%e5%ae%89%e8%a3%85">&lt;/a>
+安装
+&lt;/h1>&lt;p>&lt;em>&lt;code>安装&lt;/code>python&lt;/em>&lt;/p>
+&lt;p>从官网下载：&lt;a href="https://www.python.org/">Welcome to Python.org&lt;/a>&lt;/p>
+&lt;p>&lt;em>&lt;code>IDE&lt;/code>的选择&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>==VSCODE==（❤❤❤）：&lt;a href="https://code.visualstudio.com/">Visual Studio Code - Code Editing. Redefined&lt;/a>&lt;/li>
+&lt;li>==Cursor==(AI级选手，面向自然语言编程，amazing❗❗❗)：&lt;a href="https://www.cursor.com/">Cursor&lt;/a>&lt;/li>
+&lt;li>==Pycharm==（python专用工具）：&lt;a href="https://www.jetbrains.com/pycharm/">PyCharm: the Python IDE for data science and web development (jetbrains.com)&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;em>&lt;code>python包管理工具&lt;/code>PIP&lt;/em>&lt;/p>
+&lt;p>&lt;code>pip&lt;/code> 是 Python 包管理工具，用于安装和管理 Python 库和依赖。通过 &lt;code>pip&lt;/code>，你可以方便地从 Python Package Index (PyPI) 下载和安装第三方库，并自动解决依赖问题。&lt;/p></description></item><item><title>QAC</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/qac/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/qac/</guid><description>&lt;h1 id="相关基础知识">
+&lt;a class="header-anchor" href="#%e7%9b%b8%e5%85%b3%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86">&lt;/a>
+相关基础知识
+&lt;/h1>&lt;h2 id="评估标准">
+&lt;a class="header-anchor" href="#%e8%af%84%e4%bc%b0%e6%a0%87%e5%87%86">&lt;/a>
+评估标准
+&lt;/h2>&lt;ol>
+&lt;li>&lt;strong>缺陷数量&lt;/strong>：报告中列出的所有缺陷和警告的数量。&lt;/li>
+&lt;li>&lt;strong>缺陷严重性&lt;/strong>：缺陷的等级分类（如严重、中等、轻微），帮助优先处理高风险问题。&lt;/li>
+&lt;li>&lt;strong>代码复杂度&lt;/strong>：圈复杂度等度量，反映代码的复杂程度。&lt;/li>
+&lt;li>&lt;strong>代码规范违例&lt;/strong>：违反编码标准和最佳实践的数量和类型。&lt;/li>
+&lt;li>&lt;strong>代码覆盖率&lt;/strong>：静态分析所覆盖的代码比例，评估代码的全面性。&lt;/li>
+&lt;li>&lt;strong>重复代码&lt;/strong>：检测到的重复代码块的数量。&lt;/li>
+&lt;li>&lt;strong>安全漏洞&lt;/strong>：识别的安全问题和潜在的漏洞。&lt;/li>
+&lt;li>&lt;strong>性能警告&lt;/strong>：关于性能问题的警告和建议。&lt;/li>
+&lt;/ol>
+&lt;h2 id="规则">
+&lt;a class="header-anchor" href="#%e8%a7%84%e5%88%99">&lt;/a>
+规则
+&lt;/h2>&lt;p>在 &lt;strong>QAC&lt;/strong>（Quality Assurance C）中，&lt;strong>规则&lt;/strong> 是一组编码标准或检查项，用于静态代码分析。它们的主要作用是自动检测源代码中的潜在错误、不符合编码规范的地方，以及可能导致软件漏洞或性能问题的代码。具体来说，QAC中的规则主要有以下几个作用：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>编码标准一致性&lt;/strong>：确保代码符合编码标准（例如MISRA-C标准），提升代码的一致性和可维护性。&lt;/li>
+&lt;li>&lt;strong>错误检测&lt;/strong>：帮助识别常见的编程错误，如空指针引用、数组越界、未初始化的变量等。&lt;/li>
+&lt;li>&lt;strong>代码质量提高&lt;/strong>：通过检测潜在的错误和坏习惯，提升代码的整体质量和可读性。&lt;/li>
+&lt;li>&lt;strong>安全性增强&lt;/strong>：识别可能导致安全漏洞的代码，如未正确处理用户输入、内存泄漏等。&lt;/li>
+&lt;li>&lt;strong>减少调试时间&lt;/strong>：在代码早期阶段检测并修复问题，减少后期调试和修复的工作量。&lt;/li>
+&lt;li>&lt;strong>符合行业规范&lt;/strong>：某些行业（如汽车、医疗设备）对软件安全性和可靠性要求很高，QAC的规则有助于确保代码符合这些行业规范。&lt;/li>
+&lt;/ol>
+&lt;h2 id="检测原理">
+&lt;a class="header-anchor" href="#%e6%a3%80%e6%b5%8b%e5%8e%9f%e7%90%86">&lt;/a>
+检测原理
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>代码解析（Parsing）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>词法分析和语法分析&lt;/strong>：QAC 首先对源代码进行词法分析，将代码分解成标记（tokens），然后进行语法分析，构建语法树（Abstract Syntax Tree, AST）。这一步确保代码的语法结构正确，并为后续的分析提供基础。&lt;/li>
+&lt;li>&lt;strong>语义分析&lt;/strong>：在语法树基础上，QAC 进行语义分析，理解代码的实际含义，包括变量类型、作用域、函数调用等信息。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>规则应用（Rule Application）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>预定义规则&lt;/strong>：QAC 内置了大量的规则，这些规则可能基于行业标准（如 MISRA-C、CERT C）或最佳编码实践。这些规则涵盖了代码风格、潜在错误、安全漏洞等多个方面。&lt;/li>
+&lt;li>&lt;strong>自定义规则&lt;/strong>：用户可以根据项目需求定义自有规则，进一步细化代码检查标准。&lt;/li>
+&lt;li>&lt;strong>规则匹配&lt;/strong>：QAC 将解析后的代码与这些规则进行匹配，识别出不符合规范或存在潜在问题的代码片段。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>控制流和数据流分析（Control Flow and Data Flow Analysis）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>控制流分析&lt;/strong>：QAC 分析代码中的控制结构（如条件分支、循环、跳转等），识别复杂或不合理的控制流模式，预防死循环、未定义行为等问题。&lt;/li>
+&lt;li>&lt;strong>数据流分析&lt;/strong>：通过追踪变量的定义、使用和传递，QAC 检测未初始化变量、变量覆盖、内存泄漏、数据竞争等问题。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>抽象语法树（AST）和中间表示（Intermediate Representation）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>AST 构建&lt;/strong>：通过构建 AST，QAC 能够深入理解代码的结构和层次关系，支持复杂的代码模式识别。&lt;/li>
+&lt;li>&lt;strong>中间表示&lt;/strong>：QAC 可能将代码转换为中间表示，以便进行更高效和全面的分析，如路径分析、依赖分析等。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>错误检测与报告（Error Detection and Reporting）&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>错误分类&lt;/strong>：QAC 将检测到的问题按照严重性、类型进行分类，如警告、错误、建议等。&lt;/li>
+&lt;li>&lt;strong>详细报告&lt;/strong>：生成详细的报告，指出问题所在的具体位置（文件、行号）、问题描述以及可能的解决建议，帮助开发人员快速定位和修复问题。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>集成与自动化（Integration and Automation）&lt;/strong>&lt;/p></description></item><item><title>Tessy</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/tessy/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/tessy/</guid><description>&lt;h1 id="如何评判">
+&lt;a class="header-anchor" href="#%e5%a6%82%e4%bd%95%e8%af%84%e5%88%a4">&lt;/a>
+如何评判
+&lt;/h1>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>代码覆盖率&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>语句覆盖率（Statement Coverage）&lt;/strong>：检查是否每个代码语句都被执行过。&lt;/li>
+&lt;li>&lt;strong>分支覆盖率（Branch Coverage）&lt;/strong>：测试代码中每个条件的所有分支是否都被执行。&lt;/li>
+&lt;li>&lt;strong>路径覆盖率（Path Coverage）&lt;/strong>：所有可能的执行路径是否都被测试。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>边界值分析&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>测试输入参数和输出值的边界，确保程序在极端条件下（如最大值、最小值、空值）能够正常运行。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>缺陷率（Defect Rate）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>代码中的缺陷数量与代码总行数或模块的比例。通过动态测试发现的缺陷越少，代码质量通常越高。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>执行时间与性能（Execution Time and Performance）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>测试代码在不同输入情况下的运行时间，确保其满足性能要求，特别是在嵌入式系统中。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>内存使用率（Memory Usage）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>测试代码的内存使用情况，确保在不同输入条件下不会发生内存溢出或过度使用内存。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>代码复杂度（Cyclomatic Complexity）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>动态测试可以帮助你识别高复杂度的代码部分，复杂度越高的代码更容易出错，因此测试应重点关注这些区域。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>错误检测与修复率（Defect Detection and Fix Rate）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>通过动态测试发现并修复的错误数量与整体代码中发现错误的比率，修复率越高，代码质量越好。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>功能正确性（Functional Correctness）&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>确保代码的功能行为与预期一致，动态测试会运行各种输入并验证输出结果是否正确。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="术语表">
+&lt;a class="header-anchor" href="#%e6%9c%af%e8%af%ad%e8%a1%a8">&lt;/a>
+术语表
+&lt;/h1>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>缩写&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>全称&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>具体含义&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>TO&lt;/td>
+ &lt;td>Test Object&lt;/td>
+ &lt;td>被测试的代码单元，通常是函数或模块，TESSY 对其进行测试。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TC&lt;/td>
+ &lt;td>Test Case&lt;/td>
+ &lt;td>测试用例，指在特定条件下对某个测试对象执行的具体测试，包含输入、预期输出和结果判定。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TF&lt;/td>
+ &lt;td>Test Frame&lt;/td>
+ &lt;td>测试执行环境，包含测试所需的输入数据、预期结果及其他资源和配置。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TS&lt;/td>
+ &lt;td>Test Step&lt;/td>
+ &lt;td>测试过程中执行的小步骤或操作，用于分步完成复杂的测试任务。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TR&lt;/td>
+ &lt;td>Test Report&lt;/td>
+ &lt;td>测试结果报告，包含执行情况、测试结果和代码覆盖率等详细信息。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TD&lt;/td>
+ &lt;td>Test Data&lt;/td>
+ &lt;td>输入到测试对象中的数据集，用于验证功能是否符合预期。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TSP&lt;/td>
+ &lt;td>Test Specification&lt;/td>
+ &lt;td>测试说明文件，描述测试对象、测试条件、输入输出数据和预期结果等。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Stub&lt;/td>
+ &lt;td>Stub&lt;/td>
+ &lt;td>用于替代未实现或不适合在测试中执行的功能，模拟系统中某部分的行为。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Driver&lt;/td>
+ &lt;td>Driver&lt;/td>
+ &lt;td>测试驱动程序，调用测试对象并提供必要的输入，常用于嵌入式系统测试。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Cov&lt;/td>
+ &lt;td>Test Coverage&lt;/td>
+ &lt;td>测试覆盖率，指测试执行过程中涉及的代码行数或分支数。常见指标有语句覆盖率和分支覆盖率。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TH&lt;/td>
+ &lt;td>Test Harness&lt;/td>
+ &lt;td>测试框架或工具，用于自动化测试，包括驱动、桩和测试数据。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>RT&lt;/td>
+ &lt;td>Regression Test&lt;/td>
+ &lt;td>回归测试，针对修改后的代码进行，确保改动未引入新错误。&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CA&lt;/td>
+ &lt;td>Code Access&lt;/td>
+ &lt;td>代码通过&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CR&lt;/td>
+ &lt;td>Coverage Review&lt;/td>
+ &lt;td>覆盖评审&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CV&lt;/td>
+ &lt;td>Coverage Viewer&lt;/td>
+ &lt;td>覆盖视图&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CC&lt;/td>
+ &lt;td>Code Complexity&lt;/td>
+ &lt;td>代码复杂度&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="单元测试">
+&lt;a class="header-anchor" href="#%e5%8d%95%e5%85%83%e6%b5%8b%e8%af%95">&lt;/a>
+单元测试
+&lt;/h1>&lt;p>&lt;strong>单元测试&lt;/strong>（Unit Testing）是软件测试中的一种方法，用来验证代码中的&lt;strong>最小可测试单元&lt;/strong>（通常是一个函数、方法或类）的&lt;strong>功能正确性&lt;/strong>。每个单元测试通常只测试代码中的一个小部分，确保其在特定的输入下产生预期的输出。&lt;/p></description></item><item><title>Vim</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/vim/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/vim/</guid><description>&lt;h1 id="启动-vim">
+&lt;a class="header-anchor" href="#%e5%90%af%e5%8a%a8-vim">&lt;/a>
+启动 Vim
+&lt;/h1>&lt;p>在终端中输入 &lt;code>vim&lt;/code> 启动 Vim，或者输入 &lt;code>vim filename&lt;/code> 打开特定文件。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">vim
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vim filename
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="基本模式">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e6%a8%a1%e5%bc%8f">&lt;/a>
+基本模式
+&lt;/h1>&lt;p>Vim 有三种主要模式：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Normal 模式&lt;/strong>：默认模式，用于执行命令。&lt;/li>
+&lt;li>&lt;strong>Insert 模式&lt;/strong>：用于编辑文本。&lt;/li>
+&lt;li>&lt;strong>Visual 模式&lt;/strong>：用于选择文本。&lt;/li>
+&lt;/ul>
+&lt;p>切换模式&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Normal 模式&lt;/strong>：启动 Vim 后默认进入 Normal 模式。按 &lt;code>Esc&lt;/code> 可以从其他模式切换到 Normal 模式。&lt;/li>
+&lt;li>&lt;strong>Insert 模式&lt;/strong>：在 Normal 模式下，按 &lt;code>i&lt;/code> 进入 Insert 模式，按 &lt;code>Esc&lt;/code> 退出到 Normal 模式。&lt;/li>
+&lt;li>&lt;strong>Visual 模式&lt;/strong>：在 Normal 模式下，按 &lt;code>v&lt;/code> 进入 Visual 模式，按 &lt;code>Esc&lt;/code> 退出到 Normal 模式。&lt;/li>
+&lt;/ul>
+&lt;h1 id="常用命令">
+&lt;a class="header-anchor" href="#%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4">&lt;/a>
+常用命令
+&lt;/h1>&lt;h2 id="normal-模式命令">
+&lt;a class="header-anchor" href="#normal-%e6%a8%a1%e5%bc%8f%e5%91%bd%e4%bb%a4">&lt;/a>
+Normal 模式命令
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>移动光标&lt;/strong>：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>h&lt;/code>：左移&lt;/li>
+&lt;li>&lt;code>j&lt;/code>：下移&lt;/li>
+&lt;li>&lt;code>k&lt;/code>：上移&lt;/li>
+&lt;li>&lt;code>l&lt;/code>：右移&lt;/li>
+&lt;li>&lt;code>w&lt;/code>：移动到下一个单词的开头&lt;/li>
+&lt;li>&lt;code>b&lt;/code>：移动到前一个单词的开头&lt;/li>
+&lt;li>&lt;code>0&lt;/code>：移动到行首&lt;/li>
+&lt;li>&lt;code>$&lt;/code>：移动到行尾&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>编辑文本&lt;/strong>：&lt;/p></description></item><item><title>Vscode</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/vscode/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/vscode/</guid><description>&lt;h1 id="快捷键">
+&lt;a class="header-anchor" href="#%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+快捷键
+&lt;/h1>&lt;h2 id="常用快捷键">
+&lt;a class="header-anchor" href="#%e5%b8%b8%e7%94%a8%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+常用快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>打开命令面板&lt;/strong>：&lt;code>Ctrl+Shift+P&lt;/code> 或 &lt;code>F1&lt;/code>&lt;/li>
+&lt;li>&lt;strong>快速打开文件&lt;/strong>：&lt;code>Ctrl+P&lt;/code>&lt;/li>
+&lt;li>&lt;strong>打开设置&lt;/strong>：&lt;code>Ctrl+,&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="编辑快捷键">
+&lt;a class="header-anchor" href="#%e7%bc%96%e8%be%91%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+编辑快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>剪切行&lt;/strong>：&lt;code>Ctrl+X&lt;/code>&lt;/li>
+&lt;li>&lt;strong>复制行&lt;/strong>：&lt;code>Ctrl+C&lt;/code>&lt;/li>
+&lt;li>&lt;strong>粘贴&lt;/strong>：&lt;code>Ctrl+V&lt;/code>&lt;/li>
+&lt;li>&lt;strong>撤销&lt;/strong>：&lt;code>Ctrl+Z&lt;/code>&lt;/li>
+&lt;li>&lt;strong>重做&lt;/strong>：&lt;code>Ctrl+Y&lt;/code> 或 &lt;code>Ctrl+Shift+Z&lt;/code>&lt;/li>
+&lt;li>&lt;strong>查找&lt;/strong>：&lt;code>Ctrl+F&lt;/code>&lt;/li>
+&lt;li>&lt;strong>替换&lt;/strong>：&lt;code>Ctrl+H&lt;/code>&lt;/li>
+&lt;li>&lt;strong>全选&lt;/strong>：&lt;code>Ctrl+A&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="导航快捷键">
+&lt;a class="header-anchor" href="#%e5%af%bc%e8%88%aa%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+导航快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>跳转到行&lt;/strong>：&lt;code>Ctrl+G&lt;/code>&lt;/li>
+&lt;li>&lt;strong>跳转到定义&lt;/strong>：&lt;code>F12&lt;/code>&lt;/li>
+&lt;li>&lt;strong>查找所有引用&lt;/strong>：&lt;code>Shift+F12&lt;/code>&lt;/li>
+&lt;li>&lt;strong>打开最近使用的文件&lt;/strong>：&lt;code>Ctrl+R&lt;/code>&lt;/li>
+&lt;li>&lt;strong>下一个光标位置&lt;/strong>：&lt;code>Ctrl+U&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="多光标和选择快捷键">
+&lt;a class="header-anchor" href="#%e5%a4%9a%e5%85%89%e6%a0%87%e5%92%8c%e9%80%89%e6%8b%a9%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+多光标和选择快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>插入光标&lt;/strong>：&lt;code>Alt+Click&lt;/code>&lt;/li>
+&lt;li>&lt;strong>添加下一个匹配项到选择&lt;/strong>：&lt;code>Ctrl+D&lt;/code>&lt;/li>
+&lt;li>&lt;strong>跳过下一个匹配项&lt;/strong>：&lt;code>Ctrl+K Ctrl+D&lt;/code>&lt;/li>
+&lt;li>&lt;strong>全部选中匹配项&lt;/strong>：&lt;code>Ctrl+Shift+L&lt;/code>&lt;/li>
+&lt;li>&lt;strong>移除当前光标位置&lt;/strong>：&lt;code>Ctrl+U&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="调试快捷键">
+&lt;a class="header-anchor" href="#%e8%b0%83%e8%af%95%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+调试快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>开始/继续调试&lt;/strong>：&lt;code>F5&lt;/code>&lt;/li>
+&lt;li>&lt;strong>停止调试&lt;/strong>：&lt;code>Shift+F5&lt;/code>&lt;/li>
+&lt;li>&lt;strong>单步跳过&lt;/strong>：&lt;code>F10&lt;/code>&lt;/li>
+&lt;li>&lt;strong>单步跳入&lt;/strong>：&lt;code>F11&lt;/code>&lt;/li>
+&lt;li>&lt;strong>单步跳出&lt;/strong>：&lt;code>Shift+F11&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="窗口管理快捷键">
+&lt;a class="header-anchor" href="#%e7%aa%97%e5%8f%a3%e7%ae%a1%e7%90%86%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+窗口管理快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>新建窗口&lt;/strong>：&lt;code>Ctrl+Shift+N&lt;/code>&lt;/li>
+&lt;li>&lt;strong>关闭窗口&lt;/strong>：&lt;code>Ctrl+Shift+W&lt;/code>&lt;/li>
+&lt;li>&lt;strong>拆分编辑器&lt;/strong>：&lt;code>Ctrl+\&lt;/code>&lt;/li>
+&lt;li>&lt;strong>切换编辑器组&lt;/strong>：&lt;code>Ctrl+1&lt;/code>，&lt;code>Ctrl+2&lt;/code>，&lt;code>Ctrl+3&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="终端快捷键">
+&lt;a class="header-anchor" href="#%e7%bb%88%e7%ab%af%e5%bf%ab%e6%8d%b7%e9%94%ae">&lt;/a>
+终端快捷键
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>新建终端&lt;/strong>：`Ctrl+Shift+``&lt;/li>
+&lt;li>&lt;strong>切换终端面板&lt;/strong>：&lt;code>Ctrl+Shift+5&lt;/code>&lt;/li>
+&lt;li>&lt;strong>关闭终端&lt;/strong>：&lt;code>Ctrl+Shift+W&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h1 id="插件">
+&lt;a class="header-anchor" href="#%e6%8f%92%e4%bb%b6">&lt;/a>
+插件
+&lt;/h1>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>插件名称&lt;/th>
+ &lt;th>功能描述&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Better Align&lt;/td>
+ &lt;td>用于对齐变量名和参数&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Better Comments&lt;/td>
+ &lt;td>实时显示错误&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Code Spell Checker&lt;/td>
+ &lt;td>用于检查代码的拼写错误&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Code Translate&lt;/td>
+ &lt;td>鼠标悬停可以查看相关翻译&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Error Lens&lt;/td>
+ &lt;td>高亮显示错误&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Fitten Code&lt;/td>
+ &lt;td>超强AI编程&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Git Graph&lt;/td>
+ &lt;td>用于Git的可视化&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>GitLens&lt;/td>
+ &lt;td>Git的拓展&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Hex Editor&lt;/td>
+ &lt;td>十六进制文件查看器&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>LeetCode&lt;/td>
+ &lt;td>力扣的练习&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>MarkMap&lt;/td>
+ &lt;td>用于将markdown文件转化为思维导图&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>offic viewer&lt;/td>
+ &lt;td>用于实时渲染markdown文件&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Project Manager&lt;/td>
+ &lt;td>用于保存常用项目&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Todo Tree&lt;/td>
+ &lt;td>可用于标记代码中的代办项&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Vim&lt;/td>
+ &lt;td>vscode中的vim插件&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>VSCode Animations&lt;/td>
+ &lt;td>实现丝滑动画效果&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Apc Customize UI++&lt;/td>
+ &lt;td>配合VSCode Animations使用实现丝滑动画&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>C/C++ snippets&lt;/td>
+ &lt;td>用于生成代码分割符&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>IAR linker Configuration File Syntax&lt;/td>
+ &lt;td>用于显示IAR的icf文件&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Arm Assembly&lt;/td>
+ &lt;td>汇编代码&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>iar build&lt;/td>
+ &lt;td>iar官方插件&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>iar&lt;/td>
+ &lt;td>：&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Platform IO&lt;/td>
+ &lt;td>嵌入式替代开发插件&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>wakatime&lt;/td>
+ &lt;td>编程时间及行为跟踪统计&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>codeTour&lt;/td>
+ &lt;td>回放代码演示思路&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>koroFileHeader&lt;/td>
+ &lt;td>生成文件头注释&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>[!tip]&lt;/p></description></item><item><title>WireShark</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/wireshark/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/wireshark/</guid><description>&lt;h1 id="蓝牙抓包">
+&lt;a class="header-anchor" href="#%e8%93%9d%e7%89%99%e6%8a%93%e5%8c%85">&lt;/a>
+蓝牙抓包
+&lt;/h1>&lt;h2 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h2>&lt;p>&lt;a href="https://blog.csdn.net/RF_star/article/details/106054980">实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/qq_43306777/article/details/139235300">蓝牙&amp;mdash;-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://balancetwk.github.io/2022/04/16/hexo_blog/Bluetooth/%E8%93%9D%E7%89%99%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89/">低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK的博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://docs.nordicsemi.com/bundle/nrfutil_ble_sniffer_pdf/resource/nRF_Sniffer_BLE_UG_v4.0.0.pdf">nRF Sniffer for Bluetooth LE User Guide v4.0.0 (nordicsemi.com)&lt;/a>&lt;/p>
+&lt;h2 id="安装">
+&lt;a class="header-anchor" href="#%e5%ae%89%e8%a3%85">&lt;/a>
+安装
+&lt;/h2>&lt;p>使用wireShark抓包，需要使用专用硬件nRF来抓，首先先到&lt;a href="https://www.wireshark.org/">Wireshark · Go Deep&lt;/a>网站下载wireShark，然后再去&lt;a href="https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE">nRF Sniffer for Bluetooth LE - nordicsemi.com&lt;/a>下载nRF sniffer插件。在&lt;a href="https://docs.nordicsemi.com/bundle/nrfutil/page/nrfutil-ble-sniffer/guides/overview.html">ble-sniffer command overview (nordicsemi.com)&lt;/a>上有软件使用手册。&lt;/p>
+&lt;blockquote>
+&lt;p>[!tip]&lt;/p>
+&lt;p>nRF sniffer是wireShark的一个插件，相当于是安装了nRF sniffer插件，就可以使用wireshark抓蓝牙包了&lt;/p>&lt;/blockquote>
+&lt;p>安装wireshark的时候，一直下一步就行，下面介绍nRF sniffer的安装：&lt;/p>
+&lt;p>在安装之前需要确保安装了wireshark v3.41及以上版本和python v3.6及以上版本&lt;/p>
+&lt;blockquote>
+&lt;p>[!note]&lt;/p>
+&lt;p>一般来说，商家都会烧录好固件，一些支持二次开发的设备可以自己烧录hex程序以支持nRF connect或Wireshark&lt;/p>&lt;/blockquote>
+&lt;p>打开下载好sniffer插件文件夹，打开&lt;code>nrf_sniffer_for_bluetooth_le_4.1.1\extcap&lt;/code>文件夹，打开cmd，可以在地址栏中输入cmd用来直接启动&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_20_36_202502051320275.gif" alt="安装必要包">&lt;/p>
+&lt;p>在cmd中输入以下命令安装依赖包（注意，这必须在安装了python的前提下）：&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">pip3 install -r requirements.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成之后，打开wireshark，在菜单的tab中依次打开*==帮助&amp;gt;关于wireshark&amp;gt;文件夹&amp;gt;personal Extcap==&lt;em>,将 &lt;code>Sniffer_Software/extcap/&lt;/code> 文件夹的内容复制到此文件夹中。之后开始配置wireshark，在菜单的tab中依次打开&lt;/em>==帮助&amp;gt;关于wireshark&amp;gt;文件夹&amp;gt;personal configuration==*，将 profile 文件夹 Sniffer_Software/Profile_nRF_Sniffer_Bluetooth_LE 复制到此文件夹的 profiles 子文件夹中。&lt;/p></description></item><item><title>便捷工具</title><link>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/</guid><description>&lt;h1 id="系统类工具">
+&lt;a class="header-anchor" href="#%e7%b3%bb%e7%bb%9f%e7%b1%bb%e5%b7%a5%e5%85%b7">&lt;/a>
+系统类工具
+&lt;/h1>&lt;h2 id="windows软件">
+&lt;a class="header-anchor" href="#windows%e8%bd%af%e4%bb%b6">&lt;/a>
+windows软件
+&lt;/h2>&lt;h3 id="美化工具">
+&lt;a class="header-anchor" href="#%e7%be%8e%e5%8c%96%e5%b7%a5%e5%85%b7">&lt;/a>
+美化工具
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>软件名称&lt;/th>
+ &lt;th>软件功能&lt;/th>
+ &lt;th>相关链接&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>oh-my- posh&lt;/td>
+ &lt;td>cmd终端美化神器&lt;/td>
+ &lt;td>&lt;a href="https://blog.csdn.net/qq_21689457/article/details/129345662">oh-my-posh - 终端个性化工具 - 美化PowerShell / cmd - 好物分享，真香~-CSDN博客&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>TranslucentTB&lt;/td>
+ &lt;td>Dock栏透明&lt;/td>
+ &lt;td>&lt;a href="https://apps.microsoft.com/detail/9pf4kz2vn4w9?hl=en-us&amp;amp;gl=US">TranslucentTB - Free download and install on Windows&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Rocketdock&lt;/td>
+ &lt;td>Dock栏美化&lt;/td>
+ &lt;td>&lt;a href="https://post.smzdm.com/p/a7dv8m0l/#:~:text=%E9%A6%96%E5%85%88%E6%88%91%E4%BB%AC%E5%AF%B9%E7%94%B5%E8%84%91%E4%BB%BB%E5%8A%A1%E6%A0%8F">Win10极简风最全美化指南！(桌面文件+任务栏透明+dock栏+磁贴_游戏软件_什么值得买 (smzdm.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>xPlorer&lt;/td>
+ &lt;td>文件夹管理&lt;/td>
+ &lt;td>&lt;a href="https://github.com/kimlimjustin/xplorer/releases">Releases · kimlimjustin/xplorer (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>sigma&lt;/td>
+ &lt;td>文件夹管理&lt;/td>
+ &lt;td>&lt;a href="https://github.com/aleksey-hoffman/sigma-file-manager">aleksey-hoffman/sigma-file-manager: &amp;ldquo;Sigma File Manager&amp;rdquo; is a free, open-source, quickly evolving, modern file manager (explorer / browser) app for Windows and Linux. (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Sapphire&lt;/td>
+ &lt;td>桌面增强工具&lt;/td>
+ &lt;td>&lt;a href="https://github.com/hymnly133/Sapphire-EnhancedDesktop/tree/main">hymnly133/Sapphire-EnhancedDesktop: Windows桌面取代软件 (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Fence&lt;/td>
+ &lt;td>桌面分类&lt;/td>
+ &lt;td>&lt;a href="https://www.gndown.com/11307.html">Stardock Fences(桌面图标管理工具) v5.88 中文破解版-绿软小站&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>DeskGo&lt;/td>
+ &lt;td>桌面整理工具（注意要点击下载独立版）&lt;/td>
+ &lt;td>&lt;a href="https://guanjia.qq.com/product/zmzl/">桌面整理_桌面整理软件_一键桌面整理工具-腾讯电脑管家官网 (qq.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>桌面时钟&lt;/td>
+ &lt;td>桌面时钟&lt;/td>
+ &lt;td>&lt;a href="https://axainy.lanzouj.com/iPom313wmxuh">桌面时钟 更多软件在公众号：吾优.exe - 蓝奏云 (lanzouj.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>glazewm&lt;/td>
+ &lt;td>window版平铺式桌面&lt;/td>
+ &lt;td>&lt;a href="https://github.com/glzr-io/glazewm">glzr-io/glazewm: GlazeWM is a tiling window manager for Windows inspired by i3wm. (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Clover&lt;/td>
+ &lt;td>资源管理器的tab拓展&lt;/td>
+ &lt;td>&lt;a href="http://cn.ejie.me/">Clover给资源管理器加上类似Chrome的标签 易捷科技 EJIE Technology&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="便捷工具">
+&lt;a class="header-anchor" href="#%e4%be%bf%e6%8d%b7%e5%b7%a5%e5%85%b7">&lt;/a>
+便捷工具
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>软件名称&lt;/th>
+ &lt;th>软件功能&lt;/th>
+ &lt;th>相关链接&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>listary&lt;/td>
+ &lt;td>window文件查找工具&lt;/td>
+ &lt;td>&lt;a href="https://www.listary.com/">Listary – Free File Search Tool &amp;amp; App Launcher&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>anyTxt&lt;/td>
+ &lt;td>根据文件内容搜索&lt;/td>
+ &lt;td>&lt;a href="https://anytxt.net/download/">下载最佳免费桌面全文搜索工具&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>snipaste&lt;/td>
+ &lt;td>截图工具&lt;/td>
+ &lt;td>&lt;a href="https://zh.snipaste.com/">Snipaste - 截图 + 贴图&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>PicGO&lt;/td>
+ &lt;td>图片上传工具&lt;/td>
+ &lt;td>&lt;a href="https://picgo.github.io/PicGo-Doc/zh/">PicGo&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>screentogif&lt;/td>
+ &lt;td>屏幕录制转gif&lt;/td>
+ &lt;td>&lt;a href="https://www.screentogif.com/">ScreenToGif - Record your screen, edit and save as a gif, video or other formats&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>BandView&lt;/td>
+ &lt;td>图片查看神器&lt;/td>
+ &lt;td>&lt;a href="https://www.bandisoft.com/honeyview/">Honeyview · 免费图像查看器 · 下载和功能说明 (bandisoft.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Pointfix&lt;/td>
+ &lt;td>屏幕虚拟荧光笔&lt;/td>
+ &lt;td>&lt;a href="https://www.pointofix.de/download.php">Pointofix - Herunterladen - 下载&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>utools&lt;/td>
+ &lt;td>window小工具&lt;/td>
+ &lt;td>&lt;a href="https://u.tools/">uTools官网 - 新一代效率工具平台&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>PowerToys&lt;/td>
+ &lt;td>微软工具箱&lt;/td>
+ &lt;td>&lt;a href="https://learn.microsoft.com/zh-cn/windows/powertoys/">Microsoft PowerToys&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Ditto&lt;/td>
+ &lt;td>高级粘贴工具&lt;/td>
+ &lt;td>&lt;a href="https://ditto-cp.sourceforge.io/">Ditto clipboard manager (sourceforge.io)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>tinyTask&lt;/td>
+ &lt;td>PC自动化应用程序&lt;/td>
+ &lt;td>&lt;a href="https://www.tinytask.net/download.html">TinyTask - Download&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>QuickLook&lt;/td>
+ &lt;td>快速预览&lt;/td>
+ &lt;td>&lt;a href="https://github.com/QL-Win/QuickLook/releases">Releases · QL-Win/QuickLook (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>f.lux&lt;/td>
+ &lt;td>护眼神器&lt;/td>
+ &lt;td>&lt;a href="https://justgetflux.com/">f.lux: software to make your life better (justgetflux.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>deskFlow&lt;/td>
+ &lt;td>一个键鼠控制多台设备&lt;/td>
+ &lt;td>&lt;a href="https://github.com/deskflow/deskflow">deskflow/deskflow: Deskflow lets you share one mouse and keyboard between multiple computers on Windows, macOS and Linux. It&amp;rsquo;s like a software KVM (but without video). (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Quicker&lt;/td>
+ &lt;td>鼠标右键工具&lt;/td>
+ &lt;td>&lt;a href="https://getquicker.net/">Quicker软件 您的指尖工具箱 - Quicker (getquicker.net)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Ditto&lt;/td>
+ &lt;td>复制粘贴用&lt;/td>
+ &lt;td>&lt;a href="https://ditto-cp.sourceforge.io/">Ditto clipboard manager (sourceforge.io)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Gopeed&lt;/td>
+ &lt;td>现代化的下载器&lt;/td>
+ &lt;td>&lt;a href="https://www.gopeed.com/zh-CN">Gopeed - 一款现代化的下载器&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>NDM&lt;/td>
+ &lt;td>IDM平替&lt;/td>
+ &lt;td>&lt;a href="https://www.neatdownloadmanager.com/index.php/en/">Neat Download Manager for Mac and Windows (Free Internet Download Manager Mac &amp;amp; Windows )&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>wechatDownload&lt;/td>
+ &lt;td>公众号文章下载工具&lt;/td>
+ &lt;td>&lt;a href="https://github.com/qiye45/wechatDownload">qiye45/wechatDownload: 微信公众号文章批量下载工具，支持图片、评论下载，支持保存html/mhtml/md/pdf/docx文件 (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Geek&lt;/td>
+ &lt;td>彻底卸载软件神器&lt;/td>
+ &lt;td>&lt;a href="https://geekuninstaller.com/">Geek Uninstaller - the best FREE uninstaller&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SpaceSniffer&lt;/td>
+ &lt;td>查看磁盘组成&lt;/td>
+ &lt;td>&lt;a href="https://soft.3dmgame.com/down/200352.html">SpaceSniffer(磁盘空间分析工具)官方下载_SpaceSniffer(磁盘空间分析工具)最新版免费下载_3DM软件 (3dmgame.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Dropshelf&lt;/td>
+ &lt;td>文件中转站&lt;/td>
+ &lt;td>&lt;a href="https://apps.microsoft.com/detail/9mzpc6p14l7n?hl=en-us&amp;amp;gl=us">Dropshelf - Free download and install on Windows &lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>DropPoint&lt;/td>
+ &lt;td>文件中转站&lt;/td>
+ &lt;td>&lt;a href="https://github.com/GameGodS3/DropPoint/releases">Releases · GameGodS3/DropPoint (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>localsend&lt;/td>
+ &lt;td>跨平台发送&lt;/td>
+ &lt;td>&lt;a href="https://github.com/localsend/localsend">localsend/localsend: An open-source cross-platform alternative to AirDrop (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Audio sharre&lt;/td>
+ &lt;td>音频流分享&lt;/td>
+ &lt;td>&lt;a href="https://github.com/mkckr0/audio-share">mkckr0/audio-share: Audio Share can share Windows/Linux computer&amp;rsquo;s audio to Android phone over network, so your phone becomes the speaker of computer. (You needn&amp;rsquo;t buy a new speaker😄.) (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>spaceDesk&lt;/td>
+ &lt;td>将平板成为拓展屏&lt;/td>
+ &lt;td>&lt;a href="https://apps.microsoft.com/detail/9nblggh4trm4?launch=true&amp;amp;mode=full&amp;amp;hl=zh-cn&amp;amp;gl=cn&amp;amp;ocid=bingwebsearch">spacedesk &lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>clash&lt;/td>
+ &lt;td>翻墙软件&lt;/td>
+ &lt;td>&lt;a href="https://github.com/clashdownload">clashdownload (github.com)&lt;/a>&lt;!-- raw HTML omitted -->&lt;a href="https://zhuanlan.zhihu.com/p/2852384493">Linux Clash 最速安装使用 - 知乎 (zhihu.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;td>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>office tool plus&lt;/td>
+ &lt;td>office安装软件&lt;/td>
+ &lt;td>&lt;a href="https://otp.landian.vip/zh-cn/">Office Tool Plus 一键部署 Office&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="笔记类软件">
+&lt;a class="header-anchor" href="#%e7%ac%94%e8%ae%b0%e7%b1%bb%e8%bd%af%e4%bb%b6">&lt;/a>
+笔记类软件
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>软件名称&lt;/th>
+ &lt;th>软件功能&lt;/th>
+ &lt;th>相关链接&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>obsidian&lt;/td>
+ &lt;td>markdown笔记软件&lt;/td>
+ &lt;td>&lt;a href="https://obsidian.md/">Obsidian - Sharpen your thinking&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Typora&lt;/td>
+ &lt;td>markdown笔记软件&lt;/td>
+ &lt;td>&lt;a href="https://www.bilibili.com/read/cv27657150/">Typora 1.7.6最新破解、激活！亲测有效！ - 哔哩哔哩 (bilibili.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Vlook&lt;/td>
+ &lt;td>typora炫酷主题&lt;/td>
+ &lt;td>&lt;a href="https://github.com/MadMaxChow/VLOOK">MadMaxChow/VLOOK: VLOOK™ 是优雅好用的 Typora/Markdown 主题包和增强插件。 VLOOK™ is an elegant and practical theme package × enhancement plugin for Typora/Markdown. (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>WaveDrom&lt;/td>
+ &lt;td>绘制时序图&lt;/td>
+ &lt;td>&lt;a href="https://wavedrom.com/">WaveDrom - Digital timing diagram everywhere&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>NotePad&amp;ndash;&lt;/td>
+ &lt;td>NotePad++国产版&lt;/td>
+ &lt;td>&lt;a href="https://gitee.com/cxasm/notepad--/releases">ndd 发行版 - Gitee.com&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h3 id="其他">
+&lt;a class="header-anchor" href="#%e5%85%b6%e4%bb%96">&lt;/a>
+其他
+&lt;/h3>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>软件名称&lt;/th>
+ &lt;th>软件功能&lt;/th>
+ &lt;th>相关链接&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>memoryStory&lt;/td>
+ &lt;td>软件商店&lt;/td>
+ &lt;td>&lt;a href="https://cnxiaobai.com/">MemoryStory (cnxiaobai.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>绿软小站&lt;/td>
+ &lt;td>盗版软件免费下载网站&lt;/td>
+ &lt;td>&lt;a href="https://www.gndown.com/">绿软小站 - 分享绿色软件、免费软件、最新资讯！&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>ChatGpt&lt;/td>
+ &lt;td>gtp注册流程&lt;/td>
+ &lt;td>&lt;a href="https://blog.csdn.net/w846736896/article/details/128998038">AI人工智能gpt注册流程-CSDN博客&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>无限邮箱&lt;/td>
+ &lt;td>使用一个邮箱号可以申请多个邮箱&lt;/td>
+ &lt;td>&lt;a href="https://2925.com/login/">2925邮箱-无限邮&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Pake&lt;/td>
+ &lt;td>将网页打包为app&lt;/td>
+ &lt;td>&lt;a href="https://github.com/tw93/Pake">tw93/Pake: 🤱🏻 Turn any webpage into a desktop app with Rust. 🤱🏻 利用 Rust 轻松构建轻量级多端桌面应用 (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="浏览器工具">
+&lt;a class="header-anchor" href="#%e6%b5%8f%e8%a7%88%e5%99%a8%e5%b7%a5%e5%85%b7">&lt;/a>
+浏览器工具
+&lt;/h1>&lt;h2 id="edge拓展">
+&lt;a class="header-anchor" href="#edge%e6%8b%93%e5%b1%95">&lt;/a>
+Edge拓展
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>拓展名称&lt;/th>
+ &lt;th>功能&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>AdGuard&lt;/td>
+ &lt;td>广告拦截器&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Bookmark cleaner&lt;/td>
+ &lt;td>无效书签检测&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Dualsub&lt;/td>
+ &lt;td>生成字幕&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>gobal speed&lt;/td>
+ &lt;td>控制视频速度&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>simple allow copy&lt;/td>
+ &lt;td>任意复制文字&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>沉浸式翻译&lt;/td>
+ &lt;td>英语翻译&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>浮图秀&lt;/td>
+ &lt;td>用于展示大图&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>简悦&lt;/td>
+ &lt;td>沉浸式看博客&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Sweezy Cursors&lt;/td>
+ &lt;td>鼠标样式改变&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="油猴脚本">
+&lt;a class="header-anchor" href="#%e6%b2%b9%e7%8c%b4%e8%84%9a%e6%9c%ac">&lt;/a>
+油猴脚本
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>脚本名称&lt;/th>
+ &lt;th>功能&lt;/th>
+ &lt;th>相关链接&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>User script+&lt;/td>
+ &lt;td>推荐当前站点可用的油猴脚本&lt;/td>
+ &lt;td>&lt;a href="https://greasyfork.org/zh-CN/scripts/421603-magic-userscript-show-site-all-userjs">Magic Userscript+ ：显示站点所有 UserJS (greasyfork.org)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>知乎美化&lt;/td>
+ &lt;td>美化知乎页面&lt;/td>
+ &lt;td>&lt;a href="https://greasyfork.org/zh-CN/scripts/402808-%E7%9F%A5%E4%B9%8E%E7%BE%8E%E5%8C%96">知乎美化 (greasyfork.org)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>东方永页机&lt;/td>
+ &lt;td>搜索结果自动翻页拼合&lt;/td>
+ &lt;td>&lt;a href="https://greasyfork.org/zh-CN/scripts/438684-pagetual">东方永页机 (greasyfork.org)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>计时器掌控者&lt;/td>
+ &lt;td>可以跳过视频的广告&lt;/td>
+ &lt;td>&lt;a href="https://greasyfork.org/zh-CN/scripts/372673-%E8%AE%A1%E6%97%B6%E5%99%A8%E6%8E%8C%E6%8E%A7%E8%80%85-%E8%A7%86%E9%A2%91%E5%B9%BF%E5%91%8A%E8%B7%B3%E8%BF%87-%E8%A7%86%E9%A2%91%E5%B9%BF%E5%91%8A%E5%8A%A0%E9%80%9F%E5%99%A8">计时器掌控者&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h1 id="编程类工具">
+&lt;a class="header-anchor" href="#%e7%bc%96%e7%a8%8b%e7%b1%bb%e5%b7%a5%e5%85%b7">&lt;/a>
+编程类工具
+&lt;/h1>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>软件名称&lt;/th>
+ &lt;th>软件功能&lt;/th>
+ &lt;th>相关链接&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>cursor&lt;/td>
+ &lt;td>交互式编程&lt;/td>
+ &lt;td>&lt;a href="https://www.cursor.com/">Cursor&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>ImHex&lt;/td>
+ &lt;td>十六进制数据查看器&lt;/td>
+ &lt;td>&lt;a href="https://github.com/WerWolv/ImHex">WerWolv/ImHex: 🔍 A Hex Editor for Reverse Engineers, Programmers and people who value their retinas when working at 3 AM. (github.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>vscode&lt;/td>
+ &lt;td>地表最强编辑器&lt;/td>
+ &lt;td>&lt;a href="https://code.visualstudio.com/">Visual Studio Code - Code Editing. Redefined&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Vim&lt;/td>
+ &lt;td>文字类效率开发神器&lt;/td>
+ &lt;td>&lt;a href="https://www.vim.org/">welcome home : vim online&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Amap&lt;/td>
+ &lt;td>用于解析Gcc生成的Map文件&lt;/td>
+ &lt;td>&lt;a href="https://www.sikorskiy.net/info/prj/amap/">Amap - Sergey Sikorskiy&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Multsim&lt;/td>
+ &lt;td>电路仿真&lt;/td>
+ &lt;td>&lt;a href="https://www.ddooo.com/softdown/147749.htm">multisim14.2汉化破解版下载-ni multisim 14.2中文破解版下载 - 多多软件站 (ddooo.com)&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>WireShark&lt;/td>
+ &lt;td>网络抓包工具&lt;/td>
+ &lt;td>&lt;a href="https://www.wireshark.org/download.html">Wireshark · Download&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table></description></item></channel></rss>

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>通信协议 on TruestMe's Blog</title><link>https://youShouldTrustMe.github.io/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/</link><description>Recent content in 通信协议 on TruestMe's Blog</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sat, 01 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://youShouldTrustMe.github.io/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/index.xml" rel="self" type="application/rss+xml"/><item><title>Bluetooth</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/bluetooth/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/bluetooth/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/lanhuazui10/article/details/144194112">深入浅出低功耗蓝牙(BLE)协议栈及蓝牙连接过程_蓝牙芯片的寄存器组为什么需要分为两块-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/xubin341719/article/details/38145507?spm=1001.2014.3001.5502">蓝牙核心技术概述（一）:蓝牙概述_蓝牙技术-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/xubin341719/article/details/38303881?spm=1001.2014.3001.5502">蓝牙核心技术概述（三）： 蓝牙协议规范（射频、基带链路控制、链路管理）_蓝牙3.0技术规范-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/xubin341719/article/details/38305331">蓝牙核心技术概述（四）：蓝牙协议规范（HCI、L2CAP、SDP、RFOCMM）_蓝牙通信帧分类-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/xubin341719/article/details/38335533">蓝牙核心技术概述（五）：蓝牙协议规范（irOBEX、BNEP、AVDTP、AVCTP）_蓝牙核心bnep-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="http://www.giraffexiu.love/index.php/2024/10/22/ble%E5%8D%8F%E8%AE%AE%E5%AD%A6%E4%B9%A0/">BLE协议学习 – 学习笔记 (giraffexiu.love)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.bilibili.com/opus/697239519074713670">ESP32教程第二章讲义 - 哔哩哔哩 (bilibili.com)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="http://rfc.nop.hu/bluetooth/AssignedNumbersGenericAccessProfile.pdf">Bluetooth.org - Generic Access Profile (nop.hu)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.bluetooth.com/specifications/specs/core-specification-6-0/">Core Specification | Bluetooth® Technology Website&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.bluetooth.com/specifications/assigned-numbers/">Assigned Numbers | Bluetooth® Technology Website&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/zzfenglin/article/details/51303211">低功耗蓝牙BLE之连接建立_低功耗蓝牙的连接过程-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/zzfenglin/article/details/51304084">低功耗蓝牙BLE之连接事件、连接参数和更新方法_蓝牙设备为什么拼命发包-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/yxyy3604/article/details/112857135">蓝牙配对安全机制解析：防止中间人与被动监听攻击-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cnblogs.com/lim11/p/11158153.html">深入理解低功耗蓝牙的配对过程- Part 1 Pairing Feature Exchange - SZ_LM - 博客园&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cnblogs.com/lim11/p/11168601.html">深入理解低功耗蓝牙的配对过程- Part 2 Key Generation Methods - SZ_LM - 博客园&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.cnblogs.com/iini/p/12801242.html">低功耗蓝牙配对绑定解读和实践 - iini - 博客园&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/qwe5959798/article/details/134310315">蓝牙安全管理(SM:Security Manager)规范详解_蓝牙csrk-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/guoqx/article/details/132841376">蓝牙 - 什么是Man-in-the-middle protection_蓝牙中间人攻击-CSDN博客&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://blog.csdn.net/strtoul/article/details/138186417">了解低功耗蓝牙中的安全密钥_irk ltk-CSDN博客&lt;/a>&lt;/p></description></item><item><title>CAN</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/can/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/can/</guid><description>&lt;h1 id="can简介">
+&lt;a class="header-anchor" href="#can%e7%ae%80%e4%bb%8b">&lt;/a>
+CAN简介
+&lt;/h1>&lt;ol>
+&lt;li>
+&lt;p>CAN总线（Controller Area Network Bus）控制器局域网总线&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>CAN总线是由BOSCH公司开发的一种简洁易用、传输速度快、易扩展、可靠性高的串行通信总线，广泛应用于汽车、嵌入式、工业控制等领域&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>CAN总线特征：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>两根通信线（CAN_H、CAN_L），线路少，无需共地&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>差分信号通信，抗干扰能力强&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>高速CAN（ISO11898）：125k~1Mbps, &amp;lt;40m&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>低速CAN（ISO11519）：10k~125kbps, &amp;lt;1km&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>异步，无需时钟线，通信速率由设备各自约定&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>半双工，可挂载多设备，多设备同时发送数据时通过仲裁判断先后顺序&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>11位/29位报文ID，用于区分消息功能，同时决定优先级&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>可配置1~8字节的有效载荷&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>可实现广播式和请求式两种传输方式&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>应答、CRC校验、位填充、位同步、错误处理等特性&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="主流通信协议对比">
+&lt;a class="header-anchor" href="#%e4%b8%bb%e6%b5%81%e9%80%9a%e4%bf%a1%e5%8d%8f%e8%ae%ae%e5%af%b9%e6%af%94">&lt;/a>
+主流通信协议对比
+&lt;/h1>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>&lt;strong>名称&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>引脚&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>双工&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>时钟&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>电平&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>设备&lt;/strong>&lt;/th>
+ &lt;th>&lt;strong>应用场景&lt;/strong>&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>UART&lt;/td>
+ &lt;td>TX、RX&lt;/td>
+ &lt;td>全双工&lt;/td>
+ &lt;td>异步&lt;/td>
+ &lt;td>单端&lt;/td>
+ &lt;td>点对点&lt;/td>
+ &lt;td>两个设备互相通信&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>I2C&lt;/td>
+ &lt;td>SCL、SDA&lt;/td>
+ &lt;td>半双工&lt;/td>
+ &lt;td>同步&lt;/td>
+ &lt;td>单端&lt;/td>
+ &lt;td>多设备&lt;/td>
+ &lt;td>一个主控外挂多个模块&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>SPI&lt;/td>
+ &lt;td>SCK、MOSI、MISO、SS&lt;/td>
+ &lt;td>全双工&lt;/td>
+ &lt;td>同步&lt;/td>
+ &lt;td>单端&lt;/td>
+ &lt;td>多设备&lt;/td>
+ &lt;td>一个主控外挂多个模块（高速）&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>CAN&lt;/td>
+ &lt;td>CAN_H、CAN_L&lt;/td>
+ &lt;td>半双工&lt;/td>
+ &lt;td>异步&lt;/td>
+ &lt;td>差分&lt;/td>
+ &lt;td>多设备&lt;/td>
+ &lt;td>多个主控互相通信&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/15_9_50_55_202501150950487.png" alt="不同协议的对比">&lt;/p>
+&lt;h1 id="can硬件电路">
+&lt;a class="header-anchor" href="#can%e7%a1%ac%e4%bb%b6%e7%94%b5%e8%b7%af">&lt;/a>
+CAN硬件电路
+&lt;/h1>&lt;ul>
+&lt;li>
+&lt;p>每个设备通过CAN收发器挂载在CAN总线网络上&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>CAN控制器引出的TX和RX与CAN收发器相连，CAN收发器引出的CAN_H和CAN_L分别与总线的CAN_H和CAN_L相连&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>高速CAN使用闭环网络，CAN_H和CAN_L两端添加120Ω的终端电阻，增加电阻的作用有两个，一是防止回波反射，二是在没有设备进行操作的时候，将两根差分线的电压收紧，使其电压一致&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>低速CAN使用开环网络，CAN_H和CAN_L其中一端添加2.2kΩ的终端电阻&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/15_9_52_5_202501150952445.png" alt="CAN硬件电路">&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="can的电平标准">
+&lt;a class="header-anchor" href="#can%e7%9a%84%e7%94%b5%e5%b9%b3%e6%a0%87%e5%87%86">&lt;/a>
+CAN的电平标准
+&lt;/h1>&lt;ul>
+&lt;li>CAN总线采用差分信号，即两线电压差（VCAN_H-VCAN_L）传输数据位&lt;/li>
+&lt;li>高速CAN规定：&lt;/li>
+&lt;/ul>
+&lt;p>​	电压差为0V时表示逻辑1（隐性电平，总线收紧状态）&lt;/p></description></item><item><title>IIC</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/iic/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/iic/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/qq_54747686/article/details/119202856">STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="概述">
+&lt;a class="header-anchor" href="#%e6%a6%82%e8%bf%b0">&lt;/a>
+概述
+&lt;/h1>&lt;p>IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。&lt;/p>
+&lt;p>总线：传输数据的通道&lt;/p>
+&lt;p>协议：传输数据的规则&lt;/p>
+&lt;h1 id="物理层">
+&lt;a class="header-anchor" href="#%e7%89%a9%e7%90%86%e5%b1%82">&lt;/a>
+物理层
+&lt;/h1>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="ICC电路结构">&lt;/p>
+&lt;p>物理层描述：&lt;/p>
+&lt;ol>
+&lt;li>它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个IIC通信总线中，可连接==多个IIC通信设备==，支持多个通信主机及多个通信从机。&lt;/li>
+&lt;li>一个IIC总线只使用两条总线线路。
+&lt;ol>
+&lt;li>一条双向串行数据线（SDA），数据线用来表示数据&lt;/li>
+&lt;li>一条串行时钟线（SCL），时钟线用于同步数据的收发。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>每个连接到总线的设备都有一个==独立==的地址，主机可以利用这个地址进行不同设备之间的访问。&lt;/li>
+&lt;li>总线通过上拉电阻接到电源。
+&lt;ol>
+&lt;li>当IIC设备空闲时，会输出高阻态，而当所有设备都空闲，都输出高阻态，由上拉电阻把总线拉成高电平。&lt;/li>
+&lt;li>当总线上开始发送数据，会将总线拉低，所以同一时刻，总线上只能有一条数据&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>多个主机同时使用总线时，为了防止数据冲突，会利用==仲裁==的方式决定由哪个设备占用总线。&lt;/li>
+&lt;li>具有三种传输模式：
+&lt;ol>
+&lt;li>标准模式传输速率为100kbps&lt;/li>
+&lt;li>快速模式为400kbps&lt;/li>
+&lt;li>高速模式可达3.4Mbps，但目前大多IIC设备尚不支持高速模式。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>连接到相同总线的IIC设备数量收到总线的最大电容400pF限制。&lt;/li>
+&lt;/ol>
+&lt;p>在一主多从的情况下&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>主机拥有SCL的绝对控制权，所以主机的SCL可以配置成推挽输出，所有从机的SCL都配置成浮空输入或者上拉输入，主机发送，从机接收&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>由于是半双工的协议，所以主机的SDA在发送的时侯是输出，在接收的时候是输入，同样的，从机的SDA也会在输入和输出之间反复切换，为了协调这一点，==禁止所有设备输出强上拉的高电平，采用外置弱上拉电阻加开漏输出的电路结构==。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_13_11_202409131413040.png" alt="内部结构">&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>图中的SCLK就是连接的结构图的SCL，SDA同理，所以才规定SCL和SDA都必须配置成==开漏输出==模式&lt;/p>
+&lt;ul>
+&lt;li>如果使用的是推挽输出，那么当SDA释放时，输出为强。&lt;/li>
+&lt;li>上图就是主机内部结构，左边为SCL，右侧为SDA，SCL经过一个施密特触发器对数据进行缓冲，任何设备在任何时候都是可以输入的。&lt;/li>
+&lt;li>输出低电平时，下管导通，强下拉，输出高电平时，下管断开，但是没有上管了，此时引脚属于浮空的状态，这样的话所有的设备只能输出低电平，而不能输出高电平，为了避免输出出现浮空状态，在外部添加一个上拉电阻（弱上拉），这样做的好处
+&lt;ul>
+&lt;li>完全杜绝了电源短路的现象，保证电路的安全&lt;/li>
+&lt;li>避免了引脚模式的频繁切换，开漏加弱上拉的模式，同时兼具了输入和输出的功能，如果想输出，就去拉杆子或者放手，操作杆子的变化即可，如果想输入，只需要直接放手，然后观察杆子的高低即可&lt;/li>
+&lt;li>存在线与的现象，只要有一个或者多个设备输出了低电平，总线就处于低电平，只有所有的设备都输出高电平，总线才处于高电平&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="协议层">
+&lt;a class="header-anchor" href="#%e5%8d%8f%e8%ae%ae%e5%b1%82">&lt;/a>
+协议层
+&lt;/h1>&lt;h2 id="基本时序单元">
+&lt;a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e6%97%b6%e5%ba%8f%e5%8d%95%e5%85%83">&lt;/a>
+基本时序单元
+&lt;/h2>&lt;p>&lt;em>&lt;code>开始&lt;/code>&lt;/em>&lt;/p>
+&lt;p>SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电平&lt;/p>
+&lt;p>如果想要开始通讯，就先将SDA拉下来，当从机捕获到SCL高电平且SDA==下降沿==信号时，就会进行自身的复位，等待主机的召唤，主机将SCL拉下来，将SCL拉下来一方面是为了占用这个总线，另外一方面也方便基本单元的拼接&lt;/p>
+&lt;blockquote>
+&lt;p>SCL高电平期间，SDA从高电平切换到低电平&lt;/p>&lt;/blockquote>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_26_31_202409131426942.png" alt="开始信号">&lt;/p>
+&lt;p>&lt;em>&lt;code>结束&lt;/code>&lt;/em>&lt;/p>
+&lt;p>和起始相反，结束信号是SCL先放手，SDA再放手，产生一个上升沿，这个上升沿触发终止条件&lt;/p>
+&lt;blockquote>
+&lt;p>SCL高电平期间，SDA从低电平切换到高电平&lt;/p>&lt;/blockquote>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_27_45_202409131427923.png" alt="结束信号">&lt;/p>
+&lt;p>&lt;em>&lt;code>发送&lt;/code>&lt;/em>&lt;/p>
+&lt;p>发送一个字节：SCL低电平期间，主机将数据位依次放到SDA线上(高位先行)，然后释放SCL,从机将在SCL高电平期间读取数据位所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可发送一个字节&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_32_52_202409131432013.png" alt="发送过程">&lt;/p>
+&lt;blockquote>
+&lt;p>[!NOTE]&lt;/p>
+&lt;p>I2C是高位先行，也就是先发送最高位B7，串口是低位先行。SCL低电平期间，允许改变SDA电平，也就是说在低电平期间，SDA可以切换1或0。当SCL变成高电平时，从机读取SDA，所以高电平期间，SDA不允许变化，一般都是在上升沿这个时刻，从机就已经完成了读取。从图中可以看出，主机基本上不用着急数据的存放读取，因为主机有时钟的主导权，但是从机就必须要尽快的读取和存放数据.可以理解为所有设备和从机都始终处于输入模式。当主机需要发送的时候，就可以主动去拉低SDA，而主机在被动接收的时候，就必须先释放SDA&lt;/p>&lt;/blockquote>
+&lt;p>发送应答：主机在接收完一个字节之后，在下一个时钟发送一位数据，数据0表示应答，数据1表示非应答&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_49_38_202409131449061.png" alt="发送应答">&lt;/p>
+&lt;p>&lt;em>&lt;code>接收&lt;/code>&lt;/em>&lt;/p>
+&lt;p>接收一个字节：SCL低电平期间，从机将数据位依次放到SDA线上(高位先行)，然后释放SCL,主机将在SCL高电平期间读取数据位所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可接收一个字节（主机在接收之前，需要释放SDA)&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_53_2_202409131453678.png" alt="接收过程">&lt;/p>
+&lt;blockquote>
+&lt;p>[!TIP]&lt;/p>
+&lt;p>要理解一旦有一个设备为低电平，整个总线都为低电平。当主机将SDA松开时（发送完一个字节的数据之后），如果没有设备下拉为低电平，那么整条总线就为高电平，说明没有设备给予应答，但是一旦有设备下拉SDA，就说明有设备收到数据，且给出应答&lt;/p>&lt;/blockquote>
+&lt;p>接收应答：主机在发送完一个字节之后，在下一个时钟接收一位数据，判断从机是否应答，数据0表示应答，数据1表示非应答（主机在接收之前，需要释放SDA)&lt;/p></description></item><item><title>SPI</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/spi/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/spi/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/290620901">SPI协议详解（图文并茂+超详细） - 知乎 (zhihu.com)&lt;/a>&lt;/p>
+&lt;h1 id="串口">
+&lt;a class="header-anchor" href="#%e4%b8%b2%e5%8f%a3">&lt;/a>
+串口
+&lt;/h1>&lt;p>因为UART没有时钟信号，无法控制何时发送数据，也无法保证双方按照完全相同的速度接收数据。因此，双方以不同的速度进行数据接收和发送，就会出现问题。&lt;/p>
+&lt;p>如果要解决这个问题，UART为每个字节添加额外的起始位和停止位，以帮助接收器在数据到达时进行同步；&lt;/p>
+&lt;p>双方还必须事先就传输速度达成共识（设置相同的波特率，例如每秒9600位）。&lt;/p>
+&lt;p>传输速率如果有微小差异不是问题，因为接收器会在每个字节的开头重新同步。相应的协议如下图所示：&lt;/p>
+&lt;p>&lt;img src="https://pic4.zhimg.com/80/v2-39dd6c1224d0e3fa0144e90519f4745d_720w.webp" alt="串口传输">&lt;/p>
+&lt;blockquote>
+&lt;p>[!NOTE]&lt;/p>
+&lt;p>图中的11001010不等于0x53。这是因为串口协议通常会首先发送最低有效位，因此最小位在最左边LSB。低四位字节实际上是0011 = 0x3，高四位字节是0101 = 0x5。&lt;/p>
+&lt;p>串口先发送低位，后发送高位&lt;/p>&lt;/blockquote>
+&lt;p>异步串行工作得很好，但是在每个字节发送的时候都需要额外的起始位和停止位以及在发送和接收数据所需的复杂硬件方面都有很多开销。&lt;/p>
+&lt;p>不难发现，如果接收端和发送端设置的速度都不一致，那么接收到的数据将是垃圾（乱码）。&lt;/p>
+&lt;p>因为UART没有时钟信号，无法控制何时发送数据，也无法保证双方按照完全相同的速度接收数据。因此，双方以不同的速度进行数据接收和发送，就会出现问题。&lt;/p>
+&lt;p>于是我们想有没有更好一点的串行通讯方式；相比较于UART，SPI的工作方式略有不同。&lt;/p>
+&lt;ol>
+&lt;li>SPI是一个同步的数据总线，也就是说它是用单独的数据线和一个单独的时钟信号来保证发送端和接收端的完美同步。&lt;/li>
+&lt;li>时钟是一个振荡信号，它告诉接收端在确切的时机对数据线上的信号进行采样。&lt;/li>
+&lt;li>产生时钟的一侧称为主机，另一侧称为从机。总是只有一个主机（一般来说可以是微控制器/MCU），但是可以有多个从机（后面详细介绍）；&lt;/li>
+&lt;li>数据的采集时机可能是时钟信号的上升沿（从低到高）或下降沿（从高到低）。&lt;/li>
+&lt;/ol>
+&lt;h1 id="介绍">
+&lt;a class="header-anchor" href="#%e4%bb%8b%e7%bb%8d">&lt;/a>
+介绍
+&lt;/h1>&lt;p>SPI:串行外设设备接口(Serial Peripheral Interface),是一种高速的、全双工、同步的通信总线。&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>功能说明&lt;/th>
+ &lt;th>SPI总线&lt;/th>
+ &lt;th>IIC总线&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>通信方式&lt;/td>
+ &lt;td>同步串行全双工&lt;/td>
+ &lt;td>同步串行半双工&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>总线接口&lt;/td>
+ &lt;td>MOSI、MISO、SCL、CS&lt;/td>
+ &lt;td>SDA、SCL&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>拓扑结构&lt;/td>
+ &lt;td>一主多从/一主一从&lt;/td>
+ &lt;td>多主从&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>从机选择&lt;/td>
+ &lt;td>片选引脚选择&lt;/td>
+ &lt;td>SDA上设备地址片选&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>通信速率&lt;/td>
+ &lt;td>般50MHz以下&lt;/td>
+ &lt;td>100kHz、400kHz、3.4MHz&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>数据格式&lt;/td>
+ &lt;td>8位/16位&lt;/td>
+ &lt;td>8位&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>传输顺序&lt;/td>
+ &lt;td>MSB/LSB&lt;/td>
+ &lt;td>MSB&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>SP接口主要应用在存储芯片、AD转换器以及LCD中。&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_46_56_202409141346019.png" alt="SPI组成结构">&lt;/p>
+&lt;blockquote>
+&lt;p>[!IMPORTANT]&lt;/p>
+&lt;p>输出引脚配置为推挽输出，输入引脚配置为浮空或者上拉输入，推挽输出高低电平都有着很强的驱动能力，和i2c不同，i2c电平下降快，上升缓慢，而SPI电平不仅上升快，下降也快&lt;/p>
+&lt;p>主机一个输入引脚，这个引脚将会接收来自多个从机传输的数据，这势必会产生冲突，所以SPI规定，当从机未被选中时，MISO引脚必须切换为高阻态（相当于引脚断开，不输出任何电平）&lt;/p>&lt;/blockquote>
+&lt;h2 id="原理">
+&lt;a class="header-anchor" href="#%e5%8e%9f%e7%90%86">&lt;/a>
+原理
+&lt;/h2>&lt;p>基本收发电路就是一个==移位模型==&lt;/p>
+&lt;p>SPI主机中有一个8位移位寄存器，SPI从机中也有一个8位的移位寄存器，移位寄存器有一个时钟输入端，SPI一般都是==高位==先行的，每来一个时钟，移位寄存器都会向左进行移位，从机中的移位寄存器也是同理。移位寄存器的时钟源由主机提供（波特率发生器），它产生的时钟驱动主机的移位寄存器进行移位，同时，这个时钟也通过SCK引脚进行输出给到从机的移位寄存器中，主机移位寄存器左边移出去的数据，通过MOSI输入到从机移位寄存器的右边，从机移位寄存器左边移出去的数据，通过MISO输入到主机移位寄存器的右边&lt;/p>
+&lt;p>如果是主机只是发送（只是接收），那么还是和上面同时收发一样，只是从机会随便发送一串数据（一般会给0xff或0x00），只要将数据置换出来即可，主机不会关注接收到的数据&lt;/p>
+&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="SPI移位的工作原理">&lt;/p></description></item><item><title>UDS</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/uds/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/uds/</guid><description>&lt;h1 id="参考链接">
+&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
+参考链接
+&lt;/h1>&lt;p>&lt;a href="https://blog.csdn.net/qq_40309666/article/details/130831416">《UDS协议从入门到精通（UDS速查手册）》（完结撒花版）_obdonuds-CSDN博客&lt;/a>&lt;/p>
+&lt;h1 id="简介">
+&lt;a class="header-anchor" href="#%e7%ae%80%e4%bb%8b">&lt;/a>
+简介
+&lt;/h1>&lt;p>UDS (Unified Diagnostic Services) 是一种标准化的==车辆诊断协议==，广泛应用于汽车电子控制单元（ECU）的诊断和维修。它是ISO 14229标准的一部分，主要用于车辆诊断、故障排除、软件更新和其他与车辆维护相关的服务。&lt;/p>
+&lt;h1 id="uds协议栈">
+&lt;a class="header-anchor" href="#uds%e5%8d%8f%e8%ae%ae%e6%a0%88">&lt;/a>
+UDS协议栈
+&lt;/h1>&lt;p>UDS（Unified Diagnostic Services）协议栈是实现UDS协议功能的分层架构，确保汽车电子控制单元（ECU）与诊断工具之间的通信。UDS协议栈通常包括以下几层：&lt;/p>
+&lt;ol>
+&lt;li>应用层（Application Layer）：应用层是UDS协议栈的最高层，负责实现具体的诊断服务。它定义了各种诊断服务，如读取数据、清除故障码、重置ECU等。这一层的功能由==ISO 14229标准==规定。&lt;/li>
+&lt;li>传输层（Transport Layer）：传输层负责数据的分段、重组和流量控制。UDS协议通常使用ISO 15765-2（CAN TP）作为其传输层协议。传输层处理较大的诊断消息，通过将它们分成较小的帧进行传输，然后在接收端重组这些帧。&lt;/li>
+&lt;li>网络层（Network Layer）：网络层管理数据包的寻址和路由。在UDS协议中，网络层通常依赖于ISO 15765-3标准，这一标准定义了如何在CAN网络上传输诊断信息。网络层确保诊断消息能够正确到达目标ECU。&lt;/li>
+&lt;li>数据链路层（Data Link Layer）：数据链路层负责物理网络上的数据帧传输和错误检测。在UDS协议中，数据链路层通常基于CAN（Controller Area Network）协议，由ISO 11898标准定义。数据链路层处理数据帧的发送和接收，并提供基本的错误检测和恢复机制。&lt;/li>
+&lt;li>物理层（Physical Layer）：物理层定义了实际的硬件接口和信号传输特性。在UDS协议中，物理层通常是基于CAN总线的物理层，由ISO 11898标准定义。这一层包括信号的电气特性、连接器和传输介质（如电缆）的规范。&lt;/li>
+&lt;/ol>
+&lt;h2 id="不同层的数据格式">
+&lt;a class="header-anchor" href="#%e4%b8%8d%e5%90%8c%e5%b1%82%e7%9a%84%e6%95%b0%e6%8d%ae%e6%a0%bc%e5%bc%8f">&lt;/a>
+不同层的数据格式
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>物理层&lt;/strong>：比特（Bit）：物理层传输的是原始的二进制数据，即 0 和 1 的比特流。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>数据链路层&lt;/strong>：帧（Frame）：数据链路层的 PDU 是帧，它包括数据包的开始和结束标志、帧同步信息、地址信息、控制信息以及实际的数据负载。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>网络层&lt;/strong>：包（Packet）：网络层的 PDU 是包，它包括源和目的地址、生存时间（TTL）、协议类型等信息，以及数据负载。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>传输层&lt;/strong>：段（Segment）：传输层的 PDU 是段，它包括端口号、序列号、确认号、控制位和其他传输控制信息，以及数据负载。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>会话层&lt;/strong>：会话（Session）：会话层的 PDU 通常指的是会话，它负责建立、管理和终止应用程序之间的会话。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>表示层&lt;/strong>：消息（Message）：表示层的 PDU 是消息，它负责数据的表示、安全和压缩。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>应用层&lt;/strong>：数据（Data）：应用层的 PDU 通常指的是数据，它直接与应用程序交互，包括各种 API 调用和协议特定的数据格式。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>[!TIP]&lt;/p>
+&lt;p>PDU 是 &amp;ldquo;Protocol Data Unit&amp;rdquo; 的缩写，意为协议数据单元。在计算机网络和通信系统中，PDU 是在不同层次之间传输的数据单位。PDU 的概念在 OSI（Open Systems Interconnection）模型中尤为重要，每个层次都会定义自己的 PDU 格式和用途。&lt;/p></description></item></channel></rss>

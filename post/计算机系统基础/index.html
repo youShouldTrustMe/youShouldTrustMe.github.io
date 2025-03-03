@@ -1,0 +1,3315 @@
+<!doctype html>
+<html
+  lang="zh-cn" 
+  
+    data-theme-mode="auto"
+  
+>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no"
+/>
+
+
+
+
+
+
+
+  
+
+<title>
+  计算机系统基础 | TrustMe
+</title>
+<meta
+  name="description"
+  content="你要信我啊"
+/>
+
+
+
+
+
+
+
+
+
+
+<script>
+  window.siteConfig = JSON.parse("{\"anchor_icon\":null,\"clipboard\":{\"copyright\":{\"content\":\"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！\",\"count\":50,\"enable\":false},\"fail\":\"复制失败 (ﾟ⊿ﾟ)ﾂ\",\"success\":\"复制成功(*^▽^*)\"},\"code_block\":{\"expand\":true},\"icon_font\":\"4552607_0khxww3tj3q9\",\"outdate\":{\"daysago\":180,\"enable\":false,\"message\":\"本文最后更新于 {time}，请注意文中内容可能已经发生变化。\"}}");
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+    
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="preload"
+  as="style"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7cNoto%20Serif%20SC:400,400italic,700,700italic%7c&amp;display=swap"
+  media="print"
+  onload="this.media='all'"
+/>
+
+
+
+
+
+
+  <link
+    rel="preload"
+    href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="anonymous"
+  />
+
+
+
+  
+
+
+
+
+
+
+ <link rel="stylesheet" href="/css/loader.css" />
+
+
+
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="计算机系统基础 | TrustMe" />
+  <meta
+    property="og:description"
+    content="你要信我啊"
+  />
+  <meta property="og:url" content="http://localhost:1313/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/" />
+  <meta
+    property="og:site_name"
+    content="TruestMe&#39;s Blog"
+  />
+  <meta
+    property="og:image"
+    content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_15_6_202408061115430.png"
+  />
+  <meta property="article:author" content="TrustMe" />
+  <meta property="article:published_time" content="2025-03-03T00:00:00&#43;00:00" />
+  <meta property="article:modified_time" content="2025-03-03T00:00:00&#43;00:00" />
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_15_6_202408061115430.png" />
+  
+  
+  
+  
+  
+
+
+
+
+<link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+
+
+
+ <link rel="stylesheet" href="/css/main.css" />
+
+
+
+
+
+  <link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+
+
+
+
+
+
+  <link
+    rel="preload"
+    as="style"
+    href="https://npm.webcache.cn/katex@0.16.9/dist/katex.min.css"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"
+    
+    
+    
+    
+    integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"
+  ></script>
+
+
+
+
+
+  
+
+
+  <link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css" />
+
+
+
+
+
+  </head>
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+          M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+          </svg>
+        
+      </div>
+      <div class="loading-word">你要信我啊...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        
+<div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class='main-nav-icon icon rotate'>
+          
+            
+              &#xe62b;
+            
+          
+        </div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索"></a>
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+    <picture></picture>
+      <img fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_15_6_202408061115430.png" alt="计算机系统基础">
+    
+  
+
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          
+        
+  
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">计算机系统基础</h1>
+          </a>
+        
+      
+  
+      
+        
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+        <div id="content"
+          
+          class="sidebar-right"  >
+          <aside id="sidebar">
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div
+      class="sidebar-wrap"
+      data-aos="fade-up"
+    >
+      
+        <div class="sidebar-toc-sidebar">
+          <div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#计算机基本工作原理">计算机基本工作原理</a>
+      <ul>
+        <li><a href="#冯诺依曼结构">冯诺依曼结构</a></li>
+        <li><a href="#程序和指令的执行过程">程序和指令的执行过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#程序的开发与运行">程序的开发与运行</a>
+      <ul>
+        <li><a href="#程序设计语言和翻译程序">程序设计语言和翻译程序</a></li>
+        <li><a href="#从源程序到可执行程序">从源程序到可执行程序</a></li>
+        <li><a href="#可执行文件的启动和运行">可执行文件的启动和运行</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#编译汇编">编译、汇编</a>
+      <ul>
+        <li><a href="#编译和汇编">编译和汇编</a></li>
+        <li><a href="#可执行目标文件的生成">可执行目标文件的生成</a></li>
+      </ul>
+    </li>
+    <li><a href="#目标文件格式">目标文件格式</a>
+      <ul>
+        <li><a href="#elf目标文件格式">ELF目标文件格式</a></li>
+        <li><a href="#可重定位目标文件格式">可重定位目标文件格式</a></li>
+        <li><a href="#可执行目标文件格式">可执行目标文件格式</a></li>
+        <li><a href="#可执行文件的存储映像">可执行文件的存储映像</a></li>
+      </ul>
+    </li>
+    <li><a href="#符号表和符号解析">符号表和符号解析</a>
+      <ul>
+        <li><a href="#符号和符号表">符号和符号表</a></li>
+        <li><a href="#符号解析">符号解析</a></li>
+        <li><a href="#与静态库的链接">与静态库的链接</a></li>
+      </ul>
+    </li>
+    <li><a href="#重定位过程">重定位过程</a>
+      <ul>
+        <li><a href="#重定位信息">重定位信息</a></li>
+        <li><a href="#重定位过程-1">重定位过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#动态链接">动态链接</a>
+      <ul>
+        <li><a href="#动态链接的特性">动态链接的特性</a></li>
+        <li><a href="#程序加载时的动态链接">程序加载时的动态链接</a></li>
+        <li><a href="#程序运行时的动态链接">程序运行时的动态链接</a></li>
+        <li><a href="#位置无关代码">位置无关代码</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#存储器概述">存储器概述</a>
+      <ul>
+        <li><a href="#存储器的分类">存储器的分类</a></li>
+        <li><a href="#主存储器的组成和基本操作">主存储器的组成和基本操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#主存与cpu的连接及其读写操作">主存与CPU的连接及其读写操作</a>
+      <ul>
+        <li><a href="#主存芯片技术">主存芯片技术</a></li>
+        <li><a href="#主存与cpu的连接及读写">主存与CPU的连接及读写</a></li>
+        <li><a href="#装入指令和存储指令操作过程">装入指令和存储指令操作过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#硬盘存储器">硬盘存储器</a>
+      <ul>
+        <li><a href="#磁盘存储器结构">磁盘存储器结构</a></li>
+        <li><a href="#磁盘存储器的连接">磁盘存储器的连接</a></li>
+        <li><a href="#固态硬盘">固态硬盘</a></li>
+      </ul>
+    </li>
+    <li><a href="#高速缓冲存储器">高速缓冲存储器</a>
+      <ul>
+        <li><a href="#程序访问的局部性">程序访问的局部性</a></li>
+        <li><a href="#cache的基本工作原理">cache的基本工作原理</a></li>
+        <li><a href="#cache行和主存块的映射">cache行和主存块的映射</a></li>
+        <li><a href="#cache中主存块的替换方法">cache中主存块的替换方法</a></li>
+        <li><a href="#cache一致性问题">cache一致性问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#虚拟存储器">虚拟存储器</a>
+      <ul>
+        <li><a href="#基本概念">基本概念</a></li>
+        <li><a href="#虚拟地址空间">虚拟地址空间</a></li>
+        <li><a href="#虚拟存储器的实现">虚拟存储器的实现</a></li>
+        <li><a href="#存储保护">存储保护</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#进程与进程的上下文切换">进程与进程的上下文切换</a>
+      <ul>
+        <li><a href="#程序和进程的概念">程序和进程的概念</a></li>
+        <li><a href="#进程的逻辑控制流">进程的逻辑控制流</a></li>
+        <li><a href="#进程的上下文切换">进程的上下文切换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+        </div>
+        <div class="sidebar-common-sidebar hidden">
+          
+<div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="TrustMe"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">TrustMe</div>
+  <div class="sidebar-description">你要信我啊</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    
+    <div class="sidebar-state-number">17</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+
+        </div>
+      
+
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+    
+  </div>
+</aside>
+
+          <section id="main">
+  <article
+  class="h-entry article"
+  itemprop="blogPost"
+  itemscope
+  itemtype="https://schema.org/BlogPosting"
+>
+  <div
+    class="article-inner"
+    data-aos="fade-up"
+  >
+    <div class="article-meta">
+      <div class="article-date">
+  <span
+    class="article-date-link"
+    data-aos="zoom-in"
+  >
+    <time datetime="2025-03-03 00:00:00 &#43;0000 UTC" itemprop="datePublished"
+      >2025-03-03</time
+    >
+    <time style="display: none;" id="post-update-time"
+      >2025-03-03</time
+    >
+  </span>
+</div>
+
+      <div class="article-category">
+  
+</div>
+
+    </div>
+    <div class="hr-line"></div>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接">
+<a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5"></a>
+参考链接
+</h1><p><a href="https://www.icourse163.org/course/NJU-1001625001">计算机系统基础(一)：程序的表示、转换与链接_南京大学_中国大学MOOC(慕课)</a></p>
+<h1 id="概述">
+<a class="header-anchor" href="#%e6%a6%82%e8%bf%b0"></a>
+概述
+</h1><h2 id="计算机基本工作原理">
+<a class="header-anchor" href="#%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%9f%ba%e6%9c%ac%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86"></a>
+计算机基本工作原理
+</h2><h3 id="冯诺依曼结构">
+<a class="header-anchor" href="#%e5%86%af%e8%af%ba%e4%be%9d%e6%9b%bc%e7%bb%93%e6%9e%84"></a>
+冯诺依曼结构
+</h3><p>硬件模型基本结构</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_15_6_202408061115430.png" alt="冯诺依曼结构"></p>
+<p><em>模型中包含 <code>以下四个部分</code></em></p>
+<ol>
+<li>用来存放指令和数据的主存储器，简称==主存或内存==；</li>
+<li>用来进行算术逻辑运算的部件，即算术逻辑部件(Arithmetic Logic Unit,简称==ALU==),在ALU操作控制
+信号ALUop的控制下，ALU可以对输人端A和B进行不同的运算，得到结果F;</li>
+<li>用于自动逐条取出指令并进行译码的部件，即控制部件(Control Unit,简称CU),也称==控制器==；</li>
+<li>用来和用户交互的==输入设备和输出设备==。</li>
+</ol>
+<p><em>CPU内部 <code>不同的组件</code></em></p>
+<ul>
+<li>为了临时存放从主存取来的数据或运算的结果，还需要若干通用寄存器(General Purpose Register)组成通用寄存器组(==GPRs==)，ALU两个输入端A和B的数据来自通用寄存器；</li>
+<li>ALU运算的结果会产生标志信息，例如，结果是否为0（零标志ZF)、是否为负数（符号标志SF)等，这些标志信息需要记录在专门的==标志寄存器==中；</li>
+<li>从主存取来的指令需要临时保存在指令寄存器(Instruction Register,简称==IR==)中；</li>
+<li>CPU为了自动按序读取主存中的指令，还需要有一个程序计数器(Program Counter,简称==PC==),在执行当前指令过程中，自动
+计算出下一条指令的地址并送到PC中保存。</li>
+<li>通常把控制部件、运算部件和各类寄存器互连组成的电路称为中央处理器(Central Processing Unit,简称CPU),简称处理器。</li>
+</ul>
+<p><em>CPU读取数据 <code>过程</code></em></p>
+<p>CPU需要从通用寄存器中取数据到ALU运算，或把ALU运算的结果保存到通用寄存器中，因此，需要给每个通用寄存器编号；</p>
+<p>同样，主存中每个单元也需要编号，称为主存单元地址，简称主存地址。</p>
+<p>通用寄存器和主存都属于存储部件，通常，计算机中的存储部件从0开始编号，例如，4个通用寄存器编号分别为0 ~ 3；16个主存单元编号分别为0 ~ 15。</p>
+<p>CPU为了从主存取指令和存取数据，需要通过传输介质与主存相连，通常把连接不同部件进行信息传输的介质称为==总线==，其中，包含了用于传输地址信息、数据信息和控制信息的地址线、数据线和控制线。</p>
+<p>CPU访问主存时，需先将主存地址、读/写命令分别送到总线的地址线、控制线，然后通过数据线发送或接收数据。CPU送到地址线的主存地址应先存放在主存地址寄存器(Memory Address Register,简称==MAR==)中，发送到或从数据线取来的信息存放在主存数据寄存器(Memory Data Register,简称==MDR==)中。</p>
+<h3 id="程序和指令的执行过程">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e5%92%8c%e6%8c%87%e4%bb%a4%e7%9a%84%e6%89%a7%e8%a1%8c%e8%bf%87%e7%a8%8b"></a>
+程序和指令的执行过程
+</h3><p>指令(instruction)是用0和1表示的一串0/1序列，用来指示CPU完成一个特定的原子操作。例如，</p>
+<ul>
+<li>取数指令(load)从主存单元中取出数据存放到通用寄存器中；</li>
+<li>存数指令（store)将通用寄存器的内容写入主存单元；</li>
+<li>加法指令(add)将两个通用寄存器内容相加后送入结果寄存器；</li>
+<li>传送指令(mov)将一个通用寄存器的内容送到另一个通用寄存器；</li>
+</ul>
+<p>指令通常被划分为若干个字段，有操作码、地址码等字段。</p>
+<ul>
+<li>操作码字段指出指令的操作类型，如取数、存数、加、减、传送、跳转等；</li>
+<li>地址码字段指出指令所处理的操作数的地址，如寄存器编号、主存单元编号等。</li>
+</ul>
+<p>指令格式如下</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/03/3_10_1_19_202503031001336.png" alt="指令格式"></p>
+<p>实现一个程序的过程</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_41_21_202408061141156.png" alt="实现程序的过程"></p>
+<p>“存储程序”工作方式规定，程序执行前，需将程序包含的指令和数据先送入主存，一旦启动程序执行，则计算机必须能够在不需操作人员干预下自动完成逐条指令取出和执行的任务。</p>
+<p>一个程序的执行就是周而复始地执行一条一条指令的过程。每条指令的执行过程包括：从主存取指令、对指令进行译码、PC增量（图中的PC+“1”表示PC的内容加上当前这一条指令的长度)、取操作数并执行、将结果送主存或寄存器保存。
+程序执行前，首先将程序的起始地址存放在PC中，取指令时，将PC的内容作为地址访问主存。每条指令执行过程中，都需要计算下条将执行指令的主存地址，并送到PC中。若当前指令为顺序型指令，则下条指令地址为PC的内容加上当前指令的长度；若当前指令为跳转型指令，则下条指令地址为指令中指定的目标地址。当前指令执行完后，根据PC的值到主存中取到的是下条将要执行的指令，因而计算机能够周而复始地自动取出并执行一条一条指令。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_43_9_202408061143902.png" alt="程序执行过程"></p>
+<h2 id="程序的开发与运行">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%bc%80%e5%8f%91%e4%b8%8e%e8%bf%90%e8%a1%8c"></a>
+程序的开发与运行
+</h2><h3 id="程序设计语言和翻译程序">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e8%af%ad%e8%a8%80%e5%92%8c%e7%bf%bb%e8%af%91%e7%a8%8b%e5%ba%8f"></a>
+程序设计语言和翻译程序
+</h3><p>从抽象层次上来分，可以分成高级语言和低级语言两类。</p>
+<ul>
+<li>使用特定计算机规定的指令格式而形成的0/1序列称为==机器语言==，计算机能理解和执行的程序称为机器代码或机器语言程序，其中的每条指令都由0和1组成，称为==机器指令==。</li>
+<li>用简短的英文符号和机器指令建立对应关系，以方便程序员编写和阅读程序。这种语言称为==汇编语言==(assembly language),机器指令对应的符号表示称为汇编指令。如机器指令“11100110”对应的汇编指令为“lod0,6#”。</li>
+</ul>
+<p>汇编语言和机器语言都属于低级语言，它们统称为机器级语言。</p>
+<p>高级程序设计语言(high level programming language)简称高级编程语言，是指面向算法设计的、较接近于日常英语书面语言的程序设计语言，如BASIC、CC++、Fortran、Java等。它与具体的机器结构无关，同一个功能机器级语言表示需5条指令，而高级编程语言表示只需一条语句“z=x+y;”即可。</p>
+<p>不过，因为计算机无法直接理解和执行高级编程语言程序，所以需要将高级编程语言程序转换成机器语言程序。因为这个转换过程是计算机自动完成的，所以把进行这种转换的软件统称为翻译程序(translator)。通常，程序员借助程序设计语言处理系统来开发软件。任何一个语言处理系统中，都包含翻译程序，它能把一种编程语言表示的程序转换为等价的另一种编程语言程序。被翻译的语言和程序分别称为==源语言和源程序==，翻译生成的语言和程序分别称为目标语言和目标程序。翻译程序有以下三类。</p>
+<ol>
+<li>汇编程序(assembler):也称汇编器，实现将汇编语言源程序翻译成机器语言目标程序。</li>
+<li>解释程序(interpreter)：也称解释器，实现将源程序中的语句按其执行顺序逐条翻译成机器指令并立即执行。</li>
+<li>编译程序(compiler)：也称编译器，实现将高级语言源程序翻译成汇编语言或机器语言目标程序。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_56_1_202408061156982.png" alt="不同语言之间的转换"></p>
+<h3 id="从源程序到可执行程序">
+<a class="header-anchor" href="#%e4%bb%8e%e6%ba%90%e7%a8%8b%e5%ba%8f%e5%88%b0%e5%8f%af%e6%89%a7%e8%a1%8c%e7%a8%8b%e5%ba%8f"></a>
+从源程序到可执行程序
+</h3><p>现有以下程序</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;hello,world</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>为了让计算机能够执行以上程序，需要按照以下的步骤进行操作</p>
+<ol>
+<li>通过程序编辑软件得到hello.c文件。hello.c在计算机中以ASCI字符方式存放，图中给出了每个字符对应的ASCⅡ码的十进制值。例如，第一个字节的值是35，代表字符‘#’；第二个字节的值是105，代表字符‘i’；最后一个字节的值为125，代表字符‘}’。通常把用ASCI码字符或汉字字符表示的文件称为文本文件(text file),源程序文件都是文本文件，是可显示和可读的。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_13_28_56_202408061328662.png" alt="程序在计算机中的存放"></p>
+<ol start="2">
+<li>
+<p>将hello.c进行预处理、编译、汇编和链接，最终生成可执行目标文件。例如，在UNIX系统中，可用GCC编译驱动程序进行处理，命令如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc -o hello hello.c
+</span></span></code></pre></div><p>上面的一行命令实际上计算机进行了以下的操作</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_13_33_27_202408061333866.png" alt="源程序到可执行文件的转换顺序"></p>
+</li>
+</ol>
+<p><em>预处理 <code>阶段</code></em>：预处理程序（cpp)对源程序中以字符#开头的命令进行处理，例如，将#include命令后面的.h文件内容嵌入到源程序文件中。预处理程序的输出结果还是一个源程序文件，以.i为扩展名。</p>
+<p><em>编译 <code>阶段</code></em>：编译程序(cc1)对预处理后的源程序进行编译，生成一个汇编语言源程序文件，以.s为扩展名，例如，hello.s是一个汇编语言源程序文件。因为汇编语言与具体的机器结构有关，所以，对同一台机器来说，不管何种高级语言，编译转换后的输出结果都是同一种机器语言对应的汇编语言源程序。</p>
+<p><em>汇编 <code>阶段</code></em>：汇编程序(as)对汇编语言源程序进行汇编，生成一个==可重定位目标文件==(relocatable object file),以.o为扩展名，例如，hello.o是一个可重定位目标文件。它是一种二进制文件(binary file),因为其中的代码已经是机器指令，数据以及其他信息也都是用二进制表示的，所以它是不可读的，也即打开显示出来的是乱码。</p>
+<p><em>链接 <code>阶段</code></em>：链接程序(ld)将多个可重定位目标文件和标准函数库中的可重定位目标文件合并成为一个==可执行目标文件==(executable object file),可执行目标文件简称为可执行文件。本例中，链接器将hello.o和标准库函数printf所在的可重定位目标模块printf.o进行合并，生成可执行文件hello。</p>
+<p>最终生成的可执行文件被保存在磁盘上，可以通过某种方式启动一个磁盘上的可执行文件运行。</p>
+<h3 id="可执行文件的启动和运行">
+<a class="header-anchor" href="#%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%e7%9a%84%e5%90%af%e5%8a%a8%e5%92%8c%e8%bf%90%e8%a1%8c"></a>
+可执行文件的启动和运行
+</h3><p>对于一个存放在磁盘上的可执行文件，可以在操作系统提供的用户操作环境中，采用双击对应图标或在命令行中输人可执行文件名等多种方式来启动执行。在UNIX系统中，可以通过shell命令行解释器来执行一个可执行文件。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_13_43_38_202408061343424.png" alt="启动和执行程序的过程"></p>
+<ol>
+<li>shell程序会将用户从键盘输入的每个字符逐一读入CPU寄存器中（对应线①)，</li>
+<li>然后再保存到主存储器中，在主存的缓冲区形成字符串&quot;./hello&quot;(对应线②)。</li>
+<li>等到接收到[Enter]按键时，shell将调出操作系统内核中相应的服务例程，由内核来加载磁盘上的可执行文件hello到存储器（对应线③）。</li>
+<li>内核加载完可执行文件中的代码及其所要处理的数据（这里是字符串&quot;hello,world\n&quot;)后，将hello第一条指令的地址送到程序计数器(PC)中，CPU永远都是将PC的内容作为将要执行的指令的地址，因此，处理器随后开始执行hello程序，它将加载到主存的字符串&quot;hello,word\n”中的每一个字符从主存取到CPU的寄存器中(对应线④)，</li>
+<li>然后将CPU寄存器中的字符送到显示器上显示出来（对应线⑤）。</li>
+</ol>
+<p>从上述过程可以看出，一个用户程序被启动执行，==必须依靠操作系统==的支持，包括提供人机接口环境（如外壳程序）和内核服务例程。</p>
+<p>例如，shell命令行解释器是操作系统外壳程序，它为用户提供了一个启动程序执行的环境，用来对用户从键盘输入的命令进行解释，并调出操作系统内核来加载用户程序（用户从键盘输人的命令所对应的程序）。显然，用来加载用户程序并使其从第一条指令开始执行的操作系统内核服务例程也是必不可少的。</p>
+<p>此外，在上述过程中，涉及键盘、磁盘和显示器等外部设备的操作，这些底层硬件是不能由用户程序直接访问的。此时，也需要依靠操作系统内核服务例程的支持，例如，用户程序需要调用内核的read系统调用服务例程读取磁盘文件，或调用内核的write系统调用服务例程把字符串“写”到显示器等。</p>
+<p>键盘、磁盘和显示器等外部设备简称为==外设==，也称为I/O设备，其中，I/O是输入/输出(Input/Output)的缩写。外设通常由机械部分和电子部分组成，并且两部分通常是可以分开的。机械部分是外部设备本身，而电子部分则是控制外部设备工作的I/O控制器或I/O适配器。</p>
+<p>外设通过I/O控制器或I/O适配器连接到主机上，I/O控制器或I/O适配器统称为设备控制器。例如，键盘接口、打印机适配器、显示控制卡（简称显卡）、网络控制卡（简称网卡）等都是一种设备控制器，属于一种I/O模块。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>程序的执行过程就是数据在CPU、主存储器和I/O模块之间流动的过程，所有数据的流动都是通过总线、I/O桥接器等进行的。数据在总线上传输之前，需要先缓存在存储部件中，因此，除了主存本身是存储部件以外，在CPU、I/O桥接器、设备控制器中也有存放数据的缓冲存储部件，例如，CPU中的通用寄存器，设备控制器中的数据缓冲寄存器等。</p></blockquote>
+<h1 id="程序的链接">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e7%9a%84%e9%93%be%e6%8e%a5"></a>
+程序的链接
+</h1><h2 id="编译汇编">
+<a class="header-anchor" href="#%e7%bc%96%e8%af%91%e6%b1%87%e7%bc%96"></a>
+编译、汇编
+</h2><h3 id="编译和汇编">
+<a class="header-anchor" href="#%e7%bc%96%e8%af%91%e5%92%8c%e6%b1%87%e7%bc%96"></a>
+编译和汇编
+</h3><p>以GCC处理C语言程序为例来说明处理过程。可以通过-ⅴ选项查看GCC每一步的处理结果。如果想得到每个处理过程的结果，则可以分别使用==-E、-S和-c==选项来进行预处理、编译和汇编，对应的处理工具分别为==cpp、ccl和as==,处理后得到的文件的文件名后缀分别是.i、.s和.o。</p>
+<p><em>预处理 <code>阶段</code></em></p>
+<p>预处理是从源程序变成可执行程序的第一步，C预处理程序为==cpp==（即C Preprocessor),主要用于C语言编译器对各种预处理命令进行处理，包括对头文件的包含、宏定义的扩展、条件编译的选择等，例如，对于#include指示的处理结果，就是将相应h文件的内容插入到源程序文件中。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc -E main.c -o main.i	<span class="c1">#gcc -E</span>
+</span></span><span class="line"><span class="cl">cpp main.c -o main.i	<span class="c1">#cpp</span>
+</span></span></code></pre></div><p>用以上两行代码都可以将c文件转换为i文件，预处理后的文件是可显示的文本文件</p>
+<p><em>编译 <code>阶段</code></em></p>
+<p>C编译器在进行具体的程序翻译之前，会先对源程序进行词法分析、语法分析和语义分析，然后根据分析的结果进行代码优化和存储分配，最终把C语言源程序翻译成汇编语言程序。</p>
+<p>编译器通常采用对源程序进行多次扫描的方式进行处理，每次扫描集中完成一项或几项任务，也可以将一项任务分散到几次扫描去完成。</p>
+<p>例如，可以按照以下四趟扫描进行处理：</p>
+<ol>
+<li>第一趟扫描进行词法分析；</li>
+<li>第二趟扫描进行语法分析；</li>
+<li>第三趟扫描进行代码优化和存储分配；</li>
+<li>第四趟扫描生成代码。</li>
+</ol>
+<p>GCC可以直接产生机器语言代码，也可以先产生汇编语言代码，然后再通过汇编程序将汇编语言代码转换为机器语言代码。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc-S main.i-o main.s
+</span></span><span class="line"><span class="cl">ccl main.i-o main.s
+</span></span><span class="line"><span class="cl">或者
+</span></span><span class="line"><span class="cl">gcc-S main.c-o main.s
+</span></span><span class="line"><span class="cl">gcc-S main.c
+</span></span></code></pre></div><p><em>汇编 <code>阶段</code></em></p>
+<p>汇编的功能是将编译生成的汇编语言代码转换为机器语言代码。因为通常最终的可执行目标文件由多个不同模块对应的机器语言目标代码组合而形成，所以，在生成单个模块的机器语言目标代码时，不可能确定每条指令或每个数据最终的地址，也即，单个模块的机器语言目标代码需要重新定位，因此，通常把汇编生成的机器语言目标代码文件称为可重定位目标文件。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc -c main.s -o main.o
+</span></span><span class="line"><span class="cl">as main.s -o main.o
+</span></span><span class="line"><span class="cl">或者
+</span></span><span class="line"><span class="cl">gcc -c main.c -o main.o
+</span></span><span class="line"><span class="cl">gcc -c main.c
+</span></span></code></pre></div><h3 id="可执行目标文件的生成">
+<a class="header-anchor" href="#%e5%8f%af%e6%89%a7%e8%a1%8c%e7%9b%ae%e6%a0%87%e6%96%87%e4%bb%b6%e7%9a%84%e7%94%9f%e6%88%90"></a>
+可执行目标文件的生成
+</h3><p>链接的功能是将所有关联的可重定位目标文件组合起来，以生成一个可执行文件。例如，对下面的两个模块main.c和test.c。</p>
+<hr>
+<blockquote>
+<p>main.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="k">return</span> <span class="nf">add</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">13</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></blockquote>
+<blockquote>
+<p>test.c</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span><span class="kt">int</span> <span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></blockquote>
+<p>假定通过预处理、编泽和汇编，分别生成了可重定位目标文件main.o和test.o,则可以</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">gcc -o <span class="nb">test</span> main.o test.o
+</span></span><span class="line"><span class="cl">ld -o <span class="nb">test</span> main.o test.o
+</span></span></code></pre></div><p>用以上的任意一个命令都可以生成可执行文件test。这里，ld是静态链接器命令。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_15_41_27_202408061541929.png" alt="静态链接图示"></p>
+<p>可重定位目标文件和可执行目标文件都是机器语言目标文件，所不同的是前者是单个模块生成的，而后者是多个模块组合而成的。因而，对于前者，代码总是从0开始的，而对于后者代码则是从ABI规范规定的虚拟地址空间中产生。</p>
+<p>可以使用objdump来反汇编程序</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">objdump -d test.o
+</span></span></code></pre></div><p>test.o的反汇编结果如下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">00000000&lt;add&gt;:
+</span></span><span class="line"><span class="cl">0:55		push	%ebp
+</span></span><span class="line"><span class="cl">1:89e5		mov		%esp,%ebp
+</span></span><span class="line"><span class="cl">3:83ec10	sub		$0x10,%esp
+</span></span><span class="line"><span class="cl">6:8b450c	mov		0xc(%ebp )%eax
+</span></span><span class="line"><span class="cl">9:8b5508	mov		0x8(%ebp),%edx
+</span></span><span class="line"><span class="cl">C:8d0402	lea		(%edx,%eax,1),%eax
+</span></span><span class="line"><span class="cl">f:8945fc	mov		%eax,-0x4(%ebp)
+</span></span><span class="line"><span class="cl">12:8b45fc	mov		-0x4(%ebp),%eax
+</span></span><span class="line"><span class="cl">15:c9		leave
+</span></span><span class="line"><span class="cl">16:c3		ret
+</span></span></code></pre></div><p>test的反汇编结果如下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">080483d4&lt;add&gt;:
+</span></span><span class="line"><span class="cl">80483d4:55		push	%ebp
+</span></span><span class="line"><span class="cl">80483d5:89e5	mov		%esp,%ebp
+</span></span><span class="line"><span class="cl">80483d7:83ec10	sub		$0x10,%esp
+</span></span><span class="line"><span class="cl">80483da:8b450c	mov		Oxc(%ebp),%eax
+</span></span><span class="line"><span class="cl">80483dd:8b5508	mov		0x8(%ebp),%edx
+</span></span><span class="line"><span class="cl">80483e0:8d0402	lea		(%edx,%eax,1),%eax
+</span></span><span class="line"><span class="cl">80483e3:8945fc	mov		%eax,-0x4(%ebp)
+</span></span><span class="line"><span class="cl">80483e6:8b45fc	mov		-0x4(%ebp),%eax
+</span></span><span class="line"><span class="cl">80483e9:c9		leave
+</span></span><span class="line"><span class="cl">80483ea:c3		ret
+</span></span></code></pre></div><p>上述给出的通过objdump命令输出的结果包括指令的地址、指令机器代码和反汇编出来的汇编指令代码。可以看出，在可重定位目标文件test.o中add函数的起始地址为==0==；而在可执行目标文件test中add函数的起始地址为==0x80483d4==。</p>
+<p>实际上，可重定位目标文件和可执行目标文件都不是可以直接显示的文本文件，而是不可显示的二进制文件，它们都按照一定的格式以二进制字节序列构成一种目标文件，其中包含</p>
+<ul>
+<li>二进制代码区</li>
+<li>只读数据区</li>
+<li>已初始化数据区</li>
+<li>未初始化数据区</li>
+<li>等</li>
+</ul>
+<p>而每个信息区称为一个==节==(section)</p>
+<ul>
+<li>==代码节==(.text)</li>
+<li>==只读数据节==(.rodata)</li>
+<li>==已初始化全局数据节==(.data)</li>
+<li>==未初始化全局数据节==(.bss)</li>
+<li>等</li>
+</ul>
+<p>静态链接器将多个可重定位目标文件合成一个可执行目标文件，主要完成以下==两个任务==。</p>
+<ol>
+<li>==符号解析==
+符号解析的目的是将每个符号的引用与一个确定的符号定义建立关联。符号包括全局静态变量名和函数名，而非静态局部变量名则不是符号。例如，对于例子中的两个源程序文件main.c和test.c,在main.c中定义了符号main,并引用了符号add;在test.c中则定义了符号add,而i、j和x都不是符号。链接时需要将main.o中引用的符号add和test.o中定义的符号add建立关联。对于全局变量声明 <code>int *xp = &amp;x;</code>，,可看成引用符号x对符号xp进行定义。编译器将所有符号存放在可重定位目标文件的符号表中。</li>
+<li>==重定位==
+可重定位目标文件中的代码区和数据区都是从地址0开始的，链接器需要将不同模块中相同的节合并起来生成一个新的单独的节，并将合并后的代码区和数据区按照ABI规范确定的虚拟地址空间划分（也称存储器映像)来重新确定位置。例如，对于32位Linux系统存储器映像，其只读代码段总是从地址0x8048000开始，而可读可写数据段总是在代码段后面的第一个4KB对齐的地址处开始。因而链接器需要重新确定每条指令和每个数据的地址，并且在指令中需要明确给定所引用符号的地址，这种重新确定代码和数据的地址并更新指令中被引用符号地址的工作称为==重定位==(relocation)。</li>
+</ol>
+<h2 id="目标文件格式">
+<a class="header-anchor" href="#%e7%9b%ae%e6%a0%87%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f"></a>
+目标文件格式
+</h2><blockquote>
+<p>[!NOTE]</p>
+<p>注意：window和Unix（Linux）的相关文件的后缀和组成格式均不同</p>
+<ol>
+<li>window文件后缀
+<ol>
+<li>动态库文件：dll</li>
+<li>静态库文件：lib</li>
+<li>可重定位文件：obj</li>
+<li>可执行文件：exe</li>
+</ol>
+</li>
+<li>Linux文件后缀
+<ol>
+<li>动态库文件：so</li>
+<li>静态库文件：a</li>
+<li>可重定位文件：o</li>
+<li>可执行文件：一般没有特定的后缀，elf是其中的一种</li>
+</ol>
+</li>
+</ol></blockquote>
+<h3 id="elf目标文件格式">
+<a class="header-anchor" href="#elf%e7%9b%ae%e6%a0%87%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f"></a>
+ELF目标文件格式
+</h3><p>目标文件既可用于程序的链接，也可用于程序的执行。</p>
+<p>*链接 <code>视图</code>*主要由不同的节(section)组成，节是ELF文件中具有相同特征的最小可处理信息单位，不同的节描述了目标文件中不同类型的信息及其特征，例如，代码节(.text)、只读数据节(.rodata)、已初始化全局数据节(.data)、未初始化全局数据节(.bss)等。</p>
+<p>*执行 <code>视图</code>*主要由不同的段(segment)组成，描述了目标文件中的节如何映射到存储空间的段中。可以将多个节合并后映射到同一个段，例如，可以合并节.data和节.bss的内容，并映射到一个可读可写数据段中。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_16_15_14_202408061615881.png" alt="ELF目标文件的两种视图"></p>
+<p>前面提到通过预处理、编译和汇编三个步骤后，可生成可重定位目标文件，多个关联的可重定位目标文件经过链接后生成可执行目标文件。这两类目标文件对应的ELF视图不同，显然，可重定位目标文件对应链接视图，而可执行目标文件对应执行视图。</p>
+<p>节头表包含文件中各节的说明信息，每个节在该表中都有一个与之对应的项，每一项都指定了节名和节大小之类的信息。用于链接的目标文件必须具有==节头表==，例如，可重定位目标文件就一定要有节头表。程序头表用来指示系统如何创建进程的存储器映像。用于创建进程存储器映像的可执行文件和共享库文件必须具有程序头表，而可重定位目标文件不需要程序头表。</p>
+<h3 id="可重定位目标文件格式">
+<a class="header-anchor" href="#%e5%8f%af%e9%87%8d%e5%ae%9a%e4%bd%8d%e7%9b%ae%e6%a0%87%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f"></a>
+可重定位目标文件格式
+</h3><p>可重定位目标文件主要包含代码部分和数据部分，它可以与其他可重定位目标文件链接，从而创建可执行目标文件、共享库文件。ELF可重定位目标文件由ELF头、节头表以及夹在ELF头和节头表之间的各个不同的节组成。</p>
+<ul>
+<li>ELF头中包含的是该文件的一些基本信息，比如是什么格式的文件，在节头表中有几项表等等</li>
+<li>节中包含了代码中具体的数据及text</li>
+<li>节头表提供了指向每个节的信息，因此链接器和加载器可以使用这些信息来定位和处理文件的各个部分。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/11_10_40_24_202408111040643.png" alt="ELF可重定位目标文件格式"></p>
+<h4 id="elf头">
+<a class="header-anchor" href="#elf%e5%a4%b4"></a>
+ELF头
+</h4><p>ELF头位于目标文件的起始位置，包含文件结构说明信息。ELF头的数据结构分32位系统对应结构和64位系统对应结构。以下是32位系统对应的数据结构，共占52字节。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define EI_NIDENT 16
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span> 
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">eident</span><span class="p">[</span><span class="n">EI_NIDENT</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Half</span>		  <span class="n">e_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Half</span>        <span class="n">e_machine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">e_version</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Addr</span>        <span class="n">e_entry</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Off</span>         <span class="n">e_phoff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Off</span>         <span class="n">e_shoff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">e_flags</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Half</span>        <span class="n">e_ehsize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Half</span>        <span class="n">e_phentsize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Half</span>        <span class="n">ephnum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Half</span>        <span class="n">e_shentsize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Half</span>        <span class="n">e_shnum</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Half</span>        <span class="n">eshstrndx</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">Elf32_Ehdr</span><span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>
+<p>文件开头几个字节称为==魔数==，通常用来确定文件的类型或格式。在加载或读取文件时，可用魔数确认文件类型是否正确。在32位ELF头的数据结构中，字段e_ident是一个长度为16的字节序列，</p>
+<ul>
+<li>eident最开始的4字节为魔数，用来标识是否为ELF文件，</li>
+<li>第一个字节为0x7F,后面三个字节分别为’E‘、’L&rsquo;、‘F’。</li>
+<li>再后面的12个字节中，主要包含一些标识信息，例如，标识是32位还是64位格式、标识数据按小端还是大端方式存放、标识ELF头的版本号等。</li>
+</ul>
+</li>
+<li>
+<p>字段e_type用于说明目标文件的类型是可重定位文件、可执行文件、共享库文件，还是其他类型文件。</p>
+</li>
+<li>
+<p>字段e_machine用于指定机器结构类型，如IA-32、SPARC V9、AMD64等。</p>
+</li>
+<li>
+<p>字段e_version用于标识目标文件版本。</p>
+</li>
+<li>
+<p>字段e_entry用于指定系统将控制权转移到的起始虚拟地址(入口点)，如果文件没有关联的入口点，则为零。例如，对于可重定位文件，此字段为0。</p>
+</li>
+<li>
+<p>字段e_ehsize用于说明ELF头的大小（以字节为单位）。</p>
+</li>
+<li>
+<p>字段e_shoff指出节头表在文件中的偏移量（以字节为单位）。</p>
+</li>
+<li>
+<p>字段e_shentsize表示节头表中一个表项的大小（以字节为单位)，所有表项大小相同。</p>
+</li>
+<li>
+<p>字段e_shnum表示节头表中的项数。因此e_shentsize和e_shnum共同指定了节头表的大小（以字节为单位）。仅ELF头在文件中具有固定位置，即总是在最开始的位置，其他部分的位置由ELF头和节头表指出，不需要具有固定的顺序。</p>
+</li>
+</ul>
+<p>可以使用 <code>readelf -h</code>命令对某个可重定位目标文件的ELF头进行解析。例如，以下是通过“readelf-h main.o”对某main.o文件进行解析的结果。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">ELF</span> <span class="nl">Header</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Magic</span><span class="p">:</span> <span class="mf">7f</span> <span class="mi">45</span> <span class="mi">4</span><span class="n">c</span> <span class="mi">46</span> <span class="mo">01</span> <span class="mo">01</span> <span class="mo">01</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Class</span><span class="p">:</span> <span class="n">ELF32</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Data</span><span class="p">:</span> <span class="mi">2</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">complement</span><span class="p">,</span><span class="n">little</span> <span class="n">endian</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Version</span><span class="p">:</span> <span class="mi">1</span> <span class="p">(</span><span class="n">current</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">OS</span><span class="o">/</span><span class="nl">ABI</span><span class="p">:</span> <span class="n">UNIX</span> <span class="n">System</span> <span class="n">V</span>
+</span></span><span class="line"><span class="cl"><span class="n">ABI</span> <span class="nl">Version</span><span class="p">:</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Type</span><span class="p">:</span> <span class="nf">REL</span> <span class="p">(</span><span class="n">Relocatable</span> <span class="n">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Machine</span><span class="p">:</span> <span class="n">Inte180386</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Version</span><span class="p">:</span><span class="mh">0x1</span>
+</span></span><span class="line"><span class="cl"><span class="n">Entry</span> <span class="n">point</span> <span class="nl">address</span><span class="p">:</span> <span class="mh">0x0</span>
+</span></span><span class="line"><span class="cl"><span class="n">Start</span> <span class="n">of</span> <span class="n">program</span> <span class="nl">headers</span><span class="p">:</span><span class="mi">0</span> <span class="p">(</span><span class="n">bytes</span> <span class="n">into</span> <span class="n">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Start</span> <span class="n">of</span> <span class="n">section</span> <span class="nl">headers</span><span class="p">:</span><span class="mi">516</span> <span class="p">(</span><span class="n">bytes</span> <span class="n">into</span> <span class="n">file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nl">Flags</span><span class="p">:</span> <span class="n">x0</span>
+</span></span><span class="line"><span class="cl"><span class="n">Size</span> <span class="n">of</span> <span class="n">this</span> <span class="nl">header</span><span class="p">:</span><span class="mi">52</span><span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Size</span> <span class="n">of</span> <span class="n">program</span> <span class="nl">headers</span><span class="p">:</span><span class="mi">0</span> <span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Number</span> <span class="n">of</span> <span class="n">program</span> <span class="nl">headers</span><span class="p">:</span><span class="mi">0</span>
+</span></span><span class="line"><span class="cl"><span class="n">Size</span> <span class="n">of</span> <span class="n">section</span> <span class="nl">headers</span><span class="p">:</span><span class="mi">40</span> <span class="p">(</span><span class="n">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">Number</span> <span class="n">of</span> <span class="n">section</span> <span class="nl">headers</span><span class="p">:</span><span class="mi">15</span>
+</span></span><span class="line"><span class="cl"><span class="n">Section</span> <span class="n">header</span> <span class="n">string</span> <span class="n">table</span> <span class="nl">index</span><span class="p">:</span><span class="mi">12</span>
+</span></span></code></pre></div><p>从上述解析结果可以看出，该main.o文件中，ELF头长度(e_ehsize)为52字节，因为是可重定位文件，所以字段e_entry(Entry point address)为0,无程序头表(Size of program headers=0)。节头表离文件起始处的偏移(e_shoff)为516字节，每个表项大小(e_shentsize)占40字节，表项(e_shnum)为15个。字符串表(.strtab节)在节头表中的索引（e_shstrnd)12。</p>
+<h4 id="节">
+<a class="header-anchor" href="#%e8%8a%82"></a>
+节
+</h4><p>节(section)是ELF文件中的主体信息，包含了链接过程所用的目标代码信息，包括指令、数据、符号表和重定位信息等。一个典型的ELF可重定位目标文件中包含下面几个节。</p>
+<ul>
+<li>
+<p><em><code>.text</code></em>:目标代码部分。</p>
+</li>
+<li>
+<p><em><code>.rodata</code></em>:只读数据，如printf语句中的格式串、开关语句（如switch-case)的跳转表等。</p>
+</li>
+<li>
+<p><em><code>.data</code></em>:已初始化的全局变量。</p>
+</li>
+<li>
+<p><em><code>.bss</code></em>:未初始化的全局变量。因为未初始化变量没有具体的值，所以无须在目标文件中分配用于保存值的空间，也即它在目标文件中不占据实际的磁盘空间，仅仅是一个占位符。目标文件中区分已初始化和未初始化全局变量是为了提高空间利用率。</p>
+<ul>
+<li>
+<blockquote>
+<p>[!NOTE]</p>
+<p>对于auto型局部变量，因为它们在运行时被分配在栈中，所以既不出现在.data节，也不出现在.bss节。</p></blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>.symtab:符号表(symbol table)。程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息保存在符号表中。每个可重定位目标文件都有一个.symtab节。</p>
+</li>
+<li>
+<p>.rel.text:.text节相关的可重定位信息。当链接器将某个目标文件和其他目标文件组合时，.txt节中的代码被合并后，一些指令中引用的操作数地址信息或跳转目标指令位置信息等都可能要被修改。通常，调用外部函数或者引用全局变量的指令中的地址字段需要修改。</p>
+</li>
+<li>
+<p>.rel.data:.data节相关的可重定位信息。当链接器将某个目标文件和其他目标文件组合时，.data节中的代码被合并后，一些全局变量的地址可能被修改。</p>
+</li>
+<li>
+<p>.dbug：调试用符号表，有些表项定义的局部变量和类型定义进行说明，有些表项对定义和引用的全局静态变量进行说明。只有使用带-g选项的gCc命令才会得到这张表。</p>
+</li>
+<li>
+<p>.line:C源程序中的行号和.text节中机器指令之间的映射。只有使用带-g选项的gcc命令才会得到这张表。</p>
+</li>
+<li>
+<p>.strtab:字符串表，包括.symtab节和.debug节中的符号以及节头表中的节名。字符串表就是以null结尾的字符串序列。</p>
+</li>
+</ul>
+<h4 id="节头表">
+<a class="header-anchor" href="#%e8%8a%82%e5%a4%b4%e8%a1%a8"></a>
+节头表
+</h4><p>节头表由若干个==表项==组成，每个表项描述相应的一个节的节名、在文件中的偏移、大小、访问属性、对齐方式等，目标文件中的每个节都有一个表项与之对应。除ELF头之外，节头表是ELF可重定位目标文件中最重要的一部分内容。以下是32位系统对应的数据结构，节头表中每个表项占40字节。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">shname</span><span class="p">;</span>   <span class="c1">//节名字符串在.strtab中的偏移
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Elf32_Word</span>        <span class="n">sh_type</span><span class="p">;</span>   <span class="c1">//节类型：无效/代码或数据/符号/字符串人…
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">E1f32_Word</span>        <span class="n">sh_flags</span><span class="p">;</span>   <span class="c1">//该节在存储空间中的访问属性
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Elf32_Addr</span>        <span class="n">sh_addr</span><span class="p">;</span>   <span class="c1">//若可被加载，则对应虚拟地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Elf32_Off</span>         <span class="n">sh_offset</span><span class="p">;</span>   <span class="c1">//在文件中的偏移，.bss节则无意义
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Elf32_Word</span>        <span class="n">sh_size</span><span class="p">;</span>	<span class="c1">//节在文件中所占的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Elf32_Word</span>        <span class="n">sh_link</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32</span> <span class="n">Word</span>        <span class="n">shinfo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">sh_addralign</span><span class="p">;</span>   <span class="c1">//节的对齐要求
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Elf32_Word</span>        <span class="n">sh_entsize</span><span class="p">;</span>   <span class="c1">//节中每个表项的长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="n">E1f32_Shdr</span><span class="p">;</span>
+</span></span></code></pre></div><p>可以使用 <code>readelf-S</code>命令对某个可重定位目标文件的节头表进行解析。例如，以下是通过“readelf-S test.o”对某test.o文件进行解析的结果。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">There are <span class="m">11</span> section headers,starting at offset 0x120:
+</span></span><span class="line"><span class="cl">Section Headers:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Nr<span class="o">]</span>Name			Off		Size	ES		F1g		Lk		Inf		Al
+</span></span><span class="line"><span class="cl"><span class="o">[</span>0<span class="o">]</span>					000000	000000	00				0		0		<span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>1<span class="o">]</span>.text			000034	00005b	00		AX		0		0		<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>2<span class="o">]</span>.rel.text		000498	000028	08				9		1		<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>3<span class="o">]</span>.data			000090	00000c	00		WA		0		0		<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>4<span class="o">]</span>.bss				00009c	00000c	00		WA		0		0		<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>5<span class="o">]</span>.rodata			00009c	000004	00		A		0		0		<span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>6<span class="o">]</span>.comment			0000a0	00002e	00				0		0		<span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>7<span class="o">]</span>.note.GNU-stack	0000ce	000000	00				0		0		<span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>8<span class="o">]</span>.shstrtab		0000ce	000051	00				0		0		<span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>9<span class="o">]</span>.symtab			0002d8	000120	10				10		13		<span class="m">4</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>10<span class="o">]</span>.strtab			0003f8	00009e	00				0		0		<span class="m">1</span>
+</span></span><span class="line"><span class="cl">Key to Flags:
+</span></span><span class="line"><span class="cl">	W<span class="o">(</span>write<span class="o">)</span>,A <span class="o">(</span>alloc<span class="o">)</span>,X <span class="o">(</span>execute<span class="o">)</span>,M <span class="o">(</span>merge<span class="o">)</span>,S <span class="o">(</span>strings<span class="o">)</span>
+</span></span><span class="line"><span class="cl">	I<span class="o">(</span>info<span class="o">)</span>,L <span class="o">(</span>1ink order<span class="o">)</span>,G <span class="o">(</span>group<span class="o">)</span>,x <span class="o">(</span>unknown<span class="o">)</span>
+</span></span></code></pre></div><p>从上述解析结果可以看出，该test.o文件中共有11个节，节头表从120字节处开始。其中，.text、.data、.bss和.rodata节需要在存储器中分配空间，.text节是可执行的，.data和.bss两个节是可读写的，而.rodata节则是只读不可写的。</p>
+<p>根据每个节在文件中的偏移地址和长度，可以画出可重定位目标文件test.o的结构，图中左边是对应节的偏移地址，右边是对应节的长度。例
+如，.text节从文件的第0x34=52字节开始，共占0x5b=91字节。从节头表的解析结果看，.bss节和.rodata节的偏移地址都是0x00009c,占用区域重叠，因此可推断出.bss节在文件中不占用空间，但节头表中记录了.bss节的长度为0x0c=12,因而，需在主存中给.bss节分配12字节空间。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/11_11_35_43_202408111135645.png" alt="test的节头表"></p>
+<h3 id="可执行目标文件格式">
+<a class="header-anchor" href="#%e5%8f%af%e6%89%a7%e8%a1%8c%e7%9b%ae%e6%a0%87%e6%96%87%e4%bb%b6%e6%a0%bc%e5%bc%8f"></a>
+可执行目标文件格式
+</h3><p>链接器将相互关联的可重定位目标文件中相同的代码和数据节（如.text节、.rodata节、.data节和.bss节)合并，以形成可执行目标文件中对应的节。因为相同的代码和数据节合并后，在可执行目标文件中各条指令之间、各个数据之间的相对位置就可以确定，因而所定义的函数（过程）和变量的起始位置就可以确定，也即每个符号的定义（即符号所在的首地址）即可确定，从而在符号的引用处可以根据确定的符号定义进行重定位。</p>
+<p>ELF可执行目标文件由ELF头、程序头表、节头表以及夹在程序头表和节头表之间的各个不同的节组成。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/11_11_43_36_202408111143785.png" alt="ELF可执行目标文件"></p>
+<p>可执行文件格式与可重定位文件格式类似，例如，这两种格式中，ELF头的数据结构一样，.text节.rodata节和.data节中除了有些重定位地址不同以外，大部分都相同。与ELF可重定位目标文件格式相比，ELF可执行目标文件的不同点主要有：</p>
+<ol>
+<li>
+<p>ELF头中字段e_entry给出系统将控制权转移到的起始虚拟地址（入口点），即执行程序时第一条指令的地址。而在可重定位文件中，此字段为0。</p>
+</li>
+<li>
+<p>通常情况下，会带有一个.init节和一个.fini节，其中.init节定义了一个_init函数，用于可执行目标文件开始执行时的初始化工作，当程序开始运行时，系统会在进程进入主函数之前，先执行这个节中的指令代码。.fini节中包含进程终止时要执行的指令代码，当程序退出时，系统会执行这个节中的指令代码。</p>
+</li>
+<li>
+<p>少了.rel.text和.rel.data等重定位信息节。因为可执行目标文件中的指令和数据已被重定位，故可去掉用于重定位的节。</p>
+</li>
+<li>
+<p>多了一个==程序头表，也称段头表==(segment header table),它是一个结构数组。可执行目标文件中所有代码位置连续，所有只读数据位置连续，所有可读可写数据位置连续。</p>
+<ol>
+<li>在可执行文件中，ELF头、程序头表、.init节、.fini节、.text节和.rodata节合起来可构成一个只读代码段(read-only code segment);</li>
+<li>.data节和.bss节合起来可构成一个可读写数据段(read/write data segment)。</li>
+<li>
+<blockquote>
+<p>[!NOTE]</p>
+<p>显然，在可执行文件启动运行时，这两个段必须装入内存且需要为之分配存储空间，因而称为可装入段。</p></blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<p>为了在可执行文件执行时能够在内存中访问到代码和数据，必须将可执行文件中这些连续的、具有相同访问属性的代码和数据段映射到存储空间（通常是虚拟地址空间)中。程序头表就用于描述这种映射关系，一个表项对应一个连续的存储段或特殊节。程序头表表项大小和表项数分别由ELF头中的字段e phentsize和e phnum指定。</p>
+<p>32位系统的程序头表中每个表项具有以下数据结构：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">p_type</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Off</span>         <span class="n">p_offset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Addr</span>        <span class="n">p_vaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Addr</span>        <span class="n">ppaddr</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Word</span>        <span class="n">p_filesz</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">p_memsz</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">p_flags</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">p_align</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">E1f32_Phdr</span><span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>p_type描述存储段的类型或特殊节的类型。例如，是否为可装人段(PT_LOAD),是否是特殊的动态节(PT_DYNAMIC),是否是特殊的解释程序节(PT_INTERP)。</li>
+<li>p_offset指出本段的首字节在文件中的偏移地址。</li>
+<li>p_vaddr指出本段首字节的虚拟地址。</li>
+<li>p_paddr指出本段首字节的物理地址，因为物理地址由操作系统根据情况动态确定，所以该信息通常是无效的。</li>
+<li>p_filesz指出本段在文件中所占的字节数，可以为0。</li>
+<li>p_memsz指出本段在存储器中所占字节数，也可以为0。</li>
+<li>p_flags指出存取权限。</li>
+<li>p_align指出对齐方式，用一个模数表示，为2的正整数幂，通常模数与页面大小相关，若页面大小为4KB,则模数为$2^{12}$。</li>
+</ul>
+<p>使用“readelf -l main”命令显示的可执行目标文件main的程序头表信息。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">Program</span> <span class="nl">Headers</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl"><span class="n">Type</span>		<span class="n">offset</span>		<span class="n">VirtAddr</span>	<span class="n">PhysAddr</span>	<span class="n">Filesiz</span> <span class="n">MemSiz</span>	<span class="n">F1g</span>	<span class="n">Align</span>
+</span></span><span class="line"><span class="cl"><span class="n">PHDR</span>		<span class="mi">0</span><span class="err">×</span><span class="mo">000034</span>	<span class="mh">0x08048034</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">08048034</span>	<span class="mh">0x00100</span>	<span class="mh">0x00100</span>	<span class="n">RE</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">INTERP</span>		<span class="mi">0</span><span class="err">×</span><span class="mo">000134</span>	<span class="mh">0x08048134</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">08048134</span>	<span class="mi">0</span><span class="err">×</span><span class="mo">00013</span>	<span class="mh">0x00013</span>	<span class="n">R</span>	<span class="mh">0x1</span>
+</span></span><span class="line"><span class="cl">			<span class="p">[</span><span class="n">Requesting</span> <span class="n">program</span> <span class="nl">interpreter</span><span class="p">:</span><span class="o">/</span><span class="mi">1</span><span class="n">ib</span><span class="o">/</span><span class="mi">1</span><span class="n">d</span><span class="o">-</span><span class="n">linux</span><span class="p">.</span><span class="n">so</span><span class="mf">.2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">LOAD</span>		<span class="mh">0x000000</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">08048000</span>	<span class="mh">0x08048000</span>	<span class="mh">0x004d4</span>	<span class="mh">0x004d4</span>	<span class="n">RE</span>	<span class="mh">0x1000</span>
+</span></span><span class="line"><span class="cl"><span class="n">LOAD</span>		<span class="mh">0x000f0c</span>	<span class="mh">0x08049fc</span>	<span class="mh">0x08049f0c</span>	<span class="mh">0x00108</span>	<span class="mh">0x00110</span>	<span class="n">RW</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">1000</span>
+</span></span><span class="line"><span class="cl"><span class="n">DYNAMIC</span>		<span class="mh">0x000f20</span>	<span class="mh">0x08049f20</span>	<span class="mh">0x08049f20</span>	<span class="mh">0x000d0</span>	<span class="mh">0x000d0</span>	<span class="n">RW</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">4</span>
+</span></span><span class="line"><span class="cl"><span class="n">NOTE</span>		<span class="mh">0x000148</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">08048148</span>	<span class="mi">0</span><span class="err">×</span><span class="mi">08048148</span>	<span class="mh">0x00044</span>	<span class="mi">0</span><span class="err">×</span><span class="mo">00044</span>	<span class="n">R</span>	<span class="mh">0x4</span>
+</span></span><span class="line"><span class="cl"><span class="n">GNU_STACK</span>	<span class="mh">0x000000</span>	<span class="mi">0</span><span class="err">×</span><span class="mo">00000000</span>	<span class="mh">0x00000000</span>	<span class="mi">0</span><span class="err">×</span><span class="mo">00000</span>	<span class="mh">0x00000</span>	<span class="n">RW</span>	<span class="mh">0x4</span>
+</span></span><span class="line"><span class="cl"><span class="n">GNURELRO</span>	<span class="mh">0x000f0c</span>	<span class="mh">0x08049f0c</span>	<span class="mh">0x08049f0c</span>	<span class="mi">0</span><span class="err">×</span><span class="mf">000f</span><span class="mi">4</span>	<span class="mi">0</span><span class="err">×</span><span class="mf">000f</span><span class="mi">4</span>	<span class="n">R</span>	<span class="mh">0x1</span>
+</span></span></code></pre></div><p>程序头表中有8个表项，其中有两个是可装入段(Type=LOAD)对应的表项信息。</p>
+<p>第一个可装入段对应可执行目标文件中第0x00000~0x0043字节的内容（包括ELF头、程序头表以及.init、.text和.rodata节等)，被映射到从虚拟地址0x8048000开始的长度为0x004d4字节的区域，按0x1000=22=4KB对齐，具有只读/执行权限(Flg=RE),它是一个只读代码段。</p>
+<p>第二个可装入段对应可执行目标文件中第0x000f0c开始的长度为0x00108字节的内容（即.data节），被映射到从虚拟地址0x8049Oc开始的长度为0x00110字节的存储区域，在0x00110=272字节的存储区中，前0x00108=264字节用.data节的内容来初始化，而后面的272-264=8个字节对应.bss节，被初始化为0，该段按0x1000=4KB对齐，具有可读可写权限(Flg=RW),因此，它是一个可读写数据段。</p>
+<p>从这个例子可以看出，.data节在可执行目标文件中占用了相应的磁盘空间，在存储器中也需要给它分配相同大小的空间；而.bss节在文件中==不占用磁盘空间==，但在存储器中==需要给它分配==相应大小的空间。</p>
+<h3 id="可执行文件的存储映像">
+<a class="header-anchor" href="#%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%e7%9a%84%e5%ad%98%e5%82%a8%e6%98%a0%e5%83%8f"></a>
+可执行文件的存储映像
+</h3><p>对于特定的系统平台，可执行目标文件与虚拟地址空间之间的==存储器映像==（memory mapping)是由ABI规范定义的。</p>
+<p>例如，对于IA-32+Linux系统，i386 System V ABI规范规定，</p>
+<ul>
+<li>
+<p>只读代码段总是映射到从虚拟地址为0x8048000开始的一段区域；</p>
+</li>
+<li>
+<p>可读写数据段映射到只读代码段后面按4KB对齐的高地址上，其中.bss节所在存储区在运行时被初始化为0。</p>
+</li>
+<li>
+<p>运行时堆(run-time heap)则在可读写数据段后面4KB对齐的高地址处，通过调用malloc库函数动态向高地址分配空间，</p>
+</li>
+<li>
+<p>而运行时用户栈(run-time user stack)则是从用户空间的最大地址往低地址方向增长。</p>
+<ul>
+<li>
+<blockquote>
+<p>[!NOTE]</p>
+<p>堆区和栈区中间有一块空间保留给共享库目标代码，栈区以上的高地址区是操作系统内核的虚拟存储区。</p></blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/11_15_26_17_202408111526160.png" alt="可执行文件在存储中的映像"></p>
+<p>左边为可执行文件main中的存储信息，右边为虚拟地址空间中的存储信息。可以看出:</p>
+<ul>
+<li>可执行文件最开始长度为0x004d4的可装入段映射到从虚拟地址0x8048000开始的只读代码段；</li>
+<li>可执行文件中从0x00f0c到0x01013之间为.data节和.bss节（实际上都是.data节信息，而.bss节不占磁盘空间)，映射到从虚拟地址0x8049000开始的可读写数据段，其中.data节从0x8049f0c开始，共占0x00108=264字节，随后的8个字节空间分配给.bss节中定义的变量，初值为0。</li>
+</ul>
+<p>当启动一个可执行目标文件执行时:</p>
+<ol>
+<li>首先会通过某种方式调出常驻内存的一个称为加载器(loader)的操作系统程序来进行处理。例如，任何UNX程序的加载执行都是通过调用execve系统调用函数来启动加载器进行的。</li>
+<li>加载器根据可执行目标文件中的程序头表信息，将可执行目标文件中相关节的内容与虚拟地址空间中的只读代码段和可读写数据段通过页表建立映射，</li>
+<li>然后启动可执行目标文件中的第一条指令执行。</li>
+</ol>
+<p>根据ABI规范，特定的系统平台中的每个可执行目标文件都采用==统一==的存储器映像，映射到一个统一的虚拟地址空间，使得链接器在重定位时可以按照一个统一的虚拟存储空间来确定每个符号的地址，而不用关心其数据和代码将来存放在主存或磁盘的何处。因此，引入统一的虚拟地址空间简化了链接器的设计和实现。</p>
+<p>同样，引入虚拟地址空间也简化了程序加载过程。因为统一的虚拟地址空间映像使得每个可执行目标文件的只读代码段都映射到从0x8048000开始的一块连续区域，而可读写数据段也映射到虚拟地址空间中的一块连续区域，因而加载器可以非常容易地对这些连续区域进行分页，并初始化相应页表项的内容。IA-32中页大小通常是4KB,因而，这里的可装入段都按$2^{12}$=4KB对齐。</p>
+<p>加载时，只读代码段和可读写数据段对应的页表项都被初始化为“未缓存页”（即有效位为0)，并指向磁盘中可执行目标文件中适当的地方。因此，程序加载过程中，==实际上并没有真正从磁盘上加载代码和数据到主存==，而是仅仅创建了只读代码段和可读写数据段对应的页表项。只有在执行代码过程中发生了“缺页”异常时，才会真正从磁盘加载代码和数据到主存。</p>
+<h2 id="符号表和符号解析">
+<a class="header-anchor" href="#%e7%ac%a6%e5%8f%b7%e8%a1%a8%e5%92%8c%e7%ac%a6%e5%8f%b7%e8%a7%a3%e6%9e%90"></a>
+符号表和符号解析
+</h2><h3 id="符号和符号表">
+<a class="header-anchor" href="#%e7%ac%a6%e5%8f%b7%e5%92%8c%e7%ac%a6%e5%8f%b7%e8%a1%a8"></a>
+符号和符号表
+</h3><p>链接器在生成一个可执行目标文件时，必须完成符号解析，而要进行符号解析，则需要用到符号表。通常目标文件中都有一个符号表，表中包含了在程序模块中被定义的所有符号的相关信息。</p>
+<p>对于某个C程序模块m来说，包含在符号表中的符号有以下三种不同类型：</p>
+<ul>
+<li>
+<p>在模块m中定义并被其他模块引用的*<code>全局符号</code>*(global symbol)。这类符号包括非静态的函数名和被定义为不带static属性的全局变量名。</p>
+</li>
+<li>
+<p>由其他模块定义并被m引用的*<code>外部符号</code>*(external symbol),包括在其他模块定义的外部函数名和外部变量名。</p>
+</li>
+<li>
+<p>在模块m中定义并在m中引用的*<code>本地符号</code>*(local symbol)。这类符号包括带static属性的函数名和全局变量名。这类在一个过程（函数）内部定义的带static属性的本地变量不在栈中管理，而是被分配在静态数据区，即编译器为它们在节.data或.bss中分配空间。如果在模块m内有两个函数使用了同名static本地变量，则需要为这两个变量都分配空间，并作为两个不同的符号记录到符号表中。</p>
+<p>例如，对于以下同一个模块中的两个函数func1和func2,假定它们都定义了static本地变量x且都被初始化，则编译器在该模块的.data节中同时为这两个变量分配空间，并在符号表中构建两个符号funcl.x和func2.x的关联信息。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">func1</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="kt">int</span> <span class="err">×</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">func2</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="kt">int</span> <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></li>
+</ul>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意上述三类符号不包括分配在栈中的非静态局部变量(auto变量)，链接器不需要这类变量的信息，因而它们不包含在由节.symtab定义的符号表中。</p>
+<p>例如，对于两个源程序文件main.c和swap.c来说，</p>
+<p>在main.c中</p>
+<ul>
+<li>全局符号有buf和main</li>
+<li>外部符号有swap</li>
+</ul>
+<p>swap.c中</p>
+<ul>
+<li>全局符号有bufp0和swap</li>
+<li>外部符号有buf</li>
+<li>本地符号有bufp1。</li>
+<li>的temp是局部变量，是在运行时动态分配的，因此，它不是符号，不会被记录在符号表中。</li>
+</ul>
+<hr>
+<blockquote>
+<p><em>==main.c==</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">void</span> <span class="nf">swap</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">buf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">       <span class="nf">swap</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">       <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></blockquote>
+<blockquote>
+<p><em>==swap.c==</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">int</span> <span class="n">buf</span><span class="p">[];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="o">*</span><span class="n">bufp0</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="o">*</span><span class="n">bufp1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">swap</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">       <span class="kt">int</span> <span class="n">temp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="n">bufpl</span> <span class="o">&amp;</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">       <span class="n">temp</span> <span class="o">*</span><span class="n">bufp0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">*</span><span class="n">bufp0</span> <span class="o">*</span><span class="n">bufpl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">       <span class="o">*</span><span class="n">bufpl</span> <span class="n">temp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></blockquote></blockquote>
+<p>ELF文件中包含的符号表中每个表项具有以下数据结构。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Word</span>        <span class="n">st_name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Addr</span>        <span class="n">st_value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>        <span class="n">st_size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span>     <span class="n">st_info</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">unsigned</span> <span class="kt">char</span>     <span class="n">st_other</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">E1f32_Half</span>        <span class="n">st_shndx</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">E1f32_Sym</span><span class="p">;</span>
+</span></span></code></pre></div><p>各字段的含义为：</p>
+<ul>
+<li>
+<p>st_name给出符号在字符串表中的索引（字节偏移量），指向在字符串表(.strtab节）中的一个以null结尾的字符串，即符号。</p>
+</li>
+<li>
+<p>st_value给出符号的值，在可重定位目标文件中，是指符号所在位置相对于所在节起始位置的字节偏移量。</p>
+<ul>
+<li>例如，main.c的符号buf在.data节中，其偏移量为0。</li>
+<li>在可执行目标文件和共享目标文件中，st_value则是符号所在的虚拟地址。</li>
+</ul>
+</li>
+<li>
+<p>st_size给出符号所表示对象的字节个数。</p>
+<ul>
+<li>若符号是函数名，则是指函数所占字节个数；</li>
+<li>若符号是变量名，则是指变量所占字节个数。</li>
+<li>如果符号表示的内容没有大小或大小未知，则值为0。</li>
+</ul>
+</li>
+<li>
+<p>st_info指出符号的类型和绑定属性，从以下定义的宏可以看出，符号类型占低4位符号绑定属性占高4位。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define ELF32_ST_BIND(info) 		((info)&gt;&gt;4)	</span><span class="c1">//高四位
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define ELF32_ST_TYPE(info)			((info)0xf)	</span><span class="c1">//低四位
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#define ELF32_ST_INFO(bind,type)	(((bind)&lt;&lt;4) + ((type)&amp;0xf))	</span><span class="c1">//info的组成形式
+</span></span></span></code></pre></div><ul>
+<li>
+<p>符号类型可以是未指定(==NOTYPE==)、变量(==OBJECT==)、函数(==FUNC==)、节(==SECTION==)等。当类型为“节”时，其表项主要用于重定位。</p>
+</li>
+<li>
+<p>绑定属性可以是本地(==LOCAL==)、全局(==GLOBAL==)、弱(==WEAK==)等。</p>
+<ul>
+<li>本地符号指在包含其定义的目标文件的外部是不可见的，名称相同的本地符号可存在于多个文件中而不会相互干扰。</li>
+<li>全局符号对于合并的所有目标文件都可见。</li>
+<li>弱符号与全局符号类似，但其定义具有较低的优先级。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>字段st_other指出符号的可见性。通常在可重定位目标文件中指定可见性，它定义了当符号成为可执行目标文件或共享目标库的一部分后访问该符号的方式。</p>
+</li>
+<li>
+<p>字段st_shndx用于指出符号所在节在节头表中的索引。有些符号属于三种特殊伪节(pseudo section)之一，伪节在节头表中没有相应的表项，无法表示其索引值，因而用以下特殊的索引值表示：</p>
+<ul>
+<li>ABS表示该符号不会由于重定位而发生值的改变，即不应该被重定位；</li>
+<li>UNDEF表示未定义符号，即在本模块引用而在其他模块定义的外部符号；</li>
+<li>COMMON表示还未被分配位置的未初始化的变量，即.bss中的变量。对于COMMON类型的符号，其st_value字段给出的是对齐要求，而st_size给出的是最小长度。</li>
+</ul>
+</li>
+</ul>
+<p>可通过GNU READELF工具显示符号表。可使用命令 <code>readelf -s main.o</code>查看main.o中的符号表。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Num:	Value	Size	Type	Bind	Ot	Ndx		Name
+</span></span><span class="line"><span class="cl">8:		0		8		OBJECT	GLOBAL	0	3		buf
+</span></span><span class="line"><span class="cl">9:		0		17		FUNC	GLOBAL	0	1		main
+</span></span><span class="line"><span class="cl">10:		0		0		NOTYPE	GLOBAL	0	UND		swap
+</span></span></code></pre></div><p>从显示结果可看出：</p>
+<ul>
+<li>main模块的三个全局符号中，buf是变量(Type=OBJECT),它位于节头表中第三个表项（Ndx=3)对应的.data节中偏移量为0(Value=0)处，占8个字节(Size=8);</li>
+<li>main是函数(Type=FUNC),它位于节头表中第一个表项对应的.text节中偏移量为0处，占17个字节；</li>
+<li>sawp是未指定(NOTYPE)且无定义(UND)的符号，说明swap是在main中被引用的由外部模块定义的符号。</li>
+</ul>
+<p>使用GNU READELF工具显示可重定位目标文件swap.o符号表中最后四个表项：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Num:	Value	Size	Type	Bind	Ot	Ndx	Name
+</span></span><span class="line"><span class="cl">8:		0		4		OBJECT	GLOBAL	0	3	bufp0
+</span></span><span class="line"><span class="cl">9:		0		0		NOTYPE	GLOBAL	0	UND	buf
+</span></span><span class="line"><span class="cl">10:		0		39		FUNC	GLOBAL	0	1	swap
+</span></span><span class="line"><span class="cl">11:		4		4		OBJECT	LOCAL	0	COM	bufpl
+</span></span></code></pre></div><p>可以看出，swap模块的四个符号中，有三个全局符号和一个本地符号。其中：</p>
+<ul>
+<li>bufp0是全局变量，它位于节头表中第三个表项对应的.data节中偏移量为0处，占4个字节；</li>
+<li>buf是未指定的且无定义的全局符号，说明buf是在swap中被引用的由外部模块定义的符号；</li>
+<li>swap是函数，它位于节头表中第一个表项对应的.text节中偏移量为0处，占39个字节；</li>
+<li>bufp1是未分配位置且未初始化(Ndx=COM)的本地变量，按4字节边界对齐，至少占4个字节，当swap模块被链接时，bufpl将作为.bss节中的一个变量来分配空间。注意.swa即模块中的变量temp是函数内的局部变量，因而不在符号表中说明。</li>
+</ul>
+<h3 id="符号解析">
+<a class="header-anchor" href="#%e7%ac%a6%e5%8f%b7%e8%a7%a3%e6%9e%90"></a>
+符号解析
+</h3><p>符号解析的目的是将每个模块中==引用的符号==与某个目标模块中的==定义符号==建立关联。每个定义符号在代码段或数据段中都被分配了存储空间，因此，将引用符号与对应的定义符号建立关联后，就可以在重定位时将引用符号的地址重定位为相关联的定义符号的地址。</p>
+<p>对于在一个模块中定义且在同一个模块中被引用的本地符号，链接器的符号解析会比较容易进行，因为编译器会检查每个模块中的本地符号是否具有唯一的定义，所以，只要找到第一个本地定义符号与之关联即可。对于跨模块的全局符号的解析，则比较困难。</p>
+<p>编译器在对源程序编译时，会把每个全局符号输出到汇编代码文件中，每个全局符号或者是强符号或者是弱符号。汇编器把全局符号的强、弱特性隐含地编码在可重定位目标文件的符号表中，以供链接时符号解析所用。</p>
+<h4 id="全局符号的强弱特性">
+<a class="header-anchor" href="#%e5%85%a8%e5%b1%80%e7%ac%a6%e5%8f%b7%e7%9a%84%e5%bc%ba%e5%bc%b1%e7%89%b9%e6%80%a7"></a>
+全局符号的强弱特性
+</h4><p>强、弱符号的定义如下：函数名和已初始化的全局变量名是强符号，未初始化的全局变量名是弱符号。</p>
+<p>例如，main、buf、swap和bufp0是强符号，bufp1为本地符号，而本地符号没有强弱之分，temp则是局部变量，不包含在符号表中。</p>
+<p>链接器根据以下强符号和弱符号的处理规则来处理多重定义符号。</p>
+<ol>
+<li>规则1：强符号不能多次定义。也即强符号只能被定义一次，否则链接错误。</li>
+<li>规则2：若一个符号被说明为一次强符号定义和多次弱符号定义，则按强符号定义为准。</li>
+<li>规则3：若有多个弱符号定义，则任选其中一个。</li>
+</ol>
+<h4 id="符号的解析过程">
+<a class="header-anchor" href="#%e7%ac%a6%e5%8f%b7%e7%9a%84%e8%a7%a3%e6%9e%90%e8%bf%87%e7%a8%8b"></a>
+符号的解析过程
+</h4><p>编译系统通常会提供一种将多个目标模块打包成一个单独的库文件的机制，这个库文件就是==静态库==(static library)。在构建可执行文件时只需指定库文件名，链接器会自动到库中寻找那些应用程序用到的目标模块，并且==只把用到的模块从库中拷贝出来==。</p>
+<p>程序中的符号包括全局静态变量名和函数名：</p>
+<ul>
+<li>它们在程序中可能出现在定义处，称为符号的定义；</li>
+<li>也可能出现在引用处，称为符号的引用。</li>
+</ul>
+<p>链接器按照所有可重定位目标文件和静态库文件出现在命令行中的顺序从左至右依次扫描它们，在此期间它要维护多个集合。其中</p>
+<ol>
+<li>集合 <code>E</code>是指将被合并到一起组成可执行文件的所有目标文件集合；</li>
+<li>集合 <code>U</code>是未解析符号的集合，未解析符号是指还未与对应定义符号关联的引用符号；</li>
+<li>集合 <code>D</code>是指当前为止已被加人到 <code>E</code>的所有目标文件中定义符号的集合。</li>
+</ol>
+<blockquote>
+<p>[!TIP]</p>
+<p>所以说首先判断是不是要放入 <code>E</code>中，然后再在 <code>E</code>中找定义符号和未定义符号，定义符号放入 <code>D</code>中，未定义符号放在 <code>U</code>中</p></blockquote>
+<p>符号解析开始时，集合 <code>E</code>、<code>U</code>、<code>D</code>中都是空的。然后按照以下过程进行符号解析：</p>
+<ol>
+<li>对命令行中的每一个输入文件 <code>f</code>,链接器确定它是目标文件还是库文件，如果它是目标文件，就把 <code>f</code>加入到 <code>E</code>,根据 <code>f</code>中未解析符号和定义符号分别对 <code>U</code>、<code>D</code>集合进行修改，然后处理下一个输入文件。</li>
+<li>如果 <code>f</code>是一个库文件，链接器会尝试把 <code>U</code>中的所有未解析符号与 <code>f</code>中各目标模块定义的符号进行匹配。如果某个目标模块 <code>m</code>定义了一个 <code>U</code>中的未解析符号 <code>x</code>,那么就把 <code>m</code>加入到 <code>E</code>中，并把符号 <code>x</code>从 <code>U</code>移入 <code>D</code>中。不断地对 <code>f</code>中的所有目标模块重复这个过程直到 <code>U</code>和 <code>D</code>不再变化为止。那些未加入到 <code>E</code>中的 <code>f</code>里的目标模块就被简单地丢弃，链接器继续处理下一输入文件。</li>
+<li>如果处理过程中往 <code>D</code>加入一个已存在的符号（出现双重定义符号），或者当扫描完所有输入文件时 <code>U</code>非空，则链接器报错并停止动作。否则，链接器把 <code>E</code>中的所有目标文件进行重定位后合并在一起，以生成可执行目标文件。</li>
+</ol>
+<h3 id="与静态库的链接">
+<a class="header-anchor" href="#%e4%b8%8e%e9%9d%99%e6%80%81%e5%ba%93%e7%9a%84%e9%93%be%e6%8e%a5"></a>
+与静态库的链接
+</h3><p>在类UNX系统中，静态库文件采用一种称为存档档案(archive)的特殊文件格式，使用==.a==后缀。例如，标准C函数库文件名为 <code>libc.a</code>,其中包含一组广泛使用的标准I/O函数、字符串处理函数和整数处理函数，如 <code>atoi</code>、<code>printf</code>、<code>scanf</code>、<code>strcpy</code>等，libc.a是默认的用于静态链接的库文件，无须在链接命令中显式指出。还有其他的函数库，例如浮点数运算函数库，文件名为 <code>libm.a</code>,其中包含 <code>sin</code>、cos和 <code>sqrt</code>函数等。</p>
+<p>用户也可以自定义一个静态库文件。以下通过一个简单例子来说明如何生成自己的静态库文件。假定有两个源文件myproc1.c和myproc22.c。</p>
+<hr>
+<blockquote>
+<p><em>==myproc1.c==</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">void</span> <span class="nf">myfuncl</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="s">&#34;This is myfuncl from mylib!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></blockquote>
+<blockquote>
+<p><em>==myproc2.c==</em></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">void</span> <span class="nf">myfunc2</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">printf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="s">&#34;This is myfunc2 from mylib!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div></blockquote>
+<p>可以使用==AR==工具生成静态库，在此之前需要用 <code>gcc -c</code>命令将静态库中包含的目标模块先生成可重定位目标文件。以下两个命令可以生成静态库文件 <code>mylib.a</code>,其中包含两个目标模块 <code>myproc1.o</code>和 <code>myproc2.o</code>。然后再将这两个可重定位目标文件组合成静态库文件。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -c myprocl.c
+</span></span><span class="line"><span class="cl">gcc-c myproc2.c
+</span></span><span class="line"><span class="cl">ar rcs mylib.a myproc1.o myproc2.o
+</span></span></code></pre></div><p>现假定有一个函数 <code>main.c</code>调用库中的函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">myfuncl</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">myfuncl</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>为了生成可执行文件myproc,可以先将main.c编译并汇编为可重定位目标文件main.o,然后再将main.o和mylib.a以及标准C函数库libc.a进行链接。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -c main.c
+</span></span><span class="line"><span class="cl">gcc -static -o myproc main.o ./mylib.a
+</span></span></code></pre></div><p>命令中使用 <code>-static</code>选项指示链接器应生成一个完全链接的可执行目标文件，即生成的可执行文件应能直接加载到存储器执行，而不需要在加载或运行时再动态链接其他目标模块。</p>
+<p>符号解析过程如下。</p>
+<ol>
+<li>
+<p>一开始 <code>E</code>、<code>U</code>、<code>D</code>都是空集，链接器首先扫描到 <code>main.o</code>,把它加入 <code>E</code>,同时把其中未解析符号 <code>myfun1</code>加入 <code>U</code>,把定义符号 <code>main</code>加入 <code>D</code>,而且因为 <code>main.o</code>的默认静态链接库是 <code>libc.a</code>,所以 <code>libc.a</code>被加人到当前输入文件列表的末尾。</p>
+</li>
+<li>
+<p>处理完 <code>main.o</code>,接着扫描到 <code>mylib.a</code>,因为这是个静态库文件，所以会拿当前 <code>U</code>中的所有符号（本例中就一个符号 <code>myfunc1</code>)与 <code>mylib.a</code>中的所有目标模块（本例中有两个目标模块 <code>myproc1.o</code>和 <code>myproc2.o</code>)依次匹配，看是否有哪个模块定义了U中的符号，结果发现在 <code>myproc1.o</code>中定义了 <code>myfunc1</code>,于是 <code>myprocl.o</code>被加入到 <code>E</code>,<code>myfuncl</code>从 <code>U</code>转移到 <code>D</code>。在 <code>myprocl.o</code>中发现还有未解析符号 <code>printf</code>,因而将其加到 <code>U</code>中。同样，<code>mylib.a</code>指定的默认标准库还是 <code>libc.a</code>,它已经被加到当前输入文件列表的末尾，因此在此可以忽略它。不断地在静态库 <code>mylib.a</code>的各模块上进行迭代以匹配 <code>U</code>中的符号，直到 <code>U</code>、<code>D</code>都不再变化。显然，此时 <code>U</code>和 <code>D</code>就不再发生变化，<code>U</code>中只有一个未解析符号 <code>printf</code>,而 <code>D</code>中有 <code>main</code>和 <code>myfuncl</code>两个定义符号。</p>
+</li>
+<li>
+<p>因为模块 <code>myproc2.o</code>没有被加入 <code>E</code>中，因而它被丢弃。</p>
+</li>
+<li>
+<p>接着扫描下一个输人文件，就是默认的库文件 <code>libc.a</code>。链接器发现 <code>libc.a</code>中的目标模块 <code>printf.o</code>定义了符号 <code>printf</code>,于是 <code>printf</code>也从 <code>U</code>移到 <code>D</code>,同时 <code>printf.o</code>被加入到 <code>E</code>,并把它定义的所有符号都加入 <code>D</code>,而所有未解析符号加入 <code>U</code>。链接器还会把每个程序都要用到的一些初始化操作所在的目标模块（如 <code>crt0.o</code>等）以及它们所引用的模块（如 <code>malloc.o</code>、<code>free.o</code>等）自动加入到 <code>E</code>中，并更新 <code>U</code>和 <code>D</code>以反映这个变化。事实上，标准库中各目标模块里的未解析符号都可以在标准库内其他模块中找到定义，因此当链接器处理完 <code>libc.a</code>时，<code>U</code>一定是空的。此时，==链接器合并 <code>E</code>中的目标模块并输出可执行目标文件==。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/18_15_12_35_202408181512826.png" alt="可重定位目标文件和静态库的链接"></p>
+</li>
+</ol>
+<p>从上述描述的符号解析过程来看，符号解析结果与命令行中指定的输入文件的顺序相关。如果上述链接命令改为以下形式，则会发生链接错误。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -static -o myproc ./mylib.a main.o
+</span></span></code></pre></div><p>因为一开始先扫描到 <code>mylib.a</code>,而 <code>mylib.a</code>为静态库文件，所以，会根据其中是否存在 <code>U</code>中的未解析符号对应的定义符号来确定是否将相应的目标模块加入 <code>E</code>中，显然，开始时 <code>U</code>是空的，因而在 <code>mylib.a</code>中没有任何一个目标模块被加人 <code>E</code>中，当扫描到 <code>main.o</code>时，其引用符号 <code>myfunc1</code>便不能被解析，所以被加入 <code>U</code>中，这样，<code>U</code>中的 <code>myfunc1</code>在后面将一直无法得到解析，最终因为 <code>U</code>不空而导致链接器输出错误信息并终止。</p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>关于静态库的链接顺序问题，通常的准则是将==静态库文件放在命令行文件列表的后面==，如有多个静态库文件，则根据这些静态库文件的目标模块中的符号是否有引用关系来确定顺序。</p>
+<ul>
+<li>若相互之间都没有引用关系，则说明它们之间相互独立，此时顺序可以任意，只要都放在后面即可；</li>
+<li>若相互之间有引用关系，则必须按照引用关系在命令行中排列静态库文件，使得对于每个静态库目标模块中的外部引用符号，在命令行中至少有一个包含其定义的静态库文件排在后面。</li>
+</ul>
+<p>例如，假设 <code>func.o</code>调用了静态库 <code>libx.a</code>和 <code>liby.a</code>中的函数，而 <code>libx.a</code>又调用了 <code>libz.a</code>中的函数，且 <code>libx.a</code>和 <code>liby.a</code>之间、<code>liby.a</code>和 <code>libz.a</code>之间是相互独立的，则命令行中 <code>libx.a</code>必须在 <code>libz.a</code>之前，而 <code>libx.a</code>和 <code>iby.a</code>之间、<code>liby.a</code>和 <code>libz.a</code>之间无须考虑顺序关系，即以下几个命令行都是可行的。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -static -o myfunc func.o libx.a liby.a libz.a
+</span></span><span class="line"><span class="cl">gcc -static -o myfunc func.o liby.a libx.a libz.a
+</span></span><span class="line"><span class="cl">gcc -static -o myfunc func.o libx.a libz.a liby.a
+</span></span></code></pre></div><p>如果两个静态库的目标模块有相互引用关系，则在命令行中可以重复静态库文件名。</p>
+<p>例如，假设 <code>func.o</code>调用了静态库 <code>libx.a</code>中的函数，而 <code>libx.a</code>又调用了 <code>liby.a</code>中的函数，同时，<code>liby.a</code>也调用了 <code>libx.a</code>中的函数，则可用以下命令进行链接。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -static -o myfunc func.o libx.a liby.a libx.a
+</span></span></code></pre></div></blockquote>
+<h2 id="重定位过程">
+<a class="header-anchor" href="#%e9%87%8d%e5%ae%9a%e4%bd%8d%e8%bf%87%e7%a8%8b"></a>
+重定位过程
+</h2><p>重定位的目的是在==符号解析的基础上将所有关联的目标模块==（即上述集合 <code>E</code>中的模块）==合并==，并确定运行时每个定义符号在虚拟地址空间中的地址，在定义符号的引用处重定位引用的地址。</p>
+<p>例如，在符号解析的例子中，编译 <code>main.c</code>时，因为编译器还不知道函数 <code>myprocl</code>的地址，所以编译器只是将一个“临时地址”放到可重定位目标文件 <code>main.o</code>的 <code>call</code>指令中，在链接阶段，这个“临时地址”将被修正为正确的引用地址，这个过程叫重定位。具体来说，重定位有以下两方面工作。</p>
+<ol>
+<li>节和定义符号的重定位。链接器将相互关联的所有可重定位文件中相同类型的节合并，生成一个同一类型的新节。例如，所有模块中的.data节合并为一个大的.data节，它就是生成的可执行目标文件中的.data节。然后链接器根据每个新节在虚拟地址空间中的起始位置以及新节中每个定义符号的位置，为新节中的每个定义符号确定存储地址。</li>
+<li>引用符号的重定位。链接器对合并后新代码节(.text)和新数据节(.data)中的引用符号进行重定位，使其指向对应的定义符号起始处。为了实现这一步工作，显然，链接器要知道目标文件中哪些引用符号需要重定位、所引用的是哪个定义符号等，这些称为重定位信息，放在重定位节(.rel.text和，.rel.data)中。</li>
+</ol>
+<h3 id="重定位信息">
+<a class="header-anchor" href="#%e9%87%8d%e5%ae%9a%e4%bd%8d%e4%bf%a1%e6%81%af"></a>
+重定位信息
+</h3><p>在可重定位目标文件的.rel.text节和.rel.data节中，存放着每个需重定位的符号的重定位信息。.rel.text节和.rel.data节采用的数据类型是结构数组，每个数组元素是一个表项，每个表项对应一个需重定位的符号，表项的数据结构如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Addr</span>	<span class="n">r_offset</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Elf32_Word</span>	<span class="n">r_info</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="n">E1f32_Re1</span><span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>r_offset指出当前需重定位的位置相对于所在节起始位置的字节偏移量。若重定位的是变量的位置，则所在节为.data节；若重定位的是函数的位置，则所在节是.text节。</li>
+<li>r_info指出当前需重定位的符号所引用的符号在符号表中的索引值以及相应的重定位类型。从以下的宏定义中可以看出，符号索引(r_sym)是r_info的高24位，重定位类型（r_type)是其低8位。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#define ELF32_R_SYM(info)	((info)&gt;&gt;8)
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define ELF32_R_TYPE(info)	((unsigned char)(info))
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define ELF32_R_INFO(sym,type)	(((sym)&lt;&lt;8)+(unsigned char)(type))
+</span></span></span></code></pre></div><p>重定位类型与特定的处理器有关，具体由ABI规范定义。IA-32处理器的重定位类型有多种，最基本的是以下两种。</p>
+<ol>
+<li>R_386_PC32:指明引用处采用PC相对寻址方式，即有效地址为PC内容加上重定位后的32位地址，PC的内容是下条指令地址。例如，调用指令call中的转移目标地址就采用相对寻址方式。</li>
+<li>R_386_32:指明引用处采用绝对地址方式，即有效地址就是重定位后的32位地址。</li>
+</ol>
+<p>重定位表的信息可以用命令 <code>readelf -r</code>来显示，例如，可用命令 <code>readelf-r main.o</code>来显示main.o中的重定位表项。为方便起见，以下叙述中把重定位后的32位地址简称为重定位值。</p>
+<h3 id="重定位过程-1">
+<a class="header-anchor" href="#%e9%87%8d%e5%ae%9a%e4%bd%8d%e8%bf%87%e7%a8%8b-1"></a>
+重定位过程
+</h3><p>重定位过程需要对.text节和.data节中由相应的重定位节，.rel.text和.rel.data的重定位表项指出的每一处按顺序执行。</p>
+<p>现假设main.o的.rel.text节中有一个表项：</p>
+<ol>
+<li>r_offset=0x7</li>
+<li>r_sym=10</li>
+<li>r_type=R_386_PC32</li>
+</ol>
+<p>该表项说明，需要在其.text节中偏移量为0x7的地方按照PC相对地址方式进行重定位，所引用的符号为main.o的符号表中第10个表项代表的符号
+号。</p>
+<p>现假设main.o的第十个表项为swap.o，swap.o的.rel.data中有一个表项：</p>
+<ol>
+<li>r_offset=0x0</li>
+<li>r_sym=9</li>
+<li>r_type=R_386_32</li>
+</ol>
+<p>该表项说明，需要在其.data节中偏移量为0的地方按绝对地址方式进行重定位，所引用的符号为swap.o符号表中第9个表项代表的符号。该符号为buf</p>
+<h2 id="动态链接">
+<a class="header-anchor" href="#%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5"></a>
+动态链接
+</h2><p>前面介绍了可重定位目标文件和可执行目标文件，还有一类目标文件是==共享目标文件==(shared object file),也称为共享库文件。它是一种特殊的可重定位目标文件，其中记录了相应的代码、数据、重定位和符号表信息，能在可执行目标文件装入或运行时被动态地装入内存并自动被链接，该过程称为动态链接(dynamic link),由一个称为动态链接器dynamic linker)的程序来完成。</p>
+<blockquote>
+<p>[!TIP]</p>
+<p>类UNIX系统中共享库文件采用.so后缀，Windows系统中称其为动态链接库(Dynamic Link Library,简称DLL),采用.dl后缀。</p></blockquote>
+<h3 id="动态链接的特性">
+<a class="header-anchor" href="#%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5%e7%9a%84%e7%89%b9%e6%80%a7"></a>
+动态链接的特性
+</h3><p>静态链接方式因为库函数代码被合并、包含在可执行文件中，因而会造成磁盘空间和主存空间的极大浪费。</p>
+<ul>
+<li>例如，静态库libc.a中的printf模块会在静态链接时被合并到每个引用printf的可执行文件中，其中的printf代码会各自占用不同的磁盘空间。通常磁盘上存放有数千个可执行文件，因而静态链接方式会造成磁盘空间的极大浪费；</li>
+<li>在引用printf的应用程序同时在系统中运行时，这些程序中的printf代码也都会占用内存空间，对于并发运行几十个进程的系统来说，会造成极大的主存资源浪费。</li>
+</ul>
+<p>==共享库==以动态链接的方式被正在加载或执行中的多个应用程序共享，因而，共享库的动态链接有两个方面的特点：</p>
+<ol>
+<li>
+<p>==共享性==:指共享库中的代码段在内存只有一个副本，当应用程序在其代码中需要引用共享库中的符号时，在引用处通过某种方式确定指向共享库中对应定义符号的地址即可。</p>
+<ol>
+<li>例如，对于动态共享库libc.so中的printf模块，内存中只有一个printf副本，所有应用程序都可以通过动态链接printf模块来使用它。</li>
+<li>因为内存中只有一个副本，磁盘中也只有共享库中一份代码，所以能节省主存资源和磁盘空间。</li>
+</ol>
+</li>
+<li>
+<p>==动态性==：指共享库只在使用它的程序被加载或执行时才加载到内存，因而在共享库更新后并不需要重新对程序进行链接，每次加载或执行程序时所链接的共享库总是最新的。可以利用共享库的这个特性来实现软件分发或生成动态Web网页等。</p>
+</li>
+</ol>
+<p>动态链接有两种方式，一种是在程序==加载过程==中加载和链接共享库，另一种是在程序==执行过程==中加载和链接共享库。</p>
+<h3 id="程序加载时的动态链接">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e5%8a%a0%e8%bd%bd%e6%97%b6%e7%9a%84%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5"></a>
+程序加载时的动态链接
+</h3><p>在类UNIX系统中，共享库文件使用.so后缀。例如，标准C函数库文件名为Iibc.so。用户也可以自定义一个动态共享库文件。例如，对于两个源程序文件myproc1.c和myproc2.c,可以使用以下GCC命令生成动态链接的共享库mylib.so。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -shared -fPIC -o mylib.so myprocl.c myproc2.c
+</span></span></code></pre></div><p>上述命令中-shared选项告诉链接器生成一个共享库目标文件；</p>
+<p>-fPIC选项告诉编译器生成与位置无关的代码(Position Independent Code,PIC),使得共享库在被任何不同的程序引用时都不需要修改其代码。这保证了共享库代码的存储位置可以是不确定的，而且即使共享库代码的长度发生改变也不会影响调用它的程序。</p>
+<p>假定有一个main.c程序，其中调用了mylib.so中的函数myfunc1。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">myfunc1</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">myfunc1</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>为了生成可执行目标文件myproc,可以先将main.c编译并汇编为可重定位目标文件main.o,然后再将main.o和mylib.so以及标准C函数共享库libc.so进行链接。以下命令可以完成上述功能：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gcc -o myproc main.c ./mylib.so
+</span></span></code></pre></div><p>通过上述命令得到可执行目标文件myproc,这个命令与静态链接命令 <code>gcc -static -o myproc main.c mylib.a</code>的执行过程不同。静态链接生成的可执行目标文件在加载后可以直接运行，因为所有外部函数都已包含在可执行目标文件中，而动态链接生成的可执行目标文件在加载执行过程中需要和共享库进行动态链接，否则不能运行。</p>
+<p>这是因为在动态链接生成可执行目标文件时，其中对外部函数的引用地址是未知的。因此，在动态链接生成的可执行目标文件运行前，系统会首先将动态链接器以及所使用的共享库文件加载到内存。动态链接器和共享库文件的路径都包含在可执行目标文件中，其中，动态链接器由加载器加载，而共享库由动态链接器加载。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/19_13_53_30_202408191353392.png" alt="加载时动态链接的过程"></p>
+<p>动态链接加载过程被分成两步：</p>
+<ol>
+<li>首先，进行静态链接以生成部分链接的可执行目标文件myproc,该文件中仅包含共享库（包括指定的共享目标文件mylib.so和默认的标准共享库文件libe.so)中的符号表和重定位表信息，而共享库中的代码和数据并没有被合并到myproc中；</li>
+<li>然后，在加载myproc时，由加载器将控制权转移到指定的动态链接器，由动态链接器对共享目标文件libc.so、mylib.so和myproc中的相应模块内的代码和数据进行重定位并加载共享库，以生成最终的存储空间中完全链接的可执行目标，在完成重定位和加载共享库后，动态链接器把控制权转移到程序myproc。</li>
+</ol>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>在执行myproc的过程中，共享库中的代码和数据在存储空间的位置一直是固定的。</p>
+<p>在上述过程中，有一个重要的问题是，如何在加载过程中将控制权从加载器转移到动态链接器？</p>
+<p>实际上在可执行目标文件的程序头表中有一个Type=INTERP的段。因此，这个问题的解决可通过在可执行目标文件myproc中加入一个特殊的.interp节来实现。当加载myproc时，加载器会发现在myproc的程序头表中包含了.interp节构成的段，其p_type字段取值为PT_INTERP,该节中包含了动态链接器的路径名，而动态链接器本身也是一个共享目标，在Linux系统中为ld-linux.so文件，.interp节中有这个文件的路径信息，因而
+可以由加载器根据指定的路径来加载并启动动态链接器运行。动态链接器完成相应的重定位工作后再把控制权交给myproc,启动其第一条指令执行。</p></blockquote>
+<h3 id="程序运行时的动态链接">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e8%bf%90%e8%a1%8c%e6%97%b6%e7%9a%84%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5"></a>
+程序运行时的动态链接
+</h3><p>在一些类UNⅨ系统中，提供了一个动态链接器接口，其中定义了相应的几个函数，如dlopen、dlsym、dlerror、dlclose等，其头文件为dlfen.h。</p>
+<p>以下给出一个例子，用以说明如何在应用程序中使用动态链接器接口函数对共享库进行动态链接。图4.23给出了一个运行时进行动态链接的应用程序示例main.c。对于由图4.15所示的两个源程序文件myproc1.c和myproc2.c生成的共享库mylib.so,在main.c中调用了共享库mylib.so中的函数myfunc1。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;dlfcn.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="o">*</span><span class="n">handle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">myfuncl</span><span class="p">)();</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="o">*</span><span class="n">error</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*动态装入包含函数myfuncl()的共享库文件*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">handle</span> <span class="o">=</span> <span class="nf">dlopen</span><span class="p">(</span><span class="s">&#34;./mylib.so&#34;</span><span class="p">,</span><span class="n">RTLD_LAZY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">handle</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="nf">dlerror</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">ex1t</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*获得一个指向函数nyfuncl()的指针nyfunc1*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">myfuncl</span> <span class="o">=</span> <span class="nf">dlsym</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="s">&#34;myfunc1&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="n">error</span> <span class="o">=</span> <span class="nf">dlerror</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">error</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">ex1t</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*现在可以像调用其他函数一样调用函数myfunc1()*/</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">myfunc1</span><span class="p">()</span><span class="err">；</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cm">/*关闭（卸载）共享库文件*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="nf">dlclose</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="nf">dlerror</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>要编译该程序并生成可执行文件myproc,通常用以下GCC命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">gcc -rdynamic -o myproc main.c -1dl
+</span></span></code></pre></div><ul>
+<li>选项-rdynamic指示链接器在链接时使用共享库中的函数，</li>
+<li>选项-ldl说明采用动态链接器接口中的dlopen、dsym等函数进行运行时的动态链接。</li>
+</ul>
+<p>一个应用程序如果要在运行时动态链接一个共享库并引用库中的函数或变量，则必须经过以下几个步骤。</p>
+<ol>
+<li>首先，通过dlopen函数加载和链接共享库，第10行的含义是启动动态链接器来加载并链接当前目录中的共享库文件mylib.so,这里dlopen函数的第二个参数为RTLD_LAZY,用来指示链接器对共享库中外部符号的引用不在加载时进行重定位，而是延迟到第一次函数调用时进行重定位，称为延迟绑定(lazy binding)技术。若dlopen函数出错，则返回值为NULL;否则返回指向共享库文件句柄的指针。</li>
+<li>在dlopen函数正常返回的情况下，通过dlsym函数获取共享库中所需函数。如第17行所示。第17行的含义是指示动态链接器返回指定共享库mylib.so中指定符号myfunc1的地址。若指定共享库中不存在指定的符号，则返回NULL。dlsym函数的第一个参数是指定共享库的文件句柄，第二个参数用来标识指定符号的字符串，通常是后面将要使用的函数的函数名。</li>
+<li>在dlsym函数正常返回的情况下，就可以使用共享库中的函数，如第24行所示。函数对应代码的首地址由dlsym函数返回。</li>
+<li>在使用完程序所需的所有共享库内函数或变量后，使用dlclose函数卸载这个共享库。如第27行所示。若卸载成功，返回为0，否则为-1。若调用dlopen、dlsym和dlclose时发生出错，则出错信息可通过调用dlerror函数获得。</li>
+</ol>
+<h3 id="位置无关代码">
+<a class="header-anchor" href="#%e4%bd%8d%e7%bd%ae%e6%97%a0%e5%85%b3%e4%bb%a3%e7%a0%81"></a>
+位置无关代码
+</h3><p>共享库代码在磁盘上和内存中都只有一个备份，在磁盘上就是一个共享库文件，如类UNX系统中的 <code>.so</code>文件或Windows系统中的 <code>.dll</code>文件。为了让一份共享库代码可以和不同的应用程序进行链接，共享库代码必须与地址无关，也就是说，在生成共享库代码时，要保证将来不管共享库代码加载到哪个位置都能够正确执行，也即共享库代码的加载位置可以是不确定的，而且共享库代码的长度发生变化也不影响调用它的程序。满足上述这种特征的代码称为==位置无关代码==(Position-Independent Code,.PIC)。</p>
+<p>显然，共享库文件必须是位置无关代码，因而在生成共享库文件时，须使用GCC选项 <code>-PIC</code>来生成位置无关代码。</p>
+<p>符号之间的所有引用包含以下四种情况：</p>
+<ol>
+<li>模块内过程调用和跳转；</li>
+<li>模块内数据引用；</li>
+<li>模块间数据引用；</li>
+<li>模块间过程调用和跳转。</li>
+</ol>
+<p>对于前两种情况，因为是在模块内进行函数（过程)和数据的引用，因而采用PC相对偏移寻址方式就可以方便地实现位置无关代码。</p>
+<p>对于后面两种情况，由于涉及模块之间的访问，所以无法通过PC相对偏移寻址来生成位置无关代码，需要有专门的实现机制。</p>
+<h4 id="模块内过程调用和跳转">
+<a class="header-anchor" href="#%e6%a8%a1%e5%9d%97%e5%86%85%e8%bf%87%e7%a8%8b%e8%b0%83%e7%94%a8%e5%92%8c%e8%b7%b3%e8%bd%ac"></a>
+模块内过程调用和跳转
+</h4><p>函数foo调用了模块内的一个函数bar,因此属于模块内的过程调用。因为foo和bar在同一个模块中，因而这两个函数的代码都在同一个.text节中，相对位置固定，只要在实现过程调用的call指令中采用PC相对偏移寻址方式，即可生成位置无关代码。显然，不管so文件中的代码加载到哪里，call指令中的偏移量都不变。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">void</span> <span class="nf">ext</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bar</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">foo</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">bar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ext</span><span class="p">()</span><span class="err">；</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>编辑为机器指令的代码为</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000344&lt;bar&gt;:
+</span></span><span class="line"><span class="cl">0000344:	55				push1	%ebp
+</span></span><span class="line"><span class="cl">0000345:	89e5			movl	%esp,%ebp
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">0000362:	c3				ret
+</span></span><span class="line"><span class="cl">0000363:	90				nop
+</span></span><span class="line"><span class="cl">0000364 &lt;fo0&gt;:
+</span></span><span class="line"><span class="cl">0000364:	55				push1 	%ebp
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">0000374:	e8 db ff ff ff	ca11	0000344&lt;bar&gt;
+</span></span><span class="line"><span class="cl">0000379:
+</span></span><span class="line"><span class="cl">......
+</span></span></code></pre></div><p>编译器在生成call指令时，只要根据被引用函数bar的起始位置和call指令下条指令的起始位置之间的位移量就可算出偏移地址为0x0000344-0x0000379=0xffff ffcb=-0x35。同样，模块内的跳转也可用jmp即指令通过PC相对寻址方式来生成位置无关代码。</p>
+<h4 id="模块内数据引用">
+<a class="header-anchor" href="#%e6%a8%a1%e5%9d%97%e5%86%85%e6%95%b0%e6%8d%ae%e5%bc%95%e7%94%a8"></a>
+模块内数据引用
+</h4><p>函数bar引用了模块内的静态变量a和b,因此属于模块内的数据访问。因为在同一个模块内数据段总是紧跟在代码段后面，因而任何引用某符号的指令与数据段起始处之间的位移量，以及本地局部符号在数据段内的位移量都是确定的。编译器可以利用这些特性生成位置无关代码。</p>
+<p>以下是源程序经编译后得到的部分机器级代码示例，主要给出了赋值语句 <code>a=1;</code>的编译结果。可以看出，为了生成位置无关代码，编译器对语句 <code>a=1;</code>生成了多条指令，这里假设call指令的下条指令到数据段起始位置之间的位移量为0x118c,数据段起始位置到变量a之间的位移量为0x28。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000344	&lt;bar&gt;:
+</span></span><span class="line"><span class="cl">0000344:	55				push1	%ebp
+</span></span><span class="line"><span class="cl">0000345:	89e5			mov1	%esp,%ebp
+</span></span><span class="line"><span class="cl">0000347:	e850000000		call	39c &lt;get_pc&gt;
+</span></span><span class="line"><span class="cl">000034c:	81c18c110000	addl	$0x118c,%ecx
+</span></span><span class="line"><span class="cl">0000352:	c78128000000	movl	$0x1,0x28(%ecX)
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">0000362:	c3				ret
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">000039c	&lt;get_pc&gt;:
+</span></span><span class="line"><span class="cl">000039c:	8b0c24			mov1	(esp),%ecx
+</span></span><span class="line"><span class="cl">000039f:	c3				ret
+</span></span></code></pre></div><p>上述机器级代码0000347处开始的三条指令对应函数bar中语句 <code>a=1；</code>。首先，通过指令“call 39c&lt;_get-pc&gt;”将下条指令的地址保存在栈顶位置，然后再通过000039c处的“movl (%esp),%ecx”指令将当前栈顶位置送到ECX中，这样，不管这段共享代码加载到哪里，都会将引用a的指令的地址记录在ECX中。下一条指令再将该地址值加上0x118c,得到数据段首地址送ECX,然后再通过“基址加偏移量”的方式得到a的地址，从而实现对静态变量a的引用。通常，生成位置无关代码会带来一些额外的开销，可以看出，模块内数据访问情况下的位置无关代码多用了4条指令。在x86-64中，因为允许将P寄存器作为基址寄存器，所以使用一条指令即可实现模块内数据引用，从而可以减少额外开销。</p>
+<h4 id="模块间数据引用">
+<a class="header-anchor" href="#%e6%a8%a1%e5%9d%97%e9%97%b4%e6%95%b0%e6%8d%ae%e5%bc%95%e7%94%a8"></a>
+模块间数据引用
+</h4><p>在以下函数bar中的赋值语句“b=2;”引用了模块外的一个外部变量b,因此属于模块间的数据访问。因为变量b是外部符号，所以在对赋值语句“b=2;”进行编译转换时，无法事先计算出变量b到引用b的指令之间的相对距离。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">void</span> <span class="nf">ext</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">bar</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>   
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>不过，因为任何引用符号的指令与本模块数据段起始处之间的位移量是确定的，因而，可以在数据段开始处设置一个表，只要在程序执行时外部变量b的地址已记录在这个表中，那么引用b的指令就可以通过访问这个表中的地址来实现对b的引用。以下是源程序经编译后得到的部分机器级代码示例。此例中，假设引用b的指令序列开始处（即popl指令起始处)到变量b所在的表项之间的位移量为0x1180。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0000344&lt;bar&gt;:
+</span></span><span class="line"><span class="cl">0000344:	55			push1	%ebp
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">0000357:	e800000000	call	000035c
+</span></span><span class="line"><span class="cl">000035c:	5b			popl	%ebx
+</span></span><span class="line"><span class="cl">000035d:				addl	$0x1180,%ebx
+</span></span><span class="line"><span class="cl">......					mov1	(%ebx),%eax
+</span></span><span class="line"><span class="cl">......					movl	$2,(%eax)
+</span></span></code></pre></div><p>上述代码段中，通过0000357处开始的“call 000035c”和“popl %ebx”指令，将赋值语句“b=2;”对应的指令序列首地址送EBX;通过加上位移量0x1180,得到外部变量b的地址所存放的位置值送EBX;然后根据EBX访问变量b所对应的表项，得到变量b的地址送EAX;最后通过EAX引用变量b。这个设置在数据段起始处的用于存放全局变量地址的表称为==全局偏移量表==(Global OffsetTble,GOT),其中每个表项对应一个全局变量，用于在动态链接时记录对应的全局变量的地址。</p>
+<p>ABI规范定义了GOT的具体结构与相应的处理过程。编译器为GOT中每一个表项生成一个重定位项，指示动态链接器在加载并进行动态链接时必须对这些GOT表项中的内容进行重定位，也即在动态链接时需要对这些表项绑定一个符号定义，并填人所引用的符号的地址。例如，对于上述例子，在加载并进行动态链接时，动态链接器应将符号b在其他模块中定义的地址，填人到本模块GOT中变量b对应的表项中。这样，在指令执行时，就可以从GOT中取到变量b在外部模块中的地址了。同样，模块间数据访问时的位置无关代码也有缺陷，除了多用4条指令外，还增加了用于实现GOT的空间和时间，并多使用了一个被调用者保存寄存器EBX。</p>
+<h4 id="模块间过程调用和跳转">
+<a class="header-anchor" href="#%e6%a8%a1%e5%9d%97%e9%97%b4%e8%bf%87%e7%a8%8b%e8%b0%83%e7%94%a8%e5%92%8c%e8%b7%b3%e8%bd%ac"></a>
+模块间过程调用和跳转
+</h4><p>以下是一个源程序部分代码，其中，函数foo调用了一个外部函数ext,因此，属于模块间过程调用。与模块间数据引用一样，模块间过程调用也可以通过在数据段起始处增加一个全局偏移量表GOT来解决位置无关代码的生成问题，只要在GOT中增加外部函数对应的表项即可。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">static</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">extern</span> <span class="kt">void</span> <span class="nf">ext</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">foo</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">bar</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">ext</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>对于以上的源程序，可以在GOT中设置一个与外部函数ext对应的表项。以下是该源程序经编译后得到的部分机器级代码示例。此例中，假设调用ext函数的指令序列起始处（即popl指令起始处)与GOT中ext对应表项之间的位移量为0x1204。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">000050c&lt;fo0&gt;:
+</span></span><span class="line"><span class="cl">000050c:	55			pushl	%ebp
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">0000557:	e800000000	call	000055c
+</span></span><span class="line"><span class="cl">000055c:	5b			popl	%ebx
+</span></span><span class="line"><span class="cl">000055d:				addl	$0x1204,%ebx
+</span></span><span class="line"><span class="cl">......
+</span></span><span class="line"><span class="cl">......					call	*(%ebx)】
+</span></span></code></pre></div><p>上述代码中，从0000557开始的三条指令用于将数据段起始处的GOT中ext对应表项的地址送EBX,000055d处随后的 <code>call*(%ebx)</code>指令将EBX所指向的GOT表项中的地址作为调用函数的目标地址，转到ext函数去执行。这里，*(%ebx)为间接地址，即通过“R[eip]←M[R[ebx]]”实现过程调用。与模块间数据引用一样，编译器也要为GOT中ext对应表项生成一个重定位项，GOT中的ext函数地址也是在加载时通过动态链接进行重定位而得到的。</p>
+<p>从上述代码可以看出，每次进行模块间过程调用都要额外执行三条指令。如果存在大量这种模块间过程调用的话，就会额外执行大量指令。为此，GCC编译器采用了一种延迟绑定技术，以减少额外指令条数。</p>
+<p>*<code>延迟绑定</code>(lazy binding)*技术的基本思想是：对于模块间过程的引用不在加载时进行重定位，而是延迟到第一次函数调用时进行重定位。延迟绑定技术除了需要使用GOT外，还需要使用==过程链接表==(Procedure Linkage Table,PLT)。其中，GOT是.data节（包含在数据段中）的一部分，而PLT是.text节（包含在代码段中）的一部分。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/27_10_52_38_202408271052892.png" alt="可执行文件中的PLT和GOT"></p>
+<p>图中对应可执行文件foo中的PLT和GOT。采用延迟绑定技术时，GOT中开始三项总是固定的，含义如下：</p>
+<ul>
+<li>GOT[0]为.dynamic节首址，该节中包含动态链接器所需要的基本信息，如符号表位置、重定位表位置等；</li>
+<li>GOT[1]为动态链接器的标识信息；</li>
+<li>GOT[2]为动态链接器延迟绑定代码的入口地址。</li>
+</ul>
+<p>此外，所有被调用的外部函数在GOT中都有对应的表项，例如，上图的GOT[3]就是外部函数ext对应表项。</p>
+<p>PLT中每个表项占16字节，它是.text节的一部分，每个表项中实际上包含的是3条指令。除PLT[0]外，其余各项各自对应一个共享库函数，例如，以下的PLT[1]对应ext函数。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">PLT[O]
+</span></span><span class="line"><span class="cl">0804833c:	ff3588950408	pushl	0x8049588
+</span></span><span class="line"><span class="cl"> 8048342:	ff258c950408	jmp		0x804958c
+</span></span><span class="line"><span class="cl"> 8048348:	00000000
+</span></span><span class="line"><span class="cl">PLT[1]	&lt;ext&gt;
+</span></span><span class="line"><span class="cl">0804834c:	ff2590950408	jmp		*0x8049590
+</span></span><span class="line"><span class="cl">8048352:	6800000000		pushl	$0x0
+</span></span><span class="line"><span class="cl">8048357:	e9 eo ff ff ff	jmp		804833c
+</span></span></code></pre></div><p>编译器在处理外部过程ext的调用时，首先在GOT和PLT中填人以上相应信息，然后生成以下机器级代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">804845b:	e8ecfeffff	ca11	804834c	&lt;ext&gt;
+</span></span></code></pre></div><p>启动对应的可执行文件运行后，当第一次执行到上述这条call指令时，将根据目标地址0x804834c,转到PLT[1]处执行。第一条间接跳转指令的执行过程是，先根据地址0x8049590找到ext对应的表项GOT[3],然后根据其中的内容再跳转到0x08048352处执行。此处是一条pushl指令，用于将ext对应的ID压栈，然后执行jmp指令，跳转到0x804833c处的PLT[0]处执行。</p>
+<p>PLT[0]中第一条指令将GOT[1]的地址0x8049588压栈，然后通过间接跳转指令，转到GOT[2]指出的动态链接器延时绑定代码处执行。这样，动态链接器延时绑定代码将根据GOT[1]中记录的动态链接器标识信息和ext对应的ID信息，对外部过程ext进行重定位，即在GOT[3]中填入真正的外部过程ext的地址，并控制程序转ext过程执行。</p>
+<p>这样，以后再调用外部过程ext时，每次都只要执行“jmp*0x8049590”就可以直接跳转到ext执行了，仅仅多执行了一条jmp指令，而不是多执行三条指令。可以看出，延迟绑定技术的开销主要在第一次过程调用，需要额外执行多条指令，而以后每次都只是多执行一条指令，这对于同一个外部过程被多次调用的情况非常有益。</p>
+<h1 id="层次结构存储系统">
+<a class="header-anchor" href="#%e5%b1%82%e6%ac%a1%e7%bb%93%e6%9e%84%e5%ad%98%e5%82%a8%e7%b3%bb%e7%bb%9f"></a>
+层次结构存储系统
+</h1><h2 id="存储器概述">
+<a class="header-anchor" href="#%e5%ad%98%e5%82%a8%e5%99%a8%e6%a6%82%e8%bf%b0"></a>
+存储器概述
+</h2><h3 id="存储器的分类">
+<a class="header-anchor" href="#%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e5%88%86%e7%b1%bb"></a>
+存储器的分类
+</h3><ol>
+<li>
+<p>按存储元件分类：存储元件必须具有截然不同且相对稳定的两个物理状态，才能被用来表示二进制代码0和1。</p>
+<ul>
+<li><em><code>半导体</code>存储器</em>：使用半导体器件构成</li>
+<li><em><code>磁性表面</code>存储器</em>：使用磁性材料作为存储器，如磁盘存储和磁带存储</li>
+<li><em><code>光盘</code>存储器</em>：使用光介质存储</li>
+</ul>
+</li>
+<li>
+<p>按存取方式分类</p>
+<ul>
+<li><em><code>随机存取</code>存储器</em>：随机存取存储器(Random Access Memory,简称==RAM==)的特点是按地址访问存储单元，因为每个地址译码时间相同，所以，在不考虑芯片内部缓冲的前提下，每个单元的访问时间是一个常数，与地址无关。不过，现在的DRAM芯片内都具有行缓冲，因而有些数据可能因为已在行缓冲中而缩短了访问时间。随机存取存储器的存储介质是半导体存储器件。</li>
+<li><em><code>顺序存取</code>存储器</em>：顺序存取存储器(Sequential Access Memory,简称==SAM==)的特点是信息按顺序存放和读出，其存取时间取决于信息存放位置，以记录块为单位编址。磁带存储器就是一种顺序存取存储器，其存储容量大，但存取速度慢。</li>
+<li><em><code>直接存取</code>存储器</em>:直接存取存储器（Direct Access Memory，简称==DAM==）的存取方式兼有随机访问和顺序访问的特点。首先直接定位到需读写信息所在区域的开始处，然后按顺序方式存取，磁盘存储器就是如此。</li>
+<li><em><code>相联</code>存储器</em>:上述三类存储器RAM、SAM和DAM都是按所需信息的地址来访问，但有些情况下可能不知道所访问信息的地址，只知道要访问信息的内容特征，此时，只能按内容检索到存储位置进行读写。这种存储器称为按内容访问存储器Content Addressed Memory，简称==CAM==）或相联存储器（Associative Memory，简称AM）。</li>
+</ul>
+</li>
+<li>
+<p>按信息的可更改性分类:按信息可更改性分读写存储器和只读存储器（Read Only Memory，简称==ROM==）。</p>
+<ul>
+<li><em><code>读写</code>存储器</em>中的信息可以读出和写人，RAM芯片是一种读写存储器；</li>
+<li><em><code>只读</code>存储器</em>ROM芯片中的信息一旦确定，通常在联机情况下只能读不能写，但在某些情况下也可重新写入。</li>
+<li>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>RAM芯片和ROM芯片都采用随机存取方式进行信息的访问。</p></blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>按断电后信息的可保存性分类:</p>
+<ul>
+<li><em><code>非易失性</code>存储器</em>（Nonvolatile Memory）,非易失性存储器也称不挥发性存储器，其信息可一直保留，不需电源维持，例如，ROM、磁表面存储器、光盘存储器等都是非易失性存储器；</li>
+<li><em><code>易失性</code>存储器</em>（Volatile Memory）,易失性存储器也称挥发性存储器，在电源关闭时信息自动丢失，例如，RAM、cache等都是易失性存储器。</li>
+</ul>
+</li>
+<li>
+<p>按功能分类</p>
+<ul>
+<li><em><code>高速缓冲</code>存储器</em>:高速缓冲存储器(==cache==)简称高速缓存，位于主存和CPU之间，目前主要由静态RAM芯片组成，其存取速度接近CPU的工作速度，用来存放当前CPU经常使用到的指令和数据。</li>
+<li><em><code>主</code>存储器</em>:指令直接面向的存储器是主存储器，简称主存。CPU执行指令时给出的存储地址最终必须转换为主存地址，若不采用虚拟存储管理，则CPU直接给出主存地址。主存是存储器分层结构中的核心存储器，用来存放系统中启动运行的程序及其数据，主存目前一般用MOS管半导体存储器构成。</li>
+<li><em><code>辅助</code>存储器</em>:把系统运行时直接和主存交换信息的存储器称为辅助存储器，简称辅存。磁盘存储器比磁带和光盘存储器速度快，因此，目前大多用磁盘存储器作为辅存，辅存的内容需要调入主存后才能被CPU访问。</li>
+<li><em><code>海量后备</code>存储器</em>:磁带存储器和光盘存储器的容量大、速度慢，主要用于信息的备份和脱机存档，因此被用作海量后备存储器。辅存和海量后备存储器统称为外部存储器，简称外存。</li>
+</ul>
+</li>
+</ol>
+<p>一般的计算机都会使用以下的存储层次结构</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/27_11_56_52_202408271156042.png" alt="存储器层次化体系结构"></p>
+<h3 id="主存储器的组成和基本操作">
+<a class="header-anchor" href="#%e4%b8%bb%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e7%bb%84%e6%88%90%e5%92%8c%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c"></a>
+主存储器的组成和基本操作
+</h3><p>下图是主存储器(Main Memory,简称MM)的基本框图。其中由一个个存储0或1的记忆单元(cell)构成的存储阵列是存储器的核心部分。这种记忆单元也称为==存储元==、==位元==，它是具有两种稳态的能表示二进制0和1的物理器件。</p>
+<p>==存储阵列==(bank)也称为存储体、存储矩阵。为了存取存储体中的信息，必须对存储单元编号，所编号码就是==地址==。编址单位(addressing unit)是指具有相同地址的那些位元构成的一个单位，可以是一个字节或一个字。</p>
+<p>对各存储单元进行编号的方式称为==编址方式==(addressing mode),可以按字节编址，也可以按字编址。现在大多数通用计算机都采用字节编址方式，此时，存储体内一个地址中有一个字节。也有许多专用于科学计算的大型计算机采用64位编址，这是因为科学计算中数据大多是64位浮点数。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/27_11_33_30_202408271133762.png" alt="主存储器的基本框图"></p>
+<p>如上图所示，指令执行过程中需要访问主存时：</p>
+<ol>
+<li>CPU首先把欲访问的主存单元的地址送到主存地址寄存器(Memory Address Register,简称MAR)中，然后通过地址线将主存地址送到主存中的地址寄存器，以便地址译码器进行译码后选中相应单元。</li>
+<li>同时，CPU将读/写控制信号通过控制线送到主存的读写控制电路。
+<ol>
+<li>如果是写操作，CPU同时将要写的信息送主存数据寄存器(Memory Data Register,简称MDR)中，在读写控制电路的控制下，经数据线将信息写入选中的单元；</li>
+<li>如果是读操作，则主存读出选中单元的内容送数据线，然后送到MDR中。数据线的宽度与MDR的宽度相同，地址线的宽度与MAR的宽度相同。图中采用64位数据线，因此，在字节编址方式下，每次最多可以存取8个字节的内容。地址线的位数决定了主存地址空间的最大可寻址范围，例如，36位地址的最大可寻址范围为0~26-1。注意：在计算机中所有地址的编号总是从0开始。</li>
+</ol>
+</li>
+</ol>
+<h2 id="主存与cpu的连接及其读写操作">
+<a class="header-anchor" href="#%e4%b8%bb%e5%ad%98%e4%b8%8ecpu%e7%9a%84%e8%bf%9e%e6%8e%a5%e5%8f%8a%e5%85%b6%e8%af%bb%e5%86%99%e6%93%8d%e4%bd%9c"></a>
+主存与CPU的连接及其读写操作
+</h2><h3 id="主存芯片技术">
+<a class="header-anchor" href="#%e4%b8%bb%e5%ad%98%e8%8a%af%e7%89%87%e6%8a%80%e6%9c%af"></a>
+主存芯片技术
+</h3><p>动态RAM主要用作主存，目前主存常用的是基于SDRAM(Synchronous DRAM)芯片技术的内存条，包括DDR SDRAM、DDR2 SDRAM和DDR3 SDRAM等。SDRAM芯片与当年Intel推出的芯片组中北桥芯片的前端总线同步运行，因此，称为同步DRAM。</p>
+<h4 id="dram芯片技术">
+<a class="header-anchor" href="#dram%e8%8a%af%e7%89%87%e6%8a%80%e6%9c%af"></a>
+DRAM芯片技术
+</h4><p>目前，动态存储芯片大多采用双译码结构。地址译码器分为X和Y方向两个译码器。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/23_12_0_7_202409231200159.png" alt="DRAM存储芯片"></p>
+<p>其中的存储阵列有4096个单元，需要12根地址线，用A<del>11</del> ~ A <del>0</del>表示。</p>
+<ul>
+<li>A<del>11</del> ~ A<del>6</del>送至X译码器，有64条译码输出线，各选择一行单元；</li>
+<li>A<del>5</del> ~ A<del>0</del>送至Y译码器，它也有64条译码输出线，分别控制一列单元的位线控制门。</li>
+</ul>
+<blockquote>
+<p>假如输入的12位地址为A<del>11</del>A<del>10</del>…A<del>0</del>=000001_000000,则X译码器的第2根译码输出线(x<del>1</del>)为高电平，与它相连的64个存储单元的字选择W线为高电平。Y译码器的第1根译码输出线(y<del>0</del>)为高电平，打开第一列的位线控制门。在X、Y译码的联合作用下，存储阵列中(1,0)单元被选中。</p></blockquote>
+<p>在选中的行和列交叉点上的单元只有一位，因此，采用二维双译码结构的存储器芯片被称为 <code>位片式芯片</code>。有些芯片的存储阵列采用三维结构，用多个位平面构成存储阵列，不同位平面在同一行、列交叉点上的多位构成一个存储字，被同时读出或写入。</p>
+<p>在双译码结构中，一条X方向的选择线要控制在其上的各个存储单元的字选择线，所以负载较大，因此需要在译码器输出后加驱动电路。此外，I/O控制电路则用以控制被选中的单元的读出或写入，具有放大信息的作用。以下是4M×4位的芯片框图：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/23_13_49_14_202409231349817.png" alt="DRAM芯片"></p>
+<p>DRAM芯片容量较大，因而地址位数较多。为了减少芯片的地址引脚数，从而减小体积，大多采用地址引脚复用技术。行地址和列地址通过相同的引脚分先后两次输入，这样地址引脚数可减少一半。</p>
+<p>子图a给出了芯片的引脚：</p>
+<ol>
+<li>共有11根地址引脚线A<del>0</del> ~ A<del>10</del>,在行地址选通信号RAS和列地址选通信号CS(低电平有效)的控制下，用于分时传送行、列地址；</li>
+<li>有4根数据引脚线D<del>1</del> ~ D<del>4</del> ,因此，每个芯片同时读出4位数据；</li>
+<li>WE为读写控制引脚，低电平时为写操作；</li>
+<li>OE为输出使能驱动引脚，低电平有效，高电平时断开输出。</li>
+</ol>
+<p>子图b给出了芯片内部的逻辑结构图，芯片存储阵列采用三维结构，芯片容量为2048×2048×4位（$2048=2^{11}$,11条地址总线）。因此，行地址和列地址各是11位，有4个位平面，在每个行、列交叉处的4个位平面数据同时进行读写。行地址缓冲器和刷新计数器通过一个多路选择器MUX,将选择的行地址输出到行译码器，刷新计数器的位数也是11位，一次刷新相当于对一行数据进行一次读操作，通过对这一行数据读后再生进行刷新。</p>
+<h4 id="基本sdram技术">
+<a class="header-anchor" href="#%e5%9f%ba%e6%9c%acsdram%e6%8a%80%e6%9c%af"></a>
+基本SDRAM技术
+</h4><p>SDRAM的工作方式与传统的DRAM有很大不同:</p>
+<ul>
+<li>传统DRAM与CPU之间采用==异步方式==交换数据，CPU发出地址和控制信号后，经过一段延迟时间，数据才读出或写入。在这段时间里，CPU不断采样DRAM的完成信号，在没有完成之前，CPU插人等待状态而不能做其他工作。</li>
+<li>而SDRAM芯片则不同，其读写受外部系统时钟（即前端总线时钟CLK)控制，因此与CPU之间采用同步方式交换数据。它将CPU或其他主设备发出的地址和控制信息锁存起来，经过确定的几个时钟周期后给出响应。因此，主设备在这段时间内，可以安全地进行其他操作。</li>
+</ul>
+<p>SDRAM的每一步操作都在外部系统时钟CLK的控制下进行，支持突发传输(bust)方式。只要在第一次存取时给出首地址，以后按地址顺序读写即可，而不再需要地址建立时间和行、列预充电时间，就能连续快速地从行缓冲器中输出一连串数据。内部的工作方式寄存器(也称模式寄存器)可用来设置传送数据的长度以及从收到读命令（与CAS信号同时发出）到开始传送数据的延迟时间等，前者称为突发长度(Burst Length,简称BL),后者称为CAS潜伏期(CAS Latency,简称CL)。根据所设定的BL和CL,CPU可以确定何时开始从总线上取数以及连续取多少个数据。在开始的第一个数据读出后，同一行的所有数据都被送到行缓冲器中，因此，以后每个时钟可从SDRAM读取一个数据，并在下一个时钟内通过总线传送到CPU。</p>
+<p>基于SDRAM技术的芯片的工作过程大致如下：</p>
+<ol>
+<li>在CLK时钟上升沿片选信号(CS)和行地址选通信号(RAS)有效。</li>
+<li>经过一段延时t<del>RCD</del>(RAS to CAS delay),列选通信号CAS有效，并同时发出读或写命令，此时，行、列地址被确定，已选中具体的存储单元。</li>
+<li>对于读操作，再经过一个CAS潜伏期后，输出数据开始有效，其后的每个时钟都有一个或多个数据连续从总线上传出，直到完成突发长度BL指定的所有数据的传送。对于写操作，则没有CL延时而直接开始写人。</li>
+</ol>
+<p>由于只有读操作才有CL,所以CL又被称为读取潜伏期(Read Latency,简称RL)。t<del>RCD</del>和CL都是以时钟周期T<del>CK</del>为单位，例如，对于PC100 SDRAM来说，当T<del>CK</del>为10ns,CL为2时，则CAS潜伏期时延为20ns。BL可用的选项为1、2、4、8等，当BL为1时，则是非突发传输方式。</p>
+<h4 id="ddr-sdram芯片技术">
+<a class="header-anchor" href="#ddr-sdram%e8%8a%af%e7%89%87%e6%8a%80%e6%9c%af"></a>
+DDR SDRAM芯片技术
+</h4><p>DDR(Double Data Rate)SDRAM是对标准SDRAM的改进设计，通过芯片内部I/O缓冲(I/O Buffer)中数据的两位预取功能，并利用存储器总线上时钟信号的上升沿与下降沿进行两次传送，以实现一个时钟内传送两次数据的功能。例如，采用DDR SDRAM技术的PC3200(DDR400)存储芯片内CLK时钟的频率为200MHz,意味着存储器总线上的时钟频率也为200MHz,利用存储芯片内部的两位预取技术，使得一个时钟内有两个数据被取到I/O缓冲中。
+因为存储器总线在每个时钟内可以传送两次数据，而存储器总线中的数据线位宽为64，即每次传送64位，因而存储器总线上数据的最大传输率（即带宽）为$200MHz×2×64b/8(b/B)=3.2GB/s$。</p>
+<h4 id="ddr2-sdram">
+<a class="header-anchor" href="#ddr2-sdram"></a>
+DDR2 SDRAM
+</h4><p>DDR2 SDRAM内存条采用与DDR类似的技术，利用芯片内部的I/O缓冲可以进行4位预取。例如，采用DDR2 SDRAM技术的PC2-3200(DDR2-400)存储芯片内部CLK时钟的频率为200MHz,意味着存储器总线上的时钟频率应为400MHz,利用存储芯片内部的4位预取技率应为400MHz,利用存储芯片内部的4位预取技术，使得一个时钟内有4个数据被取到/0缓冲中，存储器总线在每个时钟内传送两次数据，若每次传送64位，则存储器总线的最大数据传输率（即带宽）为$200MHz×4×64b/8(b/B)=400MHz×2×64b/8(b/B)=6.4GB/s$。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/23_14_53_38_202409231453533.png" alt="DDR2 SDRAM"></p>
+<h4 id="ddr3-sdram芯片技术">
+<a class="header-anchor" href="#ddr3-sdram%e8%8a%af%e7%89%87%e6%8a%80%e6%9c%af"></a>
+DDR3 SDRAM芯片技术
+</h4><p>DDR3 SDRAM芯片内部I/O缓冲可以进行8位预取。如果存储芯片内部CLK时钟的频率为200MHz,意味着存储器总线上的时钟频率应为800MHz,存储器总线在每个时钟内可传送两次数据，若每次传送64位，则对应存储器总线的最大数据传输率（即带宽）为$200MHz×8×64b/8(b/B)=800MHz×2×64b/8(b/B)=12.8GB/s$。</p>
+<h3 id="主存与cpu的连接及读写">
+<a class="header-anchor" href="#%e4%b8%bb%e5%ad%98%e4%b8%8ecpu%e7%9a%84%e8%bf%9e%e6%8e%a5%e5%8f%8a%e8%af%bb%e5%86%99"></a>
+主存与CPU的连接及读写
+</h3><p>CPU通过其芯片内的总线接口部件（即总线控制逻辑)与处理器总线相连，然后再通过总线之间的I/O桥接器、存储器总线连接到主存。</p>
+<p>总线是连接其上的各部件共享的传输介质，通常的构成为：</p>
+<ol>
+<li>控制线</li>
+<li>数据线</li>
+<li>地址线。</li>
+</ol>
+<p>计算机中各部件之间通过总线相连，例如，CPU通过处理器总线和存储器总线与主存相连。在CPU和主存之间交换信息时，CPU通过总线接口部件把地址信息和总线控制信息分别送到地址线和控制线，CPU和主存之间交换的数据则通过数据线传输。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_17_12_58_202409241712125.png" alt="主存与CPU之间的连接"></p>
+<p>受集成度和功耗等因素的限制，单个芯片的容量不可能很大，所以往往通过存储器芯片扩展技术，将多个芯片做在一个内存模块（即内存条）上，然后由多个内存模块以及主板或扩充板上的RAM芯片和ROM芯片组成一台计算机所需的主存空间，再通过总线、桥接器等和CPU相连。下图中的a是内存条和内存条插槽(slot)示意图，b是存储控制器(memory controller)、存储器总线、内存条和DRAM芯片之间的连接关系示意图。存储控制器可以包含在上图中的I/O桥接器中。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/28_16_29_23_202409281629420.png" alt="image-20240928162922858"></p>
+<p>如上图a所示，==内存条插槽就是存储器总线==，内存条中的信息通过内存条的引脚，再通过插槽内的引线连接到主板上，通过主板上的导线连接到北桥芯片或CPU芯片。</p>
+<p>现在的计算机中可以有多条存储器总线同时进行数据传输，支持两条总线同时进行传输的内存条插槽为双通道内存插槽，还有三通道、四通道内存插槽，其总线的传输带宽可以分别提高到单通道的两倍、三倍和四倍。例如，上图所示的内存条插槽支持双通道内存条，相同颜色的插槽可以并行传输，因此，对于上图所示的内存条插槽情况，如果只有两个内存条，则应该插在两个颜色相同的内存条插槽上，其传输带宽可以增大一倍。</p>
+<p>由若干个存储器芯片构成一个存储器时，需要在字方向和位方向上进行扩展。</p>
+<ul>
+<li><em><code>位</code>扩展</em>指用若干片位数较少的存储器芯片构成给定字长的存储器。例如，用8片 <code>4K×1</code>位的芯片构成 <code>4K×8</code>位的存储器，需在位方向上扩展8倍，而字方向上无须扩展。（==横向拓展==）</li>
+<li><em><code>字</code>扩展</em>是容量的扩充，位数不变。例如，用 <code>16K×8</code>位的存储芯片在字方向上扩展4倍，构成一个 <code>64K×8</code>位的存储器。当芯片在容量和位数上都不满足存储器要求的情况下，需要对字和位同时扩展。例如，用16K×4位的存储器芯片在字方向上扩展4倍、位方向上扩展2倍，可构成一个64K×8位的存储器。（==纵向拓展==）</li>
+</ul>
+<blockquote>
+<p>栗子：</p>
+<p>用8个 <code>16M×8</code>位(16MB)的DRAM芯片扩展构成一个 <code>128MB</code>内存条的示意图。每片DRAM芯片中有一个 <code>4096×4096×8</code>位的存储阵列，所以，行地址和列地址各12位($2^{12} = 4096$),有8个位平面。使用字扩展（==纵向拓展==）对容量进行扩容。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/28_16_47_23_202409281647906.png" alt="DRAM芯片的拓展"></p>
+<p>换算关系</p>
+$$
+> 16MB = 16M \times 8bit = 2^{24} \times 8bit =2^{12} \times 2^{12} \times 8bit = 4096 \times 4096 \times 8bit
+> $$<p>内存条通过存储器总线连接到存储控制器，CPU通过存储控制器对内存条中的DRAM芯片进行读写，CPU要读写的存储单元地址通过总线被送到存储控制器，然后由存储控制器将存储单元地址转换为DRAM芯片的行地址i和列地址j,分别在行地址选通信号RAS和列地址选通信号CAS的控制下，通过DRAM芯片的地址引脚，分时送到DRAM芯片内部的行地址译码器和列地址译码器，以选择行、列地址交叉点(i，j)的8位数据同时进行读写，8个芯片就可同时读取64位，组合成总线所需要的64位传输宽度，再通过存储器总线进行传输。</p>
+<p>现代通用计算机大多按==字节==编址，因此，在图中的存储器结构中，同时读出的64位可能是第0 ~ 7单元、第8 ~ 15单元、…、第8×k~ 8×k+7单元，以此类推。因此，如果访问的一个int型数据不对齐，假定在第6、7、8、9这四个存储单元中，则需要访问两次存储器；如果数据对齐的话，即起始地址是4的倍数，则只要访问一次即可。这就是数据需要对齐的原因。</p></blockquote>
+<p>若一个$2^{n} \times b$位DRAM芯片的存储阵列是 <code>r</code>行×<code>c</code>列，则该芯片容量为$2^{n}\times b$位且$2^{n}=r\times c$,芯片内的地址位数为n,其中行地址位数为$log_2r$,列地址位数为$log_2c$,n位地址中==高位部分为行地址，低位部分为列地址==。为提高DRAM芯片的性价比，通常设置的r和c满足r≤c且r-c最小。例如，对于8K×8位DRAM芯片，其存储阵列设置为2行×2列，因此行地址和列地址的位数分别为6位和7位，13位芯片内地址A<del>12</del>A<del>11</del>…A<del>1</del>A<del>0</del>。中，行地址为A<del>12</del>&hellip;A<del>7</del>,列地址为A<del>6</del>…A<del>1</del>A<del>0</del>。</p>
+<p>下图是DRAM芯片内部结构示意图。图中芯片容量为16×8位，存储阵列为4行×4列，地址引脚采用复用方式，因而仅需2根地址引脚，在RAS和CAS的控制下分时传送2位行地址和2位列地址。每个超元(supercell)有8位，需8根数据引脚，有一个内部行缓冲(row buffer),用来缓存指定行中每一列的数据，通常用SRAM元件实现。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/28_19_13_37_202409281913591.png" alt="DRAM芯片内部结构示意图"></p>
+<p>下图是DRAM芯片读写原理示意图。图a反映存储控制器在RAS有效时将行地址“2”送到行译码器后选中第“2”行时的状态，此时，整个一行数据被送到内部行缓冲中。图b反映存储控制器在CAS有效时将列地址“1”送到列译码器后选中第“1”列时的状态，此时，将内部行缓冲中第“1”列的8位数据超元（2,1)读到数据线，并继续向CPU传送。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/28_19_20_11_202409281920025.png" alt="image-20240928192010650"></p>
+<h3 id="装入指令和存储指令操作过程">
+<a class="header-anchor" href="#%e8%a3%85%e5%85%a5%e6%8c%87%e4%bb%a4%e5%92%8c%e5%ad%98%e5%82%a8%e6%8c%87%e4%bb%a4%e6%93%8d%e4%bd%9c%e8%bf%87%e7%a8%8b"></a>
+装入指令和存储指令操作过程
+</h3><p>访存指令主要有两类：</p>
+<ol>
+<li>装入(load)指令：用于将存储单元内容装入CPU的寄存器中，如IA-32中的 <code>movl 8(%ebp),%eax</code>指令等；</li>
+<li>存储（store）指令：用于将CPU寄存器内容存储到存储单元中，如IA-32中的 <code>movl %eax, 8(%ebp)</code>指令等。</li>
+</ol>
+<blockquote>
+<p>==装入指令==</p>
+<p>假定装入指令 <code>movl 8(%ebp),%eax</code>中存储器操作数 <code>8(%ebp)</code>对应的主存地址为A,则取数过程为：</p>
+<ol>
+<li>
+<p>CPU将主存地址A通过总线接口送到地址线，然后由存储控制器将地址A分解成行、列地址按分时方式送DRAM芯片；</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_13_15_202411061413047.png" alt="CPU通过地址线将地址A传送到主存"></p>
+</li>
+<li>
+<p>主存将地址A中的数据x通过数据线送到总线接口部件中；</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_16_30_202411061416997.png" alt="主存将A中的数据x读出，传送到数据线上"></p>
+</li>
+<li>
+<p>CPU从总线接口部件中取出x存放到寄存器EAX中。实际上，上述过程的第一步同时还会把“存储器读”控制命令通过控制线送到主存。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_19_4_202411061419344.png" alt="从主存单元取数到寄存器的操作过程"></p>
+</li>
+</ol></blockquote>
+<blockquote>
+<p>==存储指令==</p>
+<p>假定存储指令 <code>movl %eax,8(%ebp)</code>中主存操作数 <code>8(%ebp)</code>的主存地址为A。则存数的过程为：</p>
+<ol>
+<li>
+<p>CPU将主存地址A通过总线接口送到地址线，然后由存储控制器将地址A分解成行、列地址按分时方式送DRAM芯片；</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_24_51_202411061424958.png" alt="CPU通过地址线将地址A传送给主存"></p>
+</li>
+<li>
+<p>CPU将寄存器EAX中的数据y通过总线接口部件送到数据线；</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_26_5_202411061426824.png" alt="CPU将数据y传送到数据线"></p>
+</li>
+<li>
+<p>主存将数据线上的y存到主存单元A中。实际上，上述过程的第一步同时还会把“存储器写&rsquo;”控制命令通过控制线送到主存。而且，第二步将数据y送数据线也可以和第一步同时进行。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_28_27_202411061428492.png" alt="主存将数y存放到主存单元A中"></p>
+</li>
+</ol></blockquote>
+<h2 id="硬盘存储器">
+<a class="header-anchor" href="#%e7%a1%ac%e7%9b%98%e5%ad%98%e5%82%a8%e5%99%a8"></a>
+硬盘存储器
+</h2><h3 id="磁盘存储器结构">
+<a class="header-anchor" href="#%e7%a3%81%e7%9b%98%e5%ad%98%e5%82%a8%e5%99%a8%e7%bb%93%e6%9e%84"></a>
+磁盘存储器结构
+</h3><p>磁盘存储器主要由以下部件组成：</p>
+<ol>
+<li>磁记录介质</li>
+<li>磁盘驱动器：磁盘驱动器包括读写电路、读/写转换开关、读/写磁头与磁头定位伺服系统。</li>
+<li>磁盘控制器：磁盘控制器(disk controller)包括控制逻辑、时序电路、“并→串”转换和“串→并”转换电路</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_14_35_13_202411061435294.png" alt="磁盘驱动器的物理组成"></p>
+<p>磁盘驱动器主要由多张硬盘片、主轴、主轴电机、移动臂、磁头和控制电路等部分组成，通过接口与磁盘控制器连接。</p>
+<ul>
+<li>
+<p>每个盘片的两个面上各有一个磁头，因此，磁头号就是盘面号。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_15_1_51_202411061501172.png" alt="盘面"></p>
+</li>
+<li>
+<p>磁头和盘片相对运动形成的圆构成一个磁道(tack),磁头位于不同的半径上，则得到不同的磁道。</p>
+</li>
+<li>
+<p>信息存储在盘面的磁道上，而每个磁道被分成若干扇区(sector),以扇区为单位进行磁盘读写。</p>
+<p><img src="#ZgotmplZ" alt="扇区"></p>
+</li>
+<li>
+<p>多个盘片上相同磁道形成一个柱面(cylinder),所以，磁道号就是柱面号。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_15_3_45_202411061503735.png" alt="柱面"></p>
+</li>
+<li>
+<p>在读写磁盘时，总是写完一个柱面上所有的磁道后，再移到下一个柱面。磁道从外向里编址，==最外面的为磁道0==。</p>
+</li>
+</ul>
+<p>磁盘读写是指根据主机访问控制字中的盘地址（柱面号、磁头号、扇区号）读写目标磁道中的指定扇区。因此，其操作可归纳为寻道、旋转等待和读写三个步骤。</p>
+<ol>
+<li>寻道操作：磁盘控制器把盘地址送到磁盘驱动器的磁盘地址寄存器后，便产生==寻道命令==，启动磁头定位伺服系统，根据磁头号和柱面号，选择指定的磁头移动到指定的柱面。此操作完成后，发出寻道结束信号给磁盘控制器，并转入旋转等待操作。</li>
+<li>旋转等待操作：盘片旋转时，首先将扇区计数器清零，以后每来一个扇区标志脉冲，扇区计数器加1，把计数内容与磁盘地址寄存器中的扇区地址进行比较，如果一致，则输出扇区符合信号，说明要读写的信息已经转到磁头下方。</li>
+<li>读写操作：扇区符合信号送给磁盘控制器后，磁盘控制器的读写控制电路开始动作。如果是写操作，就将数据送到写入电路，写入电路根据记录方式生成相应的写电流脉冲；如果是读操作，则由读出放大电路读出内容送磁盘控制器。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_15_6_36_202411061506264.png" alt="磁盘驱动器的内部逻辑结构"></p>
+<p>磁盘控制器是主机与磁盘驱动器之间的接口。磁盘存储器是高速外设，所以磁盘控制器和主机之间采用成批数据交换方式。</p>
+<p>数据在磁盘上的记录格式分定长记录格式和不定长记录格式两种。目前大多采用定长记录格式。最早的硬盘由BM公司开发，称为温切斯特盘(Winchester是一个地名)，简称温盘，它是几乎所有现代硬盘产品的原型，它采用定长记录格式。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_15_18_17_202411061518826.png" alt="温切斯特磁盘的磁道记录格式"></p>
+<p>温切斯特盘的每个磁道由若干个扇区（也称扇段）组成，每个扇区记录一个数据块，每个扇区由头空（间隙1）、ID域、间隙2、数据域和尾空（间隙3）组成。头空占17个字节，不记录数据，用全1表示，磁盘转过该区域的时间是留给磁盘控制器作准备用的；D域由同步字节、磁道号、磁头号、扇段号和相应的CRC码组成，同步字节标志D域的开始；数据域占515个字节，由同步字节、数据和相应的CRC码组成，其中真正的数据区占512字节；尾空是在数据块的CRC码后的区域，占20个字节，也用全1表示。</p>
+<h3 id="磁盘存储器的连接">
+<a class="header-anchor" href="#%e7%a3%81%e7%9b%98%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e8%bf%9e%e6%8e%a5"></a>
+磁盘存储器的连接
+</h3><p>现代计算机中，通常将复杂的磁盘物理扇区抽象成固定大小的逻辑块，物理扇区和逻辑块之间的映射由磁盘控制器来维护。磁盘控制器是一个内置固件的硬件设备，它能将主机送来的请求逻辑块号转换为磁盘的物理地址（柱面号、磁头号、扇区号），并控制磁盘驱动器进行相应的动作。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_15_26_12_202411061526646.png" alt="磁盘与CPU、主存的连接"></p>
+<p>磁盘控制器连接在I/O总线上，I/O总线与其他系统总线（如处理器总线、存储器总线)之间用桥接器连接。磁盘驱动器与磁盘控制器之间的接口有多种，一般文件服务器使用SCSI接口，而普通的PC前些年多使用==并行ATA(即IDE)接口==，目前大多使用==串行ATA(即SATA)接口==。</p>
+<p>磁盘与主机交换数据的最小单位是扇区，因此，磁盘总是按成批数据交换方式进行读写，这种高速成批数据交换设备采用直接存储器存取(Direct Memory Access,DMA)方式进行数据的输入输出。该输入输出方式用专门的DMA接口硬件来控制外设与主存间的直接数据交换，数据不通过CPU。通常把专门用来控制总线进行DMA传送的接口硬件称为DMA控制器。在进行DMA传送时，CPU让出总线控制权，由DMA控制器控制总线，通过“窃取”一个主存周期完成和主存之间的一次数据交换，或独占若干个主存周期完成一批数据的交换。</p>
+<h3 id="固态硬盘">
+<a class="header-anchor" href="#%e5%9b%ba%e6%80%81%e7%a1%ac%e7%9b%98"></a>
+固态硬盘
+</h3><p>近年来，一种称为==固态硬盘==(Solid State Disk,简称SSD)的新产品开始在市场上出现(也被称为电子硬盘)。这种硬盘并不是一种磁表面存储器，而是一种使用NAND闪存组成的外部存储系统，与U盘并没有本质差别，只是容量更大，存取性能更好。它用闪存颗粒代替了磁盘作为存储介质，利用闪存的特点，以区块写入和擦除的方式进行数据的读取和写入。</p>
+<p>固态硬盘的接口规范和定义、功能及使用方法与传统硬盘完全相同，在产品外形和尺寸上也与普通硬盘一致。目前接口标准使用USB、SATA和IDE,因此SSD通过标准磁盘接口与I/O总线互连。在SSD中有一个==闪存翻译层==，它将来自CPU的逻辑磁盘块读写请求翻译成对底层SSD物理设备的读写控制信号。因此，这个闪存翻译层相当于磁盘控制器。</p>
+<p>SSD中一个闪存芯片由若干个区块组成，每个区块由若干页组成。通常，页大小为512B ~ 4KB,每个区块由32 ~ 128个页组成，因而区块大小为16KB ~ 512KB。数据可以按页为单位进行读写。当需要写某页信息时，必须先对该页所在的区块进行擦除操作。一旦一个区块被擦除过，区块中的每一页就可以直接再写一次。若某一区块进行了大约100000次重复写之后，就会被磨损而变成坏的区块，不能再被使用。因此，闪存翻译层中有一个专门的均化磨损(wear leveling)逻辑电路，试图将擦除操作平均分布在所有区块上，以最大限度地延长SSD的使用寿命。</p>
+<p>电信号的控制使得固态硬盘的内部传输速率远远高于常规硬盘。SSD随机读访问时间（延时)大约为几十微秒，而随机写的访问时间（延时）大约为几百微秒。硬盘由于需要寻道和旋转等待，所以其访问时间大约是几毫秒到几十毫秒，因此，SSD随机读写延时比硬盘要低两个数量级。有测试显示，使用固态硬盘以后，Windows的开机速度可以提升至20秒以内，这是基于常规硬盘的计算机系统难以达到的速度性能。</p>
+<p>与常规硬盘相比，除速度性能外，固态硬盘还具有抗震性好、安全性高、无噪声、能耗低、发热量低和适应性高的特点。由于不需要电机、盘片、磁头等机械部分，固态硬盘工作过程中没有任何机械运动和震动，因而抗震性好，使数据安全性成倍提高，并且没有常规硬盘的噪声；由于不需要电机，固态硬盘的能耗也得到了成倍的降低，只有传统硬盘的1/3甚至更低，延长了靠电池供电的设备的连续运转时间；而且由于没有电机等机械部件，其发热量大幅降低，延长了其他配件的使用寿命。此外，固态硬盘的工作温度范围很宽(-40~85℃)，因此，其适应性上也远高于常规硬盘。固态硬盘在刚出现时与最高速的常规硬盘相比在读写性能方面各有上下，而且价格也较高。但随着相应技术的不断发展，目前固态硬盘的读写性能基本上超越了常规硬盘，且价格也不断下降。由于固态硬盘具有以上优点，加上其今后的发展潜力比传统硬盘要大得多，因而固态硬盘有望逐步取代传统硬盘。</p>
+<h2 id="高速缓冲存储器">
+<a class="header-anchor" href="#%e9%ab%98%e9%80%9f%e7%bc%93%e5%86%b2%e5%ad%98%e5%82%a8%e5%99%a8"></a>
+高速缓冲存储器
+</h2><p>由于CPU和主存所使用的半导体器件工艺不同，两者速度上的差距导致快速的CPU等待慢速的主存储器，为此需要想办法提高CPU访问主存的速度。除了提高DRAM芯片本身的速度和采用并行结构技术以外，加快CPU访存速度的主要方式之一是在CPU和主存之间增加高速缓冲存储器（简称高速缓存或cache)。</p>
+<h3 id="程序访问的局部性">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%bf%e9%97%ae%e7%9a%84%e5%b1%80%e9%83%a8%e6%80%a7"></a>
+程序访问的局部性
+</h3><p>对大量典型程序运行情况分析的结果表明，在较短时间间隔内，程序产生的地址往往集中在存储空间的一个很小范围，这种现象称为程序访问的局部性。这种局部性可细分为时间局部性和空间局部性：</p>
+<ol>
+<li>时间局部性是指被访问的某个存储单元在一个较短的时间间隔内很可能又被访问。</li>
+<li>空间局部性是指被访问的某个存储单元的邻近单元在一个较短的时间间隔内很可能也被访问。</li>
+</ol>
+<p>出现程序访问的局部性特征的原因不难理解：程序是由指令和数据组成的，指令在主存按顺序存放，其地址连续，循环程序段或子程序段通常被重复执行，因此，指令具有明显的访问局部化特征；而数据在主存一般也是连续存放，特别是数组元素，常常被按序重复访问，因此，数据也具有明显的访问局部化特征。</p>
+<p>例如，以下是一个C高级语言程序段。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sum</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="err">；</span>
+</span></span><span class="line"><span class="cl"><span class="o">*</span><span class="n">v</span> <span class="o">=</span> <span class="n">sum</span><span class="p">;</span>
+</span></span></code></pre></div><p>上述程序段对应的汇编程序段可由10条指令组成，用中间语言描述如下。</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">I0 	sum &lt;- 	0
+</span></span><span class="line"><span class="cl">I1	ap	&lt;-	A	;A是数组的起始地址
+</span></span><span class="line"><span class="cl">12	i	&lt;-	0
+</span></span><span class="line"><span class="cl">I3	if (i &gt;= n)	goto done
+</span></span><span class="line"><span class="cl">I4	loop:	t	&lt;-	(ap)	;数组元素a[i]的值
+</span></span><span class="line"><span class="cl">I5	sum	&lt;-	sum + t	;累加值在sum中
+</span></span><span class="line"><span class="cl">I6	ap	&lt;-	ap + 4	;计算下一个数组元素的地址
+</span></span><span class="line"><span class="cl">I7	i	&lt;-	i + 1
+</span></span><span class="line"><span class="cl">I8	if (i &lt; n)	goto loop
+</span></span><span class="line"><span class="cl">I9	done:	V	&lt;-	sum	;累加结果保存至地址V
+</span></span></code></pre></div><p>上述描述中的变量sum、ap、i、n、t均可认为存放在通用寄存器中，A和V为主存地址。假定每条指令占4字节，每个数组元素占4字节，按字节编址，则指令和数组元素在主存中的存放情况如下图所示：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/8_8_27_58_202502080827954.png" alt="指令和数组在主存的存放"></p>
+<p>在程序执行过程中，首先，按指令I0 ~ I3的顺序执行，然后，指令 I4 ~ I8按顺序被循环执行n次。只要n足够大，程序在一段时间内，就一直在该局部区域内执行。对于取指令来说，程序对主存的访问过程是：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/8_8_35_15_202502080835193.png" alt="程序对主存的访问过程"></p>
+<p>上述程序对数组的访问在指令I4中进行，每次循环数组下标加4，即每次按4字节连续访问主存。因为数组元素在主存按a[0],a[1],…,a[n-1]的顺序连续存放，所以，该程序对数据的访问过程是：</p>
+$$
+0x400 \to 0x404 \to 0x408 \to 0x40C \to .... \to 0x7A4
+$$<p>由此可见，在一段时间内，访问的数据也在局部的连续区域内。为了更好地利用程序访问的空间局部性，通常把当前访问单元以及邻近单元作为一个主存块一起调人cache。这个主存块的大小以及程序对数组元素的访问顺序等都对程序的性能有一定的影响。</p>
+<h3 id="cache的基本工作原理">
+<a class="header-anchor" href="#cache%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86"></a>
+cache的基本工作原理
+</h3><p>cache是一种小容量高速缓冲存储器，由快速的SRAM组成，直接制作在CPU芯片内，速度较快，几乎与CPU处于同一个量级。在CPU和主存之间设置cache,总是把主存中被频繁访问的活跃程序块和数据块复制到cache中。由于程序访问的局部性，大多数情况下，CPU能直接从cache中取得指令和数据，而不必访问慢速的主存。</p>
+<p>为便于cache和主存间交换信息，cache和主存空间都被划分为相等的区域。例如，将主存按照每512字节划分成一个区域，同时把cache也划分成同样大小的区域，这样主存中的信息就可按照512字节为单位送到cache中。我们把主存中的区域称为块(block),也称为主存块，它是cache和主存之间的信息交换单位；cache中存放一个主存块的区域称为行(line)或槽(slot),也称cache行（槽）。</p>
+<h4 id="cache的有效位">
+<a class="header-anchor" href="#cache%e7%9a%84%e6%9c%89%e6%95%88%e4%bd%8d"></a>
+cache的有效位
+</h4><p>在系统启动或复位时，每个cache行都为空，其中的信息无效，只有在cache行中装入了主存块后才有效。为了说明cache行中的信息是否有效，每个cache行需要一个“有效位”(valid bit)。有了有效位，就可通过将有效位清0来淘汰某cache行中的主存；装人一个新主存块时，再使有效位置1。</p>
+<h4 id="cpu在cache中的访问过程">
+<a class="header-anchor" href="#cpu%e5%9c%a8cache%e4%b8%ad%e7%9a%84%e8%ae%bf%e9%97%ae%e8%bf%87%e7%a8%8b"></a>
+CPU在cache中的访问过程
+</h4><p>CPU执行程序过程中，需要从主存取指令或读写数据时，先检查cache中有没有要访问的信息，若有，就直接在cache中读写，而不用访问主存储器；若没有，再从主存中把当前访问信息所在的一个主存块复制到cache中，因此，==cache中的内容是主存中部分内容的副本==。下图给出了带cache的CPU执行一次访存操作的过程。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/9_8_32_50_202502090832145.png" alt="带cache的CPU的访存操作过程"></p>
+<p>整个访存过程包括：判断信息是否在cache中，从cache取信息或从主存取一个主存块到cache等，在对应cache行已满的情况下还要替换cache中的信息。这些工作要求在一条指令执行过程中完成，因而只能由硬件来实现。cache对程序员来说是透明的，程序员编程时根本不知道有cache的存在，更不用考虑信息存放在主存还是在cache,因此，cache位于微体系结构层面。在ISA层面，需要考虑提供“刷新cache”等特权指令，这些指令只能在操作系统内核态使用。</p>
+<h4 id="访问时间">
+<a class="header-anchor" href="#%e8%ae%bf%e9%97%ae%e6%97%b6%e9%97%b4"></a>
+访问时间
+</h4><p>在访存过程中，需要判断所访问信息是否在cache中。</p>
+<ol>
+<li>
+<p>若CPU访问单元所在的主存块在cache中，则称cache命中(hit),命中的概率称为命中率p(hit rate),它等于命中次数与访问总次数之比；</p>
+</li>
+<li>
+<p>若不在cache中，则为不命中(miss)，其概率称为缺失率(miss rate),它等于不命中次数与访问总次数之比。</p>
+</li>
+<li>
+<p>命中时，CPU在cache中直接存取信息，所用的时间开销就是cache访问时间$T_c$。,称为命中时间(hit time);</p>
+</li>
+<li>
+<p>缺失时，需要从主存读取一个主存块送cache,并同时将所需信息送CPU,因此，所用时间开销为主存访问时间$T_m$和cache访问时间$T_c$之和。通常把从主存读入一个主存块到cache的时间$T_m$称为缺失损失(miss penalty)。CPU在cache-主存层次的平均访问时间为：</p>
+$$
+   T_a = p \times T_c + (1 - p) \times（T_m + T_c) = T_c + (1-p) \times T_m
+   $$<p>由于程序访问的局部性特点，cache的命中率可以达到很高，接近于1。因此，虽然缺失损失 &raquo; 命中时间，但最终的平均访问时间仍可接近cache的访问时间。</p>
+</li>
+</ol>
+<h3 id="cache行和主存块的映射">
+<a class="header-anchor" href="#cache%e8%a1%8c%e5%92%8c%e4%b8%bb%e5%ad%98%e5%9d%97%e7%9a%84%e6%98%a0%e5%b0%84"></a>
+cache行和主存块的映射
+</h3><p>cache行中的信息取自主存中的某个块。在将主存块复制到cache行时，主存块和cache行之间必须遵循一定的映射规则，这样，CPU要访问某个主存单元时，可以依据映射规则到cache对应的行中查找要访问的信息，而不用在整个cache中查找。</p>
+<p>根据不同的映射规则，主存块和cache行之间有以下三种映射方式：</p>
+<ol>
+<li>直接(direct)：每个主存块映射到cache的固定行中。</li>
+<li>全相联（full associate)：每个主存块映射到cache的任意行中。</li>
+<li>组相联(set associate)：每个主存块映射到cache的固定组的任意行中。</li>
+</ol>
+<h4 id="直接映射">
+<a class="header-anchor" href="#%e7%9b%b4%e6%8e%a5%e6%98%a0%e5%b0%84"></a>
+直接映射
+</h4><p>直接映射的基本思想是，把主存每一块映射到一个固定cache行中，也称模映射，其映射关系如下：</p>
+$$
+cache行号=主存块号 \quad mod \quad cache行数
+$$<p>例如，假定cache共有16行，根据100 mod 16=4,可知主存第100块应映射到cache的第4行中。</p>
+<p>直接映射方式下，主存地址被分成标记、cache行号和块内地址三个字段：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/10_8_15_51_202502100815010.png" alt="cache映射"></p>
+<p>假定cache共有$2^c$行，主存共有$2^m$块，主存块大小占$2^b$字节，按字节编址，则cache行号占c位、主存块号占m位，块内地址有b位。因为m位主存块号被分解成标记字段和cache行号字段，因而标记字段占$t=m-c$位。</p>
+<p>下图给出了直接映射方式下主存块和cache行之间的映射示意：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/10_8_29_29_202502100829677.png" alt="cache和主存间的映射关系"></p>
+<p>图中主存第0、1、…、$2^c-1$块分别映射到cache第0、1、…、$2^c-1$行；主存第$2^c$、$2^c+1$、…、$2^{c+1}-1$块也分别映射到cache第0、1、&hellip;.$2^c-1$行；等等。每个cache行中还应包含一个有效位，上图的cache行中省略了有效位。</p>
+<p>直接映射方式下，CPU访存过程如下图所示：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/10_8_36_58_202502100836542.png" alt="CPU访存过程"></p>
+<p>首先根据主存地址中间的c位，直接找到对应的cache行，将对应cache行中的标记和主存地址的高t位标记进行比较，若相等且有效位为1，则访问cache“命中”，此时，根据主存地址中低b位的块内地址，在对应的cache行中存取信息；若不相等或有效位为0，则cache“缺失”，此时，CPU从主存中读出该主存地址所在的一块信息通过系统总线送到对应的cche行中，将有效位置1，并将标记设置为该地址的高t位，同时将该地址中的内容送CPU。</p>
+<p>CPU访存时，读操作和写操作的过程有一些不同，相对来说，读操作比写操作简单。因为cache行中的信息是某主存块的副本，所以，在写操作时会出现cache行和主存块数据的一致性问题。</p>
+<p>直接映射的优点是容易实现，命中时间短，但由于多个块号“同余”的主存块只能映射到同一个cache行，当访问集中在“同余”的主存块时，就会引起频繁的调进调出，即使其他cache行都空闲，也毫无帮助。很显然，直接映射方式不够灵活，使得cache存储空间得不到充分利用，命中率较低。</p>
+<h4 id="全相联映射">
+<a class="header-anchor" href="#%e5%85%a8%e7%9b%b8%e8%81%94%e6%98%a0%e5%b0%84"></a>
+全相联映射
+</h4><p>全相联映射的基本思想是一个主存块可装人cache任意一行中。全相联映射cache中，每行的标记用于指出该行取自主存的哪个块。因为一个主存块可能在任意一个cache行中，所以，需要比较所有cache行的标记，因此，主存地址中不需要cache行索引，只有标记和块内地址两个字段。全相联映射方式下，只要有空闲cache行，就不会发生冲突，因而块冲突概率低。</p>
+<blockquote>
+<p><strong>例子</strong></p>
+<p>假定主存按字编址，主存块与cache行之间采用全相联映射，块大小为512字。cache数据区容量为8K字，主存地址空间为1M字。问：主存地址如何划分？说明CPU对主存单元0240CH的访问过程。</p>
+<p>cache数据区容量为8K字=$2^{13}$字=$2^4$行×512字/行=16行×$2^9$字/行。主存地址空间为1M字=$2^{20}$字=$2^{11}$块×512字/块。20位的主存地址划分为两个字段：标记位数t为11，块内地址位数b为9。</p>
+<p>主存地址划分以及主存块和cache行之间的对应关系如下图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/11_9_0_17_202502110900654.png" alt="全相联cache映射关系"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/11_9_1_37_202502110901289.png" alt="全相联数据格式"></p>
+<p>主存地址0240CH展开为二进制数为0000 0010 0100 0000 1100，所以主存地址划分为：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/11_9_4_3_202502110904600.png" alt="数据展开"></p>
+<p>访问0240CH单元的过程为：首先将高11位标记00000010010与cache中每个行的标记进行比较，若有一个相等并且对应有效位为1，则命中，此时，CPU根据块内地址000001100从该行中取出信息；若都不相等，则不命中，此时，需要将0240CH单元所在的主存第00000010010块（即第18块）复制到cache的任何一个空闲行中，并置有效位为.1，置标记为00000010010(表示信息取自主存第18块)。</p></blockquote>
+<p>为了加快比较的速度，通常每个cache行都设置一个比较器，比较器位数等于标记字段的位数。全相联cache访存时根据标记字段的内容来访问cache行中的主存块，它查找主存块的过程是一种“按内容访问”的存取方式，因此，它是一种“相联存储器”。全相联映射方式的时间开销和所用元件开销都较大，实现起来比较困难，不适合容量较大的cache。</p>
+<h4 id="组相联映射">
+<a class="header-anchor" href="#%e7%bb%84%e7%9b%b8%e8%81%94%e6%98%a0%e5%b0%84"></a>
+组相联映射
+</h4><p>前面介绍了直接映射和全相联映射，它们的优缺点正好相反，两者结合可以取长补短。将两种方式结合起来产生组相联映射方式。</p>
+<p>组相联映射的主要思想是，将cache分成大小相等的组，每个主存块被映射到cache固定组中的任意一行，也即采用组间模映射、组内全映射的方式。映射关系如下：</p>
+$$
+cache组号=主存块号 \quad mod \quad cache组数
+$$<p>若cache共16行，分成8组，则每组有2行，此时，主存第100块应映射到cache第4组的任意一行中，因为100 mod 8=4。</p>
+<p>组相联方式下，主存地址被划分为标记、cache组号和块内地址三个字段。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/12_8_20_4_202502120820385.png" alt="组相联数据格式"></p>
+<p>假定cache共有$2^c$行，被分成$2^q$组，则每组有$2^c/2^q=2^{c-q}$行。设s=c-q,则cache映射方式称为$2^s$路组相联映射，即s=1为2路组相联；s=2为4路组相联，以此类推。若主存共有$2^m$块，主存块大小占2字节，按字节编址，则块内地址有b位，cache组号有g位，标记和cache组号共m位，因而标记占t=m-q位。</p>
+<p>s的选取决定了块冲突的概率和相联比较的复杂性。s越大，则cache发生块冲突的概率越低，而相联比较的电路越复杂。选取适当的s，可使组相联映射的成本比全相联的低得多，而性能上仍可接近全相联方式。早几年，由于cache容量不大，所以通常s=1或2，即2路或4路组相联较常用，但随着技术的发展，cache容量不断增加，s的值有增大的趋势，目前有许多处理器的cache采用8路或16路组相联方式。</p>
+<p>下图所示的是采用2路组相联映射的cache,其中每个cache行都有对应的有效位V、标记Tag和数据Data。整个访存过程为：</p>
+<ol>
+<li>根据主存地址中的cache组号找到对应组；</li>
+<li>将主存地址中的标记与对应组中每个行的标记Tag进行比较；</li>
+<li>将比较结果和有效位V相“与”；</li>
+<li>若有一路比较相等并有效位为1，则输出“Hit”(命中)为1，并选中这一路cache行中的主存块；</li>
+<li>在“Hit”为1的情况下，根据主存地址中的块内地址从选中的一块内取出对应单元的信息，若“Hit”不为1,则CPU要到主存去读一块信息到cache行中。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/12_8_33_26_202502120833789.png" alt="组相联映射方式的硬件实现"></p>
+<p>组相联映射方式结合了直接映射和全相联映射的优点。当cache的组数为1时，变为全相联映射；当每组只有一个cache行时，则变为直接映射。组相联映射的冲突概率比直接映射低，由于只有组内各行采用全相联映射，所以比较器的位数和个数都比全相联映射少，易于实现，查找速度也快得多。</p>
+<h3 id="cache中主存块的替换方法">
+<a class="header-anchor" href="#cache%e4%b8%ad%e4%b8%bb%e5%ad%98%e5%9d%97%e7%9a%84%e6%9b%bf%e6%8d%a2%e6%96%b9%e6%b3%95"></a>
+cache中主存块的替换方法
+</h3><p>cache行数比主存块数少得多，因此，往往多个主存块会映射到同一个cache行中。当新的一个主存块复制到cache时，cache中的对应行可能已经全部被占满，此时，必须选择淘汰掉一个cache行中的主存块。</p>
+<p>例如，现有2路组相联映射cache,假定第0组的两个cache行分别被主存第0块和第8块占满，此时若需调入主存第16块，根据映射关系，它只能存放到cache第0组，因此，已经在第0组的主存第0块和第8块这两个主存块，必须选择调出其中的一块。到底调出哪一块呢？这就是淘汰策略问题，也称为替换算法或替换策略。</p>
+<p>常用的替换算法有：先进先出(first-In-First-Out,简称FIFO)、最近最少用（Least-Recently Used,简称LRU)、最不经常用(Least-Frequently Used,简称LFU)和随机替换等。可以根据实现的难易程度以及是否能获得较高的命中率这两方面来决定采用哪种算法。</p>
+<p>==先进先出==</p>
+<p>FIFO算法的基本思想是：总是选择最早装入cache的主存块被替换掉。这种算法实现起来较方便，但不能正确反映程序的访问局部性，由于最先进入的主存块也可能是目前经常要用的，因此，这种算法有可能产生较大的缺失率。</p>
+<p>==最近最少==</p>
+<p>LRU算法的基本思想是：总是选择近期最少使用的主存块被替换掉。这种算法能比较正确地反映程序的访问局部性，因为当前最少使用的块一般来说也是将来最少被访问的。它的实现比FIFO算法要复杂一些。采用LRU算法的每个cache行有一个计数器，用计数值来记录主存块的使用情况，通过硬件修改计数值，并根据计数值选择淘汰某个cache行中的主存块。这个计数值称为LRU位，其位数与cache组大小有关。2路组相联时有1位LRU位，4路组相联时有2位LRU位。</p>
+<p>为简化上述LRU位计数的硬件实现，通常采用一种近似的LRU位计数方式来实现LRU算法。近似LRU计数方法仅区分哪些是新调入的主存块，哪些是较长时间未用的主存块，然后，在较长时间未用的块中选择一个被替换出去。</p>
+<p>==最不经常用==</p>
+<p>LFU算法的基本思想是：替换掉cache中引用次数最少的块。LFU也用与每个行相关的计数器来实现。这种算法与LRU有点类似，但不完全相同。</p>
+<p>==随机替换==</p>
+<p>从候选行的主存块中随机选取一个淘汰掉，与使用情况无关。模拟试验表明，随机替换算法在性能上只稍逊于基于使用情况的算法，而且代价低。</p>
+<h3 id="cache一致性问题">
+<a class="header-anchor" href="#cache%e4%b8%80%e8%87%b4%e6%80%a7%e9%97%ae%e9%a2%98"></a>
+cache一致性问题
+</h3><p>由于cache中的内容是某些主存块的副本，因此，当CPU进行写操作需对cache中的内容进行更新时，就存在cache和主存如何保持一致的问题。除此之外，以下情况也会出现cache一致性问题：</p>
+<ol>
+<li>当多个设备都允许访问主存时。例如，像磁盘这类高速I/O设备可通过DMA方式直接与主存交换数据，如果cache中的内容被CPU修改而主存块没有更新的话，则从主存传送到I/O设备的内容就无效；若I/O设备修改了主存块的内容，则对应cache行中的内容就
+无效。</li>
+<li>当多个CPU都带有各自的cache而共享主存时。在多CPU系统中，若某个CPU修改了自身cache中的内容，则对应的主存块和其他CPU中对应的cache行的内容都变为无效。</li>
+</ol>
+<p>解决cache一致性问题的关键是处理好写操作。通常有两种写操作方式：</p>
+<ol>
+<li>全写法</li>
+<li>回写法</li>
+</ol>
+<h4 id="全写法">
+<a class="header-anchor" href="#%e5%85%a8%e5%86%99%e6%b3%95"></a>
+全写法
+</h4><p>全写法(write through)的基本做法是：当CPU执行写操作时，若写命中，则同时写cache和主存；若写不命中，则有以下两种处理方式：</p>
+<ol>
+<li>写分配法（write allocate)。先在主存块中更新相应存储单元，然后分配一个cache行，将更新后的主存块装入分配的cache行中。这种方式可以充分利用空间局部性，但每次写不命中都要从主存读一个块到cache中，增加了读主存块的开销。</li>
+<li>非写分配法(not write allocate)。仅更新主存单元而不把主存块装入cache中。这种方式可以减少读入主存块的时间，但没有很好利用空间局部性。</li>
+</ol>
+<p>由此可见，全写法实际上采用的是对主存块信息及其所有副本信息全都直接同步更新的做法，因此通常被称为通写法或直写法。</p>
+<p>显然，全写法在替换时不必将被替换的cache内容写回主存，而且cache和主存的一致性能得到充分保证。但是，这种方法会大大增加写操作的开销。例如，假定一次写主存需要100个CPU时钟周期，那么10%的存储(store)指令就使得CPU增加了100×10%=10个时钟周期。</p>
+<p>为了减少写主存的开销，通常在cache和主存之间加一个写缓冲(write buffer)。在CPU写cache的同时，也将信息写入写缓冲，然后由存储控制器将写缓冲中的内容写入主存。写缓冲是一个FIFO队列，一般只有几项，在写操作频率不是很高的情况下，因为CPU只需要将信息写入快速的写缓冲而不需要写慢速的主存，因而效果较好。但是，如果写操作频繁发生，则会使写缓冲饱和而发生阻塞。</p>
+<h4 id="回写法">
+<a class="header-anchor" href="#%e5%9b%9e%e5%86%99%e6%b3%95"></a>
+回写法
+</h4><p>回写法（write back)的基本做法是：当CPU执行写操作时，若写命中，则信息只被写入cache而不被写入主存；若写不命中，则在cache中分配一行，将主存块调入该cache行中并更新cache中相应单元的内容。因此，该方式下在写不命中时，通常采用写分配法进行写操作。</p>
+<p>在CPU执行写操作时，回写法不会更新主存单元，==只有当cache行中的主存块被替换时，才将该主存块内容一次性写回主存==。这种方式的好处在于减少了写主存的次数，因而大大降低了主存带宽需求。为了减少写回主存块的开销，每个cache行设置了一个修改位(dirty bit,有时也称为“脏位”)。若修改位为1，则说明对应cache行中的主存块被修改过，替换时需要写回主存；若修改位为0，则说明对应主存块未被修改过，替换时不需要写回主存。</p>
+<p>由此可见，该方式实际上采用的是回头再写或最后一次性写的做法，因此通常被称为回写法或一次性写方式。由于回写法没有同步更新cache和主存内容，所以存在cache和主存内容不一致而带来的潜在隐患。通常需要其他的同步机制来保证存储信息的一致性。</p>
+<h2 id="虚拟存储器">
+<a class="header-anchor" href="#%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8"></a>
+虚拟存储器
+</h2><p>目前计算机主存主要由DRAM芯片构成，由于技术和成本等原因，主存的存储容量受到限制，并且各种不同计算机所配置的物理内存容量多半也不相同，而程序设计时人们显然不希望受到特定计算机的物理内存大小的制约，因此，如何解决这两者之间的矛盾是一个重要问题；此外，现代操作系统都支持多道程序运行，如何让多个程序有效而安全地共享主存是另一个重要问题。</p>
+<p>为了解决上述两个问题，计算机中采用了虚拟存储技术。其基本思想是，程序员在一个不受物理内存空间限制并且比物理内存空间大得多的虚拟的逻辑地址空间中编写程序，就好像每个程序都独立拥有一个巨大的存储空间一样。程序执行过程中，把当前执行到的一部分程序和相应的数据调入主存，其他暂不用的部分暂时存放在硬盘上。</p>
+<h3 id="基本概念">
+<a class="header-anchor" href="#%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5"></a>
+基本概念
+</h3><p>在不采用虚拟存储机制的计算机系统中，CPU执行指令时，取指令和存取操作数所用的地址都是主存的物理地址，无须进行地址转换，因而计算机硬件结构比较简单，指令执行速度较快。实时性要求较高的嵌入式微控制器大多不采用虚拟存储机制。</p>
+<p>目前，在服务器、台式机和笔记本等各类通用计算机系统中都采用虚拟存储技术。在采用虚拟存储技术的计算机中，指令执行时，通过存储器管理部件(Memory Management Unit,简称==MMU==)将指令中的逻辑地址（也称虚拟地址或虚地址，简写为==VA==)转化为主存的物理地址(也称主存地址或实地址，简写为==PA==)。</p>
+<ul>
+<li>在地址转换过程中由硬件检查是否发生了访问信息不在主存或地址越界或访问越权等情况。</li>
+<li>若发现信息不在主存，则由操作系统将数据从硬盘读到主存。</li>
+<li>若发生地址越界或访问越权，则由操作系统进行相应的异常处理。</li>
+<li>由此可以看出，虚拟存储技术既解决了编程空间受限的问题，又解决了多道程序共享主存带来的安全等问题。</li>
+</ul>
+<p>下图是具有虚拟存储机制的CPU与主存的连接示意图，从图中可知，CPU执行指令时所给出的是指令或操作数的虚拟地址，需要通过MMU将虚拟地址转换为主存的物理地址才能访问主存，MMU包含在CPU芯片中。图中显示MMU将一个虚拟地址 <code>4100</code>转换为物理地址4，从而将第4、5、6、7这四个单元的数据组成4字节数据送到CPU。(其中没有考虑cache等情况。)</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_8_17_50_202502140817792.png" alt="具有虚拟存储机制的CPU和主存的连接"></p>
+<p>虚拟存储机制（简称虚存机制）由硬件与操作系统共同协作实现，涉及计算机系统许多层面，包括操作系统中的许多概念，如进程、存储器管理、虚拟地址空间、缺页处理等。</p>
+<p>==进程==是一个具有一定独立功能的程序关于某个数据集合的一次运行活动，简单来说，进程就是程序的一次执行过程。每一个进程都有它自己的地址空间，一般情况下，地址空间包括只读区（代码和只读数据）、可读可写数据区（初始化数据和未初始化数据）、动态的堆区和栈区。一个静态的程序（可执行目标文件）只有被加载运行后，它才成为一个活动的实体，才能被称为进程。进程是与一个用户程序（即应用程序）对应的概念，因此，很多时候也称其为用户进程。</p>
+<h3 id="虚拟地址空间">
+<a class="header-anchor" href="#%e8%99%9a%e6%8b%9f%e5%9c%b0%e5%9d%80%e7%a9%ba%e9%97%b4"></a>
+虚拟地址空间
+</h3><p>每个高级语言源程序经编译、汇编、链接等处理生成可执行的二进制机器目标代码时，都被映射到一个统一的虚拟地址空间。所谓“统一”是指不同的可执行文件所映射的虚拟地址空间大小一样，地址空间中的区域划分结构也相同。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_8_29_3_202502140829661.png" alt="Linux虚拟地址空间"></p>
+<p>上图给出了在IA-32+Linux系统中一个进程对应的虚拟地址空间映像。虚拟地址空间分为两大部分：</p>
+<ol>
+<li>内核虚拟存储空间，简称为内核空间(kernel space)。内核空间在0xc0000000以上的高端地址上，用来存放操作系统内核代码和数据等，
+其中内核代码和数据区在每个进程的地址空间中都相同。用户程序没有权限访问内核区。用户空间用来存放进程的代码和数据等，</li>
+<li>用户虚拟存储空间，简称为用户空间(user space)。用户空间用来存放进程的代码和数据等，它又被分为以下几个区域：
+<ol>
+<li>用户栈(user stack)。用来存放程序运行时过程调用的参数、返回地址、过程局部变量等，随着程序的执行，该区会不断动态地从高地址向低地址增长或向反方向减退。</li>
+<li>共享库(shared library)。用来存放公共的共享函数库代码，如hello中的printf()函数等。</li>
+<li>堆(heap)。用于动态申请存储区，例如，C语言中用malloc()函数分配的存储区，或C++中用new操作符分配的存储区。申请一块内存时，动态地从低地址向高地址增长，可用free()函数或delete操作符释放相应的一块内存区。</li>
+<li>可读写数据区。存放进程中的静态全局变量，堆区从该区域的结尾处开始向高地址增长。</li>
+<li>只读数据和代码区。存放进程中的代码和只读数据，如hello进程中的程序代码和字符串“hello,world\n”。</li>
+</ol>
+</li>
+</ol>
+<p>每个区域都有相应的起始位置：</p>
+<ul>
+<li>堆区和栈区相向生长，栈区从内核起始位置0xc0000000开始向低地址增长，栈区和堆区合起来称为堆栈。</li>
+<li>共享库映射区从0x40000000开始向高地址增长。</li>
+<li>只读代码区（代码和只读数据）从0x8048000开始向高地址增长。</li>
+</ul>
+<p>为了便于对存储空间的管理和存储保护，在确定存储器映像时，通常将内核空间和用户空间分在两端。在用户空间中又把动态区域和静态区域分在两端，动态区域中把过程调用时的动态局部信息（栈区）和动态分配的存储区（堆区）分在两端，静态区中把可读写数据区和只读代码区分在两端。这样的存储映像，便于每个区域的访问权限设置，因而有利于存储保护和存储管理。</p>
+<p>所有进程的虚拟地址空间大小和结构一致，这简化了链接器的设计和实现，也简化了程序的加载过程。</p>
+<p>虚拟存储管理机制为程序提供了一个极大的虚拟地址空间（也称为逻辑地址空间），它是主存和硬盘存储器的抽象。虚存机制带来了一个假象，使得每个进程好像都独占使用主存，并且主存空间极大。这有三个好处：</p>
+<ol>
+<li>每个进程具有一致的虚拟地址空间，从而可以简化存储管理；</li>
+<li>它把主存看成是硬盘存储器的一个缓存，在主存中仅保存当前活动的程序段和数据区，并根据需要在硬盘和主存之间进行信息交换，通过这种方式，使有限的主存空间得到了有效利用；</li>
+<li>每个进程的虚拟地址空间是私有的、独立的，因此，可以保护各自进程不被其他进程破坏。</li>
+</ol>
+<h3 id="虚拟存储器的实现">
+<a class="header-anchor" href="#%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e5%ae%9e%e7%8e%b0"></a>
+虚拟存储器的实现
+</h3><p>对照前面介绍的cache机制(==cache是主存的缓存==)，可以把DRAM构成的==主存看成是硬盘存储器的缓存==。因此，要实现虚拟存储器，也必须考虑交换块大小问题、映射问题、替换问题、写一致性问题等。根据对这些问题解决方法的不同，虚拟存储器分成三种不同类型：</p>
+<ol>
+<li>分页式</li>
+<li>分段式和段页式</li>
+<li>分页式虚拟存储器</li>
+</ol>
+<h4 id="分页式虚拟存储器">
+<a class="header-anchor" href="#%e5%88%86%e9%a1%b5%e5%bc%8f%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8"></a>
+分页式虚拟存储器
+</h4><p>在虚拟存储系统中，生成可执行文件时，会通过可执行文件中的程序头表，将可执行文件中具有相同访问属性的代码和数据段映射到虚拟地址空间中。</p>
+<p>如下图所示，每个用户程序都有各自独立的虚拟地址空间，用户程序以可执行文件方式存在磁盘上。假定某一时刻用户程序1、用户程序2和用户程序k都已经被加载到系统中运行，那么，在这一时刻主存中就会同时有这些用户程序中的代码和相应的数据。CPU在执行某个用户程序时，只知道该程序中指令和数据在虚拟地址空间中的地址，怎么知道到哪个主存单元去取指令或访问数据呢？可执行文件中的指令代码和数据都在磁盘中，如何建立磁盘物理空间中的指令代码及数据信息与主存物理空间之间的关联呢？</p>
+<p><code>&lt;a id=&quot;分页式虚拟存储管理&quot;&gt;&lt;/a&gt;</code></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/17_8_12_16_202502170812633.png" alt="分页式虚拟存储管理"></p>
+<p>在分页式虚拟存储系统中，虚拟地址空间被划分成大小相等的页面，硬盘和主存之间按==页面(page)==为单位交换信息。虚拟地址空间中的页称为虚拟页、逻辑页或虚页，简称为VP(Virtual Page)；主存空间也被划分成同样大小的页框（页帧），有时把页框也称为物理页或实页，简称为PF(Page Frame)或PP(Physical Page)。</p>
+<p>虚拟存储管理采用==“请求分页”==思想，每次访问指令或数据仅将当前需要的页面从硬盘调入主存某页框中，而进程中其他不活跃的页面保留在硬盘上。</p>
+<ul>
+<li>当访问某个信息所在页不在主存时发生缺页异常，此时，从硬盘将缺失页面装入主存。</li>
+<li>虚拟地址空间中有一些“空洞”的没有内容的页面。例如，堆区和栈区都是动态生长的，因而在栈和共享库映射区之间、堆和共享库映射区之间都可能没有内容存在。这些没有和任何内容相关联的页称为“未分配页”；</li>
+<li>对于代码和数据等有内容的区域所关联的页面，称为“已分配页”。已分配页中又有两类：
+<ul>
+<li>已调入主存而被缓存在DRAM中的页面称为“缓存页”；</li>
+<li>未调入主存而存在硬盘上的页称为“未缓存页”。</li>
+</ul>
+</li>
+<li>因此，任何时刻一个进程中的所有页面都被划分成三个不相交的页面集合：未分配页集合、缓存页集合和未缓存页集合。</li>
+</ul>
+<p>在主存和cache之间的交换单位为主存块，在硬盘和主存之间的交换单位为页面。与主存块大小相比，页面大小要大得多。因为DRAM比SRAM大约慢10~100倍，而磁盘比DRAM大约慢100000多倍，所以进行缺页处理所花的代价要比cache缺失损失大得多。而且，根据磁盘的特性，磁盘扇区定位所用的时间要比磁盘读写一个数据的时间长大约100000倍，也即对扇区第一个数据的读写比随后数据的读写要慢100000倍。考虑到缺页代价的巨大和磁盘访问第一个数据的开销，通常将主存和磁盘之间交换的页的大小设定得比较大，典型的有4KB和8KB等，而且有越来越大的趋势。</p>
+<p>因为缺页处理代价较大，所以提高命中率是关键，因此：</p>
+<ul>
+<li>在主存页框和虚拟页之间采用全相联映射方式。</li>
+<li>此外，当进行写操作时，由于磁盘访问速度很慢，所以，不能每次写操作都同时写DRAM和磁盘，因而，在处理一致性问题时，采用回写(write back)方式，而不用全写(write through)方式。</li>
+</ul>
+<p>在虚拟存储机制中采用全相联映射，每个虚拟页可以存放到主存任何一个空闲页框中。因此，与cache一样，必须要有一种方法来建立各个虚拟页与所存放的主存页框号或磁盘上存储位置之间的关系，通常用页表(page table)来描述这种对应关系。</p>
+<p>==页表==</p>
+<p>进程中的每个虚拟页在页表中都有一个对应的表项，称为页表项。页表项内容包括该虚拟页的存放位置、装入位(valid)、修改位(dirty)、使用位、访问权限位和禁止缓存位等。</p>
+<p>页表项中的存放位置字段用来建立虚拟页和物理页框之间的映射，用于进行虚拟地址到物理地址的转换。</p>
+<ol>
+<li>==装入位==也称为有效位或存在位，用来表示对应页面是否在主存：
+<ol>
+<li>若为“1”，表示该虚拟页已从外存调入主存，是一个“缓存页”，此时，存放位置字段指向主存物理页号(即页框号或实页号)；</li>
+<li>若为“0”，则表示没有被调入主存，此时，若存放位置字段为null,则说明是一个“未分配页”，否则是一个“未缓存页”，其存放位置字段给出该虚拟页在磁盘上的起始地址。</li>
+</ol>
+</li>
+<li>修改位（也称脏位）用来说明页面是否被修改过，虚存机制中采用回写策略，利用修改位可判断替换时是否需写回磁盘。</li>
+<li>使用位用来说明页面的使用情况，配合替换策略来设置，因此也称替换控制位，例如，是否最先调人(FFO位)，是否最近最少用(LRU位)等。</li>
+<li>访问权限位用来说明页面是可读可写、只读还是只可执行等，用于存储保护。</li>
+<li>禁止缓存位用来说明页面是否可以装人cache,通过正确设置该位，可以保证磁盘、主存和cache数据的一致性。</li>
+</ol>
+<p>下图给出了一个页表的示例，其中有4个缓存页：VP1、VP2、VP5和VP7;有两个未分配页：VP0和VP4;有两个未缓存页：VP3和VP6。</p>
+<p><code>&lt;a id=&quot;主存中的页表示例&quot;&gt;&lt;/a&gt;</code></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/20_8_12_43_202502200812185.png" alt="主存中的页表示例"></p>
+<p>对于上图所示的页表，假如CPU执行一条指令要求访问某个数据，</p>
+<ul>
+<li>若该数据正好在虚拟页VP1中，则根据页表得知，VP1对应的装入位为1，该页的信息存放在物理页PP0中，因此，可通过地址转换部件将虚拟地址转换为物理地址，然后到PP0中访问该数据；</li>
+<li>若该数据在VP6中，则根据页表得知，VP6对应的装入位为0，表示页面缺失，发生缺页异常，需要调出操作系统的缺页异常处理程序进行处理。缺页异常处理程序根据页表中VP6对应表项的存放位置字段，从磁盘中将所缺失的页面读出，然后找一个空闲的物理页框存放该页信息。若主存中没有空闲的页框，则还要选择一个页面淘汰出来替换到磁盘上。因为采用回写策略，所以页面淘汰时，需根据修改位确定是否要写回磁盘。缺页处理过程中需要对页表进行相应的更新，缺页异常处理结束后，程序回到原来发生缺页的指令继续执行。</li>
+</ul>
+<p>对于<a href="/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/#%e4%b8%bb%e5%ad%98%e4%b8%ad%e7%9a%84%e9%a1%b5%e8%a1%a8%e7%a4%ba%e4%be%8b">上图</a>所示的页表，虚拟页VP0和VP4是未分配页，但随着进程的动态执行，可能会使这些未分配页中有了具体的数据。例如，调用malloc函数会使堆区增长，若新增的堆区正好与VP4对应，则操作系统内核就在磁盘上分配一个存储空间给VP4,用于存放新增堆区中的内容，同时，对应VP4的页表项中的存放位置字段被填上该磁盘空间的起始地址，VP4从未分配页转变为未缓存页。</p>
+<p>系统中每个进程都有一个页表，如<a href="/post/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/#%e5%88%86%e9%a1%b5%e5%bc%8f%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e7%ae%a1%e7%90%86">分页式虚拟存储示例图</a>所示，页表1为用户程序1对应进程的页表，页表k为用户程序k对应进程的页表。操作系统在加载程序时，根据可执行文件中的程序头表，确定每个可分配段（如只读代码段、可读写数据段）所在的虚页号及其磁盘存放位置，在主存生成一个初始页表，初始页表中对应的装入位都是0。在程序执行过程中，通过缺页异常处理程序，将磁盘上的代码或数据页面装入所分配的主存页框中，并修改页表中相应页表项，例如，将存放位置改为主存页框号，将装入位置1。</p>
+<p>页表属于进程控制信息，位于虚拟地址空间的内核空间，页表在主存的首地址记录在页表基址寄存器中。页表的项数由虚拟地址空间大小决定。前面提到，虚拟地址空间是一个用户编程不受其限制的足够大的地址空间。因此，页表项数会很多，因而会带来页表过大的问题。例如，在Intel x86系统中，虚拟地址为32位，页面大小为4KB,因此，一个进程有$2^{32}/2^{12}=2^{20}$个页面，也即每个进程的页表可达$2^{20}$个页表项。若每个页表项占32位，则一个页表的大小为4MB。显然，这么大的页表全部放在主存中是不适合的。解决页表过大的方法有很多，可以采用限制大小的一级页表或者两级页表、多级页表方式，也可以采用哈希方式的倒置页表等方案。如何实现主要是操作系统考虑的问题，在此不多赘述。</p>
+<p>==快表==</p>
+<p>从上述地址转换过程可看出，访存时首先要到主存查页表，然后才能根据转换得到的物理地址再访问主存。如果缺页，则还要进行页面替换、页表修改等，访问主存的次数就更多。因此，采用虚拟存储机制后，使得访存次数增加了。为了减少访存次数，往往把页表中最活跃的几个页表项复制到高速缓存中，这种在高速缓存中的页表项组成的页表称为==后备转换缓冲器(Translation Lookaside Buffer,简称TLB)==,通常称为快表，相应地称主存中的页
+表为慢表。</p>
+<p>这样，在地址转换时，首先到快表中查页表项，如果命中，则无须访问主存中的页表。因此，快表是减少访存时间开销的有效方法。</p>
+<p>快表比页表小得多，为提高命中率，快表通常具有较高的关联度，大多采用全相联或组相联方式。每个表项的内容由页表项内容加上一个TLB标记字段组成，TLB标记字段用来表示该表项取自页表中哪个虚拟页对应的页表项。因此，TLB标记字段的内容在全相联方式下就是该页表项对应的虚拟页号：组相联方式下则是对应虚拟页号的高位部分，而虚拟页号的低位部分作为TLB组索引用于选择TLB组。</p>
+<p>下图是一个具有TLB和cache的多级层次化存储系统示意图，图中TLB和cache都采用组相联映射方式。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/21_8_57_38_202502210857604.png" alt="TLB和cache的访问过程"></p>
+<p>在上图中，CPU给出的是一个32位的虚拟地址，首先，由CPU中的MMU进行虚拟地址到物理地址的转换；然后，由处理cache的硬件根据物理地址进行存储访问。</p>
+<p>MMU对TLB查表时，20位的虚拟页号被分成标记(Tag)和组索引两部分，首先由组索引确定在TLB的哪一组进行查找。查找时将虚拟页号的标记部分与TLB中该组每个标记字段同时进行比较，若有某个相等且对应有效位V为1，则TLB命中，此时，可直接通过TLB进行地址转换；否则TLB缺失，此时，需要访问主存去查慢表。图中所示的是两级页表方式，虚拟页号被分成页目录索引和页表索引两部分，根据这两部分可得到对应的页表项，从而进行地址转换，并将对应页表项的内容送入TLB形成一个新的TLB表项，同时，将虚拟页号的高位部分作为TLB标记填入新的TLB表项中。若TLB已满，还要进行TLB替换，为降低替换算法开销，TLB常采用随机替换策略。</p>
+<p>在MMU完成地址转换后，cache硬件根据映射方式将转换得到的主存物理地址划分成多个字段，然后，根据cache索引，找到对应的cache行或cache组，将对应各cache行中的标记与物理地址中的高位地址进行比较，若相等且对应有效位为1，则cache命中，此时，根据块内地址取出对应的字，需要的话，再根据字节偏移量从字中取出相应字节送CPU。</p>
+<p>目前TLB的一些典型指标为：TLB大小为16 ~ 512项，块大小为1 ~ 2项（每个表项4 ~ 8B),命中时间为0.5 ~ 1个时钟周期，缺失损失为10 ~ 100个时钟周期，命中率为90%~99%。</p>
+<p>==CPU访存过程==</p>
+<p>在一个具有cache和虚拟存储器的系统中，CPU的一次访存操作可能涉及TLB、页表、cache、主存和磁盘的访问，其访问过程如下图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/24_8_17_47_202502240817789.png" alt="CPU访存过程"></p>
+<p>从上图可以看出，CPU访存过程中存在以下三种缺失情况。</p>
+<ol>
+<li>TLB缺失(TLB miss):要访问的虚拟页对应的页表项不在TLB中。</li>
+<li>cache缺失(cache miss):要访问的主存块不在cache中。</li>
+<li>缺页(page miss)：要访问的虚拟页不在主存中。</li>
+</ol>
+<p>下表给出了三种缺失的几种组合情况。</p>
+<table>
+  <thead>
+      <tr>
+          <th>序号</th>
+          <th>TLB</th>
+          <th>page</th>
+          <th>cache</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>hit</td>
+          <td>hit</td>
+          <td>hit</td>
+          <td>可能，TLB命中则页一定命中，信息在主存，就可能在cache中</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>hit</td>
+          <td>hit</td>
+          <td>miss</td>
+          <td>可能，TLB命中则页一定命中，信息在主存，但可能不在cache中</td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td>miss</td>
+          <td>hit</td>
+          <td>hit</td>
+          <td>可能，TLB缺失但页可能命中，信息在主存，就可能在cache中</td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td>miss</td>
+          <td>hit</td>
+          <td>miss</td>
+          <td>可能，TLB缺失但页可能命中，信息在主存，但可能不在cache中</td>
+      </tr>
+      <tr>
+          <td>5</td>
+          <td>miss</td>
+          <td>miss</td>
+          <td>miss</td>
+          <td>可能，TLB缺失，则页也可能缺失，信息不在主存，一定也不在cache</td>
+      </tr>
+      <tr>
+          <td>6</td>
+          <td>hit</td>
+          <td>miss</td>
+          <td>miss</td>
+          <td>不可能，页缺失，说明信息不在主存，TLB中一定没有该页表项</td>
+      </tr>
+      <tr>
+          <td>7</td>
+          <td>hit</td>
+          <td>miss</td>
+          <td>hit</td>
+          <td>不可能，页缺失，说明信息不在主存，TLB中一定没有该页表项</td>
+      </tr>
+      <tr>
+          <td>8</td>
+          <td>miss</td>
+          <td>miss</td>
+          <td>hit</td>
+          <td>不可能，页缺失，说明信息不在主存，cache中一定也没有该信息</td>
+      </tr>
+  </tbody>
+</table>
+<p>很显然，最好的情况是第1种组合，此时，无须访问主存；第2、3两种组合都需要访问一次主存；第4种组合要访问两次主存；第5种组合会发生“缺页”异常，需访问磁盘，并至少访问主存两次。</p>
+<p>cache缺失处理由硬件完成；缺页处理由软件完成，操作系统通过缺页异常处理程序来实现；而对于TLB缺失，则既可以用硬件也可以用软件来处理。用软件方式处理时，操作系统通过专门的TLB缺失异常处理程序来实现。</p>
+<p>对于分页式虚拟存储器，其页面的起点和终点地址固定。因此，实现简单，开销少。但是，由于页面不是逻辑上独立的实体，因此，对于那些不采用对齐方式存储的计算机来说，可能会出现一个数据或一条指令分跨在不同页面等问题，使处理、管理、保护和共享等都不方便。采用下面介绍的段式虚拟存储器就可避免这种情况的发生。</p>
+<h4 id="分段式虚拟存储器">
+<a class="header-anchor" href="#%e5%88%86%e6%ae%b5%e5%bc%8f%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8"></a>
+分段式虚拟存储器
+</h4><p>根据程序的模块化性质，可按程序的逻辑结构划分成多个相对独立的部分，例如，过程、数据表、数据阵列等。这些相对独立的部分被称为段，它们作为独立的逻辑单位可以被其他程序段调用，形成段间连接，从而产生规模较大的程序。段通常有段名、段起点、段长等。段名可用用户名、数据结构名或段号标识，以便于程序的编写、编译器的优化和操作系统的调度管理等。</p>
+<p>可以把段作为基本信息单位在主存一辅存之间传送和定位。分段方式下，将主存空间按实际程序中的段来划分，每个段在主存中的位置记录在段表中，段的长度可变，所以段表中需有长度指示，即段长。每个进程有一个段表，每个段在段表中有一个段表项，用来指明对应段在主存中的位置、段长、访问权限、使用和装入情况等。段表本身也是一个可再定位段，可以存在外存中，需要时调人主存，但一般驻留在主存中。</p>
+<p>在分段式虚拟存储器中，虚拟地址由段号和段内地址组成。通过段表把虚拟地址转换成主存物理地址，其转换过程如下图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/24_8_54_32_202502240854762.png" alt="分段式虚存的地址转换"></p>
+<p>每个进程的段表在内存的首地址存放在段表基址寄存器中，根据虚拟地址中的段号，可找到对应段表项，以检查是否存在以下三种异常情况。</p>
+<ol>
+<li>缺段（段不存在）：装入位=0。</li>
+<li>地址越界：偏移量超出最大段长。</li>
+<li>访问越权：操作方式与指定访问权限不符。</li>
+</ol>
+<p>若发生以上三种情况，则调用相应的异常处理程序，否则，将段表项中的段首址与虚拟地址中的段内地址相加，生成访问主存时的物理地址。</p>
+<p>因为段本身是程序的逻辑结构所决定的一些独立部分，因而分段对程序员（实际上是编译器)来说是不透明的；而分页方式则对编译器透明，即编译器不需知道程序如何分页。分段式管理系统的优点是段的分界与程序的自然分界相对应；段的逻辑独立性使它易于编译、管理、修改和保护，也便于多道程序共享；某些类型的段（如堆、栈、队列等）具有动态可变长度，允许自由调度以便有效利用主存空间。但是，由于段的长度各不相同，段的起点和终点不定，给主存空间分配带来麻烦，而且容易在主存中留下许多空白的零碎空间，造成浪费。</p>
+<p>分段式和分页式存储管理各有优缺点，因此可采用两者相结合的段页式存储管理方式。</p>
+<h4 id="段页式虚拟存储器">
+<a class="header-anchor" href="#%e6%ae%b5%e9%a1%b5%e5%bc%8f%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8"></a>
+段页式虚拟存储器
+</h4><p>在段页式虚拟存储器中，程序按模块分段，段内再分页，用段表和页表（每段一个页表）进行两级定位管理。段表中每个表项对应一个段，每个段表项中包含一个指向该段页表起始位置的指针，以及该段其他的控制和存储保护信息，由页表指明该段各页在主存中的位置以及是否装人、修改等状态信息。</p>
+<p>程序的调入调出按页进行，但它又可以按段实现共享和保护。因此，它兼有分页式和分段式存储管理的优点。它的缺点是在地址映象过程中需要多次查表。</p>
+<h3 id="存储保护">
+<a class="header-anchor" href="#%e5%ad%98%e5%82%a8%e4%bf%9d%e6%8a%a4"></a>
+存储保护
+</h3><p>为避免主存中多道程序相互干扰，防止某进程出错而破坏其他进程的正确性，或某进程不合法地访问其他进程的代码或数据区，应该对每个进程进行存储保护。</p>
+<p>为了对操作系统的存储保护提供支持，硬件必须具有以下三种基本功能。</p>
+<ol>
+<li>
+<p>使部分CPU状态只能由操作系统内核程序写，而用户进程只能读不能写。
+例如，对于页表首地址、TLB内容等，只有操作系统内核程序才能用特殊指令（一般称为管态指令或特权指令)来写。常用的特权指令有刷新cache、刷新TLB、改变特权模式、停止处理器执行等。</p>
+</li>
+<li>
+<p>支持至少两种特权模式。
+操作系统内核程序比用户程序具有更多的特权，例如，内核程序可以执行用户程序不能执行的特权指令，内核程序可以访问用户程序不能访问的存储空间等，为了区分这种特权，需要为内核程序和用户程序设置不同的特权级别或运行模式。</p>
+<p>执行内核程序时处理器所处的模式称为管理模式(supervisor mode)、内核模式(kernel mode)、超级用户模式或管理程序状态，简称管态、管理态、内核态或者核心态；执行用户程序时处理器所处的模式称为用户模式(user mode)、用户状态或目标程序状态，简称为目态或用户态。</p>
+</li>
+<li>
+<p>提供让CPU在内核态和用户态之间相互转换的机制。
+如果用户进程需要访问内核代码和数据，那么必须通过系统调用接口（执行陷阱指令）来间接访问。响应异常和中断可使CPU从用户态转到内核态。异常和中断处理后的返回指令(return from exception)可使CPU从内核态转到用户态。</p>
+</li>
+</ol>
+<p>硬件通过提供相应的专用寄存器、专门的指令、专门的状态/控制位等，与操作系统一起实现上述三个功能。通过这些功能，并把页表保存在操作系统的地址空间中，操作系统就可更新页表，并防止用户进程改变页表，以确保用户进程只能访问由OS分配给它的存储空间。</p>
+<p>存储保护包括以下两种情况：访问权限保护和存储区域保护。</p>
+<h4 id="访问权限保护">
+<a class="header-anchor" href="#%e8%ae%bf%e9%97%ae%e6%9d%83%e9%99%90%e4%bf%9d%e6%8a%a4"></a>
+访问权限保护
+</h4><p>访问权限保护就是看是否发生了访问越权。若实际访问操作与访问权限不符，则发生存储保护错误。通常通过在页表或段表中设置访问权限位来实现这种保护。一般规定：</p>
+<ol>
+<li>各程序对本程序所在的存储区可读可写；</li>
+<li>对共享区或已获授权的其他用户信息可读不可写；</li>
+<li>而对未获授权的信息（如OS内核、页表等）不可访问。</li>
+<li>通常，数据段可指定为可读可写或只读；</li>
+<li>程序段可指定只可执行或只读。</li>
+</ol>
+<h4 id="存储区域保护">
+<a class="header-anchor" href="#%e5%ad%98%e5%82%a8%e5%8c%ba%e5%9f%9f%e4%bf%9d%e6%8a%a4"></a>
+存储区域保护
+</h4><p>存储区域保护就是看是否发生了地址越界，也即是否访问了不该访问的区域。通常有以下几种常用的存储区域保护方式。</p>
+<ol>
+<li>加界重定位。每个程序或程序段都记录有起始地址和终止地址，分别称为上界和下界。对虚拟地址加界（即加基准地址）生成物理地址后，如果物理地址超过了上界和下界规定的范围，则地址越界。有些系统用专门的一对上界寄存器和下界寄存器来记录上界和下界，在分段式虚存中，通过段表来记录段的上界和下界。</li>
+<li>键保护。操作系统为主存的每一个页框分配一个存储键，为每个用户进程设置一个程序键。进程运行时，将程序状态字寄存器中的键（程序键）和所访问页的键（存储键）进行核对，相符时才可访问，这两个键如同“锁”与“钥匙”的关系。为使某个页框能被所有进程访问，或某个进程可访问任何一个页框，可规定键标志为0，此时不进行核对工作。例如，操作系统有权访问所有页框中的页面，因此，可让内核进程的程序键为0。</li>
+<li>环保护。主存中各进程按其重要性分为多个保护级，各级别构成同心环，最内环的进程保护级别最高，向外逐次降低。内环进程可以访问外环和同环进程的地址空间，而外环不得访问内环进程的地址空间。内核程序的保护级别最高，环号最小，而用户程序都处于外环上。IA-32就采用该方案，操作系统内核工作在第0环（内核态)，操作系统其他部分工作在第1环，用户进程工作在第3环（用户态），留下第2环给中间软件使用。实际上，Linux等操作系统只用了第0环和第3环。</li>
+</ol>
+<h1 id="异常控制流">
+<a class="header-anchor" href="#%e5%bc%82%e5%b8%b8%e6%8e%a7%e5%88%b6%e6%b5%81"></a>
+异常控制流
+</h1><p>一个程序的正常执行流程有两种顺序：</p>
+<ol>
+<li>一种是按指令存放的顺序执行，即新的PC值为当前指令地址加当前指令长度；</li>
+<li>一种是跳转到由转移类指令指出的转移目标地址处执行，即新的PC值为转移目标地址。</li>
+</ol>
+<p>CPU所执行的指令的地址序列称为CPU的控制流，通过上述两种方式得到的控制流为==正常控制流==。</p>
+<p>在程序正常执行过程中，CPU会因为遇到内部异常事件或外部中断事件而打断原来程序的执行，转去执行操作系统提供的针对这些特殊事件的处理程序。这种由于某些特殊情况引起用户程序的正常执行被打断所形成的意外控制流称为==异常控制流==（Exceptional Control of Flow,
+ECF)。显然，计算机系统必须提供一种机制，使得自身能够实现异常控制流。</p>
+<p>在计算机系统的各个层面都有实现异常控制流的机制。例如，在底层的硬件层，CPU中有检测异常和中断事件并将控制转移到操作系统内核执行的机制；在中间的操作系统层，内核能通过进程的上下文切换将一个进程的执行转移到另一个进程执行：在上层的应用软件层，一个进程可以直接发送信号到另一个进程，使得接收到信号的进程将控制转移到它的一个信号处理程序执行。</p>
+<p>主要介绍硬件层和操作系统层中涉及的对于内部异常和外部中断的异常控制流实现机制。主要内容包括：进程与进程上下文切换，异常的类型、异常的捕获和处理、中断的捕获和处理，系统调用的实现机制等。</p>
+<h2 id="进程与进程的上下文切换">
+<a class="header-anchor" href="#%e8%bf%9b%e7%a8%8b%e4%b8%8e%e8%bf%9b%e7%a8%8b%e7%9a%84%e4%b8%8a%e4%b8%8b%e6%96%87%e5%88%87%e6%8d%a2"></a>
+进程与进程的上下文切换
+</h2><h3 id="程序和进程的概念">
+<a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e5%92%8c%e8%bf%9b%e7%a8%8b%e7%9a%84%e6%a6%82%e5%bf%b5"></a>
+程序和进程的概念
+</h3><p>任何一个应用问题描述为处理算法后，都要用某种编程语言表示出来。绝大多数情况下，都采用高级语言编写源程序，而高级语言源程序需要进行编译转换为目标程序，在链接之前的目标程序是可重定位目标程序形式，链接之后是可执行目标形式，其代码部分是一个机器指令序列，可以被计算机直接执行。对计算机来说，==程序（program)==就是代码和数据的集合，程序的代码是一个机器指令序列，因而程序是一种静态的概念。它可以作为目标模块存放在磁盘中，或者作为一个存储段存在于一个地址空间中。</p>
+<p>简单来说，==进程（process)==就是程序的一次运行过程。更确切地说，进程是一个具有一定独立功能的程序关于某个数据集合的一次运行活动，因而进程具有动态的含义。计算机处理的所有任务实际上是由进程完成的。</p>
+<p>每个应用程序在系统中运行时（用户进程）均有属于自己的存储空间，用来存储自己的程序代码和数据，包括只读区（代码和只读数据）、可读可写数据区（初始化数据和未初始化数据)、动态的堆区和栈区等。</p>
+<p>进程是操作系统对处理器中程序运行过程的一种抽象。进程有自己的生命周期，它由于任务的启动而创建，随着任务的完成（或终止）而消亡，它所占用的资源也随着进程的终止而释放。</p>
+<p>一个可执行目标文件可以被多次加载执行，也就是说，一个程序可能对应多个不同的进程。例如，在Windows系统中用word程序编辑一个文档时，相应的进程就是winword.exe,如果多次启动同一个word程序，就得到多个winword.exe进程。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>计算机系统中的任务通常指进程。例如，Linux内核中把进程称为任务，每个进程主要通过一个称为进程描述符(process descriptor)的结构来描述，其结构类型定义为task structure,包含了一个进程的所有信息。所有进程通过一个双向循环链表实现的任务列表(task list)来描述，任务列表中的每个元素是一个进程描述符。IA-32中的任务状态段(TSS)、任务门(task gate)等概念中所称的任务，实际上也是指进程。</p></blockquote>
+<p>对于现代多任务操作系统，通常一段时间内会有多个不同的进程在系统中运行，这些进程轮流使用处理器并共享同一个主存储器。程序员在编写程序或者语言处理系统在编译并链接生成可执行目标文件时，并不用考虑如何和其他程序一起共享处理器和存储器资源，而只要考虑自己的程序代码和所用数据如何组织在一个独立的虚拟存储空间中。也就是说，程序员和语言处理系统可以把一台计算机的所有资源看成由自己的程序所独占，可以认为自己的程序是在处理器上执行的和在存储空间中存放的唯一的用户程序。显然，这是一种“错觉”。这种“错觉”带来了极大的好处，它简化了程序员的编程以及语言处理系统的处理，即简化了编程、编译、链接、共享和加载等整个过程。</p>
+<p>“进程”的引入为应用程序提供了以下两方面的抽象：</p>
+<ol>
+<li>一个独立的逻辑控制流</li>
+<li>一个私有的虚拟地址空间</li>
+</ol>
+<p>每个进程拥有一个独立的逻辑控制流，使得程序员以为自己的程序在执行过程中独占使用处理器；每个进程拥有一个私有的虚拟地址空间，使得程序员以为自己的程序在执行过程中独占存储器。</p>
+<p>为了实现上述两个方面的抽象，操作系统必须提供一整套的管理机制，包括处理器调度、进程的上下文切换、虚拟存储管理等。</p>
+<h3 id="进程的逻辑控制流">
+<a class="header-anchor" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e9%80%bb%e8%be%91%e6%8e%a7%e5%88%b6%e6%b5%81"></a>
+进程的逻辑控制流
+</h3><p>一个可执行目标文件被加载并启动执行后，就成为一个进程。不管是静态链接生成的完全链接可执行文件，还是动态链接后在存储器中形成的完全链接可执行目标，它们的代码段中的每条指令都有一个确定的地址，在这些指令的执行过程中，会形成一个指令执行的地址序列，对于确定的输入数据，其指令执行的地址序列也是确定的。这个确定的指令执行地址序列称为进程的逻辑控制流。</p>
+<p>对于一个具有单处理器核的系统，如果在一段时间内有多个进程在其上运行，那么，这些进程会轮流使用处理器，也即处理器的物理控制流由多个逻辑控制流组成。例如，假定在某段时间内，单处理器系统中有三个进程P1、P2和P3在运行，其运行轨迹如下图所示。图中水平方向为时间，垂直方向为指令的虚拟地址，不同进程的虚拟地址空间是独立的。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/03/3_8_23_14_202503030823717.png" alt="进程P1、P2、P3的逻辑控制流"></p>
+<p>在上图中，进程$p_1$的执行过程为：从$t_0$到$t_1$时刻按序执行地址$A_{11}$到$A_{13}$处的指令，然后再跳转到$A_{11}$开始按序执行，直到$t_2$时刻执行到$A_{12}$处指令时被换下处理器，一直等到$t_4$时刻，又从上次被中断的$A_{12}$处被换上处理器开始执行，直到$t_6$时刻执行完成。一个进程的逻辑控制流总是确定的，不管中间是否被其他进程打断，也不管被打断几次或在哪里被打断，这样，就可以保证一个进程的执行不管怎么被打断其行为总是一致的。</p>
+<p>可以看出，进程$p_1$的逻辑控制流为$A_{11}$ ~ $A_{13}$,$A_{11}$ ~ $A_{14}$、$A_{15}$ ~ $A_{16}$。也即其执行轨迹总是先按序从$A_{11}$执行到$A_{13}$；然后从$A_{13}$跳到$A_{11}$,按序从$A_{11}$执行到$A_{14}$;再从$A_{14}$跳到$A_{15}$,按序从$A_{15}$执行到$A_{16}$。在$p_1$整个逻辑控制流中，控制流在$A_{12}$处被$p_2$打断了一次。</p>
+<p>进程$p_{2}$在$t_{2}$时刻被换上执行，在$t_4$时刻被换下处理器，然后在$t_7$时刻再次被换上处理器执行，直到$t_8$时刻执行完成。在$p_2$整个逻辑控制流中，控制流在$A_{24}$处被$p_1$打断了一次。</p>
+<p>进程$p_3$则在$t_6$时刻被换上处理器执行，到$t_7$时刻执行完成。在$p_3$整个逻辑控制流中没有被打断。</p>
+<p>从上图可以看出，有些进程的逻辑控制流==在时间上有交错==，通常把这种不同进程的逻辑控制流在时间上交错或重叠的情况称为==并发==(concurrency)。例如，进程$p_1$和$p_2$的逻辑控制流在时间上是交错的，因此，进程$p_1$和$p_2$是并发运行的，同样，$p_2$和$p_3$也是并发的，而$p_1$和$p_3$不是并发的。</p>
+<blockquote>
+<p>[!important]</p>
+<p>并发执行的概念与处理器核数没有关系，只要两个逻辑控制流在时间上有交错或重叠都称为并发，而==并行==(parallelism)则是并发执行的一个特例，即并行执行的两个进程定是并发的。我们称==两个同时执行的进程的逻辑控制流==是并行的，显然，并行执行的两个进程一定只能同时运行在不同的处理器或处理器核上。</p></blockquote>
+<p>从上图可以看出，三个进程的逻辑控制流在同一个时间轴上串行，也即进程是轮流在一个单处理器上执行的。连续执行同一个进程的时间段称为时间片(time slice)。例如，在上图中，从$t_0$到$t_2$为一个时间片，从$t_2$到$t_4$为一个时间片，从$t_4$到$t_6$为一个时间片。对于某一个进程来说，其逻辑控制流并不会因为中间被其他进程打断而改变，因为被打断后还能回到原被打断的“断点”处继续执行。这种能够从被其他进程打断的地方继续执行的功能是由进程的上下文切换机制实现的。时间片结束时，通过进程的上下文切换，换一个新的进程到处理器上执行，从而开始一个新的时间片，这个过程称为==时间片轮转处理器调度==。</p>
+<h3 id="进程的上下文切换">
+<a class="header-anchor" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e4%b8%8a%e4%b8%8b%e6%96%87%e5%88%87%e6%8d%a2"></a>
+进程的上下文切换
+</h3><p>操作系统通过处理器调度让处理器轮流执行多个进程。实现不同进程中指令交替执行的机制称为进程的==上下文切换(context switching)==。</p>
+<p>进程的物理实体（代码和数据等）和支持进程运行的环境合称为==进程的上下文==。由用户进程的程序块、数据块、运行时的堆和用户栈（统称为==用户堆栈==）等组成的==用户空间信息==被称为用户级上下文；由进程标识信息、进程现场信息、进程控制信息和系统内核栈等组成的==内核空间信息==被称为==系统级上下文==。进程的上下文包括了用户级上下文和系统级上下文。其中，用户级上下文地址空间和系统级上下文地址空间一起构成了一个进程的整个存储器映像，如下图所示：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/03/3_8_57_0_202503030857492.png" alt="进程的上下文"></p>
+<p>实际上它就是进程的虚拟地址空间。进程控制信息包含各种内核数据结构，例如，记录有关进程信息的进程表(process table)、页表、打开文件列表等。</p>
+<p>处理器中各个寄存器的内容被称为寄存器上下文（也称硬件上下文)。上下文切换发生在操作系统调度一个新进程到处理器上运行时，它需要完成以下三件事：</p>
+<ol>
+<li>将当前处理器的寄存器上下文保存到当前进程的系统级上下文的现场信息中；</li>
+<li>将新进程系统级上下文中的现场信息作为新的寄存器上下文恢复到处理器的各个寄存器中；</li>
+<li>将控制转移到新进程执行。这里，一个重要的上下文信息是PC的值，当前进程被打断的断点处的PC作为寄存器上下文的一部分被保存在进程现场信息中，这样，下次该进程再被调度到处理器上执行时，就可以从其现场信息中获得断点处的PC,从而能从断点处开始执行。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+      <ul class="article-tag-list" itemprop="keywords">
+  
+</ul>
+
+    </footer>
+  </div>
+  
+    
+  <nav
+    id="article-nav"
+    data-aos="fade-up"
+  >
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img
+            data-src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012206.png"
+            data-sizes="auto"
+            alt="Asm"
+            class="lazyload"
+          />
+        
+        <a href="http://localhost:1313/post/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/asm/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            Asm
+          
+        </h3>
+      </div>
+    
+
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        
+        
+        
+
+
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+<footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    <div>
+      <span class="icon-copyright"></span>
+      2020 -
+      2025
+      <span class="footer-info-sep rotate"></span>
+      TrustMe
+    </div>
+    
+      <div>
+        基于&nbsp;<a
+          href="https://gohugo.io/"
+          target="_blank"
+          >Hugo</a
+        >&nbsp; Theme.<a
+          href="https://github.com/D-Sketon/hugo-theme-reimu"
+          target="_blank"
+          >Reimu</a
+        >
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"
+          >&nbsp;
+            22.9k
+          </span
+        >
+        &nbsp;|&nbsp;
+        <span class="icon-coffee">&nbsp;
+          
+          
+
+          01:57
+        </span>
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv"
+          >总访问量&nbsp;<span
+            id="busuanzi_value_site_pv"
+          ></span
+        ></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv"
+          >总访客量&nbsp;<span
+            id="busuanzi_value_site_uv"
+          ></span
+        ></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar">
+        <div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#计算机基本工作原理">计算机基本工作原理</a>
+      <ul>
+        <li><a href="#冯诺依曼结构">冯诺依曼结构</a></li>
+        <li><a href="#程序和指令的执行过程">程序和指令的执行过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#程序的开发与运行">程序的开发与运行</a>
+      <ul>
+        <li><a href="#程序设计语言和翻译程序">程序设计语言和翻译程序</a></li>
+        <li><a href="#从源程序到可执行程序">从源程序到可执行程序</a></li>
+        <li><a href="#可执行文件的启动和运行">可执行文件的启动和运行</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#编译汇编">编译、汇编</a>
+      <ul>
+        <li><a href="#编译和汇编">编译和汇编</a></li>
+        <li><a href="#可执行目标文件的生成">可执行目标文件的生成</a></li>
+      </ul>
+    </li>
+    <li><a href="#目标文件格式">目标文件格式</a>
+      <ul>
+        <li><a href="#elf目标文件格式">ELF目标文件格式</a></li>
+        <li><a href="#可重定位目标文件格式">可重定位目标文件格式</a></li>
+        <li><a href="#可执行目标文件格式">可执行目标文件格式</a></li>
+        <li><a href="#可执行文件的存储映像">可执行文件的存储映像</a></li>
+      </ul>
+    </li>
+    <li><a href="#符号表和符号解析">符号表和符号解析</a>
+      <ul>
+        <li><a href="#符号和符号表">符号和符号表</a></li>
+        <li><a href="#符号解析">符号解析</a></li>
+        <li><a href="#与静态库的链接">与静态库的链接</a></li>
+      </ul>
+    </li>
+    <li><a href="#重定位过程">重定位过程</a>
+      <ul>
+        <li><a href="#重定位信息">重定位信息</a></li>
+        <li><a href="#重定位过程-1">重定位过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#动态链接">动态链接</a>
+      <ul>
+        <li><a href="#动态链接的特性">动态链接的特性</a></li>
+        <li><a href="#程序加载时的动态链接">程序加载时的动态链接</a></li>
+        <li><a href="#程序运行时的动态链接">程序运行时的动态链接</a></li>
+        <li><a href="#位置无关代码">位置无关代码</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#存储器概述">存储器概述</a>
+      <ul>
+        <li><a href="#存储器的分类">存储器的分类</a></li>
+        <li><a href="#主存储器的组成和基本操作">主存储器的组成和基本操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#主存与cpu的连接及其读写操作">主存与CPU的连接及其读写操作</a>
+      <ul>
+        <li><a href="#主存芯片技术">主存芯片技术</a></li>
+        <li><a href="#主存与cpu的连接及读写">主存与CPU的连接及读写</a></li>
+        <li><a href="#装入指令和存储指令操作过程">装入指令和存储指令操作过程</a></li>
+      </ul>
+    </li>
+    <li><a href="#硬盘存储器">硬盘存储器</a>
+      <ul>
+        <li><a href="#磁盘存储器结构">磁盘存储器结构</a></li>
+        <li><a href="#磁盘存储器的连接">磁盘存储器的连接</a></li>
+        <li><a href="#固态硬盘">固态硬盘</a></li>
+      </ul>
+    </li>
+    <li><a href="#高速缓冲存储器">高速缓冲存储器</a>
+      <ul>
+        <li><a href="#程序访问的局部性">程序访问的局部性</a></li>
+        <li><a href="#cache的基本工作原理">cache的基本工作原理</a></li>
+        <li><a href="#cache行和主存块的映射">cache行和主存块的映射</a></li>
+        <li><a href="#cache中主存块的替换方法">cache中主存块的替换方法</a></li>
+        <li><a href="#cache一致性问题">cache一致性问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#虚拟存储器">虚拟存储器</a>
+      <ul>
+        <li><a href="#基本概念">基本概念</a></li>
+        <li><a href="#虚拟地址空间">虚拟地址空间</a></li>
+        <li><a href="#虚拟存储器的实现">虚拟存储器的实现</a></li>
+        <li><a href="#存储保护">存储保护</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#进程与进程的上下文切换">进程与进程的上下文切换</a>
+      <ul>
+        <li><a href="#程序和进程的概念">程序和进程的概念</a></li>
+        <li><a href="#进程的逻辑控制流">进程的逻辑控制流</a></li>
+        <li><a href="#进程的上下文切换">进程的上下文切换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+      </div>
+      <div class="sidebar-common-sidebar hidden">
+        
+<div class="sidebar-author">
+  <img
+    data-src="/avatar/avatar.webp"
+    data-sizes="auto"
+    alt="TrustMe"
+    class="lazyload"
+  />
+  <div class="sidebar-author-name">TrustMe</div>
+  <div class="sidebar-description">你要信我啊</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    
+    <div class="sidebar-state-number">17</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">
+      0
+    </div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/"
+        aria-label="首页"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/archives"
+        aria-label="归档"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/about"
+        aria-label="关于"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a
+        class="sidebar-menu-link-dummy"
+        href="/friend"
+        aria-label="友链"
+      ></a>
+      <div class='sidebar-menu-icon icon rotate'>
+        
+          
+            &#xe62b;
+          
+        
+      </div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div class="reimu-search-input" id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png" />
+        </div>
+      </div>
+    
+    
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"
+    
+    
+    
+    
+    integrity="sha384-3gT/vsepWkfz/ff7PpWNUeMzeWoH3cDhm/A8jM7ouoAK0/fP/9bcHHR5kHq2nf&#43;e" crossorigin="anonymous"
+  ></script>
+
+
+
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"
+    
+    
+    
+    
+    integrity="sha384-J08i8An/QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"
+  ></script>
+
+
+
+
+
+
+
+
+
+  
+      
+      <script src="/js/main.js" ></script>
+      
+
+
+
+  
+
+
+
+
+
+  
+      
+      <script src="/js/aos.js" ></script>
+      
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+
+
+
+
+
+  
+      
+      <script src="/js/pjax_main.js" data-pjax></script>
+      
+
+
+
+  <script>
+    var ALGOLIA_CONFIG = {
+      logo: '\/images\/algolia_logo.svg',
+      algolia: {
+        applicationID: "",
+        apiKey: "",
+        indexName: "",
+        hits: {
+          "per_page": parseInt("10")
+        },
+        labels: {
+          "input_placeholder": "搜索.....",
+          "hits_empty": "未发现与 「${query}」相关内容",
+          "hits_stats": "找到${hits}条结果（用时 ${time} ms）"
+        }
+      }
+    };
+  </script>
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/algoliasearch@4.17.1/dist/algoliasearch-lite.umd.js"
+    defer
+    
+    
+    
+    integrity="sha384-xvLS0jfKuoREs7pqkRI/OI8GcqohO5S&#43;jQz7ZBtQXnsXmD&#43;9jDOOY4cL6dCPzlrk" crossorigin="anonymous"
+  ></script>
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/instantsearch.js@4.56.1/dist/instantsearch.production.min.js"
+    defer
+    
+    
+    
+    integrity="sha384-hHJCflT4KBLQyHfKO9vpstIcFKn/Y&#43;KHTORelMMEn7mOp2AVPp&#43;7fr03dLgZiV3J" crossorigin="anonymous"
+  ></script>
+
+
+  
+
+
+
+
+
+  
+      
+      <script src="/js/algolia_search.js" ></script>
+      
+
+
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/mouse-firework@0.1.0/dist/index.umd.js"
+    
+    
+    
+    
+    integrity="sha384-KM6i7tu43nYd6e0beIljxHMC5tZc58XBDu7pPA58w50h18Jsx7gLdimfS09RXlKv" crossorigin="anonymous"
+  ></script>
+
+
+<script>
+  if (window.firework) {
+    const options = JSON.parse("{\"excludeelements\":[\"a\",\"button\"],\"particles\":[{\"colors\":[\"#ff5252\",\"#ff7c7c\",\"#ffafaf\",\"#ffd0d0\"],\"duration\":[1200,1800],\"easing\":\"easeOutExpo\",\"move\":[\"emit\"],\"number\":20,\"shape\":\"circle\",\"shapeOptions\":{\"alpha\":[0.3,0.5],\"radius\":[16,32]}},{\"colors\":[\"#ff0000\"],\"duration\":[1200,1800],\"easing\":\"easeOutExpo\",\"move\":[\"diffuse\"],\"number\":1,\"shape\":\"circle\",\"shapeOptions\":{\"alpha\":[0.2,0.5],\"lineWidth\":6,\"radius\":20}}]}");
+    options.excludeElements = options.excludeelements;
+    delete options.excludeelements;
+    window.firework(options);
+  }
+</script>
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+        
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "TrustMe",
+          title: "计算机系统基础",
+          url: "http:\/\/localhost:1313\/post\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80\/",
+          description: " 参考链接 计算机系统基础(一)：程序的表示、转换与链接_南京大学_中国大学MOOC(慕课)\n概述 计算机基本工作原理 冯诺依曼结构 硬件模型基本结构\n模型中包含 以下四个部分\n用来存放指令和数据的主存储器，简称==主存或内存==； 用来进行算术逻辑运算的部件，即算术逻辑部件(Arithmetic Logic Unit,简称==ALU==),在ALU操作控制 信号ALUop的控制下，ALU可以对输人端A和B进行不同的运算，得到结果F; 用于自动逐条取出指令并进行译码的部件，即控制部件(Control Unit,简称CU),也称==控制器==； 用来和用户交互的==输入设备和输出设备==。 …",
+          cover: "https:\/\/gitlab.com\/18355291538\/picture\/-\/raw\/main\/pictures\/2024\/08\/6_11_15_6_202408061115430.png",
+        };
+      </script>
+    
+    
+    
+      
+
+
+
+
+
+  
+      
+      <script src="/js/insert_highlight.js" data-pjax></script>
+      
+
+      
+      
+      
+      
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;
+
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8\u002boTJ7m3DfYEWX1fu1scuS4\u002bs")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    
+    
+  </div>
+</div>
+
+
+
+
+  
+
+  
+  
+  
+  
+  
+  
+  <script
+    src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js"
+    
+    async
+    
+    
+    integrity="sha384-0M75wtSkhjIInv4coYlaJU83&#43;OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id&#43;S" crossorigin="anonymous"
+  ></script>
+
+
+
+
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+  </script>
+
+
+<script>
+  const reimuCopyright = String.raw`
+   ______     ______     __     __    __     __  __    
+  /\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+  \ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+   \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+    \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                    
+  `;
+  console.log(String.raw`%c ${reimuCopyright}`, "color: #ff5252;");
+  console.log(
+    "%c Theme.Reimu" + " %c https://github.com/D-Sketon/hugo-theme-reimu ",
+    "color: white; background: #ff5252; padding:5px 0;",
+    "padding:4px;border:1px solid #ff5252;",
+  );
+</script>
+
+
+
+
+  </body>
+</html>
