@@ -356,6 +356,11 @@ hash map
  &lt;td>&lt;code>=&lt;/code>&lt;/td>
  &lt;/tr>
  &lt;tr>
+ &lt;td>约等于&lt;/td>
+ &lt;td>$\approx$&lt;/td>
+ &lt;td>&lt;code>\approx&lt;/code>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
  &lt;td>不等于&lt;/td>
  &lt;td>$\neq$&lt;/td>
  &lt;td>&lt;code>\neq&lt;/code>&lt;/td>
