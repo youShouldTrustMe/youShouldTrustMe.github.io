@@ -65,50 +65,7 @@
 &lt;/h2>&lt;h3 id="程序设计语言和翻译程序">
 &lt;a class="header-anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e8%af%ad%e8%a8%80%e5%92%8c%e7%bf%bb%e8%af%91%e7%a8%8b%e5%ba%8f">&lt;/a>
 程序设计语言和翻译程序
-&lt;/h3>&lt;p>从抽象层次上来分，可以分成高级语言和低级语言两类。&lt;/p></description></item><item><title>算法</title><link>https://youShouldTrustMe.github.io/post/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95/</link><pubDate>Sat, 01 Mar 2025 11:00:00 -0700</pubDate><guid>https://youShouldTrustMe.github.io/post/%E7%AE%97%E6%B3%95/%E7%AE%97%E6%B3%95/</guid><description>&lt;h1 id="参考链接">
-&lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
-参考链接
-&lt;/h1>&lt;p>&lt;a href="https://www.hello-algo.com/">Hello 算法 (hello-algo.com)&lt;/a>&lt;/p>
-&lt;h1 id="复杂度分析">
-&lt;a class="header-anchor" href="#%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%88%86%e6%9e%90">&lt;/a>
-复杂度分析
-&lt;/h1>&lt;h2 id="迭代">
-&lt;a class="header-anchor" href="#%e8%bf%ad%e4%bb%a3">&lt;/a>
-迭代
-&lt;/h2>&lt;p>迭代（iteration）是一种重复执行某个任务的控制结构。在迭代中，程序会在满足一定的条件下重复执行某段代码，直到这个条件不再满足。&lt;/p>
-&lt;h3 id="for循环">
-&lt;a class="header-anchor" href="#for%e5%be%aa%e7%8e%af">&lt;/a>
-for循环
-&lt;/h3>&lt;p>&lt;code>for&lt;/code> 循环是最常见的迭代形式之一，&lt;strong>适合在预先知道迭代次数时使用&lt;/strong>。&lt;/p>
-&lt;p>以下函数基于 &lt;code>for&lt;/code> 循环实现了求和 1+2+⋯+𝑛 ，求和结果使用变量 &lt;code>res&lt;/code> 记录。需要注意的是，Python 中 &lt;code>range(a, b)&lt;/code> 对应的区间是“左闭右开”的，对应的遍历范围为 𝑎,𝑎+1,…,𝑏−1 ：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/* for 循环 */&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">forLoop&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 循环求和 1, 2, ..., n-1, n
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/18_8_16_26_202411180816252.png" alt="求和流程图">&lt;/p>
-&lt;p>此求和函数的操作数量与输入数据大小 𝑛 成正比，或者说成“线性关系”。实际上，&lt;strong>时间复杂度描述的就是这个“线性关系”&lt;/strong>。&lt;/p>
-&lt;h3 id="while循环">
-&lt;a class="header-anchor" href="#while%e5%be%aa%e7%8e%af">&lt;/a>
-while循环
-&lt;/h3>&lt;p>与 &lt;code>for&lt;/code> 循环类似，&lt;code>while&lt;/code> 循环也是一种实现迭代的方法。在 &lt;code>while&lt;/code> 循环中，程序每轮都会先检查条件，如果条件为真，则继续执行，否则就结束循环。&lt;/p>
-&lt;p>下面我们用 &lt;code>while&lt;/code> 循环来实现求和 1+2+⋯+𝑛 ：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/* while 循环 */&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">whileLoop&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 初始化条件变量
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// 循环求和 1, 2, ..., n-1, n
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">i&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 更新条件变量
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>&lt;code>while&lt;/code> 循环比 &lt;code>for&lt;/code> 循环的自由度更高&lt;/strong>。在 &lt;code>while&lt;/code> 循环中，我们可以自由地设计条件变量的初始化和更新步骤。&lt;/p></description></item><item><title>ADC</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/adc/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/adc/</guid><description>&lt;h1 id="adc简介">
+&lt;/h3>&lt;p>从抽象层次上来分，可以分成高级语言和低级语言两类。&lt;/p></description></item><item><title>ADC</title><link>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/adc/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/adc/</guid><description>&lt;h1 id="adc简介">
 &lt;a class="header-anchor" href="#adc%e7%ae%80%e4%bb%8b">&lt;/a>
 ADC简介
 &lt;/h1>&lt;h2 id="介绍">
@@ -360,6 +317,7 @@ ADC简介
 &lt;p>&lt;a href="http://rfc.nop.hu/bluetooth/AssignedNumbersGenericAccessProfile.pdf">Bluetooth.org - Generic Access Profile (nop.hu)&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.bluetooth.com/specifications/specs/core-specification-6-0/">Core Specification | Bluetooth® Technology Website&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://www.bluetooth.com/specifications/assigned-numbers/">Assigned Numbers | Bluetooth® Technology Website&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf">https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.csdn.net/zzfenglin/article/details/51303211">低功耗蓝牙BLE之连接建立_低功耗蓝牙的连接过程-CSDN博客&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.csdn.net/zzfenglin/article/details/51304084">低功耗蓝牙BLE之连接事件、连接参数和更新方法_蓝牙设备为什么拼命发包-CSDN博客&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.csdn.net/yxyy3604/article/details/112857135">蓝牙配对安全机制解析：防止中间人与被动监听攻击-CSDN博客&lt;/a>&lt;/p>
@@ -4873,7 +4831,7 @@ LD
 &lt;h3 id="特殊符号定义">
 &lt;a class="header-anchor" href="#%e7%89%b9%e6%ae%8a%e7%ac%a6%e5%8f%b7%e5%ae%9a%e4%b9%89">&lt;/a>
 特殊符号定义
-&lt;/h3>&lt;p>可以在链接器脚本中定义特殊符号，来标记某些特定的位置（如段的开始和结束）。&lt;/p></description></item><item><title>软件ji'chu</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h1 id="参考链接">
+&lt;/h3>&lt;p>可以在链接器脚本中定义特殊符号，来标记某些特定的位置（如段的开始和结束）。&lt;/p></description></item><item><title>软件基础</title><link>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Sat, 01 Mar 2025 00:00:00 +0000</pubDate><guid>https://youShouldTrustMe.github.io/post/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h1 id="参考链接">
 &lt;a class="header-anchor" href="#%e5%8f%82%e8%80%83%e9%93%be%e6%8e%a5">&lt;/a>
 参考链接
 &lt;/h1>&lt;p>&lt;a href="https://mp.weixin.qq.com/s/reQv2l8EBYWu1P0nDd73QA">这些嵌入式知识助 你秋招，也助你进阶 (qq.com)&lt;/a>&lt;/p>
@@ -5447,25 +5405,16 @@ NVIC
 &lt;li>
 &lt;p>上电复位：当芯片开始上电的时候，&lt;code>vcc&lt;/code>将会给电容充电，电容相当于短路，这时&lt;code>NRST&lt;/code>与地直接相连，变成低电平开始复位，当电容充满电时，将会变成高电平，实现了上电复位的功能&lt;/p>
 &lt;blockquote>
-&lt;p>电容==充电==过程：当电容开始充电时，它的两极板之间存在电势差，电路中的电流开始流动，电容逐渐储存电荷。刚充电时，电容像是==导线==。&lt;/p></description></item><item><title>关于</title><link>https://youShouldTrustMe.github.io/about/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://youShouldTrustMe.github.io/about/</guid><description>&lt;p>ceshi&lt;/p></description></item><item><title>友情链接</title><link>https://youShouldTrustMe.github.io/friend/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://youShouldTrustMe.github.io/friend/</guid><description>&lt;h2 id="本站信息">
-&lt;a class="header-anchor" href="#%e6%9c%ac%e7%ab%99%e4%bf%a1%e6%81%af">&lt;/a>
-本站信息
-&lt;/h2>&lt;ul>
-&lt;li>站名： 拔剑Sketon&lt;/li>
-&lt;li>站长： 拔剑Sketon&lt;/li>
-&lt;/ul>
-&lt;h2 id="申请方法">
+&lt;p>电容==充电==过程：当电容开始充电时，它的两极板之间存在电势差，电路中的电流开始流动，电容逐渐储存电荷。刚充电时，电容像是==导线==。&lt;/p></description></item><item><title>友情链接</title><link>https://youShouldTrustMe.github.io/friend/</link><pubDate>Thu, 09 Jun 2022 20:12:52 +0800</pubDate><guid>https://youShouldTrustMe.github.io/friend/</guid><description>&lt;h2 id="申请方法">
 &lt;a class="header-anchor" href="#%e7%94%b3%e8%af%b7%e6%96%b9%e6%b3%95">&lt;/a>
 申请方法
 &lt;/h2>&lt;ul>
-&lt;li>添加本站后，在本页留言，格式如下&lt;/li>
+&lt;li>如果想要成为我的好朋友，请在本页留言，格式如下&lt;/li>
 &lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">&lt;span class="l">```yml&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#您的名字&lt;/span>&lt;span class="w">
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#您的名字&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">url&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#您的网址&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">desc&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#简短描述&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c">#一张图片&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="l">```&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="小伙伴们">
 &lt;a class="header-anchor" href="#%e5%b0%8f%e4%bc%99%e4%bc%b4%e4%bb%ac">&lt;/a>
 小伙伴们
@@ -5514,6 +5463,28 @@ NVIC
  &lt;/div>
  &lt;div class="friend-desc">
  Astro 建站
+ &lt;/div>
+ &lt;/div>
+ &lt;/div>
+ 
+ &lt;div class="friend-item-wrap">
+ &lt;a href="https://d-sketon.github.io/" rel="noopener external nofollow noreferrer" target="_blank">&lt;/a>
+ &lt;div class="friend-icon-wrap">
+ &lt;div class="friend-icon">
+ &lt;img
+ data-src="https://d-sketon.github.io/avatar/avatar.webp"
+ data-sizes="auto"
+ alt="test"
+ class="lazyload"
+ />
+ &lt;/div>
+ &lt;/div>
+ &lt;div class="friend-info-wrap">
+ &lt;div class="friend-name">
+ test
+ &lt;/div>
+ &lt;div class="friend-desc">
+ test
  &lt;/div>
  &lt;/div>
  &lt;/div>

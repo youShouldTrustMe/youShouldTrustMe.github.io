@@ -299,8 +299,20 @@ body [data-aos="zoom-in"] {
   content: "\e619";
 }
 
+.icon-facebook:before {
+  content: "\e60e";
+}
+
+.icon-twitter:before {
+  content: "\e62a";
+}
+
 .icon-bilibili:before {
   content: "\e603";
+}
+
+.icon-weibo:before {
+  content: "\e62c";
 }
 
 .sidebar-btn-wrapper .sidebar-toc-btn:before {
@@ -3570,10 +3582,6 @@ a, .main-nav-icon, .popup-btn-close {
   height: 5px;
   border-radius: 50%;
   opacity: 1;
-}
-
-#live2d-toggle {
-  z-index: 1;
 }
 
 .post-categories-wrapper {
