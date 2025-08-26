@@ -1,0 +1,883 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    WireShark |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="蓝牙抓包参考链接实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客 低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WireShark">
+<meta property="og:url" content="http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="蓝牙抓包参考链接实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客 低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_20_36_202502051320275.gif">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_30_10_202502051330475.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_31_45_202502051331951.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_37_10_202502051337676.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_43_29_202502051343689.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_56_34_202502051356462.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_0_31_202502051400310.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_6_44_202502051406915.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.882Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="软件及工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_20_36_202502051320275.gif">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="WireShark">
+          
+        </picture>
+        
+          <img alt="WireShark" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">WireShark</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E6%8A%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">蓝牙抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">使用</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-软件及工具的使用/WireShark" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="蓝牙抓包"><a href="#蓝牙抓包" class="headerlink" title="蓝牙抓包"></a>蓝牙抓包</h1><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/RF_star/article/details/106054980">实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43306777/article/details/139235300">蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://balancetwk.github.io/2022/04/16/hexo_blog/Bluetooth/%E8%93%9D%E7%89%99%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89/">低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK的博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.nordicsemi.com/bundle/nrfutil_ble_sniffer_pdf/resource/nRF_Sniffer_BLE_UG_v4.0.0.pdf">nRF Sniffer for Bluetooth LE User Guide v4.0.0 (nordicsemi.com)</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用wireShark抓包，需要使用专用硬件nRF来抓，首先先到<a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark · Go Deep</a>网站下载wireShark，然后再去<a target="_blank" rel="noopener" href="https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE">nRF Sniffer for Bluetooth LE - nordicsemi.com</a>下载nRF sniffer插件。在<a target="_blank" rel="noopener" href="https://docs.nordicsemi.com/bundle/nrfutil/page/nrfutil-ble-sniffer/guides/overview.html">ble-sniffer command overview (nordicsemi.com)</a>上有软件使用手册。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>nRF sniffer是wireShark的一个插件，相当于是安装了nRF sniffer插件，就可以使用wireshark抓蓝牙包了</p>
+</blockquote>
+<p>安装wireshark的时候，一直下一步就行，下面介绍nRF sniffer的安装：</p>
+<p>在安装之前需要确保安装了wireshark v3.41及以上版本和python v3.6及以上版本</p>
+<blockquote>
+<p>[!note]</p>
+<p>一般来说，商家都会烧录好固件，一些支持二次开发的设备可以自己烧录hex程序以支持nRF connect或Wireshark</p>
+</blockquote>
+<p>打开下载好sniffer插件文件夹，打开<code>nrf_sniffer_for_bluetooth_le_4.1.1\extcap</code>文件夹，打开cmd，可以在地址栏中输入cmd用来直接启动</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_20_36_202502051320275.gif" alt="安装必要包"></p>
+<p>在cmd中输入以下命令安装依赖包（注意，这必须在安装了python的前提下）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
+<p>安装完成之后，打开wireshark，在菜单的tab中依次打开*&#x3D;&#x3D;帮助&gt;关于wireshark&gt;文件夹&gt;personal Extcap&#x3D;&#x3D;<em>,将 <code>Sniffer_Software/extcap/</code> 文件夹的内容复制到此文件夹中。之后开始配置wireshark，在菜单的tab中依次打开</em>&#x3D;&#x3D;帮助&gt;关于wireshark&gt;文件夹&gt;personal configuration&#x3D;&#x3D;*，将 profile 文件夹 Sniffer_Software&#x2F;Profile_nRF_Sniffer_Bluetooth_LE 复制到此文件夹的 profiles 子文件夹中。</p>
+<p>最后在 Wireshark 中，选择 Edit &gt; Configuration Profiles，选择 Profile_nRF_Sniffer_Bluetooth_LE 并单击 OK。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在使用之前，电脑上需要插上硬件设备：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_30_10_202502051330475.png" alt="nRF sniffer外部接线"></p>
+<p>打开wireshark，在捕获界面会出现nRF sniffer设备：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_31_45_202502051331951.png" alt="image-20250205133145838"></p>
+<p>可以点击设备左侧的小齿轮按钮，会弹出相关设置：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_37_10_202502051337676.png" alt="设备设置"></p>
+<p>上面的选项的含义如下：</p>
+<ol>
+<li>仅广播数据包：仅嗅探给定设备的广播数据包。建立新连接后，RF嗅探器会忽略它。</li>
+<li>仅传统广播数据包：仅嗅探给定设备的旧式广告数据包。RF嗅探器不会在辅助广播数据包的扩展广播数据包中查找广告商的设备地址。</li>
+<li>查找扫描响应数据：在嗅探所有广播设备时跟踪扫描请求和扫描响应。此选项可用于在扫描响应数据中查找广播商的名称。</li>
+<li>查找辅助指针数据：在嗅探所有广播设备时，跟随辅助指针获取其他数据。此选项可用于在辅助广播数据中查找广告主的地址和名称。</li>
+<li>扫描和跟踪LE Coded PHY上的设备：在嗅探所有广播设备和特定设备时，嗅探LE编码PHY。nRF Sniffer会跟踪它使用的任何PHY上的连接。要同时对LE1MPHY和LE编码PHY进行嗅探，请使用多个嗅探器。</li>
+</ol>
+<p>nRF嗅探器有两种工作模式：</p>
+<ol>
+<li>监听所有广播频道，从尽可能多的设备中获取尽可能多的数据包。这是默认模式。</li>
+<li>跟踪一个特定设备，并尝试捕获发送到该特定设备或从该特定设备发送的所有数据包。此模式捕获所有：<ol>
+<li>从设备发送的通告和扫描响应</li>
+<li>扫描请求和连接到设备的请求</li>
+<li>连接中的数据包在连接中的两个设备之间发送</li>
+<li>软件界面提供控制nRF Sniffer操作的命令和选项。</li>
+</ol>
+</li>
+</ol>
+<p>可以使用sniffer的过滤器进行筛选：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_43_29_202502051343689.png" alt="功能区"></p>
+<p>其中的含义如下：</p>
+<ol>
+<li>硬件接口：此列表显示了可用的硬件接口。如果您有多个连接了nRF Sniffer固件的DK或加密狗，您可以使用工具栏选择要控制的一个。要同时使用多个硬件接口。</li>
+<li>设备列表：此列表显示附近正在进行广播的设备。当您开始嗅探时，将选中All advertising devices。从列表中选择一个设备以嗅探该特定设备。当您在连接中选择其他设备时，当前连接将丢失。如果未发现要嗅探的设备，您可以手动将其添动加到列表中。</li>
+<li>输入键和值：使用此字段可为嗅探器提供无法单独从空中交通捕获的输入信息。为此，请从下拉菜单中选择输入键，然后在输入字段中输入相应的值。以下输入键可用：<ol>
+<li>旧版密钥：如果您的设备要求您提供密钥，请在密钥文本字段中键入6位数的密钥，然后按Eter。然后在设备中输入密钥。</li>
+<li>旧版OOB数据：如果您的设备使用带有16字节带外（○0B)密钥的传统配对过程，请以十六进制格式提供（以0x开头，大端)。您必须在设备进入加密状态之前执行此操作。如果输入的键短于16字节，则前面用0填充。</li>
+<li>旧版LTK：如果您的设备具有使用引旧版长期密钥(LTK)的现有绑定，请以十六进制格式提供（以0x开头，大端)。您必须在设备进入加密状态之前执行此操作。如果输入的键短于16字节，则前面用0填充</li>
+<li>SC LTK：如果您的设备具有使用LE Secure Connections LTK的现有绑定，请以十六进制格式提供（以0x开头，大端)。您必须在设备进入加密状态之前执行此操作。如果输入的键短于16字节，则前面用0填充。</li>
+<li>SC私钥：如果您的设备使用LE安全连接配对，并且两个设备均未处于调试模式（使用Dbug私钥），请以十六进制格式（以Ox开头，大端）提供设备的32字节Diffie-.Hellman私钥。您必须在设备开始配对过程之前执行此操作。如果输入的键短于32字节，则前面用0填充。</li>
+<li>LE地址：如果要嗅探的设备当前未发布，因此未被发现，请使用此字段将其LE地址添加到设备列表中。输入完整的6字节LE地址，用冒号分隔每个字节，并附加地址类型(“public”或“random”)。例如57:25:B0:81:eb:E5随机</li>
+</ol>
+</li>
+<li>广播信道：您可以更改nRF Sniffer在跟踪设备时切换广告频道的顺序。使用逗号分隔的通道号定义顺序，例如37,38,39。完成后按Enter。<br>使用默认配置，RF嗅探器等待通道37上的数据包。在通道37上收到数据包后，它会转换为在通道38上嗅探。当它在通道38上收到数据包时，它会转换为在通道39上嗅探。当它在通道39上收到数据包时，它开始在通道37上嗅探，并重复该操作。</li>
+</ol>
+<p>在捕获完数据之后，会通过不同的区域展示：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_56_34_202502051356462.png" alt="不同区域的划分"></p>
+<p>也可以使用wireshark自带的筛选功能，并且nRF sniffer也提供了相关包：</p>
+<table>
+<thead>
+<tr>
+<th>显示筛选器</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>btle.length ! &#x3D; 0</td>
+<td>仅显示低功耗蓝牙数据包的length字段不为零的数据包的过滤器，这意味着它会隐藏空数据包。</td>
+</tr>
+<tr>
+<td>btle.advertising_address</td>
+<td>仅显示具有广播地址的数据包（广播数据包）的筛选器。</td>
+</tr>
+<tr>
+<td>btle</td>
+<td>显示所有低功耗蓝牙数据包的协议筛选器。</td>
+</tr>
+<tr>
+<td>BTATT、BTSMP、BTL2CAP</td>
+<td>分别用于 ATT、SMP 和 L2CAP 数据包的协议过滤器。</td>
+</tr>
+<tr>
+<td>nordic_ble.channel&lt;37</td>
+<td>Fiter仅显示在数据通道上接收的数据包。</td>
+</tr>
+</tbody></table>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_0_31_202502051400310.png" alt="过滤器设置"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>注意：这里可以的逻辑符号可以使用<code>&amp;&amp;</code> <code>||</code> <code>==</code> <code>!=</code> <code>!</code>，并且可以使用<code>.</code>来看一个包下面有那些参数，如<code>btle.</code>，键入<code>.</code>之后就会出现它下面的参数</p>
+</blockquote>
+<p>当然，有时候为了方便对比数据，可以将一个数据放到列上，首先先选中需要查看的列，右键，选择应用为列即可。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_6_44_202502051406915.png" alt="应用为列"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/" rel="tag">软件及工具</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Vscode" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Vscode
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="JyySlide" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/jyySlide/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          JyySlide
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E6%8A%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">蓝牙抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">使用</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "WireShark",
+          url: "http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/",
+          excerpt: "",
+          description: "",
+          stripContent: "蓝牙抓包参考链接实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客 低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK的博客 nRF Sniffer for Bluetooth LE User Guide v4.0.0",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

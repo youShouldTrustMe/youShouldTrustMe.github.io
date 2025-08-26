@@ -1,0 +1,1952 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    软件基础 |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="参考链接这些嵌入式知识助 你秋招，也助你进阶 (qq.com) AUTOSAR架构AUTOSAR（Automotive Open System Architecture）是一个用于开发汽车电子系统的软件架构标准。它通过标准化的架构提高了软件的可重用性和可移植性，减少了开发时间和成本。以下是AUTOSAR架构的详细描述： AUTOSAR架构概述AUTOSAR架构由多个层次组成，包括应用软件层（App">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件基础">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="参考链接这些嵌入式知识助 你秋招，也助你进阶 (qq.com) AUTOSAR架构AUTOSAR（Automotive Open System Architecture）是一个用于开发汽车电子系统的软件架构标准。它通过标准化的架构提高了软件的可重用性和可移植性，减少了开发时间和成本。以下是AUTOSAR架构的详细描述： AUTOSAR架构概述AUTOSAR架构由多个层次组成，包括应用软件层（App">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/4_15_36_31_202407041536929.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/4_15_38_23_202407041538749.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.869Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="基础知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/4_15_36_31_202407041536929.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="软件基础">
+          
+        </picture>
+        
+          <img alt="软件基础" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">软件基础</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AUTOSAR%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">AUTOSAR架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTOSAR%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-number">2.0.1.</span> <span class="toc-text">AUTOSAR架构概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTOSAR%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-number">2.0.2.</span> <span class="toc-text">AUTOSAR层次结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTOSAR%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%A4%BA"><span class="toc-number">2.0.3.</span> <span class="toc-text">AUTOSAR架构图示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9%E5%92%8C%E4%BC%98%E5%8A%BF"><span class="toc-number">2.0.4.</span> <span class="toc-text">主要特点和优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="toc-number">2.0.5.</span> <span class="toc-text">应用案例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BSP"><span class="toc-number">3.</span> <span class="toc-text">BSP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BSP-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">3.0.1.</span> <span class="toc-text">BSP 的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BSP-%E7%9A%84%E5%85%B8%E5%9E%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">3.0.2.</span> <span class="toc-text">BSP 的典型目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%AF%B4%E6%98%8E"><span class="toc-number">3.0.3.</span> <span class="toc-text">示例说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-BSP-%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.0.4.</span> <span class="toc-text">使用 BSP 的步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ECU"><span class="toc-number">4.</span> <span class="toc-text">ECU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">硬件架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">软件架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ECU%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%E5%92%8C%E7%A7%8D%E7%B1%BB"><span class="toc-number">4.3.</span> <span class="toc-text">ECU的主要功能和种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ECU%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.4.</span> <span class="toc-text">ECU的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ECU%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="toc-number">4.5.</span> <span class="toc-text">ECU的重要性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ASSIC%E7%A0%81%E8%A1%A8"><span class="toc-number">5.</span> <span class="toc-text">ASSIC码表</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-基础知识/软件基础知识" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/reQv2l8EBYWu1P0nDd73QA">这些嵌入式知识助 你秋招，也助你进阶 (qq.com)</a></p>
+<h1 id="AUTOSAR架构"><a href="#AUTOSAR架构" class="headerlink" title="AUTOSAR架构"></a>AUTOSAR架构</h1><p>AUTOSAR（Automotive Open System Architecture）是一个用于开发汽车电子系统的软件架构标准。它通过标准化的架构提高了软件的可重用性和可移植性，减少了开发时间和成本。以下是AUTOSAR架构的详细描述：</p>
+<h3 id="AUTOSAR架构概述"><a href="#AUTOSAR架构概述" class="headerlink" title="AUTOSAR架构概述"></a>AUTOSAR架构概述</h3><p>AUTOSAR架构由多个层次组成，包括应用软件层（Application Layer）、运行时环境（Runtime Environment, RTE）和基础软件层（Basic Software, BSW）。这些层次共同工作，提供完整的汽车电子系统解决方案。</p>
+<h3 id="AUTOSAR层次结构"><a href="#AUTOSAR层次结构" class="headerlink" title="AUTOSAR层次结构"></a>AUTOSAR层次结构</h3><ol>
+<li><p><strong>Application Layer（应用层，ASW）</strong></p>
+<ul>
+<li>包含所有的应用程序组件，这些组件定义了具体的功能，如传感器数据处理、控制算法等。</li>
+<li>应用组件通过接口与RTE进行通信，而不是直接与硬件交互。</li>
+</ul>
+</li>
+<li><p><strong>Runtime Environment (RTE)（运行时环境）</strong></p>
+<ul>
+<li>作为应用层和基础软件层之间的抽象层，提供标准化的接口。</li>
+<li>管理应用组件之间以及应用组件与基础软件之间的通信。</li>
+<li>确保组件的独立性，使得应用软件能够在不同的硬件平台上运行。</li>
+</ul>
+</li>
+<li><p><strong>Basic Software (BSW)（基础软件层）</strong></p>
+<ul>
+<li>包含所有的基础服务和驱动程序，为应用软件提供硬件无关的标准化服务。</li>
+<li><strong>BSW</strong>进一步划分为四个主要部分：<ul>
+<li><strong>Microcontroller Abstraction Layer (MCAL)（微控制器抽象层）</strong>：提供对微控制器和外设的抽象接口。</li>
+<li><strong>ECU Abstraction Layer（ECU抽象层）</strong>：实现ECU级别的硬件抽象，提供对外围设备的访问。</li>
+<li><strong>Service Layer（服务层）</strong>：提供系统服务，如操作系统、存储管理、诊断服务等。</li>
+<li><strong>Complex Device Drivers（复杂设备驱动）</strong>：处理复杂的硬件设备，不适合通过MCAL和ECU抽象层实现。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="AUTOSAR架构图示"><a href="#AUTOSAR架构图示" class="headerlink" title="AUTOSAR架构图示"></a>AUTOSAR架构图示</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">---------------------------------</span><br><span class="line">|        Application Layer      |</span><br><span class="line">|          (ASW)                |</span><br><span class="line">---------------------------------</span><br><span class="line">|     Runtime Environment (RTE)  |</span><br><span class="line">---------------------------------</span><br><span class="line">|          Basic Software        |</span><br><span class="line">|             (BSW)              |</span><br><span class="line">|  - Microcontroller Abstraction |</span><br><span class="line">|    Layer (MCAL)                |</span><br><span class="line">|  - ECU Abstraction Layer       |</span><br><span class="line">|  - Services Layer              |</span><br><span class="line">|  - Complex Device Drivers      |</span><br><span class="line">---------------------------------</span><br><span class="line">|        Hardware Layer          |</span><br><span class="line">---------------------------------</span><br></pre></td></tr></table></figure>
+
+<h3 id="主要特点和优势"><a href="#主要特点和优势" class="headerlink" title="主要特点和优势"></a>主要特点和优势</h3><ol>
+<li><strong>模块化</strong>：AUTOSAR架构将系统分成多个独立的模块，允许并行开发和测试。</li>
+<li><strong>可重用性</strong>：标准化的接口和组件设计提高了代码的可重用性，减少了重复开发的工作量。</li>
+<li><strong>可移植性</strong>：应用层组件通过RTE与硬件层交互，使得应用软件可以在不同的硬件平台上运行。</li>
+<li><strong>可扩展性</strong>：灵活的架构设计允许添加新功能和扩展现有功能，而不需要对整个系统进行重大修改。</li>
+<li><strong>标准化</strong>：提供了统一的标准和规范，简化了不同供应商和开发团队之间的协作。</li>
+</ol>
+<h3 id="应用案例"><a href="#应用案例" class="headerlink" title="应用案例"></a>应用案例</h3><p>AUTOSAR广泛应用于现代汽车电子系统的开发，如发动机控制单元（ECU）、车身控制模块（BCM）、高级驾驶辅助系统（ADAS）等。通过采用AUTOSAR架构，汽车制造商和供应商能够更高效地开发高质量的软件系统，并应对不断变化的市场需求和技术挑战。</p>
+<h1 id="BSP"><a href="#BSP" class="headerlink" title="BSP"></a>BSP</h1><p>在嵌入式系统开发中，BSP 的全称是 <strong>“Board Support Package”</strong>（板级支持包）。BSP 是一个用于特定硬件平台的软件包，提供对硬件的抽象层，使操作系统和应用软件能够在特定的硬件平台上运行。BSP 通常包含以下内容：</p>
+<ol>
+<li><strong>引导加载程序（Bootloader）</strong>：负责系统启动和初始化硬件，加载操作系统内核。</li>
+<li><strong>硬件抽象层（HAL, Hardware Abstraction Layer）</strong>：提供对硬件的抽象接口，屏蔽底层硬件的差异。</li>
+<li><strong>驱动程序（Device Drivers）</strong>：为硬件外设（如串口、网络接口、存储设备等）提供驱动程序。</li>
+<li><strong>板级初始化代码（Board Initialization Code）</strong>：负责板级硬件的初始化配置。</li>
+<li><strong>操作系统集成</strong>：将操作系统与特定硬件平台集成的必要配置和补丁。</li>
+</ol>
+<h3 id="BSP-的作用"><a href="#BSP-的作用" class="headerlink" title="BSP 的作用"></a>BSP 的作用</h3><ul>
+<li><strong>硬件抽象</strong>：BSP 将硬件平台的细节封装起来，使操作系统和应用软件不必直接操作硬件，提高软件的可移植性。</li>
+<li><strong>硬件初始化</strong>：在系统启动时对硬件进行初始化配置，为操作系统和应用软件提供一个稳定的运行环境。</li>
+<li><strong>设备驱动</strong>：提供对硬件设备的访问接口，使得应用程序能够通过标准化接口访问硬件。</li>
+</ul>
+<h3 id="BSP-的典型目录结构"><a href="#BSP-的典型目录结构" class="headerlink" title="BSP 的典型目录结构"></a>BSP 的典型目录结构</h3><p>一个典型的 BSP 目录结构可能如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">bsp/</span><br><span class="line">├── bootloader/</span><br><span class="line">│   ├── src/</span><br><span class="line">│   └── include/</span><br><span class="line">├── hal/</span><br><span class="line">│   ├── src/</span><br><span class="line">│   └── include/</span><br><span class="line">├── drivers/</span><br><span class="line">│   ├── uart/</span><br><span class="line">│   │   ├── uart.c</span><br><span class="line">│   │   └── uart.h</span><br><span class="line">│   ├── spi/</span><br><span class="line">│   │   ├── spi.c</span><br><span class="line">│   │   └── spi.h</span><br><span class="line">│   ├── i2c/</span><br><span class="line">│   │   ├── i2c.c</span><br><span class="line">│   │   └── i2c.h</span><br><span class="line">│   └── ...</span><br><span class="line">├── board_init/</span><br><span class="line">│   ├── src/</span><br><span class="line">│   │   ├── board_init.c</span><br><span class="line">│   └── include/</span><br><span class="line">│       └── board_init.h</span><br><span class="line">├── os/</span><br><span class="line">│   ├── patches/</span><br><span class="line">│   ├── config/</span><br><span class="line">│   └── scripts/</span><br><span class="line">└── doc/</span><br><span class="line">    └── bsp_documentation.md</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例说明"><a href="#示例说明" class="headerlink" title="示例说明"></a>示例说明</h3><ul>
+<li><strong>bootloader&#x2F;</strong>：存放引导加载程序的源码和头文件。</li>
+<li><strong>hal&#x2F;</strong>：存放硬件抽象层的源码和头文件。</li>
+<li><strong>drivers&#x2F;</strong>：存放各种硬件外设的驱动程序，如 UART、SPI、I2C 等。</li>
+<li><strong>board_init&#x2F;</strong>：存放板级初始化代码。</li>
+<li><strong>os&#x2F;</strong>：存放操作系统集成相关的配置、补丁和脚本。</li>
+<li><strong>doc&#x2F;</strong>：存放BSP的相关文档。</li>
+</ul>
+<h3 id="使用-BSP-的步骤"><a href="#使用-BSP-的步骤" class="headerlink" title="使用 BSP 的步骤"></a>使用 BSP 的步骤</h3><ol>
+<li><strong>引导加载程序开发</strong>：编写引导加载程序，初始化硬件并加载操作系统内核。</li>
+<li><strong>硬件抽象层实现</strong>：编写硬件抽象层代码，提供对硬件的标准化接口。</li>
+<li><strong>驱动程序开发</strong>：编写各种外设的驱动程序，确保所有硬件设备都能被正确访问和控制。</li>
+<li><strong>板级初始化</strong>：编写板级初始化代码，配置板级资源和外设。</li>
+<li><strong>操作系统集成</strong>：将操作系统内核与BSP集成，进行必要的配置和调试。</li>
+<li><strong>测试与验证</strong>：对整个系统进行测试，验证硬件和软件的正确性和稳定性。</li>
+</ol>
+<p>通过BSP，可以大大简化嵌入式系统开发的过程，提高开发效率和软件的可移植性。如果有任何具体问题或需要进一步的帮助，请随时告知！</p>
+<h1 id="ECU"><a href="#ECU" class="headerlink" title="ECU"></a>ECU</h1><p>ECU最初指的是Engine Control Unit，即引擎控制单元，特指电喷引擎的电子控制系统。但是随着汽车电子的迅速发展，ECU的定义也发生了巨大的变化，现在大多数指Electronic Control Unit，即电子控制单元（有时也被简称为电控单元），泛指汽车上所有电子控制系统，可以是转向ECU，也可以是调速ECU、空调ECU等。</p>
+<p>一个ECU主要由硬件和软件两大部分组成。硬件主要负责采集输入信号、输出控制信号、通信接口控制等。软件主要是基于嵌入式系统对输入信号进行运算，并将运算结果转换为控制信号输出。随着嵌入式开发技术的快速发展和汽车电子自动化程度越来越高，ECU的硬件软件架构越来越复杂，功能也越来越强大。</p>
+<h2 id="硬件架构"><a href="#硬件架构" class="headerlink" title="硬件架构"></a>硬件架构</h2><p>简单来说，ECU硬件架构主要由微处理器（Microcontroller Unit, MCU）和外围电路组成。ECU的核心部件主要是MCU，根据ECU不同的功能需求，可以选用不同型号的MCU。随着微电子技术的高速发展，MCU的运算能力越来越强大，功能也越来越复杂。过去微处理器多数是8位和16位，现在主流芯片都是16位或32位，甚至64位的。而汽车电子级的MCU比消费类电子的MCU有着更高的可靠性和安全性要求。  在ECU的硬件架构中，MCU是“心脏”，但也仍然需要其他处理模块和外围电路组成整个“躯干”。  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/4_15_36_31_202407041536929.png" alt="image-20240704153631772"></p>
+<h2 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h2><p>同样地，对于软件架构，不同的ECU，功能复杂程度不一样，软件系统需要处理的信号、算法差异也很大。复杂ECU的系统如车载导航，需要使用Linux&#x2F;Android等操作系统来处理很多复杂任务.</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/4_15_38_23_202407041538749.png" alt="image-20240704153823651"></p>
+<h2 id="ECU的主要功能和种类"><a href="#ECU的主要功能和种类" class="headerlink" title="ECU的主要功能和种类"></a>ECU的主要功能和种类</h2><ol>
+<li><p><strong>发动机控制单元（Engine Control Unit）</strong>：</p>
+<ul>
+<li>管理发动机的运行，包括燃油喷射、点火时刻、空燃比和排放控制等。</li>
+<li>提高发动机效率，优化燃油经济性并减少排放。</li>
+</ul>
+</li>
+<li><p><strong>变速器控制单元（Transmission Control Unit）</strong>：</p>
+<ul>
+<li>控制自动变速器的换档过程，确保平稳和高效的换档。</li>
+<li>优化变速器的性能和耐久性。</li>
+</ul>
+</li>
+<li><p><strong>车身控制模块（Body Control Module, BCM）</strong>：</p>
+<ul>
+<li>管理车身电子设备，如照明系统、车窗、电动门锁和空调系统等。</li>
+<li>增加车辆的舒适性和安全性。</li>
+</ul>
+</li>
+<li><p><strong>防抱死制动系统控制单元（ABS Control Unit）</strong>：</p>
+<ul>
+<li>监控车轮速度并控制制动压力，防止车轮在紧急制动时抱死。</li>
+<li>提高车辆在紧急制动时的稳定性和可控性。</li>
+</ul>
+</li>
+<li><p><strong>气囊控制单元（Airbag Control Unit）</strong>：</p>
+<ul>
+<li>监控碰撞传感器并在碰撞发生时触发气囊系统。</li>
+<li>提高乘员在碰撞中的安全性。</li>
+</ul>
+</li>
+<li><p><strong>信息娱乐系统控制单元（Infotainment Control Unit）</strong>：</p>
+<ul>
+<li>管理车辆的信息娱乐系统，包括音频、导航和通信功能。</li>
+<li>提供驾驶员和乘客的娱乐和导航服务。</li>
+</ul>
+</li>
+</ol>
+<h2 id="ECU的工作原理"><a href="#ECU的工作原理" class="headerlink" title="ECU的工作原理"></a>ECU的工作原理</h2><ol>
+<li><p><strong>数据采集</strong>：</p>
+<ul>
+<li>通过传感器（如温度传感器、速度传感器、压力传感器等）采集车辆的运行数据。</li>
+</ul>
+</li>
+<li><p><strong>数据处理</strong>：</p>
+<ul>
+<li>ECU内部的微处理器根据预定的算法和程序处理传感器数据，做出相应的决策。</li>
+</ul>
+</li>
+<li><p><strong>执行控制</strong>：</p>
+<ul>
+<li>ECU通过执行器（如喷油器、点火线圈、电动机等）实施控制指令，管理车辆的各个子系统。</li>
+</ul>
+</li>
+</ol>
+<h2 id="ECU的重要性"><a href="#ECU的重要性" class="headerlink" title="ECU的重要性"></a>ECU的重要性</h2><ul>
+<li><strong>提高性能</strong>：优化车辆的运行参数，提高发动机效率和车辆性能。</li>
+<li><strong>降低排放</strong>：通过精确控制燃烧过程，减少尾气排放。</li>
+<li><strong>增强安全性</strong>：管理安全系统（如ABS、气囊等），提高车辆的安全性。</li>
+<li><strong>增加舒适性</strong>：控制车身功能和信息娱乐系统，提升驾乘体验。</li>
+</ul>
+<p>ECU是现代汽车技术的核心，随着汽车电子化和智能化的发展，ECU的功能和复杂性也在不断增加。</p>
+<h1 id="ASSIC码表"><a href="#ASSIC码表" class="headerlink" title="ASSIC码表"></a>ASSIC码表</h1><table>
+<thead>
+<tr>
+<th align="center">Bin(二进制)</th>
+<th align="center">Oct(八进制)</th>
+<th align="center">Dec(十进制)</th>
+<th align="center">Hex(十六进制)</th>
+<th align="center">缩写&#x2F;字符</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0000 0000</td>
+<td align="center">00</td>
+<td align="center">0</td>
+<td align="center">0x00</td>
+<td align="center">NUL(null)</td>
+<td align="center">空字符</td>
+</tr>
+<tr>
+<td align="center">0000 0001</td>
+<td align="center">01</td>
+<td align="center">1</td>
+<td align="center">0x01</td>
+<td align="center">SOH(start of headline)</td>
+<td align="center">标题开始</td>
+</tr>
+<tr>
+<td align="center">0000 0010</td>
+<td align="center">02</td>
+<td align="center">2</td>
+<td align="center">0x02</td>
+<td align="center">STX (start of text)</td>
+<td align="center">正文开始</td>
+</tr>
+<tr>
+<td align="center">0000 0011</td>
+<td align="center">03</td>
+<td align="center">3</td>
+<td align="center">0x03</td>
+<td align="center">ETX (end of text)</td>
+<td align="center">正文结束</td>
+</tr>
+<tr>
+<td align="center">0000 0100</td>
+<td align="center">04</td>
+<td align="center">4</td>
+<td align="center">0x04</td>
+<td align="center">EOT (end of transmission)</td>
+<td align="center">传输结束</td>
+</tr>
+<tr>
+<td align="center">0000 0101</td>
+<td align="center">05</td>
+<td align="center">5</td>
+<td align="center">0x05</td>
+<td align="center">ENQ (enquiry)</td>
+<td align="center">请求</td>
+</tr>
+<tr>
+<td align="center">0000 0110</td>
+<td align="center">06</td>
+<td align="center">6</td>
+<td align="center">0x06</td>
+<td align="center">ACK (acknowledge)</td>
+<td align="center">收到通知</td>
+</tr>
+<tr>
+<td align="center">0000 0111</td>
+<td align="center">07</td>
+<td align="center">7</td>
+<td align="center">0x07</td>
+<td align="center">BEL (bell)</td>
+<td align="center">响铃</td>
+</tr>
+<tr>
+<td align="center">0000 1000</td>
+<td align="center">010</td>
+<td align="center">8</td>
+<td align="center">0x08</td>
+<td align="center">BS (backspace)</td>
+<td align="center">退格</td>
+</tr>
+<tr>
+<td align="center">0000 1001</td>
+<td align="center">011</td>
+<td align="center">9</td>
+<td align="center">0x09</td>
+<td align="center">HT (horizontal tab)</td>
+<td align="center">水平制表符</td>
+</tr>
+<tr>
+<td align="center">0000 1010</td>
+<td align="center">012</td>
+<td align="center">10</td>
+<td align="center">0x0A</td>
+<td align="center">LF (NL line feed, new line)</td>
+<td align="center">换行键</td>
+</tr>
+<tr>
+<td align="center">0000 1011</td>
+<td align="center">013</td>
+<td align="center">11</td>
+<td align="center">0x0B</td>
+<td align="center">VT (vertical tab)</td>
+<td align="center">垂直制表符</td>
+</tr>
+<tr>
+<td align="center">0000 1100</td>
+<td align="center">014</td>
+<td align="center">12</td>
+<td align="center">0x0C</td>
+<td align="center">FF (NP form feed, new page)</td>
+<td align="center">换页键</td>
+</tr>
+<tr>
+<td align="center">0000 1101</td>
+<td align="center">015</td>
+<td align="center">13</td>
+<td align="center">0x0D</td>
+<td align="center">CR (carriage return)</td>
+<td align="center">回车键</td>
+</tr>
+<tr>
+<td align="center">0000 1110</td>
+<td align="center">016</td>
+<td align="center">14</td>
+<td align="center">0x0E</td>
+<td align="center">SO (shift out)</td>
+<td align="center">不用切换</td>
+</tr>
+<tr>
+<td align="center">0000 1111</td>
+<td align="center">017</td>
+<td align="center">15</td>
+<td align="center">0x0F</td>
+<td align="center">SI (shift in)</td>
+<td align="center">启用切换</td>
+</tr>
+<tr>
+<td align="center">0001 0000</td>
+<td align="center">020</td>
+<td align="center">16</td>
+<td align="center">0x10</td>
+<td align="center">DLE (data link escape)</td>
+<td align="center">数据链路转义</td>
+</tr>
+<tr>
+<td align="center">0001 0001</td>
+<td align="center">021</td>
+<td align="center">17</td>
+<td align="center">0x11</td>
+<td align="center">DC1 (device control 1)</td>
+<td align="center">设备控制1</td>
+</tr>
+<tr>
+<td align="center">0001 0010</td>
+<td align="center">022</td>
+<td align="center">18</td>
+<td align="center">0x12</td>
+<td align="center">DC2 (device control 2)</td>
+<td align="center">设备控制2</td>
+</tr>
+<tr>
+<td align="center">0001 0011</td>
+<td align="center">023</td>
+<td align="center">19</td>
+<td align="center">0x13</td>
+<td align="center">DC3 (device control 3)</td>
+<td align="center">设备控制3</td>
+</tr>
+<tr>
+<td align="center">0001 0100</td>
+<td align="center">024</td>
+<td align="center">20</td>
+<td align="center">0x14</td>
+<td align="center">DC4 (device control 4)</td>
+<td align="center">设备控制4</td>
+</tr>
+<tr>
+<td align="center">0001 0101</td>
+<td align="center">025</td>
+<td align="center">21</td>
+<td align="center">0x15</td>
+<td align="center">NAK (negative acknowledge)</td>
+<td align="center">拒绝接收</td>
+</tr>
+<tr>
+<td align="center">0001 0110</td>
+<td align="center">026</td>
+<td align="center">22</td>
+<td align="center">0x16</td>
+<td align="center">SYN (synchronous idle)</td>
+<td align="center">同步空闲</td>
+</tr>
+<tr>
+<td align="center">0001 0111</td>
+<td align="center">027</td>
+<td align="center">23</td>
+<td align="center">0x17</td>
+<td align="center">ETB (end of trans. block)</td>
+<td align="center">结束传输块</td>
+</tr>
+<tr>
+<td align="center">0001 1000</td>
+<td align="center">030</td>
+<td align="center">24</td>
+<td align="center">0x18</td>
+<td align="center">CAN (cancel)</td>
+<td align="center">取消</td>
+</tr>
+<tr>
+<td align="center">0001 1001</td>
+<td align="center">031</td>
+<td align="center">25</td>
+<td align="center">0x19</td>
+<td align="center">EM (end of medium)</td>
+<td align="center">媒介结束</td>
+</tr>
+<tr>
+<td align="center">0001 1010</td>
+<td align="center">032</td>
+<td align="center">26</td>
+<td align="center">0x1A</td>
+<td align="center">SUB (substitute)</td>
+<td align="center">代替</td>
+</tr>
+<tr>
+<td align="center">0001 1011</td>
+<td align="center">033</td>
+<td align="center">27</td>
+<td align="center">0x1B</td>
+<td align="center">ESC (escape)</td>
+<td align="center">换码(溢出)</td>
+</tr>
+<tr>
+<td align="center">0001 1100</td>
+<td align="center">034</td>
+<td align="center">28</td>
+<td align="center">0x1C</td>
+<td align="center">FS (file separator)</td>
+<td align="center">文件分隔符</td>
+</tr>
+<tr>
+<td align="center">0001 1101</td>
+<td align="center">035</td>
+<td align="center">29</td>
+<td align="center">0x1D</td>
+<td align="center">GS (group separator)</td>
+<td align="center">分组符</td>
+</tr>
+<tr>
+<td align="center">0001 1110</td>
+<td align="center">036</td>
+<td align="center">30</td>
+<td align="center">0x1E</td>
+<td align="center">RS (record separator)</td>
+<td align="center">记录分隔符</td>
+</tr>
+<tr>
+<td align="center">0001 1111</td>
+<td align="center">037</td>
+<td align="center">31</td>
+<td align="center">0x1F</td>
+<td align="center">US (unit separator)</td>
+<td align="center">单元分隔符</td>
+</tr>
+<tr>
+<td align="center">0010 0000</td>
+<td align="center">040</td>
+<td align="center">32</td>
+<td align="center">0x20</td>
+<td align="center">(space)</td>
+<td align="center">空格</td>
+</tr>
+<tr>
+<td align="center">0010 0001</td>
+<td align="center">041</td>
+<td align="center">33</td>
+<td align="center">0x21</td>
+<td align="center">!</td>
+<td align="center">叹号</td>
+</tr>
+<tr>
+<td align="center">0010 0010</td>
+<td align="center">042</td>
+<td align="center">34</td>
+<td align="center">0x22</td>
+<td align="center">“</td>
+<td align="center">双引号</td>
+</tr>
+<tr>
+<td align="center">0010 0011</td>
+<td align="center">043</td>
+<td align="center">35</td>
+<td align="center">0x23</td>
+<td align="center">#</td>
+<td align="center">井号</td>
+</tr>
+<tr>
+<td align="center">0010 0100</td>
+<td align="center">044</td>
+<td align="center">36</td>
+<td align="center">0x24</td>
+<td align="center">$</td>
+<td align="center">美元符</td>
+</tr>
+<tr>
+<td align="center">0010 0101</td>
+<td align="center">045</td>
+<td align="center">37</td>
+<td align="center">0x25</td>
+<td align="center">%</td>
+<td align="center">百分号</td>
+</tr>
+<tr>
+<td align="center">0010 0110</td>
+<td align="center">046</td>
+<td align="center">38</td>
+<td align="center">0x26</td>
+<td align="center">&amp;</td>
+<td align="center">和号</td>
+</tr>
+<tr>
+<td align="center">0010 0111</td>
+<td align="center">047</td>
+<td align="center">39</td>
+<td align="center">0x27</td>
+<td align="center">‘</td>
+<td align="center">闭单引号</td>
+</tr>
+<tr>
+<td align="center">0010 1000</td>
+<td align="center">050</td>
+<td align="center">40</td>
+<td align="center">0x28</td>
+<td align="center">(</td>
+<td align="center">开括号</td>
+</tr>
+<tr>
+<td align="center">0010 1001</td>
+<td align="center">051</td>
+<td align="center">41</td>
+<td align="center">0x29</td>
+<td align="center">)</td>
+<td align="center">闭括号</td>
+</tr>
+<tr>
+<td align="center">0010 1010</td>
+<td align="center">052</td>
+<td align="center">42</td>
+<td align="center">0x2A</td>
+<td align="center">*</td>
+<td align="center">星号</td>
+</tr>
+<tr>
+<td align="center">0010 1011</td>
+<td align="center">053</td>
+<td align="center">43</td>
+<td align="center">0x2B</td>
+<td align="center">+</td>
+<td align="center">加号</td>
+</tr>
+<tr>
+<td align="center">0010 1100</td>
+<td align="center">054</td>
+<td align="center">44</td>
+<td align="center">0x2C</td>
+<td align="center">,</td>
+<td align="center">逗号</td>
+</tr>
+<tr>
+<td align="center">0010 1101</td>
+<td align="center">055</td>
+<td align="center">45</td>
+<td align="center">0x2D</td>
+<td align="center">-</td>
+<td align="center">减号&#x2F;破折号</td>
+</tr>
+<tr>
+<td align="center">0010 1110</td>
+<td align="center">056</td>
+<td align="center">46</td>
+<td align="center">0x2E</td>
+<td align="center">.</td>
+<td align="center">句号</td>
+</tr>
+<tr>
+<td align="center">0010 1111</td>
+<td align="center">057</td>
+<td align="center">47</td>
+<td align="center">0x2F</td>
+<td align="center">&#x2F;</td>
+<td align="center">斜杠</td>
+</tr>
+<tr>
+<td align="center">0011 0000</td>
+<td align="center">060</td>
+<td align="center">48</td>
+<td align="center">0x30</td>
+<td align="center">0</td>
+<td align="center">字符0</td>
+</tr>
+<tr>
+<td align="center">0011 0001</td>
+<td align="center">061</td>
+<td align="center">49</td>
+<td align="center">0x31</td>
+<td align="center">1</td>
+<td align="center">字符1</td>
+</tr>
+<tr>
+<td align="center">0011 0010</td>
+<td align="center">062</td>
+<td align="center">50</td>
+<td align="center">0x32</td>
+<td align="center">2</td>
+<td align="center">字符2</td>
+</tr>
+<tr>
+<td align="center">0011 0011</td>
+<td align="center">063</td>
+<td align="center">51</td>
+<td align="center">0x33</td>
+<td align="center">3</td>
+<td align="center">字符3</td>
+</tr>
+<tr>
+<td align="center">0011 0100</td>
+<td align="center">064</td>
+<td align="center">52</td>
+<td align="center">0x34</td>
+<td align="center">4</td>
+<td align="center">字符4</td>
+</tr>
+<tr>
+<td align="center">0011 0101</td>
+<td align="center">065</td>
+<td align="center">53</td>
+<td align="center">0x35</td>
+<td align="center">5</td>
+<td align="center">字符5</td>
+</tr>
+<tr>
+<td align="center">0011 0110</td>
+<td align="center">066</td>
+<td align="center">54</td>
+<td align="center">0x36</td>
+<td align="center">6</td>
+<td align="center">字符6</td>
+</tr>
+<tr>
+<td align="center">0011 0111</td>
+<td align="center">067</td>
+<td align="center">55</td>
+<td align="center">0x37</td>
+<td align="center">7</td>
+<td align="center">字符7</td>
+</tr>
+<tr>
+<td align="center">0011 1000</td>
+<td align="center">070</td>
+<td align="center">56</td>
+<td align="center">0x38</td>
+<td align="center">8</td>
+<td align="center">字符8</td>
+</tr>
+<tr>
+<td align="center">0011 1001</td>
+<td align="center">071</td>
+<td align="center">57</td>
+<td align="center">0x39</td>
+<td align="center">9</td>
+<td align="center">字符9</td>
+</tr>
+<tr>
+<td align="center">0011 1010</td>
+<td align="center">072</td>
+<td align="center">58</td>
+<td align="center">0x3A</td>
+<td align="center">:</td>
+<td align="center">冒号</td>
+</tr>
+<tr>
+<td align="center">0011 1011</td>
+<td align="center">073</td>
+<td align="center">59</td>
+<td align="center">0x3B</td>
+<td align="center">;</td>
+<td align="center">分号</td>
+</tr>
+<tr>
+<td align="center">0011 1100</td>
+<td align="center">074</td>
+<td align="center">60</td>
+<td align="center">0x3C</td>
+<td align="center">&lt;</td>
+<td align="center">小于</td>
+</tr>
+<tr>
+<td align="center">0011 1101</td>
+<td align="center">075</td>
+<td align="center">61</td>
+<td align="center">0x3D</td>
+<td align="center">&#x3D;</td>
+<td align="center">等号</td>
+</tr>
+<tr>
+<td align="center">0011 1110</td>
+<td align="center">076</td>
+<td align="center">62</td>
+<td align="center">0x3E</td>
+<td align="center">&gt;</td>
+<td align="center">大于</td>
+</tr>
+<tr>
+<td align="center">0011 1111</td>
+<td align="center">077</td>
+<td align="center">63</td>
+<td align="center">0x3F</td>
+<td align="center">?</td>
+<td align="center">问号</td>
+</tr>
+<tr>
+<td align="center">0100 0000</td>
+<td align="center">0100</td>
+<td align="center">64</td>
+<td align="center">0x40</td>
+<td align="center">@</td>
+<td align="center">电子邮件符号</td>
+</tr>
+<tr>
+<td align="center">0100 0001</td>
+<td align="center">0101</td>
+<td align="center">65</td>
+<td align="center">0x41</td>
+<td align="center">A</td>
+<td align="center">大写字母A</td>
+</tr>
+<tr>
+<td align="center">0100 0010</td>
+<td align="center">0102</td>
+<td align="center">66</td>
+<td align="center">0x42</td>
+<td align="center">B</td>
+<td align="center">大写字母B</td>
+</tr>
+<tr>
+<td align="center">0100 0011</td>
+<td align="center">0103</td>
+<td align="center">67</td>
+<td align="center">0x43</td>
+<td align="center">C</td>
+<td align="center">大写字母C</td>
+</tr>
+<tr>
+<td align="center">0100 0100</td>
+<td align="center">0104</td>
+<td align="center">68</td>
+<td align="center">0x44</td>
+<td align="center">D</td>
+<td align="center">大写字母D</td>
+</tr>
+<tr>
+<td align="center">0100 0101</td>
+<td align="center">0105</td>
+<td align="center">69</td>
+<td align="center">0x45</td>
+<td align="center">E</td>
+<td align="center">大写字母E</td>
+</tr>
+<tr>
+<td align="center">0100 0110</td>
+<td align="center">0106</td>
+<td align="center">70</td>
+<td align="center">0x46</td>
+<td align="center">F</td>
+<td align="center">大写字母F</td>
+</tr>
+<tr>
+<td align="center">0100 0111</td>
+<td align="center">0107</td>
+<td align="center">71</td>
+<td align="center">0x47</td>
+<td align="center">G</td>
+<td align="center">大写字母G</td>
+</tr>
+<tr>
+<td align="center">0100 1000</td>
+<td align="center">0110</td>
+<td align="center">72</td>
+<td align="center">0x48</td>
+<td align="center">H</td>
+<td align="center">大写字母H</td>
+</tr>
+<tr>
+<td align="center">0100 1001</td>
+<td align="center">0111</td>
+<td align="center">73</td>
+<td align="center">0x49</td>
+<td align="center">I</td>
+<td align="center">大写字母I</td>
+</tr>
+<tr>
+<td align="center">01001010</td>
+<td align="center">0112</td>
+<td align="center">74</td>
+<td align="center">0x4A</td>
+<td align="center">J</td>
+<td align="center">大写字母J</td>
+</tr>
+<tr>
+<td align="center">0100 1011</td>
+<td align="center">0113</td>
+<td align="center">75</td>
+<td align="center">0x4B</td>
+<td align="center">K</td>
+<td align="center">大写字母K</td>
+</tr>
+<tr>
+<td align="center">0100 1100</td>
+<td align="center">0114</td>
+<td align="center">76</td>
+<td align="center">0x4C</td>
+<td align="center">L</td>
+<td align="center">大写字母L</td>
+</tr>
+<tr>
+<td align="center">0100 1101</td>
+<td align="center">0115</td>
+<td align="center">77</td>
+<td align="center">0x4D</td>
+<td align="center">M</td>
+<td align="center">大写字母M</td>
+</tr>
+<tr>
+<td align="center">0100 1110</td>
+<td align="center">0116</td>
+<td align="center">78</td>
+<td align="center">0x4E</td>
+<td align="center">N</td>
+<td align="center">大写字母N</td>
+</tr>
+<tr>
+<td align="center">0100 1111</td>
+<td align="center">0117</td>
+<td align="center">79</td>
+<td align="center">0x4F</td>
+<td align="center">O</td>
+<td align="center">大写字母O</td>
+</tr>
+<tr>
+<td align="center">0101 0000</td>
+<td align="center">0120</td>
+<td align="center">80</td>
+<td align="center">0x50</td>
+<td align="center">P</td>
+<td align="center">大写字母P</td>
+</tr>
+<tr>
+<td align="center">0101 0001</td>
+<td align="center">0121</td>
+<td align="center">81</td>
+<td align="center">0x51</td>
+<td align="center">Q</td>
+<td align="center">大写字母Q</td>
+</tr>
+<tr>
+<td align="center">0101 0010</td>
+<td align="center">0122</td>
+<td align="center">82</td>
+<td align="center">0x52</td>
+<td align="center">R</td>
+<td align="center">大写字母R</td>
+</tr>
+<tr>
+<td align="center">0101 0011</td>
+<td align="center">0123</td>
+<td align="center">83</td>
+<td align="center">0x53</td>
+<td align="center">S</td>
+<td align="center">大写字母S</td>
+</tr>
+<tr>
+<td align="center">0101 0100</td>
+<td align="center">0124</td>
+<td align="center">84</td>
+<td align="center">0x54</td>
+<td align="center">T</td>
+<td align="center">大写字母T</td>
+</tr>
+<tr>
+<td align="center">0101 0101</td>
+<td align="center">0125</td>
+<td align="center">85</td>
+<td align="center">0x55</td>
+<td align="center">U</td>
+<td align="center">大写字母U</td>
+</tr>
+<tr>
+<td align="center">0101 0110</td>
+<td align="center">0126</td>
+<td align="center">86</td>
+<td align="center">0x56</td>
+<td align="center">V</td>
+<td align="center">大写字母V</td>
+</tr>
+<tr>
+<td align="center">0101 0111</td>
+<td align="center">0127</td>
+<td align="center">87</td>
+<td align="center">0x57</td>
+<td align="center">W</td>
+<td align="center">大写字母W</td>
+</tr>
+<tr>
+<td align="center">0101 1000</td>
+<td align="center">0130</td>
+<td align="center">88</td>
+<td align="center">0x58</td>
+<td align="center">X</td>
+<td align="center">大写字母X</td>
+</tr>
+<tr>
+<td align="center">0101 1001</td>
+<td align="center">0131</td>
+<td align="center">89</td>
+<td align="center">0x59</td>
+<td align="center">Y</td>
+<td align="center">大写字母Y</td>
+</tr>
+<tr>
+<td align="center">0101 1010</td>
+<td align="center">0132</td>
+<td align="center">90</td>
+<td align="center">0x5A</td>
+<td align="center">Z</td>
+<td align="center">大写字母Z</td>
+</tr>
+<tr>
+<td align="center">0101 1011</td>
+<td align="center">0133</td>
+<td align="center">91</td>
+<td align="center">0x5B</td>
+<td align="center">[</td>
+<td align="center">开方括号</td>
+</tr>
+<tr>
+<td align="center">0101 1100</td>
+<td align="center">0134</td>
+<td align="center">92</td>
+<td align="center">0x5C</td>
+<td align="center">\</td>
+<td align="center">反斜杠</td>
+</tr>
+<tr>
+<td align="center">0101 1101</td>
+<td align="center">0135</td>
+<td align="center">93</td>
+<td align="center">0x5D</td>
+<td align="center">]</td>
+<td align="center">闭方括号</td>
+</tr>
+<tr>
+<td align="center">0101 1110</td>
+<td align="center">0136</td>
+<td align="center">94</td>
+<td align="center">0x5E</td>
+<td align="center">^</td>
+<td align="center">脱字符</td>
+</tr>
+<tr>
+<td align="center">0101 1111</td>
+<td align="center">0137</td>
+<td align="center">95</td>
+<td align="center">0x5F</td>
+<td align="center">_</td>
+<td align="center">下划线</td>
+</tr>
+<tr>
+<td align="center">0110 0000</td>
+<td align="center">0140</td>
+<td align="center">96</td>
+<td align="center">0x60</td>
+<td align="center">&#96;</td>
+<td align="center">开单引号</td>
+</tr>
+<tr>
+<td align="center">0110 0001</td>
+<td align="center">0141</td>
+<td align="center">97</td>
+<td align="center">0x61</td>
+<td align="center">a</td>
+<td align="center">小写字母a</td>
+</tr>
+<tr>
+<td align="center">0110 0010</td>
+<td align="center">0142</td>
+<td align="center">98</td>
+<td align="center">0x62</td>
+<td align="center">b</td>
+<td align="center">小写字母b</td>
+</tr>
+<tr>
+<td align="center">0110 0011</td>
+<td align="center">0143</td>
+<td align="center">99</td>
+<td align="center">0x63</td>
+<td align="center">c</td>
+<td align="center">小写字母c</td>
+</tr>
+<tr>
+<td align="center">0110 0100</td>
+<td align="center">0144</td>
+<td align="center">100</td>
+<td align="center">0x64</td>
+<td align="center">d</td>
+<td align="center">小写字母d</td>
+</tr>
+<tr>
+<td align="center">0110 0101</td>
+<td align="center">0145</td>
+<td align="center">101</td>
+<td align="center">0x65</td>
+<td align="center">e</td>
+<td align="center">小写字母e</td>
+</tr>
+<tr>
+<td align="center">0110 0110</td>
+<td align="center">0146</td>
+<td align="center">102</td>
+<td align="center">0x66</td>
+<td align="center">f</td>
+<td align="center">小写字母f</td>
+</tr>
+<tr>
+<td align="center">0110 0111</td>
+<td align="center">0147</td>
+<td align="center">103</td>
+<td align="center">0x67</td>
+<td align="center">g</td>
+<td align="center">小写字母g</td>
+</tr>
+<tr>
+<td align="center">0110 1000</td>
+<td align="center">0150</td>
+<td align="center">104</td>
+<td align="center">0x68</td>
+<td align="center">h</td>
+<td align="center">小写字母h</td>
+</tr>
+<tr>
+<td align="center">0110 1001</td>
+<td align="center">0151</td>
+<td align="center">105</td>
+<td align="center">0x69</td>
+<td align="center">i</td>
+<td align="center">小写字母i</td>
+</tr>
+<tr>
+<td align="center">0110 1010</td>
+<td align="center">0152</td>
+<td align="center">106</td>
+<td align="center">0x6A</td>
+<td align="center">j</td>
+<td align="center">小写字母j</td>
+</tr>
+<tr>
+<td align="center">0110 1011</td>
+<td align="center">0153</td>
+<td align="center">107</td>
+<td align="center">0x6B</td>
+<td align="center">k</td>
+<td align="center">小写字母k</td>
+</tr>
+<tr>
+<td align="center">0110 1100</td>
+<td align="center">0154</td>
+<td align="center">108</td>
+<td align="center">0x6C</td>
+<td align="center">l</td>
+<td align="center">小写字母l</td>
+</tr>
+<tr>
+<td align="center">0110 1101</td>
+<td align="center">0155</td>
+<td align="center">109</td>
+<td align="center">0x6D</td>
+<td align="center">m</td>
+<td align="center">小写字母m</td>
+</tr>
+<tr>
+<td align="center">0110 1110</td>
+<td align="center">0156</td>
+<td align="center">110</td>
+<td align="center">0x6E</td>
+<td align="center">n</td>
+<td align="center">小写字母n</td>
+</tr>
+<tr>
+<td align="center">0110 1111</td>
+<td align="center">0157</td>
+<td align="center">111</td>
+<td align="center">0x6F</td>
+<td align="center">o</td>
+<td align="center">小写字母o</td>
+</tr>
+<tr>
+<td align="center">0111 0000</td>
+<td align="center">0160</td>
+<td align="center">112</td>
+<td align="center">0x70</td>
+<td align="center">p</td>
+<td align="center">小写字母p</td>
+</tr>
+<tr>
+<td align="center">0111 0001</td>
+<td align="center">0161</td>
+<td align="center">113</td>
+<td align="center">0x71</td>
+<td align="center">q</td>
+<td align="center">小写字母q</td>
+</tr>
+<tr>
+<td align="center">0111 0010</td>
+<td align="center">0162</td>
+<td align="center">114</td>
+<td align="center">0x72</td>
+<td align="center">r</td>
+<td align="center">小写字母r</td>
+</tr>
+<tr>
+<td align="center">0111 0011</td>
+<td align="center">0163</td>
+<td align="center">115</td>
+<td align="center">0x73</td>
+<td align="center">s</td>
+<td align="center">小写字母s</td>
+</tr>
+<tr>
+<td align="center">0111 0100</td>
+<td align="center">0164</td>
+<td align="center">116</td>
+<td align="center">0x74</td>
+<td align="center">t</td>
+<td align="center">小写字母t</td>
+</tr>
+<tr>
+<td align="center">0111 0101</td>
+<td align="center">0165</td>
+<td align="center">117</td>
+<td align="center">0x75</td>
+<td align="center">u</td>
+<td align="center">小写字母u</td>
+</tr>
+<tr>
+<td align="center">0111 0110</td>
+<td align="center">0166</td>
+<td align="center">118</td>
+<td align="center">0x76</td>
+<td align="center">v</td>
+<td align="center">小写字母v</td>
+</tr>
+<tr>
+<td align="center">0111 0111</td>
+<td align="center">0167</td>
+<td align="center">119</td>
+<td align="center">0x77</td>
+<td align="center">w</td>
+<td align="center">小写字母w</td>
+</tr>
+<tr>
+<td align="center">0111 1000</td>
+<td align="center">0170</td>
+<td align="center">120</td>
+<td align="center">0x78</td>
+<td align="center">x</td>
+<td align="center">小写字母x</td>
+</tr>
+<tr>
+<td align="center">0111 1001</td>
+<td align="center">0171</td>
+<td align="center">121</td>
+<td align="center">0x79</td>
+<td align="center">y</td>
+<td align="center">小写字母y</td>
+</tr>
+<tr>
+<td align="center">0111 1010</td>
+<td align="center">0172</td>
+<td align="center">122</td>
+<td align="center">0x7A</td>
+<td align="center">z</td>
+<td align="center">小写字母z</td>
+</tr>
+<tr>
+<td align="center">0111 1011</td>
+<td align="center">0173</td>
+<td align="center">123</td>
+<td align="center">0x7B</td>
+<td align="center">{</td>
+<td align="center">开花括号</td>
+</tr>
+<tr>
+<td align="center">0111 1100</td>
+<td align="center">0174</td>
+<td align="center">124</td>
+<td align="center">0x7C</td>
+<td align="center">|</td>
+<td align="center">垂线</td>
+</tr>
+<tr>
+<td align="center">0111 1101</td>
+<td align="center">0175</td>
+<td align="center">125</td>
+<td align="center">0x7D</td>
+<td align="center">}</td>
+<td align="center">闭花括号</td>
+</tr>
+<tr>
+<td align="center">0111 1110</td>
+<td align="center">0176</td>
+<td align="center">126</td>
+<td align="center">0x7E</td>
+<td align="center">~</td>
+<td align="center">波浪号</td>
+</tr>
+<tr>
+<td align="center">0111 1111</td>
+<td align="center">0177</td>
+<td align="center">127</td>
+<td align="center">0x7F</td>
+<td align="center">DEL (delete)</td>
+<td align="center">删除</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag">基础知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="编程规范" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            编程规范
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="链接文件" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          链接文件
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AUTOSAR%E6%9E%B6%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">AUTOSAR架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTOSAR%E6%9E%B6%E6%9E%84%E6%A6%82%E8%BF%B0"><span class="toc-number">2.0.1.</span> <span class="toc-text">AUTOSAR架构概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTOSAR%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84"><span class="toc-number">2.0.2.</span> <span class="toc-text">AUTOSAR层次结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AUTOSAR%E6%9E%B6%E6%9E%84%E5%9B%BE%E7%A4%BA"><span class="toc-number">2.0.3.</span> <span class="toc-text">AUTOSAR架构图示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9%E5%92%8C%E4%BC%98%E5%8A%BF"><span class="toc-number">2.0.4.</span> <span class="toc-text">主要特点和优势</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E6%A1%88%E4%BE%8B"><span class="toc-number">2.0.5.</span> <span class="toc-text">应用案例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BSP"><span class="toc-number">3.</span> <span class="toc-text">BSP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BSP-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">3.0.1.</span> <span class="toc-text">BSP 的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BSP-%E7%9A%84%E5%85%B8%E5%9E%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">3.0.2.</span> <span class="toc-text">BSP 的典型目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%E8%AF%B4%E6%98%8E"><span class="toc-number">3.0.3.</span> <span class="toc-text">示例说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-BSP-%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.0.4.</span> <span class="toc-text">使用 BSP 的步骤</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ECU"><span class="toc-number">4.</span> <span class="toc-text">ECU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">硬件架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="toc-number">4.2.</span> <span class="toc-text">软件架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ECU%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%E5%92%8C%E7%A7%8D%E7%B1%BB"><span class="toc-number">4.3.</span> <span class="toc-text">ECU的主要功能和种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ECU%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.4.</span> <span class="toc-text">ECU的工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ECU%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="toc-number">4.5.</span> <span class="toc-text">ECU的重要性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ASSIC%E7%A0%81%E8%A1%A8"><span class="toc-number">5.</span> <span class="toc-text">ASSIC码表</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "软件基础",
+          url: "http://example.com/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/",
+          excerpt: "",
+          description: "",
+          stripContent: "参考链接这些嵌入式知识助 你秋招，也助你进阶 (qq.com) AUTOSAR架构AUTOSAR（Automotive Open System Architecture）是一个用于开发汽车电子系统的软件架构标准。它通过标准化的架构提高了软件的可重用性和可移植性，减少了开发时间和成本。以下是AUTOSAR架构的详细描述： AUTOSAR架构概述AUTOSAR架构由多个层次组成，包括应用软件层（Application Layer）、运行时环境（Runtime Environment, RTE）和基础",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

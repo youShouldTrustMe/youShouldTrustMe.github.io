@@ -1,0 +1,1015 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    Linux |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="安装首先从下载Ubuntu桌面系统 | Ubuntu上下载镜像文件，下载完成之后，下载启动盘制作工具的软件，使用Rufus - 轻松创建 USB 启动盘或者UltraISO软碟通中文官方网站 - 光盘映像文件制作&#x2F;编辑&#x2F;转换工具。准备一个8G以上的U盘，&#x3D;&#x3D;注意，U盘一定要先格式化，文件系统格式为FAT32&#x3D;&#x3D;。 制作启动盘请参考Ultr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux">
+<meta property="og:url" content="http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="安装首先从下载Ubuntu桌面系统 | Ubuntu上下载镜像文件，下载完成之后，下载启动盘制作工具的软件，使用Rufus - 轻松创建 USB 启动盘或者UltraISO软碟通中文官方网站 - 光盘映像文件制作&#x2F;编辑&#x2F;转换工具。准备一个8G以上的U盘，&#x3D;&#x3D;注意，U盘一定要先格式化，文件系统格式为FAT32&#x3D;&#x3D;。 制作启动盘请参考Ultr">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.881Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="软件及工具">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="Linux">
+          
+        </picture>
+        
+          <img alt="Linux" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Linux</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">基础工具</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#apt"><span class="toc-number">2.1.</span> <span class="toc-text">apt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zsh"><span class="toc-number">2.2.</span> <span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i3wm"><span class="toc-number">2.3.</span> <span class="toc-text">i3wm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">2.3.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">2.3.2.</span> <span class="toc-text">默认的快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6i3wm"><span class="toc-number">2.3.3.</span> <span class="toc-text">定制i3wm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E5%B7%A5%E5%85%B7"><span class="toc-number">2.4.</span> <span class="toc-text">小工具</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-软件及工具的使用/Linux" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>首先从<a target="_blank" rel="noopener" href="https://cn.ubuntu.com/download/desktop">下载Ubuntu桌面系统 | Ubuntu</a>上下载镜像文件，下载完成之后，下载启动盘制作工具的软件，使用<a target="_blank" rel="noopener" href="https://rufus.ie/zh/">Rufus - 轻松创建 USB 启动盘</a>或者<a target="_blank" rel="noopener" href="https://ultraiso.net/">UltraISO软碟通中文官方网站 - 光盘映像文件制作&#x2F;编辑&#x2F;转换工具</a>。准备一个8G以上的U盘，&#x3D;&#x3D;注意，U盘一定要先格式化，文件系统格式为FAT32&#x3D;&#x3D;。</p>
+<p>制作启动盘请参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43901693/article/details/95535051">UltralSO 软碟通制作U盘启动盘（图解详细 完美避坑）_软碟通怎么制作u盘启动盘-CSDN博客</a>或<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/370193387">Windows10怎么使用Rufus制作USB启动盘？ - 知乎 (zhihu.com)</a></p>
+<p>制作好启动盘之后，重启电脑的时候，等待出现电脑的Logo的时候，按住进入BISO的按键（华硕是F2），拖动启动顺序（Boot）</p>
+<p><a target="_blank" rel="noopener" href="https://cn.linux-terminal.com/?p=7582">https://cn.linux-terminal.com/?p=7582</a></p>
+<h1 id="基础工具"><a href="#基础工具" class="headerlink" title="基础工具"></a>基础工具</h1><h2 id="apt"><a href="#apt" class="headerlink" title="apt"></a>apt</h2><p><code>apt</code>是包管理工具,常用命令如下：</p>
+<p><code>apt</code> 常用的命令有：</p>
+<ul>
+<li><p><strong>更新本地包列表：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>升级所有已安装的软件包：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt upgrade</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装新的软件包：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>删除已安装的软件包：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt remove &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>完全删除软件包（包括配置文件）：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt purge &lt;package_name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>清理系统不再需要的包：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt autoremove</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>显示有关包的信息：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt show &lt;package_name&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="zsh"><a href="#zsh" class="headerlink" title="zsh"></a>zsh</h2><p>参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://www.haoyep.com/posts/zsh-config-oh-my-zsh/">Zsh 安装与配置，使用 Oh-My-Zsh 美化终端 | Leehow的小站 (haoyep.com)</a></p>
+<p>安装及使用zsh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install git</span><br><span class="line"><span class="built_in">sudo</span> apt install zsh</span><br><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br><span class="line">chsh -s /usr/bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>这里的<code>chsh</code>命令是将shell设置为zsh，如果想要换回bash，首先要查看有哪些shell</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span>   /etc/shells</span><br></pre></td></tr></table></figure>
+
+<p>换回去只需要再使用<code>chsh</code>即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh  -s  /bin/bash </span><br></pre></td></tr></table></figure>
+
+<p>安装主题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth=1 https://github.com/romkatv/powerlevel10k.git <span class="variable">$&#123;ZSH_CUSTOM:-<span class="variable">$HOME</span>/.oh-my-zsh/custom&#125;</span>/themes/powerlevel10k</span><br></pre></td></tr></table></figure>
+
+<p>安装字体</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install fonts-powerline</span><br></pre></td></tr></table></figure>
+
+<p>更新源</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>之后按下<kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>r</kbd>更新</p>
+<h2 id="i3wm"><a href="#i3wm" class="headerlink" title="i3wm"></a>i3wm</h2><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a target="_blank" rel="noopener" href="https://linux.cn/article-15955-1.html">桌面应用|i3 窗口管理器终极定制指南 (linux.cn)</a></p>
+<h3 id="默认的快捷键"><a href="#默认的快捷键" class="headerlink" title="默认的快捷键"></a>默认的快捷键</h3><table>
+<thead>
+<tr>
+<th>按键绑定</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Mod + Enter</code></td>
+<td>打开终端。</td>
+</tr>
+<tr>
+<td><code>Mod + ←</code></td>
+<td>切换到左侧窗口。</td>
+</tr>
+<tr>
+<td><code>Mod + →</code></td>
+<td>切换到右侧窗口。</td>
+</tr>
+<tr>
+<td><code>Mod + ↑</code></td>
+<td>切换到上方窗口。</td>
+</tr>
+<tr>
+<td><code>Mod + ↓</code></td>
+<td>切换到下方窗口。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + ←</code></td>
+<td>将窗口移动到左侧。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + →</code></td>
+<td>将窗口移动到右侧。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + ↑</code></td>
+<td>将窗口移动到上方。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + ↓</code></td>
+<td>将窗口移动到下方。</td>
+</tr>
+<tr>
+<td><code>Mod + f</code></td>
+<td>将焦点窗口切换到全屏模式。</td>
+</tr>
+<tr>
+<td><code>Mod + v</code></td>
+<td>下一个窗口将垂直放置。</td>
+</tr>
+<tr>
+<td><code>Mod + h</code></td>
+<td>下一个窗口将水平放置。</td>
+</tr>
+<tr>
+<td><code>Mod + s</code></td>
+<td>启用堆叠式窗口布局。</td>
+</tr>
+<tr>
+<td><code>Mod + w</code></td>
+<td>启用选项卡式窗口布局。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + Space</code></td>
+<td>启用浮动窗口（针对焦点窗口）。</td>
+</tr>
+<tr>
+<td><code>Mod + 鼠标左键单击</code></td>
+<td>使用鼠标拖动整个窗口。</td>
+</tr>
+<tr>
+<td><code>Mod + 0-9</code></td>
+<td>切换到另一个工作区。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + 0-9</code></td>
+<td>将窗口移动到另一个工作区。</td>
+</tr>
+<tr>
+<td><code>Mod + d</code></td>
+<td>打开应用程序启动器（D 菜单）。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + q</code></td>
+<td>关闭焦点窗口。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + c</code></td>
+<td>重新加载 i3 配置文件。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + r</code></td>
+<td>重启 i3 窗口管理器。</td>
+</tr>
+<tr>
+<td><code>Mod + Shift + e</code></td>
+<td>退出 i3 窗口管理器。</td>
+</tr>
+</tbody></table>
+<h3 id="定制i3wm"><a href="#定制i3wm" class="headerlink" title="定制i3wm"></a>定制i3wm</h3><p>安装壁纸插件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install feh</span><br></pre></td></tr></table></figure>
+
+<p>打开i3wm配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.config/i3/config</span><br></pre></td></tr></table></figure>
+
+<p>在config文件后面添加以下命令设置壁纸</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec_always feh --bg-fill /path/to/wallpaper</span><br></pre></td></tr></table></figure>
+
+<h2 id="小工具"><a href="#小工具" class="headerlink" title="小工具"></a>小工具</h2><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>工具名称</th>
+<th>网址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>代替man的工具</td>
+<td>Npm install -g Tldr</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/tldr-pages/tldr">GitHub   - tldr-pages&#x2F;tldr: 📚 Collaborative cheatsheets for console commands</a></td>
+</tr>
+<tr>
+<td>安装tldr需要先安装</td>
+<td>nodejs、npm</td>
+<td>这里可能需要重启虚拟机才能生效</td>
+</tr>
+<tr>
+<td>对脚本文件进行错误提示</td>
+<td>shellcheck</td>
+<td></td>
+</tr>
+<tr>
+<td>可以最大化利用terminal</td>
+<td>Tmux</td>
+<td></td>
+</tr>
+<tr>
+<td>编辑器之神</td>
+<td>Vim</td>
+<td></td>
+</tr>
+<tr>
+<td>代替find</td>
+<td>fd</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/sharkdp/fd">GitHub - sharkdp&#x2F;fd: A simple, fast and   user-friendly alternative to ‘find’</a></td>
+</tr>
+<tr>
+<td>代替grep</td>
+<td>rg</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/BurntSushi/ripgrep">github.com</a></td>
+</tr>
+<tr>
+<td>文件夹工具，可以对文件夹的切换进行优化</td>
+<td>fasd</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/clvv/fasd">GitHub - clvv&#x2F;fasd: Command-line   productivity booster, offers quick access to files and directories, inspired   by autojump, z and v.</a></td>
+</tr>
+<tr>
+<td>模糊文件查找</td>
+<td>Ctrlp</td>
+<td></td>
+</tr>
+<tr>
+<td>文件浏览器</td>
+<td>nerdtree</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/preservim/nerdtree#frequently-asked-questions">GitHub   - preservim&#x2F;nerdtree: A tree explorer plugin for vim.</a></td>
+</tr>
+<tr>
+<td>代码联想</td>
+<td>Youcompleteme</td>
+<td><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/4cbdadab3ad0">YouCompleteMe   安装配置方法 - 简书 (jianshu.com)</a></td>
+</tr>
+<tr>
+<td>文件层级</td>
+<td></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/Yggdroot/indentLine">Yggdroot&#x2F;indentLine: A vim   plugin to display the indention levels with thin vertical lines (github.com)</a></td>
+</tr>
+<tr>
+<td>图床工具</td>
+<td>PicList</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/Kuingsmile/PicList">https://github.com/Kuingsmile/PicList</a></td>
+</tr>
+<tr>
+<td>onedrive</td>
+<td></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_15674631/article/details/137602288">https://blog.csdn.net/qq_15674631/article/details/137602288</a></td>
+</tr>
+<tr>
+<td>美化</td>
+<td></td>
+<td><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_15674631/article/details/130512285">https://blog.csdn.net/qq_15674631/article/details/130512285</a></td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/" rel="tag">软件及工具</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Git" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Git
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Ollama" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Ollama/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          Ollama
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">基础工具</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#apt"><span class="toc-number">2.1.</span> <span class="toc-text">apt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#zsh"><span class="toc-number">2.2.</span> <span class="toc-text">zsh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#i3wm"><span class="toc-number">2.3.</span> <span class="toc-text">i3wm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">2.3.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">2.3.2.</span> <span class="toc-text">默认的快捷键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6i3wm"><span class="toc-number">2.3.3.</span> <span class="toc-text">定制i3wm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E5%B7%A5%E5%85%B7"><span class="toc-number">2.4.</span> <span class="toc-text">小工具</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "Linux",
+          url: "http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/",
+          excerpt: "",
+          description: "",
+          stripContent: "安装首先从下载Ubuntu桌面系统 | Ubuntu上下载镜像文件，下载完成之后，下载启动盘制作工具的软件，使用Rufus - 轻松创建 USB 启动盘或者UltraISO软碟通中文官方网站 - 光盘映像文件制作&amp;#x2F;编辑&amp;#x2F;转换工具。准备一个8G以上的U盘，&amp;#x3D;&amp;#x3D;注意，U盘一定要先格式化，文件系统格式为FAT32&amp;#x3D;&amp;#x3D;。 制作启动盘请参考UltralSO 软碟通制作U盘启动盘（图解详细 完美避坑）_软碟通怎么制作u盘启动盘-CSDN博客或Win",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

@@ -1,0 +1,1318 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    ADC |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="ADC简介介绍 ADC（Analog-Digital Converter）模拟-数字转换器 ADC可以将引脚上连续变化的模拟电压转换为内存中存储的数字变量，建立模拟电路到数字电路的桥梁 12位逐次逼近型ADC，1us转换时间 输入电压范围：0 ~ 3.3V，转换结果范围：0~4095 18个输入通道，可测量16个外部和2个内部信号源 规则组和注入组两个转换单元 模拟看门狗自动监测输入电压范围 ST">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADC">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="ADC简介介绍 ADC（Analog-Digital Converter）模拟-数字转换器 ADC可以将引脚上连续变化的模拟电压转换为内存中存储的数字变量，建立模拟电路到数字电路的桥梁 12位逐次逼近型ADC，1us转换时间 输入电压范围：0 ~ 3.3V，转换结果范围：0~4095 18个输入通道，可测量16个外部和2个内部信号源 规则组和注入组两个转换单元 模拟看门狗自动监测输入电压范围 ST">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_21_202407090908750.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_44_202407090908861.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_50_202407090908781.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_10_13_202407090910385.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_11_6_202407090911343.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_59_45_202407090959699.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_11_52_202407090911928.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_14_18_202407090914364.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_14_47_202407090914012.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_15_8_202407090915402.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_16_32_202407090916381.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_16_39_202407090916824.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_16_46_202407090916364.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_17_3_202407090917331.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_17_46_202407090917566.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_18_19_202407090918693.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_18_44_202407090918344.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/12_17_12_59_202505121712717.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/12_17_13_47_202505121713672.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/12_17_14_19_202505121714200.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_26_12_202407090926838.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_20_32_202407090920470.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_20_46_202407090920976.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_2_202407090921174.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_20_202407090921890.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_34_202407090921711.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_49_202407090921081.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_22_8_202407090922859.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.871Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png" alt="ADC">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">ADC</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ADC%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">ADC简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81ADC%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">常见ADC类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%81%94%E6%AF%94%E8%BE%83%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">并联比较型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%90%E6%AC%A1%E9%80%BC%E8%BF%91%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">逐次逼近型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E5%8F%82%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">特性参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%B3%BB%E5%88%97%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7"><span class="toc-number">3.2.</span> <span class="toc-text">各系列主要特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">整体结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-number">4.1.</span> <span class="toc-text">结构框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E7%94%B5%E5%8E%8B-%E6%A8%A1%E6%8B%9F%E9%83%A8%E5%88%86%E7%94%B5%E5%8E%8B"><span class="toc-number">4.2.</span> <span class="toc-text">参考电压&#x2F;模拟部分电压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E9%80%9A%E9%81%93"><span class="toc-number">4.3.</span> <span class="toc-text">输入通道</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E9%80%9A%E9%81%93"><span class="toc-number">4.3.1.</span> <span class="toc-text">规则通道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E9%80%9A%E9%81%93"><span class="toc-number">4.3.2.</span> <span class="toc-text">注入通道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E9%A1%BA%E5%BA%8F"><span class="toc-number">4.4.</span> <span class="toc-text">转换顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E9%80%9A%E9%81%93%E8%BD%AC%E6%8D%A2%E9%A1%BA%E5%BA%8F"><span class="toc-number">4.4.1.</span> <span class="toc-text">规则通道转换顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E6%AF%94%E8%BE%83"><span class="toc-number">4.4.2.</span> <span class="toc-text">优先级比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E5%BA%8F%E5%88%97"><span class="toc-number">4.4.3.</span> <span class="toc-text">规则序列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E5%BA%8F%E5%88%97"><span class="toc-number">4.4.4.</span> <span class="toc-text">注入序列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%BA%90"><span class="toc-number">4.5.</span> <span class="toc-text">触发源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%97%B6%E9%97%B4"><span class="toc-number">4.6.</span> <span class="toc-text">转换时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%97%B6%E9%92%9F"><span class="toc-number">4.6.1.</span> <span class="toc-text">输入时钟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E6%A0%B7%E5%91%A8%E6%9C%9F"><span class="toc-number">4.6.2.</span> <span class="toc-text">采样周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%97%B6%E9%97%B4-1"><span class="toc-number">4.6.3.</span> <span class="toc-text">转换时间</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">4.7.</span> <span class="toc-text">数据寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD"><span class="toc-number">4.8.</span> <span class="toc-text">中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%8E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.9.</span> <span class="toc-text">电压转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E6%AC%A1%E8%BD%AC%E6%8D%A2%E5%92%8C%E8%BF%9E%E7%BB%AD%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.10.</span> <span class="toc-text">单次转换和连续转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BB%84%E5%90%88"><span class="toc-number">4.11.</span> <span class="toc-text">不同模式的组合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">5.</span> <span class="toc-text">实验</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/外设组件/ADC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="ADC简介"><a href="#ADC简介" class="headerlink" title="ADC简介"></a>ADC简介</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
+<li>ADC（Analog-Digital Converter）模拟-数字转换器</li>
+<li>ADC可以将引脚上连续变化的模拟电压转换为内存中存储的数字变量，建立模拟电路到数字电路的桥梁</li>
+<li>12位逐次逼近型ADC，1us转换时间</li>
+<li>输入电压范围：0 ~ 3.3V，转换结果范围：0~4095</li>
+<li>18个输入通道，可测量16个外部和2个内部信号源</li>
+<li>规则组和注入组两个转换单元</li>
+<li>模拟看门狗自动监测输入电压范围</li>
+<li>STM32F103C8T6 ADC资源：ADC1、ADC2，10个外部输入通道</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png" alt="ADC介绍"></p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="常见ADC类型"><a href="#常见ADC类型" class="headerlink" title="常见ADC类型"></a>常见ADC类型</h2><table>
+<thead>
+<tr>
+<th><strong>ADC电路类型</strong></th>
+<th><strong>优点</strong></th>
+<th><strong>缺点</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>并联比较型</strong></td>
+<td>转换速度最快</td>
+<td>成本高、功耗高，分辨率低</td>
+</tr>
+<tr>
+<td><strong>逐次逼近型</strong></td>
+<td>结构简单，功耗低</td>
+<td>转换速度较慢</td>
+</tr>
+</tbody></table>
+<h2 id="并联比较型"><a href="#并联比较型" class="headerlink" title="并联比较型"></a>并联比较型</h2><p>将输入的参考电压和模拟电压输入进行比较，比较器会输出0或1从而获得二进制的数字量</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_21_202407090908750.png" alt="并联比较型"></p>
+<h2 id="逐次逼近型"><a href="#逐次逼近型" class="headerlink" title="逐次逼近型"></a>逐次逼近型</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_44_202407090908861.png" alt="逐次逼近型"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_8_50_202407090908781.png" alt="逐次逼近型原理"></p>
+<h1 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h1><h2 id="特性参数"><a href="#特性参数" class="headerlink" title="特性参数"></a>特性参数</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_10_13_202407090910385.png" alt="特性参数"></p>
+<h2 id="各系列主要特性"><a href="#各系列主要特性" class="headerlink" title="各系列主要特性"></a>各系列主要特性</h2><table>
+<thead>
+<tr>
+<th><strong>主要特性</strong></th>
+<th><strong>F1</strong></th>
+<th><strong>F4</strong></th>
+<th><strong>F7</strong></th>
+<th><strong>H7</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ADC类型</strong></td>
+<td>逐次逼近型</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>分辨率</strong></td>
+<td>12位</td>
+<td>6&#x2F;8&#x2F;10&#x2F;12位</td>
+<td>6&#x2F;8&#x2F;10&#x2F;12位</td>
+<td>8&#x2F;10&#x2F;12&#x2F;14&#x2F;16位</td>
+</tr>
+<tr>
+<td><strong>ADC时钟频率</strong></td>
+<td>14MHz（max）</td>
+<td>36MHz（max）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>采样时间</strong></td>
+<td>采样时间越长, 转换结果相对越准确, 但是转换速度就越慢</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>转换时间</strong></td>
+<td>与ADC时钟频率、分辨率和采样时间等有关</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>供电电压</strong></td>
+<td>VSSA ：0V，VDDA ：2.4V~3.6V（全速运行）</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>参考电压</strong></td>
+<td>VREF– ：0V，VREF+一般为3.3V</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>输入电压</strong></td>
+<td>VREF–≤VIN≤VREF+</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h1><h2 id="结构框图"><a href="#结构框图" class="headerlink" title="结构框图"></a>结构框图</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_11_6_202407090911343.png" alt="结构框图"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_59_45_202407090959699.png" alt="ADC简图"></p>
+<h2 id="参考电压-模拟部分电压"><a href="#参考电压-模拟部分电压" class="headerlink" title="参考电压&#x2F;模拟部分电压"></a>参考电压&#x2F;模拟部分电压</h2><p>ADC所能测量的电压范围是Vref- &lt; VIN &lt; Vref+,如果把VSSA和VREF-接地，把VREF+和VDDA接3V3，得到ADC的输入范围为0-3.3v</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_11_52_202407090911928.png" alt="参考电压&#x2F;模拟部分电压"></p>
+<h2 id="输入通道"><a href="#输入通道" class="headerlink" title="输入通道"></a>输入通道</h2><p>ADC的信号输入通过通道来实现的，信号通过通道输入到单片机中，单片机经过转换后，将模拟信号转换为数字信号。Stm32中的ADC有18个通道，其中外部16个通道已经在图中标出，这16个通道对应着不同的IO口，除此之外ADC1&#x2F;2&#x2F;3还有内部通道。</p>
+<table>
+<thead>
+<tr>
+<th><strong>ADC1</strong></th>
+<th><strong>IO</strong></th>
+<th><strong>ADC2</strong></th>
+<th><strong>IO</strong></th>
+<th><strong>ADC3</strong></th>
+<th><strong>IO</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>通道0</td>
+<td>PA0</td>
+<td>通道0</td>
+<td>PA0</td>
+<td>通道0</td>
+<td>PA0</td>
+</tr>
+<tr>
+<td>通道1</td>
+<td>PA1</td>
+<td>通道1</td>
+<td>PA1</td>
+<td>通道1</td>
+<td>PA1</td>
+</tr>
+<tr>
+<td>通道2</td>
+<td>PA2</td>
+<td>通道2</td>
+<td>PA2</td>
+<td>通道2</td>
+<td>PA2</td>
+</tr>
+<tr>
+<td>通道3</td>
+<td>PA3</td>
+<td>通道3</td>
+<td>PA3</td>
+<td>通道3</td>
+<td>PA3</td>
+</tr>
+<tr>
+<td>通道4</td>
+<td>PA4</td>
+<td>通道4</td>
+<td>PA4</td>
+<td>通道4</td>
+<td>PF6</td>
+</tr>
+<tr>
+<td>通道5</td>
+<td>PA5</td>
+<td>通道5</td>
+<td>PA5</td>
+<td>通道5</td>
+<td>PF7</td>
+</tr>
+<tr>
+<td>通道6</td>
+<td>PA6</td>
+<td>通道6</td>
+<td>PA6</td>
+<td>通道6</td>
+<td>PF8</td>
+</tr>
+<tr>
+<td>通道7</td>
+<td>PA7</td>
+<td>通道7</td>
+<td>PA7</td>
+<td>通道7</td>
+<td>PF9</td>
+</tr>
+<tr>
+<td>通道8</td>
+<td>PB0</td>
+<td>通道8</td>
+<td>PB0</td>
+<td>通道8</td>
+<td>PF10</td>
+</tr>
+<tr>
+<td>通道9</td>
+<td>PB1</td>
+<td>通道9</td>
+<td>PB1</td>
+<td>通道9</td>
+<td>连接内部VSS</td>
+</tr>
+<tr>
+<td>通道10</td>
+<td>PC0</td>
+<td>通道10</td>
+<td>PC0</td>
+<td>通道10</td>
+<td>PC0</td>
+</tr>
+<tr>
+<td>通道11</td>
+<td>PC1</td>
+<td>通道11</td>
+<td>PC1</td>
+<td>通道11</td>
+<td>PC1</td>
+</tr>
+<tr>
+<td>通道12</td>
+<td>PC2</td>
+<td>通道12</td>
+<td>PC2</td>
+<td>通道12</td>
+<td>PC2</td>
+</tr>
+<tr>
+<td>通道13</td>
+<td>PC3</td>
+<td>通道13</td>
+<td>PC3</td>
+<td>通道13</td>
+<td>PC3</td>
+</tr>
+<tr>
+<td>通道14</td>
+<td>PC4</td>
+<td>通道14</td>
+<td>PC4</td>
+<td>通道14</td>
+<td>连接内部VSS</td>
+</tr>
+<tr>
+<td>通道15</td>
+<td>PC5</td>
+<td>通道15</td>
+<td>PC5</td>
+<td>通道15</td>
+<td>连接内部VSS</td>
+</tr>
+<tr>
+<td>通道16</td>
+<td>连接内部温度传感器</td>
+<td>通道16</td>
+<td>连接内部VSS</td>
+<td>通道16</td>
+<td>连接内部VSS</td>
+</tr>
+<tr>
+<td>通道17</td>
+<td>连接内部Vrefint</td>
+<td>通道17</td>
+<td>连接内部VSS</td>
+<td>通道17</td>
+<td>连接内部VSS</td>
+</tr>
+</tbody></table>
+<p>外部的16个通道在转换时又分为规则通道和注入通道，其中规则通道最多有16路，注入通道最多有4路</p>
+<h3 id="规则通道"><a href="#规则通道" class="headerlink" title="规则通道"></a>规则通道</h3><p>规则通道是用于普通的周期性 ADC 数据采集的通道。它们适用于周期性地采集模拟信号，例如传感器测量、输入信号的连续转换等。在规则通道中，可以设置 ADC 转换的采样时间、分辨率等参数。</p>
+<h3 id="注入通道"><a href="#注入通道" class="headerlink" title="注入通道"></a>注入通道</h3><p>注入通道是用于触发式或突发式 ADC 数据采集的通道。它们适用于在特定事件或条件下进行数据采集，例如外部触发或中断事件。注入通道可以用于实现对不同事件的响应并采集模拟信号。在注入通道中，您可以设置触发源、采样时间等参数。</p>
+<h2 id="转换顺序"><a href="#转换顺序" class="headerlink" title="转换顺序"></a>转换顺序</h2><p>知道了ADC的转换通道后，如果ADC只使用一个通道来转换，那就很简单，但如果是使用多个通道进行转换就涉及到一个先后顺序了，毕竟规则转换通道只有一个数据寄存器。所以将转换的顺序分组，每组转换的顺序组成一个序列。</p>
+<p>多个通道的使用顺序分为俩种情况：</p>
+<ul>
+<li><p>规则通道的转换顺序</p>
+</li>
+<li><p>注入通道的转换顺序</p>
+</li>
+</ul>
+<p>这里的规则组只有一个寄存器，所以说当数据转换完成之后就需要尽快转移数据，防止数据覆盖。注入组有四个寄存器，可以将转换的数据存在各自的寄存器中。</p>
+<h3 id="规则通道转换顺序"><a href="#规则通道转换顺序" class="headerlink" title="规则通道转换顺序"></a>规则通道转换顺序</h3><p>规则通道中的转换顺序由三个寄存器控制：SQR1、SQR2、SQR3，它们都是32位寄存器。SQR寄存器控制着转换通道的数目和转换顺序，只要在对应的寄存器位SQx中写入相应的通道，这个通道就是第x个转换。具体的对应关系如下</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_14_18_202407090914364.png" alt="规则通道转换顺序"></p>
+<h3 id="优先级比较"><a href="#优先级比较" class="headerlink" title="优先级比较"></a>优先级比较</h3><p>注入组优先级高于规则组，注入组的转换可以打断规则组。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_14_47_202407090914012.png" alt="优先级比较"></p>
+<h3 id="规则序列"><a href="#规则序列" class="headerlink" title="规则序列"></a>规则序列</h3><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_15_8_202407090915402.png" alt="规则序列"></p>
+<table>
+<thead>
+<tr>
+<th><strong>规则序列寄存器控制关系汇总</strong></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>寄存器</td>
+<td>寄存器位</td>
+<td>功能</td>
+<td>取值</td>
+</tr>
+<tr>
+<td>SQR3</td>
+<td>SQ1 [ 4 : 0 ]</td>
+<td>设置第1个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ2 [ 4 : 0 ]</td>
+<td>设置第2个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ3 [ 4 : 0 ]</td>
+<td>设置第3个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ4 [ 4 : 0 ]</td>
+<td>设置第4个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ5 [ 4 : 0 ]</td>
+<td>设置第5个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ6 [ 4 : 0 ]</td>
+<td>设置第6个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td>SQR2</td>
+<td>SQ7 [ 4 : 0 ]</td>
+<td>设置第7个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ8 [ 4 : 0 ]</td>
+<td>设置第8个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ9 [ 4 : 0 ]</td>
+<td>设置第9个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ10 [ 4 : 0 ]</td>
+<td>设置第10个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ11 [ 4 : 0 ]</td>
+<td>设置第11个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ12 [ 4 : 0 ]</td>
+<td>设置第12个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td>SQR1</td>
+<td>SQ13 [ 4 : 0 ]</td>
+<td>设置第13个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ14 [ 4 : 0 ]</td>
+<td>设置第14个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ15 [ 4 : 0 ]</td>
+<td>设置第15个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQ16 [ 4 : 0 ]</td>
+<td>设置第16个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>SQL [ 3 : 0 ]</td>
+<td>设置规则序列要转换的通道数</td>
+<td>0~15</td>
+</tr>
+</tbody></table>
+<h3 id="注入序列"><a href="#注入序列" class="headerlink" title="注入序列"></a>注入序列</h3><p>和规则通道转换顺序的控制一样，注入通道的转换也是通过注入寄存器来控制，只不过只有一个JSQR寄存器来控制，控制关系如下</p>
+<p>需要注意的是，只有当JL&#x3D;4的时候，注入通道的转换顺序才会按照JSQ1、JSQ2、JSQ3、JSQ4的顺序执行。当JL&lt;4时，注入通道的转换顺序恰恰相反，也就是执行顺序为：JSQ4、JSQ3、JSQ2、JSQ1。</p>
+<table>
+<thead>
+<tr>
+<th><strong>注入序列寄存器控制关系汇总</strong></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>寄存器</td>
+<td>寄存器位</td>
+<td>功能</td>
+<td>取值</td>
+</tr>
+<tr>
+<td>JSQR</td>
+<td>JSQ1 [ 4 : 0 ]</td>
+<td>设置第1个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>JSQ2 [ 4 : 0 ]</td>
+<td>设置第2个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>JSQ3 [ 4 : 0 ]</td>
+<td>设置第3个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>JSQ4 [ 4 : 0 ]</td>
+<td>设置第4个转换的通道</td>
+<td>通道0~17</td>
+</tr>
+<tr>
+<td></td>
+<td>JL [ 1 : 0 ]</td>
+<td>设置注入序列要转换的通道数</td>
+<td>0~3</td>
+</tr>
+</tbody></table>
+<h2 id="触发源"><a href="#触发源" class="headerlink" title="触发源"></a>触发源</h2><p>ADC转换的输入、通道、转换顺序都已经说明了，但ADC转换是怎么触发的呢？就像通信协议一样，都要规定一个起始信号才能传输信息，ADC也需要一个触发信号来实行模&#x2F;数转换。</p>
+<p>1、通过直接配置寄存器触发，通过配置控制寄存器CR2的ADON位，写1时开始转换，写0时停止转换。在程序运行过程中只要调用库函数，将CR2寄存器的ADON位置1就可以进行转换。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_16_32_202407090916381.png" alt="触发源寄存器1"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_16_39_202407090916824.png" alt="触发器寄存器2"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_16_46_202407090916364.png" alt="image-20240709091646323"></p>
+<p>2、通过内部定时器或者外部IO触发转换，也就是说可以利用内部时钟让ADC进行周期性的转换，也可以利用外部IO使ADC在需要时转换，具体的触发由控制寄存器CR2决定。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_17_3_202407090917331.png" alt="image-20240709091703278"></p>
+<h2 id="转换时间"><a href="#转换时间" class="headerlink" title="转换时间"></a>转换时间</h2><p>ADC的每一次信号转换都要时间，这个时间就是转换时间，转换时间由输入时钟和采样周期来决定。</p>
+<h3 id="输入时钟"><a href="#输入时钟" class="headerlink" title="输入时钟"></a><strong>输入时钟</strong></h3><p>由于ADC在STM32中是挂载在APB2总线上的，所以ADC得时钟是由PCLK2（72MHz）经过分频得到的，分频因子由 RCC 时钟配置寄存器RCC_CFGR 的位 15:14 ADCPRE[1:0]设置，可以是 2&#x2F;4&#x2F;6&#x2F;8 分频，一般配置分频因子为8，即8分频得到ADC的输入时钟频率为9MHz。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_17_46_202407090917566.png" alt="输入时钟"></p>
+<h3 id="采样周期"><a href="#采样周期" class="headerlink" title="采样周期"></a>采样周期</h3><p>采样周期是确立在输入时钟上的，配置采样周期可以确定使用多少个ADC时钟周期来对电压进行采样，采样的周期数可通过 ADC采样时间寄存器 ADC_SMPR1 和 ADC_SMPR2 中的 SMP[2:0]位设置，ADC_SMPR2 控制的是通道 0<del>9， ADC_SMPR1 控制的是通道 10</del>17。每个通道可以配置不同的采样周期，但最小的采样周期是1.5个周期，也就是说如果想最快时间采样就设置采样周期为1.5.</p>
+<h3 id="转换时间-1"><a href="#转换时间-1" class="headerlink" title="转换时间"></a>转换时间</h3><p>转换时间&#x3D;采样时间+12.5个周期</p>
+<p>12.5个周期是固定的，一般我们设置 PCLK2&#x3D;72M，经过 ADC 预分频器能分频到最大的时钟只能是 12M，采样周期设置为 1.5 个周期，算出最短的转换时间为 1.17us。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_18_19_202407090918693.png" alt="转换时间"></p>
+<h2 id="数据寄存器"><a href="#数据寄存器" class="headerlink" title="数据寄存器"></a>数据寄存器</h2><p>当使用ADC独立模式（也就是只使用一个ADC，可以使用多个通道）时，数据存放在低16位中，当使用ADC多模式时高16位存放ADC2的数据。需要注意的是ADC转换的精度是12位，而寄存器中有16个位来存放数据，所以要规定数据存放是左对齐还是右对齐。</p>
+<p>当使用多个通道转换数据时，会产生多个转换数据，然鹅数据寄存器只有一个，多个数据存放在一个寄存器中会覆盖数据导致ADC转换错误，所以我们经常在一个通道转换完成之后就立刻将数据取出来，方便下一个数据存放。一般开启DMA模式将转换的数据，传输在一个数组中，程序对数组读操作就可以得到转换的结果。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_18_44_202407090918344.png" alt="数据寄存器"></p>
+<p>注入通道转换的数据寄存器有4个，由于注入通道最多有4个，所以注入通道转换的数据都有固定的存放位置，不会跟规则寄存器那样产生数据覆盖的问题。 ADC_JDRx 是 32 位的，低 16 位有效，高 16 位保留，数据同样分为左对齐和右对齐，具体是以哪一种方式存放，由ADC_CR2 的 11 位 ALIGN 设置。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/12_17_12_59_202505121712717.png" alt="ADC注入通道数据偏移寄存器"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/12_17_13_47_202505121713672.png" alt="寄存器使用方法"></p>
+<h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/12_17_14_19_202505121714200.png" alt="中断详细"></p>
+<p>ADC的中断事件汇总如下：</p>
+<table>
+<thead>
+<tr>
+<th>中断事件</th>
+<th>事件标志</th>
+<th>使能控制位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>规则通道转换结束</td>
+<td>EOC</td>
+<td>EOCIE</td>
+</tr>
+<tr>
+<td>注入通道转换结束</td>
+<td>JEOC</td>
+<td>JEOCIE</td>
+</tr>
+<tr>
+<td>设置了模拟看门狗状态位</td>
+<td>AWD</td>
+<td>AWDIE</td>
+</tr>
+<tr>
+<td>溢出 (F1没有)</td>
+<td>OVR</td>
+<td>OVRIE</td>
+</tr>
+</tbody></table>
+<p>DMA请求（只适用于规则组）</p>
+<ul>
+<li>规则组每个通道转换结束后，除了可以产生中的外，还可以产生DMA请求</li>
+<li>我们利用DMA及时把转换好的数据传输到指定的内存里，防止数据被覆盖。</li>
+</ul>
+<p>从框图中可以知道数据转换完成之后可以产生中断，有三种情况：</p>
+<ol>
+<li><strong>规则通道转换完成中断</strong>：规则通道数据转换完成之后，可以产生一个中断，可以在中断函数中读取规则数据寄存器的值。这也是单通道时读取数据的一种方法。</li>
+<li><strong>注入通道转换完成中断</strong>：注入通道数据转换完成之后，可以产生一个中断，并且也可以在中断中读取注入数据寄存器的值，达到读取数据的作用。</li>
+<li><strong>模拟看门狗事件</strong>当输入的模拟量（电压）不再阈值范围内就会产生看门狗事件，就是用来监视输入的模拟量是否正常。</li>
+</ol>
+<p>以上中断的配置都由ADC_SR寄存器决定：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_26_12_202407090926838.png" alt="ADC状态寄存器"></p>
+<h2 id="电压转换"><a href="#电压转换" class="headerlink" title="电压转换"></a>电压转换</h2><p>要知道，转换后的数据是一个12位的二进制数，我们需要把这个二进制数代表的模拟量（电压）用数字表示出来。比如测量的电压范围是0~3.3V，转换后的二进制数是<code>x</code>，因为12位ADC在转换时将电压的范围大小（也就是3.3）分为4096（$2^{12}$）份，所以转换后的二进制数x代表的真实电压的计算方法就是：<br>$$<br>y&#x3D;\frac{3.3 \times x}{4096}<br>$$</p>
+<h2 id="单次转换和连续转换"><a href="#单次转换和连续转换" class="headerlink" title="单次转换和连续转换"></a>单次转换和连续转换</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_20_32_202407090920470.png" alt="单次转换和连续转换"></p>
+<p>一组只转换一个通道</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_20_46_202407090920976.png" alt="单次转换"></p>
+<p>连续转换，在一轮转换结束后，继续下一轮的转换</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_2_202407090921174.png" alt="连续转换"></p>
+<p>每次转换后都会停下来，但是和非扫描模式不同的是，扫描模式会扫描序列，然后对列表中的序列转换出来</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_20_202407090921890.png" alt="单次转换扫描模式"></p>
+<p>连续转换，扫描模式</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_34_202407090921711.png" alt="连续转换扫描模式"></p>
+<p>扫描模式</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_21_49_202407090921081.png" alt="image-20240709092149036"></p>
+<h2 id="不同模式的组合"><a href="#不同模式的组合" class="headerlink" title="不同模式的组合"></a>不同模式的组合</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_22_8_202407090922859.png" alt="image-20240709092208802"></p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><p>使用ADC的步骤</p>
+<p>电位器作为ADC输入</p>
+<ol>
+<li>确定ADC挂载在哪个总线上，并开启ADC的时钟</li>
+<li>配置与ADC通道相对应的GPIO引脚为模拟输入模式</li>
+<li>配置规则组通道，包括通道号、顺序和采样时间</li>
+<li>设置ADC的工作模式、数据对齐方式 、外部触发源、通道数量等参数</li>
+<li>使能ADC</li>
+<li>校准ADC</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">adc_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3,ENABLE);</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF,ENABLE);</span><br><span class="line">	RCC_ADCCLKConfig(RCC_PCLK2_Div6);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = ADC_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	</span><br><span class="line">	GPIO_Init(ADC_PORT,&amp;GPIO_InitStruct);</span><br><span class="line"></span><br><span class="line">	ADC_RegularChannelConfig(ADC3,ADC_Channel_4,<span class="number">1</span>,ADC_SampleTime_55Cycles5);	<span class="comment">//配置规则通道组，填充菜单列表</span></span><br><span class="line">	</span><br><span class="line">	ADC_InitTypeDef ADC_InitStruct;</span><br><span class="line">	ADC_InitStruct.ADC_ContinuousConvMode = DISABLE;</span><br><span class="line">	ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;</span><br><span class="line">	ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	<span class="comment">//软件触发</span></span><br><span class="line">	ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;</span><br><span class="line">	ADC_InitStruct.ADC_NbrOfChannel = <span class="number">1</span>;</span><br><span class="line">	ADC_InitStruct.ADC_ScanConvMode = DISABLE;</span><br><span class="line">	ADC_Init(ADC3,&amp;ADC_InitStruct);</span><br><span class="line">	</span><br><span class="line">	ADC_Cmd(ADC3,ENABLE);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//开始校准</span></span><br><span class="line">	ADC_ResetCalibration(ADC3);	<span class="comment">//复位校准</span></span><br><span class="line">	<span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADC3) != RESET);	<span class="comment">//等待复位校准完成</span></span><br><span class="line">	ADC_StartCalibration(ADC3);	<span class="comment">//开始校准</span></span><br><span class="line">	<span class="keyword">while</span>(ADC_GetCalibrationStatus(ADC3) == SET);<span class="comment">//等待校准完成</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u16 <span class="title function_">ad_getValue</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	ADC_SoftwareStartConvCmd(ADC3,ENABLE);</span><br><span class="line">	<span class="keyword">while</span>(ADC_GetFlagStatus(ADC3,ADC_FLAG_EOC) == RESET);	<span class="comment">//等待转换完成，也就是EOC信号</span></span><br><span class="line">	<span class="keyword">return</span> ADC_GetConversionValue(ADC3);	<span class="comment">//读取完数据将会自动清除数据位</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="type">char</span> str[<span class="number">50</span>];</span><br><span class="line">    </span><br><span class="line">	serial_init(); </span><br><span class="line">	adc_init();	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="built_in">sprintf</span>(str,<span class="string">&quot;read: %u\n &quot;</span>,ad_getValue());</span><br><span class="line">		send_string(str);</span><br><span class="line">		Delay_ms(<span class="number">1000</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" rel="tag">外设组件</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/15_9_19_10_202408150919859.png" data-sizes="auto" alt="FlashDB" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/RTOS/FreeRTOS/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            FlashDB
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png" data-sizes="auto" alt="DAC" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          DAC
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ADC%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">ADC简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81ADC%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">常见ADC类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%81%94%E6%AF%94%E8%BE%83%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">并联比较型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%90%E6%AC%A1%E9%80%BC%E8%BF%91%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">逐次逼近型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E5%8F%82%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">特性参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E7%B3%BB%E5%88%97%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7"><span class="toc-number">3.2.</span> <span class="toc-text">各系列主要特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">整体结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-number">4.1.</span> <span class="toc-text">结构框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E7%94%B5%E5%8E%8B-%E6%A8%A1%E6%8B%9F%E9%83%A8%E5%88%86%E7%94%B5%E5%8E%8B"><span class="toc-number">4.2.</span> <span class="toc-text">参考电压&#x2F;模拟部分电压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E9%80%9A%E9%81%93"><span class="toc-number">4.3.</span> <span class="toc-text">输入通道</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E9%80%9A%E9%81%93"><span class="toc-number">4.3.1.</span> <span class="toc-text">规则通道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E9%80%9A%E9%81%93"><span class="toc-number">4.3.2.</span> <span class="toc-text">注入通道</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E9%A1%BA%E5%BA%8F"><span class="toc-number">4.4.</span> <span class="toc-text">转换顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E9%80%9A%E9%81%93%E8%BD%AC%E6%8D%A2%E9%A1%BA%E5%BA%8F"><span class="toc-number">4.4.1.</span> <span class="toc-text">规则通道转换顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E6%AF%94%E8%BE%83"><span class="toc-number">4.4.2.</span> <span class="toc-text">优先级比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%84%E5%88%99%E5%BA%8F%E5%88%97"><span class="toc-number">4.4.3.</span> <span class="toc-text">规则序列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E5%BA%8F%E5%88%97"><span class="toc-number">4.4.4.</span> <span class="toc-text">注入序列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%BA%90"><span class="toc-number">4.5.</span> <span class="toc-text">触发源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%97%B6%E9%97%B4"><span class="toc-number">4.6.</span> <span class="toc-text">转换时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%97%B6%E9%92%9F"><span class="toc-number">4.6.1.</span> <span class="toc-text">输入时钟</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E6%A0%B7%E5%91%A8%E6%9C%9F"><span class="toc-number">4.6.2.</span> <span class="toc-text">采样周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%97%B6%E9%97%B4-1"><span class="toc-number">4.6.3.</span> <span class="toc-text">转换时间</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">4.7.</span> <span class="toc-text">数据寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD"><span class="toc-number">4.8.</span> <span class="toc-text">中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%8E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.9.</span> <span class="toc-text">电压转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E6%AC%A1%E8%BD%AC%E6%8D%A2%E5%92%8C%E8%BF%9E%E7%BB%AD%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.10.</span> <span class="toc-text">单次转换和连续转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%BB%84%E5%90%88"><span class="toc-number">4.11.</span> <span class="toc-text">不同模式的组合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">5.</span> <span class="toc-text">实验</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "ADC",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/",
+          excerpt: "",
+          description: "",
+          stripContent: "ADC简介介绍 ADC（Analog-Digital Converter）模拟-数字转换器 ADC可以将引脚上连续变化的模拟电压转换为内存中存储的数字变量，建立模拟电路到数字电路的桥梁 12位逐次逼近型ADC，1us转换时间 输入电压范围：0 ~ 3.3V，转换结果范围：0~4095 18个输入通道，可测量16个外部和2个内部信号源 规则组和注入组两个转换单元 模拟看门狗自动监测输入电压范围 STM32F103C8T6 ADC资源：ADC1、ADC2，10个外部输入通道   原理常见ADC类型 ",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

@@ -1,0 +1,899 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    USART |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="数据通信基础串行&#x2F;并行通信 单工&#x2F;半双工&#x2F;全双工通信 同步&#x2F;异步通信 波特率 常见通信接口   名称 引脚 双工 时钟 电平 设备    USART TX、RX 全双工 异步 单端 点对点   I2C SCL、SDA 半双工 同步 单端 多设备   SPI SCLK、MOSI、MISO、CS 全双工 同步 单端 多设备   CAN CAN_H、CAN_L 半">
+<meta property="og:type" content="article">
+<meta property="og:title" content="USART">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/USART/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="数据通信基础串行&#x2F;并行通信 单工&#x2F;半双工&#x2F;全双工通信 同步&#x2F;异步通信 波特率 常见通信接口   名称 引脚 双工 时钟 电平 设备    USART TX、RX 全双工 异步 单端 点对点   I2C SCL、SDA 半双工 同步 单端 多设备   SPI SCLK、MOSI、MISO、CS 全双工 同步 单端 多设备   CAN CAN_H、CAN_L 半">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_49_45_202407091149342.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_50_29_202407091150652.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_50_47_202407091150120.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_1_202407091151890.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_52_202407091151823.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_52_20_202407091152830.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_13_202407091153363.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_35_202407091153213.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_41_202407091153702.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_54_5_202407091154473.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_54_20_202407091154628.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_54_48_202407091154957.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_55_6_202407091155579.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_2_202407091158342.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_31_202407091158129.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_38_202407091158201.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_57_202407091158383.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_59_11_202407091159454.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_59_49_202407091159855.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_20_202407091200878.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_27_202407091200261.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_40_202407091200771.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_40_202407091200771.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_26_3_202407091326050.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_27_46_202407091327860.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_32_43_202407091332598.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_21_202407091334326.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_27_202407091334247.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_44_202407091334615.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_57_202407091334097.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.871Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_49_45_202407091149342.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_52_202407091151823.png" alt="USART">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">USART</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">数据通信基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C-%E5%B9%B6%E8%A1%8C%E9%80%9A%E4%BF%A1"><span class="toc-number">1.1.</span> <span class="toc-text">串行&#x2F;并行通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%B7%A5-%E5%8D%8A%E5%8F%8C%E5%B7%A5-%E5%85%A8%E5%8F%8C%E5%B7%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.</span> <span class="toc-text">单工&#x2F;半双工&#x2F;全双工通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5-%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">同步&#x2F;异步通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A2%E7%89%B9%E7%8E%87"><span class="toc-number">1.4.</span> <span class="toc-text">波特率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%80%9A%E4%BF%A1%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.5.</span> <span class="toc-text">常见通信接口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RS232-VS-CMOS-TTL"><span class="toc-number">2.2.</span> <span class="toc-text">RS232 VS CMOS&#x2F;TTL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E5%8F%82%E6%95%B0%E5%8F%8A%E6%97%B6%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">串口参数及时序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RS232%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.</span> <span class="toc-text">RS232通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#USB%E9%80%9A%E4%BF%A1"><span class="toc-number">2.5.</span> <span class="toc-text">USB通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%B9%B3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.6.</span> <span class="toc-text">电平的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USART"><span class="toc-number">3.</span> <span class="toc-text">USART</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81"><span class="toc-number">3.2.</span> <span class="toc-text">主要特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE"><span class="toc-number">3.3.</span> <span class="toc-text">框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE%E7%AE%80%E5%8C%96%E7%89%88"><span class="toc-number">3.4.</span> <span class="toc-text">框图简化版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B8%A7"><span class="toc-number">3.5.</span> <span class="toc-text">数据帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%B3%A2%E7%89%B9%E7%8E%87"><span class="toc-number">3.6.</span> <span class="toc-text">设置波特率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.7.</span> <span class="toc-text">数据模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text">简单的发送数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#printf%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">4.2.</span> <span class="toc-text">printf重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.</span> <span class="toc-text">接收数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%94%B6%E5%8F%91"><span class="toc-number">4.4.</span> <span class="toc-text">数据包的收发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HEX%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">4.4.1.</span> <span class="toc-text">HEX数据包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">4.4.2.</span> <span class="toc-text">文本数据包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81"><span class="toc-number">4.4.3.</span> <span class="toc-text">实验代码</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/外设组件/USART" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="数据通信基础"><a href="#数据通信基础" class="headerlink" title="数据通信基础"></a>数据通信基础</h1><h2 id="串行-并行通信"><a href="#串行-并行通信" class="headerlink" title="串行&#x2F;并行通信"></a>串行&#x2F;并行通信</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_49_45_202407091149342.png" alt="image-20240709114945281"></p>
+<h2 id="单工-半双工-全双工通信"><a href="#单工-半双工-全双工通信" class="headerlink" title="单工&#x2F;半双工&#x2F;全双工通信"></a>单工&#x2F;半双工&#x2F;全双工通信</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_50_29_202407091150652.png" alt="image-20240709115029566"></p>
+<h2 id="同步-异步通信"><a href="#同步-异步通信" class="headerlink" title="同步&#x2F;异步通信"></a>同步&#x2F;异步通信</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_50_47_202407091150120.png" alt="image-20240709115047069"></p>
+<h2 id="波特率"><a href="#波特率" class="headerlink" title="波特率"></a>波特率</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_1_202407091151890.png" alt="image-20240709115101824"></p>
+<h2 id="常见通信接口"><a href="#常见通信接口" class="headerlink" title="常见通信接口"></a>常见通信接口</h2><table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>引脚</strong></th>
+<th><strong>双工</strong></th>
+<th><strong>时钟</strong></th>
+<th><strong>电平</strong></th>
+<th><strong>设备</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>USART</td>
+<td>TX、RX</td>
+<td>全双工</td>
+<td>异步</td>
+<td>单端</td>
+<td>点对点</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>SCL、SDA</td>
+<td>半双工</td>
+<td>同步</td>
+<td>单端</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>SCLK、MOSI、MISO、CS</td>
+<td>全双工</td>
+<td>同步</td>
+<td>单端</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td>CAN</td>
+<td>CAN_H、CAN_L</td>
+<td>半双工</td>
+<td>异步</td>
+<td>差分</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td>USB</td>
+<td>DP、DM</td>
+<td>半双工</td>
+<td>异步</td>
+<td>差分</td>
+<td>点对点</td>
+</tr>
+</tbody></table>
+<h1 id="串口"><a href="#串口" class="headerlink" title="串口"></a>串口</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_52_202407091151823.png" alt="image-20240709115152751"></p>
+<h2 id="RS232-VS-CMOS-TTL"><a href="#RS232-VS-CMOS-TTL" class="headerlink" title="RS232 VS CMOS&#x2F;TTL"></a>RS232 VS CMOS&#x2F;TTL</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_52_20_202407091152830.png" alt="image-20240709115220783"></p>
+<h2 id="串口参数及时序"><a href="#串口参数及时序" class="headerlink" title="串口参数及时序"></a>串口参数及时序</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_13_202407091153363.png" alt="image-20240709115313290"></p>
+<h2 id="RS232通信"><a href="#RS232通信" class="headerlink" title="RS232通信"></a>RS232通信</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_35_202407091153213.png" alt="image-20240709115335144"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_53_41_202407091153702.png" alt="image-20240709115341646"></p>
+<h2 id="USB通信"><a href="#USB通信" class="headerlink" title="USB通信"></a>USB通信</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_54_5_202407091154473.png" alt="image-20240709115405408"></p>
+<h2 id="电平的区别"><a href="#电平的区别" class="headerlink" title="电平的区别"></a>电平的区别</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_54_20_202407091154628.png" alt="image-20240709115420564"></p>
+<h1 id="USART"><a href="#USART" class="headerlink" title="USART"></a>USART</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_54_48_202407091154957.png" alt="image-20240709115448902"></p>
+<h2 id="主要特征"><a href="#主要特征" class="headerlink" title="主要特征"></a>主要特征</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_55_6_202407091155579.png" alt="image-20240709115506529"></p>
+<h2 id="框图"><a href="#框图" class="headerlink" title="框图"></a>框图</h2><p>串口数据低位先行</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_2_202407091158342.png" alt="image-20240709115802260"></p>
+<h2 id="框图简化版"><a href="#框图简化版" class="headerlink" title="框图简化版"></a>框图简化版</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_31_202407091158129.png" alt="image-20240709115831073"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_38_202407091158201.png" alt="image-20240709115838130"></p>
+<h2 id="数据帧"><a href="#数据帧" class="headerlink" title="数据帧"></a>数据帧</h2><p>这里的字长就是数据位长度，空闲帧和断开帧是局域网协议用的，我们的串口用不到</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_58_57_202407091158383.png" alt="image-20240709115857318"></p>
+<p>停止位分别为1、1.5、2、0.5，意思就是0.5个时长</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_59_11_202407091159454.png" alt="image-20240709115911366"></p>
+<p>要保证在采样的时候，数据在时钟边沿的中间，这样可以保证数据的可靠性</p>
+<ul>
+<li><p>当输入电路侦测到一个数据帧的起始位后，就会以波特率的频率，连续采样一帧数据，同时，从起始位置开始，采样位置就要对齐到位的正中间</p>
+</li>
+<li><p>首先数据的部分电路对采样的时钟进行了细分，他会以波特率的16倍进行采样，也就是说，在一位的时间内，可以进行16次采样，采样策略为</p>
+<ul>
+<li>最开始，空闲状态高电平，采样一直为1，在某个位置突然采样采到一个0，就说明出现了下降沿，这个时候在理想情况下应该就要开始采样了，在起始位，会进行16次连续采样，没有噪声的话，那么这16次采样应该都为0，因为串口协议的起始就是检测到下降沿，实际电路还是会出现一点噪声的，所以即使出现下降沿，后续也要再采样几次，以防万一，</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_59_49_202407091159855.png" alt="image-20240709115949779"></p>
+<h2 id="设置波特率"><a href="#设置波特率" class="headerlink" title="设置波特率"></a>设置波特率</h2><p>波特率的产生实际上就是一个预分频的过程，这里的16就是上面的内部还有一个16倍的采样时钟</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_20_202407091200878.png" alt="image-20240709120020816"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_27_202407091200261.png" alt="image-20240709120027194"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_40_202407091200771.png" alt="image-20240709120040728"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_12_0_40_202407091200771.png"></p>
+<h2 id="数据模式"><a href="#数据模式" class="headerlink" title="数据模式"></a>数据模式</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_26_3_202407091326050.png" alt="image-20240709132602954"></p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="简单的发送数据"><a href="#简单的发送数据" class="headerlink" title="简单的发送数据"></a>简单的发送数据</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);</span><br><span class="line">	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = SERIAL_TX_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed =GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(SERIAL_PORT,&amp;GPIO_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_InitTypeDef USART_InitStruct;</span><br><span class="line">	USART_InitStruct.USART_BaudRate = <span class="number">115200</span>;</span><br><span class="line">	USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;</span><br><span class="line">	USART_InitStruct.USART_Mode = USART_Mode_Tx;</span><br><span class="line">	USART_InitStruct.USART_Parity = USART_Parity_No;</span><br><span class="line">	USART_InitStruct.USART_StopBits = USART_StopBits_1;</span><br><span class="line">	USART_InitStruct.USART_WordLength = USART_WordLength_8b;</span><br><span class="line">	USART_Init(USART2,&amp;USART_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_Cmd(USART2,ENABLE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_sendByte</span><span class="params">(u8 byte)</span></span><br><span class="line">&#123;</span><br><span class="line">	USART_SendData(USART2,byte);</span><br><span class="line">	<span class="keyword">while</span>(USART_GetFlagStatus(USART2,USART_FLAG_TXE) == RESET);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_sendArray</span><span class="params">(u8 *<span class="built_in">array</span>,u16 length)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(u16 i = <span class="number">0</span>; i &lt; length; i++)&#123;</span><br><span class="line">		serial_sendByte(<span class="built_in">array</span>[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_sendString</span><span class="params">(<span class="type">char</span> *str)</span></span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(u8 i = <span class="number">0</span>;str[i] != <span class="string">&#x27;\0&#x27;</span>;i++)&#123;</span><br><span class="line">		serial_sendByte(str[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u32 <span class="title function_">serial_pow</span><span class="params">(u32 x, u32 y)</span></span><br><span class="line">&#123;</span><br><span class="line">	u32 result = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">while</span>(y--)&#123;</span><br><span class="line">		result *= x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将数字以字符的样式发送</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_sendNum</span><span class="params">(u32 number, u8 length)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(u8 i = <span class="number">0</span>; i &lt; length; i++)&#123;</span><br><span class="line">		serial_sendByte(number / serial_pow(<span class="number">10</span>,length - i <span class="number">-1</span>) % <span class="number">10</span> + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="type">char</span> str[<span class="number">50</span>];</span><br><span class="line">	u8 test[] = &#123;<span class="number">0x42</span>,<span class="number">0x43</span>,<span class="number">0x44</span>,<span class="number">0x45</span>&#125;;</span><br><span class="line"></span><br><span class="line">	serial_init(); </span><br><span class="line">	serial_sendArray(test,<span class="number">4</span>);</span><br><span class="line">	serial_sendNum(<span class="number">12345</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"><span class="comment">//                sprintf(str,&quot;%x: %hu %hu\n&quot;,(u32)adValue,adValue[0],adValue[1]);</span></span><br><span class="line"><span class="comment">//                send_string(str);</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="printf重定向"><a href="#printf重定向" class="headerlink" title="printf重定向"></a>printf重定向</h2><p>如果想要使用printf函数，需要先使用microlib库</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_27_46_202407091327860.png" alt="image-20240709132746805"></p>
+<p>注意需要引入stdio头文件，还需要重写fputc</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//重写这个函数用于重定向printf函数，这个函数是printf的底层函数，printf在打印的时候就是不断调用这个函数来一个一个打印的</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">fputc</span><span class="params">(<span class="type">int</span> ch, FILE *file)</span></span><br><span class="line">&#123;</span><br><span class="line">	serial_sendByte(ch);</span><br><span class="line">	<span class="keyword">return</span> ch;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重写完这个函数就可以正常使用printf函数了</p>
+<p>如果想要让printf使用多个串口，那么就需要sprintf函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">sprintf</span>(str,<span class="string">&quot;%x: %hu %hu\n&quot;</span>,(u32)adValue,adValue[<span class="number">0</span>],adValue[<span class="number">1</span>]);</span><br><span class="line">serial_sendString(str);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>为了方便，我们也可以封装sprintf函数，在封装sprintf的时候需要引入头文件stdarg.h头文件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_printf</span><span class="params">(<span class="type">char</span> *format, ...)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">char</span> <span class="built_in">string</span>[<span class="number">100</span>];</span><br><span class="line">	va_list arg;</span><br><span class="line">	va_start(arg,format);</span><br><span class="line">	<span class="built_in">vsprintf</span>(<span class="built_in">string</span>,format,arg);</span><br><span class="line">	va_end(arg);</span><br><span class="line">	serial_sendString(<span class="built_in">string</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决汉字乱码的情况，如果使用的编码格式为utf-8，则需要先设置编译参数–no-multibyte-chars</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_32_43_202407091332598.png" alt="image-20240709133243542"></p>
+<h2 id="接收数据"><a href="#接收数据" class="headerlink" title="接收数据"></a>接收数据</h2><p>需要修改初始化函数，分为查询式和中断式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询式</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);</span><br><span class="line">	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = SERIAL_TX_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed =GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(SERIAL_PORT,&amp;GPIO_InitStruct);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = SERIAL_RX_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed =GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(SERIAL_PORT,&amp;GPIO_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_InitTypeDef USART_InitStruct;</span><br><span class="line">	USART_InitStruct.USART_BaudRate = <span class="number">115200</span>;</span><br><span class="line">	USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;</span><br><span class="line">	USART_InitStruct.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;</span><br><span class="line">	USART_InitStruct.USART_Parity = USART_Parity_No;</span><br><span class="line">	USART_InitStruct.USART_StopBits = USART_StopBits_1;</span><br><span class="line">	USART_InitStruct.USART_WordLength = USART_WordLength_8b;</span><br><span class="line">	USART_Init(USART2,&amp;USART_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_Cmd(USART2,ENABLE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	u8 rxData;</span><br><span class="line"></span><br><span class="line">	serial_init(); </span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(USART_GetFlagStatus(USART2,USART_FLAG_RXNE) == SET)&#123;</span><br><span class="line">			rxData = USART_ReceiveData(USART2);</span><br><span class="line">			serial_printf(<span class="string">&quot;receive: %x\n&quot;</span>,rxData);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//中断式</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);</span><br><span class="line">	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2,ENABLE);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_PP;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = SERIAL_TX_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed =GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(SERIAL_PORT,&amp;GPIO_InitStruct);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = SERIAL_RX_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed =GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(SERIAL_PORT,&amp;GPIO_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_InitTypeDef USART_InitStruct;</span><br><span class="line">	USART_InitStruct.USART_BaudRate = <span class="number">115200</span>;</span><br><span class="line">	USART_InitStruct.USART_HardwareFlowControl = USART_HardwareFlowControl_None;</span><br><span class="line">	USART_InitStruct.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;</span><br><span class="line">	USART_InitStruct.USART_Parity = USART_Parity_No;</span><br><span class="line">	USART_InitStruct.USART_StopBits = USART_StopBits_1;</span><br><span class="line">	USART_InitStruct.USART_WordLength = USART_WordLength_8b;</span><br><span class="line">	USART_Init(USART2,&amp;USART_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_ITConfig(USART2,USART_IT_RXNE,ENABLE);</span><br><span class="line">	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);</span><br><span class="line">	</span><br><span class="line">	NVIC_InitTypeDef NVIC_InitStruct;</span><br><span class="line">	NVIC_InitStruct.NVIC_IRQChannel = USART2_IRQn;</span><br><span class="line">	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;</span><br><span class="line">	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = <span class="number">1</span>;</span><br><span class="line">	NVIC_InitStruct.NVIC_IRQChannelSubPriority = <span class="number">1</span>;</span><br><span class="line">	NVIC_Init(&amp;NVIC_InitStruct);</span><br><span class="line">	</span><br><span class="line">	USART_Cmd(USART2,ENABLE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">u8 serial_rxData,serial_rxFlag;</span><br><span class="line"><span class="type">void</span> <span class="title function_">USART2_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(USART_GetFlagStatus(USART2,USART_IT_RXNE) == SET)&#123;</span><br><span class="line">		serial_rxData = USART_ReceiveData(USART2);</span><br><span class="line">		serial_rxFlag = <span class="number">1</span>;</span><br><span class="line">		USART_ClearITPendingBit(USART2,USART_IT_RXNE);</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">serial_getRxFlag</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(serial_rxFlag == <span class="number">1</span>)&#123;</span><br><span class="line">		serial_rxFlag = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">serial_getRxData</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> serial_rxData;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	u8 rxData;</span><br><span class="line"></span><br><span class="line">	serial_init(); </span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(serial_getRxFlag() == <span class="number">1</span>)&#123;</span><br><span class="line">			rxData = serial_getRxData();</span><br><span class="line">			serial_printf(<span class="string">&quot;receive %x\n&quot;</span>,rxData);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据包的收发"><a href="#数据包的收发" class="headerlink" title="数据包的收发"></a>数据包的收发</h2><h3 id="HEX数据包"><a href="#HEX数据包" class="headerlink" title="HEX数据包"></a>HEX数据包</h3><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_21_202407091334326.png" alt="image-20240709133421260"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_27_202407091334247.png" alt="image-20240709133427176"></p>
+<h3 id="文本数据包"><a href="#文本数据包" class="headerlink" title="文本数据包"></a>文本数据包</h3><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_44_202407091334615.png" alt="image-20240709133444550"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_13_34_57_202407091334097.png" alt="image-20240709133457027"></p>
+<h3 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">serial_sendPacket</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	serial_sendByte(<span class="number">0xFF</span>);</span><br><span class="line">	serial_sendArray(serial_txPacket,<span class="number">4</span>);</span><br><span class="line">		serial_sendByte(<span class="number">0xFE</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 serial_rxData,serial_rxFlag;</span><br><span class="line">u8 serial_txPacket[<span class="number">4</span>],serial_rxPacket[<span class="number">4</span>];</span><br><span class="line"><span class="type">void</span> <span class="title function_">USART2_IRQHandler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">static</span> u8 rxState = <span class="number">0</span>;</span><br><span class="line">	<span class="type">static</span> u8 counter = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">if</span>(USART_GetFlagStatus(USART2,USART_IT_RXNE) == SET)&#123;</span><br><span class="line">		u8 rxData = USART_ReceiveData(USART2);</span><br><span class="line">		<span class="keyword">if</span>(rxState == <span class="number">0</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(rxData == <span class="number">0xff</span>)&#123;</span><br><span class="line">				rxState = <span class="number">1</span>;</span><br><span class="line">				counter = <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(rxState == <span class="number">1</span>)&#123;</span><br><span class="line">			serial_rxPacket[counter++] = rxData;</span><br><span class="line">			<span class="keyword">if</span>(counter &gt;= <span class="number">4</span>)&#123;</span><br><span class="line">				rxState  = <span class="number">2</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(rxState == <span class="number">2</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(rxData == <span class="number">0xfe</span>)&#123;</span><br><span class="line">				rxState = <span class="number">0</span>;</span><br><span class="line">				serial_rxFlag = <span class="number">1</span>; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" rel="tag">外设组件</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_17_26_23_202407051726672.png" data-sizes="auto" alt="Timer" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Timer/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Timer
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_19_57_202407091519564.png" data-sizes="auto" alt="WDG" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/WDG/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          WDG
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">数据通信基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C-%E5%B9%B6%E8%A1%8C%E9%80%9A%E4%BF%A1"><span class="toc-number">1.1.</span> <span class="toc-text">串行&#x2F;并行通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%B7%A5-%E5%8D%8A%E5%8F%8C%E5%B7%A5-%E5%85%A8%E5%8F%8C%E5%B7%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.</span> <span class="toc-text">单工&#x2F;半双工&#x2F;全双工通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5-%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.</span> <span class="toc-text">同步&#x2F;异步通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A2%E7%89%B9%E7%8E%87"><span class="toc-number">1.4.</span> <span class="toc-text">波特率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%80%9A%E4%BF%A1%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.5.</span> <span class="toc-text">常见通信接口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3"><span class="toc-number">2.</span> <span class="toc-text">串口</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RS232-VS-CMOS-TTL"><span class="toc-number">2.2.</span> <span class="toc-text">RS232 VS CMOS&#x2F;TTL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E5%8F%82%E6%95%B0%E5%8F%8A%E6%97%B6%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">串口参数及时序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RS232%E9%80%9A%E4%BF%A1"><span class="toc-number">2.4.</span> <span class="toc-text">RS232通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#USB%E9%80%9A%E4%BF%A1"><span class="toc-number">2.5.</span> <span class="toc-text">USB通信</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%B9%B3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.6.</span> <span class="toc-text">电平的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#USART"><span class="toc-number">3.</span> <span class="toc-text">USART</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81"><span class="toc-number">3.2.</span> <span class="toc-text">主要特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE"><span class="toc-number">3.3.</span> <span class="toc-text">框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE%E7%AE%80%E5%8C%96%E7%89%88"><span class="toc-number">3.4.</span> <span class="toc-text">框图简化版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B8%A7"><span class="toc-number">3.5.</span> <span class="toc-text">数据帧</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%B3%A2%E7%89%B9%E7%8E%87"><span class="toc-number">3.6.</span> <span class="toc-text">设置波特率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.7.</span> <span class="toc-text">数据模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text">简单的发送数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#printf%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">4.2.</span> <span class="toc-text">printf重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">4.3.</span> <span class="toc-text">接收数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8C%85%E7%9A%84%E6%94%B6%E5%8F%91"><span class="toc-number">4.4.</span> <span class="toc-text">数据包的收发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HEX%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">4.4.1.</span> <span class="toc-text">HEX数据包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">4.4.2.</span> <span class="toc-text">文本数据包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81"><span class="toc-number">4.4.3.</span> <span class="toc-text">实验代码</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "USART",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/USART/",
+          excerpt: "",
+          description: "",
+          stripContent: "数据通信基础串行&amp;#x2F;并行通信 单工&amp;#x2F;半双工&amp;#x2F;全双工通信 同步&amp;#x2F;异步通信 波特率 常见通信接口   名称 引脚 双工 时钟 电平 设备    USART TX、RX 全双工 异步 单端 点对点   I2C SCL、SDA 半双工 同步 单端 多设备   SPI SCLK、MOSI、MISO、CS 全双工 同步 单端 多设备   CAN CAN_H、CAN_L 半双工 异步 差分 多设备   USB DP、DM 半双工 异步 差分 点对点   串口概念 RS23",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_52_202407091151823.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

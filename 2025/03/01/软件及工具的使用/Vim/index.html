@@ -1,0 +1,998 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    Vim |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="启动 Vim在终端中输入 vim 启动 Vim，或者输入 vim filename 打开特定文件。 12vimvim filename  基本模式Vim 有三种主要模式：  Normal 模式：默认模式，用于执行命令。 Insert 模式：用于编辑文本。 Visual 模式：用于选择文本。  切换模式  Normal 模式：启动 Vim 后默认进入 Normal 模式。按 Esc 可以从其他模式切">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim">
+<meta property="og:url" content="http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="启动 Vim在终端中输入 vim 启动 Vim，或者输入 vim filename 打开特定文件。 12vimvim filename  基本模式Vim 有三种主要模式：  Normal 模式：默认模式，用于执行命令。 Insert 模式：用于编辑文本。 Visual 模式：用于选择文本。  切换模式  Normal 模式：启动 Vim 后默认进入 Normal 模式。按 Esc 可以从其他模式切">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/9d1351469929da16936b11c946ecd2c4.jpeg">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.882Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="软件及工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i-blog.csdnimg.cn/blog_migrate/9d1351469929da16936b11c946ecd2c4.jpeg">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="Vim">
+          
+        </picture>
+        
+          <img alt="Vim" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Vim</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Vim"><span class="toc-number">1.</span> <span class="toc-text">启动 Vim</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">基本模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Normal-%E6%A8%A1%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text">Normal 模式命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Insert-%E6%A8%A1%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text">Insert 模式命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Visual-%E6%A8%A1%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.3.</span> <span class="toc-text">Visual 模式命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE%E4%BD%8D%E5%9B%BE"><span class="toc-number">3.4.</span> <span class="toc-text">键位图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%92%8C%E6%9B%BF%E6%8D%A2"><span class="toc-number">4.</span> <span class="toc-text">搜索和替换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Vim"><span class="toc-number">5.</span> <span class="toc-text">配置 Vim</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">插件管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NeoVim"><span class="toc-number">7.</span> <span class="toc-text">NeoVim</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E6%8F%92%E4%BB%B6"><span class="toc-number">7.1.</span> <span class="toc-text">安装基础插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86-1"><span class="toc-number">7.2.</span> <span class="toc-text">插件管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nvim-tree"><span class="toc-number">7.2.1.</span> <span class="toc-text">nvim-tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lsp-Clangd"><span class="toc-number">7.2.2.</span> <span class="toc-text">Lsp-Clangd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nvim-treesitter"><span class="toc-number">7.2.3.</span> <span class="toc-text">nvim-treesitter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lua-line"><span class="toc-number">7.2.4.</span> <span class="toc-text">lua-line</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%87%E6%AE%B5%E7%AE%A1%E7%90%86"><span class="toc-number">7.2.5.</span> <span class="toc-text">片段管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fitten-code"><span class="toc-number">7.2.6.</span> <span class="toc-text">fitten-code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">7.3.</span> <span class="toc-text">使用技巧</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-软件及工具的使用/Vim" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="启动-Vim"><a href="#启动-Vim" class="headerlink" title="启动 Vim"></a>启动 Vim</h1><p>在终端中输入 <code>vim</code> 启动 Vim，或者输入 <code>vim filename</code> 打开特定文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim</span><br><span class="line">vim filename</span><br></pre></td></tr></table></figure>
+
+<h1 id="基本模式"><a href="#基本模式" class="headerlink" title="基本模式"></a>基本模式</h1><p>Vim 有三种主要模式：</p>
+<ul>
+<li><strong>Normal 模式</strong>：默认模式，用于执行命令。</li>
+<li><strong>Insert 模式</strong>：用于编辑文本。</li>
+<li><strong>Visual 模式</strong>：用于选择文本。</li>
+</ul>
+<p>切换模式</p>
+<ul>
+<li><strong>Normal 模式</strong>：启动 Vim 后默认进入 Normal 模式。按 <code>Esc</code> 可以从其他模式切换到 Normal 模式。</li>
+<li><strong>Insert 模式</strong>：在 Normal 模式下，按 <code>i</code> 进入 Insert 模式，按 <code>Esc</code> 退出到 Normal 模式。</li>
+<li><strong>Visual 模式</strong>：在 Normal 模式下，按 <code>v</code> 进入 Visual 模式，按 <code>Esc</code> 退出到 Normal 模式。</li>
+</ul>
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="Normal-模式命令"><a href="#Normal-模式命令" class="headerlink" title="Normal 模式命令"></a>Normal 模式命令</h2><ul>
+<li><p><strong>移动光标</strong>：</p>
+<ul>
+<li><code>h</code>：左移</li>
+<li><code>j</code>：下移</li>
+<li><code>k</code>：上移</li>
+<li><code>l</code>：右移</li>
+<li><code>w</code>：移动到下一个单词的开头</li>
+<li><code>b</code>：移动到前一个单词的开头</li>
+<li><code>0</code>：移动到行首</li>
+<li><code>$</code>：移动到行尾</li>
+</ul>
+</li>
+<li><p><strong>编辑文本</strong>：</p>
+<ul>
+<li><code>i</code>：在光标前插入</li>
+<li><code>a</code>：在光标后插入</li>
+<li><code>o</code>：在当前行下方插入新行</li>
+<li><code>dd</code>：删除当前行</li>
+<li><code>d$</code>：删除从光标到行尾的内容</li>
+<li><code>x</code>：删除光标下的字符</li>
+<li><code>yy</code>：复制当前行</li>
+<li><code>p</code>：粘贴</li>
+<li><code>u</code>：撤销</li>
+<li><code>Ctrl + r</code>：重做</li>
+</ul>
+</li>
+<li><p><strong>保存和退出</strong>：</p>
+<ul>
+<li><code>:w</code>：保存文件</li>
+<li><code>:q</code>：退出 Vim</li>
+<li><code>:wq</code> 或 <code>ZZ</code>：保存并退出</li>
+<li><code>:q!</code>：不保存退出</li>
+</ul>
+</li>
+</ul>
+<h2 id="Insert-模式命令"><a href="#Insert-模式命令" class="headerlink" title="Insert 模式命令"></a>Insert 模式命令</h2><ul>
+<li>在 Insert 模式下，你可以像普通文本编辑器一样输入文本。</li>
+<li>使用 <code>Esc</code> 返回到 Normal 模式。</li>
+</ul>
+<h2 id="Visual-模式命令"><a href="#Visual-模式命令" class="headerlink" title="Visual 模式命令"></a>Visual 模式命令</h2><ul>
+<li><code>v</code>：进入 Visual 模式并选择字符</li>
+<li><code>V</code>：进入 Visual 模式并选择行</li>
+<li><code>Ctrl + v</code>：进入 Visual 模式并选择块</li>
+<li>在 Visual 模式下，你可以使用 <code>y</code> 复制，<code>d</code> 删除，<code>p</code> 粘贴选中的内容。</li>
+</ul>
+<h2 id="键位图"><a href="#键位图" class="headerlink" title="键位图"></a>键位图</h2><p><img src="https://i-blog.csdnimg.cn/blog_migrate/9d1351469929da16936b11c946ecd2c4.jpeg" alt="VIM键位图"></p>
+<h1 id="搜索和替换"><a href="#搜索和替换" class="headerlink" title="搜索和替换"></a>搜索和替换</h1><ul>
+<li><p><strong>搜索</strong>：</p>
+<ul>
+<li><code>/pattern</code>：向下搜索 <code>pattern</code></li>
+<li><code>?pattern</code>：向上搜索 <code>pattern</code></li>
+<li><code>n</code>：跳到下一个匹配</li>
+<li><code>N</code>：跳到上一个匹配</li>
+</ul>
+</li>
+<li><p><strong>替换</strong>：</p>
+<ul>
+<li><code>:%s/old/new/g</code>：全局替换所有 <code>old</code> 为 <code>new</code></li>
+<li><code>:s/old/new/g</code>：替换当前行所有 <code>old</code> 为 <code>new</code></li>
+<li><code>:s/old/new/gc</code>：替换当前行所有 <code>old</code> 为 <code>new</code>，并确认每次替换</li>
+</ul>
+</li>
+</ul>
+<h1 id="配置-Vim"><a href="#配置-Vim" class="headerlink" title="配置 Vim"></a>配置 Vim</h1><p>你可以通过编辑 <code>~/.vimrc</code> 文件来配置 Vim。例如：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">syntax</span> <span class="keyword">on</span>              <span class="comment">&quot; 启用语法高亮</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span>             <span class="comment">&quot; 显示行号</span></span><br><span class="line"><span class="keyword">set</span> tabstop=<span class="number">4</span>          <span class="comment">&quot; 设置 Tab 长度为 4</span></span><br><span class="line"><span class="keyword">set</span> <span class="built_in">shiftwidth</span>=<span class="number">4</span>       <span class="comment">&quot; 设置自动缩进为 4</span></span><br><span class="line"><span class="keyword">set</span> expandtab          <span class="comment">&quot; 将 Tab 转换为空格</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="插件管理"><a href="#插件管理" class="headerlink" title="插件管理"></a>插件管理</h1><p>Vim 有丰富的插件生态，可以使用插件管理器来安装和管理插件。常见的插件管理器有：</p>
+<ul>
+<li><strong>Vundle</strong>：在 <code>~/.vimrc</code> 中添加插件配置，然后运行 <code>:PluginInstall</code>。</li>
+</ul>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> nocompatible              <span class="comment">&quot; 必须</span></span><br><span class="line"><span class="keyword">filetype</span> off                  <span class="comment">&quot; 必须</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&quot; 设置 runtime path</span></span><br><span class="line"><span class="keyword">set</span> rtp+=~/.<span class="keyword">vim</span>/bundle/Vundle.<span class="keyword">vim</span></span><br><span class="line"><span class="keyword">call</span> vundle#begin()</span><br><span class="line">Plugin <span class="string">&#x27;VundleVim/Vundle.vim&#x27;</span></span><br><span class="line"><span class="comment">&quot; 在这里添加更多的插件</span></span><br><span class="line">Plugin <span class="string">&#x27;tpope/vim-sensible&#x27;</span></span><br><span class="line"><span class="keyword">call</span> vundle#end()            <span class="comment">&quot; 必须</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span>    <span class="comment">&quot; 必须</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>Pathogen</strong>：将插件克隆到 <code>~/.vim/bundle/</code> 目录。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/.vim/autoload ~/.vim/bundle &amp;&amp; \</span><br><span class="line">curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>~/.vimrc</code> 中添加：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">execute</span> pathogen#infect()</span><br><span class="line"><span class="keyword">syntax</span> <span class="keyword">on</span></span><br><span class="line"><span class="keyword">filetype</span> plugin <span class="built_in">indent</span> <span class="keyword">on</span></span><br></pre></td></tr></table></figure>
+
+<p>通过这些基本操作，你可以高效地使用 Vim 进行文本编辑和代码开发。随着使用经验的增加，你可以进一步探索 Vim 的高级功能和插件生态，提升工作效率。</p>
+<h1 id="NeoVim"><a href="#NeoVim" class="headerlink" title="NeoVim"></a>NeoVim</h1><h2 id="安装基础插件"><a href="#安装基础插件" class="headerlink" title="安装基础插件"></a>安装基础插件</h2><p>首先在<a target="_blank" rel="noopener" href="https://neovim.io/">Home - Neovim</a>页面下载NeoVim软件，安装完成之后，强烈建议安装<code>lazyvim</code>包管理器，用<code>lazyvim</code>包管理器可以更快更方便的安装插件。</p>
+<p>安装步骤可见<a target="_blank" rel="noopener" href="https://www.lazyvim.org/installation">🛠️ Installation | LazyVim</a>。git完之后，所有的文件在<code>~\AppData\Local\nvim</code>文件夹下，该文件夹下有以下重要文件：</p>
+<ul>
+<li><code>init.lua</code>：在顶层文件夹中，定义了依赖文件</li>
+<li><code>options.lua</code>：在<code>lua/config</code>文件夹下，用于做vim的配置</li>
+<li><code>keymap.lua</code>：在<code>lua/config</code>文件夹下，用于按键映射</li>
+</ul>
+<ol>
+<li><p>在<code>init</code>文件中写入依赖的文件</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- bootstrap lazy.nvim, LazyVim and your plugins</span></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;config.lazy&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">require</span>(<span class="string">&quot;lazy&quot;</span>).setup(<span class="string">&quot;plugins&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!tip]</p>
+<p>这里最后一行会解析<code>plugins</code>文件下的所有插件，所以新增一个插件只需要在<code>plugins</code>文件夹下增加插件的文件即可</p>
+</blockquote>
+<p>其中，配置文件的依赖命令行应该在开头，命令为<code>文件夹名.文件名</code></p>
+</li>
+<li><p><code>options</code>文件中写入vim的配置，如缩进有几个空格等等</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> opt = vim.opt</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 行号</span></span><br><span class="line">opt.relativenumber = <span class="literal">true</span></span><br><span class="line">opt.number = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 缩进</span></span><br><span class="line">opt.tabstop = <span class="number">4</span>        <span class="comment">-- 制表符显示为4个空格宽</span></span><br><span class="line">opt.shiftwidth = <span class="number">4</span>     <span class="comment">-- 用于自动缩进的宽度</span></span><br><span class="line">opt.expandtab = <span class="literal">false</span>  <span class="comment">-- 使用制表符进行缩进</span></span><br><span class="line">opt.autoindent = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 防止包裹</span></span><br><span class="line">opt.<span class="built_in">wrap</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 光标行</span></span><br><span class="line">opt.cursorline = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 启用鼠标</span></span><br><span class="line">opt.mouse:append(<span class="string">&quot;a&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 系统剪贴板</span></span><br><span class="line">opt.clipboard:append(<span class="string">&quot;unnamedplus&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 默认新窗口右和下</span></span><br><span class="line">opt.splitright = <span class="literal">true</span></span><br><span class="line">opt.splitbelow = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 搜索</span></span><br><span class="line">opt.ignorecase = <span class="literal">true</span></span><br><span class="line">opt.smartcase = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>keymap</code>文件为快捷键映射</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vim.g.mapleader = <span class="string">&quot; &quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> keymap = vim.keymap</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ---------- 插入模式 ---------- ---</span></span><br><span class="line">keymap.set(<span class="string">&quot;i&quot;</span>, <span class="string">&quot;jk&quot;</span>, <span class="string">&quot;&lt;ESC&gt;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ---------- 视觉模式 ---------- ---</span></span><br><span class="line"><span class="comment">-- 单行或多行移动</span></span><br><span class="line">keymap.set(<span class="string">&quot;v&quot;</span>, <span class="string">&quot;J&quot;</span>, <span class="string">&quot;:m &#x27;&gt;+1&lt;CR&gt;gv=gv&quot;</span>)</span><br><span class="line">keymap.set(<span class="string">&quot;v&quot;</span>, <span class="string">&quot;K&quot;</span>, <span class="string">&quot;:m &#x27;&lt;-2&lt;CR&gt;gv=gv&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ---------- 正常模式 ---------- ---</span></span><br><span class="line"><span class="comment">-- 窗口</span></span><br><span class="line">keymap.set(<span class="string">&quot;n&quot;</span>, <span class="string">&quot;&lt;leader&gt;sv&quot;</span>, <span class="string">&quot;&lt;C-w&gt;v&quot;</span>) <span class="comment">-- 水平新增窗口 </span></span><br><span class="line">keymap.set(<span class="string">&quot;n&quot;</span>, <span class="string">&quot;&lt;leader&gt;sh&quot;</span>, <span class="string">&quot;&lt;C-w&gt;s&quot;</span>) <span class="comment">-- 垂直新增窗口</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 取消高亮</span></span><br><span class="line">keymap.set(<span class="string">&quot;n&quot;</span>, <span class="string">&quot;&lt;leader&gt;nh&quot;</span>, <span class="string">&quot;:nohl&lt;CR&gt;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 文件树映射</span></span><br><span class="line">keymap.set(<span class="string">&quot;n&quot;</span>, <span class="string">&quot;&lt;leader&gt;e&quot;</span>, <span class="string">&quot;:NvimTreeToggle&lt;CR&gt;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!tip]</p>
+<p><code>keymap.set</code>命令的参数依次为：</p>
+<ol>
+<li>在什么模式下</li>
+<li>映射的按键</li>
+<li>被映射的命令</li>
+</ol>
+<p>其中一些按键为：</p>
+<ol>
+<li><code>vim.g.mapleader</code>是设置主键，我这里设置的是空格 </li>
+<li><code>&lt;CR&gt;</code>为回车</li>
+<li><code>&lt;C&gt;</code>为<code>ctrl</code>键</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h2 id="插件管理-1"><a href="#插件管理-1" class="headerlink" title="插件管理"></a>插件管理</h2><p>​	前面说过插件的配置管理会放到<code>plugins</code>文件夹下，新增一个插件就需要新建一个<code>lua</code>的配置文件，且配置文件名没有要求。</p>
+<h3 id="nvim-tree"><a href="#nvim-tree" class="headerlink" title="nvim-tree"></a>nvim-tree</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;nvim-tree/nvim-tree.lua&quot;</span>,</span><br><span class="line">        version = <span class="string">&quot;*&quot;</span>,</span><br><span class="line">        dependencies = &#123;<span class="string">&quot;nvim-tree/nvim-web-devicons&quot;</span>&#125;,</span><br><span class="line">        <span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            <span class="built_in">require</span>(<span class="string">&quot;nvim-tree&quot;</span>).setup &#123;&#125;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加完依赖之后，打开一个文件之后，在命令行中输入以下命令，如果在侧边出现了文件树，则说明配置成功了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:NvimTreeToggle</span><br></pre></td></tr></table></figure>
+
+<p>每次输入命令会特别的麻烦，所以需要在<code>keymap</code>文件中增加映射：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- nvim-tree</span></span><br><span class="line">keymap.set(<span class="string">&quot;n&quot;</span>, <span class="string">&quot;&lt;leader&gt;e&quot;</span>, <span class="string">&quot;:NvimTreeToggle&lt;CR&gt;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>此时刷新配置，使用空格加e即可打开文件树了。</p>
+<h3 id="Lsp-Clangd"><a href="#Lsp-Clangd" class="headerlink" title="Lsp-Clangd"></a>Lsp-Clangd</h3><p>在安装完lazy-nvim之后，可以在命令行输入<code>:LazyExtras</code>，此时就会显示出来有哪些拓展包，在需要安装的包前面按下<kbd>x</kbd>按键即可选中该支持包，然后重启即可启用。</p>
+<h3 id="nvim-treesitter"><a href="#nvim-treesitter" class="headerlink" title="nvim-treesitter"></a>nvim-treesitter</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span><span class="string">&#x27;nvim-treesitter.configs&#x27;</span>.setup &#123;</span><br><span class="line">  <span class="comment">-- 添加不同语言</span></span><br><span class="line">  ensure_installed = &#123; <span class="string">&quot;vim&quot;</span>, <span class="string">&quot;vimdoc&quot;</span>, <span class="string">&quot;bash&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;cpp&quot;</span>, <span class="string">&quot;javascript&quot;</span>, <span class="string">&quot;json&quot;</span>, <span class="string">&quot;lua&quot;</span>, <span class="string">&quot;python&quot;</span>, <span class="string">&quot;typescript&quot;</span>, <span class="string">&quot;tsx&quot;</span>, <span class="string">&quot;css&quot;</span>, <span class="string">&quot;rust&quot;</span>, <span class="string">&quot;markdown&quot;</span>, <span class="string">&quot;markdown_inline&quot;</span> &#125;, <span class="comment">-- one of &quot;all&quot; or a list of languages</span></span><br><span class="line"></span><br><span class="line">  highlight = &#123; enable = <span class="literal">true</span> &#125;,</span><br><span class="line">  indent = &#123; enable = <span class="literal">true</span> &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">-- 不同括号颜色区分</span></span><br><span class="line">  rainbow = &#123;</span><br><span class="line">    enable = <span class="literal">true</span>,</span><br><span class="line">    extended_mode = <span class="literal">true</span>,</span><br><span class="line">    max_file_lines = <span class="literal">nil</span>,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="lua-line"><a href="#lua-line" class="headerlink" title="lua-line"></a>lua-line</h3><p>该插件用于美化状态栏，在<code>plugin-setup</code>文件中新建<code>lualine.lua</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&#x27;nvim-lualine/lualine.nvim&#x27;</span>,</span><br><span class="line">        <span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">            <span class="built_in">require</span>(<span class="string">&#x27;lualine&#x27;</span>).setup()</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="片段管理"><a href="#片段管理" class="headerlink" title="片段管理"></a>片段管理</h3><p>我们可以使用<code>autocmd</code>的插件和脚本的方式实现，在<code>autocmds.lua</code>文件中填写以下代码：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ~/.config/nvim/lua/autorun/autoheader.lua</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"><span class="comment">--                            配置项 (Configuration)</span></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"><span class="keyword">local</span> <span class="built_in">config</span> = &#123;</span><br><span class="line">    author_name = <span class="string">&quot;ryf&quot;</span>,</span><br><span class="line">    copyright_start_year = <span class="string">&quot;2025&quot;</span>,</span><br><span class="line">    place_cursor = <span class="literal">true</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"><span class="comment">--                            模板定义 (Templates)</span></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> h_template = &#123;</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Author: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Date: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * LastEditors: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * LastEditTime: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Filename: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Description: Header file for ...&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Copyright (c) %s - %s by %s, All Rights Reserved.&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;#ifndef __%s_H__&quot;</span>,</span><br><span class="line">    <span class="string">&quot;#define __%s_H__&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;#ifdef __cplusplus&quot;</span>,</span><br><span class="line">    <span class="string">&#x27;extern &quot;C&quot; &#123;&#x27;</span>,</span><br><span class="line">    <span class="string">&quot;#endif&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                             INCLUDES                             =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======               DEFINES &amp; MACROS FOR GENERAL PURPOSE               =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                        CONSTANTS &amp; TYPES                         =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                             EXPORTS                              =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                  PROTOTYPES OF PUBLIC FUNCTIONS                  =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;#ifdef __cplusplus&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;#endif&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;#endif&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">local</span> h_cursor_target_line = <span class="number">7</span></span><br><span class="line"><span class="keyword">local</span> h_cursor_target_col = <span class="number">19</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> c_cpp_template = &#123;</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Author: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Date: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * LastEditors: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * LastEditTime: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Filename: %s&quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Description: &quot;</span>,</span><br><span class="line">    <span class="string">&quot; * Copyright (c) %s - %s by %s, All Rights Reserved.&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                             Includes                             =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======               Defines &amp; Macros for General Purpose               =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                        Constants &amp; Types                         =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                        Global variables                          =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                        Local variables                           =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                        Global Function                           =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                        Local Function                            =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/*==============================================================================&quot;</span>,</span><br><span class="line">    <span class="string">&quot;=======                    Function Implement List                       =======&quot;</span>,</span><br><span class="line">    <span class="string">&quot;==============================================================================*/&quot;</span>,</span><br><span class="line">    <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">local</span> c_cpp_cursor_target_line = <span class="number">7</span></span><br><span class="line"><span class="keyword">local</span> c_cpp_cursor_target_col = <span class="number">17</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"><span class="comment">--                      文件头插入逻辑 (Header Insertion Logic)</span></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_G.auto_insert_header</span><span class="params">(buf)</span></span></span><br><span class="line">    buf = buf <span class="keyword">or</span> vim.api.nvim_get_current_buf()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> vim.api.nvim_buf_is_valid(buf) <span class="keyword">or</span> vim.api.nvim_buf_get_option(buf, <span class="string">&#x27;buftype&#x27;</span>) ~= <span class="string">&quot;&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> file_path = vim.api.nvim_buf_get_name(buf)</span><br><span class="line">    <span class="keyword">if</span> file_path == <span class="string">&quot;&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">local</span> extension = vim.fn.fnamemodify(file_path, <span class="string">&quot;:e&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (extension == <span class="string">&#x27;c&#x27;</span> <span class="keyword">or</span> extension == <span class="string">&#x27;cpp&#x27;</span> <span class="keyword">or</span> extension == <span class="string">&#x27;h&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> vim.api.nvim_buf_line_count(buf) &gt; <span class="number">1</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">local</span> first_line = vim.api.nvim_buf_get_lines(buf, <span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>)[<span class="number">1</span>] <span class="keyword">or</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> first_line ~= <span class="string">&quot;&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> filename_no_ext_upper = vim.fn.fnamemodify(file_path, <span class="string">&quot;:t:r&quot;</span>):<span class="built_in">upper</span>()</span><br><span class="line">    <span class="keyword">local</span> full_filename = vim.fn.fnamemodify(file_path, <span class="string">&quot;:t&quot;</span>)</span><br><span class="line">    <span class="keyword">local</span> current_date = <span class="built_in">os</span>.<span class="built_in">date</span>(<span class="string">&quot;%Y-%m-%d&quot;</span>)</span><br><span class="line">    <span class="keyword">local</span> current_datetime = <span class="built_in">os</span>.<span class="built_in">date</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">local</span> current_year = <span class="built_in">os</span>.<span class="built_in">date</span>(<span class="string">&quot;%Y&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> lines_to_insert = &#123;&#125;</span><br><span class="line">    <span class="keyword">local</span> target_line = <span class="number">1</span></span><br><span class="line">    <span class="keyword">local</span> target_col = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> extension == <span class="string">&quot;c&quot;</span> <span class="keyword">or</span> extension == <span class="string">&quot;cpp&quot;</span> <span class="keyword">then</span></span><br><span class="line">        lines_to_insert = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i, line <span class="keyword">in</span> <span class="built_in">ipairs</span>(c_cpp_template) <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> line:<span class="built_in">find</span>(<span class="string">&quot;%%s&quot;</span>) <span class="keyword">then</span></span><br><span class="line">                <span class="keyword">local</span> formatted_line</span><br><span class="line">                <span class="keyword">if</span> i == <span class="number">2</span> <span class="keyword">then</span> <span class="comment">-- Author: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, <span class="built_in">config</span>.author_name)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">3</span> <span class="keyword">then</span> <span class="comment">-- Date: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, current_date)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">4</span> <span class="keyword">then</span> <span class="comment">-- LastEditors: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, <span class="built_in">config</span>.author_name)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">5</span> <span class="keyword">then</span> <span class="comment">-- LastEditTime: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, current_datetime)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">6</span> <span class="keyword">then</span> <span class="comment">-- Filename: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, full_filename)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">8</span> <span class="keyword">then</span> <span class="comment">-- Copyright (c) %s - %s by %s</span></span><br><span class="line">                    <span class="keyword">local</span> success, result = <span class="built_in">pcall</span>(<span class="built_in">string</span>.<span class="built_in">format</span>, line,</span><br><span class="line">                        <span class="built_in">config</span>.copyright_start_year,</span><br><span class="line">                        current_year,</span><br><span class="line">                        <span class="built_in">config</span>.author_name</span><br><span class="line">                    )</span><br><span class="line">                    formatted_line = success <span class="keyword">and</span> result <span class="keyword">or</span> line</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    formatted_line = line</span><br><span class="line">                <span class="keyword">end</span></span><br><span class="line">                <span class="built_in">table</span>.<span class="built_in">insert</span>(lines_to_insert, formatted_line)</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">table</span>.<span class="built_in">insert</span>(lines_to_insert, line)</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        target_line = c_cpp_cursor_target_line</span><br><span class="line">        target_col = c_cpp_cursor_target_col</span><br><span class="line">    <span class="keyword">elseif</span> extension == <span class="string">&quot;h&quot;</span> <span class="keyword">then</span></span><br><span class="line">        lines_to_insert = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> i, line <span class="keyword">in</span> <span class="built_in">ipairs</span>(h_template) <span class="keyword">do</span></span><br><span class="line">            <span class="keyword">if</span> line:<span class="built_in">find</span>(<span class="string">&quot;%%s&quot;</span>) <span class="keyword">then</span></span><br><span class="line">                <span class="keyword">local</span> formatted_line</span><br><span class="line">                <span class="keyword">if</span> i == <span class="number">2</span> <span class="keyword">then</span> <span class="comment">-- Author: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, <span class="built_in">config</span>.author_name)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">3</span> <span class="keyword">then</span> <span class="comment">-- Date: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, current_date)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">4</span> <span class="keyword">then</span> <span class="comment">-- LastEditors: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, <span class="built_in">config</span>.author_name)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">5</span> <span class="keyword">then</span> <span class="comment">-- LastEditTime: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, current_datetime)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">6</span> <span class="keyword">then</span> <span class="comment">-- Filename: %s</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, full_filename)</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">8</span> <span class="keyword">then</span> <span class="comment">-- Copyright (c) %s - %s by %s</span></span><br><span class="line">                    <span class="keyword">local</span> success, result = <span class="built_in">pcall</span>(<span class="built_in">string</span>.<span class="built_in">format</span>, line,</span><br><span class="line">                        <span class="built_in">config</span>.copyright_start_year,</span><br><span class="line">                        current_year,</span><br><span class="line">                        <span class="built_in">config</span>.author_name</span><br><span class="line">                    )</span><br><span class="line">                    formatted_line = success <span class="keyword">and</span> result <span class="keyword">or</span> line</span><br><span class="line">                <span class="keyword">elseif</span> i == <span class="number">11</span> <span class="keyword">or</span> i == <span class="number">12</span> <span class="keyword">or</span> i == <span class="number">13</span> <span class="keyword">then</span> <span class="comment">-- #ifndef, #define, #endif</span></span><br><span class="line">                    formatted_line = <span class="built_in">string</span>.<span class="built_in">format</span>(line, filename_no_ext_upper)</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    formatted_line = line</span><br><span class="line">                <span class="keyword">end</span></span><br><span class="line">                <span class="built_in">table</span>.<span class="built_in">insert</span>(lines_to_insert, formatted_line)</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">table</span>.<span class="built_in">insert</span>(lines_to_insert, line)</span><br><span class="line">            <span class="keyword">end</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        target_line = h_cursor_target_line</span><br><span class="line">        target_col = h_cursor_target_col</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    vim.api.nvim_buf_set_option(buf, <span class="string">&#x27;modifiable&#x27;</span>, <span class="literal">true</span>)</span><br><span class="line">    vim.api.nvim_buf_set_lines(buf, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">false</span>, lines_to_insert)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">config</span>.place_cursor <span class="keyword">and</span> #lines_to_insert &gt; <span class="number">0</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">local</span> final_line = <span class="built_in">math</span>.<span class="built_in">min</span>(target_line, vim.api.nvim_buf_line_count(buf))</span><br><span class="line">        <span class="keyword">local</span> final_col = <span class="built_in">math</span>.<span class="built_in">max</span>(<span class="number">0</span>, target_col - <span class="number">1</span>)</span><br><span class="line">        vim.api.nvim_win_set_cursor(<span class="number">0</span>, &#123; final_line, final_col &#125;)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"><span class="comment">--                   实时更新 LastEditTime (Update LastEditTime)</span></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_G.update_last_edit_time</span><span class="params">(buf)</span></span></span><br><span class="line">    buf = buf <span class="keyword">or</span> vim.api.nvim_get_current_buf()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> vim.api.nvim_buf_is_valid(buf) <span class="keyword">or</span> vim.api.nvim_buf_get_option(buf, <span class="string">&#x27;buftype&#x27;</span>) ~= <span class="string">&quot;&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">local</span> file_path = vim.api.nvim_buf_get_name(buf)</span><br><span class="line">    <span class="keyword">if</span> file_path == <span class="string">&quot;&quot;</span> <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">local</span> extension = vim.fn.fnamemodify(file_path, <span class="string">&quot;:e&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (extension == <span class="string">&#x27;c&#x27;</span> <span class="keyword">or</span> extension == <span class="string">&#x27;cpp&#x27;</span> <span class="keyword">or</span> extension == <span class="string">&#x27;h&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 获取当前时间</span></span><br><span class="line">    <span class="keyword">local</span> current_datetime = <span class="built_in">os</span>.<span class="built_in">date</span>(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">-- 获取前几行，检查是否包含 @LastEditTime</span></span><br><span class="line">    <span class="keyword">local</span> <span class="built_in">lines</span> = vim.api.nvim_buf_get_lines(buf, <span class="number">0</span>, <span class="number">10</span>, <span class="literal">false</span>)</span><br><span class="line">    <span class="keyword">for</span> i, line <span class="keyword">in</span> <span class="built_in">ipairs</span>(<span class="built_in">lines</span>) <span class="keyword">do</span></span><br><span class="line">        <span class="keyword">if</span> line:<span class="built_in">find</span>(<span class="string">&quot;@LastEditTime:&quot;</span>) <span class="keyword">then</span></span><br><span class="line">            <span class="comment">-- 更新 @LastEditTime 行</span></span><br><span class="line">            <span class="keyword">local</span> new_line = <span class="built_in">string</span>.<span class="built_in">format</span>(<span class="string">&quot; * @LastEditTime: %s&quot;</span>, current_datetime)</span><br><span class="line">            vim.api.nvim_buf_set_lines(buf, i - <span class="number">1</span>, i, <span class="literal">false</span>, &#123;new_line&#125;)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"><span class="comment">--                         Autocommand 设置 (Setup)</span></span><br><span class="line"><span class="comment">-- ============================================================================</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> autoHeaderGroup = vim.api.nvim_create_augroup(<span class="string">&quot;UserAutoHeader&quot;</span>, &#123; clear = <span class="literal">true</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 插入文件头</span></span><br><span class="line">vim.api.nvim_create_autocmd(&#123; <span class="string">&quot;BufNewFile&quot;</span>, <span class="string">&quot;BufEnter&quot;</span> &#125;, &#123;</span><br><span class="line">    group = autoHeaderGroup,</span><br><span class="line">    pattern = &#123;<span class="string">&quot;*.c&quot;</span>, <span class="string">&quot;*.cpp&quot;</span>, <span class="string">&quot;*.h&quot;</span>&#125;,</span><br><span class="line">    desc = <span class="string">&quot;自动为新的或空的 c/c++/h 文件插入文件头&quot;</span>,</span><br><span class="line">    callback = <span class="function"><span class="keyword">function</span><span class="params">(args)</span></span></span><br><span class="line">        <span class="keyword">local</span> buf = args.buf</span><br><span class="line">        <span class="keyword">if</span> vim.api.nvim_buf_is_valid(buf) <span class="keyword">and</span></span><br><span class="line">           vim.api.nvim_buf_get_option(buf, <span class="string">&#x27;buftype&#x27;</span>) == <span class="string">&quot;&quot;</span> <span class="keyword">and</span></span><br><span class="line">           vim.api.nvim_buf_get_option(buf, <span class="string">&#x27;modifiable&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">            vim.schedule(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">                <span class="built_in">_G</span>.auto_insert_header(buf)</span><br><span class="line">            <span class="keyword">end</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 更新 LastEditTime</span></span><br><span class="line">vim.api.nvim_create_autocmd(<span class="string">&quot;BufWritePre&quot;</span>, &#123;</span><br><span class="line">    group = autoHeaderGroup,</span><br><span class="line">    pattern = &#123;<span class="string">&quot;*.c&quot;</span>, <span class="string">&quot;*.cpp&quot;</span>, <span class="string">&quot;*.h&quot;</span>&#125;,</span><br><span class="line">    desc = <span class="string">&quot;保存时更新 LastEditTime&quot;</span>,</span><br><span class="line">    callback = <span class="function"><span class="keyword">function</span><span class="params">(args)</span></span></span><br><span class="line">        <span class="keyword">local</span> buf = args.buf</span><br><span class="line">        <span class="keyword">if</span> vim.api.nvim_buf_is_valid(buf) <span class="keyword">and</span></span><br><span class="line">           vim.api.nvim_buf_get_option(buf, <span class="string">&#x27;buftype&#x27;</span>) == <span class="string">&quot;&quot;</span> <span class="keyword">and</span></span><br><span class="line">           vim.api.nvim_buf_get_option(buf, <span class="string">&#x27;modifiable&#x27;</span>) <span class="keyword">then</span></span><br><span class="line">            vim.schedule(<span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">                <span class="built_in">_G</span>.update_last_edit_time(buf)</span><br><span class="line">            <span class="keyword">end</span>)</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span>,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="fitten-code"><a href="#fitten-code" class="headerlink" title="fitten-code"></a>fitten-code</h3><p>fitten code是ai补全代码工具，配置如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span>&#123;</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">&#x27;luozhiya/fittencode.nvim&#x27;</span>,</span><br><span class="line">		<span class="built_in">config</span> = <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line">		<span class="built_in">require</span>(<span class="string">&#x27;fittencode&#x27;</span>).setup()</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>Fitten login</code>命令来登录，使用<code>Fitten logout</code>来登出</p>
+<h2 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h2><p>在<code>Lazyvim</code>中自带了很多的插件，如<code>lua-line</code>就是<code>layzvim</code>自带的插件，这些自带的插件及自己安装的插件提供了很多实用的技巧：</p>
+<hr>
+<p>开关终端：</p>
+<ol>
+<li>使用<kbd>ctrl</kbd><kbd>/</kbd>打开（关闭）终端运行界面</li>
+</ol>
+<hr>
+<p>文件相关（在文件视图下）：</p>
+<ol>
+<li><p>使用<kbd>H</kbd>来隐藏或显示隐藏文件</p>
+</li>
+<li><p>焦点在文件夹上，按下<kbd>a</kbd>可以新增文件，在后面加上<code>/</code>会增加为文件夹</p>
+</li>
+<li><p>关闭当前文件可以使用<kbd>leader</kbd><kbd>b</kbd><kbd>d</kbd></p>
+<blockquote>
+<p>[!tip]</p>
+<p>打开的文件被Vim称作是buffer</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<p>焦点移动：</p>
+<ol>
+<li>使用<kbd>ctrl</kbd>+<kbd>h</kbd>(<kbd>j</kbd>、<kbd>k</kbd>、<kbd>l</kbd>)在不同的视图中移动</li>
+<li>在代码视图，可以按下<kbd>H</kbd>或<kbd>L</kbd>来切换已打开的不同文件</li>
+</ol>
+<hr>
+<p>代码跳转：</p>
+<ol>
+<li>先按下<kbd>f</kbd>键，然后输入你要搜索的内容，此时匹配的字母都会高亮显示，反白的高亮就是光标当前所在的位置。回车之后，按下<kbd>f</kbd>键可以向下搜寻，按下<kbd>F</kbd>向上搜索</li>
+<li>先按下<kbd>s</kbd>键，然后输入你想要搜索的内容，此时匹配的字母会高亮显示，并且，每个匹配项都会随机分配一个红色标记的字母，只要按下这个字母就可以跳转到相应位置</li>
+<li>如果在代码中存在报错，那么可以按下<kbd>[</kbd><kbd>e</kbd>跳转上一个错误位置，按下<kbd>]</kbd><kbd>e</kbd>跳转到下一个错误位置</li>
+<li>使用<kbd>[</kbd>或<kbd>]</kbd>+<kbd>a</kbd>可以在函数的参数上左右跳转</li>
+</ol>
+<hr>
+<p>命令导航：</p>
+<ol>
+<li>当我们按下单个按键的时候，在右下角会提示你下一步可以按的按键，并且在后面会有注释，如当按下<kbd>leader</kbd>后，在右下角会弹出一个窗口提示，假设你继续按照他的提示按<kbd>b</kbd>键，那么之后按下的按键就是<kbd>leader</kbd><kbd>b</kbd></li>
+<li>该功能是有<code>lazyvim</code>自带的插件<code>WhichKey</code></li>
+</ol>
+<hr>
+<p>编辑文件：</p>
+<ol>
+<li><kbd>d</kbd><kbd>w</kbd>命令会被当前光标限制，如你的光标在一个单词的中间，那么<kbd>d</kbd><kbd>w</kbd>只会删除后半段的单词，使用<kbd>d</kbd><kbd>i</kbd><kbd>w</kbd>会删除整个单词</li>
+<li>使用<kbd>c</kbd><kbd>w</kbd>命令会删除当前单词并且插入，且也会受到光标的限制，所以可以使用使用<kbd>c</kbd><kbd>i</kbd><kbd>w</kbd>不受光标限制的删除整个单词并插入</li>
+<li>使用<kbd>v</kbd><kbd>w</kbd>命令会选中当前单词，且也会受到光标的限制，所以可以使用使用<kbd>v</kbd><kbd>i</kbd><kbd>w</kbd>不受光标限制的选中整个单词</li>
+<li>类比的，使用<kbd>c</kbd><kbd>i</kbd>、<kbd>d</kbd><kbd>i</kbd>、<kbd>v</kbd><kbd>i</kbd>，我们可以将<kbd>w</kbd>切换为<kbd>(</kbd>、<kbd>“</kbd>来修改、删除、选中括号中或引号中的内容，只要是成对出现的符号都可以使用这种命令</li>
+</ol>
+<hr>
+<p>注释代码：</p>
+<ol>
+<li>使用<kbd>g</kbd><kbd>c</kbd><kbd>c</kbd>注释单行代码</li>
+</ol>
+<hr>
+<p>退出vim：</p>
+<ol>
+<li>使用<kbd>q</kbd><kbd>a</kbd>来退出整个<code>nvim</code></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/" rel="tag">软件及工具</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Tessy" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Tessy
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Vscode" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          Vscode
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Vim"><span class="toc-number">1.</span> <span class="toc-text">启动 Vim</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">基本模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Normal-%E6%A8%A1%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text">Normal 模式命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Insert-%E6%A8%A1%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.2.</span> <span class="toc-text">Insert 模式命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Visual-%E6%A8%A1%E5%BC%8F%E5%91%BD%E4%BB%A4"><span class="toc-number">3.3.</span> <span class="toc-text">Visual 模式命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%AE%E4%BD%8D%E5%9B%BE"><span class="toc-number">3.4.</span> <span class="toc-text">键位图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E5%92%8C%E6%9B%BF%E6%8D%A2"><span class="toc-number">4.</span> <span class="toc-text">搜索和替换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Vim"><span class="toc-number">5.</span> <span class="toc-text">配置 Vim</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">插件管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NeoVim"><span class="toc-number">7.</span> <span class="toc-text">NeoVim</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%9F%BA%E7%A1%80%E6%8F%92%E4%BB%B6"><span class="toc-number">7.1.</span> <span class="toc-text">安装基础插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86-1"><span class="toc-number">7.2.</span> <span class="toc-text">插件管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nvim-tree"><span class="toc-number">7.2.1.</span> <span class="toc-text">nvim-tree</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lsp-Clangd"><span class="toc-number">7.2.2.</span> <span class="toc-text">Lsp-Clangd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nvim-treesitter"><span class="toc-number">7.2.3.</span> <span class="toc-text">nvim-treesitter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lua-line"><span class="toc-number">7.2.4.</span> <span class="toc-text">lua-line</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%87%E6%AE%B5%E7%AE%A1%E7%90%86"><span class="toc-number">7.2.5.</span> <span class="toc-text">片段管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fitten-code"><span class="toc-number">7.2.6.</span> <span class="toc-text">fitten-code</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">7.3.</span> <span class="toc-text">使用技巧</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "Vim",
+          url: "http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/",
+          excerpt: "",
+          description: "",
+          stripContent: "启动 Vim在终端中输入 vim 启动 Vim，或者输入 vim filename 打开特定文件。 12vimvim filename  基本模式Vim 有三种主要模式：  Normal 模式：默认模式，用于执行命令。 Insert 模式：用于编辑文本。 Visual 模式：用于选择文本。  切换模式  Normal 模式：启动 Vim 后默认进入 Normal 模式。按 Esc 可以从其他模式切换到 Normal 模式。 Insert 模式：在 Normal 模式下，按 i 进入 Insert",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

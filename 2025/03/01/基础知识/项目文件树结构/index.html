@@ -1,0 +1,973 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    项目文件树 |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="缩写该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：    缩写 全称 描述    AUTOSAR AUTomotive Open System ARchitecture 汽车开放系统架构，是汽车软件开发的标准框架。   ASW Application Software 应用软件，主要负责实现特定功能的业务逻辑。   BSW Basic Software 基础软件，负">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目文件树">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="缩写该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：    缩写 全称 描述    AUTOSAR AUTomotive Open System ARchitecture 汽车开放系统架构，是汽车软件开发的标准框架。   ASW Application Software 应用软件，主要负责实现特定功能的业务逻辑。   BSW Basic Software 基础软件，负">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.869Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="基础知识">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="项目文件树">
+          
+        </picture>
+        
+          <img alt="项目文件树" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">项目文件树</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%A9%E5%86%99"><span class="toc-number">1.</span> <span class="toc-text">缩写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ASW"><span class="toc-number">3.</span> <span class="toc-text">ASW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BSW"><span class="toc-number">4.</span> <span class="toc-text">BSW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Documents"><span class="toc-number">5.</span> <span class="toc-text">Documents</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OS"><span class="toc-number">6.</span> <span class="toc-text">OS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Output"><span class="toc-number">7.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Project"><span class="toc-number">8.</span> <span class="toc-text">Project</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ReadMe"><span class="toc-number">9.</span> <span class="toc-text">ReadMe</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-基础知识/项目文件树结构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="缩写"><a href="#缩写" class="headerlink" title="缩写"></a>缩写</h1><p>该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：</p>
+<table>
+<thead>
+<tr>
+<th>缩写</th>
+<th>全称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AUTOSAR</td>
+<td>AUTomotive Open System ARchitecture</td>
+<td>汽车开放系统架构，是汽车软件开发的标准框架。</td>
+</tr>
+<tr>
+<td>ASW</td>
+<td>Application Software</td>
+<td>应用软件，主要负责实现特定功能的业务逻辑。</td>
+</tr>
+<tr>
+<td>BSW</td>
+<td>Basic Software</td>
+<td>基础软件，负责底层硬件控制和通用服务的实现。</td>
+</tr>
+<tr>
+<td>BSP</td>
+<td>Board Support Package</td>
+<td>板级支持包，包含硬件初始化、驱动和相关工具。</td>
+</tr>
+<tr>
+<td>HAL</td>
+<td>Hardware Abstraction Layer</td>
+<td>硬件抽象层，提供对硬件的抽象访问接口。</td>
+</tr>
+<tr>
+<td>MCAL</td>
+<td>Microcontroller Abstraction Layer</td>
+<td>微控制器抽象层，提供对芯片外设的直接访问接口。</td>
+</tr>
+<tr>
+<td>RTE</td>
+<td>Run-Time Environment</td>
+<td>运行时环境，负责 ASW 与 BSW 的通信管理。</td>
+</tr>
+<tr>
+<td>UDS</td>
+<td>Unified Diagnostic Services</td>
+<td>统一诊断服务协议（ISO 14229），用于 ECU 的诊断通信。</td>
+</tr>
+<tr>
+<td>Dcm</td>
+<td>Diagnostic Communication Manager</td>
+<td>诊断通信管理模块，实现 UDS 服务的解析和处理。</td>
+</tr>
+<tr>
+<td>Dem</td>
+<td>Diagnostic Event Manager</td>
+<td>诊断事件管理模块，负责故障码存储和管理。</td>
+</tr>
+<tr>
+<td>PduR</td>
+<td>Protocol Data Unit Router</td>
+<td>协议数据单元路由模块，负责数据路由。</td>
+</tr>
+<tr>
+<td>CanTp</td>
+<td>CAN Transport Protocol</td>
+<td>CAN 传输协议模块，用于实现 UDS 消息的传输。</td>
+</tr>
+<tr>
+<td>NvM</td>
+<td>Non-Volatile Memory Manager</td>
+<td>非易失性内存管理模块，负责数据的持久化存储。</td>
+</tr>
+<tr>
+<td>SoAd</td>
+<td>Socket Adapter</td>
+<td>套接字适配器，用于实现基于 TCP&#x2F;IP 的通信协议（如 DoIP）。</td>
+</tr>
+<tr>
+<td>ECU</td>
+<td>Electronic Control Unit</td>
+<td>电子控制单元，是汽车的嵌入式控制器。</td>
+</tr>
+<tr>
+<td>GPIO</td>
+<td>General Purpose Input&#x2F;Output</td>
+<td>通用输入输出，硬件外设的一种。</td>
+</tr>
+<tr>
+<td>UART</td>
+<td>Universal Asynchronous Receiver-Transmitter</td>
+<td>通用异步收发器，用于串行通信。</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>Serial Peripheral Interface</td>
+<td>串行外设接口，用于高性能串行通信。</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>Inter-Integrated Circuit</td>
+<td>一种常用的两线串行通信协议。</td>
+</tr>
+<tr>
+<td>CAN</td>
+<td>Controller Area Network</td>
+<td>控制器局域网，是汽车通信总线的一种。</td>
+</tr>
+<tr>
+<td>FlexRay</td>
+<td>Flexible Ray</td>
+<td>一种高速汽车通信协议，用于安全关键应用。</td>
+</tr>
+<tr>
+<td>LIN</td>
+<td>Local Interconnect Network</td>
+<td>局域互连网络，低成本汽车通信协议。</td>
+</tr>
+<tr>
+<td>DoIP</td>
+<td>Diagnostics over Internet Protocol</td>
+<td>基于 IP 协议的诊断通信。</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Operating System</td>
+<td>操作系统，提供任务调度和资源管理功能。</td>
+</tr>
+<tr>
+<td>SWC</td>
+<td>Software Component</td>
+<td>软件组件，用于实现应用逻辑，是 ASW 层的核心构成模块。</td>
+</tr>
+</tbody></table>
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├─.vscode</span><br><span class="line">├─ASW				此处存放与硬件平台无关代码</span><br><span class="line">├─BSW				存放与硬件相关代码，所以子文件夹需要区分不同芯片型号</span><br><span class="line">├─Documents			存放项目相关的文档，为了方便使用，最好将使用的芯片的手册放于此处</span><br><span class="line">├─OS				存放和系统相关的，如文件系统、操作系统、调度系统等等</span><br><span class="line">├─Output			存放输出文件，请在设置Keil和IAR等软件时，选用输出到此文件夹，方便管理，并且增强Project中的整洁性</span><br><span class="line">└─Project			存放和工程相关的文件树，如KEIL、IAR、SOURCEINSIGHT、TSMATSER、CANoe、JFLASH，与项目相关的工程请放置此处</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!important] </p>
+<p>不知道要将代码放在哪个文件夹中需要参考以下准则：</p>
+<ol>
+<li>与硬件无关的请存放于ASW，也就是逻辑相关</li>
+<li>与硬件有关的请存放于BSW，也就是对接硬件平台</li>
+<li>OS中存放系统相关，如文件系统、操作系统、调度系统</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>[!note] </p>
+<p>为了保持风格的一致性，高两级的文件夹请使用开头大写（ASW、OS、User、Components等），再低级的文件夹就使用小写（inc、src、cfg等）</p>
+</blockquote>
+<h1 id="ASW"><a href="#ASW" class="headerlink" title="ASW"></a>ASW</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">├─.vscode</span><br><span class="line">├─ASW				此处存放与硬件平台无关代码</span><br><span class="line">│  ├─Include		此处存放一些类型头文件</span><br><span class="line">│  ├─Lib			此处存放一些库文件，也就是不会修改的文件</span><br><span class="line">│  ├─SWC			此处存放APP相关组件代码，如门窗控制器组件等等</span><br><span class="line">│  │  └─btdm		此级文件夹下的文件树可以按照自己的喜好存放，如可以将c和h文件放在一起，也可按照不同的文件后缀对文件树进行构建</span><br><span class="line">│  │      ├─inc		存放头文件</span><br><span class="line">│  │      └─src		存放c文件</span><br><span class="line">│  ├─User			一般用于存放main函数和相关app操作函数，一般来说main函数尽量不要有太多的内容，使用函数调用，方便在此基础上修改</span><br><span class="line">│  └─Utils			存放工具文件，如delay、RTT、coreMark等工具。</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!note] </p>
+<p>注意，ASW中存放和硬件无关的代码，所以在写其中的代码，我们应该要尽量减少和硬件有关的代码，使用抽象代码，如使用定死的函数名访问，我们并不需要知道它下面是怎么实现的，我们只需要调用。（使用定死的函数名方便进行抽象）</p>
+</blockquote>
+<blockquote>
+<p>[!important] </p>
+<p>‼‼‼在ASW中写代码，一定要有抽象的概念‼‼‼</p>
+<p>例如SWC是组件的意思，也就意味着，当你写好一个组件，那么我下次使用别的平台的时候可以直接调用你的组件，而不需要再修改很多东西，如定义一个宏开关来控制。</p>
+<p>对于一个组件来说，我只需要知道你的组件的输入和输出即可，所以其中的代码尽量写的抽象，减少重复造轮子。</p>
+</blockquote>
+<h1 id="BSW"><a href="#BSW" class="headerlink" title="BSW"></a>BSW</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">├─BSW				存放与硬件相关代码，所以需要区分不同芯片型号</span><br><span class="line">│  ├─Bsp			存放供应商和用户的接口函数</span><br><span class="line">│  │  ├─inc</span><br><span class="line">│  │  └─src</span><br><span class="line">│  ├─Cmsis			这里存放和芯片内核文件，如core_cm3.h、cmsis_compile.h等等类似文件</span><br><span class="line">│  ├─Diagnostics	这里存放诊断相关文件，如UDS</span><br><span class="line">│  ├─Drivers		这里存放驱动文件</span><br><span class="line">│  ├─Middleware		存放BSP层和SWC层的交互函数</span><br><span class="line">│  ├─Scripts		存放脚本相关文件，如sct、icf、bat、py，和工程相关的脚本文件请都放至此处。在Keil中如果使用可视化宏文件请放置此处</span><br><span class="line">│  └─StartUp		这里存放启动文件，如startUp.s等文件</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!tip] </p>
+<p>需要考虑的是，是否要增加芯片厂商的文件夹，如ZX&#x2F;FR3032D，如果要制定芯片厂商，请和plm等保持一致的缩写，如ZX代表智芯</p>
+</blockquote>
+<h1 id="Documents"><a href="#Documents" class="headerlink" title="Documents"></a>Documents</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">├─Documents		存放和项目相关的手册、点检表、变更履历表，如果要存放过多的文件，请使用文件夹分类，便于查阅</span><br><span class="line">│  └─FR3032D	</span><br></pre></td></tr></table></figure>
+
+<h1 id="OS"><a href="#OS" class="headerlink" title="OS"></a>OS</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├─OS		</span><br><span class="line">│  ├─FlashDB	文件系统</span><br><span class="line">│  │  ├─inc</span><br><span class="line">│  │  └─src</span><br><span class="line">│  └─FreeRTOS	操作系统</span><br><span class="line">│      ├─inc</span><br><span class="line">│      └─src</span><br></pre></td></tr></table></figure>
+
+<h1 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">├─Output</span><br><span class="line">│  ├─Listings	存放链接文件和映射文件，注意该文件夹是软件生成的，在Keil或IAR中设置即可</span><br><span class="line">│  ├─Objects	存放中间文件，如o文件、obj文件，该文件夹也是软件自动生成的，需要配置</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!note] </p>
+<p>请务必在工程中设置output和listing以保证项目树的整洁性</p>
+</blockquote>
+<h1 id="Project"><a href="#Project" class="headerlink" title="Project"></a>Project</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">└─Project</span><br><span class="line">    ├─KEIL</span><br><span class="line">    │  └─RTE</span><br><span class="line">    │      └─_blueTooth</span><br><span class="line">    ├─SOURCEINSIGHT</span><br><span class="line">    │  └─blueTooth.si4project</span><br><span class="line">    │      ├─Backup</span><br><span class="line">    │      └─cache</span><br><span class="line">    │          └─parse</span><br><span class="line">    └─VSCODE</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!important] </p>
+<p>和项目相关的工程请存放至此，我们常用的工程有：</p>
+<ol>
+<li>Keil</li>
+<li>IAR</li>
+<li>SourceInsight</li>
+<li>Vscode</li>
+<li>TSMaster</li>
+<li>Canoe</li>
+<li>ZLG</li>
+<li>JFLash</li>
+<li>QAC</li>
+<li>Tessy</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>[!note] </p>
+<p>QAC和Tessy的测试输出报告请不要放置Document中，需要存放在Project下的相关文件夹中</p>
+</blockquote>
+<h1 id="ReadMe"><a href="#ReadMe" class="headerlink" title="ReadMe"></a>ReadMe</h1><p>ReadMe文件中用来存放和项目相关教程，如Flash、Ram分布，如何使用函数，当使用的时候需要修改哪些等等。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag">基础知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="链接文件" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            链接文件
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="问题及解决方法" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          问题及解决方法
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%A9%E5%86%99"><span class="toc-number">1.</span> <span class="toc-text">缩写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%A7%88"><span class="toc-number">2.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ASW"><span class="toc-number">3.</span> <span class="toc-text">ASW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BSW"><span class="toc-number">4.</span> <span class="toc-text">BSW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Documents"><span class="toc-number">5.</span> <span class="toc-text">Documents</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OS"><span class="toc-number">6.</span> <span class="toc-text">OS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Output"><span class="toc-number">7.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Project"><span class="toc-number">8.</span> <span class="toc-text">Project</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ReadMe"><span class="toc-number">9.</span> <span class="toc-text">ReadMe</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "项目文件树",
+          url: "http://example.com/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/",
+          excerpt: "",
+          description: "",
+          stripContent: "缩写该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：    缩写 全称 描述    AUTOSAR AUTomotive Open System ARchitecture 汽车开放系统架构，是汽车软件开发的标准框架。   ASW Application Software 应用软件，主要负责实现特定功能的业务逻辑。   BSW Basic Software 基础软件，负责底层硬件控制和通用服务的实现。   BSP Board Support Package 板级支持包",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

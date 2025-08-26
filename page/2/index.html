@@ -1,0 +1,991 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="你要信我啊の博客">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/banner.webp">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/banner.webp">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      <picture>
+        
+          
+            <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+          
+            <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+          
+            <source media="(min-width: 800px)" srcset="/images/banner.webp">
+          
+          <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="">
+        
+      </picture>
+      
+        <img alt="" style="visibility: hidden;">
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">你要信我啊の博客</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+            <a href="/" id="subtitle">今天想学点什么？</a>
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper ">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+
+      
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main">
+  
+  
+    
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/BootLoader/" aria-label="BootLoader"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png" data-sizes="auto" alt="BootLoader" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>10.7k words</span>
+        <span><span class="icon-clock"></span>39 mins</span>
+      </div>
+      <h2 class="post-title">BootLoader</h2>
+      <article class="post-article">
+        
+          参考链接基于UDS的BootLoader设计——架构设计及规范_nxp s32k144 bootloader 基于uds-CSDN博客
+Bootloader升级方式一————擦、写flash在RAM中运行 - isAndyWu - 博客园 (cnblogs.com)
+基础介绍BootLoader的作用Boot Loader又称为引导加载程序，引导加载程序是系统上电后运行的第一段软件代码，常被用来加载系统或者更新系统等。因此，大部分的Boot Loader存在两种不同的操作模式：
+
+&amp;#x3D;&amp;#x3D;启动模式&amp;#x3D;&amp;#x3D;：启动加载（BootLoading）模式也称为自主模式（A
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/" aria-label="Map文件"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png" data-sizes="auto" alt="Map文件" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>4k words</span>
+        <span><span class="icon-clock"></span>18 mins</span>
+      </div>
+      <h2 class="post-title">Map文件</h2>
+      <article class="post-article">
+        
+          参考链接KEIL MDK .map文件分析(必学知识点) - 正点原子倾力打造！-OpenEdv-开源电子网
+充分理解Linux GCC 链接生成的Map文件 - 知乎 (zhihu.com)
+
+[!important]
+可以使用AMAP可视化map文件
+
+GCC平台Archives linked一般位于map文件的第一行
+123Archive member included to satisfy reference by file (symbol)   /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/" aria-label="二进制文件"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png" data-sizes="auto" alt="二进制文件" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>3k words</span>
+        <span><span class="icon-clock"></span>12 mins</span>
+      </div>
+      <h2 class="post-title">二进制文件</h2>
+      <article class="post-article">
+        
+          BinBIN文件是纯二进制文件，没有固定的结构或元数据。&amp;#x3D;&amp;#x3D;当想要将二进制文件烧录进单片机时，不需要再对数据进行处理&amp;#x3D;&amp;#x3D;，也就是说，我们使用ImHex打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。
+HexHex 全称 (Intel HEX)文件是由一行行符合Intel HEX文件格式的文本所构成的ASCII文本文件。
+在Intel HEX文件中，每一行包含一个HEX记录。
+
+
+[!note]
+注意：我们使用txt文件打开的时候显示的是ASCII表示，也就是一个字符串。实际上一行数据的原始数据如下图左侧所示，使用txt打开的如右图所
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/" aria-label="操作系统基础"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="操作系统基础" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>2.6k words</span>
+        <span><span class="icon-clock"></span>10 mins</span>
+      </div>
+      <h2 class="post-title">操作系统基础</h2>
+      <article class="post-article">
+        
+          参考链接操作系统：设计与实现 (2024 春季学期) (jyywiki.cn)
+应用视角下的操作系统构造一个最小程序要理解操作系统首先要理解程序,下面是一个最简单的程序：
+1234int main()&amp;#123;	printf(&amp;quot;Hello world!&amp;quot;);&amp;#125;
+
+当生成输出文件之后，可以使用以下的命令来查看生成的可执行文件
+1234objdump 工具可以查看对应的汇编代码gcc --verbose 可以查看所有编译选项 (真不少)printf 变成了 puts@pltgcc -Wl,--verbose 可以查看所有链接选项 (真不少)原来链接了那么多东西还解释
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%A0%A1%E9%AA%8C/" aria-label="校验"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/20_15_29_28_202411201529004.png" data-sizes="auto" alt="校验" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>7.7k words</span>
+        <span><span class="icon-clock"></span>32 mins</span>
+      </div>
+      <h2 class="post-title">校验</h2>
+      <article class="post-article">
+        
+          校验和 (Checksum)参考链接CheckSum算法–又名累加和校验算法 - 皮卡成球 - 博客园
+原理及步骤**校验和（Checksum）**是网络协议使用的数据错误检测方法，并且被认为比LRC（纵向冗余校验，Longitudinal Redundancy Check，LRC），VRC和CRC（循环冗余校验（Cyclic Redundancy Codes，CRC））更可靠。此方法在发送方使用校验和生成器，在接收方使用校验和校验器。
+累加和校验算法的实现
+
+发送方：对要数据累加，得到一个数据和，对和求反，即得到我们的校验值。然后把要发的数据和这个校验值一起发送给接收方。
+接受方：对接收的数
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80/" aria-label="测试基础"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="测试基础" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>4.6k words</span>
+        <span><span class="icon-clock"></span>15 mins</span>
+      </div>
+      <h2 class="post-title">测试基础</h2>
+      <article class="post-article">
+        
+          测试指标测试覆盖率测试覆盖率(（Test Coverage)是测试用例执行时，系统或代码的覆盖程度。它反映了测试是否覆盖了系统的各个方面，包括功能、代码、路径等。
+不同的测试覆盖率指标提供了对测试的不同层面的检查。一般来说：
+
+语句覆盖率和分支覆盖率是最常用的基础覆盖率，适用于大多数场景。
+路径覆盖率和多条件覆盖率适用于复杂的系统，特别是那些有大量分支和复杂条件的系统。
+函数覆盖率、调用路径覆盖率等适用于验证系统中的函数调用和路径的完整性。
+
+功能覆盖率功能覆盖率（Functional Coverage）是指测试用例对系统中所有功能点的覆盖程度。它确保每个功能都得到了测试。计算方法为：$$功能
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/" aria-label="编程规范"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="编程规范" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>9.4k words</span>
+        <span><span class="icon-clock"></span>38 mins</span>
+      </div>
+      <h2 class="post-title">编程规范</h2>
+      <article class="post-article">
+        
+          参考链接C语言 | 嵌入式C语言编程规范_函数名开头加uc-CSDN博客
+
+[!tip] 
+以下文件排版将会按照自顶向下的方式进行编排，&amp;#x3D;&amp;#x3D;文件夹 &amp;gt; 文件名 &amp;gt; 排版 &amp;gt; 函数 &amp;gt; 变量&amp;#x3D;&amp;#x3D;
+
+文件架构缩写该项目文件树参考AUTOSAR结构，为了便于理解，此处展示部分缩写的全称：
+
+
+
+缩写
+全称
+描述
+
+
+
+AUTOSAR
+AUTomotive Open System ARchitecture
+汽车开放系统架构，是汽车软件开发的标准框架。
+
+
+ASW
+Application Software
+应用软件，主要负责实现特定功能的业
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" aria-label="软件基础"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="软件基础" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>3.9k words</span>
+        <span><span class="icon-clock"></span>16 mins</span>
+      </div>
+      <h2 class="post-title">软件基础</h2>
+      <article class="post-article">
+        
+          参考链接这些嵌入式知识助 你秋招，也助你进阶 (qq.com)
+AUTOSAR架构AUTOSAR（Automotive Open System Architecture）是一个用于开发汽车电子系统的软件架构标准。它通过标准化的架构提高了软件的可重用性和可移植性，减少了开发时间和成本。以下是AUTOSAR架构的详细描述：
+AUTOSAR架构概述AUTOSAR架构由多个层次组成，包括应用软件层（Application Layer）、运行时环境（Runtime Environment, RTE）和基础软件层（Basic Software, BSW）。这些层次共同工作，提供完整的汽车电子系统解决方案。
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/" aria-label="链接文件"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="链接文件" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>4.8k words</span>
+        <span><span class="icon-clock"></span>18 mins</span>
+      </div>
+      <h2 class="post-title">链接文件</h2>
+      <article class="post-article">
+        
+          LDLD 文件是 GNU 工具链（如 GCC）使用的链接器脚本，用于指定如何将程序的各个部分（如代码段、数据段等）放置到目标设备的内存中。LD 脚本的语法非常灵活，支持详细的内存区域分配、段定义以及符号管理。
+基本结构LD 链接脚本主要由以下几部分组成：
+
+全局声明和变量：设置内存区域和段的分配。
+段定义（SECTIONS）：定义程序的各个段（如 .text, .data, .bss 等）在内存中的位置。
+符号管理：可以设置一些符号（如 __start、__end）的地址。
+
+内存区域定义使用 MEMORY 关键字来定义目标设备的内存区域。每个内存区域指定起始地址（ORIGIN）和长度（LEN
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/" aria-label="项目文件树"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="项目文件树" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>1.8k words</span>
+        <span><span class="icon-clock"></span>6 mins</span>
+      </div>
+      <h2 class="post-title">项目文件树</h2>
+      <article class="post-article">
+        
+          缩写该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：
+
+
+
+缩写
+全称
+描述
+
+
+
+AUTOSAR
+AUTomotive Open System ARchitecture
+汽车开放系统架构，是汽车软件开发的标准框架。
+
+
+ASW
+Application Software
+应用软件，主要负责实现特定功能的业务逻辑。
+
+
+BSW
+Basic Software
+基础软件，负责底层硬件控制和通用服务的实现。
+
+
+BSP
+Board Support Package
+板级支持包，包含硬件初始化、驱动和相关工具。
+
+
+HAL
+Hardware Abstraction Layer
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+  
+
+
+  <nav id="page-nav" data-aos="fade-up">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+  </nav>
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+
+    
+  </div>
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+       
+    
+    
+      
+    
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

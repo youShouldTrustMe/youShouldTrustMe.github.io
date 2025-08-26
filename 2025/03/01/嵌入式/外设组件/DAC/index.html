@@ -1,0 +1,954 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    DAC |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="参考链接【STM32】DAC详解_dac12bit-CSDN博客 简述DAC,全称：Digital-to-Analog Converter,指数字&#x2F;模拟转换器 DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 在 12 位模式下，数据可以采用左对齐或右对齐。 DAC 有两个输出通道，每个通道各有一个转换器。在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DAC">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="参考链接【STM32】DAC详解_dac12bit-CSDN博客 简述DAC,全称：Digital-to-Analog Converter,指数字&#x2F;模拟转换器 DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 在 12 位模式下，数据可以采用左对齐或右对齐。 DAC 有两个输出通道，每个通道各有一个转换器。在">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_49_2_202409101649073.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_50_33_202409101650770.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_53_11_202409101653943.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_53_6_202409101653109.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_53_57_202409101653915.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_54_12_202409101654004.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_55_54_202409101655811.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.871Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png" alt="DAC">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">DAC</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">简述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">特性参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7"><span class="toc-number">2.2.</span> <span class="toc-text">主要特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E7%94%B5%E5%8E%8B%E5%92%8C%E6%A8%A1%E6%8B%9F%E7%94%B5%E5%8E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">参考电压和模拟电压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">数据格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%BA%90"><span class="toc-number">3.3.</span> <span class="toc-text">触发源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E8%AF%B7%E6%B1%82"><span class="toc-number">3.4.</span> <span class="toc-text">DMA请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E7%94%B5%E5%8E%8B"><span class="toc-number">3.5.</span> <span class="toc-text">输出电压</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/外设组件/DAC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dengjin20104042056/article/details/108604920">【STM32】DAC详解_dac12bit-CSDN博客</a></p>
+<h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>DAC,全称：Digital-to-Analog Converter,指数字&#x2F;模拟转换器</p>
+<p>DAC 模块是 12 位电压输出数模转换器。</p>
+<ul>
+<li>DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。</li>
+<li>在 12 位模式下，数据可以采用左对齐或右对齐。</li>
+<li>DAC 有两个输出通道，每个通道各有一个转换器。在 DAC 双通道模式下，每个通道可以单独进行转换；当两个通道组合在一起同步执行更新操作时，也可以同时进行转换。可通过一个输入参考电压引脚 V REF+ （与 ADC 共享）来提高分辨率。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png" alt="ADC和DAC过程"></p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>ADC和DAC是模拟电路和数字电路之间的桥梁</p>
+</blockquote>
+<h2 id="特性参数"><a href="#特性参数" class="headerlink" title="特性参数"></a>特性参数</h2><ol>
+<li>分辨率：表示模拟电压的最小增量，常用二进制位数表示，比如：8、12位等</li>
+<li>建立时间：表示将一个数字量转换为稳定模拟信号所需的时间</li>
+<li>精度：转换器实际特性曲线与理想特性曲线之间的最大偏差<ol>
+<li>误差源：比例系统误差、失调误差、非线性误差</li>
+<li>原因：元件参数误差、基准电压不稳定、运算放大器零漂等</li>
+</ol>
+</li>
+</ol>
+<h2 id="主要特性"><a href="#主要特性" class="headerlink" title="主要特性"></a>主要特性</h2><table>
+<thead>
+<tr>
+<th>主要特性</th>
+<th>F1</th>
+<th>F4</th>
+<th>F7</th>
+<th>H7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DAC输出类型</td>
+<td>电压输出型</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td>分辨率</td>
+<td>8&#x2F;12位</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td>DAC时钟频率</td>
+<td>36MHz(APB1)</td>
+<td>42MHz(APB1) 45MHz(APB1)</td>
+<td>54MHz(APB1)</td>
+<td>120MHz(APB1)</td>
+</tr>
+<tr>
+<td>建立时间</td>
+<td>3us</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>1.7us</td>
+</tr>
+<tr>
+<td>供电电压</td>
+<td>Vssa : 0V, VpDa : 2.4V~3.6V</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td>参考电压</td>
+<td>VReF- : OV, VREE+ 般为3.3V</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td>输出通道</td>
+<td>DAC_OUT1(PA4）、DAC_OUT2(PA5) 为了避免寄生电流消耗，PA4和PA5配置为模拟功能 每个通道都有单独的转换器，可同时或单独转换，每个通道都有DMA功能</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+</tr>
+</tbody></table>
+<ul>
+<li>两个 DAC 转换器：各对应一个输出通道</li>
+<li>12 位模式下数据采用左对齐或右对齐</li>
+<li>同步更新功能</li>
+<li>生成噪声波</li>
+<li>生成三角波</li>
+<li>DAC 双通道单独或同时转换</li>
+<li>每个通道都具有 DMA 功能</li>
+<li>DMA 下溢错误检测</li>
+<li>通过外部触发信号进行转换</li>
+<li>输入参考电压 V REF+</li>
+</ul>
+<h1 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_49_2_202409101649073.png" alt="DAC框图"></p>
+<blockquote>
+<p>[!TIP]</p>
+<p>使能 DAC 通道 x 后，相应 GPIO 引脚（ PA4 或 PA5 ）将自动连接到模拟转换器输出(DAC_OUTx) 。为了避免寄生电流消耗，应首先将 PA4 或 PA5 引脚配置为模拟模式 (AIN) 。</p>
+</blockquote>
+<h2 id="参考电压和模拟电压"><a href="#参考电压和模拟电压" class="headerlink" title="参考电压和模拟电压"></a>参考电压和模拟电压</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>信号类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VREF+</td>
+<td>正模拟参考电压输入</td>
+<td>DAC 高&#x2F;正参考电压，1.8V≤VREF+≤VDDA</td>
+</tr>
+<tr>
+<td>VDDA</td>
+<td>模拟电源输入</td>
+<td>模拟电源</td>
+</tr>
+<tr>
+<td>VsSA</td>
+<td>模拟电源接地输入</td>
+<td>模拟电源接地</td>
+</tr>
+<tr>
+<td>DAC_OUTx</td>
+<td>模拟输出信号</td>
+<td>DAC 通道×模拟输出 201040420</td>
+</tr>
+</tbody></table>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_50_33_202409101650770.png" alt="参考电压和模拟电压"></p>
+<h2 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h2><p>数据寄存器，是DAC数据转换的来源</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_53_11_202409101653943.png" alt="数据格式"></p>
+<h2 id="触发源"><a href="#触发源" class="headerlink" title="触发源"></a>触发源</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_53_6_202409101653109.png" alt="触发源"></p>
+<p>关闭触发时的转换时序</p>
+<p>DAC_DORx 无法直接写入，任何数据都必须通过加载 DAC_DHRx 寄存器（写入DAC_DHR8Rx、DAC_DHR12Lx、DAC_DHR12Rx、DAC_DHR8RD、DAC_DHR12LD 或DAC_DHR12LD）才能传输到 DAC 通道 x。</p>
+<p>如果未选择硬件触发（DAC_CR 寄存器中的 TENx 位复位），那么经过一个 APB1 时钟周期后，DAC_DHRx 寄存器中存储的数据将自动转移到 DAC_DORx 寄存器。但是，如果选择硬件触发（置位 DAC_CR 寄存器中的 TENx 位）且触发条件到来，将在三个 APB1 时钟周期后进行转移。</p>
+<p>当 DAC_DORx 加载了 DAC_DHRx 内容时，模拟输出电压将在一段时间 t SETTLING 后可用，具体时间取决于电源电压和模拟输出负载。</p>
+<table>
+<thead>
+<tr>
+<th>源</th>
+<th>类型</th>
+<th>TSEL[2:0]</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Timer 6 TRGO event</td>
+<td>片上定时器的内部信号 外部引脚</td>
+<td>000</td>
+</tr>
+<tr>
+<td>Timer 8 TRGO event</td>
+<td>:</td>
+<td>001</td>
+</tr>
+<tr>
+<td>Timer 7 TRGO event</td>
+<td>:</td>
+<td>010</td>
+</tr>
+<tr>
+<td>Timer 5 TRGO event</td>
+<td>:</td>
+<td>011</td>
+</tr>
+<tr>
+<td>Timer 2TRGOevent</td>
+<td>:</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Timer 4 TRGO event</td>
+<td>:</td>
+<td>101</td>
+</tr>
+<tr>
+<td>EXTI line9</td>
+<td>外部引脚</td>
+<td>110</td>
+</tr>
+<tr>
+<td>SWTRIG</td>
+<td>软件控制位</td>
+<td>111</td>
+</tr>
+</tbody></table>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_53_57_202409101653915.png" alt="波形图"></p>
+<h2 id="DMA请求"><a href="#DMA请求" class="headerlink" title="DMA请求"></a>DMA请求</h2><p>每个 DAC 通道都具有 DMA 功能。两个 DMA 通道用于处理 DAC 通道的 DMA 请求。当 DMAENx 位置 1 时，如果发生外部触发（而不是软件触发），则将产生 DAC DMA 请求。DAC_DHRx 寄存器的值随后转移到 DAC_DORx 寄存器。</p>
+<p>在双通道模式下，如果两个 DMAENx 位均置 1，则将产生两个 DMA 请求。如果只需要一个DMA 请求，应仅将相应 DMAENx 位置 1。这样，应用程序可以在双通道模式下通过一个DMA 请求和一个特定 DMA 通道来管理两个 DAC 通道。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_54_12_202409101654004.png" alt="DMA请求"></p>
+<h2 id="输出电压"><a href="#输出电压" class="headerlink" title="输出电压"></a>输出电压</h2><p>经过线性转换后，数字输入会转换为 0 到 V REF+ 之间的输出电压。各DAC通道引脚的模拟输出电压通过以下公式确定：</p>
+<p>这里的4096和256分别是2^12 2^8</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_55_54_202409101655811.png" alt="输出电压"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" rel="tag">外设组件</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png" data-sizes="auto" alt="ADC" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            ADC
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" data-sizes="auto" alt="DMA" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          DMA
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">简述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%80%A7%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">特性参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7"><span class="toc-number">2.2.</span> <span class="toc-text">主要特性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E7%94%B5%E5%8E%8B%E5%92%8C%E6%A8%A1%E6%8B%9F%E7%94%B5%E5%8E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">参考电压和模拟电压</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">数据格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%BA%90"><span class="toc-number">3.3.</span> <span class="toc-text">触发源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E8%AF%B7%E6%B1%82"><span class="toc-number">3.4.</span> <span class="toc-text">DMA请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E7%94%B5%E5%8E%8B"><span class="toc-number">3.5.</span> <span class="toc-text">输出电压</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "DAC",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/",
+          excerpt: "",
+          description: "",
+          stripContent: "参考链接【STM32】DAC详解_dac12bit-CSDN博客 简述DAC,全称：Digital-to-Analog Converter,指数字&amp;#x2F;模拟转换器 DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 在 12 位模式下，数据可以采用左对齐或右对齐。 DAC 有两个输出通道，每个通道各有一个转换器。在 DAC 双通道模式下，每个通道可以单独进行转换；当两个通道组合在一起同步执行更新操作时，也可以同时",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

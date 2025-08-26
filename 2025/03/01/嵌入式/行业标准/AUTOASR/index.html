@@ -1,0 +1,1631 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    Can网络管理 |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="参考链接CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理&#x2F;快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0&#x2F;CANFD帧触发Busoff_网络_汽车电子助手-GitCode 开源社区 CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰&#x2F;短路&#x2F;采样点）_基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Can网络管理">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/AUTOASR/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="参考链接CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理&#x2F;快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0&#x2F;CANFD帧触发Busoff_网络_汽车电子助手-GitCode 开源社区 CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰&#x2F;短路&#x2F;采样点）_基">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/9_8_36_8_202505090836596.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/9_8_46_17_202505090846016.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/13_8_14_35_202505130814506.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/13_8_17_28_202505130817900.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.872Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="行业标准">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/9_8_36_8_202505090836596.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="Can网络管理">
+          
+        </picture>
+        
+          <img alt="Can网络管理" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Can网络管理</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CanSm"><span class="toc-number">2.</span> <span class="toc-text">CanSm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">通信模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">控制器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E5%8F%91%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">收发器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E7%9A%84%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="toc-number">2.4.</span> <span class="toc-text">状态转换的时序图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CanNm"><span class="toc-number">3.</span> <span class="toc-text">CanNm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">网络模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%80%BB%E7%BA%BF%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">准备总线睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BA%BF%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.3.</span> <span class="toc-text">总线睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PDU%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.4.</span> <span class="toc-text">PDU格式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NMIf"><span class="toc-number">4.</span> <span class="toc-text">NMIf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Busoff"><span class="toc-number">5.</span> <span class="toc-text">Busoff</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">5.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E7%95%8C%E5%AE%9A"><span class="toc-number">5.2.</span> <span class="toc-text">故障界定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E6%81%A2%E5%A4%8D%E5%92%8C%E6%85%A2%E6%81%A2%E5%A4%8D"><span class="toc-number">5.3.</span> <span class="toc-text">快恢复和慢恢复</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%B1%82%E7%BA%A7"><span class="toc-number">6.</span> <span class="toc-text">模块层级</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/行业标准/AUTOASR" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/king110108/article/details/73917512">CAN BusOff相关知识点_busoff基础知识-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://gitcode.csdn.net/65ec47911a836825ed796575.html?dp_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Nzk5NDg2MiwiZXhwIjoxNzQ3Mjg5OTcxLCJpYXQiOjE3NDY2ODUxNzEsInVzZXJuYW1lIjoicXFfNDQ4NDQ1MTUifQ.ww7MTvppS6senQKMwVt_SuJQZBunxh2sLSnOHSehLK4">CAN Busoff原理&#x2F;快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0&#x2F;CANFD帧触发Busoff_网络_汽车电子助手-GitCode 开源社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36407982/article/details/122054927">CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰&#x2F;短路&#x2F;采样点）_基于vh6501的can干扰测试-CSDN博客</a></p>
+<h1 id="CanSm"><a href="#CanSm" class="headerlink" title="CanSm"></a>CanSm</h1><h2 id="通信模式"><a href="#通信模式" class="headerlink" title="通信模式"></a>通信模式</h2><p>在CAN通信（尤其是基于AUTOSAR架构）中，有三种通信模式：</p>
+<ol>
+<li>完全通信模式（FULL_COMMUNICATION）<ul>
+<li><strong>功能</strong>： 节点<strong>正常收发数据</strong>，参与总线通信（如ECU运行时）。</li>
+<li>组件状态：<ul>
+<li>控制器（CAN Controller）：<ul>
+<li><code>CANIF_CS_STARTED</code>（启动状态，处理协议层）。</li>
+</ul>
+</li>
+<li>收发器（CAN Transceiver）：<ul>
+<li><code>TRCVMODE_NORMAL</code>（主动驱动差分信号）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>静默通信模式（SILENT_COMMUNICATION）<ul>
+<li><strong>功能</strong>： 节点<strong>仅接收数据，不发送数据</strong>，避免干扰总线（如诊断监听）。</li>
+<li>组件状态：<ul>
+<li>控制器：<ul>
+<li><code>CANIF_TX_OFFLINE</code>（发送关闭，仅接收）。</li>
+</ul>
+</li>
+<li>收发器：<ul>
+<li>仍保持<code>TRCVMODE_NORMAL</code>（需接收物理层信号）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>无通信模式（NO_COMMUNICATION）<ul>
+<li><strong>功能</strong>： 节点<strong>完全离线</strong>，进入低功耗状态（如车辆熄火后）。</li>
+<li>组件状态：<ul>
+<li>控制器：<ul>
+<li><code>CANIF_CS_STOPPED</code>（协议层停止运行）。</li>
+</ul>
+</li>
+<li>收发器：<ul>
+<li><code>TRCVMODE_STANDBY</code>（待机模式，仅保留唤醒能力）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>模式切换逻辑为：</p>
+<ol>
+<li><strong>唤醒事件</strong>（如总线活动）： <code>NO_COMMUNICATION</code> → <strong>唤醒</strong> → <code>FULL_COMMUNICATION</code>。</li>
+<li><strong>诊断需求</strong>： <code>FULL_COMMUNICATION</code> → <strong>静默</strong> → <code>SILENT_COMMUNICATION</code>。</li>
+<li><strong>休眠指令</strong>： <code>FULL_COMMUNICATION</code> → <strong>关闭</strong> → <code>NO_COMMUNICATION</code>。</li>
+</ol>
+<h2 id="控制器模式"><a href="#控制器模式" class="headerlink" title="控制器模式"></a>控制器模式</h2><p>在AUTOSAR架构中，<strong>CAN控制器（CAN Controller）的模式</strong>由通信接口层（CAN Interface, CANIf）管理。通过分层控制（控制器模式 + PDU模式），AUTOSAR实现了灵活且低功耗的CAN通信管理。CAN控制器模式如下：</p>
+<ol>
+<li>启动模式（ <code>CANIF_CS_STARTED</code>）<ul>
+<li>功能：<ul>
+<li>控制器<strong>完全激活</strong>，可正常<strong>收发CAN帧</strong>（包括数据帧、远程帧、错误帧等）。</li>
+<li>参与总线仲裁、错误检测与恢复（如自动重传）。</li>
+</ul>
+</li>
+<li>触发条件：<ul>
+<li>网络管理（NM）请求通信，或上层模块（如ComM）授权通信。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>停止模式（<code>CANIF_CS_STOPPED</code>）<ul>
+<li>功能：<ul>
+<li>控制器<strong>停止所有通信活动</strong>，关闭内部时钟以降低功耗。</li>
+<li>仍可响应硬件唤醒事件（如总线显性电平）。</li>
+</ul>
+</li>
+<li>触发条件：<ul>
+<li>网络管理（NM）进入总线睡眠模式（Bus-Sleep），或ComM拒绝通信请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>睡眠模式 (<code>CANIF_CS_SLEEP</code>)<ul>
+<li>功能：<ul>
+<li>控制器进入<strong>深度低功耗状态</strong>，仅保留基础唤醒功能。</li>
+<li>需软件唤醒（调用<code>CanIf_ControllerWakeup()</code>）才能恢复通信。</li>
+</ul>
+</li>
+<li>触发条件：<ul>
+<li>明确请求低功耗（如整车电源管理指令）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>PDU模式与控制器模式协同工作，独立控制发送&#x2F;接收行为：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>发送（TX）</th>
+<th>接收（RX）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CANIF_ONLINE</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>完全通信（默认模式）</td>
+</tr>
+<tr>
+<td><code>CANIF_TX_OFFLINE</code></td>
+<td>❌</td>
+<td>✅</td>
+<td>静默模式（仅接收）</td>
+</tr>
+<tr>
+<td><code>CANIF_OFFLINE</code></td>
+<td>❌</td>
+<td>❌</td>
+<td>无通信（控制器停止或睡眠）</td>
+</tr>
+</tbody></table>
+<hr>
+<p>控制器模式与其他模块的关系为：</p>
+<ol>
+<li>与收发器的联动：<ul>
+<li>控制器进入<code>CANIF_CS_STOPPED</code>时，收发器通常切换至<code>TRCVMODE_STANDBY</code>（待机）。</li>
+<li>控制器唤醒后，收发器需先恢复<code>TRCVMODE_NORMAL</code>，再启动控制器。</li>
+</ul>
+</li>
+<li>与网络管理（NM）的协同：<ul>
+<li>NM通过<code>CanIf_ControllerMode</code>控制总线参与权（如休眠时强制<code>CANIF_CS_STOPPED</code>）。</li>
+</ul>
+</li>
+<li>与ComM的交互：<ul>
+<li>ComM决定通信权限，通过<code>CanIf_SetControllerMode</code>配置控制器状态。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>状态切换示例：</p>
+<ol>
+<li><p>唤醒流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[总线显性电平] --&gt; B[收发器唤醒]</span><br><span class="line">B --&gt; C[CanIf_ControllerWakeup]</span><br><span class="line">C --&gt; D[控制器: CANIF_CS_STARTED]</span><br><span class="line">D --&gt; E[PDU模式: CANIF_ONLINE]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>休眠流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A[NM请求休眠] --&gt; B[ComM释放通信]</span><br><span class="line">B --&gt; C[CanIf_SetControllerMode: CANIF_CS_STOPPED]</span><br><span class="line">C --&gt; D[收发器待机]</span><br></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<p>关键差异总结：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>通信能力</th>
+<th>功耗</th>
+<th>唤醒方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CANIF_CS_STARTED</code></td>
+<td>全双工</td>
+<td>高</td>
+<td>始终活跃</td>
+<td>正常运行</td>
+</tr>
+<tr>
+<td><code>CANIF_CS_STOPPED</code></td>
+<td>无</td>
+<td>中</td>
+<td>硬件&#x2F;总线唤醒</td>
+<td>短时休眠</td>
+</tr>
+<tr>
+<td><code>CANIF_CS_SLEEP</code></td>
+<td>无</td>
+<td>极低</td>
+<td>软件指令唤醒</td>
+<td>深度休眠</td>
+</tr>
+</tbody></table>
+<h2 id="收发器模式"><a href="#收发器模式" class="headerlink" title="收发器模式"></a>收发器模式</h2><p>在AUTOSAR架构中，<strong>CAN收发器（CAN Transceiver）的模式</strong>由收发器驱动（CAN Transceiver Driver, CanTrcv）管理，收发器有以下模式：</p>
+<ol>
+<li>正常模式（ <code>TRCVMODE_NORMAL</code>）<ul>
+<li>功能：<ul>
+<li>收发器<strong>完全激活</strong>，支持差分信号（CAN_H&#x2F;CAN_L）的发送和接收。</li>
+<li>符合ISO 11898-2电气标准（显性&#x2F;隐性电平）。</li>
+</ul>
+</li>
+<li>功耗：<ul>
+<li>典型值：5~15mA（取决于型号，如TJA1042）。</li>
+</ul>
+</li>
+<li>触发条件：<ul>
+<li>控制器需主动通信（<code>CANIF_CS_STARTED</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>待机模式（<code>TRCVMODE_STANDBY</code>）<ul>
+<li>功能：<ul>
+<li>收发器<strong>停止发送</strong>，但仍可监听总线活动（接收功能部分激活）。</li>
+<li>支持硬件唤醒（如总线显性电平触发）。</li>
+</ul>
+</li>
+<li>功耗：<ul>
+<li>典型值：100~500μA（如TJA1145）。</li>
+</ul>
+</li>
+<li>触发条件：<ul>
+<li>控制器进入<code>CANIF_CS_STOPPED</code>，但需保留唤醒能力。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>睡眠模式（<code>TRCVMODE_SLEEP</code>）<ul>
+<li>功能：<ul>
+<li>收发器<strong>完全关闭</strong>，断开与总线的电气连接。</li>
+<li>仅支持特定唤醒方式（如LIN唤醒、硬件引脚触发）。</li>
+</ul>
+</li>
+<li>功耗：<ul>
+<li>典型值：1~10μA（如SIT1145AQ）。</li>
+</ul>
+</li>
+<li>触发条件：<ul>
+<li>明确请求深度休眠（如整车电源管理指令）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>收发器模式与其他模块的关系</p>
+<ol>
+<li>与控制器的联动：<ul>
+<li>控制器模式（<code>CANIF_CS_STARTED</code>）要求收发器必须处于<code>TRCVMODE_NORMAL</code>。</li>
+<li>控制器休眠（<code>CANIF_CS_STOPPED</code>）时，收发器可切换至<code>TRCVMODE_STANDBY</code>或<code>TRCVMODE_SLEEP</code>。</li>
+</ul>
+</li>
+<li>与网络管理（NM）的协同：<ul>
+<li>NM通过<code>CanTrcv_SetMode</code>控制收发器状态（如Bus-Sleep时强制<code>TRCVMODE_SLEEP</code>）。</li>
+</ul>
+</li>
+<li>与电源管理的交互：<ul>
+<li>部分收发器通过<code>INH</code>引脚控制外部电源（睡眠时关闭MCU供电）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>状态切换示例：</p>
+<p>唤醒流程（睡眠→正常）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">A[总线显性电平或硬件唤醒] --&gt; B[CanTrcv_SetMode: TRCVMODE_NORMAL]</span><br><span class="line">B --&gt; C[收发器激活差分驱动]</span><br><span class="line">C --&gt; D[控制器启动: CANIF_CS_STARTED]</span><br></pre></td></tr></table></figure>
+
+<p>休眠流程（正常→睡眠）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">A[NM请求Bus-Sleep] --&gt; B[CanTrcv_SetMode: TRCVMODE_SLEEP]</span><br><span class="line">B --&gt; C[收发器断开总线]</span><br><span class="line">C --&gt; D[控制器停止: CANIF_CS_STOPPED]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>关键差异总结：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>发送能力</th>
+<th>接收能力</th>
+<th>功耗</th>
+<th>唤醒方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TRCVMODE_NORMAL</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>高（5mA+）</td>
+<td>始终活跃</td>
+<td>正常通信</td>
+</tr>
+<tr>
+<td><code>TRCVMODE_STANDBY</code></td>
+<td>❌</td>
+<td>⚠️（部分）</td>
+<td>中（100μA）</td>
+<td>总线显性电平&#x2F;硬件唤醒</td>
+<td>低功耗监听</td>
+</tr>
+<tr>
+<td><code>TRCVMODE_SLEEP</code></td>
+<td>❌</td>
+<td>❌</td>
+<td>极低（μA）</td>
+<td>特定引脚&#x2F;LIN&#x2F;软件指令</td>
+<td>深度休眠</td>
+</tr>
+</tbody></table>
+<h2 id="状态转换的时序图"><a href="#状态转换的时序图" class="headerlink" title="状态转换的时序图"></a>状态转换的时序图</h2><p>发送<code>FULL_COMMUNICATION</code>请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant App</span><br><span class="line">    participant ComM</span><br><span class="line">    participant CanSM</span><br><span class="line">    participant CanIf</span><br><span class="line">    participant CanTrcv</span><br><span class="line"></span><br><span class="line">    App-&gt;&gt;ComM: Request FULL_COMMUNICATION</span><br><span class="line">    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(FULL_COMMUNICATION)</span><br><span class="line">    CanSM-&gt;&gt;CanIf: SetControllerMode(CANIF_CS_STARTED)</span><br><span class="line">    CanSM-&gt;&gt;CanTrcv: SetMode(TRCVMODE_NORMAL)</span><br><span class="line">    CanTrcv--&gt;&gt;CanSM: TRCVMODE_NORMAL_ACK</span><br><span class="line">    CanIf--&gt;&gt;CanSM: CANIF_CS_STARTED_ACK</span><br><span class="line">    CanSM-&gt;&gt;ComM: CanSM_CurrentComMode(FULL_COMMUNICATION)</span><br><span class="line">    ComM--&gt;&gt;App: COMM_FULL_COMMUNICATION</span><br><span class="line">    loop 正常通信</span><br><span class="line">        CanIf-&gt;&gt;CanTrcv: Transmit(CAN Frame)</span><br><span class="line">        CanTrcv--&gt;&gt;CanIf: TX_ACK</span><br><span class="line">    end</span><br></pre></td></tr></table></figure>
+
+<p>发送<code>SILENT_COMMUNICATION</code>请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant App</span><br><span class="line">    participant ComM</span><br><span class="line">    participant CanSM</span><br><span class="line">    participant CanIf</span><br><span class="line">    participant CanTrcv</span><br><span class="line"></span><br><span class="line">    App-&gt;&gt;ComM: Request SILENT_COMMUNICATION</span><br><span class="line">    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(SILENT_COMMUNICATION)</span><br><span class="line">    CanSM-&gt;&gt;CanIf: SetPduMode(CANIF_TX_OFFLINE)</span><br><span class="line">    CanSM-&gt;&gt;CanTrcv: SetMode(TRCVMODE_NORMAL)</span><br><span class="line">    CanTrcv--&gt;&gt;CanSM: TRCVMODE_NORMAL_ACK</span><br><span class="line">    CanIf--&gt;&gt;CanSM: PDU_MODE_ACK</span><br><span class="line">    CanSM-&gt;&gt;ComM: CanSM_CurrentComMode(SILENT_COMMUNICATION)</span><br><span class="line">    ComM--&gt;&gt;App: COMM_SILENT_COMMUNICATION</span><br><span class="line">    loop 仅接收</span><br><span class="line">        CanTrcv-&gt;&gt;CanIf: IndicateRxFrame(CAN Frame)</span><br><span class="line">        CanIf-&gt;&gt;App: NotifyRxData</span><br><span class="line">    end</span><br></pre></td></tr></table></figure>
+
+<p>发送<code>NO_COMMUNICATION</code>请求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant App</span><br><span class="line">    participant ComM</span><br><span class="line">    participant CanSM</span><br><span class="line">    participant CanIf</span><br><span class="line">    participant CanTrcv</span><br><span class="line"></span><br><span class="line">    App-&gt;&gt;ComM: Request NO_COMMUNICATION</span><br><span class="line">    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(NO_COMMUNICATION)</span><br><span class="line">    CanSM-&gt;&gt;CanIf: SetControllerMode(CANIF_CS_STOPPED)</span><br><span class="line">    CanSM-&gt;&gt;CanTrcv: SetMode(TRCVMODE_STANDBY)</span><br><span class="line">    CanTrcv--&gt;&gt;CanSM: TRCVMODE_STANDBY_ACK</span><br><span class="line">    CanIf--&gt;&gt;CanSM: CANIF_CS_STOPPED_ACK</span><br><span class="line">    CanSM-&gt;&gt;ComM: CanSM_CurrentComMode(NO_COMMUNICATION)</span><br><span class="line">    ComM--&gt;&gt;App: COMM_NO_COMMUNICATION</span><br><span class="line">    Note over CanTrcv: 仅响应硬件唤醒信号</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">    [*] --&gt; NO_COMMUNICATION: 初始状态</span><br><span class="line">    NO_COMMUNICATION --&gt; FULL_COMMUNICATION: CanSM_RequestComMode(FULL)\n且CanTrcv唤醒成功</span><br><span class="line">    FULL_COMMUNICATION --&gt; SILENT_COMMUNICATION: CanSM_SetPduMode(TX_OFFLINE)\n保留接收功能</span><br><span class="line">    SILENT_COMMUNICATION --&gt; FULL_COMMUNICATION: CanSM_SetPduMode(ONLINE)\n恢复发送</span><br><span class="line">    SILENT_COMMUNICATION --&gt; NO_COMMUNICATION: CanSM_RequestComMode(NONE)\n或总线超时</span><br><span class="line">    FULL_COMMUNICATION --&gt; NO_COMMUNICATION: CanSM_RequestComMode(NONE)\n或强制休眠</span><br><span class="line"></span><br><span class="line">    state NO_COMMUNICATION &#123;</span><br><span class="line">        [*] --&gt; CanTrcv_STANDBY: 收发器待机</span><br><span class="line">        CanTrcv_STANDBY --&gt; CanIf_STOPPED: 控制器关闭</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state FULL_COMMUNICATION &#123;</span><br><span class="line">        [*] --&gt; CanTrcv_NORMAL: 收发器激活</span><br><span class="line">        CanTrcv_NORMAL --&gt; CanIf_STARTED: 控制器启动</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    state SILENT_COMMUNICATION &#123;</span><br><span class="line">        [*] --&gt; CanTrcv_NORMAL: 收发器激活</span><br><span class="line">        CanTrcv_NORMAL --&gt; CanIf_TX_OFFLINE: 控制器仅接收</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    note left of NO_COMMUNICATION: 低功耗模式\n仅支持硬件唤醒</span><br><span class="line">    note right of FULL_COMMUNICATION: 全双工通信\n周期性发送NM报文</span><br><span class="line">    note left of SILENT_COMMUNICATION: 静默监听\n用于诊断或监控</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="CanNm"><a href="#CanNm" class="headerlink" title="CanNm"></a>CanNm</h1><p>首先介绍 AUTOSAR CanNm 协调算法的三种操作模式：</p>
+<ol>
+<li>网络模式(<code>Network Mode </code>,NM)</li>
+<li>准备总线睡眠模式(<code>Prepare Bus-Sleep Mode </code>,PBSM)</li>
+<li>总线睡眠模式(<code>Bus-Sleep Mode</code>,BSM)</li>
+</ol>
+<p>当本节点的操作模式发生变化的时候，需要通知上层 Nm。</p>
+<h2 id="网络模式"><a href="#网络模式" class="headerlink" title="网络模式"></a>网络模式</h2><p><strong>网络模式（Network Mode）</strong> 包含三种内部状态：</p>
+<ol>
+<li>重复报文状态（Repeat Message State, RMS）</li>
+<li>正常操作状态（Normal Operation State, NOS）</li>
+<li>准备睡眠状态（Ready Sleep State, RSS)</li>
+</ol>
+<p>这些状态的转换由网络管理报文（NM PDU）的收发、定时器超时以及应用层请求触发，具体转换逻辑如下：</p>
+<hr>
+<p>重复报文状态（RMS）</p>
+<ul>
+<li><p>触发进入条件：</p>
+<ol>
+<li>主动唤醒：ECU因本地唤醒（如点火信号）或主动请求通信时，进入RMS并启动<code>T_Repeat_Message</code>定时器，快速发送NM报文以唤醒其他节点</li>
+<li>被动唤醒：ECU被总线上的NM报文唤醒后，需短暂进入RMS发送几帧NM报文，通知其他节点自身已唤醒。</li>
+</ol>
+</li>
+<li><p>退出条件：</p>
+<ul>
+<li><p>T_Repeat_Message超时后：</p>
+<ul>
+<li><p>若存在<strong>主动请求</strong>（如应用层调用<code>CanNm_NetworkRequest</code>），则跳转到<strong>NOS</strong>。</p>
+</li>
+<li><p>若无请求，则跳转到RSS</p>
+</li>
+</ul>
+</li>
+<li><p>强制跳转：若收到NM报文的控制位向量（CBV）中<code>Repeat Message Request Bit</code>（Bit 0）置1，则重新进入RMS。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>正常操作状态（NOS）</p>
+<ul>
+<li>触发进入条件：<ol>
+<li>从RMS跳转：<code>T_Repeat_Message</code>超时且存在主动请求。</li>
+<li>从RSS跳转：ECU在RSS状态下收到主动请求（如重新需要通信）。</li>
+</ol>
+</li>
+<li>行为：<ul>
+<li>周期性发送NM报文（周期为<code>CanNmMsgCycleTime</code>），保持网络活跃。</li>
+<li>重置<code>T_NM_Timeout</code>定时器以监听总线活动。</li>
+</ul>
+</li>
+<li>退出条件：<ul>
+<li><strong>释放网络</strong>：应用层调用<code>CanNm_NetworkRelease</code>时，跳转到<strong>RSS</strong>。</li>
+<li>收到重复请求：若NM报文的<code>Repeat Message Request Bit</code>置1，则强制返回RMS。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>准备睡眠状态（RSS）</p>
+<ul>
+<li>触发进入条件：<ol>
+<li>从RMS跳转：<code>T_Repeat_Message</code>超时且无主动请求。</li>
+<li>从NOS跳转：应用层释放网络（<code>CanNm_NetworkRelease</code>）。</li>
+</ol>
+</li>
+<li>行为：<ul>
+<li>停止发送NM报文，但继续接收NM报文和应用报文。</li>
+<li>启动<code>T_NM_Timeout</code>定时器，若超时且未收到NM报文，则跳转到预睡眠模式（PBSM）。</li>
+</ul>
+</li>
+<li>退出条件：<ul>
+<li><strong>重新请求通信</strong>：调用<code>CanNm_NetworkRequest</code>跳转到<strong>NOS</strong>。</li>
+<li>收到重复请求：NM报文的<code>Repeat Message Request Bit</code>置1时，返回RMS。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>状态转换图与关键参数</p>
+<ol>
+<li>定时器作用：<ul>
+<li><code>T_Repeat_Message</code>：控制RMS状态的持续时间（通常较短，如100ms）。</li>
+<li><code>T_NM_Timeout</code>：检测总线是否空闲（超时后触发休眠流程）。</li>
+</ul>
+</li>
+<li>控制位向量（CBV）：<ul>
+<li>Bit 0（重复请求位）和Bit 4（主动唤醒位）直接影响状态跳转。</li>
+</ul>
+</li>
+<li>应用层接口：<ul>
+<li><code>CanNm_NetworkRequest</code>和<code>CanNm_NetworkRelease</code>是触发NOS与RSS切换的核心API。</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stateDiagram-v2</span><br><span class="line">    [*] --&gt; BSM: 初始休眠</span><br><span class="line">    BSM --&gt; RMS: 唤醒事件</span><br><span class="line">    RMS --&gt; NOS: 有通信需求</span><br><span class="line">    RMS --&gt; RSS: 无需求</span><br><span class="line">    NOS --&gt; RSS: 释放网络</span><br><span class="line">    RSS --&gt; NOS: 重新请求</span><br><span class="line">    RSS --&gt; BSM: 超时无活动</span><br><span class="line">    NOS --&gt; RMS: 收到重复请求</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>示例场景</p>
+<ul>
+<li>车辆启动时：<ol>
+<li>ECU被点火信号（本地唤醒）触发，进入<strong>RMS</strong>，快速发送NM报文唤醒其他节点。</li>
+<li><code>T_Repeat_Message</code>超时后，因有通信需求，跳转到<strong>NOS</strong>，维持周期性通信。</li>
+</ol>
+</li>
+<li>车辆熄火后：<ol>
+<li>应用层释放网络，ECU从<strong>NOS</strong>跳转到<strong>RSS</strong>，停止发送NM报文。</li>
+<li><code>T_NM_Timeout</code>超时后，进入PBSM，最终休眠。</li>
+</ol>
+</li>
+</ul>
+<h2 id="准备总线睡眠模式"><a href="#准备总线睡眠模式" class="headerlink" title="准备总线睡眠模式"></a>准备总线睡眠模式</h2><p>在AUTOSAR CAN网络管理中，**准备总线睡眠模式（Prepare Bus-Sleep Mode, PBSM）**是网络从活跃状态（Network Mode）过渡到完全休眠状态（Bus-Sleep Mode）的中间状态，其核心作用是协调节点间的同步休眠，避免因通信中断导致的数据丢失或系统冲突。</p>
+<hr>
+<p> 功能定义：</p>
+<ul>
+<li>目的：确保所有节点在进入低功耗的Bus-Sleep Mode前完成必要的清理操作（如停止应用报文发送、保存临时数据），并同步确认无其他节点需要通信。</li>
+<li>触发条件：<ul>
+<li>节点从<code>Network Mode</code>的**Ready Sleep State (RSS)**退出后，若<code>T_NM_Timeout</code>定时器超时且未收到任何网络管理报文（NM PDU），则进入PBSM。</li>
+<li>部分配置下，需满足<code>CanNmWaitBusSleepTime</code>参数定义的额外等待时间。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>行为特性:</p>
+<ul>
+<li>通信限制：<ul>
+<li>禁止发送NM报文：节点停止发送网络管理报文，仅监听总线上的NM PDU。</li>
+<li>允许完成未发送的应用报文：已缓存的APP报文可继续发送，但新生成的APP报文会被阻塞。</li>
+</ul>
+</li>
+<li>定时器机制：<ul>
+<li>启动<code>T_WaitBusSleep</code>定时器（可配置），若超时前未收到其他节点的NM PDU，则跳转到Bus-Sleep Mode；若收到NM PDU，则返回Network Mode的Repeat Message State (RMS)。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>状态转换逻辑</p>
+<ol>
+<li>进入PBSM：<ul>
+<li>从<code>Ready Sleep State</code>超时触发，或由网关节点通过协调算法强制触发（如同步关闭部分网络集群PNC）。</li>
+</ul>
+</li>
+<li>退出PBSM：<ul>
+<li>成功休眠：<code>T_WaitBusSleep</code>超时后，节点关闭收发器，进入Bus-Sleep Mode。</li>
+<li>重新唤醒：若在PBSM期间检测到NM PDU或本地唤醒请求（如KL15信号），则立即返回Network Mode。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>应用场景示例</p>
+<ul>
+<li>整车熄火流程：<ol>
+<li>ECU应用层释放通信权限，进入Ready Sleep State。</li>
+<li>总线无活动超时后，ECU转入PBSM，停止NM报文发送。</li>
+<li>若所有节点均进入PBSM且无通信需求，最终同步休眠。</li>
+</ol>
+</li>
+<li>异常恢复：若某个节点在PBSM阶段因故障持续发送NM PDU，其他节点会检测到该报文并维持Network Mode，避免误休眠。</li>
+</ul>
+<hr>
+<p>与相关模式的对比</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>通信行为</th>
+<th>功耗水平</th>
+<th>典型触发条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Network Mode</strong></td>
+<td>NM和APP报文正常收发</td>
+<td>高</td>
+<td>唤醒事件或通信请求</td>
+</tr>
+<tr>
+<td><strong>Prepare Bus-Sleep</strong></td>
+<td>仅接收NM报文，停止发送</td>
+<td>中（过渡状态）</td>
+<td><code>T_NM_Timeout</code>超时</td>
+</tr>
+<tr>
+<td><strong>Bus-Sleep Mode</strong></td>
+<td>完全停止通信，仅支持硬件唤醒</td>
+<td>极低</td>
+<td><code>T_WaitBusSleep</code>超时或协调完成</td>
+</tr>
+</tbody></table>
+<h2 id="总线睡眠模式"><a href="#总线睡眠模式" class="headerlink" title="总线睡眠模式"></a>总线睡眠模式</h2><p>在AUTOSAR CAN网络管理中，<strong>总线睡眠模式（Bus-Sleep Mode, BSM）</strong> 是网络节点在无通信需求时进入的低功耗状态，其核心目的是通过关闭通信功能降低静态电流消耗，同时保留唤醒能力以响应后续请求。</p>
+<hr>
+<p> 功能定义</p>
+<ul>
+<li>核心作用：当所有节点无通信需求时，协调全网同步进入低功耗状态，典型静态电流可降至毫安级（如大众车型中舒适CAN总线休眠后整车电流仅6mA）。</li>
+<li>触发条件：<ul>
+<li>节点从准备总线睡眠模式（Prepare Bus-Sleep Mode, PBSM）过渡而来，且<code>T_WaitBusSleep</code>定时器超时后确认无NM报文活动。</li>
+<li>部分配置需满足<code>CanNmWaitBusSleepTime</code>参数定义的额外等待时间。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>行为特性</p>
+<ul>
+<li>通信限制：<ul>
+<li>完全停止NM报文和应用报文（APP报文）的收发，仅支持硬件唤醒（如总线显性电平或本地唤醒信号）。</li>
+<li>收发器切换至低功耗模式（如TJA1145的Sleep模式，INH引脚悬空以关闭外部电源）。</li>
+</ul>
+</li>
+<li>唤醒机制：<ul>
+<li>远程唤醒：通过总线上的NM报文触发（如特定ID的唤醒帧）。</li>
+<li>本地唤醒：KL15信号、硬线电平或传感器事件（如车门解锁）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>状态转换逻辑</p>
+<ol>
+<li>进入流程：<ul>
+<li>节点从Network Mode经Ready Sleep State (RSS)进入Prepare Bus-Sleep Mode，超时后最终跳转至BSM。</li>
+<li>网关节点可能通过同步关闭部分网络集群（PNC）协调全网休眠。</li>
+</ul>
+</li>
+<li>退出流程：<ul>
+<li>唤醒事件触发后，节点直接进入Repeat Message State (RMS)，快速同步网络状态。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p> 应用场景与优化</p>
+<ul>
+<li><p>整车场景：</p>
+<ul>
+<li>车辆熄火后，舒适CAN总线通常在15分钟内进入BSM，2小时后进一步降低至控制单元深度休眠（如关闭MCU供电）。</li>
+<li>若休眠失败（如OBD设备持续通信），可能导致蓄电池亏电。</li>
+</ul>
+</li>
+<li><p>功耗对比：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>典型电流消耗</th>
+<th>通信能力</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Network Mode</strong></td>
+<td>800mA+</td>
+<td>全双工通信</td>
+</tr>
+<tr>
+<td><strong>Bus-Sleep Mode</strong></td>
+<td>&lt;10mA</td>
+<td>仅支持唤醒检测</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<hr>
+<p> 与其他模块的协同</p>
+<ul>
+<li>与收发器联动：<ul>
+<li>BSM下，收发器（如TJA1145）进入Sleep模式，仅VBAT引脚维持微安级供电。</li>
+</ul>
+</li>
+<li>与电源管理：<ul>
+<li>INH引脚拉低后关闭外部稳压器，MCU完全断电（KL30节点）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="PDU格式"><a href="#PDU格式" class="headerlink" title="PDU格式"></a>PDU格式</h2><p>网络管理的报文有特定的格式要求，报文数据段格式如图：</p>
+<table>
+<thead>
+<tr>
+<th>字节序列</th>
+<th>数据描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Byte 7</td>
+<td>User data 5</td>
+</tr>
+<tr>
+<td>Byte 6</td>
+<td>User data 4</td>
+</tr>
+<tr>
+<td>Byte 5</td>
+<td>User data 3</td>
+</tr>
+<tr>
+<td>Byte 4</td>
+<td>User data 2</td>
+</tr>
+<tr>
+<td>Byte 3</td>
+<td>User data 1</td>
+</tr>
+<tr>
+<td>Byte 2</td>
+<td>User data 0</td>
+</tr>
+<tr>
+<td>Byte 1</td>
+<td>Control Bit Vector</td>
+</tr>
+<tr>
+<td>Byte 0</td>
+<td>Source Node Identifier</td>
+</tr>
+</tbody></table>
+<p>其中 CBV（ControlBitVector）字节对应的 bit 位标识如下：</p>
+<table>
+<thead>
+<tr>
+<th>Bit7</th>
+<th>Bit6</th>
+<th>Bit5</th>
+<th>Bit4</th>
+<th>Bit3</th>
+<th>Bit 2</th>
+<th>Bit1</th>
+<th>Bit0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Res</td>
+<td>PNI Bit</td>
+<td>Res</td>
+<td>Active Wakeup Bit</td>
+<td>NM Coordinator Sleep Ready</td>
+<td>Res R3.2 NM Coordinator ID (High Bit)</td>
+<td>Res R3.2 NM Coordinator ID (Low Bit)</td>
+<td>Repeat Message Request</td>
+</tr>
+</tbody></table>
+<p>对于 CBV 中的 bit 说明如下：</p>
+<ol>
+<li>Bit 0 ：重复消息请求<ul>
+<li>0：未请求进入 Repeat Message State</li>
+<li>1：请求进入 Repeat Message State</li>
+</ul>
+</li>
+<li>Bit 1,2：保留位，当配置项 CanNmCoordinatorEnabled 使能时，该位等于配置的 CanNmCoordinatorId 的值</li>
+<li>Bit 3 NM 协调器休眠位<ul>
+<li>0：主协调器不要求启动同步休眠</li>
+<li>1：主协调员请求启动同步休眠</li>
+</ul>
+</li>
+<li>Bit 4 主动唤醒位<ul>
+<li>0：节点尚未唤醒网络</li>
+<li>1：节点唤醒了网络</li>
+</ul>
+</li>
+<li>Bit 6： 局部网络信息位（PNI）<ul>
+<li>0：NM 消息不包含局部网络请求信息</li>
+<li>1：NM 消息包含局部网络请求信息,该位由配置决定，运行阶段不改变</li>
+</ul>
+</li>
+<li>Bit5 Bit7 为保留位</li>
+</ol>
+<p>NmPdu 中的 UserData 可以通过 CanNm 的配置引用 EcuC 中的 Pdu。未使用的情况下默认全 0xFF，通过 Nm 的接口去抓取当前接收与发送的 UserData。</p>
+<h1 id="NMIf"><a href="#NMIf" class="headerlink" title="NMIf"></a>NMIf</h1><p>在AUTOSAR架构中，<strong>通用网络管理接口（NmIf，Network Management Interface）</strong> 是协调通信管理器（ComM）与总线相关网络管理模块（如CanNM、LinNM）的核心适配层。</p>
+<hr>
+<p> 核心功能</p>
+<ol>
+<li>协议适配<ul>
+<li>作为ComM与具体总线网络管理模块（如CAN NM）之间的桥梁，将ComM的通用通信请求（如唤醒&#x2F;休眠）转换为特定总线的协议指令。</li>
+<li>例如，当ComM请求CAN总线唤醒时，NmIf调用CanNM的接口实现硬件初始化。</li>
+</ul>
+</li>
+<li>多网络同步协调<ul>
+<li>在ECU连接多个总线（如CAN和FlexRay）时，NmIf确保不同总线的网络状态同步。例如，协调所有总线同时进入睡眠模式，避免部分总线活跃导致功耗浪费。</li>
+</ul>
+</li>
+<li>状态反馈<ul>
+<li>向ComM反馈总线的实际状态（如当前是否处于网络模式），解决因硬件延迟导致的通信模式不一致问题。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>关键应用场景</p>
+<ul>
+<li>整车休眠管理：当车辆熄火时，NmIf接收ComM的休眠指令，协调CAN和LIN总线同步进入睡眠模式，并通过<code>CanSM/LinSM</code>关闭物理层通信。</li>
+<li>唤醒事件处理:本地唤醒（如车门解锁）或远程唤醒（如OBD诊断）时，NmIf触发对应总线的唤醒流程，并通知ComM更新通信权限。</li>
+</ul>
+<hr>
+<p>与相关模块的交互</p>
+<ul>
+<li>输入：ComM的通信请求（如<code>ComM_RequestCommunication</code>）。</li>
+<li>输出：调用CanNM&#x2F;LinNM的接口（如<code>CanNm_NetworkRequest</code>）或通知ComM当前状态（通过回调函数）。</li>
+<li>底层依赖：依赖总线状态管理器（如CanSM）控制硬件状态。</li>
+</ul>
+<h1 id="Busoff"><a href="#Busoff" class="headerlink" title="Busoff"></a>Busoff</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p><strong>什么是Can Bus Off</strong></p>
+<p> 车上有一个ECU 1, 一直向总线发送消息，可怎么都发送不出去。</p>
+<p>如果这个累计到一定的次数（255），按照CAN总线协议： ECU 1自己进入 BUSOFF模式，这个时候ECU 1 一时半会是不能发送信息了。</p>
+</blockquote>
+<blockquote>
+<p><strong>BusOff 后如何处理</strong></p>
+<p>ECU 1在自己内部检测到BUS OFF后，默默的从逻辑上退出了总线，暂时他没妨碍大家，ECU 1他自己也搞不明白啥回事，于是ECU 1拿着小本子，记下了 x年x月x日x时x分x秒, 汽车电压，里程，xxx 是多少多少，我bus off 了。</p>
+<p>写完备案后，ECU 1 开始数时间，等待 5 秒后，重启自己的CAN模块</p>
+</blockquote>
+<blockquote>
+<p><strong>BusOff时计数的变化规律</strong></p>
+<p>bus off是个非常集体的概念：</p>
+<ul>
+<li>ECU自己发送失败，TX error count + 8，</li>
+<li>ECU自己发送成功，TX error count - 1，</li>
+</ul>
+<p> 这个TX error count 超过255，ECU就必须进入Bus Off 状态，并需要逻辑上断开总线</p>
+</blockquote>
+<blockquote>
+<p><strong>Can Frame的一些常见错误</strong></p>
+<ol>
+<li>发送ECU检查<ul>
+<li>有无ACK</li>
+<li>CRC检查，CRC Delimiter, ACK Delimiter，EOF等</li>
+<li>BIT监控， 送的那个ECU，自己校对每个BIT，看有没有都送对（ID区域，和ACK区域除外）</li>
+</ul>
+</li>
+<li>接收ECU检查<ul>
+<li>CRC检查，CRC Delimiter, ACK Delimiter，EOF等</li>
+<li>检查有无连续6比特是全0、或全1的</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="故障界定"><a href="#故障界定" class="headerlink" title="故障界定"></a>故障界定</h2><p>为了避免某个设备因为自身原因（例如硬件损坏）导致无法正确收发报文而不断的破坏总线的数据帧，从而影响其它正常节点通信，CAN网络具有严格的错误诊断功能，CAN通用规范中规定每个CAN控制器中有一个发送错误计数器和一个接收错误计数器。根据计数值不同，节点会处于不同的错误状态，并根据计数值的变化进行状态转换，状态转换如下图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/9_8_36_8_202505090836596.png" alt="故障界定状态转化图"></p>
+<p>以上三种错误状态表示发生故障的严重程度，总线关闭是节点最严重的错误状态。并且，节点在不同的状态下具有不同的特性，在总线关闭状态下，节点不能发送报文或应答总线上的报文，也就意味着不能再对总线有任何影响。</p>
+<p>状态跳转和错误计数的规则使得节点在发生通信故障时有了较好的自我错误处理和恢复机制，从一种较严重的错误状态跳转到另一种严重性相对较低的状态，本质上就是一种恢复过程。上图所呈现的转换过程是CAN通用规范所要求的，我们从设备供应商买回来的CAN控制器已经把这些功能固化在硅片之中。</p>
+<p>在通信过程中，错误主动和错误被动两种状态下节点的恢复过程一般不需要MCU进行额外的编程处理，直接使用CAN控制器固有功能即可。但对于总线关闭状态，往往不直接使用CAN控制器固有的恢复过程，而是对其进行编程控制，以实现“快恢复”和“慢恢复”机制。</p>
+<h2 id="快恢复和慢恢复"><a href="#快恢复和慢恢复" class="headerlink" title="快恢复和慢恢复"></a>快恢复和慢恢复</h2><p>当节点进入总线关闭状态后，如果MCU仅是开启自动恢复功能，CAN控制器在检测到128次11个连续的隐性位后即可恢复通信，在实际的CAN通信总线中，这一条件是很容易达到的。以125K的波特率为例，12811（1&#x2F;125000）&#x3D; 0.011264s。这意味着如果节点所在的CAN总线的帧间隔时间大于0.011264s，节点在总线空闲时间内便可轻易恢复通信。我们已经知道，当进入总线关闭状态时，节点已经发生了严重的错误，处于不可信状态，如果迅速恢复参与总线通信，具有较高的风险，因此，在实际的应用中，往往会通过MCU对CAN控制器总线关闭状态的恢复过程进行编程处理，以控制节点从总线关闭状态恢复到错误主动状态的等待时间，达到既提高灵活性又保证节点在功能上的快速响应性的目的。具体包括“快恢复”和“慢恢复”策略，两种策略一般同时应用。</p>
+<p>通过以上的讨论，我们可以知道，节点进入总线关闭状态后，存在以下几种恢复情况：</p>
+<ol>
+<li><p>MCU仅开启CAN控制器的自动恢复功能，节点只需检测到128次11个连续的隐性位便可以恢复通信，恢复过程如<a href="##%E6%95%85%E9%9A%9C%E7%95%8C%E5%AE%9A">上节图</a>所示。</p>
+</li>
+<li><p>MCU没有开启CAN控制器的自动恢复功能，也不主动干预总线关闭错误，节点将一直无法“自动”恢复总线通信，只能通过重新上电的方式使节点恢复, 恢复过程如下图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/9_8_46_17_202505090846016.png" alt="重新上电恢复总线"></p>
+</li>
+<li><p>MCU对CAN控制器的恢复过程进行编程处理，这时，节点的恢复行为由具体的编程逻辑决定，各厂家普遍采用了先“快恢复”后“慢恢复”的恢复策略，恢复过程如下图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/13_8_14_35_202505130814506.png" alt="快慢恢复"></p>
+</li>
+</ol>
+<p>MCU编程实现总线关闭“快恢复”和“慢恢复”的一般过程可用以下流程图描述：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/05/13_8_17_28_202505130817900.png" alt="快慢恢复流程"></p>
+<p>节点以正常发送模式发送报文的过程中，如果出现了发送错误，发送错误计数会增加，只要发送错误计数没有超过255， CAN控制器便会自动重发报文，如果出现多次发送错误，使发送错误计数累加超过255，则节点跳转为总线关闭状态。MCU能够第一时间知道节点进入了总线关闭状态（例如在错误中断处理逻辑中查询状态寄存器的相应位），这时MCU控制CAN控制器进入“快恢复”过程，即控制CAN控制器停止报文收发，并进行等待，计时达到需要的时间T1（如100ms）后，MCU重新启动恢复CAN控制器参与总线通信，这样便完成了一次“快恢复”过程。</p>
+<p>节点每进入一次“快恢复”过程时，MCU会对此进行计数，当节点“快恢复”计数达到设定的值N（如5次），则后续再次进入总线关闭状态时MCU把恢复总线通信的等待时间T2进行延长（如1000ms），这样便实现了“慢恢复”过程。“快恢复”和“慢恢复”过程的主要区别就在于恢复节点参与总线通信的等待时间的不同。</p>
+<p>通过MCU对于总线关闭后的恢复行为进行编程控制，实际上是对CAN控制器的错误管理和恢复机制进行了补充，使得总线关闭状态后的恢复过程更加灵活，更能适应实际应用的需要。对于 “快恢复”和“慢恢复”的等待时间，以及“快恢复”计数多少次后进入“慢恢复”过程，不同厂家可根据具体的需求进行编程实现。</p>
+<blockquote>
+<p>[!note]</p>
+<p>当我们进行干扰的时候，不用Rx口就可以知道数据帧发送是否正确，以下使用Ack干扰来举例：</p>
+<p>CAN总线采用”线与”逻辑，发送节点在ACK槽（ACK Slot）发送隐性位（逻辑1），而正确接收的节点会覆盖为显性位（逻辑0）。发送节点通过<strong>实时回读总线电平</strong>与自身发送的电平对比：</p>
+<ul>
+<li>成功应答：若回读到显性位（0），说明至少有一个节点正确接收。</li>
+<li>应答错误：若回读到隐性位（1），说明无节点应答，触发ACK错误。</li>
+</ul>
+<p>此过程由CAN控制器硬件自动完成，无需软件干预。发送节点在TX发送的同时通过内部回环检测总线实际状态，而非依赖RX口 。</p>
+<p>问题：不走Rx是怎么知道发出去的报文是正确的‼‼‼‼‼‼‼‼</p>
+</blockquote>
+<h1 id="模块层级"><a href="#模块层级" class="headerlink" title="模块层级"></a>模块层级</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">%% 模块层级与接口交互图</span><br><span class="line">graph TD</span><br><span class="line">    subgraph 通信管理层</span><br><span class="line">        ComM((&quot;ComM\n(通信管理器)&quot;))</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 网络管理层</span><br><span class="line">        NmIf((&quot;NmIf\n(通用网络管理接口)&quot;))</span><br><span class="line">        CanNM((&quot;CanNM\n(CAN网络管理)&quot;))</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph 状态与硬件抽象层</span><br><span class="line">        CanSM((&quot;CanSM\n(CAN状态管理器)&quot;))</span><br><span class="line">        CanIf((&quot;CanIf\n(CAN接口层)&quot;))</span><br><span class="line">        CanTrcv((&quot;CanTrcv\n(收发器驱动)&quot;))</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    %% 模块间接口连线</span><br><span class="line">    ComM -- &quot;Nm_NetworkRequest()\nNm_NetworkRelease()&quot; --&gt; NmIf</span><br><span class="line">    NmIf -- &quot;CanNm_NetworkRequest()\nCanNm_PassiveStartUp()&quot; --&gt; CanNM</span><br><span class="line">    CanNM -- &quot;CanIf_Transmit()\nCanIf_RxIndication()&quot; --&gt; CanIf</span><br><span class="line">    CanSM -- &quot;CanIf_SetControllerMode()\nCanIf_SetTrcvMode()&quot; --&gt; CanIf</span><br><span class="line">    CanIf -- &quot;Trcv_SetMode()\nTrcv_GetStatus()&quot; --&gt; CanTrcv</span><br><span class="line">    CanSM -- &quot;CanSM_RequestComMode()\nCanSM_CurrentComMode()&quot; --&gt; ComM</span><br><span class="line">    CanNM -- &quot;NmIf_CarWakeUpIndication()&quot; --&gt; NmIf</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/" rel="tag">行业标准</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="ASPICE" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            ASPICE
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_8_59_202412091408388.png" data-sizes="auto" alt="Bluetooth" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/Bluetooth/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          Bluetooth
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CanSm"><span class="toc-number">2.</span> <span class="toc-text">CanSm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">通信模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">控制器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E5%8F%91%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">收发器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2%E7%9A%84%E6%97%B6%E5%BA%8F%E5%9B%BE"><span class="toc-number">2.4.</span> <span class="toc-text">状态转换的时序图</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CanNm"><span class="toc-number">3.</span> <span class="toc-text">CanNm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">网络模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%80%BB%E7%BA%BF%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">准备总线睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BA%BF%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.3.</span> <span class="toc-text">总线睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PDU%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.4.</span> <span class="toc-text">PDU格式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#NMIf"><span class="toc-number">4.</span> <span class="toc-text">NMIf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Busoff"><span class="toc-number">5.</span> <span class="toc-text">Busoff</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">5.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E7%95%8C%E5%AE%9A"><span class="toc-number">5.2.</span> <span class="toc-text">故障界定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E6%81%A2%E5%A4%8D%E5%92%8C%E6%85%A2%E6%81%A2%E5%A4%8D"><span class="toc-number">5.3.</span> <span class="toc-text">快恢复和慢恢复</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%B1%82%E7%BA%A7"><span class="toc-number">6.</span> <span class="toc-text">模块层级</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "Can网络管理",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/AUTOASR/",
+          excerpt: "",
+          description: "",
+          stripContent: "参考链接CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理&amp;#x2F;快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0&amp;#x2F;CANFD帧触发Busoff_网络_汽车电子助手-GitCode 开源社区 CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰&amp;#x2F;短路&amp;#x2F;采样点）_基于vh6501的can干扰测试-CSDN博客 CanSm通信模式在CAN通信（尤其是基于AUTOSA",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

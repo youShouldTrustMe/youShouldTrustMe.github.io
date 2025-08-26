@@ -1,0 +1,1089 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    DMA |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="参考链接【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述  [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负  一般而言，DMA控制器将包括一条地址总线、一条数据总线和控制寄存器。高效率的DMA控制器将具有访问其所需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DMA">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="参考链接【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述  [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负  一般而言，DMA控制器将包括一条地址总线、一条数据总线和控制寄存器。高效率的DMA控制器将具有访问其所需要">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_13_52_202409111013244.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_39_48_202409111039754.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_37_50_202409111037900.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_37_50_202409111037900.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_11_21_27_202409111121675.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.871Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="DMA">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">DMA</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E7%9A%84%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">DMA的传输方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E4%BC%A0%E8%BE%93%E5%8F%82%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">DMA传输参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81"><span class="toc-number">2.3.</span> <span class="toc-text">DMA的主要特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8%E6%98%A0%E5%83%8F"><span class="toc-number">2.4.</span> <span class="toc-text">存储器映像</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DMA"><span class="toc-number">3.</span> <span class="toc-text">DMA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE"><span class="toc-number">3.1.</span> <span class="toc-text">系统框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%8A%A8"><span class="toc-number">3.2.</span> <span class="toc-text">数据流动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E8%AF%B7%E6%B1%82"><span class="toc-number">3.3.</span> <span class="toc-text">DMA请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E9%80%9A%E9%81%93"><span class="toc-number">3.4.</span> <span class="toc-text">DMA通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">3.5.</span> <span class="toc-text">DMA优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E4%B8%AD%E6%96%AD"><span class="toc-number">3.6.</span> <span class="toc-text">DMA中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E7%9A%84%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8"><span class="toc-number">3.7.</span> <span class="toc-text">DMA的内存占用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-number">3.8.</span> <span class="toc-text">工作过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/外设组件/DMA" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/as480133937/article/details/104927922?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8=">【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客</a></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="DMA简介"></p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程</p>
+<p>通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高</p>
+<p>作用：为CPU减负</p>
+</blockquote>
+<p>一般而言，DMA控制器将包括一条地址总线、一条数据总线和控制寄存器。高效率的DMA控制器将具有访问其所需要的任意资源的能力，而&#x3D;&#x3D;无须处理器&#x3D;&#x3D;本身的介入，它必须能&#x3D;&#x3D;产生中断&#x3D;&#x3D;。最后，它必须能在控制器内部计算出地址。</p>
+<p>一个处理器可以包含多个DMA控制器。每个控制器有多个DMA通道，以及多条直接与存储器站(memory bank)和外设连接的总线。在很多高性能处理器中集成了两种类型的DMA控制器：</p>
+<ol>
+<li>第一类通常称为“系统DMA控制器”，可以实现对任何资源(外设和存储器)的访问，对于这种类型的控制器来说，信号周期数是以系统时钟(SCLK)来计数的，以ADI的Blackfin处理器为例，频率最高可达133MHz。</li>
+<li>第二类称为内部存储器DMA控制器(IMDMA)，专门用于内部存储器所处位置之间的相互存取操作。因为存取都发生在内部(L1－L1、L1－L2，或者L2－L2)，周期数的计数则以内核时钟(CCLK)为基准来进行，该时钟的速度可以超过600MHz。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	subgraph a[处理器]</span><br><span class="line">		L1存储器 &lt;--DMA内核总线--&gt; DMA控制器</span><br><span class="line">		L2存储器 &lt;--DMA系统总线--&gt; DMA控制器 &lt;--DMA存取总线--&gt; 外设</span><br><span class="line">	end</span><br><span class="line">	DMA控制器 &lt;--DMA外部总线--&gt; L3存储器</span><br></pre></td></tr></table></figure>
+
+<h2 id="DMA的传输方式"><a href="#DMA的传输方式" class="headerlink" title="DMA的传输方式"></a>DMA的传输方式</h2><p>DMA的作用就是实现数据的直接传输，而去掉了传统数据传输需要CPU寄存器参与的环节，主要涉及四种情况的数据传输，但本质上是一样的，都是从内存的某一区域传输到内存的另一区域（外设的数据寄存器本质上就是内存的一个存储单元）。四种情况的数据传输如下：</p>
+<ul>
+<li>外设到内存</li>
+<li>内存到外设</li>
+<li>内存到内存</li>
+<li>外设到外设</li>
+</ul>
+<h2 id="DMA传输参数"><a href="#DMA传输参数" class="headerlink" title="DMA传输参数"></a>DMA传输参数</h2><p>数据传输的核心参数：</p>
+<ol>
+<li>数据源地址</li>
+<li>数据传输位置的目标地址</li>
+<li>传递护具多少的数据传输量</li>
+<li>进行多少次传输的传输模式</li>
+</ol>
+<p>当用户将参数设置好，主要涉及源地址、目标地址、传输数据量这三个，DMA控制器就会启动数据传输，当剩余传输数据量为0时 达到传输终点，结束DMA传输 ，当然，DMA 还有循环传输模式 当到达传输终点时会重新启动DMA传输。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>也就是说只要剩余传输数据量不是0，而且DMA是启动状态，那么就会发生数据传输。　</p>
+</blockquote>
+<h2 id="DMA的主要特征"><a href="#DMA的主要特征" class="headerlink" title="DMA的主要特征"></a>DMA的主要特征</h2><p>每个通道都直接连接专用的硬件DMA请求，每个通道都同样支持软件触发。这些功能通过软件来配置；</p>
+<ul>
+<li>在同一个DMA模块上，多个请求间的优先权可以通过软件编程设置（共有四级：很高、高、中等和低），优先权设置相等时由硬件决定（请求0优先于请求1，依此类推）；</li>
+<li>独立数据源和目标数据区的传输宽度（字节、半字、全字），模拟打包和拆包的过程。源和目标地址必须按数据传输宽度对齐；</li>
+<li>支持循环的缓冲器管理；</li>
+<li>每个通道都有3个事件标志（DMA半传输、DMA传输完成和DMA传输出错），这3个事件标志逻辑或成为一个单独的中断请求；</li>
+<li>存储器和存储器间的传输、外设和存储器、存储器和外设之间的传输；</li>
+<li>闪存、SRAM、外设的SRAM、APB1、APB2和AHB外设均可作为访问的源和目标；</li>
+<li>可编程的数据传输数目：最大为65535。</li>
+</ul>
+<h2 id="存储器映像"><a href="#存储器映像" class="headerlink" title="存储器映像"></a>存储器映像</h2><table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>起始地址</strong></th>
+<th><strong>存储器</strong></th>
+<th><strong>用途</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ROM</td>
+<td>0x0800 0000</td>
+<td>程序存储器Flash</td>
+<td>存储C语言编译后的程序代码</td>
+</tr>
+<tr>
+<td>:</td>
+<td>0x1FFF F000</td>
+<td>系统存储器</td>
+<td>存储BootLoader，用于串口下载</td>
+</tr>
+<tr>
+<td>:</td>
+<td>0x1FFF F800</td>
+<td>选项字节</td>
+<td>存储一些独立于程序代码的配置参数</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>0x2000 0000</td>
+<td>运行内存SRAM</td>
+<td>存储运行过程中的临时变量</td>
+</tr>
+<tr>
+<td>:</td>
+<td>0x4000 0000</td>
+<td>外设寄存器</td>
+<td>存储各个外设的配置参数</td>
+</tr>
+<tr>
+<td>:</td>
+<td>0xE000 0000</td>
+<td>内核外设寄存器</td>
+<td>存储内核各个外设的配置参数</td>
+</tr>
+</tbody></table>
+<h1 id="DMA"><a href="#DMA" class="headerlink" title="DMA"></a>DMA</h1><h2 id="系统框图"><a href="#系统框图" class="headerlink" title="系统框图"></a>系统框图</h2><p>flash为主闪存，SRAM为运行内存，各个外设可以看作是寄存器，也是一种SRAM存储器，实际上，我们可以将这个框图看作是一个cpu（cortex-M3）和存储器（框图中的所有）</p>
+<p>寄存器是一种特殊的存储器：</p>
+<ul>
+<li>一方面，CPU可以对寄存器进行读写，就像是读写运行内存一样</li>
+<li>另一方面，寄存器的每一位背后，都连接了一根导线，这些导线可以控制外设的电路状态，如置引脚高低电平、导通和断开开关、切换数据选择器</li>
+</ul>
+<p>在总线矩阵的左端，是主动单元，也就是拥有存储器的访问权，总线矩阵的右端，是被动单元，它们的存储器只能被左边的主动单元读写</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_13_52_202409111013244.png" alt="DMA系统框图"></p>
+<h2 id="数据流动"><a href="#数据流动" class="headerlink" title="数据流动"></a>数据流动</h2><p>在有无DMA时，ADC采集的数据是如何流动的？</p>
+<p>数据流动方向*&#x3D;&#x3D;ADC数据寄存器-&gt;SRAM&#x3D;&#x3D;*</p>
+<p><em><code>没有</code>DMA</em></p>
+<ol>
+<li><p>CPU传输数据需要以内核作为中转站</p>
+</li>
+<li><p>内核作为主机通过*&#x3D;&#x3D;Dcode-&gt;总线矩阵-&gt;AHB从设备中存储的外设ADC采集的数据&#x3D;&#x3D;*</p>
+</li>
+<li><p>内核再通过*&#x3D;&#x3D;Dcode-&gt;总线矩阵-&gt;SRAM将得到的数据放到SRAM中&#x3D;&#x3D;*</p>
+</li>
+</ol>
+<p><em><code>有</code>DMA</em></p>
+<ol>
+<li><p>DMA传输时外设对DMA控制器（DMA1，DMA2）发送请求</p>
+</li>
+<li><p>DMA控制器收到请求，出发DMA工作</p>
+</li>
+<li><p>DMA控制器从AHB外设获取的ADC采集的数据，存储到DMA通道中（通道1-7）</p>
+</li>
+<li><p>DMA控制器的DMA总线与总线矩阵协调，使用AHB把外设ADC采集的数据经由DMA通道存放到SRAM中，这个数据传输过程中，完全不需要内核参与</p>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_39_48_202409111039754.png" alt="DMA处理过程"></p>
+<h2 id="DMA请求"><a href="#DMA请求" class="headerlink" title="DMA请求"></a>DMA请求</h2><p>在发生一个事件后，外设向DMA控制器发送一个请求信号。DMA控制器根据通道的优先权处理请求。当DMA控制器开始访问发出请求的外设时，DMA控制器立即发送给它一个应答信号。当从DMA控制器得到应答信号时，外设立即释放它的请求。一旦外设释放了这个请求，DMA控制器同时撤销应答信号。DMA传输结束，如果有更多的请求时，外设可以启动下一个周期。</p>
+<p>总之，每次DMA传送由3个操作组成：</p>
+<ol>
+<li>从外设数据寄存器或者从当前外设&#x2F;存储器地址寄存器指示的存储器地址取数据，第一次传输时的开始地址是DMA_CPARx或DMA_CMARx寄存器指定的外设基地址或存储器单元；</li>
+<li>存数据到外设数据寄存器或者当前外设&#x2F;存储器地址寄存器指示的存储器地址，第一次传输时的开始地址是DMA_CPARx或DMA_CMARx寄存器指定的外设基地址或存储器单元；</li>
+<li>执行一次DMA_CNDTRx寄存器的递减操作，该寄存器包含未完成的操作数目。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_37_50_202409111037900.png" alt="DMA请求"></p>
+<h2 id="DMA通道"><a href="#DMA通道" class="headerlink" title="DMA通道"></a>DMA通道</h2><ol>
+<li><p>DMA资源数量</p>
+<ol>
+<li>对于大容量的STM32芯片有2个DMA控制器</li>
+<li>DMA1有七个通道，DMA2有5个通道，每个通道都可以配置一些外设的地址</li>
+</ol>
+</li>
+<li><p>DMA传输通道</p>
+<ol>
+<li>每个通道都可以有固定地址的外设寄存器和存储器地址之间执行DMA传输，DMA传输的数据量是可编程的，最大可达到65535，包含要传输的数据向数量的寄存器，在每次传输后递减</li>
+</ol>
+</li>
+<li><p>存储器到存储器模式</p>
+<ol>
+<li>DMA通道的操作可以在没有外设请求的情况下进行，这种操作就是存储器到存储器模式</li>
+<li>当设置了DMA_CCRx寄存器中的MEM2MEM位之后，在软件设置了DMA_CCRx寄存器中的EN位启动DMA通道时，DMA传输将马上开始。当DMA_CNDTRx寄存器变为0时，DMA传输结束。存储器到存储器模式不能与循环模式同时使用。</li>
+<li>这里要注意仅 DMA2 的外设接口可以访问存储器，所以仅 DMA2 控制器支持存储器到存储器的传输，DMA1 不支持。</li>
+<li>存储器到存储器模式不能与循环模式同时使用。</li>
+</ol>
+</li>
+<li><p>DMA1 control</p>
+<ol>
+<li><p>从外设（TIMx[x&#x3D;1、2、3、4]、ADC1、SPI1、SPI&#x2F;I2S2、I2Cx[x&#x3D;1、2]和USARTx[x&#x3D;1、2、3]）产生的7个DMA请求，通过逻辑或输入到DMA1控制器 其中每个通道都对应着具体的外设：</p>
+<table>
+<thead>
+<tr>
+<th>外设</th>
+<th>通道1</th>
+<th>通道2</th>
+<th>通道3</th>
+<th>通道4</th>
+<th>通道5</th>
+<th>通道6</th>
+<th>通道7</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADC1</td>
+<td>ADC1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SPI&#x2F;IIS</td>
+<td></td>
+<td>SPI1_RX</td>
+<td>SPI1_TX</td>
+<td>SPI&#x2F;2S2_RX</td>
+<td>SP&#x2F;2S2_TX</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>USART</td>
+<td></td>
+<td>USART3_TX</td>
+<td>USART3_RX</td>
+<td>USART1_TX</td>
+<td>USART1_RX</td>
+<td>USART2_RX</td>
+<td>USART2_TX</td>
+</tr>
+<tr>
+<td>IIC</td>
+<td></td>
+<td></td>
+<td></td>
+<td>12C2_TX TIM1_TX4</td>
+<td>12C2_RX</td>
+<td>I2C1_TX</td>
+<td>I2C1_RX</td>
+</tr>
+<tr>
+<td>TIM1</td>
+<td></td>
+<td>TIM1_CH1</td>
+<td>TIM1_CH2</td>
+<td>TIM1_TRIG TIM1_COM</td>
+<td>TIM1_UP</td>
+<td>TIM1_CH3</td>
+<td></td>
+</tr>
+<tr>
+<td>TIM2</td>
+<td>TIM2_CH3</td>
+<td>TIM2_UP</td>
+<td></td>
+<td></td>
+<td>TIM2_CH1</td>
+<td></td>
+<td>TIM2_CH2 TIM2_CH4</td>
+</tr>
+<tr>
+<td>TIM3</td>
+<td></td>
+<td>TIM3_CH3</td>
+<td>TIM3_CH4 TIM3_UP</td>
+<td></td>
+<td></td>
+<td>TIM3_CH1 TIM3_TRIG</td>
+<td></td>
+</tr>
+<tr>
+<td>TIM4</td>
+<td>TIM4_CH1</td>
+<td></td>
+<td></td>
+<td>TIM4_CH2</td>
+<td>TIM4_CH3</td>
+<td></td>
+<td>TIM4_UP</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="DMA优先级"><a href="#DMA优先级" class="headerlink" title="DMA优先级"></a>DMA优先级</h2><p>仲裁器</p>
+<ul>
+<li>仲裁器的作用是确定各个DMA传输的优先级</li>
+<li>仲裁器根据通道请求的优先级来启动外设&#x2F;存储器的访问</li>
+</ul>
+<p>DMA优先级</p>
+<ul>
+<li>仲裁器管理DMA通道请求分为两个阶段：<ol>
+<li>第一阶段（软件阶段）：每个通道的优先级可在DMA_CCRx寄存器中设置，有四个等级：最高、高、中和低优先级。</li>
+<li>第二阶段（硬件阶段）：如果两个请求有相同软件优先级，较低偏号的通道比较高偏号的通道有较高的优先级。(大容量芯片中，DMA1控制器拥有高于DMA2控制的优先级)</li>
+</ol>
+</li>
+<li>注意：多个请求通过逻辑或输入到DMA控制器，只能有一个请求有效。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_37_50_202409111037900.png" alt="DMA请求"></p>
+<h2 id="DMA中断"><a href="#DMA中断" class="headerlink" title="DMA中断"></a>DMA中断</h2><p><strong>每个DMA通道都可以在DMA传输过半、传输完成和传输错误时产生中断</strong>。为应用的灵活性考虑，通过设置寄存器的不同位来打开这些中断。</p>
+<table>
+<thead>
+<tr>
+<th>中断事件</th>
+<th>事件标志位</th>
+<th>使能控制位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>传输过半</td>
+<td>HTIF</td>
+<td>HTIE</td>
+</tr>
+<tr>
+<td>传输完成</td>
+<td>TCIF</td>
+<td>TCIE</td>
+</tr>
+<tr>
+<td>传输错误</td>
+<td>TEIF</td>
+<td>TEIE</td>
+</tr>
+</tbody></table>
+<h2 id="DMA的内存占用"><a href="#DMA的内存占用" class="headerlink" title="DMA的内存占用"></a>DMA的内存占用</h2><p>在STM32控制器中，芯片采用Cortex-MX架构，总线结构有了很大的优化，DMA占用另外的地址总线，并不会与CPU的系统总线发生冲突。也就是说，DMA的使用不会影响CPU的运行速度</p>
+<p>但是要注意：</p>
+<p>DMA 控制器和Cortex-M3核共享系统数据总线执行直接存储器数据传输。当CPU和DMA同时访问相同的目标(RAM或外设)时，DMA请求可能会停止 CPU访问系统总线达若干个周期，总线仲裁器执行循环调度，以保证CPU至少可以得到一半的系统总线(存储器或外设)带宽。</p>
+<h2 id="工作过程"><a href="#工作过程" class="headerlink" title="工作过程"></a>工作过程</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_11_21_27_202409111121675.png" alt="DMA工作过程"></p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><p>DMA寄存器的配置参数包括：通道地址、优先级、数据传输方向、存储器&#x2F;外设数据宽度、存储器&#x2F;外设地址是否增量、循环模式、数据传输量。</p>
+<p>配置流程</p>
+<ol>
+<li>在DMA_CPARx寄存器中设置外设寄存器的地址。发生外设数据传输请求时，这个地址将 是数据传输的源或目标。</li>
+<li>在DMA_CMARx寄存器中设置数据存储器的地址。发生外设数据传输请求时，传输的数 据将从这个地址读出或写入这个地址。</li>
+<li>在DMA_CNDTRx寄存器中设置要传输的数据量。在每个数据传输后，这个数值递减。</li>
+<li>在DMA_CCRx寄存器的PL[1:0]位中设置通道的优先级。</li>
+<li>在DMA_CCRx寄存器中设置数据传输的方向、循环模式、外设和存储器的增量模式、外 设和存储器的数据宽度、传输一半产生中断或传输完成产生中断。</li>
+<li>设置DMA_CCRx寄存器的ENABLE位，启动该通道。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">adc_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3,ENABLE);</span><br><span class="line">    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF,ENABLE);</span><br><span class="line">    RCC_ADCCLKConfig(RCC_PCLK2_Div6);</span><br><span class="line"></span><br><span class="line">    GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">    GPIO_InitStruct.GPIO_Pin = ADC_PIN;</span><br><span class="line">    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AIN;</span><br><span class="line">    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line"></span><br><span class="line">    GPIO_Init(ADC_PORT,&amp;GPIO_InitStruct);</span><br><span class="line"></span><br><span class="line">    ADC_RegularChannelConfig(ADC3,ADC_Channel_4,<span class="number">1</span>,ADC_SampleTime_55Cycles5);        <span class="comment">//配置规则通道组，填充菜单列表</span></span><br><span class="line"></span><br><span class="line">    ADC_InitTypeDef ADC_InitStruct;</span><br><span class="line">    ADC_InitStruct.ADC_ContinuousConvMode = DISABLE;</span><br><span class="line">    ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;</span><br><span class="line">    ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;        <span class="comment">//软件触发</span></span><br><span class="line">    ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;</span><br><span class="line">    ADC_InitStruct.ADC_NbrOfChannel = <span class="number">1</span>;</span><br><span class="line">    ADC_InitStruct.ADC_ScanConvMode = DISABLE;</span><br><span class="line">    ADC_Init(ADC3,&amp;ADC_InitStruct);</span><br><span class="line"></span><br><span class="line">    ADC_Cmd(ADC3,ENABLE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//开始校准</span></span><br><span class="line">    ADC_ResetCalibration(ADC3);        <span class="comment">//复位校准</span></span><br><span class="line">    <span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADC3) != RESET);        <span class="comment">//等待复位校准完成</span></span><br><span class="line">    ADC_StartCalibration(ADC3);        <span class="comment">//开始校准</span></span><br><span class="line">    <span class="keyword">while</span>(ADC_GetCalibrationStatus(ADC3) == SET);<span class="comment">//等待校准完成</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u16 <span class="title function_">ad_getValue</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    ADC_SoftwareStartConvCmd(ADC3,ENABLE);</span><br><span class="line">    <span class="keyword">while</span>(ADC_GetFlagStatus(ADC3,ADC_FLAG_EOC) == RESET);        <span class="comment">//等待转换完成，也就是EOC信号</span></span><br><span class="line">    <span class="keyword">return</span> ADC_GetConversionValue(ADC3);        <span class="comment">//读取完数据将会自动清除数据位</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">u8 data1[] = &#123;<span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x04</span>&#125;;</span><br><span class="line">u8 data2[] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> str[<span class="number">50</span>];</span><br><span class="line"></span><br><span class="line">    serial_init(); </span><br><span class="line"></span><br><span class="line">    <span class="built_in">sprintf</span>(str,<span class="string">&quot;addr1: %x origin 1: %u %u %u %u\n&quot;</span>,(u32)data1,data1[<span class="number">0</span>],data1[<span class="number">1</span>],data1[<span class="number">2</span>],data1[<span class="number">3</span>]);</span><br><span class="line">    send_string(str);</span><br><span class="line">    <span class="built_in">sprintf</span>(str,<span class="string">&quot;addr2: %x origin 2: %u %u %u %u\n&quot;</span>,(u32)data2,data2[<span class="number">0</span>],data2[<span class="number">1</span>],data2[<span class="number">2</span>],data2[<span class="number">3</span>]);</span><br><span class="line">    send_string(str);</span><br><span class="line">    dma_init((u32)data1,(u32)data2,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        data1[<span class="number">0</span>]++;</span><br><span class="line">        data1[<span class="number">1</span>]++;</span><br><span class="line">        data1[<span class="number">2</span>]++;</span><br><span class="line">        data1[<span class="number">3</span>]++;</span><br><span class="line">        dma_transfer();</span><br><span class="line">        <span class="built_in">sprintf</span>(str,<span class="string">&quot;addr1: %x origin 1: %u %u %u %u\n&quot;</span>,(u32)data1,data1[<span class="number">0</span>],data1[<span class="number">1</span>],data1[<span class="number">2</span>],data1[<span class="number">3</span>]);</span><br><span class="line">        send_string(str);</span><br><span class="line">        <span class="built_in">sprintf</span>(str,<span class="string">&quot;addr2: %x origin 2: %u %u %u %u\n&quot;</span>,(u32)data2,data2[<span class="number">0</span>],data2[<span class="number">1</span>],data2[<span class="number">2</span>],data2[<span class="number">3</span>]);</span><br><span class="line">        send_string(str);</span><br><span class="line">        dma_init((u32)data1,(u32)data2,<span class="number">4</span>);</span><br><span class="line">        Delay_s(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" rel="tag">外设组件</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_16_12_2_202409101612493.png" data-sizes="auto" alt="DAC" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            DAC
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" data-sizes="auto" alt="Flash" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Flash/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          Flash
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E7%9A%84%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">DMA的传输方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E4%BC%A0%E8%BE%93%E5%8F%82%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">DMA传输参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E5%BE%81"><span class="toc-number">2.3.</span> <span class="toc-text">DMA的主要特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%99%A8%E6%98%A0%E5%83%8F"><span class="toc-number">2.4.</span> <span class="toc-text">存储器映像</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DMA"><span class="toc-number">3.</span> <span class="toc-text">DMA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE"><span class="toc-number">3.1.</span> <span class="toc-text">系统框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%8A%A8"><span class="toc-number">3.2.</span> <span class="toc-text">数据流动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E8%AF%B7%E6%B1%82"><span class="toc-number">3.3.</span> <span class="toc-text">DMA请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E9%80%9A%E9%81%93"><span class="toc-number">3.4.</span> <span class="toc-text">DMA通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">3.5.</span> <span class="toc-text">DMA优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E4%B8%AD%E6%96%AD"><span class="toc-number">3.6.</span> <span class="toc-text">DMA中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DMA%E7%9A%84%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8"><span class="toc-number">3.7.</span> <span class="toc-text">DMA的内存占用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-number">3.8.</span> <span class="toc-text">工作过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "DMA",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/",
+          excerpt: "",
+          description: "",
+          stripContent: "参考链接【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述  [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负  一般而言，DMA控制器将包括一条地址总线、一条数据总线和控制寄存器。高效率的DMA控制器将具有访问其所需要的任意资源的能力，而&amp;#x3D;&amp;#x3D;无须处理器&amp;#x3D;&amp;#x3D;本身的介入，它必须能&amp;",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

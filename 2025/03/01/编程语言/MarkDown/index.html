@@ -1,0 +1,1800 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    MarkDown |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="语法Markdown 是一种轻量级标记语言，使用简单的文本格式来创建格式化的文档。以下是常用的 Markdown 语法命令： 标题使用 # 来创建标题，# 的数量表示标题的级别。 123456# 一级标题## 二级标题### 三级标题#### 四级标题##### 五级标题###### 六级标题   [!note] 需要注意的是，在#符号后面需要加一个空格，这样markdown才能知道是标题  字体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MarkDown">
+<meta property="og:url" content="http://example.com/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/MarkDown/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="语法Markdown 是一种轻量级标记语言，使用简单的文本格式来创建格式化的文档。以下是常用的 Markdown 语法命令： 标题使用 # 来创建标题，# 的数量表示标题的级别。 123456# 一级标题## 二级标题### 三级标题#### 四级标题##### 五级标题###### 六级标题   [!note] 需要注意的是，在#符号后面需要加一个空格，这样markdown才能知道是标题  字体">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://madmaxchow.github.io/VLOOK/pic/vlook-color-card-light.png?srcset=@2x&darksrc=vlook-color-card-dark.png&darksrcset=@2x#logo#center">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.878Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="编程语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://madmaxchow.github.io/VLOOK/pic/vlook-color-card-light.png?srcset=@2x&darksrc=vlook-color-card-dark.png&darksrcset=@2x#logo#center">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="MarkDown">
+          
+        </picture>
+        
+          <img alt="MarkDown" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">MarkDown</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E6%A0%B7%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字体样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%92%8C%E5%9B%BE%E7%89%87"><span class="toc-number">1.4.</span> <span class="toc-text">链接和图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E5%9D%97"><span class="toc-number">1.5.</span> <span class="toc-text">引用块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-number">1.7.</span> <span class="toc-text">表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="toc-number">1.8.</span> <span class="toc-text">分割线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%9A%E6%B3%A8"><span class="toc-number">1.9.</span> <span class="toc-text">脚注</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mermaid%E7%BB%98%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">Mermaid绘图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Typora"><span class="toc-number">2.2.</span> <span class="toc-text">Typora</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.3.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E7%BB%98%E5%9B%BE"><span class="toc-number">2.3.1.</span> <span class="toc-text">新建绘图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">2.3.2.</span> <span class="toc-text">标识符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">2.4.</span> <span class="toc-text">流程图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E8%8A%82%E7%82%B9"><span class="toc-number">2.4.1.</span> <span class="toc-text">声明节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E8%8A%82%E7%82%B9%E5%BD%A2%E7%8A%B6"><span class="toc-number">2.4.2.</span> <span class="toc-text">声明节点形状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E8%8A%82%E7%82%B9%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.4.3.</span> <span class="toc-text">声明节点的连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BA%BF"><span class="toc-number">2.4.3.1.</span> <span class="toc-text">连接线</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%AD%90%E5%9B%BE"><span class="toc-number">2.4.4.</span> <span class="toc-text">流程子图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E4%BA%A4%E4%BA%92"><span class="toc-number">2.4.5.</span> <span class="toc-text">事件交互</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%B7%B3%E8%BD%AC"><span class="toc-number">2.4.5.1.</span> <span class="toc-text">页面的跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E6%8D%86%E7%BB%91"><span class="toc-number">2.4.5.2.</span> <span class="toc-text">函数的捆绑</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%9B%BE"><span class="toc-number">2.5.</span> <span class="toc-text">序列图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E4%B8%8E%E8%80%85"><span class="toc-number">2.5.1.</span> <span class="toc-text">参与者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E8%89%B2"><span class="toc-number">2.5.2.</span> <span class="toc-text">角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AB%E5%90%8D"><span class="toc-number">2.5.3.</span> <span class="toc-text">别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF"><span class="toc-number">2.5.4.</span> <span class="toc-text">信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E6%B3%A8"><span class="toc-number">2.5.5.</span> <span class="toc-text">标注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.5.6.</span> <span class="toc-text">循环</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VLOOK"><span class="toc-number">3.</span> <span class="toc-text">VLOOK</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5-1"><span class="toc-number">3.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E5%BA%95%E5%B0%81%E9%9D%A2"><span class="toc-number">3.2.</span> <span class="toc-text">封底封面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%80%E8%89%B2"><span class="toc-number">3.3.</span> <span class="toc-text">着色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E9%92%AE"><span class="toc-number">3.4.</span> <span class="toc-text">按钮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC-1"><span class="toc-number">3.5.</span> <span class="toc-text">表格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6"><span class="toc-number">3.5.1.</span> <span class="toc-text">合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC"><span class="toc-number">3.5.2.</span> <span class="toc-text">数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E7%BC%96%E5%8F%B7"><span class="toc-number">3.5.3.</span> <span class="toc-text">表格编号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E5%BF%98%E4%B8%8E%E8%AD%A6%E7%A4%BA"><span class="toc-number">3.6.</span> <span class="toc-text">备忘与警示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%A0%8F"><span class="toc-number">3.7.</span> <span class="toc-text">分栏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E6%A0%87%E8%AE%B0"><span class="toc-number">3.8.</span> <span class="toc-text">内容标记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE"><span class="toc-number">3.8.1.</span> <span class="toc-text">标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%BD%E7%AB%A0"><span class="toc-number">3.8.2.</span> <span class="toc-text">徽章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%BA%A6%E6%9D%A1"><span class="toc-number">3.8.3.</span> <span class="toc-text">进度条</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%8C%85%E5%B1%91"><span class="toc-number">3.8.4.</span> <span class="toc-text">面包屑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AE%E5%88%AE%E5%8D%A1"><span class="toc-number">3.8.5.</span> <span class="toc-text">刮刮卡</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-编程语言/MarkDown" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><p>Markdown 是一种轻量级标记语言，使用简单的文本格式来创建格式化的文档。以下是常用的 Markdown 语法命令：</p>
+<h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>使用 <code>#</code> 来创建标题，<code>#</code> 的数量表示标题的级别。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"># 一级标题</span></span><br><span class="line"><span class="section">## 二级标题</span></span><br><span class="line"><span class="section">### 三级标题</span></span><br><span class="line"><span class="section">#### 四级标题</span></span><br><span class="line"><span class="section">##### 五级标题</span></span><br><span class="line"><span class="section">###### 六级标题</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!note]</p>
+<p>需要注意的是，在<code>#</code>符号后面需要加一个空格，这样markdown才能知道是标题</p>
+</blockquote>
+<h2 id="字体样式"><a href="#字体样式" class="headerlink" title="字体样式"></a>字体样式</h2><p>使用 <code>**</code> 或 <code>__</code> 包围文本表示粗体</p>
+<p>使用 <code>*</code> 或 <code>_</code> 包围文本表示斜体。</p>
+<p>使用<code>==</code>包围为高亮</p>
+<p>使用~~包围的为删除线</p>
+<p>使用<u></u>包围为下划线</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="strong">**这是粗体文本**</span></span><br><span class="line"><span class="strong">__这是粗体文本__</span></span><br><span class="line"><span class="emphasis">*这是斜体文本*</span></span><br><span class="line"><span class="emphasis">_这是斜体文本_</span></span><br><span class="line">==这是高亮文本==</span><br><span class="line">~~这是删除线~~</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">u</span>&gt;</span></span>这是下划线<span class="language-xml"><span class="tag">&lt;/<span class="name">u</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>无序列表使用 <code>*</code>、<code>-</code> 或 <code>+</code> 表示，有序列表使用数字加点表示。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">*</span> 项目 1</span><br><span class="line"><span class="bullet">*</span> 项目 2</span><br><span class="line"><span class="bullet">  *</span> 子项目 2.1</span><br><span class="line"><span class="bullet">  *</span> 子项目 2.2</span><br><span class="line"></span><br><span class="line"><span class="bullet">1.</span> 项目 1</span><br><span class="line"><span class="bullet">2.</span> 项目 2</span><br><span class="line"><span class="bullet">3.</span> 项目 3</span><br></pre></td></tr></table></figure>
+
+<h2 id="链接和图片"><a href="#链接和图片" class="headerlink" title="链接和图片"></a>链接和图片</h2><p>图片使用 <code>![替代文本](图片URL)</code>。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">这是一个图片</span>](<span class="link">https://www.example.com/image.jpg</span>)	网络图片</span><br><span class="line">![<span class="string">这是一个图片</span>](<span class="link">../image.jpg</span>)							本地图片</span><br></pre></td></tr></table></figure>
+
+<p>链接使用 <code>[显示文本](URL)</code>。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">这是一个链接</span>](<span class="link">https://www.example.com</span>) 		网络链接</span><br><span class="line">[<span class="string">将要链接的标题</span>](<span class="link">#一级标题名</span>)					链接到本文中的标题，需要注意的是，这里几级标题就要写几个#号</span><br><span class="line">[<span class="string">将要链接的标题</span>](<span class="link">##二级标题名</span>)</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">&quot;test&quot;</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span>							使用HTML的标签功能方便引用</span><br><span class="line">![<span class="string">图片1</span>](<span class="link">../image.jpg</span>)						正常使用图片</span><br><span class="line"><span class="code">	</span></span><br><span class="line"><span class="code">[点击这里跳转图片1](#test)						注意，当想要引用图片时，只需要使用1个#号，#号后面跟的是id号</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="引用块"><a href="#引用块" class="headerlink" title="引用块"></a>引用块</h2><p>使用 <code>&gt;</code> 表示引用</p>
+<p>使用多个<code>&gt;</code>表示区块以此表示层级效果，在typora中，回车会自动添加&gt;符号</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 这是一个引用。</span></span><br><span class="line"></span><br><span class="line"><span class="quote">&gt; 区块引用</span></span><br><span class="line">&gt;&gt; 二级区块</span><br><span class="line">&gt;&gt;&gt; 三级区块</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>区块引用</p>
+<blockquote>
+<p>二级区块</p>
+<blockquote>
+<p>三级区块</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>单行代码使用 &#96;&#96; 包围，多行代码使用三个反引号 &#96;&#96;&#96;。</p>
+<p><code>这是单行代码</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这是</span><br><span class="line">多行代码</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><p>使用 <code>|</code> 和 <code>-</code> 创建表格。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| 头1 | 头2 | 头3 |</span><br><span class="line">| --- | --- | --- |</span><br><span class="line">| 行1 | 数据 | 数据 |</span><br><span class="line">| 行2 | 数据 | 数据 |</span><br></pre></td></tr></table></figure>
+
+<p>我们可以在分割行中设置表格的对齐方式：</p>
+<p>-: 设置内容和标题栏居右对齐。<br>	:- 设置内容和标题栏居左对齐。<br>	:-: 设置内容和标题栏居中对齐。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| head | head2| head3|</span><br><span class="line">| :------|:-------:| -------:|</span><br><span class="line">| tab | tab2| tab3|</span><br><span class="line">| tab | tab | tab3|</span><br></pre></td></tr></table></figure>
+
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><p>使用三个或更多的 <code>*</code>、<code>-</code> 或 <code>_</code>。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section"><span class="strong">***</span></span></span><br><span class="line"><span class="strong"><span class="section">---</span></span></span><br><span class="line"><span class="strong"><span class="section">__<span class="emphasis">_</span></span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="脚注"><a href="#脚注" class="headerlink" title="脚注"></a>脚注</h2><p>使用 <code>[^注释]</code> 添加脚注，脚注的内容在文档底部。</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这是一个脚注示例[^1]。</span><br><span class="line"></span><br><span class="line">[<span class="symbol">^1</span>]: <span class="link">这是脚注的内容。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Mermaid绘图"><a href="#Mermaid绘图" class="headerlink" title="Mermaid绘图"></a>Mermaid绘图</h1><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://mermaid.nodejs.cn/syntax/sequenceDiagram.html">序列图 | Mermaid 中文网 (nodejs.cn)</a></p>
+<h2 id="Typora"><a href="#Typora" class="headerlink" title="Typora"></a>Typora</h2><p>typora中不能绘制最新版的mermaid图：</p>
+<ol>
+<li><p>从<a target="_blank" rel="noopener" href="https://mermaid.js.org/intro/getting-started.html">美人鱼用户指南 |美人鱼 (mermaid.js.org)</a>找到mermaid的CDN</p>
+</li>
+<li><p>打开typora中的<code>window.html</code>文件，在 <code>window.html</code> 文件中的 <code>&lt;/body&gt;</code> 前插入以下代码并保存：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">     <span class="keyword">import</span> mermaid <span class="keyword">from</span> <span class="string">&#x27;https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">     mermaid.<span class="title function_">initialize</span>(&#123; <span class="attr">startOnLoad</span>: <span class="literal">true</span> &#125;);</span></span><br><span class="line"><span class="language-javascript">   </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新打开软件即可</p>
+</li>
+</ol>
+<h2 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h2><p>mermaid可以绘制12种图表:流程图、时序图、类图、状态图、实体关系图、用户行程图、甘特图、饼图、需求图、Git分支可视化、思维导图、ZenUML图</p>
+<h3 id="新建绘图"><a href="#新建绘图" class="headerlink" title="新建绘图"></a>新建绘图</h3><ol>
+<li>新建代码块</li>
+<li>将代码块的语言格式设置为mermaid</li>
+<li>在首行申明图类型及图方向</li>
+</ol>
+<p>示例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">图类型 图方向</span><br><span class="line">	图代码</span><br></pre></td></tr></table></figure>
+
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><table>
+<thead>
+<tr>
+<th align="center">图类型</th>
+<th align="center">关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><a href="###%E6%B5%81%E7%A8%8B%E5%9B%BE">流程图</a></td>
+<td align="center">flowchart或graph</td>
+</tr>
+<tr>
+<td align="center"><a href="###%E5%BA%8F%E5%88%97%E5%9B%BE">序列图</a></td>
+<td align="center">sequenceDiagram</td>
+</tr>
+<tr>
+<td align="center">甘特图</td>
+<td align="center">gantt</td>
+</tr>
+<tr>
+<td align="center">饼图</td>
+<td align="center">pie</td>
+</tr>
+<tr>
+<td align="center">用户行程图</td>
+<td align="center">journey</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="center">图方向</th>
+<th align="center">关键字</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">自上而下</td>
+<td align="center">TB</td>
+</tr>
+<tr>
+<td align="center">自下而上</td>
+<td align="center">BT</td>
+</tr>
+<tr>
+<td align="center">自左往右</td>
+<td align="center">LR</td>
+</tr>
+<tr>
+<td align="center">自右往左</td>
+<td align="center">RL</td>
+</tr>
+</tbody></table>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><h3 id="声明节点"><a href="#声明节点" class="headerlink" title="声明节点"></a>声明节点</h3><p>申明节点的方式有两种,现想要申明一个节点block:</p>
+<ol>
+<li>直接申明: block</li>
+<li>完整申明:block[“第一个申明的节点”]</li>
+</ol>
+<p>申明的每个节点的ID都是唯一的,在完整申明中,节点中的内容可以:</p>
+<ol>
+<li>使用unicode:节点中的内容需要使用””包裹</li>
+<li>想要使用markDOwm的语法:”&#96;&#96;”</li>
+</ol>
+<h3 id="声明节点形状"><a href="#声明节点形状" class="headerlink" title="声明节点形状"></a>声明节点形状</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">%%这是一行注释</span><br><span class="line">graph TB</span><br><span class="line">	block1[默认]</span><br><span class="line">	block2(圆边)</span><br><span class="line">	block3&#123;菱形&#125;</span><br><span class="line">	block4([开始\结束])</span><br><span class="line">	block5[[子程序]]</span><br><span class="line">	block6[(圆柱)]</span><br><span class="line">	block7((圆形))</span><br><span class="line">	block8&#123;&#123;六边形&#125;&#125;</span><br><span class="line">	block9[/正四边形/]</span><br><span class="line">	block10[\反四边形\]</span><br><span class="line">	block11[/正梯形\]</span><br><span class="line">	block12[\反梯形/]</span><br><span class="line">	block13&gt;旗帜]</span><br><span class="line">	block14(((双圆)))</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">%%这是一行注释</span><br><span class="line">graph TB</span><br><span class="line">	block1[默认]</span><br><span class="line">	block2(圆边)</span><br><span class="line">	block3&#123;菱形&#125;</span><br><span class="line">	block4([开始\结束])</span><br><span class="line">	block5[[子程序]]</span><br><span class="line">	block6[(圆柱)]</span><br><span class="line">	block7((圆形))</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">	block8&#123;&#123;六边形&#125;&#125;</span><br><span class="line">	block9[/正四边形/]</span><br><span class="line">	block10[\反四边形\]</span><br><span class="line">	block11[/正梯形\]</span><br><span class="line">	block12[\反梯形/]</span><br><span class="line">	block13&gt;旗帜]</span><br><span class="line">	block14(((双圆)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="声明节点的连接"><a href="#声明节点的连接" class="headerlink" title="声明节点的连接"></a>声明节点的连接</h3><p>单个连接语法:</p>
+<ul>
+<li><code>A --&gt; B</code> </li>
+<li><code>一条 A 到 B 链接</code></li>
+</ul>
+<p>多个连接语法:</p>
+<ul>
+<li><code>A --&gt; B --&gt; C</code></li>
+<li><code>A 到 B、B 到 C 共两条链接</code></li>
+</ul>
+<p>多个节点聚合声明语法:</p>
+<ul>
+<li><code>A &amp; B --&gt; C</code></li>
+<li><code> A 到 C、B 到 C 共两条链接</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	A --单连接声明--&gt; B</span><br><span class="line">    B --多连接声明--&gt; C --多连接声明--&gt; D</span><br><span class="line">    D --多节点聚合--&gt; E &amp; F --多节点聚合--&gt; A</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">A --单连接声明--&gt; B</span><br><span class="line">B --多连接声明--&gt; C --多连接声明--&gt; D</span><br><span class="line">D --多节点聚合--&gt; E &amp; F --多节点聚合--&gt; A</span><br></pre></td></tr></table></figure>
+
+<h4 id="连接线"><a href="#连接线" class="headerlink" title="连接线"></a>连接线</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	A---B</span><br><span class="line">	B--标签---C</span><br><span class="line">	C--&gt;D</span><br><span class="line">	D--标签--&gt;E</span><br><span class="line">	E&lt;--&gt;F</span><br><span class="line">	F-.-&gt;G</span><br><span class="line">	G-.标签.-&gt;H</span><br><span class="line">	H&lt;-.标签.-&gt;I</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	A---B</span><br><span class="line">	B--标签---C</span><br><span class="line">	C--&gt;D</span><br><span class="line">	D--标签--&gt;E</span><br><span class="line">	E&lt;--&gt;F</span><br><span class="line">	F-.-&gt;G</span><br><span class="line">	G-.标签.-&gt;H</span><br><span class="line">	H&lt;-.标签.-&gt;I</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	J==&gt;K</span><br><span class="line">	K==标签==&gt;L</span><br><span class="line">	L--o M</span><br><span class="line">	M o--o N</span><br><span class="line">	N --x o</span><br><span class="line">	o x--x P</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	J==&gt;K</span><br><span class="line">	K==标签==&gt;L</span><br><span class="line">	L--o M</span><br><span class="line">	M o--o N</span><br><span class="line">	N --x o</span><br><span class="line">	o x--x P	</span><br></pre></td></tr></table></figure>
+
+<p>有的图需要跨层级,可以使用<code>-</code>来增加线的长度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	A--&gt;B</span><br><span class="line">	C---&gt;D</span><br><span class="line">	E----&gt;F</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">	A--&gt;B</span><br><span class="line">	C---&gt;D</span><br><span class="line">	E----&gt;F</span><br></pre></td></tr></table></figure>
+
+<h3 id="流程子图"><a href="#流程子图" class="headerlink" title="流程子图"></a>流程子图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">subgraph 子流程图名字[子流程图文本内容（标题）]</span><br><span class="line">  direction 子流程图方向</span><br><span class="line">  子流程图具体信息</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">A[HTML 基础]</span><br><span class="line">subgraph B[HTML 进阶]</span><br><span class="line">  subgraph 属性[各种属性]</span><br><span class="line">    一般属性 --&gt; 特殊属性</span><br><span class="line">  end</span><br><span class="line">  标签 --&gt; 属性 --&gt; 方法</span><br><span class="line">end</span><br><span class="line">C[HTML 深入]</span><br><span class="line">A --&gt; B --&gt; C</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line">	A[HTML 基础]</span><br><span class="line">	subgraph B[HTML 进阶]</span><br><span class="line">		subgraph 属性[各种属性]</span><br><span class="line">			一般属性 --&gt; 特殊属性</span><br><span class="line">		end</span><br><span class="line">		标签 --&gt; 属性 --&gt; 方法</span><br><span class="line">	end</span><br><span class="line">	C[HTML 深入]</span><br><span class="line">	A --&gt; B --&gt; C</span><br></pre></td></tr></table></figure>
+
+<h3 id="事件交互"><a href="#事件交互" class="headerlink" title="事件交互"></a>事件交互</h3><p>我们可以把页面跳转或js函数捆绑在节点的点击事件上</p>
+<h4 id="页面的跳转"><a href="#页面的跳转" class="headerlink" title="页面的跳转"></a>页面的跳转</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">click 节点名字 href &quot;网址&quot; &quot;注释&quot; 打开方式</span><br></pre></td></tr></table></figure>
+
+<h4 id="函数的捆绑"><a href="#函数的捆绑" class="headerlink" title="函数的捆绑"></a>函数的捆绑</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--先定义一个函数--&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  const callback = function()&#123;</span><br><span class="line">    alert(&quot;Function running!&quot;);</span><br><span class="line">  &#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--然后把这个函数引进 Mermaid 并将它和节点捆绑--&gt;</span><br><span class="line">click 节点名字 callback &quot;注释&quot;</span><br><span class="line">click 节点名字 call callback() &quot;注释&quot;</span><br></pre></td></tr></table></figure>
+
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">  A --&gt; B --&gt; C</span><br><span class="line">  click A callback &quot;引入函数&quot;</span><br><span class="line">  click A call callback() &quot;捆绑函数到节点A的点击事件&quot;</span><br><span class="line">  click B href &quot;https://www.github.com&quot; &quot;前往GitHub&quot; _blank</span><br></pre></td></tr></table></figure>
+
+<h2 id="序列图"><a href="#序列图" class="headerlink" title="序列图"></a>序列图</h2><h3 id="参与者"><a href="#参与者" class="headerlink" title="参与者"></a>参与者</h3><p>使用<code>participant</code>定义参与者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant Alice</span><br><span class="line">    participant Bob</span><br><span class="line">    Bob-&gt;&gt;Alice: Hi Alice</span><br><span class="line">    Alice-&gt;&gt;Bob: Hi Bob</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant Alice</span><br><span class="line">    participant Bob</span><br><span class="line">    Bob-&gt;&gt;Alice: Hi Alice</span><br><span class="line">    Alice-&gt;&gt;Bob: Hi Bob</span><br></pre></td></tr></table></figure>
+
+<h3 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h3><p>使用<code>actor</code>定义角色</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant Alice</span><br><span class="line">    participant Bob</span><br><span class="line">    Bob-&gt;&gt;Alice: Hi Alice</span><br><span class="line">    Alice-&gt;&gt;Bob: Hi Bob</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    actor Alice</span><br><span class="line">    actor Bob</span><br><span class="line">    Alice-&gt;&gt;Bob: Hi Bob</span><br><span class="line">    Bob-&gt;&gt;Alice: Hi Alice</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h3><p>角色可以有一个方便的标识符和描述性标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant A as Alice</span><br><span class="line">    participant J as John</span><br><span class="line">    A-&gt;&gt;J: Hello John, how are you?</span><br><span class="line">    J-&gt;&gt;A: Great!</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant A as Alice</span><br><span class="line">    participant J as John</span><br><span class="line">    A-&gt;&gt;J: Hello John, how are you?</span><br><span class="line">    J-&gt;&gt;A: Great!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="信息"><a href="#信息" class="headerlink" title="信息"></a>信息</h3><p>消息可以有两条显示，可以是实线，也可以是虚线</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[参与者][箭头][参与者]:标注</span><br></pre></td></tr></table></figure>
+
+<p>箭头类型</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>-&gt;</code></td>
+<td align="left">没有箭头的实线</td>
+</tr>
+<tr>
+<td align="left"><code>--&gt;</code></td>
+<td align="left">没有箭头的虚线</td>
+</tr>
+<tr>
+<td align="left"><code>-&gt;&gt;</code></td>
+<td align="left">带箭头的实线</td>
+</tr>
+<tr>
+<td align="left"><code>--&gt;&gt;</code></td>
+<td align="left">带箭头的虚线</td>
+</tr>
+<tr>
+<td align="left"><code>-x</code></td>
+<td align="left">末端有十字的实线</td>
+</tr>
+<tr>
+<td align="left"><code>--x</code></td>
+<td align="left">末端带有十字的虚线。</td>
+</tr>
+<tr>
+<td align="left"><code>-)</code></td>
+<td align="left">末尾带有空心箭头的实线（异步）</td>
+</tr>
+<tr>
+<td align="left"><code>--)</code></td>
+<td align="left">末尾带有空心箭头的虚线（异步）</td>
+</tr>
+</tbody></table>
+<h3 id="标注"><a href="#标注" class="headerlink" title="标注"></a>标注</h3><p>可以向序列图添加注释。这是通过符号 Note [ right&#x2F;left of] [角色]：注意内容中的文本，文本的换行使用<br/></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant John</span><br><span class="line">    Note left of John: Text in note</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    participant John</span><br><span class="line">    Note left of John: Text in note</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>还可以创建跨越两个参与者的注意，只需要将right或left换成over即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    Alice-&gt;John: Hello John, how are you?</span><br><span class="line">    Note over Alice,John: A typical interaction</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    Alice-&gt;John: Hello John, how are you?</span><br><span class="line">    Note over Alice,John: A typical interaction</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">loop 循环名</span><br><span class="line">	需要循环的代码</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    Alice-&gt;John: Hello John, how are you?</span><br><span class="line">    loop Every minute</span><br><span class="line">        John--&gt;Alice: Great!</span><br><span class="line">    end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sequenceDiagram</span><br><span class="line">    Alice-&gt;John: Hello John, how are you?</span><br><span class="line">    loop Every minute</span><br><span class="line">        John--&gt;Alice: Great!</span><br><span class="line">    end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="VLOOK"><a href="#VLOOK" class="headerlink" title="VLOOK"></a>VLOOK</h1><h2 id="参考链接-1"><a href="#参考链接-1" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://madmaxchow.github.io/VLOOK/guide.html">快速参考手册 (Part.I) - VLOOK™ - Markdown 编辑器 Typora 的主题包和增强插件 (madmaxchow.github.io)</a></p>
+<h2 id="封底封面"><a href="#封底封面" class="headerlink" title="封底封面"></a>封底封面</h2><p>在文件开头使用以下代码即可激活封面</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###### 在这填写文档标题&lt;br&gt;**在些填写作者**&lt;br&gt;*在这填版权归属方的信息*</span></span><br></pre></td></tr></table></figure>
+
+<p>我的模板</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###### 文档标题&lt;br&gt;&lt;br&gt;**你要信我啊**&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;*COPYRIGHT ©ryf*</span></span><br></pre></td></tr></table></figure>
+
+<p>在文档结尾使用一个一级标题即可激活封底</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The end</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="着色"><a href="#着色" class="headerlink" title="着色"></a>着色</h2><p>先斜体，后下标。强调需要在颜色后面加！，如红色强调颜色就是<code>rd！</code></p>
+<p>在文本着色时需要将文本设置为特殊样式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">_~这里写颜色~_</span><br><span class="line">*斜体文本着色*_~Rd~_</span><br><span class="line">**粗体文本着色**_~Rd~_</span><br><span class="line">==高亮文本着色==_~Rd~_</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://madmaxchow.github.io/VLOOK/pic/vlook-color-card-light.png?srcset=@2x&darksrc=vlook-color-card-dark.png&darksrcset=@2x#logo#center" alt="VLOOK™ - Color Card 预置色号"></p>
+<p><em>红色</em><em><del>Pk</del></em></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意这里的颜色渲染只有在导出之后才能显示</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">颜色</th>
+<th align="center"><strong>色号</strong></th>
+<th>单色渲染效果示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">酒红 Wine</td>
+<td align="center">Wn</td>
+<td>警告、危险、关键事项、删除</td>
+</tr>
+<tr>
+<td align="center">红 Red</td>
+<td align="center">Rd</td>
+<td>警告、危险、关键事项、删除</td>
+</tr>
+<tr>
+<td align="center">橙 Orange</td>
+<td align="center">Og</td>
+<td>提醒、注意、修复</td>
+</tr>
+<tr>
+<td align="center">黄 Yellow</td>
+<td align="center">Ye</td>
+<td>关注、优化、备忘、说明</td>
+</tr>
+<tr>
+<td align="center">柠绿 Lime</td>
+<td align="center">Lm</td>
+<td>提示、参考、新增</td>
+</tr>
+<tr>
+<td align="center">绿 Green</td>
+<td align="center">Gn</td>
+<td>提示、参考、新增</td>
+</tr>
+<tr>
+<td align="center">矿绿 Mineral</td>
+<td align="center">Mn</td>
+<td>提示、参考、新增</td>
+</tr>
+<tr>
+<td align="center">橄榄绿 Olives</td>
+<td align="center">Ol</td>
+<td>提示、参考、新增</td>
+</tr>
+<tr>
+<td align="center">水绿 Aqua</td>
+<td align="center">Aq</td>
+<td>引用块、公告</td>
+</tr>
+<tr>
+<td align="center">青 Cyan</td>
+<td align="center">Cy</td>
+<td>引用块、公告</td>
+</tr>
+<tr>
+<td align="center">蓝 Blue</td>
+<td align="center">Bu</td>
+<td>信息、资讯</td>
+</tr>
+<tr>
+<td align="center">海蓝 Sea</td>
+<td align="center">Se</td>
+<td>信息、资讯</td>
+</tr>
+<tr>
+<td align="center">薰衣紫 Lavender</td>
+<td align="center">La</td>
+<td>信息、资讯</td>
+</tr>
+<tr>
+<td align="center">藤紫 Vine</td>
+<td align="center">Vn</td>
+<td>信息、资讯</td>
+</tr>
+<tr>
+<td align="center">紫 Purple</td>
+<td align="center">Pu</td>
+<td>延伸、扩展、保留、备用</td>
+</tr>
+<tr>
+<td align="center">玫红 Rose</td>
+<td align="center">Ro</td>
+<td>年轻、个性、女性</td>
+</tr>
+<tr>
+<td align="center">粉红 Pink</td>
+<td align="center">Pk</td>
+<td>年轻、个性、女性</td>
+</tr>
+<tr>
+<td align="center">金 Gold</td>
+<td align="center">Gd</td>
+<td>VIP、金融、工程</td>
+</tr>
+<tr>
+<td align="center">棕 Brown</td>
+<td align="center">Bn</td>
+<td>VIP、金融、工程</td>
+</tr>
+<tr>
+<td align="center">灰 Gray</td>
+<td align="center">Gy</td>
+<td>无效、暂缓、停用、结束</td>
+</tr>
+<tr>
+<td align="center">黑 Black</td>
+<td align="center">Bk</td>
+<td>黑白、高对比</td>
+</tr>
+<tr>
+<td align="center">主题主色 Theme1</td>
+<td align="center">T1</td>
+<td>当前 VLOOK™ 主题的主色</td>
+</tr>
+<tr>
+<td align="center">主题辅助色 Theme2</td>
+<td align="center">T2</td>
+<td>当前 VLOOK™ 主题的辅助色</td>
+</tr>
+</tbody></table>
+<p>渐变色只需要连续输入色彩编号就行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_~RdGn~_</span><br><span class="line">_~RdYeGn~_</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="按钮"><a href="#按钮" class="headerlink" title="按钮"></a>按钮</h2><p>使用<kbd>标签实现按钮样式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;kbd&gt;&lt;/kbd&gt;</span><br></pre></td></tr></table></figure>
+
+<p><kbd>CTRL</kbd> + <kbd>S</kbd></p>
+<h2 id="表格-1"><a href="#表格-1" class="headerlink" title="表格"></a>表格</h2><h3 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h3><hr>
+<ul>
+<li>行合并<ul>
+<li>在需要行合并的单元格中填入&#x3D;&#x3D;,会与左侧单元格合并</li>
+</ul>
+</li>
+<li>列合并<ul>
+<li>在需要列合并的单元格中填入：，会与上侧单元格合并</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>列 A</strong></th>
+<th>列 B</th>
+<th>列 C</th>
+<th>&#x3D;&#x3D;列 D&#x3D;&#x3D;</th>
+<th>列 E</th>
+<th>列 F</th>
+<th>列 G</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>纵向合并 <em><code>×3</code></em></td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td><code>123</code> 纵向合并 <em><code>×5</code></em><br><em>单元格<code>徽章 1</code></em><br><em>单元格<code>徽章 2</code></em><em><del>Rd</del></em><br><em>单元格<code>内容 3</code>内容 4</em><em><del>Gn</del></em></td>
+</tr>
+<tr>
+<td>:</td>
+<td>纵向合并 <em><code>×2</code></em></td>
+<td>横向合并 <em><code>×4</code></em></td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td>:</td>
+</tr>
+<tr>
+<td>:</td>
+<td>:</td>
+<td>普通<strong>单&#x3D;&#x3D;元&#x3D;&#x3D;格</strong>加粗</td>
+<td>普通<em>单元格<code>徽章</code></em></td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>:</td>
+</tr>
+<tr>
+<td>普通单元格</td>
+<td>纵向<br>合并 <em><code>×3</code></em></td>
+<td>普通 <em>单元格</em> 斜体</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>:</td>
+</tr>
+<tr>
+<td>普通单元格</td>
+<td>:</td>
+<td>普通&#x3D;&#x3D;单元格&#x3D;&#x3D;高亮</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>:</td>
+</tr>
+<tr>
+<td>普通单元格</td>
+<td>:</td>
+<td>普通<u>单元格</u>下划线</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>普通单元格</td>
+<td>:</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意，表格合并只有在导出为html文件时有效</p>
+</blockquote>
+<h3 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h3><p>只需要在需要的单元格设置右对齐即可自动匹配数值格式</p>
+<table>
+<thead>
+<tr>
+<th>原始内容</th>
+<th align="center">数值情况</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th></th>
+<th align="right">数值列</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:</td>
+<td align="center">[]含小数</td>
+<td align="center">[]正数</td>
+<td align="center">[]负数</td>
+<td align="center">[]超三位</td>
+<td>:</td>
+<td align="right">:</td>
+</tr>
+<tr>
+<td>123</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+<td align="right">123</td>
+</tr>
+<tr>
+<td>-12345</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">-12,345</td>
+</tr>
+<tr>
+<td>+5678.00</td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">+5,678.00</td>
+</tr>
+<tr>
+<td>-2345678.00</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">-2,345,678.00</td>
+</tr>
+</tbody></table>
+<p>当使用%号时，会凸显出进行程度</p>
+<p><em>&#x3D;&#x3D;测试&#x3D;&#x3D;</em></p>
+<table>
+<thead>
+<tr>
+<th>原始内容</th>
+<th align="center">数值情况</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th></th>
+<th align="right">百分数列</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:</td>
+<td align="center">[]含小数</td>
+<td align="center">[]正数</td>
+<td align="center">[]负数</td>
+<td align="center">[]超三位</td>
+<td>:</td>
+<td align="right">:</td>
+</tr>
+<tr>
+<td>79%</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td></td>
+<td align="right">79 %</td>
+</tr>
+<tr>
+<td>88.88%</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td>:</td>
+<td align="right">88.88 %</td>
+</tr>
+<tr>
+<td>+38%</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center"></td>
+<td>:</td>
+<td align="right">▴ 38 %</td>
+</tr>
+<tr>
+<td>-57.30%</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td>:</td>
+<td align="right">▾ 57.30 %</td>
+</tr>
+<tr>
+<td>100%</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td>:</td>
+<td align="right">100 %</td>
+</tr>
+</tbody></table>
+<p>对货币符号（如： <code>¥</code> <code>$</code> ），或货币简写（如： <code>CNY</code> <code>USD</code> <code>HKD</code> 等）进行左侧对齐和视觉弱化，在符号和数值中间必须要有空格</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>币种</strong></th>
+<th>原始内容</th>
+<th align="center">数值情况</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th align="center">&#x3D;&#x3D;</th>
+<th></th>
+<th align="right"><strong>货币</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">:</td>
+<td>:</td>
+<td align="center">[]正数</td>
+<td align="center">[]负数</td>
+<td align="center">[]含小数</td>
+<td align="center">[]超三位</td>
+<td>:</td>
+<td align="right">:</td>
+</tr>
+<tr>
+<td align="center">人民币</td>
+<td>￥ +123456.99</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td></td>
+<td align="right">￥+123,456.99</td>
+</tr>
+<tr>
+<td align="center">:</td>
+<td>CNY 987654.99</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">CN¥987,654.99</td>
+</tr>
+<tr>
+<td align="center">:</td>
+<td>CNY 987654.99</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">CNY987,654.99</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td>&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td align="right">&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td align="center">港元</td>
+<td>HK$ 3456.78</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td></td>
+<td align="right">HK$3,456.78</td>
+</tr>
+<tr>
+<td align="center">:</td>
+<td>HKD 3456.78</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">HKD3,456.78</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td>&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td align="right">&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td align="center">美元</td>
+<td>$ +555.38</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td></td>
+<td align="right">$+555.38</td>
+</tr>
+<tr>
+<td align="center">:</td>
+<td>USD 555</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td>:</td>
+<td align="right">USD555</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td>&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td align="center">&#x3D;&#x3D;</td>
+<td>&#x3D;&#x3D;</td>
+<td align="right">&#x3D;&#x3D;</td>
+</tr>
+<tr>
+<td align="center">澳元</td>
+<td>AU$ 56789</td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td></td>
+<td align="right">AU$56,789</td>
+</tr>
+<tr>
+<td align="center">:</td>
+<td>AUD -56789</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td align="center"></td>
+<td align="center">Y</td>
+<td>:</td>
+<td align="right">AUD-5,678</td>
+</tr>
+</tbody></table>
+<h3 id="表格编号"><a href="#表格编号" class="headerlink" title="表格编号"></a>表格编号</h3><p>使用<code>*====*</code>符号对表格进行编号，导出html时会自动给表格进行编号</p>
+<p><em>&#x3D;&#x3D;测试标题&#x3D;&#x3D;</em></p>
+<table>
+<thead>
+<tr>
+<th>列 A</th>
+<th>列 B</th>
+<th>列 C</th>
+<th>列 D</th>
+<th>列 E</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单元格内容</td>
+<td>单元格内容</td>
+<td>单元格内容</td>
+<td>单元格内容</td>
+<td>单元格内容</td>
+</tr>
+</tbody></table>
+<h2 id="备忘与警示"><a href="#备忘与警示" class="headerlink" title="备忘与警示"></a>备忘与警示</h2><p>在引用块内的首行输入以下任一 GitHub Style Alert 的分类信息标识即可自动识别并渲染：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[!NOTE] [!TIP] [!IMPORTANT] [!WARNING] [!CAUTION]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!NOTE]</p>
+<p>这是一个备注</p>
+</blockquote>
+<blockquote>
+<p>[!TIP]</p>
+<p>这是一个提示</p>
+</blockquote>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>这是重要信息</p>
+</blockquote>
+<blockquote>
+<p>[!WARNING]</p>
+<p>这是一个警告</p>
+</blockquote>
+<blockquote>
+<p>[!CAUTION]</p>
+<p>这是一个严重警告</p>
+</blockquote>
+<h2 id="分栏"><a href="#分栏" class="headerlink" title="分栏"></a>分栏</h2><p>使用<code>---</code>进行分栏，双栏就使用两个分割线，以此类推</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--- </span><br><span class="line"></span><br><span class="line"><span class="bullet">-</span> 列表 1</span><br><span class="line"><span class="bullet">  -</span> 列表项 1-1</span><br><span class="line"><span class="bullet">  -</span> 列表项 1-2</span><br><span class="line"><span class="bullet">-</span> 列表 2</span><br><span class="line"><span class="bullet">  -</span> 列表项 2-1</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<ul>
+<li>组1<ul>
+<li>组1.1</li>
+<li>组1.2</li>
+</ul>
+</li>
+<li>组2<ul>
+<li>组2.1</li>
+<li>组2.2</li>
+</ul>
+</li>
+</ul>
+<hr>
+<hr>
+<ul>
+<li>组1<ul>
+<li>组1.1</li>
+<li>组1.2</li>
+</ul>
+</li>
+<li>组2<ul>
+<li>组2.1</li>
+<li>组2.2</li>
+</ul>
+</li>
+<li>组3<ul>
+<li>组3.1</li>
+<li>组3.2</li>
+</ul>
+</li>
+</ul>
+<p>引用分栏</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line"></span><br><span class="line">&gt; 组1</span><br><span class="line">&gt;&gt; 组1.1</span><br><span class="line"></span><br><span class="line">&gt; 组2</span><br><span class="line">&gt;&gt; 组2.1</span><br></pre></td></tr></table></figure>
+
+<hr>
+<blockquote>
+<p>组1</p>
+<blockquote>
+<p>组1.1</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>组2</p>
+<blockquote>
+<p>组2.1</p>
+</blockquote>
+</blockquote>
+<h2 id="内容标记"><a href="#内容标记" class="headerlink" title="内容标记"></a>内容标记</h2><h3 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h3><p>使用<code>*``*</code>进行打标签，改变色彩只需要设置色号即可</p>
+<p><em><code>这是一个标签</code></em></p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>预置色号</strong></th>
+<th>应用场景建议</th>
+<th>渲染效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Wn</td>
+<td>警告、危险、关键事项、删除</td>
+<td><em><code>Wn 常规风格</code></em><em><del>Wn</del></em></td>
+</tr>
+<tr>
+<td align="center">Rd</td>
+<td>:</td>
+<td><em><code>Rd 常规风格</code></em><em><del>Rd</del></em></td>
+</tr>
+<tr>
+<td align="center">Og</td>
+<td>提醒、注意、修复</td>
+<td><em><code>Og 常规风格</code></em><em><del>Og</del></em></td>
+</tr>
+<tr>
+<td align="center">Ye</td>
+<td>关注、优化、备忘、说明</td>
+<td><em><code>Ye 常规风格</code></em><em><del>Ye</del></em></td>
+</tr>
+<tr>
+<td align="center">Lm</td>
+<td>提示、参考、新增</td>
+<td><em><code>Lm 常规风格</code></em><em><del>Lm</del></em></td>
+</tr>
+<tr>
+<td align="center">Gn</td>
+<td>:</td>
+<td><em><code>Gn 常规风格</code></em><em><del>Gn</del></em></td>
+</tr>
+<tr>
+<td align="center">Mn</td>
+<td>:</td>
+<td><em><code>Mn 常规风格</code></em><em><del>Mn</del></em></td>
+</tr>
+<tr>
+<td align="center">Ol</td>
+<td>:</td>
+<td><em><code>Ol 常规风格</code></em><em><del>Ol</del></em></td>
+</tr>
+<tr>
+<td align="center">Aq</td>
+<td>引用块、公告</td>
+<td><em><code>Aq 常规风格</code></em><em><del>Aq</del></em></td>
+</tr>
+<tr>
+<td align="center">Cy</td>
+<td>:</td>
+<td><em><code>Cy 常规风格</code></em><em><del>Cy</del></em></td>
+</tr>
+<tr>
+<td align="center">Bu</td>
+<td>信息、资讯</td>
+<td><em><code>Bu 常规风格</code></em><em><del>Bu</del></em></td>
+</tr>
+<tr>
+<td align="center">Se</td>
+<td>:</td>
+<td><em><code>Se 常规风格</code></em><em><del>Se</del></em></td>
+</tr>
+<tr>
+<td align="center">La</td>
+<td>:</td>
+<td><em><code>La 常规风格</code></em><em><del>La</del></em></td>
+</tr>
+<tr>
+<td align="center">Vn</td>
+<td>:</td>
+<td><em><code>Vn 常规风格</code></em><em><del>Vn</del></em></td>
+</tr>
+<tr>
+<td align="center">Pu</td>
+<td>延伸、扩展、保留、备用</td>
+<td><em><code>Pu 常规风格</code></em><em><del>Pu</del></em></td>
+</tr>
+<tr>
+<td align="center">Ro</td>
+<td>年轻、个性、女性</td>
+<td><em><code>Ro 常规风格</code></em><em><del>Ro</del></em></td>
+</tr>
+<tr>
+<td align="center">Pk</td>
+<td>:</td>
+<td><em><code>Pk 常规风格</code></em><em><del>Pk</del></em></td>
+</tr>
+<tr>
+<td align="center">Gd</td>
+<td>VIP、金融、工程</td>
+<td><em><code>Gd 常规风格</code></em><em><del>Gd</del></em></td>
+</tr>
+<tr>
+<td align="center">Bn</td>
+<td>:</td>
+<td><em><code>Bn 常规风格</code></em><em><del>Bn</del></em></td>
+</tr>
+<tr>
+<td align="center">Gy</td>
+<td>无效、暂缓、停用、结束</td>
+<td><em><code>Gy 常规风格</code></em><em><del>Gy</del></em></td>
+</tr>
+<tr>
+<td align="center">Bk</td>
+<td>黑白、高对比</td>
+<td><em><code>Bk 常规风格</code></em><em><del>Bk</del></em></td>
+</tr>
+<tr>
+<td align="center">T1</td>
+<td>当前 VLOOK™ 主题的主色</td>
+<td><em><code>T1 常规风格</code></em></td>
+</tr>
+<tr>
+<td align="center">T2</td>
+<td>当前 VLOOK™ 主题的辅助色</td>
+<td><em><code>T2 常规风格</code></em><em><del>T2</del></em></td>
+</tr>
+</tbody></table>
+<h3 id="徽章"><a href="#徽章" class="headerlink" title="徽章"></a>徽章</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">使用*徽章标题`徽章内容`徽章结尾*</span><br><span class="line">同样的，改变色号只需要在后面加上预置色编号就行</span><br></pre></td></tr></table></figure>
+
+<p><em>徽章标题<code>徽章内容</code>徽章结尾</em></p>
+<h3 id="进度条"><a href="#进度条" class="headerlink" title="进度条"></a>进度条</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">**==这里写进度==**</span><br></pre></td></tr></table></figure>
+
+<p><strong>&#x3D;&#x3D;20&#x3D;&#x3D;</strong></p>
+<p><strong>&#x3D;&#x3D;0&#x3D;&#x3D;</strong><em><del>Rd</del></em></p>
+<h3 id="面包屑"><a href="#面包屑" class="headerlink" title="面包屑"></a>面包屑</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*==面包屑包裹内容==*</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!WARNING]</p>
+<p>面包屑必须要和段落一起使用，不然会被识别为题主</p>
+</blockquote>
+<p>面包屑前面必须有文字，不能为一个段落*&#x3D;&#x3D;面包屑包裹内容&#x3D;&#x3D;*</p>
+<h3 id="刮刮卡"><a href="#刮刮卡" class="headerlink" title="刮刮卡"></a>刮刮卡</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*刮刮卡的提示内容**刮刮卡内容***</span><br></pre></td></tr></table></figure>
+
+<p>坚<em><strong>不</strong></em>可<em><strong>摧</strong></em></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/" rel="tag">编程语言</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Makefile" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Makefile/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Makefile
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Matlab" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Matlab/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          Matlab
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E9%A2%98"><span class="toc-number">1.1.</span> <span class="toc-text">标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E4%BD%93%E6%A0%B7%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字体样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%97%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5%E5%92%8C%E5%9B%BE%E7%89%87"><span class="toc-number">1.4.</span> <span class="toc-text">链接和图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E5%9D%97"><span class="toc-number">1.5.</span> <span class="toc-text">引用块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC"><span class="toc-number">1.7.</span> <span class="toc-text">表格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E7%BA%BF"><span class="toc-number">1.8.</span> <span class="toc-text">分割线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%9A%E6%B3%A8"><span class="toc-number">1.9.</span> <span class="toc-text">脚注</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mermaid%E7%BB%98%E5%9B%BE"><span class="toc-number">2.</span> <span class="toc-text">Mermaid绘图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Typora"><span class="toc-number">2.2.</span> <span class="toc-text">Typora</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.3.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E7%BB%98%E5%9B%BE"><span class="toc-number">2.3.1.</span> <span class="toc-text">新建绘图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">2.3.2.</span> <span class="toc-text">标识符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="toc-number">2.4.</span> <span class="toc-text">流程图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E8%8A%82%E7%82%B9"><span class="toc-number">2.4.1.</span> <span class="toc-text">声明节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E8%8A%82%E7%82%B9%E5%BD%A2%E7%8A%B6"><span class="toc-number">2.4.2.</span> <span class="toc-text">声明节点形状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E8%8A%82%E7%82%B9%E7%9A%84%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.4.3.</span> <span class="toc-text">声明节点的连接</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E7%BA%BF"><span class="toc-number">2.4.3.1.</span> <span class="toc-text">连接线</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E5%AD%90%E5%9B%BE"><span class="toc-number">2.4.4.</span> <span class="toc-text">流程子图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E4%BA%A4%E4%BA%92"><span class="toc-number">2.4.5.</span> <span class="toc-text">事件交互</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%B7%B3%E8%BD%AC"><span class="toc-number">2.4.5.1.</span> <span class="toc-text">页面的跳转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E6%8D%86%E7%BB%91"><span class="toc-number">2.4.5.2.</span> <span class="toc-text">函数的捆绑</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%9B%BE"><span class="toc-number">2.5.</span> <span class="toc-text">序列图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E4%B8%8E%E8%80%85"><span class="toc-number">2.5.1.</span> <span class="toc-text">参与者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E8%89%B2"><span class="toc-number">2.5.2.</span> <span class="toc-text">角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AB%E5%90%8D"><span class="toc-number">2.5.3.</span> <span class="toc-text">别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF"><span class="toc-number">2.5.4.</span> <span class="toc-text">信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E6%B3%A8"><span class="toc-number">2.5.5.</span> <span class="toc-text">标注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.5.6.</span> <span class="toc-text">循环</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#VLOOK"><span class="toc-number">3.</span> <span class="toc-text">VLOOK</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5-1"><span class="toc-number">3.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E5%BA%95%E5%B0%81%E9%9D%A2"><span class="toc-number">3.2.</span> <span class="toc-text">封底封面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%80%E8%89%B2"><span class="toc-number">3.3.</span> <span class="toc-text">着色</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E9%92%AE"><span class="toc-number">3.4.</span> <span class="toc-text">按钮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC-1"><span class="toc-number">3.5.</span> <span class="toc-text">表格</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6"><span class="toc-number">3.5.1.</span> <span class="toc-text">合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%80%BC"><span class="toc-number">3.5.2.</span> <span class="toc-text">数值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A8%E6%A0%BC%E7%BC%96%E5%8F%B7"><span class="toc-number">3.5.3.</span> <span class="toc-text">表格编号</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E5%BF%98%E4%B8%8E%E8%AD%A6%E7%A4%BA"><span class="toc-number">3.6.</span> <span class="toc-text">备忘与警示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%A0%8F"><span class="toc-number">3.7.</span> <span class="toc-text">分栏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E6%A0%87%E8%AE%B0"><span class="toc-number">3.8.</span> <span class="toc-text">内容标记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE"><span class="toc-number">3.8.1.</span> <span class="toc-text">标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%BD%E7%AB%A0"><span class="toc-number">3.8.2.</span> <span class="toc-text">徽章</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%BA%A6%E6%9D%A1"><span class="toc-number">3.8.3.</span> <span class="toc-text">进度条</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%A2%E5%8C%85%E5%B1%91"><span class="toc-number">3.8.4.</span> <span class="toc-text">面包屑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AE%E5%88%AE%E5%8D%A1"><span class="toc-number">3.8.5.</span> <span class="toc-text">刮刮卡</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "MarkDown",
+          url: "http://example.com/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/MarkDown/",
+          excerpt: "",
+          description: "",
+          stripContent: "语法Markdown 是一种轻量级标记语言，使用简单的文本格式来创建格式化的文档。以下是常用的 Markdown 语法命令： 标题使用 # 来创建标题，# 的数量表示标题的级别。 123456# 一级标题## 二级标题### 三级标题#### 四级标题##### 五级标题###### 六级标题   [!note] 需要注意的是，在#符号后面需要加一个空格，这样markdown才能知道是标题  字体样式使用 ** 或 __ 包围文本表示粗体 使用 * 或 _ 包围文本表示斜体。 使用==包围为高亮",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

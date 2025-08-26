@@ -1,0 +1,976 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    PWR |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="概述PWR(Power Control)电源控制，PWR负责管理STM32内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：  睡眠模式(Sleep) 停机模式(Stop) 待机模式(Standby)  可在系统空闲时，降低S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWR">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="概述PWR(Power Control)电源控制，PWR负责管理STM32内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：  睡眠模式(Sleep) 停机模式(Stop) 待机模式(Standby)  可在系统空闲时，降低S">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_51_29_202410151851842.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_54_11_202410151854735.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_55_13_202410151855604.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_57_38_202410151857005.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_59_1_202410151859916.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_0_11_202410151900282.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_1_37_202410151901492.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_7_7_202410151907819.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_13_1_202410151913066.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.871Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="PWR">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">PWR</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%BA%90%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">电源系统结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%BA%90%E7%9B%91%E6%8E%A7"><span class="toc-number">1.2.</span> <span class="toc-text">电源监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E7%94%B5-%E6%8E%89%E7%94%B5%E5%A4%8D%E4%BD%8D"><span class="toc-number">1.2.1.</span> <span class="toc-text">上电&#x2F;掉电复位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%8E%8B%E6%A3%80%E6%B5%8B%E5%99%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">电压检测器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8E%E5%8A%9F%E8%80%97"><span class="toc-number">2.</span> <span class="toc-text">低功耗</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">停止模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">待机模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8E%E5%8A%9F%E8%80%97%E6%A8%A1%E5%BC%8F%E8%A1%A8"><span class="toc-number">2.4.</span> <span class="toc-text">低功耗模式表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E5%8A%9F%E8%80%97"><span class="toc-number">2.5.</span> <span class="toc-text">三种模式下的功耗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">2.6.</span> <span class="toc-text">模式的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.6.1.</span> <span class="toc-text">睡眠模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.6.2.</span> <span class="toc-text">停止模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.6.3.</span> <span class="toc-text">待机模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%91"><span class="toc-number">3.1.</span> <span class="toc-text">修改主频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F-2"><span class="toc-number">3.2.</span> <span class="toc-text">睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A8%A1%E5%BC%8F-2"><span class="toc-number">3.3.</span> <span class="toc-text">停止模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA%E6%A8%A1%E5%BC%8F-2"><span class="toc-number">3.4.</span> <span class="toc-text">待机模式</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/外设组件/PWR" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>PWR(Power Control)电源控制，PWR负责管理STM32内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能</p>
+<p>可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务</p>
+<p>低功耗模式包括：</p>
+<ul>
+<li>睡眠模式(Sleep)</li>
+<li>停机模式(Stop)</li>
+<li>待机模式(Standby)</li>
+</ul>
+<p>可在系统空闲时，降低STM32的功耗，延长设备使用时间</p>
+<h2 id="电源系统结构"><a href="#电源系统结构" class="headerlink" title="电源系统结构"></a>电源系统结构</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="电源的系统结构"></p>
+<ol>
+<li>VDDA供电区域，主要负责模拟部分的供电，包括AD转换、温度传感器、复位模块PLL。这些电路供电正极是VDDA，负极是VSSA，其中AD转换器还有两个参考电压引脚，分别为VREF+和VREF-</li>
+<li>由两部分组成，左边部分是VDD供电区域，包括IO电路、待机电路、唤醒电路及看门狗，右边部分是VDD通过电压调节器，降压至1.8V，1.8v区域包括CPU核心、存储器和内置数字外设，stm32内部的关键电路，CPU、存储器和外设其实都是以1.8V的低电压运行的。当这些电路想要和外界进行交流时，才会通过IO电路转换到3.3v。&#x3D;&#x3D;使用低电压运行的主要目的是为了降低功耗，电压越低，内部电路运行的功耗就相对越低&#x3D;&#x3D;</li>
+<li>VBAT后备供电区域，其中包括LSE晶体震荡器、后备寄存器、RCC BDCR寄存器和RTC，其中有一个低电压检测开关，VDD有电时，由VDD供电，VDD没电时，由VBAT供电</li>
+</ol>
+<h2 id="电源监控"><a href="#电源监控" class="headerlink" title="电源监控"></a>电源监控</h2><p>电源监控即对某些电源电压(VDD&#x2F;VDDA&#x2F;VBAT)进行监控。POR&#x2F;PDR监控器、PVD监控器、BOR监控器、AVD监控器、VBAT阈值、温度阈值</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_51_29_202410151851842.png" alt="电源监控"></p>
+<ul>
+<li>POR&#x2F;PDR(power on&#x2F;down reset):上电&#x2F;掉电复位</li>
+<li>PVD(programmable voltage detector)):监控V<del>DD</del>电压</li>
+<li>BOR(brown out reset):欠压复位</li>
+<li>AVD(analog voltage detector)：监控V<del>DDA</del>电压</li>
+<li>VBAT阈值(battery voltage thresholds)：监控V<del>BAT</del>电池电压</li>
+<li>温度阈值(temperature thresholds):监控结温</li>
+</ul>
+<blockquote>
+<p>[!note]</p>
+<p>不同芯片包括的电源监控功能不同</p>
+</blockquote>
+<h3 id="上电-掉电复位"><a href="#上电-掉电复位" class="headerlink" title="上电&#x2F;掉电复位"></a>上电&#x2F;掉电复位</h3><p>当VDD或者VDDA电压过低时，内部电路会直接产生复位，让stm32复位，不能乱操作</p>
+<p>在POR和PDR之间设置了一个40mV的迟滞电压，大于POR产生复位，小于PDR时保持复位，设置两个阈值的作用就是防止电压在某个阈值附近波动时，造成输出也来回抖动</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_54_11_202410151854735.png" alt="上掉电复位"></p>
+<h3 id="电压检测器"><a href="#电压检测器" class="headerlink" title="电压检测器"></a>电压检测器</h3><p>PVD阈值电压可以使用程序指定，可以自定义调节</p>
+<p>PVD的输出信号可以去申请中断，这个中断申请是由外部中断实现的</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_55_13_202410151855604.png" alt="电压检测器"></p>
+<h1 id="低功耗"><a href="#低功耗" class="headerlink" title="低功耗"></a>低功耗</h1><p>STM32具有运行、睡眠、停止和待机四种工作模式。</p>
+<p>上电后默认是在运行模式，当内核不需要继续运行时，可以选择后面三种低功耗模式。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_57_38_202410151857005.png" alt="低功耗"></p>
+<h2 id="睡眠模式"><a href="#睡眠模式" class="headerlink" title="睡眠模式"></a>睡眠模式</h2><p>通过两个库函数进入睡眠模式：WFI和WFE，WFI和WFE是内核的指令</p>
+<ul>
+<li>WFI：wait for interrupt 等待中断，当中断发生，醒来之后的第一件事就是处理中断</li>
+<li>WFE: wait for event 等待事件，这个事件可以事外部中断配置为事件模式，也可以是使能了中断，但是没有配置NVIC，调用的WFE进入的睡眠模式，产生唤醒事件时会立即醒来，醒来之后一般不需要进入中断函数，直接从睡眠的地方继续运行</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_59_1_202410151859916.png" alt="睡眠模式"></p>
+<h2 id="停止模式"><a href="#停止模式" class="headerlink" title="停止模式"></a>停止模式</h2><p>&#x3D;&#x3D;只有外部中断才能唤醒，其他中断唤醒不了。&#x3D;&#x3D;</p>
+<p>当进入待机模式之后，将会关闭1.8v的时钟，也就是说CPU和外设均不可运行。定时器正在定时的会暂停，串口收发数据也会暂停，但是没有关闭电源，所以CPU和外设的寄存器数据都是维持原状的</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_0_11_202410151900282.png" alt="停止模式"></p>
+<h2 id="待机模式"><a href="#待机模式" class="headerlink" title="待机模式"></a>待机模式</h2><p>只有几个指定的信号才能唤醒：</p>
+<ol>
+<li>WKUP引脚的上升沿</li>
+<li>RTC闹钟事件</li>
+<li>NRST引脚上的外部复位：也就是按下复位键也是可以唤醒的</li>
+<li>IWDG复位</li>
+</ol>
+<p>由于这里的电源关了，所以CPU和外设中的寄存器数据都是不能保持的</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_1_37_202410151901492.png" alt="待机模式"></p>
+<h2 id="低功耗模式表"><a href="#低功耗模式表" class="headerlink" title="低功耗模式表"></a>低功耗模式表</h2><p>从上到下功耗越来越低，且越来越难唤醒</p>
+<p>低功耗的启动方法就是关闭CPU时钟和关闭电源（电压调节器）</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>进入</th>
+<th>唤醒</th>
+<th>对内核电路时钟 影响</th>
+<th>对VDD区 域时钟的影 响</th>
+<th>电压调节器</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>睡眠 (立即休眠或 退出时休眠)</td>
+<td>WFI 、WFE</td>
+<td>任意中断 唤醒事件</td>
+<td>CPU时钟关，对 其他时钟或模拟 时钟源无影响</td>
+<td>无</td>
+<td>开</td>
+</tr>
+<tr>
+<td>停止</td>
+<td>PDDS和LPDS位 +SLEEPDEEP位 +WFI或WFE</td>
+<td>任意外部中断（在外 部中断寄存器中设置)</td>
+<td>关闭所有内核电 路时钟</td>
+<td>HS和HSE 定) 的振荡器关闭</td>
+<td>开启或处于低功 耗模式（依据电 源控制寄存器 PWR_CR的设</td>
+</tr>
+<tr>
+<td>待机</td>
+<td>PDDS位 +SLEEPDEEP位 +WFI或WFE</td>
+<td>WKUP引脚的上升沿、 RTC闹钟(唤醒&#x2F;入侵&#x2F; 时间戳)事件、NRST 引脚上的外部复位、 IWDG复位</td>
+<td>：</td>
+<td>：</td>
+<td>关</td>
+</tr>
+</tbody></table>
+<h2 id="三种模式下的功耗"><a href="#三种模式下的功耗" class="headerlink" title="三种模式下的功耗"></a>三种模式下的功耗</h2><p>同等条件下(T&#x3D;25°C,VDD&#x3D;3.3V,系统时钟72MHz)</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>主要影响</th>
+<th>唤醒时间</th>
+<th>供应电流(典型值)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>正常模式</td>
+<td>所有外设正常工作</td>
+<td>0</td>
+<td>51mA</td>
+</tr>
+<tr>
+<td>睡眠模式</td>
+<td>CPU时钟关闭</td>
+<td>1.8us</td>
+<td>29.5mA</td>
+</tr>
+<tr>
+<td>停止模式</td>
+<td>1.8V区域时钟关闭，电压调节器低功耗</td>
+<td>5.4us</td>
+<td>35uA</td>
+</tr>
+<tr>
+<td>待机模式</td>
+<td>1.8V区域时钟关闭，电压调节器关闭</td>
+<td>50us</td>
+<td>3.8uA</td>
+</tr>
+</tbody></table>
+<h2 id="模式的选择"><a href="#模式的选择" class="headerlink" title="模式的选择"></a>模式的选择</h2><p>WFI和WFE是待机的触发条件，后面所有的寄存器配置都要在这两条指令之后。</p>
+<p>执行WFI(Wait For Interrupt)或者WFE(Vait For Event)指令后，STM32进入低功耗模式。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_7_7_202410151907819.png" alt="模式选择"></p>
+<h3 id="睡眠模式-1"><a href="#睡眠模式-1" class="headerlink" title="睡眠模式"></a>睡眠模式</h3><ul>
+<li>执行完WFI、WFE指令后，STM32进入睡眠模式，程序暂停运行，唤醒后程序从暂停的地方继续运行</li>
+<li>SLEEPONEXIT位决定STM32执行完WFI或WFE后，是立刻进入睡眠，还是等STM32从最低优先级的中断处理程序中退出时进入睡眠</li>
+<li>在睡眠模式下，所有的&#x2F;○引脚都保持它们在运行模式时的状态</li>
+<li>WFI指令进入睡眠模式，可被任意一个NVIC响应的中断唤醒</li>
+<li>WFE指令进入睡眠模式，可被唤醒事件唤醒</li>
+</ul>
+<h3 id="停止模式-1"><a href="#停止模式-1" class="headerlink" title="停止模式"></a>停止模式</h3><ul>
+<li>执行完WFI&#x2F;WFE指令后，STM32进入停止模式，程序暂停运行，唤醒后程序从暂停的地方继续运行</li>
+<li>1.8V供电区域的所有时钟都被停止，PLL、HSI和HSE被禁止，SRAM和寄存器内容被保留下来</li>
+<li>在停止模式下，所有的&#x2F;O引脚都保持它们在运行模式时的状态</li>
+<li>当一个中断或唤醒事件导致退出停止模式时，HS被选为系统时钟</li>
+<li>当电压调节器处于低功耗模式下，系统从停止模式退出时，会有一段额外的启动延时</li>
+<li>WFI指令进入停止模式，可被任意一个EXTI中断唤醒</li>
+<li>WFE指令进入停止模式，可被任意一个EXT事件唤醒</li>
+</ul>
+<h3 id="待机模式-1"><a href="#待机模式-1" class="headerlink" title="待机模式"></a>待机模式</h3><ul>
+<li><p>执行完WFI&#x2F;WFE指令后，STM32进入待机模式，唤醒后程序从头开始运行</p>
+</li>
+<li><p>整个1.8V供电区域被断电，PLL、HSI和HSE也被断电，SRAM和寄存器内容丢失，只有备份的寄存器和待机电路维持供电</p>
+</li>
+<li><p>在待机模式下，所有的&#x2F;O引脚变为高阻态（浮空输入）</p>
+</li>
+<li><p>WKUP引脚的上升沿、RTC闹钟事件的上升沿、NRST引脚上外部复位、IWDG复位退出待机模式</p>
+</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="修改主频"><a href="#修改主频" class="headerlink" title="修改主频"></a>修改主频</h2><blockquote>
+<p>[!TIP]</p>
+<p>注意，由于stm32处于低功耗的状态，所以下载的时候，需要先按住复位键，然后点击下载，松开复位键，这时候就能下载成功了</p>
+</blockquote>
+<p>首先需要修改文件夹(包含时钟的c文件)的属性，从只读变为可读可写</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_13_1_202410151913066.png" alt="修改主频"></p>
+<h2 id="睡眠模式-2"><a href="#睡眠模式-2" class="headerlink" title="睡眠模式"></a>睡眠模式</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">u8 rxData;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	serial_init();</span><br><span class="line">	Led_Init();</span><br><span class="line">	</span><br><span class="line">	serial_printf(<span class="string">&quot;SYSCLK: %d\n&quot;</span>,SystemCoreClock);</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(serial_getRxFlag() == <span class="number">1</span>)&#123;</span><br><span class="line">			rxData = serial_getRxData();</span><br><span class="line">			serial_printf(<span class="string">&quot;receive the data: %x\n&quot;</span>,rxData);</span><br><span class="line">		&#125;</span><br><span class="line">		Led_On();        <span class="comment">//如果设备不处于睡眠模式，将会led将会一闪一闪，否则led就灭</span></span><br><span class="line">		Delay_s(<span class="number">1</span>);</span><br><span class="line">		Led_Off();</span><br><span class="line">		Delay_s(<span class="number">1</span>);</span><br><span class="line">		__WFI();        <span class="comment">//实际上是一条汇编指令，睡眠模式只需要使用这一个代码即可</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="停止模式-2"><a href="#停止模式-2" class="headerlink" title="停止模式"></a>停止模式</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	serial_init();</span><br><span class="line">	redRation_Init();</span><br><span class="line">	Led_Init();</span><br><span class="line">	</span><br><span class="line">	Led_Off();</span><br><span class="line">	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR,ENABLE);        <span class="comment">//开启PWR时钟</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		Led_On();</span><br><span class="line">		Delay_s(<span class="number">1</span>);</span><br><span class="line">		Led_Off();</span><br><span class="line">		Delay_s(<span class="number">1</span>);</span><br><span class="line">		PWR_EnterSTOPMode(PWR_Regulator_ON,PWR_STOPEntry_WFI);        <span class="comment">//使用WFI模式进入停止模式，这个函数将会将所有的寄存器都配置好</span></span><br><span class="line">		SystemInit();        <span class="comment">//由于从停止模式唤醒之后，系统将会启动HSI内部时钟，所以当唤醒时，我们需要调用该函数重新配置系统时钟</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="待机模式-2"><a href="#待机模式-2" class="headerlink" title="待机模式"></a>待机模式</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	serial_init();</span><br><span class="line">	myrtc_init();</span><br><span class="line">	</span><br><span class="line">	u32 alarm = RTC_GetCounter() + <span class="number">10</span>;</span><br><span class="line">	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR,ENABLE);	<span class="comment">//开启PWR时钟</span></span><br><span class="line">	RTC_SetAlarm(alarm);	<span class="comment">//设置闹钟值</span></span><br><span class="line">	serial_printf(<span class="string">&quot;the alarm is %d\n&quot;</span>,alarm);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		serial_printf(<span class="string">&quot;the counter is %d\n&quot;</span>,RTC_GetCounter());	<span class="comment">//获取实时时钟计数值</span></span><br><span class="line">		serial_printf(<span class="string">&quot;the alrf is %d\n&quot;</span>,RTC_GetFlagStatus(RTC_FLAG_ALR));	<span class="comment">//获取闹钟产生的信号</span></span><br><span class="line">		PWR_EnterSTANDBYMode();	<span class="comment">//进入待机模式</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" rel="tag">外设组件</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" data-sizes="auto" alt="GPIO" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            GPIO
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/7_17_9_13_202409071709780.png" data-sizes="auto" alt="RTC" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/RTC/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          RTC
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%BA%90%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">电源系统结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%BA%90%E7%9B%91%E6%8E%A7"><span class="toc-number">1.2.</span> <span class="toc-text">电源监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E7%94%B5-%E6%8E%89%E7%94%B5%E5%A4%8D%E4%BD%8D"><span class="toc-number">1.2.1.</span> <span class="toc-text">上电&#x2F;掉电复位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%8E%8B%E6%A3%80%E6%B5%8B%E5%99%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">电压检测器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8E%E5%8A%9F%E8%80%97"><span class="toc-number">2.</span> <span class="toc-text">低功耗</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">停止模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">待机模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8E%E5%8A%9F%E8%80%97%E6%A8%A1%E5%BC%8F%E8%A1%A8"><span class="toc-number">2.4.</span> <span class="toc-text">低功耗模式表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E5%8A%9F%E8%80%97"><span class="toc-number">2.5.</span> <span class="toc-text">三种模式下的功耗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">2.6.</span> <span class="toc-text">模式的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.6.1.</span> <span class="toc-text">睡眠模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.6.2.</span> <span class="toc-text">停止模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA%E6%A8%A1%E5%BC%8F-1"><span class="toc-number">2.6.3.</span> <span class="toc-text">待机模式</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E9%A2%91"><span class="toc-number">3.1.</span> <span class="toc-text">修改主频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9D%A1%E7%9C%A0%E6%A8%A1%E5%BC%8F-2"><span class="toc-number">3.2.</span> <span class="toc-text">睡眠模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A8%A1%E5%BC%8F-2"><span class="toc-number">3.3.</span> <span class="toc-text">停止模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%85%E6%9C%BA%E6%A8%A1%E5%BC%8F-2"><span class="toc-number">3.4.</span> <span class="toc-text">待机模式</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "PWR",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/",
+          excerpt: "",
+          description: "",
+          stripContent: "概述PWR(Power Control)电源控制，PWR负责管理STM32内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：  睡眠模式(Sleep) 停机模式(Stop) 待机模式(Standby)  可在系统空闲时，降低STM32的功耗，延长设备使用时间 电源系统结构  VDDA供电区域，主要负责模拟部分的供电，包括AD",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

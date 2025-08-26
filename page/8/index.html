@@ -1,0 +1,998 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta property="og:type" content="website">
+<meta property="og:title" content="你要信我啊の博客">
+<meta property="og:url" content="http://example.com/page/8/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/banner.webp">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/banner.webp">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      <picture>
+        
+          
+            <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+          
+            <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+          
+            <source media="(min-width: 800px)" srcset="/images/banner.webp">
+          
+          <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="">
+        
+      </picture>
+      
+        <img alt="" style="visibility: hidden;">
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">你要信我啊の博客</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+            <a href="/" id="subtitle">今天想学点什么？</a>
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper ">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+
+      
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main">
+  
+  
+    
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/" aria-label="中断"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/28_10_49_40_202408281049592.png" data-sizes="auto" alt="中断" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>2.2k words</span>
+        <span><span class="icon-clock"></span>8 mins</span>
+      </div>
+      <h2 class="post-title">中断</h2>
+      <article class="post-article">
+        
+          概述打断CPU执行正常的程序，转而处理紧急程序，然后返回原暂停的程序继续运行，就叫中断
+
+中断的作用和意义
+实时控制:在确定时间内对相应事件作出响应，如：温度监控
+故障处理:检测到故障，需要第一时间处理，如：电梯门夹人了
+数据传输:不确定数据何时会来，如：串口数据接收
+
+
+[!IMPORTANT]
+中断的意义：高效处理紧急程序，不会一直占用CPU资源
+
+中断的外部简图
+执行流程
+NVIC基本概念用于统一分配中断优先级和管理中断的
+&amp;#x3D;&amp;#x3D;Nested vectored interrupt controller&amp;#x3D;&amp;#x3D;,嵌套向量中断控制器，属于内核(M3&amp;#x2F
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" aria-label="单片机的启动过程"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/6_10_28_41_202411061028065.png" data-sizes="auto" alt="单片机的启动过程" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>1.5k words</span>
+        <span><span class="icon-clock"></span>5 mins</span>
+      </div>
+      <h2 class="post-title">单片机的启动过程</h2>
+      <article class="post-article">
+        
+          参考链接mcu 启动流程_mcu启动过程-CSDN博客
+嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com)
+启动流程MCU启动方式MCU有三种启动方式：
+
+flash启动（最常用）：stm32的flash能够擦写数十万次，用户通过JTAG或SWD模式，将程序下载至此，重新启动从此处启动
+sytem memory （系统存储器启动）：系统存储器是芯片内的一块特定的区域，系统存储器中预置了一段bootloader,bootloder将程序下载到flash区，通过flash启动
+内嵌SRAM启动：从内存中直接启动代码，避免因小修改反复擦写flash内存，一般用于高速调试
+
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/" aria-label="时钟"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/7_16_50_38_202409071650950.png" data-sizes="auto" alt="时钟" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>3.3k words</span>
+        <span><span class="icon-clock"></span>12 mins</span>
+      </div>
+      <h2 class="post-title">时钟</h2>
+      <article class="post-article">
+        
+          参考链接【STM32】时钟_stm32f405 定时器时钟-CSDN博客
+时钟相关缩写
+RCC - Reset and Clock Control（复位与时钟控制）
+RTC - Real-Time Clock（实时时钟）
+BKP - Backup Registers（备份寄存器）
+PWR - Power Control（电源控制）
+HCLK - AHB Clock（AHB总线时钟）
+USBCLK - USB Clock（USB时钟）
+LSCO - Low Speed Clock Output（低速时钟输出）
+MSI - Multi-Speed Internal Clock（多速内部时钟）
+CS
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/" aria-label="最小系统"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/5_14_29_41_202409051429525.png" data-sizes="auto" alt="最小系统" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>1.3k words</span>
+        <span><span class="icon-clock"></span>4 mins</span>
+      </div>
+      <h2 class="post-title">最小系统</h2>
+      <article class="post-article">
+        
+          是什么最小系统是保障MCU正常工作的最小电路的组成单元
+12345678910111213block-beta	columns 3	MCU:2	block		columns 1		电源电路		晶振电路	end	下载调试电路	BOOT启动电路	复位电路	其他电路:3	
+
+管脚定义
+
+
+类型
+引脚名称
+说明
+
+
+
+电源
+VDD&amp;#x2F;VSS
+电源正（VDD）&amp;#x2F;负（VSS）引脚，给STM32供电
+
+
+
+VDDA&amp;#x2F;VSSA
+模拟部分电源正&amp;#x2F;负引脚，给STM32内部模拟部分供电 参考电压正&amp;#x2F;负引脚，给STM32内部ADC&amp;#x2F;DAC提供参考电压
+
+
+
+V
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/" aria-label="ASPICE"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="ASPICE" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>14.1k words</span>
+        <span><span class="icon-clock"></span>48 mins</span>
+      </div>
+      <h2 class="post-title">ASPICE</h2>
+      <article class="post-article">
+        
+          概述ASPICE（Automotive SPICE）是一种用于汽车行业中软件开发过程改进和能力评定的框架，其主要目的是通过规范化的流程和评估体系来提升软件质量。根据不同的证据，ASPICE可以分为多个部分或等级，每个部分或等级都有其特定的功能和作用。
+ASPICE的组成部分
+过程参考模型（PRM）：
+
+过程参考模型是ASPICE的核心部分，它定义了软件开发过程中需要遵循的标准流程和实践。这些流程包括需求分析、设计、开发、测试等各个阶段，旨在确保软件开发的规范性和有效性。
+
+
+过程评估模型（PAM）：
+
+过程评估模型用于评估企业在软件开发过程中的能力水平。它通过一系列的评估指标和量测架构，帮助企
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/AUTOASR/" aria-label="Can网络管理"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Can网络管理" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>6.9k words</span>
+        <span><span class="icon-clock"></span>26 mins</span>
+      </div>
+      <h2 class="post-title">Can网络管理</h2>
+      <article class="post-article">
+        
+          参考链接CAN BusOff相关知识点_busoff基础知识-CSDN博客
+CAN Busoff原理&amp;#x2F;快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0&amp;#x2F;CANFD帧触发Busoff_网络_汽车电子助手-GitCode 开源社区
+CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰&amp;#x2F;短路&amp;#x2F;采样点）_基于vh6501的can干扰测试-CSDN博客
+CanSm通信模式在CAN通信（尤其是基于AUTOSAR架构）中，有三种通信模式：
+
+完全通信模式（FULL_COMMUNICATION）
+功能： 节点正
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/Bluetooth/" aria-label="Bluetooth"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_8_59_202412091408388.png" data-sizes="auto" alt="Bluetooth" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>39.7k words</span>
+        <span><span class="icon-clock"></span>150 mins</span>
+      </div>
+      <h2 class="post-title">Bluetooth</h2>
+      <article class="post-article">
+        
+          参考链接深入浅出低功耗蓝牙(BLE)协议栈及蓝牙连接过程_蓝牙芯片的寄存器组为什么需要分为两块-CSDN博客
+蓝牙核心技术概述（一）:蓝牙概述_蓝牙技术-CSDN博客
+蓝牙核心技术概述（三）： 蓝牙协议规范（射频、基带链路控制、链路管理）_蓝牙3.0技术规范-CSDN博客
+蓝牙核心技术概述（四）：蓝牙协议规范（HCI、L2CAP、SDP、RFOCMM）_蓝牙通信帧分类-CSDN博客
+蓝牙核心技术概述（五）：蓝牙协议规范（irOBEX、BNEP、AVDTP、AVCTP）_蓝牙核心bnep-CSDN博客
+BLE协议学习 – 学习笔记 (giraffexiu.love)
+ESP32教程第二章讲义 -
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/CAN/" aria-label="CAN"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/15_9_50_55_202501150950487.png" data-sizes="auto" alt="CAN" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>11.8k words</span>
+        <span><span class="icon-clock"></span>43 mins</span>
+      </div>
+      <h2 class="post-title">CAN</h2>
+      <article class="post-article">
+        
+          简介
+CAN总线（Controller Area Network Bus）控制器局域网总线
+
+CAN总线是由BOSCH公司开发的一种简洁易用、传输速度快、易扩展、可靠性高的串行通信总线，广泛应用于汽车、嵌入式、工业控制等领域
+
+CAN总线特征：
+
+两根通信线（CAN_H、CAN_L），线路少，无需共地
+
+差分信号通信，抗干扰能力强
+
+高速CAN（ISO11898）：125k~1Mbps, &amp;lt;40m
+
+低速CAN（ISO11519）：10k~125kbps, &amp;lt;1km
+
+异步，无需时钟线，通信速率由设备各自约定
+
+半双工，可挂载多设备，多设备同时发送数据时通过仲裁判断先后顺序
+
+11
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/IIC/" aria-label="IIC"></a>
+    
+    
+    <div class="post-cover-left">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" data-sizes="auto" alt="IIC" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>6.7k words</span>
+        <span><span class="icon-clock"></span>25 mins</span>
+      </div>
+      <h2 class="post-title">IIC</h2>
+      <article class="post-article">
+        
+          参考链接STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客
+概述IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。
+总线：传输数据的通道
+协议：传输数据的规则
+物理层
+物理层描述：
+
+它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个IIC通信总线中，可连接&amp;#x3D;&amp;#x3D;多个IIC通信设备&amp;#x3D;&amp;#x3D;，支持多个通信主机及多个通信从机。
+一个IIC总线只使用两条总线线路。
+一条双向串行数据线（SDA），数据线用来表示数据
+一条串行时钟线（SCL），时钟线用于同步数据的收发。
+
+
+
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/SPI/" aria-label="SPI"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" data-sizes="auto" alt="SPI" class="lazyload">
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-03-01</span>
+        <span><span class="icon-pencil"></span>4.6k words</span>
+        <span><span class="icon-clock"></span>17 mins</span>
+      </div>
+      <h2 class="post-title">SPI</h2>
+      <article class="post-article">
+        
+          参考链接SPI协议详解（图文并茂+超详细） - 知乎 (zhihu.com)
+串口因为UART没有时钟信号，无法控制何时发送数据，也无法保证双方按照完全相同的速度接收数据。因此，双方以不同的速度进行数据接收和发送，就会出现问题。
+如果要解决这个问题，UART为每个字节添加额外的起始位和停止位，以帮助接收器在数据到达时进行同步；
+双方还必须事先就传输速度达成共识（设置相同的波特率，例如每秒9600位）。
+传输速率如果有微小差异不是问题，因为接收器会在每个字节的开头重新同步。相应的协议如下图所示：
+
+
+[!NOTE]
+图中的11001010不等于0x53。这是因为串口协议通常会首先发送最低有效位，
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+  
+
+
+  <nav id="page-nav" data-aos="fade-up">
+    
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+  </nav>
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+
+    
+  </div>
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+       
+    
+    
+      
+    
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

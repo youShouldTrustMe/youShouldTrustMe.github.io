@@ -1,0 +1,1116 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    IIC |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="参考链接STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客 概述IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。 总线：传输数据的通道 协议：传输数据的规则 物理层 物理层描述：  它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个IIC通信总线中，可连接&#x3D;&#x3D;多个IIC通信设备&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IIC">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/IIC/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="参考链接STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客 概述IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。 总线：传输数据的通道 协议：传输数据的规则 物理层 物理层描述：  它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个IIC通信总线中，可连接&#x3D;&#x3D;多个IIC通信设备&amp;#">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_13_11_202409131413040.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_26_31_202409131426942.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_27_45_202409131427923.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_32_52_202409131432013.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_49_38_202409131449061.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_53_2_202409131453678.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_56_11_202409131456092.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_0_21_202409131500703.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_18_14_202409131518847.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_21_27_202409131521743.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_22_23_202409131522727.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_24_11_202409131524450.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/dc6c8f7b8b34749ed664c1f2bda8d920.png#pic_center">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/443ec9fc1f29302281ea371dadbe7fcf.png#pic_center">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/a85e23dfa0be2a243a8298d34e1ffe2d.png#pic_center">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_41_23_202409131541708.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_43_14_202409131543824.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_45_15_202409131545076.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_45_24_202409131545361.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_5_202409131547001.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_39_202409131547273.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_54_202409131547396.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.875Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="通信协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="IIC">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">IIC</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text">物理层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text">协议层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%97%B6%E5%BA%8F%E5%8D%95%E5%85%83"><span class="toc-number">4.1.</span> <span class="toc-text">基本时序单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">基本读写过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B"><span class="toc-number">4.3.</span> <span class="toc-text">完整的传输过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IIC%E6%9E%B6%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">IIC架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E5%BC%95%E8%84%9A"><span class="toc-number">5.1.</span> <span class="toc-text">通信引脚</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E7%9A%84%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="toc-number">5.2.</span> <span class="toc-text">时钟的控制逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="toc-number">5.3.</span> <span class="toc-text">数据控制逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6"><span class="toc-number">5.4.</span> <span class="toc-text">整体逻辑控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B"><span class="toc-number">5.5.</span> <span class="toc-text">通信过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%8F%91%E9%80%81%E5%99%A8"><span class="toc-number">5.5.1.</span> <span class="toc-text">主发送器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%8E%A5%E5%8F%97%E5%99%A8"><span class="toc-number">5.5.2.</span> <span class="toc-text">主接受器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">6.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.1.</span> <span class="toc-text">软件实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">6.1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E5%8F%82%E6%95%B0"><span class="toc-number">6.1.2.</span> <span class="toc-text">详细参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%AE%AF%E5%9C%B0%E5%9D%80"><span class="toc-number">6.1.3.</span> <span class="toc-text">通讯地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%97%B6%E5%BA%8F"><span class="toc-number">6.1.4.</span> <span class="toc-text">读写时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%92%8C%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">6.1.5.</span> <span class="toc-text">软件和硬件实现的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">6.1.6.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.2.</span> <span class="toc-text">硬件实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E6%8E%A5%E6%94%B6"><span class="toc-number">6.3.</span> <span class="toc-text">主机接收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="toc-number">6.4.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/通信协议/IIC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_54747686/article/details/119202856">STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客</a></p>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。</p>
+<p>总线：传输数据的通道</p>
+<p>协议：传输数据的规则</p>
+<h1 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="ICC电路结构"></p>
+<p>物理层描述：</p>
+<ol>
+<li>它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个IIC通信总线中，可连接&#x3D;&#x3D;多个IIC通信设备&#x3D;&#x3D;，支持多个通信主机及多个通信从机。</li>
+<li>一个IIC总线只使用两条总线线路。<ol>
+<li>一条双向串行数据线（SDA），数据线用来表示数据</li>
+<li>一条串行时钟线（SCL），时钟线用于同步数据的收发。</li>
+</ol>
+</li>
+<li>每个连接到总线的设备都有一个&#x3D;&#x3D;独立&#x3D;&#x3D;的地址，主机可以利用这个地址进行不同设备之间的访问。</li>
+<li>总线通过上拉电阻接到电源。<ol>
+<li>当IIC设备空闲时，会输出高阻态，而当所有设备都空闲，都输出高阻态，由上拉电阻把总线拉成高电平。</li>
+<li>当总线上开始发送数据，会将总线拉低，所以同一时刻，总线上只能有一条数据</li>
+</ol>
+</li>
+<li>多个主机同时使用总线时，为了防止数据冲突，会利用&#x3D;&#x3D;仲裁&#x3D;&#x3D;的方式决定由哪个设备占用总线。</li>
+<li>具有三种传输模式：<ol>
+<li>标准模式传输速率为100kbps</li>
+<li>快速模式为400kbps</li>
+<li>高速模式可达3.4Mbps，但目前大多IIC设备尚不支持高速模式。</li>
+</ol>
+</li>
+<li>连接到相同总线的IIC设备数量收到总线的最大电容400pF限制。</li>
+</ol>
+<p>在一主多从的情况下</p>
+<ul>
+<li><p>主机拥有SCL的绝对控制权，所以主机的SCL可以配置成推挽输出，所有从机的SCL都配置成浮空输入或者上拉输入，主机发送，从机接收</p>
+</li>
+<li><p>由于是半双工的协议，所以主机的SDA在发送的时侯是输出，在接收的时候是输入，同样的，从机的SDA也会在输入和输出之间反复切换，为了协调这一点，&#x3D;&#x3D;禁止所有设备输出强上拉的高电平，采用外置弱上拉电阻加开漏输出的电路结构&#x3D;&#x3D;。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_13_11_202409131413040.png" alt="内部结构"></p>
+</li>
+<li><p>图中的SCLK就是连接的结构图的SCL，SDA同理，所以才规定SCL和SDA都必须配置成&#x3D;&#x3D;开漏输出&#x3D;&#x3D;模式</p>
+<ul>
+<li>如果使用的是推挽输出，那么当SDA释放时，输出为强。</li>
+<li>上图就是主机内部结构，左边为SCL，右侧为SDA，SCL经过一个施密特触发器对数据进行缓冲，任何设备在任何时候都是可以输入的。</li>
+<li>输出低电平时，下管导通，强下拉，输出高电平时，下管断开，但是没有上管了，此时引脚属于浮空的状态，这样的话所有的设备只能输出低电平，而不能输出高电平，为了避免输出出现浮空状态，在外部添加一个上拉电阻（弱上拉），这样做的好处<ul>
+<li>完全杜绝了电源短路的现象，保证电路的安全</li>
+<li>避免了引脚模式的频繁切换，开漏加弱上拉的模式，同时兼具了输入和输出的功能，如果想输出，就去拉杆子或者放手，操作杆子的变化即可，如果想输入，只需要直接放手，然后观察杆子的高低即可</li>
+<li>存在线与的现象，只要有一个或者多个设备输出了低电平，总线就处于低电平，只有所有的设备都输出高电平，总线才处于高电平</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="协议层"><a href="#协议层" class="headerlink" title="协议层"></a>协议层</h1><h2 id="基本时序单元"><a href="#基本时序单元" class="headerlink" title="基本时序单元"></a>基本时序单元</h2><p><em><code>开始</code></em></p>
+<p>SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电平</p>
+<p>如果想要开始通讯，就先将SDA拉下来，当从机捕获到SCL高电平且SDA&#x3D;&#x3D;下降沿&#x3D;&#x3D;信号时，就会进行自身的复位，等待主机的召唤，主机将SCL拉下来，将SCL拉下来一方面是为了占用这个总线，另外一方面也方便基本单元的拼接</p>
+<blockquote>
+<p>SCL高电平期间，SDA从高电平切换到低电平</p>
+</blockquote>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_26_31_202409131426942.png" alt="开始信号"></p>
+<p><em><code>结束</code></em></p>
+<p>和起始相反，结束信号是SCL先放手，SDA再放手，产生一个上升沿，这个上升沿触发终止条件</p>
+<blockquote>
+<p>SCL高电平期间，SDA从低电平切换到高电平</p>
+</blockquote>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_27_45_202409131427923.png" alt="结束信号"></p>
+<p><em><code>发送</code></em></p>
+<p>发送一个字节：SCL低电平期间，主机将数据位依次放到SDA线上(高位先行)，然后释放SCL,从机将在SCL高电平期间读取数据位所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可发送一个字节</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_32_52_202409131432013.png" alt="发送过程"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>I2C是高位先行，也就是先发送最高位B7，串口是低位先行。SCL低电平期间，允许改变SDA电平，也就是说在低电平期间，SDA可以切换1或0。当SCL变成高电平时，从机读取SDA，所以高电平期间，SDA不允许变化，一般都是在上升沿这个时刻，从机就已经完成了读取。从图中可以看出，主机基本上不用着急数据的存放读取，因为主机有时钟的主导权，但是从机就必须要尽快的读取和存放数据.可以理解为所有设备和从机都始终处于输入模式。当主机需要发送的时候，就可以主动去拉低SDA，而主机在被动接收的时候，就必须先释放SDA</p>
+</blockquote>
+<p>发送应答：主机在接收完一个字节之后，在下一个时钟发送一位数据，数据0表示应答，数据1表示非应答</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_49_38_202409131449061.png" alt="发送应答"></p>
+<p><em><code>接收</code></em></p>
+<p>接收一个字节：SCL低电平期间，从机将数据位依次放到SDA线上(高位先行)，然后释放SCL,主机将在SCL高电平期间读取数据位所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可接收一个字节（主机在接收之前，需要释放SDA)</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_53_2_202409131453678.png" alt="接收过程"></p>
+<blockquote>
+<p>[!TIP]</p>
+<p>要理解一旦有一个设备为低电平，整个总线都为低电平。当主机将SDA松开时（发送完一个字节的数据之后），如果没有设备下拉为低电平，那么整条总线就为高电平，说明没有设备给予应答，但是一旦有设备下拉SDA，就说明有设备收到数据，且给出应答</p>
+</blockquote>
+<p>接收应答：主机在发送完一个字节之后，在下一个时钟接收一位数据，判断从机是否应答，数据0表示应答，数据1表示非应答（主机在接收之前，需要释放SDA)</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_56_11_202409131456092.png" alt="接收应答"></p>
+<h2 id="基本读写过程"><a href="#基本读写过程" class="headerlink" title="基本读写过程"></a>基本读写过程</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_0_21_202409131500703.png" alt="基本读写过程"></p>
+<ol>
+<li>S 表示由主机的 I2C 接口产生的传输起始信号(S)，这时连接到 I2C 总线上的所有从机都会接收到这个信号。</li>
+<li>起始信号产生后，所有从机就开始等待主机紧接下来广播的从机地址信号(SLAVE_ADDRESS)。在 I2C 总线上，每个设备的地址都是唯一的（每个从机地址码不同，如果相同，可以通过调整从机上的引脚改变从机地址）</li>
+<li>当主机广播的地址与某个设备地址相同时，这个设备就被选中了，没被选中的设备将会忽略之后的数据信号。根据 I2C 协议，这个从机地址可以是 7 位或 10 位。<ol>
+<li>七位地址就是第一个字节就是地址+读写方向</li>
+<li>十位地址就是使用两个字节作为地址，其中前面是标志位，表示使用10位地址，即11110+地址+读写方向。</li>
+</ol>
+</li>
+<li>在地址位之后，是传输方向的选择位，该位为 0 时，表示后面的数据传输方向是由主机传输至从机，即主机向从机写数据。该位为 1 时，则相反，即主机由从机读数据。</li>
+<li>从机接收到匹配的地址后，主机或从机会返回一个应答(ACK)或非应(NACK)信号，只有接收到应答信号后，主机才能继续发送或接收数据。</li>
+</ol>
+<p><em><code>写数据</code></em></p>
+<p>若配置的方向传输位为“写数据”方向，广播完地址，接收到应答信号后，一般设备都会向从机发送一个寄存器的地址，用于目标寄存器，当收到应答时，主机开始正式向从机传输数据(DATA)，数据包的大小为 8位，<strong>主机每发送完一个字节数据，都要等待从机的应答信号(ACK)</strong>，重复这个过程，可以向从机传输 N 个数据，这个 N 没有大小限制。当数据传输结束时，主机向从机发送一个停止传输信号§，表示不再传输数据。</p>
+<p><em><code>读数据 </code></em></p>
+<p>若配置的方向传输位为“读数据”方向，广播完地址，接收到应答信号后:</p>
+<ol>
+<li>未指定地址读<ol>
+<li>主机立马就开始读取数据，但是没有指定寄存器地址，那么从机是读的哪里的数据呢？</li>
+<li>实际上在从机中，所有的寄存器被分配到了一个线性区域中，并且有一个单独的指针变量。指示其中一个寄存器，这个指针上电默认指向0地址，并且没写入或者读取一个字节后，这个指针就会自动自增一次，移动到下一个位置。</li>
+<li>所以当主机要读取数据时，主机没有指定读取哪个地址，从机就会返回当前指针指向的寄存器中的值。</li>
+</ol>
+</li>
+<li>指定地址读<ol>
+<li>主机会发送一个写操作，接收到应答之后，主机会再次发送一个字节，用来指定需要读的地址，当从机接收到这个地址之后就会将寄存器指针改写为接收到的地址。这个时候我们就要切换成读数据模式了，所以要重新发送一个起始信号，重新开始读</li>
+</ol>
+</li>
+</ol>
+<p>从机开始向主机返回数据(DATA)，数据包大小也为 8 位，从机每发送完一个数据，都会等待主机的应答信号(ACK)，重复这个过程，可以返回 N 个数据，这个 N 也没有大小限制。当主机希望停止接收数据时，就向从机返回一个非应答信号(NACK)，则从机自动停止数据传输。</p>
+<p><em><code>读和写数据</code></em></p>
+<p>除了基本的读写，I2C 通讯更常用的是复合格式，该传输过程有两次起始信号(S)。一般在第一次传输中，主机通过SLAVE_ADDRESS 寻找到从设备后，发送一段“数据”，这段数据通常用于表示从设备内部的寄存器或存储器地址(注意区分它与 SLAVE_ADDRESS 的区别)；在第二次的传输中，对该地址的内容进行读或写。也就是说，第一次通讯是告诉从机读写地址，第二次则是读写的实际内容。</p>
+<p><em><code>数据的有效性</code></em></p>
+<p>IIC 使用 SDA 信号线来传输数据，使用 SCL 信号线进行数据同步。SDA数据线在 SCL 的每个时钟周期传输一位数据。传输时，SCL 为高电平的时候 SDA 表示的数据有效，即此时的 SDA 为高电平时表示数据“1”，为低电平时表示数据“0”。当 SCL为低电平时，SDA 的数据无效，一般在这个时候 SDA 进行电平切换，为下一次表示数据做好准备。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_18_14_202409131518847.png" alt="数据的有效性"></p>
+<p><em><code>地址和数据方向</code></em></p>
+<p>I2C 总线上的每个设备都有自己的独立地址，主机发起通讯时，通过 SDA 信号线发送设备地址(SLAVE_ADDRESS)来查找从机。I2C 协议规定设备地址可以是 7 位或 10 位，实际中 7 位的地址应用比较广泛。紧跟设备地址的一个数据位用来表示数据传输方向，它是数据方向位(R&#x2F;W)，第 8 位或第 11 位。数据方向位为“1”时表示主机由从机读数据，该位为“0”时表示主机向从机写数据。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_21_27_202409131521743.png" alt="地址和数据方向"></p>
+<p><em><code>响应</code></em></p>
+<p>I2C 的数据和地址传输都带响应。响应包括“应答(ACK)”和“非应答(NACK)”两种信号。作为数据接收端时，当设备(无论主从机)接收到 I2C 传输的一个字节数据或地址后，若希望对方继续发送数据，则需要向对方发送“应答(ACK)”信号，发送方会继续发送下一个数据；若接收端希望结束数据传输，则向对方发送“非应答(NACK)”信号，发送方接收到该信号后会产生一个停止信号，结束信号传输。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_22_23_202409131522727.png" alt="响应"></p>
+<h2 id="完整的传输过程"><a href="#完整的传输过程" class="headerlink" title="完整的传输过程"></a>完整的传输过程</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_24_11_202409131524450.png" alt="完整的传输过程"></p>
+<h1 id="IIC架构"><a href="#IIC架构" class="headerlink" title="IIC架构"></a>IIC架构</h1><p><img src="https://i-blog.csdnimg.cn/blog_migrate/dc6c8f7b8b34749ed664c1f2bda8d920.png#pic_center" alt="IIC架构"></p>
+<h2 id="通信引脚"><a href="#通信引脚" class="headerlink" title="通信引脚"></a>通信引脚</h2><p>I2C 的所有硬件架构都是根据图中左侧 SCL 线和 SDA 线展开的(其中的SMBA 线用于SMBUS 的警告信号，I2C 通讯没有使用)。STM32 芯片有多个 I2C 外设，它们的 I2C 通讯信号引出到不同的 GPIO 引脚上，使用时必须配置到这些指定的引脚。</p>
+<h2 id="时钟的控制逻辑"><a href="#时钟的控制逻辑" class="headerlink" title="时钟的控制逻辑"></a>时钟的控制逻辑</h2><p>SCL 线的时钟信号，由 I2C 接口根据时钟控制寄存器(CCR)控制，控制的参数主要为时钟频率。配置 I2C 的 CCR 寄存器可修改通讯速率相关的参数：可选择 I2C 通讯的“标准&#x2F;快速”模式，这两个模式分别 I2C 对应 100&#x2F;400Kbit&#x2F;s 的通讯速率。</p>
+<p>在快速模式下可选择 SCL 时钟的占空比，可选 Tlow&#x2F;Thigh&#x3D;2 或Tlow&#x2F;Thigh&#x3D;16&#x2F;9模式，我们知道 I2C 协议在 SCL 高电平时对 SDA 信号采样，SCL 低电平时 SDA准备下一个数据，修改 SCL 的高低电平比会影响数据采样，但其实这两个模式的比例差别并不大，若不是要求非常严格，这里随便选就可以了。</p>
+<p>CCR 寄存器中还有一个 12 位的配置因子 CCR，它与 I2C 外设的输入时钟源共同作用，产生 SCL 时钟，STM32 的 I2C 外设都挂载在 APB1 总线上，使用 APB1 的时钟源 PCLK1，SCL 信号线的输出时钟公式如下：</p>
+<p><strong>标准模式：</strong><br>$$<br>Thigh &#x3D; CCR<em>TPCKL1  \<br>Tlow &#x3D; CCR</em>TPCLK1<br>$$<br><strong>快速模式中 Tlow&#x2F;Thigh&#x3D;2 时：</strong><br>$$<br>Thigh &#x3D; CCR<em>TPCKL1 \<br>Tlow &#x3D; 2</em>CCR<em>TPCKL1<br>$$<br><strong>快速模式中 Tlow&#x2F;Thigh&#x3D;16&#x2F;9 时</strong>：<br>$$<br>Thigh &#x3D; 9</em>CCR<em>TPCKL1 \<br>Tlow &#x3D; 16</em>CCR*TPCKL1<br>$$<br><em>例如，我们的 PCLK1&#x3D;36MHz，想要配置 400Kbit&#x2F;s 的速率，计算方式如下：</em></p>
+<p><em>PCLK 时钟周期： TPCLK1 &#x3D; 1&#x2F;36000000</em></p>
+<p><em>目标 SCL 时钟周期： TSCL &#x3D; 1&#x2F;400000</em></p>
+<p><em>SCL 时钟周期内的高电平时间： THIGH &#x3D; TSCL&#x2F;3</em></p>
+<p><em>SCL 时钟周期内的低电平时间： TLOW &#x3D; 2</em>TSCL&#x2F;3</p>
+<p>计算 CCR 的值： CCR &#x3D; THIGH&#x2F;TPCLK1 &#x3D; 30</p>
+<p><strong>计算结果得出 CCR 为 30，向该寄存器位写入此值则可以控制 IIC 的通讯速率为400KHz，其实即使配置出来的 SCL 时钟不完全等于标准的 400KHz，IIC 通讯的正确性也不会受到影响，因为所有数据通讯都是由 SCL 协调的，只要它的时钟频率不远高于标准即可。</strong></p>
+<h2 id="数据控制逻辑"><a href="#数据控制逻辑" class="headerlink" title="数据控制逻辑"></a>数据控制逻辑</h2><p>I2C 的 SDA 信号主要连接到数据移位寄存器上，数据移位寄存器的数据来源及目标是数据寄存器(DR)、地址寄存器(OAR)、PEC 寄存器以及 SDA 数据线。</p>
+<p>当向外发送数据的时候，将一个字节的数据写入到数据寄存器（DR）中，数据移位寄存器以“数据寄存器”为数据源，把数据一位一位地通过 SDA 信号线发送出去。这时，置状态寄存器的TEX位为1，表示发送寄存器为空；</p>
+<p>当从外部接收数据的时候，数据移位寄存器把 SDA 信号线采样到的数据一位一位地存储到移位寄存器中，当一个字节的数据收齐之后，数据就整体从移位寄存器转到数据寄存器中，同时置RXNE，表示接收寄存器非空。</p>
+<p>若使能了数据校验，接收到的数据会经过 PEC 计算器运算，运算结果存储在“PEC 寄存器”中。</p>
+<p>当 STM32 的 I2C 工作在从机模式的时候，接收到设备地址信号时，数据移位寄存器会把接收到的地址与 STM32 的自身“I2C 地址寄存器”的值作比较，以便响应主机的寻址。STM32 的自身 I2C 地址(自定义地址)可通过修改“自身地址寄存器”修改，支持同时使用两个 I2C 设备地址，两个地址分别存储在 OAR1 和 OAR2 中，当有主机广播从机地址时，通过比较器比较，发现相同，则会作为从机响应外部主机的召唤。</p>
+<h2 id="整体逻辑控制"><a href="#整体逻辑控制" class="headerlink" title="整体逻辑控制"></a>整体逻辑控制</h2><p>整体控制逻辑负责协调整个 I2C 外设，控制逻辑的工作模式根据我们配置的“控制寄存器(CR1&#x2F;CR2)”的参数而改变。在外设工作时，控制逻辑会根据外设的工作状态修改“状态寄存器(SR1 和 SR2)”，我们只要读取这些寄存器相关的寄存器位，就可以了解 I2C的工作状态。除此之外，控制逻辑还根据要求，负责控制产生 I2C 中断信号、DMA 请求及各种 I2C 的通讯信号(起始、停止、响应信号等)。</p>
+<h2 id="通信过程"><a href="#通信过程" class="headerlink" title="通信过程"></a>通信过程</h2><p>使用 I2C 外设通讯时，在通讯的不同阶段它会对“状态寄存器(SR1 及 SR2)”的不同数据位写入参数，我们通过读取这些寄存器标志来了解通讯状态。</p>
+<h3 id="主发送器"><a href="#主发送器" class="headerlink" title="主发送器"></a>主发送器</h3><p>主发送器发送流程及事件说明如下：</p>
+<p><strong>(1)</strong> 控制产生起始信号(S)，当发生起始信号后，它产生事件“EV5”，并会对 SR1 寄存器的“SB”位置 1，表示起始信号已经发送；</p>
+<p><strong>(2)</strong> 紧接着发送设备地址并等待应答信号，若有从机应答，则产生事件“EV6”及“EV8”，这时 SR1 寄存器的“ADDR”位及“TXE”位被置 1，ADDR 为 1 表示地址已经发送，TXE 为 1 表示数据寄存器为空；</p>
+<p><strong>(3)</strong> 以上步骤正常执行并对 ADDR 位清零后，我们往 I2C 的“数据寄存器 DR”写入要发送的数据，这时 TXE 位会被重置 0，表示数据寄存器非空，I2C 外设通过SDA 信号线一位位把数据发送出去后，又会产生“EV8”事件，即 TXE 位被置 1，重复这个过程，就可以发送多个字节数据了；</p>
+<p><strong>(4)</strong> 当我们发送数据完成后，控制 I2C 设备产生一个停止信号§，这个时候会产生EV8_2 事件，SR1 的 TXE 位及 BTF 位都被置 1，表示通讯结束。</p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/443ec9fc1f29302281ea371dadbe7fcf.png#pic_center" alt="主发送器"></p>
+<h3 id="主接受器"><a href="#主接受器" class="headerlink" title="主接受器"></a>主接受器</h3><p>主接收器接收流程及事件说明如下：</p>
+<p><strong>(1)</strong> 同主发送流程，起始信号(S)是由主机端产生的，控制发生起始信号后，它产生事件“EV5”，并会对 SR1 寄存器的“SB”位置 1，表示起始信号已经发送；</p>
+<p><strong>(2)</strong> 紧接着发送设备地址并等待应答信号，若有从机应答，则产生事件“EV6”这时SR1 寄存器的“ADDR”位被置 1，表示地址已经发送。</p>
+<p><strong>(3)</strong> 从机端接收到地址后，开始向主机端发送数据。当主机接收到这些数据后，会产生“EV7”事件，SR1 寄存器的 RXNE 被置 1，表示接收数据寄存器非空，我们读取该寄存器后，可对数据寄存器清空，以便接收下一次数据。此时我们可以控制 I2C 发送应答信号(ACK)或非应答信号(NACK)，若应答，则重复以上步骤接收数据，若非应答，则停止传输；</p>
+<p><strong>(4)</strong> 发送非应答信号后，产生停止信号§，结束传输。</p>
+<p>在发送和接收过程中，有的事件不只是标志了我们上面提到的状态位，还可能同时标志主机状态之类的状态位，而且读了之后还需要清除标志位，比较复杂。我们可使用STM32 标准库函数来直接检测这些事件的复合标志，降低编程难度。</p>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/a85e23dfa0be2a243a8298d34e1ffe2d.png#pic_center" alt="主接受器"></p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="软件实现"><a href="#软件实现" class="headerlink" title="软件实现"></a>软件实现</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>EEPROM是一种掉电后据不丢失的储存器，常用来存储一些配置信息，在系统重新上电时就可以加载。</p>
+<p>AT24C02是一个2Kbit的EEPROM存储器，使用IIC通信方式。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_41_23_202409131541708.png" alt="EEPROM"></p>
+<h3 id="详细参数"><a href="#详细参数" class="headerlink" title="详细参数"></a>详细参数</h3><table>
+<thead>
+<tr>
+<th><strong>AT24Cxx</strong></th>
+<th>**容量（**bit）</th>
+<th><strong>页数</strong></th>
+<th><strong>页内字节数</strong></th>
+<th><strong>数据地址(占用bit数)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AT24C01</td>
+<td>1K bit (128 B)</td>
+<td>16</td>
+<td>8 Byte</td>
+<td>7bit</td>
+</tr>
+<tr>
+<td>AT24C02</td>
+<td>2K bit (256 B)</td>
+<td>32</td>
+<td>8 Byte</td>
+<td>8bit</td>
+</tr>
+<tr>
+<td>AT24C04</td>
+<td>4K bit (512 B)</td>
+<td>32</td>
+<td>16 Byte</td>
+<td>9bit</td>
+</tr>
+<tr>
+<td>AT24C08</td>
+<td>8K bit (1024 B)</td>
+<td>64</td>
+<td>16 Byte</td>
+<td>10bit</td>
+</tr>
+<tr>
+<td>AT24C16</td>
+<td>16K bit (2048 B)</td>
+<td>128</td>
+<td>16 Byte</td>
+<td>11bit</td>
+</tr>
+<tr>
+<td>AT24C32</td>
+<td>32K bit (4096 B)</td>
+<td>128</td>
+<td>32 Byte</td>
+<td>12bit</td>
+</tr>
+<tr>
+<td>AT24C64</td>
+<td>64K bit (8192 B)</td>
+<td>256</td>
+<td>32 Byte</td>
+<td>13bit</td>
+</tr>
+<tr>
+<td>AT24C128</td>
+<td>128K bit (16384 B)</td>
+<td>256</td>
+<td>64 Byte</td>
+<td>14bit</td>
+</tr>
+<tr>
+<td>AT24C256</td>
+<td>256K bit (32768 B)</td>
+<td>512</td>
+<td>64 Byte</td>
+<td>15bit</td>
+</tr>
+<tr>
+<td>AT24C512</td>
+<td>512K bit (65535 B)</td>
+<td>512</td>
+<td>128 Byte</td>
+<td>16bit</td>
+</tr>
+</tbody></table>
+<h3 id="通讯地址"><a href="#通讯地址" class="headerlink" title="通讯地址"></a>通讯地址</h3><p>通讯地址的高位一般都是由厂家设置好的，用户只可调整低位</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_43_14_202409131543824.png" alt="通讯地址"></p>
+<h3 id="读写时序"><a href="#读写时序" class="headerlink" title="读写时序"></a>读写时序</h3><p>写操作：</p>
+<ol>
+<li>AT24C02支持字节写模式和页写模式。</li>
+<li>字节写模式就是一个地址一个数据进行写入。</li>
+<li>页写模式就是连续写入数据。只需要写一个地址，连续写入据时地址会自增，但存在页的限制，超出一页时，超出数据覆盖原先写入的数据。但读会自动翻页。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_45_15_202409131545076.png" alt="写操作"></p>
+<p>读操作：</p>
+<ol>
+<li>AT24C02支持当前地址读模式，随机地址读模式和顺序读模式。</li>
+<li>当前读模式是基于上一次读&#x2F;写操作的最后位置继续读出数据。</li>
+<li>随机地址读模式是指定地址读出数据。</li>
+<li>顺序读模式是连续读出数据。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_45_24_202409131545361.png" alt="读操作"></p>
+<h3 id="软件和硬件实现的区别"><a href="#软件和硬件实现的区别" class="headerlink" title="软件和硬件实现的区别"></a>软件和硬件实现的区别</h3><table>
+<thead>
+<tr>
+<th><strong>IIC</strong></th>
+<th><strong>用法</strong></th>
+<th><strong>速度</strong></th>
+<th><strong>稳定性</strong></th>
+<th><strong>管脚</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>硬件IIC</strong></td>
+<td>比较复杂</td>
+<td>快</td>
+<td>较稳定</td>
+<td>需使用特定管脚</td>
+</tr>
+<tr>
+<td><strong>软件IIC</strong></td>
+<td>操作过程比较清晰</td>
+<td>较慢</td>
+<td>稳定</td>
+<td>任意管脚，比较灵活</td>
+</tr>
+</tbody></table>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">SCL_set</span><span class="params">(u8 bitValue)</span></span><br><span class="line">&#123;</span><br><span class="line">    GPIO_WriteBit(SCL_PORT,SCL_PIN,(BitAction)bitValue);</span><br><span class="line">    Delay_us(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">SDA_set</span><span class="params">(u8 bitValue)</span></span><br><span class="line">&#123;</span><br><span class="line">    GPIO_WriteBit(SDA_PORT,SDA_PIN,(BitAction)bitValue);</span><br><span class="line">    Delay_us(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">SDA_read</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    u8 bitValue;</span><br><span class="line">    bitValue = GPIO_ReadInputDataBit(SDA_PORT,SDA_PIN);</span><br><span class="line">    Delay_us(<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">return</span> bitValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myi2c_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line"></span><br><span class="line">    RCC_APB2PeriphClockCmd(IIC_CLK,ENABLE);</span><br><span class="line"></span><br><span class="line">    GPIO_InitStruct.GPIO_Pin = SCL_PIN | SDA_PIN;</span><br><span class="line">    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_OD;</span><br><span class="line">    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line"></span><br><span class="line">    GPIO_Init(SCL_PORT,&amp;GPIO_InitStruct);</span><br><span class="line"></span><br><span class="line">    GPIO_SetBits(SCL_PORT,SCL_PIN | SDA_PIN);        <span class="comment">//将SCL和SDA都释放</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myi2c_start</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//首先先释放SCL和SDA</span></span><br><span class="line">    SDA_set(<span class="number">1</span>);        </span><br><span class="line">    SCL_set(<span class="number">1</span>);        </span><br><span class="line">    <span class="comment">//起始信号开始,先拉低SDA，之后再拉低SCL</span></span><br><span class="line">    SDA_set(<span class="number">0</span>);</span><br><span class="line">    SCL_set(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myi2c_stop</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//为了确保SDA出现上升沿，我们需要先将SDA拉低，然后再释放 </span></span><br><span class="line">    SDA_set(<span class="number">0</span>);</span><br><span class="line">    SCL_set(<span class="number">1</span>);</span><br><span class="line">    SDA_set(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myi2c_sendByte</span><span class="params">(u8 data)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//保证发送完毕后使得SCL为低</span></span><br><span class="line">    <span class="keyword">for</span>(u8 i = <span class="number">0</span>;i &lt; <span class="number">8</span>; i++)&#123;</span><br><span class="line">        SDA_set(data &amp; (<span class="number">0x80</span> &gt;&gt; i));</span><br><span class="line">        SCL_set(<span class="number">1</span>);</span><br><span class="line">        SCL_set(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">myi2c_receiveByte</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    u8 data = <span class="number">0x00</span>;</span><br><span class="line">    SDA_set(<span class="number">1</span>);        <span class="comment">//主机释放SDA，这个时候从机就可以开始任意写数据了</span></span><br><span class="line">    <span class="keyword">for</span>(u8 i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++)&#123;</span><br><span class="line">        SCL_set(<span class="number">1</span>);        <span class="comment">//主机释放SCL，主机开始从SDA读取数据，此时SCL不能改变</span></span><br><span class="line">        <span class="keyword">if</span>(SDA_read() == <span class="number">1</span>)&#123;</span><br><span class="line">            data |= (<span class="number">0x80</span> &gt;&gt; i); </span><br><span class="line">        &#125;</span><br><span class="line">        SCL_set(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data; </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myi2c_sendAck</span><span class="params">(u8 ACKbit)</span></span><br><span class="line">&#123;</span><br><span class="line">    SDA_set(ACKbit);</span><br><span class="line">    SCL_set(<span class="number">1</span>);</span><br><span class="line">    SCL_set(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">myi2c_receiveAck</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    u8 ACKbit = <span class="number">0x00</span>;</span><br><span class="line">    SDA_set(<span class="number">1</span>);        <span class="comment">//主机释放SDA，这个时候从机就可以开始任意写数据了</span></span><br><span class="line">    SCL_set(<span class="number">1</span>);        <span class="comment">//主机释放SCL，主机开始从SDA读取数据，此时SCL不能改变</span></span><br><span class="line">    ACKbit = SDA_read();</span><br><span class="line">    SCL_set(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ACKbit; </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">eeprom_writeReg</span><span class="params">(u8 address,u8 data)</span></span><br><span class="line">&#123;</span><br><span class="line">    myi2c_start();</span><br><span class="line">    myi2c_sendByte(EEPROM_ADDRESS);</span><br><span class="line">    myi2c_receiveAck();</span><br><span class="line">    myi2c_sendByte(address);</span><br><span class="line">    myi2c_receiveAck();</span><br><span class="line">    myi2c_sendByte(data);</span><br><span class="line">    myi2c_receiveAck();</span><br><span class="line">    myi2c_stop();</span><br><span class="line">    <span class="comment">//由于eeprom写入较慢，所以需要延迟10ms才能生效</span></span><br><span class="line">    Delay_ms(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">eeprom_readReg</span><span class="params">(u8 address)</span></span><br><span class="line">&#123;</span><br><span class="line">    u8 data;</span><br><span class="line">    myi2c_start();</span><br><span class="line">    myi2c_sendByte(EEPROM_ADDRESS);</span><br><span class="line">    myi2c_receiveAck();</span><br><span class="line">    myi2c_sendByte(address);</span><br><span class="line">    myi2c_receiveAck();</span><br><span class="line"></span><br><span class="line">    myi2c_start();</span><br><span class="line">    myi2c_sendByte(EEPROM_ADDRESS | <span class="number">0x01</span>);</span><br><span class="line">    myi2c_receiveAck();</span><br><span class="line">    data = myi2c_receiveByte();</span><br><span class="line">    myi2c_sendAck(<span class="number">1</span>);</span><br><span class="line">    myi2c_stop();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> str[<span class="number">50</span>];</span><br><span class="line">    u8 data = <span class="number">0x00</span>;</span><br><span class="line"></span><br><span class="line">    myi2c_init();</span><br><span class="line">    serial_init();                                                                                                                                                                                                                                                                                                                                                                       </span><br><span class="line"></span><br><span class="line">    eeprom_writeReg(<span class="number">0x19</span>,<span class="number">0x55</span>);</span><br><span class="line">    data = eeprom_readReg(<span class="number">0x19</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">sprintf</span>(str,<span class="string">&quot;get the data: %x\n&quot;</span>,data);</span><br><span class="line">    send_string(str);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="硬件实现"><a href="#硬件实现" class="headerlink" title="硬件实现"></a>硬件实现</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_5_202409131547001.png" alt="硬件实现"></p>
+<p>主机发送</p>
+<p>当起始信号来临时，会产生一个EV5事件，可以将这些EV事件看作是标志位</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_39_202409131547273.png" alt="主机发送"></p>
+<h2 id="主机接收"><a href="#主机接收" class="headerlink" title="主机接收"></a>主机接收</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_54_202409131547396.png" alt="主机接收"></p>
+<h2 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">hareWare_myi2c_init</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2,ENABLE);</span><br><span class="line">	RCC_APB2PeriphClockCmd(HARDWARE_IIC_CLK,ENABLE);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">	</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = HARDWARE_IIC_SCL_PIN | HARDWARE_IIC_SDA_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF_OD;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	</span><br><span class="line">	GPIO_Init(HARDWARE_IIC_PORT,&amp;GPIO_InitStruct);</span><br><span class="line">	</span><br><span class="line">	I2C_InitTypeDef I2C_InitStruct;</span><br><span class="line">	I2C_InitStruct.I2C_Ack = I2C_Ack_Enable;</span><br><span class="line">	I2C_InitStruct.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;</span><br><span class="line">	I2C_InitStruct.I2C_ClockSpeed = <span class="number">50000</span>;</span><br><span class="line">	I2C_InitStruct.I2C_DutyCycle = I2C_DutyCycle_2;	<span class="comment">//只有在时钟频率大于100KHz的情况下才有用，在小于100KHz的情况下，低电平时间比高电平时间约为1：1</span></span><br><span class="line">	I2C_InitStruct.I2C_Mode = I2C_Mode_I2C;</span><br><span class="line">	I2C_InitStruct.I2C_OwnAddress1 = <span class="number">0x00</span>;</span><br><span class="line">	I2C_Init(I2C2,&amp;I2C_InitStruct);</span><br><span class="line">	</span><br><span class="line">	I2C_Cmd(I2C2,ENABLE);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//防止等待不到事件而出现卡死状态</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">waitEvent</span><span class="params">(I2C_TypeDef* I2Cx, <span class="type">uint32_t</span> I2C_EVENT)</span></span><br><span class="line">&#123;</span><br><span class="line">	u32 timeout = <span class="number">10000</span>;</span><br><span class="line">	<span class="keyword">while</span>(I2C_CheckEvent(I2Cx,I2C_EVENT) != SUCCESS)&#123;</span><br><span class="line">		timeout--;</span><br><span class="line">		<span class="keyword">if</span>(timeout == <span class="number">0</span>) </span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">hardware_eeprom_writeReg</span><span class="params">(u8 address,u8 data)</span></span><br><span class="line">&#123;</span><br><span class="line">	I2C_GenerateSTART(I2C2,ENABLE);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_MODE_SELECT);	<span class="comment">//相较于软件的阻塞型的通信，硬件I2C需要每次检查事件（EV5）是否发生</span></span><br><span class="line">	</span><br><span class="line">	I2C_Send7bitAddress(I2C2,EEPROM_ADDRESS,I2C_Direction_Transmitter);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);	<span class="comment">//这里就不需要等待ACK了，只需要检查事件（EV6）是否发生即可</span></span><br><span class="line">	</span><br><span class="line">	I2C_SendData(I2C2,address);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_BYTE_TRANSMITTING);	<span class="comment">//等待发送事件（EV8），如果想要连续发送，只需要每次发送完等待EV8即可</span></span><br><span class="line">	</span><br><span class="line">	I2C_SendData(I2C2,data);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_BYTE_TRANSMITTED);	<span class="comment">//发送结束后，我们需要等待EV8_2事件，标志传输结束</span></span><br><span class="line">	</span><br><span class="line">	I2C_GenerateSTOP(I2C2,ENABLE);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u8 <span class="title function_">hardware_eeprom_readReg</span><span class="params">(u8 address)</span></span><br><span class="line">&#123;</span><br><span class="line">	u8 data;</span><br><span class="line">	I2C_GenerateSTART(I2C2,ENABLE);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_MODE_SELECT);	<span class="comment">//相较于软件的阻塞型的通信，硬件I2C需要每次检查事件（EV5）是否发生</span></span><br><span class="line">	</span><br><span class="line">	I2C_Send7bitAddress(I2C2,EEPROM_ADDRESS,I2C_Direction_Transmitter);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);	<span class="comment">//这里就不需要等待ACK了，只需要检查事件（EV6）是否发生即可</span></span><br><span class="line">	</span><br><span class="line">	I2C_SendData(I2C2,address);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_BYTE_TRANSMITTED);	<span class="comment">//这里等待的事件可以是TRANSMITTING，也可以是TRANSMITED</span></span><br><span class="line">	</span><br><span class="line">	I2C_GenerateSTART(I2C2,ENABLE);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_MODE_SELECT);	<span class="comment">//重复起始条件</span></span><br><span class="line">	</span><br><span class="line">	I2C_Send7bitAddress(I2C2,EEPROM_ADDRESS,I2C_Direction_Receiver);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED);	<span class="comment">//设置读取模式</span></span><br><span class="line">	</span><br><span class="line">	I2C_AcknowledgeConfig(I2C2,DISABLE);	<span class="comment">//在接收最后一个字节之前，就需要提前将ack置零，同时设置停止位STOP,对应于EV6_1事件，EV6_1事件仅用于等待接收一个字节的情况</span></span><br><span class="line">	I2C_GenerateSTOP(I2C2,ENABLE);</span><br><span class="line">	waitEvent(I2C2,I2C_EVENT_MASTER_BYTE_RECEIVED);	<span class="comment">//等待事件EV7</span></span><br><span class="line">	</span><br><span class="line">	data = I2C_ReceiveData(I2C2);	<span class="comment">//该函数可以读取DR中的数值</span></span><br><span class="line">	</span><br><span class="line">	I2C_AcknowledgeConfig(I2C2,ENABLE);	<span class="comment">//这里是为了程序收多个字节</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="type">char</span> str[<span class="number">50</span>];</span><br><span class="line">	u8 data = <span class="number">0x00</span>;</span><br><span class="line">	</span><br><span class="line">	hareWare_myi2c_init();</span><br><span class="line">	serial_init();                                                                                                                                                                                                                                                                                                                                                                       </span><br><span class="line">	</span><br><span class="line">	hardware_eeprom_writeReg(<span class="number">0x19</span>,<span class="number">0x66</span>);</span><br><span class="line">	Delay_ms(<span class="number">20</span>);      <span class="comment">//注意，写完之后一定要延时20ms，因为eeprom写入较慢，所以如果不延时20ms的话将会卡死</span></span><br><span class="line">	data = hardware_eeprom_readReg(<span class="number">0x19</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sprintf</span>(str,<span class="string">&quot;get the data: %x\n&quot;</span>,data);</span><br><span class="line">	send_string(str);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" rel="tag">通信协议</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/15_9_50_55_202501150950487.png" data-sizes="auto" alt="CAN" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/CAN/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            CAN
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" data-sizes="auto" alt="SPI" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/SPI/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          SPI
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">3.</span> <span class="toc-text">物理层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%8F%E8%AE%AE%E5%B1%82"><span class="toc-number">4.</span> <span class="toc-text">协议层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%97%B6%E5%BA%8F%E5%8D%95%E5%85%83"><span class="toc-number">4.1.</span> <span class="toc-text">基本时序单元</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%BB%E5%86%99%E8%BF%87%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">基本读写过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B"><span class="toc-number">4.3.</span> <span class="toc-text">完整的传输过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IIC%E6%9E%B6%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">IIC架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E5%BC%95%E8%84%9A"><span class="toc-number">5.1.</span> <span class="toc-text">通信引脚</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E7%9A%84%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="toc-number">5.2.</span> <span class="toc-text">时钟的控制逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="toc-number">5.3.</span> <span class="toc-text">数据控制逻辑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6"><span class="toc-number">5.4.</span> <span class="toc-text">整体逻辑控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B"><span class="toc-number">5.5.</span> <span class="toc-text">通信过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%8F%91%E9%80%81%E5%99%A8"><span class="toc-number">5.5.1.</span> <span class="toc-text">主发送器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%8E%A5%E5%8F%97%E5%99%A8"><span class="toc-number">5.5.2.</span> <span class="toc-text">主接受器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">6.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.1.</span> <span class="toc-text">软件实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">6.1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E5%8F%82%E6%95%B0"><span class="toc-number">6.1.2.</span> <span class="toc-text">详细参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%AE%AF%E5%9C%B0%E5%9D%80"><span class="toc-number">6.1.3.</span> <span class="toc-text">通讯地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%97%B6%E5%BA%8F"><span class="toc-number">6.1.4.</span> <span class="toc-text">读写时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%92%8C%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">6.1.5.</span> <span class="toc-text">软件和硬件实现的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">6.1.6.</span> <span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">6.2.</span> <span class="toc-text">硬件实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E6%8E%A5%E6%94%B6"><span class="toc-number">6.3.</span> <span class="toc-text">主机接收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81-1"><span class="toc-number">6.4.</span> <span class="toc-text">代码</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "IIC",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/IIC/",
+          excerpt: "",
+          description: "",
+          stripContent: "参考链接STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客 概述IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。 总线：传输数据的通道 协议：传输数据的规则 物理层 物理层描述：  它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个IIC通信总线中，可连接&amp;#x3D;&amp;#x3D;多个IIC通信设备&amp;#x3D;&amp;#x3D;，支持多个通信主机及多个通信从机。 一个IIC总线只使用两条总线线路。 一条双向",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

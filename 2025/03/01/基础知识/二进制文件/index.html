@@ -1,0 +1,1075 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    二进制文件 |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="BinBIN文件是纯二进制文件，没有固定的结构或元数据。&#x3D;&#x3D;当想要将二进制文件烧录进单片机时，不需要再对数据进行处理&#x3D;&#x3D;，也就是说，我们使用ImHex打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。 HexHex 全称 (Intel HEX)文件是由一行行符合Intel HEX文件格式的文本所构成的ASCII文本文件。 在Intel H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二进制文件">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="BinBIN文件是纯二进制文件，没有固定的结构或元数据。&#x3D;&#x3D;当想要将二进制文件烧录进单片机时，不需要再对数据进行处理&#x3D;&#x3D;，也就是说，我们使用ImHex打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。 HexHex 全称 (Intel HEX)文件是由一行行符合Intel HEX文件格式的文本所构成的ASCII文本文件。 在Intel H">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_28_45_202502140928978.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.867Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="基础知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png" alt="二进制文件">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">二进制文件</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bin"><span class="toc-number">1.</span> <span class="toc-text">Bin</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hex"><span class="toc-number">2.</span> <span class="toc-text">Hex</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">行结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.3.</span> <span class="toc-text">地址解读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.4.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Elf"><span class="toc-number">3.</span> <span class="toc-text">Elf</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">ELF文件的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ELF%E5%A4%B4%EF%BC%88ELF-Header%EF%BC%89"><span class="toc-number">3.1.1.</span> <span class="toc-text">ELF头（ELF Header）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%A4%B4%E8%A1%A8%EF%BC%88Program-Header-Table%EF%BC%89"><span class="toc-number">3.1.2.</span> <span class="toc-text">程序头表（Program Header Table）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E5%A4%B4%E8%A1%A8%EF%BC%88Section-Header-Table%EF%BC%89"><span class="toc-number">3.1.3.</span> <span class="toc-text">节头表（Section Header Table）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%EF%BC%88Segments%EF%BC%89%E5%92%8C%E8%8A%82%EF%BC%88Sections%EF%BC%89"><span class="toc-number">3.1.4.</span> <span class="toc-text">段（Segments）和节（Sections）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">ELF文件的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">3.3.</span> <span class="toc-text">ELF文件的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E6%89%A7%E8%A1%8C"><span class="toc-number">3.4.</span> <span class="toc-text">ELF文件的加载和执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E7%A4%BA%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">3.5.</span> <span class="toc-text">ELF文件的示例解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8BELF%E5%A4%B4"><span class="toc-number">3.5.1.</span> <span class="toc-text">查看ELF头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BA%8F%E5%A4%B4%E8%A1%A8"><span class="toc-number">3.5.2.</span> <span class="toc-text">查看程序头表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%8A%82%E5%A4%B4%E8%A1%A8"><span class="toc-number">3.5.3.</span> <span class="toc-text">查看节头表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E5%B8%B8%E8%A7%81%E8%8A%82"><span class="toc-number">3.5.4.</span> <span class="toc-text">ELF文件的常见节</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-基础知识/二进制文件" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="Bin"><a href="#Bin" class="headerlink" title="Bin"></a>Bin</h1><p>BIN文件是纯二进制文件，没有固定的结构或元数据。&#x3D;&#x3D;当想要将二进制文件烧录进单片机时，不需要再对数据进行处理&#x3D;&#x3D;，也就是说，我们使用<a target="_blank" rel="noopener" href="https://github.com/WerWolv/ImHex"><kbd>ImHex</kbd></a>打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。</p>
+<h1 id="Hex"><a href="#Hex" class="headerlink" title="Hex"></a>Hex</h1><p><code>Hex</code> 全称 (<code>Intel HEX</code>)文件是由一行行符合<code>Intel HEX</code>文件格式的文本所构成的<code>ASCII</code>文本文件。</p>
+<p>在<code>Intel HEX</code>文件中，每一行包含一个<code>HEX</code>记录。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png" alt="ASCII表示"></p>
+<blockquote>
+<p>[!note]</p>
+<p>注意：我们使用txt文件打开的时候显示的是ASCII表示，也就是一个字符串。实际上一行数据的原始数据如下图左侧所示，使用txt打开的如右图所示。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_28_45_202502140928978.png" alt="Imhex打开"></p>
+<p>下面会用源数据表示左侧的数据，用ASCII表示右侧数据。</p>
+</blockquote>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Bruce_Qee/article/details/119089365">单片机烧录用的hex文件，文件格式解析（转载）_.hex用什么软件打开-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.interlog.com/~speff/usefulinfo/Hexfrmt.pdf">Intel Hex Format</a></p>
+<h2 id="行结构"><a href="#行结构" class="headerlink" title="行结构"></a>行结构</h2><p>一行Hex数据由以下结构组成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Start code][Byte count][Address][Record type][Data][Checksum]</span><br></pre></td></tr></table></figure>
+
+
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>长度</th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Start code</td>
+<td>-</td>
+<td>每行都由冒号开头，这是固定的</td>
+</tr>
+<tr>
+<td>Byte count</td>
+<td>1 字节</td>
+<td>本行数据的长度,最大值是<code>255 (0xFF)</code>.<code> 16 (0x10)</code> 和<code>32 (0x20)</code>是最常用的</td>
+</tr>
+<tr>
+<td>Address</td>
+<td>2字节</td>
+<td>Memory数据开始16-bit地址偏移。物理地址通常是有这个偏移加上基地址</td>
+</tr>
+<tr>
+<td>Record type</td>
+<td>1 字节</td>
+<td>表示不同数据段的含义</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>可变长度</td>
+<td>具体数据 N Byte ，表示本行中数据字节的数量</td>
+</tr>
+<tr>
+<td>Checksum</td>
+<td>1 字节</td>
+<td>校验值</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!tip]</p>
+<p>Checksum的计算方法为：</p>
+<p>如<code>0300300002337A1E</code>,数据和为<code>：03 + 00 + 30 + 00 + 02 + 33 + 7A = E2</code>    这个<code>E2</code>的补码是 <code>1E</code> ，即这个数据<code>record</code>的补码</p>
+</blockquote>
+<blockquote>
+<p>[!note]</p>
+<p>注意：上表的长度是ASCII的长度，也就是假设txt显示<code>:1010</code>，那么<code>10</code>就是一个字节，但是在源数据中，这就是两个字节<code>0x31 0x30</code></p>
+</blockquote>
+<p>&#x3D;&#x3D;Record type的选取&#x3D;&#x3D;</p>
+<table>
+<thead>
+<tr>
+<th><strong>数值</strong></th>
+<th>数据类型详（Record type）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>00</code></td>
+<td>表示后面记录的是数据</td>
+</tr>
+<tr>
+<td><code>01</code></td>
+<td>表示文件结束，放在文件的最后，标识HEX文件的结尾</td>
+</tr>
+<tr>
+<td><code>02</code></td>
+<td>表示扩展段地址</td>
+</tr>
+<tr>
+<td><code>03</code></td>
+<td>表示开始段地址</td>
+</tr>
+<tr>
+<td><code>04</code></td>
+<td>表示扩展线性地址</td>
+</tr>
+<tr>
+<td><code>05</code></td>
+<td>表示开始线性地址</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!important]</p>
+<p>这里需要注意的是Bin文件和Hex文件的区别：</p>
+<ul>
+<li><p>Bin文件中的数据内容可以直接烧录进入Flash中</p>
+</li>
+<li><p>Hex文件中的数据内容（指的是源数据）是经过改变之后才可以放入Flash中的</p>
+<p>一般我们通过txt文件看到的都是ASCII表示，并不是文件源数据，我们需要将ASCII的数据当成16进制的数据，也就是我们看见的<code>:1010</code>转换为<code>0x10 0x10</code>。此时他们的源数据就改变了。源数据从<code>0x3A 0x31 0x30 0x31 0x30</code>变成<code>0x10 0x10 0x10 0x10</code></p>
+</li>
+</ul>
+</blockquote>
+<h2 id="地址解读"><a href="#地址解读" class="headerlink" title="地址解读"></a>地址解读</h2><p>因为HEX的地址段只有两个字节表示，只能寻址到16位,显然是不够的，所以就有了拓展地址，相关解释请参考<a target="_blank" rel="noopener" href="http://www.interlog.com/~speff/usefulinfo/Hexfrmt.pdf">Intel Hex Format</a>。</p>
+<p>地址分为16位和32位或8位。</p>
+<ol>
+<li>8位和32位：&#x3D;&#x3D;数据记录中的数据字节在内存中的绝对地址为线性地址&#x3D;&#x3D;。</li>
+<li>16位：&#x3D;&#x3D;数据字节的绝对地址是分段地址&#x3D;&#x3D;。</li>
+</ol>
+<p>&#x3D;&#x3D;拓展地址空间&#x3D;&#x3D;<br>$$<br>实际物理地址&#x3D;基地址+偏移地址<br>$$</p>
+<table>
+<thead>
+<tr>
+<th>地址类型</th>
+<th>Record type</th>
+<th>地址解读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>线性基地址</td>
+<td><code>0x04</code></td>
+<td>得到的数据左移16位</td>
+</tr>
+<tr>
+<td>段基地址</td>
+<td><code>0x02</code></td>
+<td>得到的数据左移4位</td>
+</tr>
+<tr>
+<td>偏移地址</td>
+<td><code>0x00</code></td>
+<td>得到的数据</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!tip]</p>
+<p>选择不同类型的基地址（<code>0x02</code>和<code>0x04</code>）对应着不同位长的系统。</p>
+</blockquote>
+<p>&#x3D;&#x3D;指定程序入口&#x3D;&#x3D;</p>
+<ol>
+<li><p>开始段入口：<br>$$<br>实际入口地址&#x3D;（代码段地址&lt;&lt;4）+指令指针地址<br>$$</p>
+<table>
+<thead>
+<tr>
+<th>地址类型</th>
+<th>Record type</th>
+<th>地址解读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>代码段地址（CS）</td>
+<td><code>0x03</code></td>
+<td>得到的数据的高2字节</td>
+</tr>
+<tr>
+<td>指令指针地址（IP）</td>
+<td><code>0x03</code></td>
+<td>得到的数据的低2字节</td>
+</tr>
+</tbody></table>
+<ul>
+<li>记录：<code>:0400000300003800C1</code><ul>
+<li>数据字段：<code>00003800</code>。<ul>
+<li>CS &#x3D; <code>0x0000</code>。</li>
+<li>IP &#x3D; <code>0x3800</code>。</li>
+</ul>
+</li>
+<li>实际入口地址 &#x3D; <code>(0x0000 &lt;&lt; 4) + 0x3800 = 0x03800</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>开始线性入口：可以直接使用数据字段的值。</p>
+<ul>
+<li>记录：<code>:04000005000000CD2A</code><ul>
+<li>数据字段：<code>000000CD</code>。</li>
+<li>实际入口地址 &#x3D; <code>0x000000CD</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>&#x3D;&#x3D;示例&#x3D;&#x3D;</p>
+<p>以下是一个包含扩展地址记录的HEX文件示例：</p>
+<p>复制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">:020000021200EA</span><br><span class="line">:10000000AABBCCDDEEFF00112233445566778899F1</span><br><span class="line">:10001000ABCDEF0123456789ABCDEF0123456789B2</span><br><span class="line">:00000001FF</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一行（类型<code>02</code>）：<ul>
+<li>数据字段：<code>1200</code>（段地址）。</li>
+<li>基地址 &#x3D; <code>0x1200 &lt;&lt; 4 = 0x12000</code>。</li>
+</ul>
+</li>
+<li>第二行（类型<code>00</code>）：<ul>
+<li>偏移地址：<code>0000</code>。</li>
+<li>实际地址 &#x3D; <code>0x12000 + 0x0000 = 0x12000</code>。</li>
+<li>数据字段：<code>AABBCCDDEEFF00112233445566778899</code>。</li>
+</ul>
+</li>
+<li>第三行（类型<code>00</code>）：<ul>
+<li>偏移地址：<code>0010</code>。</li>
+<li>实际地址 &#x3D; <code>0x12000 + 0x0010 = 0x12010</code>。</li>
+<li>数据字段：<code>ABCDEF0123456789ABCDEF0123456789</code>。</li>
+</ul>
+</li>
+<li>第四行（类型<code>01</code>）：<ul>
+<li>文件结束记录。</li>
+</ul>
+</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>以下使用CAPL语言实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line">variables</span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Block</span> &#123;</span></span><br><span class="line">  dword   BlockStartAddr;       <span class="comment">//数据开始的地址</span></span><br><span class="line">  dword BlockDataLength;        <span class="comment">//数据的长度</span></span><br><span class="line">  byte dataBuffer[<span class="number">0x020FFFF</span>];   <span class="comment">//数据区域(单块数据的Buffer，如果hex文件很大，则需要把次参数调大)</span></span><br><span class="line">  &#125;;  </span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">Block</span> <span class="title">hexfile</span>[5];</span>      <span class="comment">//创建5个数据块(主要根据HEX文件进行调整，hex有几个数据块就需要设置几个)</span></span><br><span class="line">  <span class="type">int</span> HexBlockTotalNumber = <span class="number">0</span>;  <span class="comment">//数据块总数</span></span><br><span class="line">  dword t1;                     <span class="comment">//计算解析所用的时间</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*********************************************************************************</span></span><br><span class="line"><span class="comment">  *Function:  //char2byte</span></span><br><span class="line"><span class="comment">  * Description：  //把单个字符转换为Byte的函数</span></span><br><span class="line"><span class="comment">  *Input:  //ch：ASCII编码字符，取值为0到F</span></span><br><span class="line"><span class="comment">  *Return:  //val，为byte类型</span></span><br><span class="line"><span class="comment">**********************************************************************************/</span></span><br><span class="line">byte <span class="title function_">char2byte</span><span class="params">(<span class="type">char</span> ch)</span></span><br><span class="line">&#123;</span><br><span class="line">   byte  val;</span><br><span class="line">   val = <span class="number">0</span>;</span><br><span class="line">   <span class="keyword">if</span> ( ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">   &#123;</span><br><span class="line">      val = ch - <span class="string">&#x27;0&#x27;</span>;      </span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span> ( ch &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;f&#x27;</span>)</span><br><span class="line">   &#123;</span><br><span class="line">      val = (ch - <span class="string">&#x27;a&#x27;</span>) + <span class="number">10</span>;      </span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span> ( ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;F&#x27;</span>)</span><br><span class="line">   &#123;</span><br><span class="line">      val = (ch - <span class="string">&#x27;A&#x27;</span>) + <span class="number">10</span>;       </span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">return</span> val;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/*********************************************************************************</span></span><br><span class="line"><span class="comment">  *Function:  //Read_hexFile</span></span><br><span class="line"><span class="comment">  * Description：  //解码HEX文件，只支持0x00，0x04，0x01类型</span></span><br><span class="line"><span class="comment">  *Input:  //Filename：需要解码的文件名</span></span><br><span class="line"><span class="comment">  *Output:  //hexfile</span></span><br><span class="line"><span class="comment">  *Return:  //void</span></span><br><span class="line"><span class="comment">**********************************************************************************/</span></span><br><span class="line"><span class="comment">//读取HEXFILE</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Read_hexFile</span><span class="params">(<span class="type">char</span> Filename[])</span></span><br><span class="line">&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="type">long</span> file_handle;</span><br><span class="line">  <span class="type">char</span> RowData[<span class="number">128</span>];                        <span class="comment">//逐行读取,每行数据缓存，当每行数据大于128时，需要将其调整</span></span><br><span class="line">	dword   i;</span><br><span class="line">	dword   RowDataByte;											<span class="comment">//单块数据块字节数</span></span><br><span class="line">	qword   OffsetAddress;										<span class="comment">//扩展线性地址 	</span></span><br><span class="line">	qword   ReAddr;												<span class="comment">//上一数据行起始地址 </span></span><br><span class="line">	dword   Len;													<span class="comment">//HEX每行有效数据字节数</span></span><br><span class="line">	dword   ReLen;												<span class="comment">//HEX前一次数据长度</span></span><br><span class="line">	dword   Addr;													  <span class="comment">//HEX每行起始地址</span></span><br><span class="line">	dword    Type;		                    <span class="comment">//HEX每行类型，有00，01，04四种类型</span></span><br><span class="line">  RowDataByte = <span class="number">0</span>;i = <span class="number">0</span>;Len = <span class="number">0</span>;ReLen = <span class="number">0</span>;Addr=<span class="number">0</span>;Type = <span class="number">0</span>;ReAddr = <span class="number">0</span>;</span><br><span class="line">  file_handle = OpenFileRead(Filename,<span class="number">0</span>);</span><br><span class="line">  HexBlockTotalNumber = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span>(file_handle!=<span class="number">0</span>)</span><br><span class="line">  &#123; <span class="comment">// Read all lines</span></span><br><span class="line">    <span class="keyword">while</span> ( fileGetStringSZ(RowData,elcount(RowData),file_handle)!=<span class="number">0</span> )&#123;</span><br><span class="line">      <span class="comment">//判断首字符是否为:号</span></span><br><span class="line">      <span class="keyword">if</span>(RowData[<span class="number">0</span>] == <span class="string">&#x27;:&#x27;</span>)&#123;</span><br><span class="line">        Len = (char2byte(RowData[<span class="number">1</span>])*<span class="number">0x10</span>+char2byte(RowData[<span class="number">2</span>]));</span><br><span class="line">        Addr = char2byte(RowData[<span class="number">3</span>])*<span class="number">0x1000</span>+char2byte(RowData[<span class="number">4</span>])*<span class="number">0x100</span>+char2byte(RowData[<span class="number">5</span>])*<span class="number">0x10</span>+char2byte(RowData[<span class="number">6</span>]);</span><br><span class="line">        Addr |= (OffsetAddress &lt;&lt; <span class="number">16</span>);</span><br><span class="line">        Type = char2byte(RowData[<span class="number">7</span>])*<span class="number">0x10</span>+char2byte(RowData[<span class="number">8</span>]);</span><br><span class="line">        <span class="comment">//以下为打印解析的过程，打印解析时候的变量</span></span><br><span class="line">        <span class="comment">//write(&quot;RowData:%s,HexBlockTotalNumber:%d,ReLen:%X,ReAddr:%X,Addr:%X,RowDataByte:%X&quot;,RowData,HexBlockTotalNumber,ReLen,ReAddr,Addr,RowDataByte);</span></span><br><span class="line">        <span class="keyword">switch</span>(Type)&#123;</span><br><span class="line">          <span class="keyword">case</span> <span class="number">0x00</span>:											  <span class="comment">//数据</span></span><br><span class="line">            <span class="keyword">if</span> (Addr  &gt; (ReLen + ReAddr))&#123;  <span class="comment">//判断为新数据块</span></span><br><span class="line">                <span class="keyword">if</span>(RowDataByte == <span class="number">0</span>)			  <span class="comment">//是否为首行数据字节数</span></span><br><span class="line">  							&#123; </span><br><span class="line">  								hexfile[HexBlockTotalNumber].BlockStartAddr = Addr;         <span class="comment">//记录新数据块的起始地址</span></span><br><span class="line">  							&#125;</span><br><span class="line">  							<span class="keyword">else</span>										    <span class="comment">//不是首行</span></span><br><span class="line">  							&#123;</span><br><span class="line">  								hexfile[HexBlockTotalNumber].BlockDataLength = RowDataByte; <span class="comment">//数据长度  </span></span><br><span class="line">  								RowDataByte = <span class="number">0</span>;					<span class="comment">//重新开始计数</span></span><br><span class="line">  								hexfile[HexBlockTotalNumber].BlockStartAddr = Addr;		      <span class="comment">//记录新数据块的起始地址</span></span><br><span class="line">                  </span><br><span class="line">                  HexBlockTotalNumber++; </span><br><span class="line">  							&#125;</span><br><span class="line">            &#125;</span><br><span class="line">             <span class="keyword">for</span>(i = <span class="number">0</span>; i&lt; Len ; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                  <span class="comment">//储存buffer，注意没有对crc进行校验。</span></span><br><span class="line">                  hexfile[HexBlockTotalNumber].dataBuffer[RowDataByte++]=(char2byte(RowData[<span class="number">2</span>*i+<span class="number">9</span>])*<span class="number">0x10</span>+char2byte(RowData[<span class="number">2</span>*i+<span class="number">10</span>]));</span><br><span class="line">                &#125;  </span><br><span class="line">            ReAddr = Addr;									<span class="comment">//保存当前地址,下一次使用  </span></span><br><span class="line">						ReLen  = Len;									  <span class="comment">//保存当前长度,下一次使用   </span></span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">case</span> <span class="number">0x04</span>:										   	<span class="comment">//扩展线性地址记录</span></span><br><span class="line">						OffsetAddress =  char2byte(RowData[<span class="number">9</span>])*<span class="number">0x1000</span>+char2byte(RowData[<span class="number">10</span>])*<span class="number">0x100</span>+char2byte(RowData[<span class="number">11</span>])*<span class="number">0x10</span>+char2byte(RowData[<span class="number">12</span>]);		<span class="comment">//偏移地址	 </span></span><br><span class="line">					<span class="keyword">break</span>;</span><br><span class="line">          <span class="keyword">case</span> <span class="number">0x01</span>:										   	<span class="comment">//地址,结束 </span></span><br><span class="line">           hexfile[HexBlockTotalNumber].BlockDataLength = RowDataByte;        <span class="comment">//数据长度</span></span><br><span class="line">           HexBlockTotalNumber++;</span><br><span class="line">          <span class="keyword">break</span>;          </span><br><span class="line">        &#125;        </span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line">  write(<span class="string">&quot;Hex文件读取成功, 数据分块:%d&quot;</span>,HexBlockTotalNumber);</span><br><span class="line">  <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; HexBlockTotalNumber; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			write(<span class="string">&quot;数据块:%d,  起始地址:0x%X, 结束地址:0x%X, 数据长度:%6d字节\r\n&quot;</span>, i+<span class="number">1</span>, hexfile[i].BlockStartAddr, hexfile[i].BlockStartAddr + hexfile[i].BlockDataLength - <span class="number">1</span>, hexfile[i].BlockDataLength);</span><br><span class="line">		&#125;</span><br><span class="line">  fileClose(file_handle);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">     write(<span class="string">&quot;OpenFileRead,error occurs&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line">on key <span class="string">&#x27;f&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">  t1 = timeNow();</span><br><span class="line">  Read_hexFile(<span class="string">&quot;test.hex&quot;</span>);</span><br><span class="line">  write(<span class="string">&quot;%d&quot;</span>,t1-timeNow());</span><br><span class="line">  write(hexfile[<span class="number">0</span>].dataBuffer);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">write (byte v[]) &#123;</span><br><span class="line">   <span class="type">int</span> i;</span><br><span class="line">   <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">48</span>; i++) write(<span class="string">&quot;dataBuffer:%x&quot;</span>,hexfile[<span class="number">0</span>].dataBuffer[i]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Elf"><a href="#Elf" class="headerlink" title="Elf"></a>Elf</h1><p>ELF（Executable and Linkable Format，可执行与可链接格式）是一种用于可执行文件、目标文件、共享库和核心转储的标准文件格式。它广泛应用于类Unix系统（如Linux、BSD）以及嵌入式系统中。</p>
+<h2 id="ELF文件的结构"><a href="#ELF文件的结构" class="headerlink" title="ELF文件的结构"></a>ELF文件的结构</h2><p>ELF文件由以下几个主要部分组成：</p>
+<ol>
+<li>ELF头</li>
+<li>程序头表</li>
+<li>节头表</li>
+<li>段和节</li>
+</ol>
+<h3 id="ELF头（ELF-Header）"><a href="#ELF头（ELF-Header）" class="headerlink" title="ELF头（ELF Header）"></a>ELF头（ELF Header）</h3><ul>
+<li><strong>作用</strong>：描述文件的基本信息，如文件类型、目标架构、程序入口地址等。</li>
+<li><strong>重要字段</strong>：<ul>
+<li><code>e_ident</code>：魔数（Magic Number），标识文件为ELF格式。</li>
+<li><code>e_type</code>：文件类型（如可执行文件、共享库等）。</li>
+<li><code>e_machine</code>：目标架构（如x86、ARM）。</li>
+<li><code>e_entry</code>：程序入口地址。</li>
+<li><code>e_phoff</code>：程序头表偏移。</li>
+<li><code>e_shoff</code>：节头表偏移。</li>
+</ul>
+</li>
+</ul>
+<h3 id="程序头表（Program-Header-Table）"><a href="#程序头表（Program-Header-Table）" class="headerlink" title="程序头表（Program Header Table）"></a>程序头表（Program Header Table）</h3><ul>
+<li><strong>作用</strong>：描述段（Segment）信息，用于加载可执行文件。</li>
+<li><strong>重要字段</strong>：<ul>
+<li><code>p_type</code>：段类型（如可加载段、动态链接信息）。</li>
+<li><code>p_offset</code>：段在文件中的偏移。</li>
+<li><code>p_vaddr</code>：段在内存中的虚拟地址。</li>
+<li><code>p_filesz</code>：段在文件中的大小。</li>
+<li><code>p_memsz</code>：段在内存中的大小。</li>
+</ul>
+</li>
+</ul>
+<h3 id="节头表（Section-Header-Table）"><a href="#节头表（Section-Header-Table）" class="headerlink" title="节头表（Section Header Table）"></a>节头表（Section Header Table）</h3><ul>
+<li><strong>作用</strong>：描述节（Section）信息，用于链接和调试。</li>
+<li><strong>重要字段</strong>：<ul>
+<li><code>sh_name</code>：节名称（在字符串表中的索引）。</li>
+<li><code>sh_type</code>：节类型（如代码节、数据节）。</li>
+<li><code>sh_addr</code>：节在内存中的地址。</li>
+<li><code>sh_offset</code>：节在文件中的偏移。</li>
+<li><code>sh_size</code>：节的大小。</li>
+</ul>
+</li>
+</ul>
+<h3 id="段（Segments）和节（Sections）"><a href="#段（Segments）和节（Sections）" class="headerlink" title="段（Segments）和节（Sections）"></a>段（Segments）和节（Sections）</h3><ul>
+<li><strong>段</strong>：用于加载和执行，通常包含代码、数据等。</li>
+<li><strong>节</strong>：用于链接和调试，通常包含符号表、字符串表等。</li>
+</ul>
+<h2 id="ELF文件的类型"><a href="#ELF文件的类型" class="headerlink" title="ELF文件的类型"></a>ELF文件的类型</h2><p>ELF文件可以分为以下几种类型：</p>
+<ul>
+<li><strong>可执行文件（Executable）</strong>：可以直接运行的程序。</li>
+<li><strong>共享库（Shared Library）</strong>：动态链接库（如<code>.so</code>文件）。</li>
+<li><strong>目标文件（Relocatable File）</strong>：编译生成的中间文件（如<code>.o</code>文件）。</li>
+<li><strong>核心转储（Core Dump）</strong>：程序崩溃时的内存转储。</li>
+</ul>
+<h2 id="ELF文件的工具"><a href="#ELF文件的工具" class="headerlink" title="ELF文件的工具"></a>ELF文件的工具</h2><p>以下工具可以用于分析和操作ELF文件：</p>
+<ul>
+<li><strong>readelf</strong>：查看ELF文件的详细信息。<ul>
+<li>示例：<code>readelf -h &lt;file&gt;</code>（查看ELF头）。</li>
+</ul>
+</li>
+<li><strong>objdump</strong>：反汇编和查看ELF文件内容。<ul>
+<li>示例：<code>objdump -d &lt;file&gt;</code>（反汇编代码段）。</li>
+</ul>
+</li>
+<li><strong>nm</strong>：查看ELF文件的符号表。<ul>
+<li>示例：<code>nm &lt;file&gt;</code>。</li>
+</ul>
+</li>
+<li><strong>strip</strong>：删除ELF文件的符号表和调试信息。<ul>
+<li>示例：<code>strip &lt;file&gt;</code>。</li>
+</ul>
+</li>
+</ul>
+<h2 id="ELF文件的加载和执行"><a href="#ELF文件的加载和执行" class="headerlink" title="ELF文件的加载和执行"></a><strong>ELF文件的加载和执行</strong></h2><p>当ELF可执行文件被加载到内存中时，操作系统会执行以下步骤：</p>
+<ol>
+<li>解析ELF头，确定文件类型和入口地址。</li>
+<li>根据程序头表，将段加载到内存中。</li>
+<li>设置程序的堆栈和环境变量。</li>
+<li>跳转到入口地址，开始执行程序。</li>
+</ol>
+<h2 id="ELF文件的示例解析"><a href="#ELF文件的示例解析" class="headerlink" title="ELF文件的示例解析"></a>ELF文件的示例解析</h2><p>以下是一个简单的ELF文件解析示例：</p>
+<h3 id="查看ELF头"><a href="#查看ELF头" class="headerlink" title="查看ELF头"></a>查看ELF头</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -h hello</span><br></pre></td></tr></table></figure>
+<p>输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ELF Header:</span><br><span class="line">  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00</span><br><span class="line">  Class:                             ELF64</span><br><span class="line">  Data:                              2&#x27;s complement, little endian</span><br><span class="line">  Version:                           1 (current)</span><br><span class="line">  OS/ABI:                            UNIX - System V</span><br><span class="line">  ABI Version:                       0</span><br><span class="line">  Type:                              EXEC (Executable file)</span><br><span class="line">  Machine:                           Advanced Micro Devices X86-64</span><br><span class="line">  Version:                           0x1</span><br><span class="line">  Entry point address:               0x400430</span><br><span class="line">  Start of program headers:          64 (bytes into file)</span><br><span class="line">  Start of section headers:          6936 (bytes into file)</span><br><span class="line">  Flags:                             0x0</span><br><span class="line">  Size of this header:               64 (bytes)</span><br><span class="line">  Size of program headers:           56 (bytes)</span><br><span class="line">  Number of program headers:         9</span><br><span class="line">  Size of section headers:           64 (bytes)</span><br><span class="line">  Number of section headers:         31</span><br><span class="line">  Section header string table index: 28</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看程序头表"><a href="#查看程序头表" class="headerlink" title="查看程序头表"></a>查看程序头表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -l hello</span><br></pre></td></tr></table></figure>
+<p>输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Elf file type is EXEC (Executable file)</span><br><span class="line">Entry point 0x400430</span><br><span class="line">There are 9 program headers, starting at offset 64</span><br><span class="line"></span><br><span class="line">Program Headers:</span><br><span class="line">  Type           Offset             VirtAddr           PhysAddr</span><br><span class="line">                 FileSiz            MemSiz              Flags  Align</span><br><span class="line">  LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000</span><br><span class="line">                 0x00000000000006fc 0x00000000000006fc  R E    200000</span><br><span class="line">  LOAD           0x0000000000000700 0x0000000000600700 0x0000000000600700</span><br><span class="line">                 0x0000000000000230 0x0000000000000238  RW     200000</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看节头表"><a href="#查看节头表" class="headerlink" title="查看节头表"></a>查看节头表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -S hello</span><br></pre></td></tr></table></figure>
+<p>输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">There are 31 section headers, starting at offset 0x1b18:</span><br><span class="line"></span><br><span class="line">Section Headers:</span><br><span class="line">  [Nr] Name              Type             Address           Offset</span><br><span class="line">       Size              EntSize          Flags  Link  Info  Align</span><br><span class="line">  [ 0]                   NULL             0000000000000000  00000000</span><br><span class="line">       0000000000000000  0000000000000000           0     0     0</span><br><span class="line">  [ 1] .interp           PROGBITS         0000000000400238  00000238</span><br><span class="line">       000000000000001c  0000000000000000   A       0     0     1</span><br><span class="line">  [ 2] .note.ABI-tag     NOTE             0000000000400254  00000254</span><br><span class="line">       0000000000000020  0000000000000000   A       0     0     4</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="ELF文件的常见节"><a href="#ELF文件的常见节" class="headerlink" title="ELF文件的常见节"></a>ELF文件的常见节</h3><ul>
+<li><code>.text</code>：代码段，包含程序的指令。</li>
+<li><code>.data</code>：已初始化的全局变量和静态变量。</li>
+<li><code>.bss</code>：未初始化的全局变量和静态变量。</li>
+<li><code>.rodata</code>：只读数据（如字符串常量）。</li>
+<li><code>.symtab</code>：符号表。</li>
+<li><code>.strtab</code>：字符串表。</li>
+<li><code>.dynamic</code>：动态链接信息。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag">基础知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png" data-sizes="auto" alt="Map文件" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Map文件
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="操作系统基础" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          操作系统基础
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bin"><span class="toc-number">1.</span> <span class="toc-text">Bin</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hex"><span class="toc-number">2.</span> <span class="toc-text">Hex</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E7%BB%93%E6%9E%84"><span class="toc-number">2.2.</span> <span class="toc-text">行结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E8%A7%A3%E8%AF%BB"><span class="toc-number">2.3.</span> <span class="toc-text">地址解读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.4.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Elf"><span class="toc-number">3.</span> <span class="toc-text">Elf</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">ELF文件的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ELF%E5%A4%B4%EF%BC%88ELF-Header%EF%BC%89"><span class="toc-number">3.1.1.</span> <span class="toc-text">ELF头（ELF Header）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E5%A4%B4%E8%A1%A8%EF%BC%88Program-Header-Table%EF%BC%89"><span class="toc-number">3.1.2.</span> <span class="toc-text">程序头表（Program Header Table）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E5%A4%B4%E8%A1%A8%EF%BC%88Section-Header-Table%EF%BC%89"><span class="toc-number">3.1.3.</span> <span class="toc-text">节头表（Section Header Table）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%EF%BC%88Segments%EF%BC%89%E5%92%8C%E8%8A%82%EF%BC%88Sections%EF%BC%89"><span class="toc-number">3.1.4.</span> <span class="toc-text">段（Segments）和节（Sections）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">ELF文件的类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-number">3.3.</span> <span class="toc-text">ELF文件的工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E6%89%A7%E8%A1%8C"><span class="toc-number">3.4.</span> <span class="toc-text">ELF文件的加载和执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E7%A4%BA%E4%BE%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">3.5.</span> <span class="toc-text">ELF文件的示例解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8BELF%E5%A4%B4"><span class="toc-number">3.5.1.</span> <span class="toc-text">查看ELF头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%A8%8B%E5%BA%8F%E5%A4%B4%E8%A1%A8"><span class="toc-number">3.5.2.</span> <span class="toc-text">查看程序头表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%8A%82%E5%A4%B4%E8%A1%A8"><span class="toc-number">3.5.3.</span> <span class="toc-text">查看节头表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6%E7%9A%84%E5%B8%B8%E8%A7%81%E8%8A%82"><span class="toc-number">3.5.4.</span> <span class="toc-text">ELF文件的常见节</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "二进制文件",
+          url: "http://example.com/2025/03/01/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/",
+          excerpt: "",
+          description: "",
+          stripContent: "BinBIN文件是纯二进制文件，没有固定的结构或元数据。&amp;#x3D;&amp;#x3D;当想要将二进制文件烧录进单片机时，不需要再对数据进行处理&amp;#x3D;&amp;#x3D;，也就是说，我们使用ImHex打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。 HexHex 全称 (Intel HEX)文件是由一行行符合Intel HEX文件格式的文本所构成的ASCII文本文件。 在Intel HEX文件中，每一行包含一个HEX记录。   [!note] 注意：我们使用txt文件打开的时候显示的",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

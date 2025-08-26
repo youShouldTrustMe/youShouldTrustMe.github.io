@@ -1,0 +1,906 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    GPIO |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="是什么 特点 不同型号，IO口数量可能不一样，可通过选型手册快速查询  快速翻转，每次翻转最快只需要两个时钟周期（F1最高速度可以到50Mhz）  每个IO口都可以做中断  支持8种工作模式   电气特性 基本结构所有的GPIO都是挂载在APB2外设总线上的（每个GPIO包含16个引脚）  在GPIO模块中包含寄存器和驱动器 寄存器是一段特殊的存储器，内核可以通过APB2总线对寄存器进行读写，这样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GPIO">
+<meta property="og:url" content="http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="是什么 特点 不同型号，IO口数量可能不一样，可通过选型手册快速查询  快速翻转，每次翻转最快只需要两个时钟周期（F1最高速度可以到50Mhz）  每个IO口都可以做中断  支持8种工作模式   电气特性 基本结构所有的GPIO都是挂载在APB2外设总线上的（每个GPIO包含16个引脚）  在GPIO模块中包含寄存器和驱动器 寄存器是一段特殊的存储器，内核可以通过APB2总线对寄存器进行读写，这样">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_56_49_202407050856261.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_45_53_202407051045843.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_47_14_202407051047297.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_47_58_202407051047900.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_48_42_202407051048750.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_54_0_202407051054099.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_54_44_202407051054379.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_55_43_202407051055962.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_3_202407051056484.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_21_202407051056449.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_38_202407051056485.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_50_202407051056398.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_58_39_202407051058807.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_59_38_202407051059707.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_59_59_202407051059679.png">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_11_0_56_202407051100087.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.871Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    <picture></picture>
+    <img crossorigin="anonymous" fetchpriority="high" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="GPIO">
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">GPIO</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%B5%E6%B0%94%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">电气特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">端口的基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E4%BA%8C%E6%9E%81%E7%AE%A1"><span class="toc-number">5.1.</span> <span class="toc-text">保护二极管</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%BD%E5%AF%86%E7%89%B9%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">5.2.</span> <span class="toc-text">施密特触发器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P-MOS%E7%AE%A1%E5%92%8CN-MOS%E7%AE%A1"><span class="toc-number">5.3.</span> <span class="toc-text">P-MOS管和N-MOS管</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A8%A1%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">输入输出模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">6.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%B5%AE%E7%A9%BA"><span class="toc-number">6.2.</span> <span class="toc-text">输入浮空</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E8%BE%93%E5%85%A5"><span class="toc-number">6.3.</span> <span class="toc-text">模拟输入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8A%E6%8B%89"><span class="toc-number">6.4.</span> <span class="toc-text">输入上拉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8B%E6%8B%89"><span class="toc-number">6.5.</span> <span class="toc-text">输入下拉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-number">6.6.</span> <span class="toc-text">开漏输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BC%8F%E5%A4%8D%E7%94%A8%E8%BE%93%E5%87%BA"><span class="toc-number">6.7.</span> <span class="toc-text">开漏复用输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E6%8C%BD%E8%BE%93%E5%87%BA"><span class="toc-number">6.8.</span> <span class="toc-text">推挽输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E6%8C%BD%E5%A4%8D%E7%94%A8%E8%BE%93%E5%87%BA"><span class="toc-number">6.9.</span> <span class="toc-text">推挽复用输出</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-number">7.</span> <span class="toc-text">寄存器介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="toc-number">8.</span> <span class="toc-text">配置步骤</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-嵌入式/外设组件/GPIO" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" data-aos="zoom-in">嵌入式</a>
+  </div>
+
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="image-20240705085552462"></p>
+<h1 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h1><ol>
+<li><p>不同型号，IO口数量可能不一样，可通过选型手册快速查询</p>
+</li>
+<li><p>快速翻转，每次翻转最快只需要两个时钟周期（F1最高速度可以到50Mhz）</p>
+</li>
+<li><p>每个IO口都可以做中断</p>
+</li>
+<li><p>支持8种工作模式</p>
+</li>
+</ol>
+<h1 id="电气特性"><a href="#电气特性" class="headerlink" title="电气特性"></a>电气特性</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_56_49_202407050856261.png" alt="image-20240705085649207"></p>
+<h1 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h1><p>所有的GPIO都是挂载在APB2外设总线上的（每个GPIO包含16个引脚）</p>
+<ul>
+<li>在GPIO模块中包含寄存器和驱动器</li>
+<li>寄存器是一段特殊的存储器，内核可以通过APB2总线对寄存器进行读写，这样就可以完成输出电平和读取电平的功能了，寄存器的每一位对应一个引脚，由于每个GPIO模块上面只有16个引脚，所以寄存器只有低16位用到了，高16位保留。驱动器用来增加信号的驱动能力，寄存器只负责存储数据。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_45_53_202407051045843.png" alt="image-20240705104553778"></p>
+<h1 id="端口的基本结构"><a href="#端口的基本结构" class="headerlink" title="端口的基本结构"></a>端口的基本结构</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_47_14_202407051047297.png" alt="image-20240705104714238"></p>
+<h2 id="保护二极管"><a href="#保护二极管" class="headerlink" title="保护二极管"></a>保护二极管</h2><p>对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路</p>
+<h2 id="施密特触发器"><a href="#施密特触发器" class="headerlink" title="施密特触发器"></a>施密特触发器</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_47_58_202407051047900.png" alt="image-20240705104758837"></p>
+<p>在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量</p>
+<h2 id="P-MOS管和N-MOS管"><a href="#P-MOS管和N-MOS管" class="headerlink" title="P-MOS管和N-MOS管"></a>P-MOS管和N-MOS管</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_48_42_202407051048750.png" alt="image-20240705104842694"></p>
+<h1 id="输入输出模式"><a href="#输入输出模式" class="headerlink" title="输入输出模式"></a>输入输出模式</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>输入输出都相对于ST芯片而言的，比如输入就是从io口进如芯片内部，输出就是信号从芯片到IO引脚</p>
+<table>
+<thead>
+<tr>
+<th><strong>GPIO</strong>八种模式</th>
+<th><strong>特点及应用</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>输入浮空</strong></td>
+<td>输入用，完全浮空，状态不定</td>
+</tr>
+<tr>
+<td><strong>输入上拉</strong></td>
+<td>输入用，用内部上拉，默认是高电平</td>
+</tr>
+<tr>
+<td><strong>输入下拉</strong></td>
+<td>输入用，用内部下拉，默认是低电平</td>
+</tr>
+<tr>
+<td><strong>模拟功能</strong></td>
+<td>ADC、DAC</td>
+</tr>
+<tr>
+<td><strong>开漏输出</strong></td>
+<td>软件IIC的SDA、SCL等</td>
+</tr>
+<tr>
+<td><strong>推挽输出</strong></td>
+<td>驱动能力强，25mA（max），通用输出</td>
+</tr>
+<tr>
+<td><strong>开漏式复用功能</strong></td>
+<td>片上外设功能（硬件IIC 的SDA、SCL引脚等）</td>
+</tr>
+<tr>
+<td><strong>推挽式复用功能</strong></td>
+<td>片上外设功能（SPI 的SCK、MISO、MOSI引脚等）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th><strong>模式名称</strong></th>
+<th><strong>性质</strong></th>
+<th><strong>特征</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>浮空输入</td>
+<td>数字输入</td>
+<td>可读取引脚电平，若引脚悬空，则电平不确定</td>
+</tr>
+<tr>
+<td>上拉输入</td>
+<td>数字输入</td>
+<td>可读取引脚电平，内部连接上拉电阻，悬空时默认高电平</td>
+</tr>
+<tr>
+<td>下拉输入</td>
+<td>数字输入</td>
+<td>可读取引脚电平，内部连接下拉电阻，悬空时默认低电平</td>
+</tr>
+<tr>
+<td>模拟输入</td>
+<td>模拟输入</td>
+<td>GPIO无效，引脚直接接入内部ADC</td>
+</tr>
+<tr>
+<td>开漏输出</td>
+<td>数字输出</td>
+<td>可输出引脚电平，高电平为高阻态，低电平接VSS</td>
+</tr>
+<tr>
+<td>推挽输出</td>
+<td>数字输出</td>
+<td>可输出引脚电平，高电平接VDD，低电平接VSS</td>
+</tr>
+<tr>
+<td>复用开漏输出</td>
+<td>数字输出</td>
+<td>由片上外设控制，高电平为高阻态，低电平接VSS</td>
+</tr>
+<tr>
+<td>复用推挽输出</td>
+<td>数字输出</td>
+<td>由片上外设控制，高电平接VDD，低电平接VSS</td>
+</tr>
+</tbody></table>
+<h2 id="输入浮空"><a href="#输入浮空" class="headerlink" title="输入浮空"></a>输入浮空</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_54_0_202407051054099.png" alt="image-20240705105400030"></p>
+<p>IO-&gt;触发器-&gt;读出</p>
+<h2 id="模拟输入"><a href="#模拟输入" class="headerlink" title="模拟输入"></a>模拟输入</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_54_44_202407051054379.png" alt="image-20240705105444316"></p>
+<p>模拟输入可以说是ADC模数转换器的专属配置</p>
+<p>Io-&gt;模拟输入</p>
+<h2 id="输入上拉"><a href="#输入上拉" class="headerlink" title="输入上拉"></a>输入上拉</h2><p>上下拉可以看作是一个弹簧，输入电压的时候就会操纵弹簧使电压为1或0.</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_55_43_202407051055962.png" alt="image-20240705105543905"></p>
+<h2 id="输入下拉"><a href="#输入下拉" class="headerlink" title="输入下拉"></a>输入下拉</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_3_202407051056484.png" alt="image-20240705105603416"></p>
+<h2 id="开漏输出"><a href="#开漏输出" class="headerlink" title="开漏输出"></a>开漏输出</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_21_202407051056449.png" alt="image-20240705105621383"></p>
+<h2 id="开漏复用输出"><a href="#开漏复用输出" class="headerlink" title="开漏复用输出"></a>开漏复用输出</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_38_202407051056485.png" alt="image-20240705105638431"></p>
+<h2 id="推挽输出"><a href="#推挽输出" class="headerlink" title="推挽输出"></a>推挽输出</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_56_50_202407051056398.png" alt="image-20240705105650326"></p>
+<h2 id="推挽复用输出"><a href="#推挽复用输出" class="headerlink" title="推挽复用输出"></a>推挽复用输出</h2><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_58_39_202407051058807.png" alt="image-20240705105839733"></p>
+<h1 id="寄存器介绍"><a href="#寄存器介绍" class="headerlink" title="寄存器介绍"></a>寄存器介绍</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_59_38_202407051059707.png" alt="image-20240705105938650"></p>
+<h1 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h1><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_10_59_59_202407051059679.png" alt="image-20240705105959628"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_11_0_56_202407051100087.png" alt="image-20240705110056030"></p>
+<ol>
+<li>设置需要使用的GPIO外设时钟</li>
+<li>设置GPIO模式（八种模式）</li>
+<li>初始化GPIO口</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;</span><br><span class="line">	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;</span><br><span class="line">	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	GPIO_Init(GPIOA, &amp;GPIO_InitStructure);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		GPIO_ResetBits(GPIOA, GPIO_Pin_0);</span><br><span class="line">		Delay_ms(<span class="number">500</span>);</span><br><span class="line">		GPIO_SetBits(GPIOA, GPIO_Pin_0);</span><br><span class="line">		Delay_ms(<span class="number">500</span>);</span><br><span class="line">		</span><br><span class="line">		GPIO_WriteBit(GPIOA, GPIO_Pin_0, Bit_RESET);</span><br><span class="line">		Delay_ms(<span class="number">500</span>);</span><br><span class="line">		GPIO_WriteBit(GPIOA, GPIO_Pin_0, Bit_SET);</span><br><span class="line">		Delay_ms(<span class="number">500</span>);</span><br><span class="line">		</span><br><span class="line">		GPIO_WriteBit(GPIOA, GPIO_Pin_0, (BitAction)<span class="number">0</span>);</span><br><span class="line">		Delay_ms(<span class="number">500</span>);</span><br><span class="line">		GPIO_WriteBit(GPIOA, GPIO_Pin_0, (BitAction)<span class="number">1</span>);</span><br><span class="line">		Delay_ms(<span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" rel="tag">外设组件</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" data-sizes="auto" alt="Flash" class="lazyload">
+        
+        <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Flash/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Flash
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" data-sizes="auto" alt="PWR" class="lazyload">
+      
+      <a href="/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          PWR
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%B5%E6%B0%94%E7%89%B9%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">电气特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">端口的基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E4%BA%8C%E6%9E%81%E7%AE%A1"><span class="toc-number">5.1.</span> <span class="toc-text">保护二极管</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%BD%E5%AF%86%E7%89%B9%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">5.2.</span> <span class="toc-text">施密特触发器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#P-MOS%E7%AE%A1%E5%92%8CN-MOS%E7%AE%A1"><span class="toc-number">5.3.</span> <span class="toc-text">P-MOS管和N-MOS管</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A8%A1%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">输入输出模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">6.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%B5%AE%E7%A9%BA"><span class="toc-number">6.2.</span> <span class="toc-text">输入浮空</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E8%BE%93%E5%85%A5"><span class="toc-number">6.3.</span> <span class="toc-text">模拟输入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8A%E6%8B%89"><span class="toc-number">6.4.</span> <span class="toc-text">输入上拉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E4%B8%8B%E6%8B%89"><span class="toc-number">6.5.</span> <span class="toc-text">输入下拉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-number">6.6.</span> <span class="toc-text">开漏输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BC%8F%E5%A4%8D%E7%94%A8%E8%BE%93%E5%87%BA"><span class="toc-number">6.7.</span> <span class="toc-text">开漏复用输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E6%8C%BD%E8%BE%93%E5%87%BA"><span class="toc-number">6.8.</span> <span class="toc-text">推挽输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E6%8C%BD%E5%A4%8D%E7%94%A8%E8%BE%93%E5%87%BA"><span class="toc-number">6.9.</span> <span class="toc-text">推挽复用输出</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E4%BB%8B%E7%BB%8D"><span class="toc-number">7.</span> <span class="toc-text">寄存器介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="toc-number">8.</span> <span class="toc-text">配置步骤</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "GPIO",
+          url: "http://example.com/2025/03/01/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/",
+          excerpt: "",
+          description: "",
+          stripContent: "是什么 特点 不同型号，IO口数量可能不一样，可通过选型手册快速查询  快速翻转，每次翻转最快只需要两个时钟周期（F1最高速度可以到50Mhz）  每个IO口都可以做中断  支持8种工作模式   电气特性 基本结构所有的GPIO都是挂载在APB2外设总线上的（每个GPIO包含16个引脚）  在GPIO模块中包含寄存器和驱动器 寄存器是一段特殊的存储器，内核可以通过APB2总线对寄存器进行读写，这样就可以完成输出电平和读取电平的功能了，寄存器的每一位对应一个引脚，由于每个GPIO模块上面只有16个",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

@@ -1,0 +1,1384 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    Vscode |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="快捷键常用快捷键   快捷键 功能 备注    Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表    编辑快捷键   快捷键 功能 备注    Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以复制一行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vscode">
+<meta property="og:url" content="http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="快捷键常用快捷键   快捷键 功能 备注    Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表    编辑快捷键   快捷键 功能 备注    Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以复制一行">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_13_32_48_202412171332982.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.882Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="软件及工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_13_32_48_202412171332982.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="Vscode">
+          
+        </picture>
+        
+          <img alt="Vscode" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Vscode</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.</span> <span class="toc-text">快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.1.</span> <span class="toc-text">常用快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.2.</span> <span class="toc-text">编辑快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.3.</span> <span class="toc-text">导航快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.4.</span> <span class="toc-text">调试快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E7%AE%A1%E7%90%86%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.5.</span> <span class="toc-text">标签管理快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E7%AE%A1%E7%90%86%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.6.</span> <span class="toc-text">窗口管理快捷键</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C-C-snippets"><span class="toc-number">2.1.1.</span> <span class="toc-text">C&#x2F;C++ snippets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iar%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.2.</span> <span class="toc-text">iar工程配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">使用技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">忽略搜索文件</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-软件及工具的使用/Vscode" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h1><h2 id="常用快捷键"><a href="#常用快捷键" class="headerlink" title="常用快捷键"></a>常用快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><kbd>Ctrl</kbd><kbd>p</kbd></td>
+<td>搜索文件</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>，</kbd></td>
+<td>打开设置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>p</kbd></td>
+<td>打开命令面板</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>k</kbd>之后<kbd>Ctrl</kbd><kbd>s</kbd></td>
+<td>弹出所有键盘快捷键的列表</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="编辑快捷键"><a href="#编辑快捷键" class="headerlink" title="编辑快捷键"></a>编辑快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><kbd>Ctrl</kbd><kbd>x</kbd></td>
+<td>剪切</td>
+<td>将光标放在一行中，使用快捷键可以剪切一行（删除）</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>c</kbd></td>
+<td>复制</td>
+<td>将光标放在一行中，使用快捷键可以复制一行</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>z</kbd></td>
+<td>撤销</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>y</kbd></td>
+<td>重做</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>F</kbd></td>
+<td>查找</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>h</kbd></td>
+<td>替换</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>a</kbd></td>
+<td>全选</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>/</kbd></td>
+<td>注释</td>
+<td>注释一行代码</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>space</kbd></td>
+<td>引导</td>
+<td>可以查看当前布局等</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>.</kbd></td>
+<td>快速修复</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>d</kbd></td>
+<td>选中单词</td>
+<td>如果当前已经选中了一个单词，那么再次按下快捷键将会选中下一个同样的单词，以此类推</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>]</kbd></td>
+<td>将制表符往右推</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>[</kbd></td>
+<td>将制表符往左推</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Enter</kbd></td>
+<td>向下插入一行</td>
+<td>在一行中的任意位置按下快捷键都可以向下插入一行，并且光标移动到此行</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>方向</kbd></td>
+<td>可以跳过单词</td>
+<td>将光标跳过单词</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>u</kbd></td>
+<td>恢复光标位置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>方向键</kbd></td>
+<td>将此行上下移动</td>
+<td>需要按住<kbd>Alt</kbd>键后按方向键</td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>Click</kbd></td>
+<td>插入光标</td>
+<td>当需要在多个位置修改同样的代码时，可以使用此快捷键</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Tab</kbd></td>
+<td>使代码进行缩进</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>方向</kbd></td>
+<td>左右选择字母</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>]</kbd></td>
+<td>展开代码</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>[</kbd></td>
+<td>折叠代码</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>k</kbd></td>
+<td>删除当前行</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>f</kbd></td>
+<td>全局搜索</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Enter</kbd></td>
+<td>向上插入一行</td>
+<td>在一行中的任意位置按下快捷键都可以向上插入一行，并且光标移动到此行</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>方向</kbd></td>
+<td>选择一个完整的单词</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>a</kbd></td>
+<td>多行注释</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>左右方向</kbd></td>
+<td>选中对象实体</td>
+<td>可以选用一个if语句块等等</td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>鼠标拖动</kbd></td>
+<td>选中多行文字</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>上下方向</kbd></td>
+<td>在垂直列添加光标</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="导航快捷键"><a href="#导航快捷键" class="headerlink" title="导航快捷键"></a>导航快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><kbd>F12</kbd></td>
+<td>跳转定义位置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>F12</kbd></td>
+<td>快速查看函数定义</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>F12</kbd></td>
+<td>查找所有引用</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>F12</kbd></td>
+<td>打开查找器窗口，查找所有引用</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>o</kbd></td>
+<td>查找当前文件中的所有符号</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>t</kbd></td>
+<td>全局搜索符号</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>g</kbd></td>
+<td>跳转行</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="调试快捷键"><a href="#调试快捷键" class="headerlink" title="调试快捷键"></a>调试快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><kbd>F5</kbd></td>
+<td>开始调试</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>F10</kbd></td>
+<td>单步跳过</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>F11</kbd></td>
+<td>单步跳入</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>F5</kbd></td>
+<td>停止调试</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>F11</kbd></td>
+<td>单步跳出</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="标签管理快捷键"><a href="#标签管理快捷键" class="headerlink" title="标签管理快捷键"></a>标签管理快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>t</kbd></td>
+<td>打开最后一个关闭的标签</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Tab</kbd></td>
+<td>切换最早打开的标签页</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Tab</kbd></td>
+<td>切换最近打开的标签页</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>w</kbd></td>
+<td>关闭当前的标签</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>k</kbd>之后<kbd>Ctrl</kbd><kbd>w</kbd></td>
+<td>关闭所有的标签</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="窗口管理快捷键"><a href="#窗口管理快捷键" class="headerlink" title="窗口管理快捷键"></a>窗口管理快捷键</h2><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>n</kbd></td>
+<td>新建窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>w</kbd></td>
+<td>关闭窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>`</kbd></td>
+<td>新建终端</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>e</kbd></td>
+<td>从插件或其他导航切换到文件导航栏</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>m</kbd></td>
+<td>打开问题面板</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>u</kbd></td>
+<td>打开输出面板</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>\ </kbd></td>
+<td>拆分窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>`</kbd></td>
+<td>打开终端窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>数字</kbd></td>
+<td>切换编辑器组</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>b</kbd></td>
+<td>打开关闭左侧导航栏</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>方向</kbd></td>
+<td>左右导航</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>方向键</kbd></td>
+<td>将标签按照方向移动到不同的窗口</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h1><table>
+<thead>
+<tr>
+<th>插件名称</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Better Align</td>
+<td>用于对齐变量名和参数</td>
+</tr>
+<tr>
+<td>Better Comments</td>
+<td>实时显示错误</td>
+</tr>
+<tr>
+<td>Code Spell Checker</td>
+<td>用于检查代码的拼写错误</td>
+</tr>
+<tr>
+<td>Code Translate</td>
+<td>鼠标悬停可以查看相关翻译</td>
+</tr>
+<tr>
+<td>Error Lens</td>
+<td>高亮显示错误</td>
+</tr>
+<tr>
+<td>Fitten Code</td>
+<td>超强AI编程</td>
+</tr>
+<tr>
+<td>Git Graph</td>
+<td>用于Git的可视化</td>
+</tr>
+<tr>
+<td>GitLens</td>
+<td>Git的拓展</td>
+</tr>
+<tr>
+<td>Hex Editor</td>
+<td>十六进制文件查看器</td>
+</tr>
+<tr>
+<td>LeetCode</td>
+<td>力扣的练习</td>
+</tr>
+<tr>
+<td>MarkMap</td>
+<td>用于将markdown文件转化为思维导图</td>
+</tr>
+<tr>
+<td>offic viewer</td>
+<td>用于实时渲染markdown文件</td>
+</tr>
+<tr>
+<td>Project Manager</td>
+<td>用于保存常用项目</td>
+</tr>
+<tr>
+<td>Todo Tree</td>
+<td>可用于标记代码中的代办项</td>
+</tr>
+<tr>
+<td>Vim</td>
+<td>vscode中的vim插件</td>
+</tr>
+<tr>
+<td>VSCode Animations</td>
+<td>实现丝滑动画效果</td>
+</tr>
+<tr>
+<td>Apc Customize UI++</td>
+<td>配合VSCode Animations使用实现丝滑动画</td>
+</tr>
+<tr>
+<td>C&#x2F;C++ snippets</td>
+<td>用于生成代码分割符</td>
+</tr>
+<tr>
+<td>IAR linker Configuration File Syntax</td>
+<td>用于显示IAR的icf文件</td>
+</tr>
+<tr>
+<td>Arm Assembly</td>
+<td>汇编代码</td>
+</tr>
+<tr>
+<td>iar build</td>
+<td>iar官方插件</td>
+</tr>
+<tr>
+<td>iar</td>
+<td>：</td>
+</tr>
+<tr>
+<td>Platform IO</td>
+<td>嵌入式替代开发插件</td>
+</tr>
+<tr>
+<td>wakatime</td>
+<td>编程时间及行为跟踪统计</td>
+</tr>
+<tr>
+<td>codeTour</td>
+<td>回放代码演示思路</td>
+</tr>
+<tr>
+<td>koroFileHeader</td>
+<td>生成文件头注释</td>
+</tr>
+<tr>
+<td>image comment</td>
+<td>在代码中插入图片注释</td>
+</tr>
+</tbody></table>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="C-C-snippets"><a href="#C-C-snippets" class="headerlink" title="C&#x2F;C++ snippets"></a>C&#x2F;C++ snippets</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;MainPage Table&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.table&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/**@mainpage&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;table&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;tr&gt;&lt;th&gt;项目名称 &lt;td&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;tr&gt;&lt;th&gt;设计负责人 &lt;td&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;tr&gt;&lt;th&gt;版权 &lt;td&gt;xxxx科技有限公司&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  &lt;/table&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  @section &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  * &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  @section &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  * &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  @section &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  * &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  */&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MainPage Table&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;resource files&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.chinit&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;/*******************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;**                          Revision Control History                          **&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;Version   Date         User                Comment&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;    0.1   2024-10-01   ryf                 - xxx xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;*******************************************************************************/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                             Includes                             =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======               Defines &amp; Macros for General Purpose               =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Constants &amp; Types                         =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Global variables                          =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Local variables                           =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Global Function                           =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Local Function                            =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                    Function Implement List                       =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;use to c files&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;header files&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.hhinit&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;#ifndef $&#123;1:$&#123;TM_FILENAME/(.*)\\.h$/$&#123;1:/upcase&#125;_H/i&#125;&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#define $1&quot;</span><span class="punctuation">,</span> </span><br><span class="line">			<span class="string">&quot;\n$&#123;2:#ifdef __cplusplus&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;extern \&quot;C\&quot;&#123;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#endif&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*******************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;**                          Revision Control History                          **&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;Version   Date         User                Comment&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;    0.1   2024-10-01   ryf                 - xxx xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;*******************************************************************************/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                             INCLUDES                             =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======               DEFINES &amp; MACROS FOR GENERAL PURPOSE               =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        CONSTANTS &amp; TYPES                         =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                             EXPORTS                              =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                  PROTOTYPES OF PUBLIC FUNCTIONS                  =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#ifdef __cplusplus&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#endif&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#endif\t/* $1 */\n&quot;</span></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Avoid Repetition&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.line&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;/***************************************    ****************************************/&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Avoid Repetition&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="iar工程配置"><a href="#iar工程配置" class="headerlink" title="iar工程配置"></a>iar工程配置</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45844792/article/details/134929929">IAR 9.32.1版本 用自安装版本的jlink驱动替代IAR下自带版本下载驱动_iar安装jlink驱动-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.iar.com/zh/product/visual-studio-code-extension">IAR VScode 扩展_插件_官方版 | IAR</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/luobeihai/article/details/127044565">https://blog.csdn.net/luobeihai/article/details/127044565</a></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_13_32_48_202412171332982.png" alt="iar安装教程"></p>
+<h1 id="使用技巧"><a href="#使用技巧" class="headerlink" title="使用技巧"></a>使用技巧</h1><h2 id="忽略搜索文件"><a href="#忽略搜索文件" class="headerlink" title="忽略搜索文件"></a>忽略搜索文件</h2><p>在<code>settings.json</code>文件中增加以下代码：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;search.exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;**/Output&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;**/.git&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;**/.vscode&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;**/Project&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/" rel="tag">软件及工具</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Vim" class="lazyload">
+          
+        
+        <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            Vim
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="WireShark" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          WireShark
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.</span> <span class="toc-text">快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.1.</span> <span class="toc-text">常用快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.2.</span> <span class="toc-text">编辑快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.3.</span> <span class="toc-text">导航快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.4.</span> <span class="toc-text">调试快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E7%AE%A1%E7%90%86%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.5.</span> <span class="toc-text">标签管理快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E7%AE%A1%E7%90%86%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.6.</span> <span class="toc-text">窗口管理快捷键</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C-C-snippets"><span class="toc-number">2.1.1.</span> <span class="toc-text">C&#x2F;C++ snippets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iar%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.2.</span> <span class="toc-text">iar工程配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">使用技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">忽略搜索文件</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "Vscode",
+          url: "http://example.com/2025/03/01/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/",
+          excerpt: "",
+          description: "",
+          stripContent: "快捷键常用快捷键   快捷键 功能 备注    Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表    编辑快捷键   快捷键 功能 备注    Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以复制一行   Ctrlz 撤销    Ctrly 重做    CtrlF 查找    Ctrlh 替换    C",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

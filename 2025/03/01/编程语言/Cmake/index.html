@@ -1,0 +1,777 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_0khxww3tj3q9';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)","zh-CN":"复制成功 (*^▽^*)","zh-TW":"複製成功 (*^▽^*)","ja":"コピー成功 (*^▽^*)","pt-BR":"Copiado com sucesso (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ","zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ","zh-TW":"複製失敗 (ﾟ⊿ﾟ)ﾂ","ja":"コピー失敗 (ﾟ⊿ﾟ)ﾂ","pt-BR":"Falha ao copiar (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    Cmake |
+    
+    你要信我啊の博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_0khxww3tj3q9.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="测试1234567891011121314151617181920212223set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NERVER)set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)set(CMAKE_FIND_ROOT_PATH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cmake">
+<meta property="og:url" content="http://example.com/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Cmake/index.html">
+<meta property="og:site_name" content="你要信我啊の博客">
+<meta property="og:description" content="测试1234567891011121314151617181920212223set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NERVER)set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)set(CMAKE_FIND_ROOT_PATH">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-26T00:29:15.877Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="软件及工具">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="你要信我啊の博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <img src="/../images/loadImage.png" alt="loading" />
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe61b;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe623;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe621;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon ">
+             
+              
+                &#xe639;
+              
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+  
+</div>
+<header id="header">
+  
+    
+      
+        <picture>
+          
+            
+              <source media="(max-width: 479px)" srcset="/images/banner-600w.webp">
+            
+              <source media="(max-width: 799px)" srcset="/images/banner-800w.webp">
+            
+              <source media="(min-width: 800px)" srcset="/images/banner.webp">
+            
+            <img crossorigin="anonymous" fetchpriority="high" src="/images/banner.webp" alt="Cmake">
+          
+        </picture>
+        
+          <img alt="Cmake" style="visibility: hidden;">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Cmake</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" class="sidebar-left"  >
+          <aside id="sidebar">
+  
+  
+  
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">测试</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+
+  <div class="sidebar-widget">
+  
+  </div>
+  
+</aside>
+
+          <section id="main"><article id="post-编程语言/Cmake" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-03-01T00:00:00.000Z" itemprop="datePublished">2025-03-01</time>
+    <time style="display: none;" id="post-update-time">2025-08-26</time>
+  </span>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NERVER)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)</span><br><span class="line"></span><br><span class="line"><span class="keyword">option</span>(USE_ARMGCC <span class="string">&quot;USE ARM GCC&quot;</span> <span class="keyword">OFF</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(USE_ARMGCC)</span><br><span class="line">    <span class="keyword">set</span>(COMPILER_ROOT_PATH C:/compile_environment/arm-gnu-toolchain-<span class="number">13.3</span>.rel1-mingw-w64-i686-arm-none-eabi/bin)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_C_COMPILER <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/arm-none-eabi-gcc.exe)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_ASM_COMPILER <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/arm-none-eabi-gcc.exe)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_OBJCOPY <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/arm-none-eabi-objcopy.exe)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_SIEZE <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/arm-none-eabi-size.exe)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">set</span>(COMPILER_ROOT_PATH C:/Keil_v5/ARM/ARMCLANG/bin)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_C_COMPILER <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/armclang.exe)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_ASM_COMPILER <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/armclang.exe)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_OBJCOPY <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/fromelf.exe)</span><br><span class="line">    <span class="keyword">set</span>(CMAKE_SIEZE <span class="variable">$&#123;COMPILER_ROOT_PATH&#125;</span>/fromelf.exe)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">cmake_policy</span>(<span class="keyword">SET</span> CMP0123 NEW)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_SYSTEM_NAME Generic)</span><br><span class="line"><span class="keyword">set</span>(CPU_CORE cortex-m3)</span><br><span class="line"><span class="keyword">set</span>(CMAKE_SYSTEM_PROCESSOR <span class="variable">$&#123;CPU_CORE&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_TOOLCHAIN_FILE <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/toolchain.cmake)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(<span class="keyword">TEST</span> C ASM)</span><br><span class="line"></span><br><span class="line"><span class="keyword">string</span>(TOUPPER <span class="variable">$&#123;CMAKE_BUILD_TYPE&#125;</span> BUILD_TYPE_UPPER)</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$&#123;BUILD_TYPE_UPPER&#125;</span> <span class="keyword">STREQUAL</span> <span class="string">&quot;RELEASE&quot;</span>)</span><br><span class="line">    <span class="keyword">add_compile_options</span>(-Os)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">add_compile_options</span>(-Og -g)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">include_directories</span>(</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/Firmware/CMSIS/</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/Firmware/CMSIS/GD/GD32F10x/<span class="keyword">Include</span>/</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/Firmware/GD32F10x_standard_peripheral/<span class="keyword">Include</span>/</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware//inc/</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">file</span>(GLOB SOURCE_FILE</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/Firmware/CMSIS/GD/GD32F10x/Source/*.c</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/Firmware/GD32F10x_standard_peripheral/Source/*.c</span><br><span class="line">    <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware//src/*.c</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(EXECUTABLE_OUTPUT_PATH <span class="variable">$&#123;CMAKE_BINARY_DIR&#125;</span>/output)</span><br><span class="line"><span class="keyword">set</span>(HEX_FILE <span class="variable">$&#123;EXECUTABLE_OUTPUT_PATH&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.hex)</span><br><span class="line"><span class="keyword">set</span>(BIN_FILE <span class="variable">$&#123;EXECUTABLE_OUTPUT_PATH&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.bin)</span><br><span class="line"><span class="keyword">set</span>(MAP_FILE <span class="variable">$&#123;EXECUTABLE_OUTPUT_PATH&#125;</span>/<span class="variable">$&#123;PROJECT_NAME&#125;</span>.map)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(USE_ARMGCC)</span><br><span class="line">    <span class="keyword">SET</span>(STARTUP_FILE <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/gcc_startup/startup_gd32f10x_hd.S)</span><br><span class="line">    <span class="keyword">SET</span>(LINKER_SCRIPT <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/Firmware/gd32f10x_flash.ld)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">add_compile_options</span>(</span><br><span class="line">        -mcpu=<span class="variable">$&#123;CPU_CORE&#125;</span></span><br><span class="line">        -mthumb</span><br><span class="line">        -mthumb-interwork</span><br><span class="line">        -ffunction-sections</span><br><span class="line">        -fdata-sections</span><br><span class="line">        -fno-common</span><br><span class="line">        -fmessage-length=<span class="number">0</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">add_link_options</span>(</span><br><span class="line">        -Wl,-Map=<span class="variable">$&#123;MAP_FILE&#125;</span></span><br><span class="line">        -Wl,--print-memory-usage</span><br><span class="line">        -Wl,--gc-sections</span><br><span class="line">        -T <span class="variable">$&#123;LINKER_SCRIPT&#125;</span></span><br><span class="line">    )</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">SET</span>(STARTUP_FILE <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/startup_gd32f10x_hd.s)</span><br><span class="line">    <span class="keyword">SET</span>(LINKER_SCRIPT <span class="variable">$&#123;CMAKE_CURRENT_LIST_DIR&#125;</span>/gd32f10x_flash.sct)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">add_compile_options</span>(</span><br><span class="line">        --<span class="keyword">target</span>=arm-arm-none-eabi</span><br><span class="line">        -mcpu=<span class="variable">$&#123;CPU_CORE&#125;</span></span><br><span class="line">        -masm=armasm</span><br><span class="line">        -Wa,armasm,--diag_suppress=A1950W</span><br><span class="line">        -gdwarf-<span class="number">4</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">add_link_options</span>(</span><br><span class="line">        --strict</span><br><span class="line">        --scatter <span class="variable">$&#123;LINKER_SCRIPT&#125;</span></span><br><span class="line">        --info=sizes,totals,unused,veneers</span><br><span class="line">        --map</span><br><span class="line">        --<span class="keyword">list</span>=<span class="variable">$&#123;MAP_FILE&#125;</span></span><br><span class="line">    )</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> <span class="variable">$&#123;SOURCE_FILE&#125;</span> <span class="variable">$&#123;STARTUP_FILE&#125;</span>)</span><br><span class="line"><span class="keyword">set_target_properties</span>(<span class="variable">$&#123;PROJECT_NAME&#125;</span> PROPERTIES</span><br><span class="line">    RUNTIME_OUTPUT_DIRECTORY <span class="variable">$&#123;EXECUTABLE_OUTPUT_PATH&#125;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(USE_ARMGCC)</span><br><span class="line">    <span class="keyword">add_custom_command</span>(<span class="keyword">TARGET</span> <span class="variable">$&#123;PROJECT_NAME&#125;</span> POST_BUILD</span><br><span class="line">        <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_OBJCOPY&#125;</span> -Oihex $&lt;TARGET_FILE:<span class="variable">$&#123;PROJECT_NAME&#125;</span>&gt; <span class="variable">$&#123;HEX_FILE&#125;</span></span><br><span class="line">        <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_OBJCOPY&#125;</span> -Obinary $&lt;TARGET_FILE:<span class="variable">$&#123;PROJECT_NAME&#125;</span>&gt; <span class="variable">$&#123;BIN_FILE&#125;</span></span><br><span class="line">        <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_SIEZE&#125;</span> $&lt;TARGET_FILE:<span class="variable">$&#123;PROJECT_NAME&#125;</span>&gt;</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">add_custom_command</span>(<span class="keyword">TARGET</span> <span class="variable">$&#123;PROJECT_NAME&#125;</span> POST_BUILD</span><br><span class="line">        <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_OBJCOPY&#125;</span> -i32 --output=<span class="variable">$&#123;HEX_FILE&#125;</span>  $&lt;TARGET_FILE:<span class="variable">$&#123;PROJECT_NAME&#125;</span>&gt;</span><br><span class="line">        <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_OBJCOPY&#125;</span> -bin --output=<span class="variable">$&#123;BIN_FILE&#125;</span>  $&lt;TARGET_FILE:<span class="variable">$&#123;PROJECT_NAME&#125;</span>&gt;</span><br><span class="line">        <span class="keyword">COMMAND</span> <span class="variable">$&#123;CMAKE_SIEZE&#125;</span> --info=sizes $&lt;TARGET_FILE:<span class="variable">$&#123;PROJECT_NAME&#125;</span>&gt;</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/" rel="tag">软件及工具</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          <img data-src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png" data-sizes="auto" alt="CAPL" class="lazyload">
+        
+        <a href="/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            CAPL
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://d-sketon.top/img/backimg/bg1.jpg" data-sizes="auto" alt="Kconfig" class="lazyload">
+        
+      
+      <a href="/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Kconfig/"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          Kconfig
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      ryf
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        666.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        42:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">测试</span></a></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.jpg" data-sizes="auto" alt="ryf" class="lazyload">
+  <div class="sidebar-author-name">ryf</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">82</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">1</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe61b;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe623;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe621;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon ">
+          
+            
+              &#xe639;
+            
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+  
+<script src="https://npm.webcache.cn/material-theme@1.0.0/dist/material-theme.umd.js" integrity="sha384-vLev0II0HKFaxkcm+&#x2F;7kX5IGwVFBASkGchU311wmU&#x2F;veIj2bB0UcBkQbW6yw2asK" crossorigin="anonymous"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "ryf",
+          title: "Cmake",
+          url: "http://example.com/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Cmake/",
+          excerpt: "",
+          description: "",
+          stripContent: "测试1234567891011121314151617181920212223set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NERVER)set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)set(CMAKE_FIND_ROOT_PATH_MODE_P",
+          date: "Sat Mar 01 2025 00:00:00 GMT+0000",
+          updated: "Tue Aug 26 2025 00:29:15 GMT+0000",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.9.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+
