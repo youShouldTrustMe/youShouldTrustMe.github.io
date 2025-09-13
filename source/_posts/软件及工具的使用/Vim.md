@@ -1,15 +1,64 @@
 ---
 title: Vim
 
-date: 2025-03-01
-lastmod: 2025-03-01
-tags:
-- 软件及工具
+categories: 
+  - 软件及工具
+
 ---
 
 
 
-# 启动 Vim
+# 启动 &安装
+
+## 包管理工具
+
+我们可以使用`Scoop`来安装软件，使用`gitee`上的`Scoop`就不用担心网络的问题，可以访问https://gitee.com/scoop-installer/scoop来安装scoop。
+
+1. 给`Scoop`创建环境变量（在`PowerShell`中执行）
+
+   ```shell
+   [Environment]::SetEnvironmentVariable('SCOOP','D:\Scoop','USER')
+   ```
+
+   设置完环境变量之后需要重启一下`Powershell`
+
+2. 安装到指定位置
+
+   ```shell
+   ## 自定义安装目录（注意将目录修改为合适位置)
+   irm scoop.201704.xyz -outfile 'install.ps1'
+   .\install.ps1 -ScoopDir 'D:\Scoop' -ScoopGlobalDir 'D:\GlobalScoopApps'
+   ```
+
+3. 安装
+
+   ```shell
+   # 脚本执行策略更改，默认自动同意
+   Set-ExecutionPolicy RemoteSigned -scope CurrentUser -Force
+   
+   # 执行安装命令（默认安装在用户目录下，如需更改请执行“自定义安装目录”命令）
+   iwr -useb scoop.201704.xyz | iex
+   ```
+
+4. 安装`Git`程序
+
+   ```shell
+   #必装git，scoop及bucket更新均依赖此软件
+   scoop install git
+   ```
+
+5. 添加`Bucket`
+
+   ```shell
+   #查询已知bucket
+   scoop bucket known
+   #添加bucket
+   scoop bucket add extras
+   ```
+
+   
+
+## 原生Vim
 
 在终端中输入 `vim` 启动 Vim，或者输入 `vim filename` 打开特定文件。
 
@@ -18,94 +67,155 @@ vim
 vim filename
 ```
 
-#  基本模式
+## Neovim
 
-Vim 有三种主要模式：
+首先可以在[Home - Neovim](https://neovim.io/)页面下载并安装软件或者使用`Scoop`来安装软件：
 
-- **Normal 模式**：默认模式，用于执行命令。
-- **Insert 模式**：用于编辑文本。
-- **Visual 模式**：用于选择文本。
-
-切换模式
-
-- **Normal 模式**：启动 Vim 后默认进入 Normal 模式。按 `Esc` 可以从其他模式切换到 Normal 模式。
-- **Insert 模式**：在 Normal 模式下，按 `i` 进入 Insert 模式，按 `Esc` 退出到 Normal 模式。
-- **Visual 模式**：在 Normal 模式下，按 `v` 进入 Visual 模式，按 `Esc` 退出到 Normal 模式。
-
-# 常用命令
-
-## Normal 模式命令
-
-- **移动光标**：
-  - `h`：左移
-  - `j`：下移
-  - `k`：上移
-  - `l`：右移
-  - `w`：移动到下一个单词的开头
-  - `b`：移动到前一个单词的开头
-  - `0`：移动到行首
-  - `$`：移动到行尾
-
-- **编辑文本**：
-  - `i`：在光标前插入
-  - `a`：在光标后插入
-  - `o`：在当前行下方插入新行
-  - `dd`：删除当前行
-  - `d$`：删除从光标到行尾的内容
-  - `x`：删除光标下的字符
-  - `yy`：复制当前行
-  - `p`：粘贴
-  - `u`：撤销
-  - `Ctrl + r`：重做
-
-- **保存和退出**：
-  - `:w`：保存文件
-  - `:q`：退出 Vim
-  - `:wq` 或 `ZZ`：保存并退出
-  - `:q!`：不保存退出
-
-## Insert 模式命令
-
-- 在 Insert 模式下，你可以像普通文本编辑器一样输入文本。
-- 使用 `Esc` 返回到 Normal 模式。
-
-## Visual 模式命令
-
-- `v`：进入 Visual 模式并选择字符
-- `V`：进入 Visual 模式并选择行
-- `Ctrl + v`：进入 Visual 模式并选择块
-- 在 Visual 模式下，你可以使用 `y` 复制，`d` 删除，`p` 粘贴选中的内容。
-
-## 键位图
-
-![VIM键位图](https://i-blog.csdnimg.cn/blog_migrate/9d1351469929da16936b11c946ecd2c4.jpeg)
-
-# 搜索和替换
-
-- **搜索**：
-  - `/pattern`：向下搜索 `pattern`
-  - `?pattern`：向上搜索 `pattern`
-  - `n`：跳到下一个匹配
-  - `N`：跳到上一个匹配
-
-- **替换**：
-  - `:%s/old/new/g`：全局替换所有 `old` 为 `new`
-  - `:s/old/new/g`：替换当前行所有 `old` 为 `new`
-  - `:s/old/new/gc`：替换当前行所有 `old` 为 `new`，并确认每次替换
-
-# 配置 Vim
-
-你可以通过编辑 `~/.vimrc` 文件来配置 Vim。例如：
-
-```vim
-syntax on              " 启用语法高亮
-set number             " 显示行号
-set tabstop=4          " 设置 Tab 长度为 4
-set shiftwidth=4       " 设置自动缩进为 4
-set expandtab          " 将 Tab 转换为空格
+```shell
+scoop install neovim
 ```
 
+安装完成之后，强烈建议安装`lazyvim`包管理器，用`lazyvim`包管理器可以更快更方便的安装插件。安装步骤可见[🛠️ Installation | LazyVim](https://www.lazyvim.org/installation)。`LazyVim`需要依赖以下几个软件，我们可以提前安装好：
+
+- Neovim >= **0.9.0** (needs to be built with **LuaJIT**)
+- Git >= **2.19.0** (for partial clones support)
+-  [Nerd Font](https://www.nerdfonts.com/)（v3.0 或更高版，用于图标显示）
+- [lazygit](https://github.com/jesseduffield/lazygit) 
+- a **C** compiler for `nvim-treesitter`. See [here](https://github.com/nvim-treesitter/nvim-treesitter#requirements)
+- **curl** for [blink.cmp](https://github.com/Saghen/blink.cmp) **(completion engine)**
+- for fzf-lua  *(optional)*
+  - **fzf**: [fzf](https://github.com/junegunn/fzf) **(v0.25.1 or greater)**
+  - **live grep**: [ripgrep](https://github.com/BurntSushi/ripgrep)
+  - **find files**: [fd](https://github.com/sharkdp/fd)
+- a terminal that support true color and undercurl:
+  - [kitty](https://github.com/kovidgoyal/kitty) ***(Linux & Macos)\***
+  - [wezterm](https://github.com/wez/wezterm) ***(Linux, Macos & Windows)\***
+  - [alacritty](https://github.com/alacritty/alacritty) ***(Linux, Macos & Windows)\***
+  - [iterm2](https://iterm2.com/) ***(Macos)\***
+
+
+
+git完之后，所有的文件在`~\AppData\Local\nvim`文件夹下，该文件夹下有以下重要文件：
+
+- `init.lua`：在顶层文件夹中，定义了依赖文件
+- `options.lua`：在`lua/config`文件夹下，用于做vim的配置
+- `keymap.lua`：在`lua/config`文件夹下，用于按键映射
+
+> [!note] 
+>
+> 如果出现下载不了的情况，请设置http和https的代理，代理的地址和端口请参见设置中的代理配置
+>
+> ```bash
+> # 设置 HTTP 代理
+> git config --global http.proxy http://127.0.0.1:7890
+> # 设置 HTTPS 代理
+> git config --global https.proxy http://127.0.0.1:7890
+> ```
+>
+> 
+
+1. 在`init`文件中写入依赖的文件
+
+   ```lua
+   -- bootstrap lazy.nvim, LazyVim and your plugins
+   require("config.lazy")
+   
+   require("lazy").setup("plugins")
+   ```
+
+   > [!tip] 
+   >
+   > 这里最后一行会解析`plugins`文件下的所有插件，所以新增一个插件只需要在`plugins`文件夹下增加插件的文件即可
+
+   其中，配置文件的依赖命令行应该在开头，命令为`文件夹名.文件名`
+
+2. `options`文件中写入vim的配置，如缩进有几个空格等等
+
+   ```lua
+   -- Options are automatically loaded before lazy.nvim startup
+   -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+   -- Add any additional options here
+   local opt = vim.opt
+   
+   -- 行号
+   opt.relativenumber = true
+   opt.number = true
+   
+   -- 缩进
+   opt.tabstop = 4        -- 制表符显示为4个空格宽
+   opt.shiftwidth = 4     -- 用于自动缩进的宽度
+   opt.expandtab = false  -- 使用制表符进行缩进
+   opt.autoindent = true
+   
+   -- 防止包裹
+   opt.wrap = false
+   
+   -- 光标行
+   opt.cursorline = false
+   
+   -- 启用鼠标
+   opt.mouse:append("a")
+   
+   -- 系统剪贴板
+   opt.clipboard:append("unnamedplus")
+   
+   -- 默认新窗口右和下
+   opt.splitright = true
+   opt.splitbelow = true
+   
+   -- 搜索
+   opt.ignorecase = true
+   opt.smartcase = true
+   
+   -- 拼写检查
+   vim.opt.spell = true  -- 启用拼写检查
+   vim.opt.spelllang = { "en", "cjk" }  -- 英文+忽略中文检查
+   ```
+
+3. `keymap`文件为快捷键映射
+
+   ```lua
+   vim.g.mapleader = " "
+   
+   local keymap = vim.keymap
+   
+   -- ---------- 插入模式 ---------- ---
+   keymap.set("i", "jk", "<ESC>")
+   
+   -- ---------- 视觉模式 ---------- ---
+   -- 单行或多行移动
+   keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+   keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+   
+   -- ---------- 正常模式 ---------- ---
+   -- 窗口
+   keymap.set("n", "<leader>sv", "<C-w>v") -- 水平新增窗口 
+   keymap.set("n", "<leader>sh", "<C-w>s") -- 垂直新增窗口
+   
+   -- 取消高亮
+   keymap.set("n", "<leader>nh", ":nohl<CR>")
+   
+   -- 文件树映射
+   keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
+   ```
+
+   > [!tip] 
+   >
+   > `keymap.set`命令的参数依次为：
+   >
+   > 1. 在什么模式下
+   > 2. 映射的按键
+   > 3. 被映射的命令
+   >
+   > 其中一些按键为：
+   >
+   > 1. `vim.g.mapleader`是设置主键，我这里设置的是空格 
+   > 2. `<CR>`为回车
+   > 3. `<C>`为`ctrl`键
+
 # 插件管理
+
+## Vim
 
 Vim 有丰富的插件生态，可以使用插件管理器来安装和管理插件。常见的插件管理器有：
 
@@ -142,113 +252,9 @@ filetype plugin indent on
 
 通过这些基本操作，你可以高效地使用 Vim 进行文本编辑和代码开发。随着使用经验的增加，你可以进一步探索 Vim 的高级功能和插件生态，提升工作效率。
 
-# NeoVim
+## Neovim
 
-## 安装基础插件
-
-首先在[Home - Neovim](https://neovim.io/)页面下载NeoVim软件，安装完成之后，强烈建议安装`lazyvim`包管理器，用`lazyvim`包管理器可以更快更方便的安装插件。
-
-安装步骤可见[🛠️ Installation | LazyVim](https://www.lazyvim.org/installation)。git完之后，所有的文件在`~\AppData\Local\nvim`文件夹下，该文件夹下有以下重要文件：
-
-- `init.lua`：在顶层文件夹中，定义了依赖文件
-- `options.lua`：在`lua/config`文件夹下，用于做vim的配置
-- `keymap.lua`：在`lua/config`文件夹下，用于按键映射
-
-1. 在`init`文件中写入依赖的文件
-
-   ```lua
-   -- bootstrap lazy.nvim, LazyVim and your plugins
-   require("config.lazy")
-   
-   require("lazy").setup("plugins")
-   ```
-
-   > [!tip]
-   >
-   > 这里最后一行会解析`plugins`文件下的所有插件，所以新增一个插件只需要在`plugins`文件夹下增加插件的文件即可
-
-   其中，配置文件的依赖命令行应该在开头，命令为`文件夹名.文件名`
-
-2. `options`文件中写入vim的配置，如缩进有几个空格等等
-
-   ```lua
-   local opt = vim.opt
-   
-   -- 行号
-   opt.relativenumber = true
-   opt.number = true
-   
-   -- 缩进
-   opt.tabstop = 4        -- 制表符显示为4个空格宽
-   opt.shiftwidth = 4     -- 用于自动缩进的宽度
-   opt.expandtab = false  -- 使用制表符进行缩进
-   opt.autoindent = true
-   
-   -- 防止包裹
-   opt.wrap = false
-   
-   -- 光标行
-   opt.cursorline = false
-   
-   -- 启用鼠标
-   opt.mouse:append("a")
-   
-   -- 系统剪贴板
-   opt.clipboard:append("unnamedplus")
-   
-   -- 默认新窗口右和下
-   opt.splitright = true
-   opt.splitbelow = true
-   
-   -- 搜索
-   opt.ignorecase = true
-   opt.smartcase = true
-   ```
-   
-3. `keymap`文件为快捷键映射
-
-   ```lua
-   vim.g.mapleader = " "
-   
-   local keymap = vim.keymap
-   
-   -- ---------- 插入模式 ---------- ---
-   keymap.set("i", "jk", "<ESC>")
-   
-   -- ---------- 视觉模式 ---------- ---
-   -- 单行或多行移动
-   keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-   keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-   
-   -- ---------- 正常模式 ---------- ---
-   -- 窗口
-   keymap.set("n", "<leader>sv", "<C-w>v") -- 水平新增窗口 
-   keymap.set("n", "<leader>sh", "<C-w>s") -- 垂直新增窗口
-   
-   -- 取消高亮
-   keymap.set("n", "<leader>nh", ":nohl<CR>")
-   
-   -- 文件树映射
-   keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
-   ```
-
-   > [!tip]
-   >
-   > `keymap.set`命令的参数依次为：
-   >
-   > 1. 在什么模式下
-   > 2. 映射的按键
-   > 3. 被映射的命令
-   >
-   > 其中一些按键为：
-   >
-   > 1. `vim.g.mapleader`是设置主键，我这里设置的是空格 
-   > 2. `<CR>`为回车
-   > 3. `<C>`为`ctrl`键
-
-## 插件管理
-
-​	前面说过插件的配置管理会放到`plugins`文件夹下，新增一个插件就需要新建一个`lua`的配置文件，且配置文件名没有要求。
+前面说过插件的配置管理会放到`plugins`文件夹下，新增一个插件就需要新建一个`lua`的配置文件，且配置文件名没有要求。
 
 ### nvim-tree
 
@@ -650,73 +656,254 @@ return{
 
 使用`Fitten login`命令来登录，使用`Fitten logout`来登出
 
-## 使用技巧
+### outline
 
-在`Lazyvim`中自带了很多的插件，如`lua-line`就是`layzvim`自带的插件，这些自带的插件及自己安装的插件提供了很多实用的技巧：
+用于展示函数的大纲
 
----
 
-开关终端：
 
-1. 使用<kbd>ctrl</kbd><kbd>/</kbd>打开（关闭）终端运行界面
+```lua
+   -- 在 ~/.config/nvim/lua/plugins/extra.lua 中添加
+   return {
+     {
+       "simrat39/symbols-outline.nvim",
+       cmd = "SymbolsOutline",
+       keys = {
+         { "<leader>o", "<cmd>SymbolsOutline<CR>", desc = "Toggle Outline" },
+       },
+       config = true,  -- 使用默认配置
+     }
+   }
+```
 
----
+### Auto-Save
 
-文件相关（在文件视图下）：
+用于自动保存文件，自动保存设置为一旦窗口失焦就自动保存
 
-1. 使用<kbd>H</kbd>来隐藏或显示隐藏文件
+```lua
+return {
+  "Pocco81/auto-save.nvim",
+  event = "VeryLazy",
+  config = function()
+    require("auto-save").setup {
+      enabled = true,
+      trigger_events = { "FocusLost", "WinLeave" },
+      debounce_delay = 500,
+      -- 将字符串改为数组格式（推荐）
+      execution_message = {
+        message = function() return "AutoSave: 已保存 " .. vim.fn.expand("%:p") end,
+        dim = 0.5,  -- 可选：通知文本透明度
+        cleaning_interval = 1250,  -- 可选：消息自动清除延迟（毫秒）
+      },
+      quiet = false,
+    }
+  end,
+}
+```
 
-2. 焦点在文件夹上，按下<kbd>a</kbd>可以新增文件，在后面加上`/`会增加为文件夹
+可以设置的事件有
 
-3. 关闭当前文件可以使用<kbd>leader</kbd><kbd>b</kbd><kbd>d</kbd>
+| 事件名称        | 触发场景                                    | 示例值                               |
+| --------------- | ------------------------------------------- | ------------------------------------ |
+| `"FocusLost"`   | 窗口失去焦点（如切换到其他应用）            | `trigger_events = { "FocusLost" }`   |
+| `"WinLeave"`    | 离开当前 Neovim 窗口                        | `trigger_events = { "WinLeave" }`    |
+| `"BufLeave"`    | 离开当前 Buffer（切换文件时）               | `trigger_events = { "BufLeave" }`    |
+| `"InsertLeave"` | 退出插入模式（Normal 模式时保存）           | `trigger_events = { "InsertLeave" }` |
+| `"TextChanged"` | 文本内容变更后保存                          | `trigger_events = { "TextChanged" }` |
+| `"CursorHold"`  | 光标停留一段时间后保存（需设 `updatetime`） | `trigger_events = { "CursorHold" }`  |
 
-   > [!tip]
-   >
-   > 打开的文件被Vim称作是buffer
 
----
 
-焦点移动：
+#  基本模式
 
-1. 使用<kbd>ctrl</kbd>+<kbd>h</kbd>(<kbd>j</kbd>、<kbd>k</kbd>、<kbd>l</kbd>)在不同的视图中移动
-2. 在代码视图，可以按下<kbd>H</kbd>或<kbd>L</kbd>来切换已打开的不同文件
+Vim 有三种主要模式：
 
----
+- **Normal 模式**：默认模式，用于执行命令。
+- **Insert 模式**：用于编辑文本。
+- **Visual 模式**：用于选择文本。
 
-代码跳转：
+切换模式
 
-1. 先按下<kbd>f</kbd>键，然后输入你要搜索的内容，此时匹配的字母都会高亮显示，反白的高亮就是光标当前所在的位置。回车之后，按下<kbd>f</kbd>键可以向下搜寻，按下<kbd>F</kbd>向上搜索
-2. 先按下<kbd>s</kbd>键，然后输入你想要搜索的内容，此时匹配的字母会高亮显示，并且，每个匹配项都会随机分配一个红色标记的字母，只要按下这个字母就可以跳转到相应位置
-3. 如果在代码中存在报错，那么可以按下<kbd>[</kbd><kbd>e</kbd>跳转上一个错误位置，按下<kbd>]</kbd><kbd>e</kbd>跳转到下一个错误位置
-4. 使用<kbd>[</kbd>或<kbd>]</kbd>+<kbd>a</kbd>可以在函数的参数上左右跳转
+- **Normal 模式**：启动 Vim 后默认进入 Normal 模式。按 `Esc` 可以从其他模式切换到 Normal 模式。
+- **Insert 模式**：在 Normal 模式下，按 `i` 进入 Insert 模式，按 `Esc` 退出到 Normal 模式。
+- **Visual 模式**：在 Normal 模式下，按 `v` 进入 Visual 模式，按 `Esc` 退出到 Normal 模式。
 
----
+# 操作指南
 
-命令导航：
+> [!tip]
+>
+> 注意，其中有些功能基于`lazyvim`，并且命令均处于`Normal`模式
 
-1. 当我们按下单个按键的时候，在右下角会提示你下一步可以按的按键，并且在后面会有注释，如当按下<kbd>leader</kbd>后，在右下角会弹出一个窗口提示，假设你继续按照他的提示按<kbd>b</kbd>键，那么之后按下的按键就是<kbd>leader</kbd><kbd>b</kbd>
-2. 该功能是有`lazyvim`自带的插件`WhichKey`
+## 键位图
 
----
+![VIM键位图](https://i-blog.csdnimg.cn/blog_migrate/9d1351469929da16936b11c946ecd2c4.jpeg)
 
-编辑文件：
+## 命令行
 
-1. <kbd>d</kbd><kbd>w</kbd>命令会被当前光标限制，如你的光标在一个单词的中间，那么<kbd>d</kbd><kbd>w</kbd>只会删除后半段的单词，使用<kbd>d</kbd><kbd>i</kbd><kbd>w</kbd>会删除整个单词
-2. 使用<kbd>c</kbd><kbd>w</kbd>命令会删除当前单词并且插入，且也会受到光标的限制，所以可以使用使用<kbd>c</kbd><kbd>i</kbd><kbd>w</kbd>不受光标限制的删除整个单词并插入
-3. 使用<kbd>v</kbd><kbd>w</kbd>命令会选中当前单词，且也会受到光标的限制，所以可以使用使用<kbd>v</kbd><kbd>i</kbd><kbd>w</kbd>不受光标限制的选中整个单词
-4. 类比的，使用<kbd>c</kbd><kbd>i</kbd>、<kbd>d</kbd><kbd>i</kbd>、<kbd>v</kbd><kbd>i</kbd>，我们可以将<kbd>w</kbd>切换为<kbd>(</kbd>、<kbd>“</kbd>来修改、删除、选中括号中或引号中的内容，只要是成对出现的符号都可以使用这种命令
+| 命令                            | 作用                                          | 备注                   |
+| ------------------------------- | --------------------------------------------- | ---------------------- |
+| <kbd>ctrl</kbd><kbd>/</kbd>     | 打开/关闭终端                                 |                        |
+| <kbd>q</kbd><kbd>a</kbd>        | 关闭vim                                       |                        |
+| <kbd>:w</kbd>                   | 保存文件                                      |                        |
+| <kbd>:q</kbd>                   | 退出 Vim                                      |                        |
+| <kbd>:wq</kbd> 或 <kbd>ZZ</kbd> | 保存并退出                                    |                        |
+| <kbd>:q!</kbd>                  | 不保存退出                                    |                        |
+| <kbd>Esc</kbd>                  | 返回到 Normal 模式                            |                        |
+| <kbd>/</kbd>                    | 向下搜索                                      | 输入想要搜索的内容即可 |
+| <kbd>?</kbd>                    | 向上搜索                                      | 输入想要搜索的内容即可 |
+| <kbd>n</kbd>                    | 跳转到下一个匹配                              |                        |
+| <kbd>N</kbd>                    | 跳转到上一个匹配                              |                        |
+| `:%s/old/new/g`                 | 全局替换所有 `old` 为 `new`                   |                        |
+| `:s/old/new/g`                  | 替换当前行所有 `old` 为 `new`                 |                        |
+| `:s/old/new/gc`                 | 替换当前行所有 `old` 为 `new`，并确认每次替换 |                        |
 
----
+## 文件
 
-注释代码：
+| 命令                                       | 作用                      | 备注                                                     |
+| ------------------------------------------ | ------------------------- | -------------------------------------------------------- |
+| <kbd>H</kbd>                               | 隐藏/显示文件             |                                                          |
+| <kbd>a</kbd>                               | 新增文件                  | 在新增之前需要焦点在文件夹上,在后面加上`/`会增加为文件夹 |
+| <kbd>leader</kbd><kbd>b</kbd><kbd>d</kbd>  | 关闭当前buffer            |                                                          |
+| <kbd>leader</kbd><kbd>leader</kbd>         | 搜索文件                  | 支持模糊搜索                                             |
+| <kbd> leader</kbd><kbd>f</kbd><kbd>f</kbd> | 查找文件（Telescope）     | 模糊搜索文件                                             |
+| <kbd>leader</kbd><kbd>f</kbd><kbd>g</kbd>  | 全局文本搜索（Telescope） | 实时 grep 项目文件                                       |
+| <kbd>leader</kbd><kbd>f</kbd><kbd>r</kbd>  | 查找最近文件（Telescope） |                                                          |
+|                                            |                           |                                                          |
 
-1. 使用<kbd>g</kbd><kbd>c</kbd><kbd>c</kbd>注释单行代码
+> [!tip]  
+>
+> 打开的文件被Vim称作是buffer
+>
+> 
 
----
+## 焦点
 
-退出vim：
+| 命令                                                         | 作用                   | 备注               |
+| ------------------------------------------------------------ | ---------------------- | ------------------ |
+| <kbd>ctrl</kbd>+<kbd>h</kbd>(<kbd>j</kbd>、<kbd>k</kbd>、<kbd>l</kbd>) | 在不同的窗口间移动焦点 |                    |
+| <kbd>H</kbd>或<kbd>L</kbd>                                   | 切换一打开的不同文件   | 需要焦点在代码区域 |
+|                                                              |                        |                    |
 
-1. 使用<kbd>q</kbd><kbd>a</kbd>来退出整个`nvim`
+## 代码
+
+### 搜索
+
+| 命令         | 作用         | 备注                                                         |
+| ------------ | ------------ | ------------------------------------------------------------ |
+| <kbd>f</kbd> | 进入搜索模式 | 输入你要搜索的内容，此时匹配的字母都会高亮显示，反白的高亮就是光标当前所在的位置。回车之后，按下<kbd>f</kbd>键可以向下搜寻，按下<kbd>F</kbd>向上搜索 |
+| <kbd>s</kbd> | 进入搜索模式 | 输入你想要搜索的内容，此时匹配的字母会高亮显示，并且，每个匹配项都会随机分配一个红色标记的字母，只要按下这个字母就可以跳转到相应位置 |
+
+### 缩进
+
+| 命令                                             | 作用                     | 备注                                                   |
+| ------------------------------------------------ | ------------------------ | ------------------------------------------------------ |
+| <kbd>></kbd><kbd>></kbd>                         | 向右缩进Tab              | 需要在Normal模式下                                     |
+| <kbd><</kbd><kbd><</kbd>                         | 向左缩进Tab              | 需要在Normal模式下                                     |
+| <kbd>></kbd>                                     | 向右多行缩进Tab          | 需要在Visual模式下（<kbd>V</kbd>），选中需要缩进的文本 |
+| <kbd><</kbd>                                     | 向左多行缩进Tab          | 需要在Visual模式下（<kbd>V</kbd>），选中需要缩进的文本 |
+| <kbd>></kbd><kbd>a</kbd><kbd>p</kbd>             | 缩进整个段落             | （`a` 表示 `around`，`p` 表示 `paragraph`）            |
+| <kbd>></kbd><kbd>i</kbd><kbd>{</kbd>             | 缩进当前 `{}` 块内的内容 |                                                        |
+| <kbd>g</kbd><kbd>g</kbd><kbd>=</kbd><kbd>G</kbd> | 对整个文件自动缩进       | 基于 LSP 或缩进规则                                    |
+| <kbd>=</kbd><kbd>a</kbd><kbd>p</kbd>             | 自动缩进当前段落         |                                                        |
+| <kbd>Tab</kbd>                                   | 插入模式下按 `Tab` 缩进  | 受 `expandtab` 设置影响                                |
+| <kbd>Shift</kbd><kbd>Tab</kbd>                   | 反向缩进                 | 部分终端支持                                           |
+
+### 跳转
+
+| 命令                                      | 作用                         | 备注                                                    |
+| ----------------------------------------- | ---------------------------- | ------------------------------------------------------- |
+| <kbd>[</kbd><kbd>e</kbd>                  | 跳转上一个错误位置           | 需要代码中存在错误                                      |
+| <kbd>]</kbd><kbd>e</kbd>                  | 跳转到下一个错误位置         | 需要代码中存在错误                                      |
+| <kbd>[</kbd><kbd>a</kbd>                  | 在函数的参数中，向左移动光标 |                                                         |
+| <kbd>]</kbd><kbd>a</kbd>                  | 在函数的参数中，向右移动光标 | 光标以参数为单位移动                                    |
+| <kbd>[</kbd><kbd>b</kbd> | 向左切换buffer |  |
+| <kbd>]</kbd><kbd>b</kbd> | 向右切换buffer |  |
+| <kbd>[</kbd><kbd>d</kbd>                  | 跳转到上一个诊断错误         | 需代码中存在错误（依赖 LSP 或 `null-ls`）               |
+| <kbd>]</kbd><kbd>d</kbd>                  | 跳转到下一个诊断错误         |                                                         |
+| <kbd>g</kbd><kbd>c</kbd><kbd>c</kbd>      | 注释代码                     |                                                         |
+| <kbd>g</kbd><kbd>d</kbd>                  | 跳转到定义（LSP）            | 需要语言服务器支持（如 `lspconfig`）                    |
+| <kbd>g</kbd><kbd>r</kbd>                  | 查找所有引用（LSP）          | 显示引用列表，支持跨文件                                |
+| <kbd>K</kbd>                              | 悬停查看文档（LSP）          | 显示类型定义或文档说明                                  |
+| <kbd>Ctrl</kbd><kbd>o</kbd>               | 跳转历史后退                 | 返回上一个位置                                          |
+| <kbd>C</kbd><kbd>i</kbd>                  | 跳转历史前进                 |                                                         |
+| <kbd>s</kbd>                              | 快速跳转（`leap.nvim`）      | 输入目标字符后自动标记，按对应键跳转                    |
+| <kbd>leader</kbd><kbd>s</kbd><kbd>s</kbd> | 在当前文件中搜索符号         |                                                         |
+| <kbd>leader</kbd><kbd>s</kbd><kbd>S</kbd> | 在当前工作空间中搜索符号     |                                                         |
+| <kbd>:</kbd><kbd>number</kbd>             | 跳转到指定行                 |                                                         |
+| <kbd>g</kbd><kbd>g</kbd>                  | 跳转到文件第一行             |                                                         |
+| <kbd>G</kbd>                              | 跳转到文件最后一行           |                                                         |
+| <kbd>m</kbd><kbd>a</kbd>                  | 设置标记                     | 将当前光标位置标记为 `a`（可用任意字母，如 `mb`、`mc`） |
+| <kbd>\`</kbd><kbd>a</kbd>                        |跳转到标记|跳转到标记 `a` 的位置（反引号）|
+| <kbd>Crtl</kbd><kbd>o</kbd>               | 返回跳转前位置               | 跳转到上一次光标位置（类似“返回”）                      |
+
+
+
+
+
+## 命令导航
+
+| 命令              | 作用   | 备注                                                         |
+| ----------------- | ------ | ------------------------------------------------------------ |
+| <kbd>leader</kbd> | 控制键 | 这里的控制键由用户自己设置，当我们按下单个按键的时候，在右下角会提示你下一步可以按的按键，并且在后面会有注释，如当按下后，在右下角会弹出一个窗口提示，假设你继续按照他的提示按<kbd>b</kbd>键，那么之后按下的按键就是<kbd>leader</kbd><kbd>b</kbd>，该功能是有`lazyvim`自带的插件`WhichKey` |
+|                   |        |                                                              |
+|                   |        |                                                              |
+
+## 编辑
+
+| 命令                                 | 作用                            | 备注                                                         |
+| ------------------------------------ | ------------------------------- | ------------------------------------------------------------ |
+| <kbd>h</kbd>                         | 左移                            |                                                              |
+| <kbd>j</kbd>                         | 下移                            |                                                              |
+| <kbd>k</kbd>                         | 上移                            |                                                              |
+| <kbd>l</kbd>                         | 右移                            |                                                              |
+| <kbd>w</kbd>                         | 移动到下一个单词的开头          |                                                              |
+| <kbd>b</kbd>                         | 移动到前一个单词的开头          |                                                              |
+| <kbd>0</kbd>                         | 移动到行首                      |                                                              |
+| <kbd>$</kbd>                         | 移动到行尾                      |                                                              |
+| <kbd>i</kbd>                         | 在光标前插入                    |                                                              |
+| <kbd>a</kbd>                         | 在光标后插入                    |                                                              |
+| <kbd>o</kbd>                         | 在当前行下方插入新行            |                                                              |
+| <kbd>d</kbd><kbd>d</kbd>             | 删除当前行                      |                                                              |
+| <kbd>d</kbd><kbd>$</kbd>             | 删除从光标到行尾的内容          |                                                              |
+| <kbd>x</kbd>                         | 删除光标下的字符                |                                                              |
+| <kbd>y</kbd><kbd>y</kbd>             | 复制当前行                      |                                                              |
+| <kbd>p</kbd>                         | 粘贴                            |                                                              |
+| <kbd>u</kbd>                         | 撤销                            |                                                              |
+| <kbd>Ctrl</kbd> <kbd>r</kbd>         | 重做                            |                                                              |
+| <kbd>v</kbd>                         | 进入 Visual 模式并选择字符      |                                                              |
+| <kbd>V</kbd>                         | 进入 Visual 模式并选择行        |                                                              |
+| <kbd>Ctrl</kbd> <kbd>v</kbd>         | 进入 Visual 模式并选择块        |                                                              |
+| <kbd>y</kbd>                         | 复制选中的内容（Visual 模式下） |                                                              |
+| <kbd>d</kbd>                         | 删除选中的内容（Visual 模式下） |                                                              |
+| <kbd>p</kbd>                         | 粘贴选中的内容（Visual 模式下） |                                                              |
+| <kbd>d</kbd><kbd>w</kbd>             | 删除单词                        | 命令会被当前光标限制，如你的光标在一个单词的中间，那么使用该命令只会删除后半段的单词 |
+| <kbd>d</kbd><kbd>i</kbd><kbd>w</kbd> | 删除单词                        | 删除整个单词，无论光标在单词的哪个位置                       |
+| <kbd>d</kbd><kbd>i</kbd><kbd>(</kbd> | 删除括号中的内容                |                                                              |
+| <kbd>d</kbd><kbd>i</kbd><kbd>“</kbd> | 删除引号中的内容                |                                                              |
+| <kbd>c</kbd><kbd>w</kbd>             | 删除单词并且插入                | 使用命令会删除当前单词并且插入，且也会受到光标的限制         |
+| <kbd>c</kbd><kbd>i</kbd><kbd>w</kbd> | 删除单词并且插入                | 不受光标限制的删除整个单词并插入                             |
+| <kbd>c</kbd><kbd>i</kbd><kbd>(</kbd> | 删除括号中的内容并插入          |                                                              |
+| <kbd>c</kbd><kbd>i</kbd><kbd>“</kbd> | 删除引号中的内容并插入          |                                                              |
+| <kbd>v</kbd><kbd>w</kbd>             | 选中单词                        | 选中当前单词，且也会受到光标的限制                           |
+| <kbd>v</kbd><kbd>i</kbd><kbd>w</kbd> | 选中单词                        | 不受光标限制的选中整个单词                                   |
+| <kbd>v</kbd><kbd>i</kbd><kbd>(</kbd> | 选中括号中的内容                |                                                              |
+| <kbd>v</kbd><kbd>i</kbd><kbd>“</kbd> | 选中共引号中的内容              |                                                              |
+|                                      |                                 |                                                              |
+|                                      |                                 |                                                              |
+|                                      |                                 |                                                              |
+|                                      |                                 |                                                              |
+|                                      |                                 |                                                              |
+|                                      |                                 |                                                              |
+
+
+
+# 问题解决
+
+| 问题                     | 解决方案                                           | 参考网址                                                     |
+| ------------------------ | -------------------------------------------------- | ------------------------------------------------------------ |
+| 出现乱码                 | 下载JetBrains Mono Font                            | [Nerd Fonts - Iconic font aggregator, glyphs/icons collection, & fonts patcher](https://www.nerdfonts.com/font-downloads) |
+| 单独为nvim开一个terminal |                                                    | [Windows Terminal - Windows官方下载  微软应用商店  Microsoft Store](https://apps.microsoft.com/detail/9n0dx20hk701?hl=zh-cn&gl=HK) |
+| 不能搜索文件             | 下载fd，然后将fd的exe放到环境变量中，需重启lazyvim | [Releases · sharkdp/fd (github.com)](https://github.com/sharkdp/fd/releases) |
 
 
 

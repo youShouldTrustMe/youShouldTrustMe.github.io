@@ -1,10 +1,8 @@
 ---
 title: QAC
 
-date: 2025-03-01
-lastmod: 2025-03-01
-tags:
-- 软件及工具
+categories: 
+  - 软件及工具
 ---
 
 

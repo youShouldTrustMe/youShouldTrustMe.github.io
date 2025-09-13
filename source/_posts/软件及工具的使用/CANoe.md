@@ -1,11 +1,9 @@
 ---
 title: CANoe
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_11_7_25_202407051107514.png
-tags:
-- 软件及工具
+categories: 
+  - 软件及工具
 ---
 
 # 软件简介

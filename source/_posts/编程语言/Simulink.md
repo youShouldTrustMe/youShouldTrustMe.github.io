@@ -1,11 +1,8 @@
 ---
 title: Simulink
 
-date: 2025-03-01
-lastmod: 2025-03-01
-cover: https://ww2.mathworks.cn/help/simulink/gs/simple_amplify.png
-tags:
-- 编程语言
+categories: 
+  - 编程语言
 ---
 
 

@@ -4,8 +4,11 @@ title: CAPL
 date: 2025-03-01
 lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png
+categories: 
+  - 编程语言
 tags:
-- 编程语言
+  - 汽车电子
+  - Canoe
 ---
 
 

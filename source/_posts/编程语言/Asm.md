@@ -1,11 +1,10 @@
 ---
 title: Asm
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012206.png
-tags:
-- 编程语言
+
+categories: 
+  - 编程语言
 ---
 
 

@@ -1,11 +1,8 @@
 ---
 title: Stateflow
 
-date: 2025-03-01
-lastmod: 2025-03-01
-cover: https://ww2.mathworks.cn/help/stateflow/gs/rectify-step4.png
-tags:
-- 编程语言
+categories: 
+  - 编程语言
 ---
 
 

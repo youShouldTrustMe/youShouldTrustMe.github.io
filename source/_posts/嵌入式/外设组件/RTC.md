@@ -1,13 +1,11 @@
 ---
 title: RTC
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/7_17_9_13_202409071709780.png
 categories: 
-- 嵌入式
+  - 嵌入式
 tags:
-- 外设组件
+  - 外设组件
 ---
 
 

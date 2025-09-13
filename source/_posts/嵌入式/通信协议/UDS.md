@@ -1,13 +1,11 @@
 ---
 title: UDS
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/10_16_55_30_202407101655309.png
 categories: 
-- 嵌入式
+  - 嵌入式
 tags:
-- 通信协议
+  - 通信协议
 ---
 
 
@@ -169,7 +167,7 @@ OBD和UDS是两种常见的诊断协议，它们在目标和应用领域上存�
 
 UDS（Unified Diagnostic Services）与OBD最大的区别就在于“Unified“上，是面向整车所有ECU的。单就UDS而言，它只是一个应用层协议（ISO 14229-1），不关心应用层以下的实现，比如执行该协议的应用层程序不关心通过何种物理传输方式实现与ECU硬件的通信，因此它既可以基于CAN线通信去实现，也能在Ethernet上实现。并且，UDS提供的是一个诊断服务的基本框架，定义了一系列的诊断服务和通用化的诊断流程，主机厂和零部件供应商可以根据实际情况选择实现其中的一部分或是自定义出一些私有化的诊断服务来，所以基于UDS协议的诊断又常常被称为Enhanced diagnosic（增强型诊断）。**可见，UDS不是法规要求的，没有统一实现标准，可以基于该协议提供的诊断请求及响应格式进行二次开发**。
 
-**简言之，UDS服务主要用于诊断设备Tester（Client）和ECU（Server）之间的诊断通信，诊断设备（Tester）发送诊断请求（request），ECU给出诊断响应（response），通过这种“一问一答”的形式让目标ECU执行一些期望的操作，而UDS就是为不同类型诊断功能的request和response定义了统一的内容和格式。**
+简言之，UDS服务主要用于诊断设备Tester（Client）和ECU（Server）之间的诊断通信，诊断设备（Tester）发送诊断请求（request），ECU给出诊断响应（response），通过这种“一问一答”的形式让目标ECU执行一些期望的操作，而UDS就是为不同类型诊断功能的request和response定义了统一的内容和格式。
 
 # 相关术语介绍
 
@@ -215,7 +213,6 @@ UDS（Unified Diagnostic Services）与OBD最大的区别就在于“Unified“�
 - 子功能：这个服务还能更进一步的划分或者具有启动/暂停之类的子功能
 
 - 实际数据
-
 
 尽管服务类型不尽相同，但UDS针对这些服务定义了统一的诊断请求包的格式，每个诊断请求由1个Byte的SID + 1个Byte的 sub-function（实际上是1bit spr + 7bit sub-function）+ 不定长的实际数据构成，其格式如下所示：
 
@@ -408,7 +405,7 @@ DTC状态跟在DTC后面，DTC状态为1个字节，其8个bit位含义各不相
 | bit位 | 名称                               | 中文释义               | 含义                                                         |
 | ----- | ---------------------------------- | ---------------------- | ------------------------------------------------------------ |
 | 0     | testFailed                         | 测试失败               | 通常来说，ECU内部以循环的方式不断地针对预先定义好的错误路径进行测试，如果在最近的一次测试中，==在某个错误路径中发现了故障，则相应DTC的这一个状态位就 要被置1，表征出错。== <br>虽然此时DTC的testFailed位被置1，但是它不一定被ECU存储到非易失性存储中， 只有当pendingDTC或confirmedDTC被置1时DTC才会被存储。而pendingDTC或 confirmedDTC被置1的条件应该是检测到错误出现的次数或时间满足某个预定义的门限。当错误消失或者诊断仪执行了清除DTC指令时，testFailed会再次被置为0。 |
-| 1     | testFailedThisOperationCycle       | 本次操作周期测试失败   | ==该bit用于标识某个DTC在当前的operationcycle中是否出现过testFailed置1的情 况，即是否出现过错误。== <br>operation cycle的起始点是ECU通过网络管理唤醒到ECU通过网络管理进入睡眠， 对于没有网络管理的ECU，这个起始点就是KL15通断。通过bit 0我们无法判断某个DTC 是否出现过，比如，当前testFailed=0，说明当前这个DTC没有出错，如果 testFailedThisOperationCycle=1的话，就说明这个DTC在当前这个operationcycle中 出过错，但是当前错误又消失了。 |
+| 1     | testFailedThisOperationCycle       | 本次操作周期测试失败   | ==该bit用于标识某个DTC在当前的operation cycle中是否出现过testFailed置1的情 况，即是否出现过错误。== <br>operation cycle的起始点是ECU通过网络管理唤醒到ECU通过网络管理进入睡眠， 对于没有网络管理的ECU，这个起始点就是KL15通断。通过bit 0我们无法判断某个DTC 是否出现过，比如，当前testFailed=0，说明当前这个DTC没有出错，如果 testFailedThisOperationCycle=1的话，就说明这个DTC在当前这个operationcycle中 出过错，但是当前错误又消失了。 |
 | 2     | pendingDTC                         | 待处理DTC              | 根据规范的解释，==pendingDTC=1表示某个DTC在当前或者上一个operationcycle 中是否出现过。== <br>pendingDTC位其实是位于testFailed和confirmedDTC之间的一个状态，有的DTC被确认的判定条件比较严苛，需要在多个operationcycle中出现才可以被判定为 confirmed的状态，此时就需要借助于pendingDTC位。 pendingDTC=1的时候，DTC就要被存储下来了，如果接下来的两个operation cycle中这个DTC都还存在，那么confirmedDTC就要置1了。如果当前operationcycle 中，故障发生，pendingDTC=1，但是在下一个operationcycle中，故障没有了， pendingDTC仍然为1，再下一个operationcycle中，故障仍然不存在，那么pending DTC就可以置0了。 |
 | 3     | confirmedDTC                       | 已确认DTC              | ==当confirmedDTC=1时，则说明某个DTC已经被存储到ECU的非易失性存储中==，说明这个DTC曾经满足了被confirmed的条件。 但是请注意，confirmedDTC=1时，并不意味着当前这个DTC仍然出错，如果confirmedDTC=1，但testFailed=0，则说明这个DTC表示的故障目前已经消失了。 将confirmedDTC重新置0的方法只有删除DTC，对应UDS的[0x14服务](##0x14：清除故障码)服务。 |
 | 4     | testNotCompletedSinceLastCear      | 自上次清除后测试未完成 | 该bit用于标识自从上次调用了清理DTC的服务（UDS0x14服务）之后，==是否成功地执行了对某个DTC的测试==（不管测试结果是什么，只关心是否测了）。因为很多DTC的测试也是需要满足某些边界条件的，并不是ECU上电就一定会对DTC进行检测。<br> testNotCompletedSinceLastClear=1：自清理DTC后还没有完成过针对该DTC的测试。<br>testNotCompletedSinceLastClear=0：自清理DTC之后已经完成过针对该DTC的测试。 |
@@ -626,12 +623,12 @@ DTC快照信息(Snapshot Record)就类似照相机一样，在故障发生的时
 
 | Service                                    | 功能简述                                                     |
 | ------------------------------------------ | ------------------------------------------------------------ |
-| [0x10：诊断会话控制](#0x10：诊断会话控制)  | 客户端控制目标ECU的诊断会话状态。                            |
+| [0x10：诊断会话控制](##0x10：诊断会话控制) | 客户端控制目标ECU的诊断会话状态。                            |
 | [0x11：ECU复位](#0X11:ECU复位)             | 客户端强制让目标ECU执行复位操作。                            |
 | [0x27：安全访问](#0X27:安全访问)           | 客户端请求解锁受保护的目标ECU。                              |
 | [0x28：通讯控制](##0x28：通讯控制)         | 客户端控制目标ECU的通信行为 (在特定情况下启用或禁用ECU的某些通信功能)。 |
 | [0x3E：待机握手](##0x3E：待机握手)         | 客户端向目标ECU表明它仍然存在。                              |
-| [0x85：控制DTC的设置](##0x85：控制DTC设置) | 客户端控制目标ECU中dtc的设置。                               |
+| [0x85：控制DTC的设置](#0x85：控制DTC设置)  | 客户端控制目标ECU中dtc的设置。                               |
 | [0x83：访问时间参数](##0x83:访问时间参数)  | 客户端使用此服务读取/修改当前通信的定时参数。                |
 | [0x84：安全数据传输](##0x84:安全数据传输)  | 客户端使用此服务执行具有扩展数据链路安全性的数据传输。       |
 | [0x86：事件响应](##0x86:事件响应)          | 客户端请求设置和/或控制目标ECU中的事件机制。                 |
@@ -1015,8 +1012,8 @@ sequenceDiagram
 
 | sub-function                             | 功能简述                                                     |
 | ---------------------------------------- | ------------------------------------------------------------ |
-| Ox01: reportNumberOfDTCByStatusMask      | 检索匹配状态掩码的DTC数                                      |
-| Ox02: reportDTCByStatusMask              | 检索匹配状态掩码的DTC列表                                    |
+| 0x01: reportNumberOfDTCByStatusMask      | 检索匹配状态掩码的DTC数                                      |
+| 0x02: reportDTCByStatusMask              | 检索匹配状态掩码的DTC列表                                    |
 | 0x04: reportDTCSnapshotRecordByDTCNumber | 检索匹配DTC状态掩码的 DTCSnapshot记录数据                    |
 | 0x06: reportDTCExtDataRecordByDTCNumber  | 根据客户定义的DTC掩码和 DTCExtendedData记录编号检索 DTCExtendedData记录数据 |
 | 0x0A: reportSupportedDTC                 | 检索目标ECU支持的所有DTC的状态                               |
@@ -1174,8 +1171,14 @@ sequenceDiagram
 相对于之前的子功能，在响应的最后，携带了一个或多个快照数据（比如请求中的DTCSnapshotRecordNumber为0xFF,则表示读取所有的快照数据组，这里就会返回所有的快照数据)，每个快照数据组的构成如上图大方框所示，这里我们把它称为DTCSnapshotData(标准中没有这个称呼)，他由以下三部分组成：
 
 - DTCSnapshotRecordNumber(1Byte):第几组快照记录数据，其取值符合1904请求中的第六个字节含义。
+
 - DTCSnapshotRecordNumberOfldentifiers(1Byte):对应快照信息中记录的信息条目的数量。
+
 - DTCSnapshotRecord(不定长)：每个信息条目成员的ID信息(DID)及其相应数据。
+
+  > [!tip]
+  >
+  > 注意：这里DID和
 
 > [!tip]
 >
@@ -3991,6 +3994,85 @@ flowchart LR
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```mermaid
+flowchart TD
+    A[系统上电] --> B{唤醒源类型?}
+    B -->|KL15 ON| C[进入Immediate State]
+    B -->|收到NM报文| C
+    
+    C --> D[启动T_WAIT_BUS_SLEEP计时器]
+    D --> E[发送Repeat Message State RMS NM报文]
+    
+    E --> F{收到有效NM报文?}
+    F -->|是| G[进入Normal Operation State NOS]
+    F -->|否| H{T_WAIT_BUS_SLEEP超时?}
+    H -->|是| I[强制Bus Sleep]
+    H -->|否| E
+    
+    G --> J{本地有通信需求\n或新NM报文?}
+    J -->|是| K[保持NOS状态]
+    J -->|否| L[进入Ready Sleep State RSS]
+    
+    L --> M{所有节点NM报文\n显示RSS状态?}
+    M -->|是| N[进入Prepare Bus Sleep State PMS]
+    M -->|否| E
+    
+    N --> O[发送PMS NM报文]
+    O --> P{T_PREPARE_BUS_SLEEP超时\n且无通信需求?}
+    P -->|是| I
+    P -->|否| Q{新唤醒事件?}
+    Q -->|KL15 ON/NM报文| G
+    Q -->|无| N
+    
+    I --> R[关闭ECU非必要电源]
+    R --> S{唤醒源出现?}
+    S -->|KL15 ON| C
+    S -->|收到NM报文| C
+    S -->|无| R
+    
+    %% 双唤醒源协同逻辑
+    C -->|KL15唤醒| T[设置高优先级标志]
+    C -->|NM报文唤醒| U[设置正常优先级标志]
+    G --> V{KL15保持ON?}
+    V -->|否| W[允许进入睡眠流程]
+    
+    %% 状态机内部跳转
+    K -->|通信结束| J
+    N -->|新NM报文到达| G
+```
 
 
 

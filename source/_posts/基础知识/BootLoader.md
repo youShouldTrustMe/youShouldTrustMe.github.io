@@ -1,11 +1,10 @@
 ---
 title: BootLoader
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png
-tags:
-- 基础知识
+
+categories: 
+  - 基础知识
 ---
 
 
@@ -16,9 +15,9 @@ tags:
 
 [Bootloader升级方式一————擦、写flash在RAM中运行 - isAndyWu - 博客园 (cnblogs.com)](https://www.cnblogs.com/isAndyWu/p/9524089.html)
 
-# 基础介绍
 
-##  BootLoader的作用
+
+# 基础介绍
 
 Boot Loader又称为引导加载程序，引导加载程序是系统上电后运行的第一段软件代码，常被用来加载系统或者更新系统等。因此，大部分的Boot Loader存在两种不同的操作模式：
 
@@ -39,9 +38,42 @@ Boot Loader又称为引导加载程序，引导加载程序是系统上电后运
 >
 > 一个开发板要想执行loader，要先看boot做了什么事。
 
+# UDS实现
 
+## 名词
 
-## BootLoader的基本需求
+| 缩写          | 全称                                                     | 释义                                                         |
+| ------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
+| CAN           | Controller Area Network                                  | 控制器区域网络                                               |
+| ECU           | Electronic Control Unit                                  | 电子控制单元                                                 |
+| NRC           | Negative Response Code                                   | 负响应代码                                                   |
+| VIN           | Vehicle identification number                            | 车辆识别号                                                   |
+| EOL           | End of Line                                              | 下线检测                                                     |
+| Node          | ECU connected on the network                             | 节点                                                         |
+| Tester        | Test tool                                                | 测试工具                                                     |
+| BootManager   | Part of Boot software                                    | 引导软件的一部分，它在启动期间执行软件有效性检查，并启动 引导加载程序或应用程序软件。 |
+| BootLoader    | Part of the ECU functionality                            | ECU 的部分功能，当电源打开或复位时ECU 启动。                 |
+| PBL           | Primary Bootloader                                       | 主引导加载程序，它包含ECU 启动软件，应该存储在一个受保护 的永久内存中，以消除意外擦除的可能性。 |
+| SBL           | Secondary Bootloader                                     | SBL是一个可下载的软件模块，包含擦除和写入闪存的例程。它与 flash 序列一起下载，以确保在正常操作期间 ECU 中不存在擦除 和写入例程。 |
+| Logical block | Logical block                                            | 逻辑块用于将物理内存划分为单独的可写区域，例如应用程序和 校准块。这些块可以独立下载和验证。逻辑块之间不能重叠，但允 许在一个逻辑块中存在间隙。 |
+| Public ECU    | An ECU addressable from a client/tester point of view.   | 从客户端/测试设备的角度来看，ECU是可寻址的。                 |
+| Private ECU   | An ECU not addressable from client/tester point of view. | 从客户端/测试设备的角度来看，ECU是不可寻址的。               |
+| SID           | Service Identifier                                       | 服务标识符                                                   |
+| SW            | Software                                                 | 软件                                                         |
+| HW            | Hardware                                                 | 硬件                                                         |
+| TBD           | To be defined                                            | 未定义                                                       |
+| DID           | Data Identifier                                          | 数据标识符                                                   |
+| UDS           | Unified Diagnostic Services                              | 统一诊断服务                                                 |
+| OBD           | On-Board Diagnostics                                     | 在线诊断                                                     |
+| N/A           | Not Applicable                                           | 未应用                                                       |
+| M             | Mandatory                                                | 强制                                                         |
+| C             | Conditional                                              | 条件                                                         |
+| S             | Selection                                                | 可选                                                         |
+| U             | User Optional                                            | 用户选择                                                     |
+| Y             | Yes                                                      | 是                                                           |
+| N             | No                                                       | 否                                                           |
+
+## 基本需求
 
 两个SWC（Software Component）：
 
@@ -57,7 +89,30 @@ Boot Loader又称为引导加载程序，引导加载程序是系统上电后运
 
 ![基本需求](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png)
 
-# UDS+BootLoader
+> [!tip]
+>
+> 需要注意的是，SBL 需要先下载，其他软件部分才可以下载，flash 顺序适用于三个用例:
+>
+> 1. 更新应用程序，包括标定数据；
+> 2. 仅更新应用程序并使用现有标定数据；
+> 3. 只更新标定数据，使用现有应用程序；
+
+为了减小Boot的代码体量，所以Boot只需要支持以下服务即可：
+
+| 服务 |               | 默认会话 | 编程会话 | 扩展会话 | 描述                         |
+| ---- | ------------- | -------- | -------- | -------- | ---------------------------- |
+| 0x10 | 诊断会话控制  | M        | M        | M        | 进入编程模式                 |
+| 0x11 | ECU复位       | N/A      | M        | M        | 从编程模式退出               |
+| 0x22 | 读数据标识符  | M        | M        | M        | ECU 的数据标识符             |
+| 0x2E | 写数据标识符  | M        | M        | M        | 写配置数据                   |
+| 0x27 | 安全访问      | N/A      | M        | M        | 解锁ECU                      |
+| 0x28 | 通讯控制      | N/A      | N/A      | M        | 启用/禁用非诊断通信          |
+| 0x31 | 例程控制      | N/A      | M        | U        | 擦除闪存，计算校验和，…      |
+| 0x34 | 请求下载      | N/A      | M        | N/A      | 请求下载                     |
+| 0x36 | 传输数据      | N/A      | M        | N/A      | 传输数据                     |
+| 0x37 | 请求传输退出  | N/A      | M        | N/A      | 退出传输                     |
+| 0x3E | 测试设备在线  | M        | M        | M        | 测试设备向 ECU表明它仍然在线 |
+| 0x85 | 控制 DTC 设置 | N/A      | N/A      | M        | 停止或恢复诊断故障代码的设置 |
 
 ## ECU启动程序
 

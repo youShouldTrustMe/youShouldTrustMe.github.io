@@ -1,13 +1,11 @@
 ---
 title: PWR
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png
 catecategories: 
-- 嵌入式
+  - 嵌入式
 tags:
-- 外设组件
+  - 外设组件
 ---
 
 

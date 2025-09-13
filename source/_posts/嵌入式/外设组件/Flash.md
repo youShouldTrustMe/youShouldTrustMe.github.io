@@ -1,13 +1,11 @@
 ---
 title: Flash
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png
 categories: 
-- 嵌入式
+  - 嵌入式
 tags:
-- 外设组件
+  - 外设组件
 ---
 
 

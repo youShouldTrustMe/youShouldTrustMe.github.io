@@ -1,10 +1,8 @@
 ---
 title: Python
 
-date: 2025-03-01
-lastmod: 2025-03-01
-tags:
-- 编程语言
+categories: 
+  - 编程语言
 ---
 
 

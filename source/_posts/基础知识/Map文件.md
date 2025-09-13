@@ -1,12 +1,13 @@
 ---
 title: Map文件
 
-date: 2025-03-01
-lastmod: 2025-03-01
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png
-tags:
-- 基础知识
+
+categories: 
+  - 基础知识
 ---
+
+
 
 
 

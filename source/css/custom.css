@@ -1,0 +1,66 @@
+/*************************************** 一图流   ****************************************/
+/* 夜间模式遮罩 */
+[data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] #aside-content .card-widget,
+[data-theme="dark"] div#post,
+[data-theme="dark"] div#archive,
+[data-theme="dark"] div#page {
+  background: var(--trans-dark);
+}
+
+/* 白天模式头图与页脚遮罩 */
+[data-theme="light"] #page-header:before,
+[data-theme="light"] #footer::before {
+  background-color: rgba(0, 0, 0, 0.18) !important;
+  z-index: -3;
+}
+
+/* 头图隐藏 */
+#page-header {
+  background: transparent !important;
+}
+/* 夜间模式页脚遮罩隐藏 */
+[data-theme="dark"] #footer::before {
+  background: transparent !important;
+}
+/* 夜间模式页脚头部遮罩隐藏 */
+[data-theme="dark"] #page-header::before {
+  background: transparent !important;
+}
+
+/*************************************** 栏设置   ****************************************/
+/* 一级菜单居中 */
+#nav .menus_items {
+  /* 这个带不带都可以，本来就是inline */
+  display: inline;
+  position: absolute !important;
+  width: max-content !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+#nav .menus_items .menus_item {
+  padding: 0 0 0 8px !important;
+}
+/* 子菜单横向展示 */
+#nav .menus_items .menus_item:hover .menus_item_child {
+  display: flex !important;
+}
+/* 这里的2是代表导航栏的第二个元素，即有子菜单的元素，可以按自己需求修改 */
+.menus_items .menus_item:nth-child(2) .menus_item_child {
+  left: -95px;
+}
+.menus_items .menus_item:nth-child(3) .menus_item_child {
+  left: -103px;
+}
+.menus_items .menus_item:nth-child(4) .menus_item_child {
+  left: -102px;
+}
+.menus_items .menus_item:nth-child(5) .menus_item_child {
+  left: -117px;
+}
+.menus_items .menus_item:nth-child(6) .menus_item_child {
+  left: -133px;
+}
+.menus_items .menus_item:nth-child(7) .menus_item_child {
+  left: -105px;
+}

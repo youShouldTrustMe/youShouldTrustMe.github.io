@@ -1,10 +1,8 @@
 ---
 title: Linux
 
-date: 2025-03-01
-lastmod: 2025-03-01
-tags:
-- 软件及工具
+categories: 
+  - 软件及工具
 ---
 
 
@@ -190,52 +188,3 @@ exec_always feh --bg-fill /path/to/wallpaper
 | 图床工具                               | PicList             | https://github.com/Kuingsmile/PicList                        |
 | onedrive                               |                     | https://blog.csdn.net/qq_15674631/article/details/137602288  |
 | 美化                                   |                     | https://blog.csdn.net/qq_15674631/article/details/130512285  |
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

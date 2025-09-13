@@ -1,11 +1,10 @@
 ---
 title: Arm架构
 
-date: 2025-03-01
-lastmod: 2025-03-01
 draft: true
-tags:
-- 基础知识
+
+categories: 
+  - 基础知识
 ---
 
 

@@ -1,17 +1,13 @@
 ---
-title: Cmake
-date: 2025-03-01
-lastmod: 2025-03-01
-tags:
-  - 软件及工具
+title: CMake
+
+categories: 
+  - 编程语言
 ---
 
 
 
-# 测试
-
 ```cmake
-
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NERVER)
