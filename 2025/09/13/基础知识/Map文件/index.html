@@ -1,0 +1,398 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Map文件 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接KEIL MDK .map文件分析(必学知识点) - 正点原子倾力打造！-OpenEdv-开源电子网 充分理解Linux GCC 链接生成的Map文件 - 知乎 (zhihu.com)  [!important] 可以使用AMAP可视化map文件  GCC平台Archives linked一般位于map文件的第一行 123Archive member included to satisfy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map文件">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接KEIL MDK .map文件分析(必学知识点) - 正点原子倾力打造！-OpenEdv-开源电子网 充分理解Linux GCC 链接生成的Map文件 - 知乎 (zhihu.com)  [!important] 可以使用AMAP可视化map文件  GCC平台Archives linked一般位于map文件的第一行 123Archive member included to satisfy">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png">
+<meta property="article:published_time" content="2025-09-13T07:29:37.954Z">
+<meta property="article:modified_time" content="2025-09-13T07:29:37.954Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Map文件",
+  "url": "https://youshouldtrustme.github.io/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/",
+  "image": "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png",
+  "datePublished": "2025-09-13T07:29:37.954Z",
+  "dateModified": "2025-09-13T07:29:37.954Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Map文件',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Map文件</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Map文件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.954Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.954Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="http://www.openedv.com/thread-305913-1-1.html">KEIL MDK .map文件分析(必学知识点) - 正点原子倾力打造！-OpenEdv-开源电子网</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/502051758">充分理解Linux GCC 链接生成的Map文件 - 知乎 (zhihu.com)</a></p>
+<blockquote>
+<p>[!important]</p>
+<p>可以使用AMAP可视化map文件</p>
+</blockquote>
+<h1 id="GCC平台"><a href="#GCC平台" class="headerlink" title="GCC平台"></a>GCC平台</h1><h2 id="Archives-linked"><a href="#Archives-linked" class="headerlink" title="Archives linked"></a>Archives linked</h2><p>一般位于map文件的第一行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Archive member included to satisfy reference by file (symbol)</span><br><span class="line">   /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/libc_nano.a(lib_a-exit.o)</span><br><span class="line">                                 /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o (exit)</span><br></pre></td></tr></table></figure>
+
+<p>上面的文件信息格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The archive file location (compilation unit)</span><br><span class="line">    			The compilation unit referencing the archive (symbol called)</span><br></pre></td></tr></table></figure>
+
+<p>上面内容的意思是crt0这个文件中会调用exit函数，exit函数在exit.o这个目标文件中，exit.o目标文件是被链接在libc_nano.a这个库文件里的。</p>
+<h2 id="Memory-configuration"><a href="#Memory-configuration" class="headerlink" title="Memory configuration"></a>Memory configuration</h2><p>Map文件中最直接的信息是实际的内存区域，这些区域具有位置、大小和访问权限:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Memory Configuration</span><br><span class="line">    </span><br><span class="line">    Name             Origin             Length             Attributes</span><br><span class="line">    FLASH            0x0000000000001000 0x00000000000ff000 xr</span><br><span class="line">    RAM              0x0000000020000008 0x000000000003fff8 xrw</span><br><span class="line">    *default*        0x0000000000000000 0xffffffffffffffff</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linker-script-and-memory-map"><a href="#Linker-script-and-memory-map" class="headerlink" title="Linker script and memory map"></a>Linker script and memory map</h2><p>内存配置之后是Linker script and memory map，它给出了程序中符号的详细信息。一般来说，该段首先指示<code>text</code>区域的大小及其内容(<code>text</code>是编译的代码，而<code>data</code>是程序数据)。</p>
+<p>在这里，中断向量(在.isr_vector下)出现在可执行文件的开头，定义在gcc_startup_nrf52840.S中:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Linker script and memory map</span><br><span class="line">    </span><br><span class="line">    .text           0x0000000000001000      0x8c8</span><br><span class="line">     ***(.isr_vector)**</span><br><span class="line">     .isr_vector    0x0000000000001000      0x200 _build/nrf52840_xxaa/**gcc_startup_nrf52840.S.o**</span><br><span class="line">                    0x0000000000001000                __isr_vector</span><br><span class="line">     *(.text*)</span><br><span class="line">     .text          0x0000000000001200       0x40 /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc/arm-none-eabi/8.2.1/thumb/v7e-m+fp/hard/crtbegin.o</span><br><span class="line">     .text          0x0000000000001240       0x74 /usr/local/Cellar/arm-none-eabi-gcc/8-2018-q4-major/gcc/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard/crt0.o</span><br><span class="line">                    0x0000000000001240                _mainCRTStartup</span><br><span class="line">                    0x0000000000001240                _start</span><br><span class="line">     .text          0x00000000000012b4       0x3c _build/nrf52840_xxaa/gcc_startup_nrf52840.S.o</span><br><span class="line">                    0x00000000000012b4                Reset_Handler</span><br><span class="line">                    0x00000000000012dc                NMI_Handler</span><br><span class="line">    </span><br><span class="line">    [...]</span><br><span class="line">    </span><br><span class="line">     .text.**bsp_board_led_invert**</span><br><span class="line">                    0x00000000000012f0       **0x34** _build/nrf52840_xxaa/**boards.c.o**</span><br><span class="line">                    0x00000000000012f0                bsp_board_led_invert</span><br></pre></td></tr></table></figure>
+
+<p>这些行给出了每个函数的地址和大小。在上面，你可以读取bsp_board_led_invert的地址，它来自boards.c.o(如你所猜测的，board.c的编译单元)，在<code>text</code>区域中它的大小为0x34字节。这样，我们就可以定位程序中使用的每个函数。</p>
+<p>我的常量字符串_delay_ms_str在程序初始化时显然包含在程序中，只读数据作为rodata保存在链接器脚本中指定的FLASH区域中(存储在Flash中，而不是复制在RAM中，因为它是常量)。我可以在这行下面找到:</p>
+<h1 id="MDK平台"><a href="#MDK平台" class="headerlink" title="MDK平台"></a>MDK平台</h1><p>.map文件是编译器链接时生成的一个文件，它主要包含了交叉链接信息。通过.map文件，我们可以知道整个工程的函数调用关系、FLASH和RAM占用情况及其详细汇总信息，能具体到单个源文件（.c&#x2F;.s）的占用情况，根据这些信息，我们可以对代码进行优化。</p>
+<p>.map文件可以分为以下5个组成部分：</p>
+<ol>
+<li>程序段交叉引用关系（Section Cross References）</li>
+<li>删除映像未使用的程序段（Removing Unused input sections from the image）</li>
+<li>映像符号表（Image Symbol Table）</li>
+<li>映像内存分布图（Memory Map of the image）</li>
+<li>映像组件大小（Image component sizes）</li>
+</ol>
+<h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><p>为了更好的分析map文件，我们先对需要用到的一些基础概念进行一个简单介绍，相关概念如下：</p>
+<ul>
+<li>Section：描述映像文件的代码或数据块，我们简称程序段</li>
+<li>RO：Read Only的缩写，包括只读数据（RO data）和代码（RO code）两部分内容，占用FLASH空间</li>
+<li>RW：Read Write的缩写，包含可读写数据（RW data，有初值，且不为0），占用FLASH（存储初值）和RAM（读写操作）</li>
+<li>ZI：Zero initialized的缩写，包含初始化为0的数据（ZI data），占用RAM空间。</li>
+<li>.text：相当于RO code</li>
+<li>.constdata：相当于RO data</li>
+<li>.bss：相当于ZI data</li>
+<li>.data：相当于RW data</li>
+</ul>
+<h2 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h2><h3 id="程序段交叉引用关系（Section-Cross-References）"><a href="#程序段交叉引用关系（Section-Cross-References）" class="headerlink" title="程序段交叉引用关系（Section Cross References）"></a>程序段交叉引用关系（Section Cross References）</h3><p> 这部分内容描述了各个文件（.c&#x2F;.s等）之间函数（程序段）的调用关系：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Section Cross References</span><br><span class="line"></span><br><span class="line">    ble_simple_peripheral.o(i.app_gap_evt_cb) refers to os_timer.o(i.os_timer_start) for os_timer_start</span><br><span class="line">    ble_simple_peripheral.o(i.app_gap_evt_cb) refers to gap_api.o(i.gap_start_advertising) for gap_start_advertising</span><br><span class="line">    ble_simple_peripheral.o(i.app_gap_evt_cb) refers to gap_api.o(i.gap_get_connect_num) for gap_get_connect_num</span><br><span class="line">    ble_simple_peripheral.o(i.app_gap_evt_cb) refers to os_timer.o(i.os_timer_stop) for os_timer_stop</span><br></pre></td></tr></table></figure>
+
+<p> 上述描述段中，<code> ble_simple_peripheral.o(i.app_gap_evt_cb) refers to os_timer.o(i.os_timer_stop) for os_timer_stop</code>表示：ble_simple_peripheral.c文件中的app_gap_evt_cb函数调用了os_timer.c中的os_timer_stop函数。其中：i.app_gap_evt_cb表示app_gap_evt_cb函数的入口地址，同理i.os_timer_stop表示os_timer_stop的入口地址。</p>
+<h3 id="删除映像未使用的程序段（RemovingUnused-input-sections-from-the-image）"><a href="#删除映像未使用的程序段（RemovingUnused-input-sections-from-the-image）" class="headerlink" title="删除映像未使用的程序段（RemovingUnused input sections from the image）"></a>删除映像未使用的程序段（RemovingUnused input sections from the image）</h3><p>这部分内容描述了工程中由于未被调用而被删除的冗余程序段（函数&#x2F;数据)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Removing Unused input sections from the image.</span><br><span class="line"></span><br><span class="line">    Removing ble_simple_peripheral.o(.rev16_text), (4 bytes).</span><br><span class="line">    Removing ble_simple_peripheral.o(.revsh_text), (4 bytes).</span><br><span class="line">    Removing ble_simple_peripheral.o(.rrx_text), (6 bytes).</span><br><span class="line">    Removing proj_main.o(.rev16_text), (4 bytes).</span><br><span class="line">    Removing proj_main.o(.revsh_text), (4 bytes).</span><br><span class="line">    Removing proj_main.o(.rrx_text), (6 bytes).</span><br><span class="line">    Removing driver_efuse.o(.rev16_text), (4 bytes).</span><br><span class="line">    Removing driver_efuse.o(.revsh_text), (4 bytes).</span><br><span class="line">    Removing driver_efuse.o(.rrx_text), (6 bytes).</span><br><span class="line">    Removing driver_efuse.o(i.efuse_get_chip_unique_id_new), (182 bytes).</span><br><span class="line">    Removing driver_efuse.o(i.efuse_write), (40 bytes).</span><br><span class="line">    ......</span><br><span class="line">    Removing dmul.o(.text), (228 bytes).</span><br><span class="line">    Removing dfixul.o(.text), (48 bytes).</span><br><span class="line">    Removing cdrcmple.o(.text), (48 bytes).</span><br><span class="line"></span><br><span class="line">1183 unused section(s) (total 85261 bytes) removed from the image.</span><br></pre></td></tr></table></figure>
+
+<p>上面片段中，列出了所有被移除的程序段，比如driver_efuse.c里面的efuse_write函数就被移除了，因为该例程没用到delay_us函数。</p>
+<p>另外，在最后还有一个统计信息：1183 unused section(s) (total 85261 bytes) removed from the image.表示总共移除了1183 个程序段（函数&#x2F;数据），大小为85261字节。即给我们的MCU节省了85261字节的程序空间。</p>
+<blockquote>
+<p> [!note] </p>
+<p>为了更好的节省空间，我们一般在MDK魔术棒C&#x2F;C++选项卡里面勾选：One ELF Section per Function</p>
+</blockquote>
+<h3 id="向映像中添加跳转代码-Adding-Veneers-to-the-image"><a href="#向映像中添加跳转代码-Adding-Veneers-to-the-image" class="headerlink" title="向映像中添加跳转代码(Adding Veneers to the image)"></a><strong>向映像中添加跳转代码</strong>(Adding Veneers to the image)</h3><p>在嵌入式系统开发中，特别是在使用ARM架构的微控制器时，<code>veneer</code>（翻译为“贴面”或“桥接”）是一种用于处理函数调用的机制。它通常用于处理跨不同内存区域（如从Thumb代码调用ARM代码，或从非安全代码调用安全代码）的函数调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Adding Veneers to the image</span><br><span class="line"></span><br><span class="line">    Adding TT veneer (10 bytes, Long) for call to &#x27;ke_state_set&#x27; from app_proj_event.o(i.app_act_created_ind_func).</span><br><span class="line">    Adding TT veneer (10 bytes, Long) for call to &#x27;srand&#x27; from app_proj_event.o(i.app_db_init_complete_ind_func).</span><br><span class="line">    Adding TT veneer (10 bytes, Long) for call to &#x27;co_printf&#x27; from ble_simple_peripheral.o(i.app_gap_evt_cb).</span><br><span class="line">    ...</span><br><span class="line">    Adding TT veneer (10 bytes, Long) for call to &#x27;mesh_fatal_error_report&#x27; from m_al_scan.o(ram_code).</span><br><span class="line"></span><br><span class="line">146 Veneer(s) (total 1460 bytes) added to the image.</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码段中，<code>ke_state_set</code>：从<code>app_proj_event.o</code>中的<code>app_act_created_ind_func</code>函数调用<code>ke_state_set</code>时，链接器添加了一个<code>veneer</code>。</p>
+<h3 id="映像符号表（ImageSymbol-Table）"><a href="#映像符号表（ImageSymbol-Table）" class="headerlink" title="映像符号表（ImageSymbol Table）"></a>映像符号表（ImageSymbol Table）</h3><p>映像符号表（Image Symbol Table）描述了被引用的各个符号（程序段&#x2F;数据）在存储器中的存储地址、类型、大小等信息。映像符号表分为两类：</p>
+<ol>
+<li>本地符号（Local Symbols）</li>
+<li>全局符号（Global Symbols）。</li>
+</ol>
+<h4 id="本地符号（Local-Symbols）"><a href="#本地符号（Local-Symbols）" class="headerlink" title="本地符号（Local Symbols）"></a>本地符号（Local Symbols）</h4><p>​    本地符号（Local Symbols）记录了用static声明的全局变量地址和大小，c文件中函数的地址和用static声明的函数代码大小，汇编文件中的标号地址（作用域：限本文件)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Image Symbol Table</span><br><span class="line"></span><br><span class="line">    Local Symbols</span><br><span class="line"></span><br><span class="line">    Symbol Name                              Value     Ov Type        Size  Object(Section)</span><br><span class="line"></span><br><span class="line">    ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE</span><br><span class="line">    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE</span><br><span class="line">    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE</span><br><span class="line">    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE</span><br><span class="line">    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE</span><br><span class="line">    i.gatt_clr_peer_svc                      0x01009ff4   Section        0  gatt_api.o(i.gatt_clr_peer_svc)</span><br><span class="line">    gatt_clr_peer_svc                        0x01009ff5   Thumb Code    58  gatt_api.o(i.gatt_clr_peer_svc)</span><br></pre></td></tr></table></figure>
+
+<p>上述片段中，表示gatt_api.c文件中的gatt_clr_peer_svc函数的入口地址为：0x01009ff4，类型为：Section（程序段），大小为0。因为：i.gatt_clr_peer_svc仅仅表示gatt_clr_peer_svc函数入口地址，并不是指令，所以没有大小。在全局符号段，会列出gatt_clr_peer_svc函数的大小。</p>
+<h4 id="全局符号（Global-Symbols）"><a href="#全局符号（Global-Symbols）" class="headerlink" title="全局符号（Global Symbols）"></a>全局符号（Global Symbols）</h4><p>全局符号（Global Symbols）记录了全局变量的地址和大小，C文件中函数的地址及其代码大小，汇编文件中的标号地址（作用域：全工程）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Global Symbols</span><br><span class="line"></span><br><span class="line">    Symbol Name                              Value     Ov Type        Size  Object(Section)</span><br><span class="line"></span><br><span class="line">    BuildAttributes$$THM_ISAv4$P$D$K$B$S$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OTIME$ROPI$EBA8$MICROLIB$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE</span><br><span class="line">    __ARM_use_no_argv                        0x00000000   Number         0  syscall.txt ABSOLUTE</span><br><span class="line">    __Vectors                                0x00000000   Data           0  syscall.txt ABSOLUTE</span><br><span class="line">    _printf_a                                0x00000000   Number         0  stubs.o ABSOLUTE</span><br><span class="line">    _printf_c                                0x00000000   Number         0  stubs.o ABSOLUTE</span><br><span class="line">    _printf_charcount                        0x00000000   Number         0  stubs.o ABSOLUTE</span><br><span class="line">    _printf_d                                0x00000000   Number         0  stubs.o ABSOLUTE</span><br><span class="line">    ...</span><br><span class="line">    adc_set_ref_voltage                      0x010008d1   Thumb Code     2  driver_pmu.o(i.adc_set_ref_voltage)</span><br><span class="line">    app_act_created_ind_func                 0x010008d5   Thumb Code    66  app_proj_event.o(i.app_act_created_ind_func)</span><br><span class="line">    app_act_deleted_ind_func                 0x0100091d   Thumb Code    30  app_proj_event.o(i.app_act_deleted_ind_func)</span><br><span class="line">    app_addr_resolve_result_ind_func         0x01000941   Thumb Code    28  app_proj_event.o(i.app_addr_resolve_result_ind_func)</span><br><span class="line">    app_adv_complete_ind_func                0x01000961   Thumb Code    48  app_proj_event.o(i.app_adv_complete_ind_func)</span><br><span class="line">    app_adv_report_ind_func                  0x01000995   Thumb Code   160  app_proj_event.o(i.app_adv_report_ind_func)</span><br></pre></td></tr></table></figure>
+
+<p><code> app_act_created_ind_func   0x010008d5   Thumb Code  66  app_proj_event.o(i.app_act_created_ind_func)</code>表示app_proj_event.c文件中的app_act_created_ind_func函数的入口地址为：0x010008d5，类型为：Thumb Code（程序段），大小为66字节。  </p>
+<blockquote>
+<p>[!note] </p>
+<p>注意，全局符号的地址和局部符号的地址不符，假如全局符号用的0x0800046D，那么局部符号就用0x0800046C，这是因为ARM规定Thumb指令级的所有指令，其最低位必须为1，0x0800046D&#x3D;0x0800046C+1，所以才会有2个不同的地址，且总是差1，实际上就是同一个函数。</p>
+</blockquote>
+<h3 id="映像内存分布图（MemoryMap-of-the-image）"><a href="#映像内存分布图（MemoryMap-of-the-image）" class="headerlink" title="映像内存分布图（MemoryMap of the image）"></a>映像内存分布图（MemoryMap of the image）</h3><p>映像文件分为加载域（Load Region）和运行域（Execution Region），一个加载域必须有至少一个运行域（可以有多个运行域），而一个程序又可以有多个加载域。加载域为映像程序的实际存储区域，而运行域则是MCU上电后的运行状态。加载域和运行域的简化关系（这里仅表示一个加载域的情况）如下图所示：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png" alt="加载域和运行域的关系"></p>
+<p> 由图可知，RW区也是存放在ROM（FLASH）里面的，在执行main函数之前，RW（有初值且不为0的变量）数据会被拷贝到RAM区，同时还会在RAM里面创建ZI区（初始化为0的变量）。</p>
+<p>映像内存分布如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Memory Map of the image</span><br><span class="line"></span><br><span class="line">  Image Entry point : 0x01000f3d</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示映像的入口地址，也就是整个程序运行的起始地址，为：0x01000f3d。实际地址为：0x01000f3c（Thumb指令最低位是1）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Load Region ROM (Base: 0x01000000, Size: 0x000184cc, Max: 0x00030000, ABSOLUTE)</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示ROM加载域，其起始地址为：0x01000000；占用大小为：0x000184cc；最大地址范围为：0x00030000。其内部包含两个运行域：ER_TABLE和ER_RO（由下述片段可以看出）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Execution Region ER_TABLE (Exec base: 0x01000000, Load base: 0x01000000, Size: 0x0000005c, Max: 0xffffffff, ABSOLUTE)</span><br><span class="line"></span><br><span class="line"> Exec Addr    Load Addr    Size         Type   Attr    Idx    E Section Name        Object</span><br><span class="line"></span><br><span class="line"> 0x01000000   0x01000000   0x00000004   Data   RO       1542    jump_table_0        fr8010h_stack.lib(jump_table.o)</span><br><span class="line"> 0x01000004   0x01000004   0x00000008   Data   RO       127    jump_table_1        proj_main.o</span><br><span class="line"> 0x0100000c   0x0100000c   0x0000000c   Data   RO       1543    jump_table_2        fr8010h_stack.lib(jump_table.o)</span><br><span class="line"> 0x01000018   0x01000018   0x00000004   Data   RO       128    jump_table_3        proj_main.o</span><br><span class="line"> 0x0100001c   0x0100001c   0x00000040   Data   RO       1544    jump_table_4        fr8010h_stack.lib(jump_table.o)</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示ER_TABLE运行域，其起始地址为：0x01000000；占用大小为：0x0000005c；最大地址范围为：0xffffffff；即内部FLASH运行域，所有需要放内部FLASH的代码，都应该放到这个运行域里面。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Execution Region ER_RO (Exec base: 0x0100005c, Load base: 0x0100005c, Size: 0x000156bc, Max: 0xffffffff, ABSOLUTE)</span><br><span class="line"></span><br><span class="line">Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object</span><br><span class="line"></span><br><span class="line">0x0100005c   0x0100005c   0x000000b0   Code   RO         5006    .text               mf_w.l(fadd.o)</span><br><span class="line">0x0100010c   0x0100010c   0x00000064   Code   RO         5008    .text               mf_w.l(fmul.o)</span><br><span class="line">0x01000170   0x01000170   0x0000007c   Code   RO         5010    .text               mf_w.l(fdiv.o)</span><br><span class="line">0x010001ec   0x010001ec   0x0000014e   Code   RO         5012    .text               mf_w.l(dadd.o)</span><br><span class="line">0x0100033a   0x0100033a   0x000000de   Code   RO         5014    .text               mf_w.l(ddiv.o)</span><br><span class="line">0x01000418   0x01000418   0x00000026   Code   RO         5016    .text               mf_w.l(f2d.o)</span><br><span class="line">0x0100043e   0x0100043e   0x00000038   Code   RO         5018    .text               mf_w.l(d2f.o)</span><br><span class="line">0x01000476   0x01000476   0x0000001e   Code   RO         5024    .text               mc_w.l(llshl.o)</span><br><span class="line">0x01000494   0x01000494   0x00000024   Code   RO         5026    .text               mc_w.l(llsshr.o)</span><br><span class="line">0x010004b8   0x010004b8   0x00000000   Code   RO         5028    .text               mc_w.l(iusefp.o)</span><br><span class="line">0x010004b8   0x010004b8   0x0000006e   Code   RO         5029    .text               mf_w.l(fepilogue.o)</span><br><span class="line">0x01000526   0x01000526   0x000000ba   Code   RO         5031    .text               mf_w.l(depilogue.o)</span><br><span class="line">0x010005e0   0x010005e0   0x00000020   Code   RO         5039    .text               mc_w.l(llushr.o)</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示ER_RO运行域，其起始地址为：0x0100005c；占用大小为：0x000156bc；最大地址范围为：0xffffffff；即内部SRAM运行域，所有RAM（包括RW和ZI）都是放在这个运行域里面。</p>
+<p>上面只列举了部分加载域及其运行域的具体内存分布，我们可以很方便的查看任何一个函数所在的运行域、入口地址、占用空间等信息。</p>
+<h3 id="映像组件大小（Imagecomponent-sizes）"><a href="#映像组件大小（Imagecomponent-sizes）" class="headerlink" title="映像组件大小（Imagecomponent sizes）"></a>映像组件大小（Imagecomponent sizes）</h3><p>映像组件大小（Image component sizes）给出了整个映像所有代码（.o）占用空间的汇总信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Image component sizes</span><br><span class="line"></span><br><span class="line">      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name</span><br><span class="line"></span><br><span class="line">        96          8        128          0          0        576   app_boot_vectors.o</span><br><span class="line">       860        454         12         26         20      24402   ble_simple_peripheral.o</span><br><span class="line">        32          8          0         24         60       2298   button.o</span><br><span class="line">       100         60          0          0          0        590   core_cm3_isr.o</span><br><span class="line">       198          4          0          0          0       2340   driver_efuse.o</span><br><span class="line">        32         20          0          0          0       2843   driver_exti.o</span><br><span class="line">        48          4          0          4          0       3057   driver_i2s.o</span><br><span class="line">        32          0          0          0          0        622   driver_keyscan.o</span><br><span class="line">      1786         98          0          0          0       6985   driver_pmu.o</span><br><span class="line">        64         10          0          0          0       2194   driver_pmu_qdec.o</span><br><span class="line">         2          0          0          0          0        498   driver_rtc.o</span><br><span class="line">        92         12          0          0          0       2534   driver_timer.o</span><br><span class="line">       384        158          0          0          0       1809   driver_wdt.o</span><br><span class="line">      1116         52          0        256         24      30602   patch.o</span><br><span class="line">       276         36         12          0          0      12900   proj_main.o</span><br><span class="line">       556        210        591          4         12       4867   simple_gatt_service.o</span><br><span class="line">        96         38        489          2          0       2044   user_task.o</span><br><span class="line"></span><br><span class="line">    ----------------------------------------------------------------------</span><br><span class="line">      7236       1172       1236        332        116     101161   Object Totals</span><br><span class="line">      1460          0          0          0          0          0   (incl. Generated)</span><br><span class="line">         6          0          4         16          0          0   (incl. Padding)</span><br><span class="line">    ----------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示.c&#x2F;.s文件生成对象所占空间大小（单位：字节，下同），即.c&#x2F;.s文件编译后所占代码空间的大小。每个项所代表的意义如下：</p>
+<ul>
+<li>Code（inc.data）：表示包含内联数据（inc.data）后的代码大小。如app_boot_vectors.o（即app_boot_vectors.c）所占的Code大小为576字节，其中 8 字节是内联数据。</li>
+<li>RO Data：表示只读数据所占的空间大小，一般是指const修饰的数据大小。</li>
+<li>RW Data：表示有初值（且非0）的可读写数据所占的空间大小，它同时占用FLASH和RAM空间。</li>
+<li>ZI Data：表示初始化为0的可读写数据所占空间大小，它只占用RAM空间。</li>
+<li>Debug：表示调试数据所占的空间大小，如调试输入节及符号和字符串。</li>
+<li>Object Totals：表示以上部分链接到一起后，所占映像空间的大小。</li>
+<li>(incl.Generated)：表示链接器生产的映像内容大小，它包含在Object Totals里面了，这里仅仅是单独列出，我们一般不需要关心。</li>
+<li>(incl.Padding)：表示链接器根据需要插入填充以保证字节对齐的数据所占空间的大小，它也包含在Object Totals里面了，这里单独列出，一般无需关心。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">  Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name</span><br><span class="line"></span><br><span class="line">  1368         44          0        102          0        480   adv_check_mode.o</span><br><span class="line">  2560        194          4         12        204       2212   app.o</span><br><span class="line">   432         56          0          8         20        296   app_conn.o</span><br><span class="line">    40          4          0          0          0         84   app_prf.o</span><br><span class="line">  1426        162          0          1          0       2140   app_proj_event.o</span><br><span class="line">  1546        244         56         16         82        952   app_sec.o</span><br><span class="line">  2308        188        228          9          0       2316   app_task.o</span><br><span class="line">  2482         22        112          0          0       1444   attc.o</span><br><span class="line">  1476         26          0          0          0        844   attm.o</span><br><span class="line">  1890         28          0          0          0        988   attm_db.o</span><br><span class="line">  4668         76        140          0          0       2656   atts.o</span><br><span class="line">  1782        206          0         16         40        576   entry.o</span><br><span class="line">   968         36         16          0          0        312   flash.o</span><br><span class="line">   ...</span><br><span class="line">   100          0          0          0          0         76   fmul.o</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"> 86908       4750       3124        696       3192      63128   Library Totals</span><br><span class="line">   128          0          7         11          2          0   (incl. Padding)</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"> Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name</span><br><span class="line"></span><br><span class="line"> 85336       4750       3117        685       3190      61872   fr8010h_stack.lib</span><br><span class="line">    98          0          0          0          0        204   mc_w.l</span><br><span class="line">  1346          0          0          0          0       1052   mf_w.l</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"> 86908       4750       3124        696       3192      63128   Library Totals</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示被提取的库成员（.lib）添加到映像中的部分所占空间大小。各项意义同object中的说明。我们一般只用看LibraryTotals来分析库所占空间的大小即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">==============================================================================</span><br><span class="line">      Code (inc. data)   RO Data    RW Data    ZI Data      Debug   </span><br><span class="line"></span><br><span class="line">     94144       5922       4360       1028       3308     123677   Grand Totals</span><br><span class="line">     94144       5922       4360       1028       3308     123677   ELF Image Totals</span><br><span class="line">     94144       5922       4360       1028          0          0   ROM Totals</span><br><span class="line">==============================================================================</span><br><span class="line"></span><br><span class="line">    Total RO  Size (Code + RO Data)                98504 (  96.20kB)</span><br><span class="line">    Total RW  Size (RW Data + ZI Data)              4336 (   4.23kB)</span><br><span class="line">    Total ROM Size (Code + RO Data + RW Data)      99532 (  97.20kB)</span><br><span class="line"></span><br><span class="line">==============================================================================</span><br></pre></td></tr></table></figure>
+
+<p>上述片段表示本工程全部程序汇总后的占用情况。其中：</p>
+<ul>
+<li>Grand Totals：表示整个映像所占空间大小。</li>
+<li>ELF Image Totals：表示ELF可执行链接格式映像文件的大小，一般和Grand Totals一样大小。</li>
+<li>ROM Totals：表示整个映像所需要的ROM空间大小，不含ZI和Debug数据。</li>
+<li>Total RO Size：表示Code和RO数据所占空间大小，本例程为：98504字节。</li>
+<li>Total RW Size：表示RW和ZI数据所占空间大小，即本映像所需SRAM空间的大小，本例程为：4336字节。</li>
+<li>Total ROM Size：表示Code、RO和RW数据所占空间大小，即本映像所需FLASH空间的大小，本例程为：99532字节。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/">https://youshouldtrustme.github.io/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Map%E6%96%87%E4%BB%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/14_8_17_40_202501140817123.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/" title="二进制文件"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">二进制文件</div></div><div class="info-2"><div class="info-item-1">BinBIN文件是纯二进制文件，没有固定的结构或元数据。&#x3D;&#x3D;当想要将二进制文件烧录进单片机时，不需要再对数据进行处理&#x3D;&#x3D;，也就是说，我们使用ImHex打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。 HexHex 全称 (Intel HEX)文件是由一行行符合Intel HEX文件格式的文本所构成的ASCII文本文件。 在Intel HEX文件中，每一行包含一个HEX记录。   [!note] 注意：我们使用txt文件打开的时候显示的是ASCII表示，也就是一个字符串。实际上一行数据的原始数据如下图左侧所示，使用txt打开的如右图所示。  下面会用源数据表示左侧的数据，用ASCII表示右侧数据。  参考链接单片机烧录用的hex文件，文件格式解析（转载）_.hex用什么软件打开-CSDN博客 Intel Hex Format 行结构一行Hex数据由以下结构组成： 1[Start code][Byte count][Address][Record type][Data][Checksum]       参数 长度 说明  ...</div></div></div></a><a class="pagination-related" href="/2025/09/13/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/BootLoader/" title="BootLoader"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">BootLoader</div></div><div class="info-2"><div class="info-item-1">参考链接基于UDS的BootLoader设计——架构设计及规范_nxp s32k144 bootloader 基于uds-CSDN博客 Bootloader升级方式一————擦、写flash在RAM中运行 - isAndyWu - 博客园 (cnblogs.com) 基础介绍Boot Loader又称为引导加载程序，引导加载程序是系统上电后运行的第一段软件代码，常被用来加载系统或者更新系统等。因此，大部分的Boot Loader存在两种不同的操作模式：  &#x3D;&#x3D;启动模式&#x3D;&#x3D;：启动加载（BootLoading）模式也称为自主模式（Autonmous），即BootLoader从目标机上某个固态存储设备上将操作系统加载至RAM中运行，整个过程中并没有用户的介入。 &#x3D;&#x3D;下载模式&#x3D;&#x3D;：在下载（DownLoading）模式下，目标机上的Boot Loader将通过串口连接或者网络连接等通信手段下载文件，如下载内核映像和根文件系统映像等。通常文件会保存在RAM中，然后将其写入目标地址完后系统的更新等。   [!tip...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GCC%E5%B9%B3%E5%8F%B0"><span class="toc-number">2.</span> <span class="toc-text">GCC平台</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Archives-linked"><span class="toc-number">2.1.</span> <span class="toc-text">Archives linked</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Memory-configuration"><span class="toc-number">2.2.</span> <span class="toc-text">Memory configuration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linker-script-and-memory-map"><span class="toc-number">2.3.</span> <span class="toc-text">Linker script and memory map</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MDK%E5%B9%B3%E5%8F%B0"><span class="toc-number">3.</span> <span class="toc-text">MDK平台</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">3.1.</span> <span class="toc-text">基础概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">3.2.</span> <span class="toc-text">组成部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E6%AE%B5%E4%BA%A4%E5%8F%89%E5%BC%95%E7%94%A8%E5%85%B3%E7%B3%BB%EF%BC%88Section-Cross-References%EF%BC%89"><span class="toc-number">3.2.1.</span> <span class="toc-text">程序段交叉引用关系（Section Cross References）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%98%A0%E5%83%8F%E6%9C%AA%E4%BD%BF%E7%94%A8%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%AE%B5%EF%BC%88RemovingUnused-input-sections-from-the-image%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">删除映像未使用的程序段（RemovingUnused input sections from the image）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E6%98%A0%E5%83%8F%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%B7%B3%E8%BD%AC%E4%BB%A3%E7%A0%81-Adding-Veneers-to-the-image"><span class="toc-number">3.2.3.</span> <span class="toc-text">向映像中添加跳转代码(Adding Veneers to the image)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%83%8F%E7%AC%A6%E5%8F%B7%E8%A1%A8%EF%BC%88ImageSymbol-Table%EF%BC%89"><span class="toc-number">3.2.4.</span> <span class="toc-text">映像符号表（ImageSymbol Table）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%AC%A6%E5%8F%B7%EF%BC%88Local-Symbols%EF%BC%89"><span class="toc-number">3.2.4.1.</span> <span class="toc-text">本地符号（Local Symbols）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E7%AC%A6%E5%8F%B7%EF%BC%88Global-Symbols%EF%BC%89"><span class="toc-number">3.2.4.2.</span> <span class="toc-text">全局符号（Global Symbols）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%83%8F%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83%E5%9B%BE%EF%BC%88MemoryMap-of-the-image%EF%BC%89"><span class="toc-number">3.2.5.</span> <span class="toc-text">映像内存分布图（MemoryMap of the image）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%83%8F%E7%BB%84%E4%BB%B6%E5%A4%A7%E5%B0%8F%EF%BC%88Imagecomponent-sizes%EF%BC%89"><span class="toc-number">3.2.6.</span> <span class="toc-text">映像组件大小（Imagecomponent sizes）</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark"><img src="/img/RandomCoverImage/random_14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WireShark"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark">WireShark</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2025 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (24)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (17)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/09/13/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/15_9_50_55_202501150950487.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-09-13</span><a class="blog-slider__title" href="2025/09/13/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2025/09/13/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>🍭​你要信我啊の博客​ - 今天要来学点什么呢？</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="嵌入式菜鸟">
+<meta property="og:type" content="website">
+<meta property="og:title" content="🍭​你要信我啊の博客​">
+<meta property="og:url" content="https://youshouldtrustme.github.io/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="嵌入式菜鸟">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/avatar.jpg">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "🍭​你要信我啊の博客​",
+  "url": "https://youshouldtrustme.github.io/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '🍭​你要信我啊の博客​',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">🍭​你要信我啊の博客​</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="post_cover left"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img class="post-bg" src="/img/RandomCoverImage/random_15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">参考链接【Qt】Qt6系列教程汇总_qt6教程-CSDN博客 </div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img class="post-bg" src="/img/RandomCoverImage/random_4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">如何评判 代码覆盖率：  语句覆盖率（Statement Coverage）：检查是否每个代码语句都被执行过。 分支覆盖率（Branch Coverage）：测试代码中每个条件的所有分支是否都被执行。 路径覆盖率（Path Coverage）：所有可能的执行路径是否都被测试。   边界值分析：  测试输入参数和输出值的边界，确保程序在极端条件下（如最大值、最小值、空值）能够正常运行。   缺陷率（Defect Rate）：  代码中的缺陷数量与代码总行数或模块的比例。通过动态测试发现的缺陷越少，代码质量通常越高。   执行时间与性能（Execution Time and Performance）：  测试代码在不同输入情况下的运行时间，确保其满足性能要求，特别是在嵌入式系统中。   内存使用率（Memory Usage）：  测试代码的内存使用情况，确保在不同输入条件下不会发生内存溢出或过度使用内存。   代码复杂度（Cyclomatic Complexity）：  动态测试可以帮助你识别高复杂度的代码部分，复杂度越高的代码更容易出错，因此测试应重点关注这些区域。   错误检测与...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img class="post-bg" src="/img/RandomCoverImage/random_11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">快捷键常用快捷键   快捷键 功能 备注    Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表    编辑快捷键   快捷键 功能 备注    Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以复制一行   Ctrlz 撤销    Ctrly 重做    CtrlF 查找    Ctrlh 替换    Ctrla 全选    Ctrl/ 注释 注释一行代码   Ctrlspace 引导 可以查看当前布局等   Ctrl. 快速修复    Ctrld 选中单词 如果当前已经选中了一个单词，那么再次按下快捷键将会选中下一个同样的单词，以此类推   Ctrl] 将制表符往右推    Ctrl[ 将制表符往左推    CtrlEnter 向下插入一行 在一行中的任意位置按下快捷键都可以向下插入一行，并且光标移动到此行   Ctrl方向 可以跳过单词 将光标跳过单词   Ctrlu 恢复光标位置  ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img class="post-bg" src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">启动 &amp;安装包管理工具我们可以使用Scoop来安装软件，使用gitee上的Scoop就不用担心网络的问题，可以访问https://gitee.com/scoop-installer/scoop来安装scoop。  给Scoop创建环境变量（在PowerShell中执行） 1[Environment]::SetEnvironmentVariable(&#x27;SCOOP&#x27;,&#x27;D:\Scoop&#x27;,&#x27;USER&#x27;)  设置完环境变量之后需要重启一下Powershell  安装到指定位置 123## 自定义安装目录（注意将目录修改为合适位置)irm scoop.201704.xyz -outfile &#x27;install.ps1&#x27;.\install.ps1 -ScoopDir &#x27;D:\Scoop&#x27; -ScoopGlobalDir &#x27;D:\GlobalScoopApps&#x27;  安装 12345# 脚本执行策略更改，默认自动同意Set-ExecutionPolicy RemoteS...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark"><img class="post-bg" src="/img/RandomCoverImage/random_14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WireShark"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark">WireShark</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">蓝牙抓包参考链接实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客 低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK的博客 nRF Sniffer for Bluetooth LE User Guide v4.0.0 (nordicsemi.com) 安装使用wireShark抓包，需要使用专用硬件nRF来抓，首先先到Wireshark · Go Deep网站下载wireShark，然后再去nRF Sniffer for Bluetooth LE - nordicsemi.com下载nRF sniffer插件。在ble-sniffer command overview (nordicsemi.com)上有软件使用手册。  [!tip] nRF sniffer是wireShark的一个插件，相当于是安装...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/jyySlide/" title="JyySlide"><img class="post-bg" src="/img/RandomCoverImage/random_7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JyySlide"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/jyySlide/" title="JyySlide">JyySlide</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">下载、安装参考链接sunnysky29&#x2F;jyy-slides: jyy OS PPT (github.com) 工具的安装首先需要安装python，python版本需要在3.10及以上 安装poetry 1pip install poetry  克隆库 12git clone https://github.com/zweix123/jyyslide-md.gitcd jyyslide-md  安装第三方库 1poetry install  转换转换可以使用两种方法：   使用虚拟环境 12poetry shellpython main.py 需要转换的文件地址   直接转换 1poetry run python main.py 需要转换的文件地址   windows的快捷转换：  首先需要先给md文件设置一个右键命令   按下 Win + R 打开“运行”窗口，输入 regedit，然后按回车进入注册表编辑器。 导航到以下路径： 12复制代码HKEY_CLASSES_ROOT\*\shell  右键点击 shell 文件夹，选择“新建” &gt; “项”，将其命名为 C...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具"><img class="post-bg" src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="便捷工具"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">系统类工具windows软件美化工具   软件名称 软件功能 相关链接    oh-my- posh cmd终端美化神器 oh-my-posh - 终端个性化工具 - 美化PowerShell &#x2F; cmd - 好物分享，真香~-CSDN博客   TranslucentTB Dock栏透明 TranslucentTB - Free download and install on Windows   Rocketdock Dock栏美化 Win10极简风最全美化指南！(桌面文件+任务栏透明+dock栏+磁贴_游戏软件_什么值得买 (smzdm.com)   xPlorer 文件夹管理 Releases · kimlimjustin&#x2F;xplorer (github.com)   sigma 文件夹管理 aleksey-hoffman&#x2F;sigma-file-manager: “Sigma File Manager” is a free, open-source, quickly evolving, modern file manager (explorer ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件"><img class="post-bg" src="/img/RandomCoverImage/random_15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="嵌入式编程软件"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.969Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">参考链接CubeMX+VSCode+Ozone的STM32开发工作流（三）利用Ozone进行可视化调试和代码分析_ozone jlink-CSDN博客 一、搭建Eclipse gcc mcu开发环境_ecplice 配置mcu-CSDN博客 深入理解工具链-基于Eclipse的嵌入式IDE快速入门_eclipse ide-CSDN博客 Ozone使用介绍-基础功能 - 开发环境 - 硬汉嵌入式论坛 - Powered by Discuz! Eclipse汉化教程（官方汉化包，傻瓜式操作，附带中英文快捷切换方式以及常见问题解决方案）-CSDN博客 Eclipse更为详细的使用教程可以参考深入理解工具链-基于Eclipse的嵌入式IDE快速入门_eclipse ide-CSDN博客 所需文件首先安装eclipse，从Eclipse IDE for Embedded C&#x2F;C++ Developers Eclipse Packages下载压缩包，解压即可，找到Eclipse双击即可打开。使用eclipse就需要使用交叉编译器，从Downloads | GNU Arm Embed...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/AD/" title="AD"><img class="post-bg" src="/img/RandomCoverImage/random_11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="AD"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/AD/" title="AD">AD</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.968Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.968Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">快捷键   快捷键 功能    鼠标右键 拖动图纸或PCB               原理图   快捷键 功能                    PCB   快捷键 功能    2 转换为2D图   3 转换为3D图   v + b 翻转PCB图    CTRL + 鼠标左键 跟踪线路走向        [!TIP] 注意，所有的快捷键都在英文状态下执行  查找在原理图中：  知道其中一个信号在哪  在一个文件中查找：按住ALT，鼠标左键点击信号 鼠标右键网络标号，点击Find Similar Objects，将text改为same即可。   不知道网络标号在哪  CTRL +  F 输入网络标号，点击搜索    </div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard"><img class="post-bg" src="/img/RandomCoverImage/random_4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Configuration Wizard"></a></div><div class="recent-post-info"><a class="article-title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-13T07:29:37.968Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-13T07:29:37.968Z" title="更新于 2025-09-13 07:29:37">2025-09-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="content">参考链接可视化的Keil工程配置模板，一招提高单片机开发效率-CSDN博客 Keil5 Configuration Wizard配置向导的使用方法_keil configuration wizard-CSDN博客 实现Configuration Wizard可以实现可视化配置宏定义文件。 首先在官方文档（Keil Product Manuals）中搜索Configuration Wizard（µVision User’s Guide (arm.com)） 网页中的文档描述得非常详细，也提供了一个配置模板，我们只需要照着文档描述写好相应的格式即可生成一个图形化的配置界面。  [!note] 注意：Keil并没有那么智能，写完这个模板它并不能立马自动匹配到，需要重新关掉Keil工程再开才能加载成图形配置模板，然后才能够实现即时修改即时响应！！！    将h文件或者c文件转换为可视化界面是很简单的，只需要在文件的开头和结尾加上以下的标识符即可： 1234// &lt;&lt;&lt; Use Configuration Wizard in Context Menu &gt;&gt;&g...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/#content-inner">8</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">74</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_15.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_11.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark"><img src="/img/RandomCoverImage/random_14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="WireShark"/></a><div class="content"><a class="title" href="/2025/09/13/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark">WireShark</a><time datetime="2025-09-13T07:29:37.969Z" title="发表于 2025-09-13 07:29:37">2025-09-13</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span class="card-category-list-name">基础知识</span><span class="card-category-list-count">13</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><span class="card-category-list-name">嵌入式</span><span class="card-category-list-count">24</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/"><span class="card-category-list-name">编程语言</span><span class="card-category-list-count">17</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">软件及工具</span><span class="card-category-list-count">18</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/c/" style="font-size: 1.1em; color: #999">c</a> <a href="/tags/Canoe/" style="font-size: 1.1em; color: #999">Canoe</a> <a href="/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/" style="font-size: 1.37em; color: #99a4b2">通信协议</a> <a href="/tags/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/" style="font-size: 1.23em; color: #999ea6">汽车行业标准</a> <a href="/tags/FS/" style="font-size: 1.1em; color: #999">FS</a> <a href="/tags/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/" style="font-size: 1.1em; color: #999">汽车电子</a> <a href="/tags/%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" style="font-size: 1.1em; color: #999">问题解决方法</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.1em; color: #999">算法</a> <a href="/tags/RTOS/" style="font-size: 1.1em; color: #999">RTOS</a> <a href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/" style="font-size: 1.5em; color: #99a9bf">外设组件</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/09/">
+            <span class="card-archive-list-date">
+              九月 2025
+            </span>
+            <span class="card-archive-list-count">73</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2025/03/">
+            <span class="card-archive-list-date">
+              三月 2025
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">74</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">687.8k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-09-13T07:30:02.268Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2025 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["你赖东东不错嘛！","Nice!"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["你赖东东不错嘛！","Nice!"])
+}
+typedJSFn.run(subtitleType)</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (24)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (17)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2025/09/13/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/01/15_9_50_55_202501150950487.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2025-09-13</span><a class="blog-slider__title" href="2025/09/13/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2025/09/13/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
