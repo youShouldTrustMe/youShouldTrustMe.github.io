@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url:  https://youshouldtrustme.github.io/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -50,10 +50,12 @@ highlight:
   tab_replace: ''
   wrap: true
   hljs: false
+  exclude_languages: ['mermaid']
 prismjs:
   preprocess: true
   line_number: true
   tab_replace: ''
+  exclude_languages: ['mermaid']
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -118,7 +120,7 @@ magnet:
   priority: 2
   enable_page: /
   type: categories
-  devide: 3
+  devide: 2
   display:
     - name: 嵌入式
       display_name: 嵌入式
