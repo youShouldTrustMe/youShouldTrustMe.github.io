@@ -2,6 +2,7 @@
 title: IIC
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png
+swiper_index: 2
 categories: 
   - 嵌入式
 tags:

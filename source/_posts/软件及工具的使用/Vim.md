@@ -291,6 +291,17 @@ keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>")
 
 在安装完lazy-nvim之后，可以在命令行输入`:LazyExtras`，此时就会显示出来有哪些拓展包，在需要安装的包前面按下<kbd>x</kbd>按键即可选中该支持包，然后重启即可启用。
 
+如果使用`clangd`，实际上是需要一个编译好的json文件，也就是iar生成的文件会在`debug`目录下的`compile_commands.json`，那么如果想要解析正确，就需要在项目的根目录下新建一个`.clangd`文件，其中文件的内容为：
+
+```yaml
+CompileFlags:
+  CompilationDatabase: ./Project/IAR/Debug
+```
+
+> [!tip]
+>
+> 需要注意的是，路径只需要设置为`compile_commands.json`的路径，不需要指定到文件
+
 ### nvim-treesitter
 
 ```lua
@@ -903,7 +914,8 @@ Vim 有三种主要模式：
 | ------------------------ | -------------------------------------------------- | ------------------------------------------------------------ |
 | 出现乱码                 | 下载JetBrains Mono Font                            | [Nerd Fonts - Iconic font aggregator, glyphs/icons collection, & fonts patcher](https://www.nerdfonts.com/font-downloads) |
 | 单独为nvim开一个terminal |                                                    | [Windows Terminal - Windows官方下载  微软应用商店  Microsoft Store](https://apps.microsoft.com/detail/9n0dx20hk701?hl=zh-cn&gl=HK) |
-| 不能搜索文件             | 下载fd，然后将fd的exe放到环境变量中，需重启lazyvim | [Releases · sharkdp/fd (github.com)](https://github.com/sharkdp/fd/releases) |
+| 不能搜索文件             | 下载fd，然后将fd的exe放到环境变量中，需重启lazyvim | [Releases · sharkdp/fd (github.com)](https://github.com/sharkdp/fd/releases |
+|                          |                                                    |                                                              |
 
 
 

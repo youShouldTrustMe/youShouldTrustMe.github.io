@@ -11,6 +11,10 @@ tags:
 
 
 
+
+
+
+
 # 参考链接
 
 [深入浅出低功耗蓝牙(BLE)协议栈及蓝牙连接过程_蓝牙芯片的寄存器组为什么需要分为两块-CSDN博客](https://blog.csdn.net/lanhuazui10/article/details/144194112)

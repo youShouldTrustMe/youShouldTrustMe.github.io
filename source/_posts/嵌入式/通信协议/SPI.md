@@ -2,6 +2,7 @@
 title: SPI
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png
+swiper_index: 3
 categories: 
   - 嵌入式
 tags:

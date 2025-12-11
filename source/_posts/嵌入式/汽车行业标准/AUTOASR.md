@@ -20,8 +20,10 @@ tags:
 
 [CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰/短路/采样点）_基于vh6501的can干扰测试-CSDN博客](https://blog.csdn.net/qq_36407982/article/details/122054927)
 
-> [!tip]
->
+[AUTOSAR_TR_BSWModuleList.xls](https://www.autosar.org/fileadmin/standards/R21-11/CP/AUTOSAR_TR_BSWModuleList.pdf)
+
+[AUTOSAR Layered Software Architecture](https://autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_EXP_LayeredSoftwareArchitecture.pdf)
+
 > 以下文章多基于[墨客博客 (xcnm.net)](https://xcnm.net/)的博客加上我自己的理解写的，感兴趣可以去看原博客。
 
 # 常见缩写
@@ -132,7 +134,7 @@ tags:
 
 AutoSAR要求整个软件有着严格得分层。AutoSAR分层软件架构如下：
 
-![AutoSar软件架构分层总览](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_9_58_54_image-20250727095847488.png)
+![AutoSar软件架构分层总览](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251210093147574.png)
 
 显而易见，AutoSAR软件架构自上而下分成了APP， RTE, BSW三层，至于那个Microcontroller指的是芯片MCU硬件，不属于软件。
 
@@ -142,37 +144,58 @@ AutoSAR要求整个软件有着严格得分层。AutoSAR分层软件架构如下
 
 BSW层和MCU息息相关，并且还包含了大量的一些知名协议栈，比方说什么UDS，XCP，TCP/IP等等。下图显示BSW的组成部分：
 
-![BSW分层概览](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_10_5_52_%E6%9A%82%E5%AD%98.png)
+![BSW分层概览](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251210093447832.png)
 
-可以看到BSW分成了Services Layer，ECU Abstraction Layer, Microcontroller Abstraction Layer和Complex Drivers四个部分。
+可以看到BSW分成了服务层，ECU 抽象层, 微控制器抽象层和复杂驱动四个部分。
 
-1. **Microcontroller Abstraction Layer**
+1. **微控制器层**
 
    MCU抽象层，它位于BSW的最底层，这一层其实就是我们经常说的MCAL层，这一层的作用就是将MCU资源抽象化，让上层程序的开发与MCU无关。举个例子，上层程序想通过CAN发个消息，只需要调用MCAL的消息发送接口Can_Write即可将消息成功发送出去，而不需要考虑它是通过中断还是轮询的方式发送。其实说白了MCAL就是MCU原厂针对AOTUSAR软件架构要求定制的一套底层MCU驱动，可以理解成为是AOTUSAR里面的MCU SDK驱动包。MCAL都是由MCU原厂提供源码，EB提供配置工具。
 
    早些年，MCAL都是要收费的，因为当时MCU原厂对一款MCU不仅要提供免费版的常规SDK包，还要提供收费版的AOTUSAR MCAL包，但是随着AOTUSAR的普遍应用，现在的MCAL基本上都是免费了。在这里不得不提一下NXP的做法，NXP为了省事，它将MCAL和常规SDK包融合了一起，而融合的方法就是在SDK包的基础上根据AOTUSAR的接口要求又封装了一层，强行AOTUSAR化，NXP将这种特殊的MCAL包称为RTD。
 
-2.  **ECU Abstraction Layer**
+2.  **ECU抽象层**
 
    ECU抽象层，它位于MCAL的上层，这一层的作用是让ECU的硬件设计抽象化，让上层程序的开发与ECU硬件设计无关。举个例子，上层程序需要通过ADC获取电源输入电压，它根本不需要考虑什么电阻分压转换什么，因为将ADC的寄存器值转化成真实的电源输入电压，这一部分的工作已经由ECU抽象层完成。经过ECU抽象层，让上层程序基本上脱离了硬件。
 
-3. **Services Layer**
+3. **服务层**
 
    服务层，它位于ECU抽象层的上面，上面提到了经过了ECU抽象层，已经大致让上层软件大致脱离了硬件，所以服务层更多的则是纯纯的软件，为APP提供相关服务和OS调度，比方说常见的UDS诊断，XCP，网络管理，通信服务等等都属于服务层。
 
-4. **Complex Drivers**
+4. **复杂驱动**
 
    复杂驱动，也就是经常所说的CDD，这一部分比较特殊，它自成一派，毕竟AOTUSAR不是万能的，它定义的那些标准模块不可能满足所有的应用需求，所以就有了复杂驱动，它是为了实现一些特殊的传感器和执行器功能，还有一些对控制时序有特殊要求功能需求场合，比方说喷油控制，胎压监测等。
 
    在一个ECU中，通常会有几大常见功能，比如存储功能，信息安全，通信功能等待，而AUTOSAR不同的层又根据功能划分了很多功能模块，如下图所示。看名字其实就大概猜到了每一个功能模块负责什么。
 
-实际上还会将以上分层分为更细的结构，如下图所示：
+当然，还可以通过服务类型划分，如下图所示：
 
-![应用分层细分层级](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_11_31_0_%E6%9A%82%E5%AD%98.png)
+![应用分层细分层级](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251210093636448.png)
+
+由图可以分为以下几类：
+
+1. 输入输出类：标准化访问传感器、执行器和 ECU 车载外设
+2. 内存：标准化访问内外部存储器（非易失性存储器）
+3. 加密：标准化访问密码学原语，包括内部/外部硬件加速器 ICA 
+4. 通信：标准化访问：车辆网络系统、ECU 车载通信系统及 ECU 内部软件
+5. 车外通信：标准化访问：车辆至 X 通信、车内无线网络系统、ECU 车外通信系统
+6. 系统：提供可标准化的（作系统、定时器、错误内存）及 ECU 专属服务和库功能
 
 将所有的功能展开，最终得到以下框图：
 
-![全功能的最终分层](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_11_35_58_%E6%9A%82%E5%AD%98.png)
+![全功能的最终分层](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251210093940209.png)
+
+## OSI模型
+
+| Applicability                                               | OSI 7 layers             | Vehicle- manufacturer- enhanced diagnostics                  | Legislated OBD (on-board diagnostics)                        | ==          | Legislated WWH-OBD (on-board diagnostics)                    | ==          |
+| ----------------------------------------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------- | ------------------------------------------------------------ | ----------- |
+| Seven layers according to ISO/IEC 7498-1) and ISO/IEC 10731 | 应用层<br />(第7层)      | ISO 14229-1,<br /> ISO 14229-3                               | ISO 15031-5                                                  | ==          | ISO 27145-3<br />ISO 14229-1                                 | ==          |
+| :                                                           | 表示层<br />(第6层)      | Vehicle manufacturer specific                                | ISO 15031-2<br />ISO 15031-5<br />ISO 15031-6<br />SAEJ1930-DA<br /> SAEJ1979-DA<br />SAE J2012-DA | ==          | ISO 27145-2<br />SAE 1930-DA<br />SAE J1979-DA<br />SAE J2012-DA<br />SAEJ1939:2011,<br />Appendix C (SPN)<br />SAE J1939-73:2010<br />Appendix A (FMI) | ==          |
+| :                                                           | 会话层<br />(第5层)      | ISO 14229-2                                                  | ==                                                           | ==          | ==                                                           | ==          |
+| :                                                           | 传输协议层<br />(第4层)  | ISO 15765-2                                                  | ISO 15765-2                                                  | ISO 15765-4 | ISO 15765-4<br />ISO 15765-2 <br />                          | ISO 27145-4 |
+| :                                                           | 网络层<br />(第3层)      | :                                                            | :                                                            | :           | :                                                            | :           |
+| :                                                           | 数据链路层<br /> (第2层) | ISO 11898-1<br /> ISO 11898-2<br />ISO 11898-3 <br />ISO 11898-5 <br />or user defined | ISO 11898-1 <br />ISO 11898-2                                | :           | ISO 15765-4<br />ISO 11898-1<br />ISO 11898-2                | :           |
+| :                                                           | 物理层 <br />(第1层)     | :                                                            | :                                                            | :           | :                                                            | :           |
 
 ## 功能安全
 
@@ -199,7 +222,7 @@ Autosar也为了功能安全在里面设计了很多机制和库函数，当然�
 
 Communication Stack主要承载了ECU的通信功能，例举一下汽车电子通信网络中的几大总线，CAN, LIN, FlexRay，以太网。所以不难想象Communication Stack必须要针对这四大总线实现它们的驱动以及相关常见协议栈，比如说CAN的UDS，以太网的TCP/IP等。整个Communication Stack的结构如下图所示：
 
-![Communication stack结构](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_11_29_15_%E6%9A%82%E5%AD%98.png)
+![Communication stack结构](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251211083119069.png)
 
 仔细观察四大总线的消息传递路径，可以发现在AUTOSAR架构中基本上都大同小异，对于接收消息而言，四大总线上的消息大多都是先由MCAL层中的Driver，然后传输到位于ECU抽象层的Interface，Interface层会根据消息类型进行分配最后再传输到该消息对应的服务层，对于发送则是一个相反的过程。
 
@@ -211,13 +234,67 @@ Communication Stack所提供的服务，主要有两类：
 
    1. Com服务主要负责传递来自APP层的消息，说简单点它就是把系统中的一些系统变量参数根据一定数据组合规则打包（或者解包），然后根据一定的时间/事件规则发送出去（或者接收进来）。Com服务中Can消息传递路径为：
 
-      ![Com服务的can消息传递](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_11_59_51_%E6%9A%82%E5%AD%98.png)
+      ```mermaid
+      graph TD
+          subgraph 顶层模块
+              A[ ]:::orange
+              B[ ]:::orange
+          end
+          
+          C[Com]:::blue
+          D[I-PDU]:::gray
+          E[PduR]:::blue
+          F[I-PDU]:::gray
+          G[CanIf]:::green
+          H[L-PDU]:::gray
+          I[CanDrv]:::pink
+          
+          A --> C
+          B --> C
+          C --> D
+          D --> E
+          E --> F
+          F --> G
+          G --> H
+          H --> I
+          
+          classDef orange fill:#FF7F50,stroke:#000,stroke-width:2px,width:40px,height:30px
+          classDef blue fill:#87CEFA,stroke:#000,stroke-width:2px
+          classDef gray fill:#D3D3D3,stroke:#000,stroke-width:2px
+          classDef green fill:#98FB98,stroke:#000,stroke-width:2px
+          classDef pink fill:#FFB6C1,stroke:#000,stroke-width:2px
+      ```
 
       对于接收而言，MCAL层中的CanDrv接收到最原始的CAN报文后传输到CanIf模块，CanIf模块相当于是一个报文分类模块，它会根据CAN ID将CAN报文分类，然后传递到服务层的不同模块，比如图中的PduR模块。经过了CanIf模块后，这个时候原始CAN报文变换为服务层PDU。PduR功能为PDU路由，它会对PDU再次进行分类，随后将其传递到更上层的软件模块，比如Com模块。
 
    2. Dcm服务主要实现了UDS诊断协议，接收来自外部的请求，并作出响应。Dcm服务中Can消息传递路径为：
 
-      ![Dcm服务传递Can消息路径](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_12_29_42_image-20250727122941959.png)
+      ```mermaid
+      graph TD
+          A[Dcm]:::blue
+          B[I-PDU]:::gray
+          C[PduR]:::blue
+          D[I-PDU]:::gray
+          E[CanTp]:::blue
+          F[N-PDUs]:::gray
+          G[CanIf]:::green
+          H[L-PDU]:::gray
+          I[CanDrv]:::pink
+      
+          A --> B
+          B --> C
+          C --> D
+          D --> E
+          E --> F
+          F --> G
+          G --> H
+          H --> I
+      
+          classDef blue fill:#87CEFA,stroke:#000,stroke-width:2px
+          classDef gray fill:#D3D3D3,stroke:#000,stroke-width:2px
+          classDef green fill:#98FB98,stroke:#000,stroke-width:2px
+          classDef pink fill:#FFB6C1,stroke:#000,stroke-width:2px
+      ```
 
       在Dcm服务中，对比Com服务，发现其有两个不同，第一个不同为Dcm服务与APP没有交集，因为Dcm就是UDS。第二个不同为在CanIf模块和PduR模块中多了一层CanTP模块，这个模块其实就是实现了ISO15765-2中描述的UDS on CAN的网络层。
 
@@ -228,7 +305,7 @@ Communication Stack所提供的服务，主要有两类：
 
 更为详细的通信过程如下：
 
-![AUTOSAR CAN通信过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/08/6_8_20_56_%E6%9A%82%E5%AD%98.png)
+![AUTOSAR CAN通信过程](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251211085115455.png)
 
 其中不同层的名词解释如下：
 
@@ -884,52 +961,110 @@ CanNm 模块使用的定时参数如下表所示：
 >
 > 标准文件请参见[Specification of CAN State Manager (autosar.org)](https://www.autosar.org/fileadmin/standards/R20-11/CP/AUTOSAR_SWS_CANStateManager.pdf)
 
-这里以Can总线的SM为例，框架图如下：
+框架图如下：
 
-![SM模板框图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_14_27_20_image-20250727142719861.png)
+```plantUML
+@startuml
 
-可以看到CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其总线的通信状态，所以CanSM模块管理的就是CAN总线的通信状态，而这里的通信状态则包含能不能发送报文，能不能接收报文，总线上有没有错误等。
+' 设置字体和箭头样式
+skinparam defaultFontName "Arial"
+skinparam arrowColor #666666
+skinparam linetype ortho  ' 强制直角连接（更符合框图布局）
 
-CanSM模块针对CAN总线状态而言，由上而下，CanSM接收其他模块的总线状态切换请求并通知CanIf模块去执行，由下而上，CanSM接收CanIf模块的总线状态切换反馈并汇报给其他模块。下图显示了在AUTOSAR的BSW层中其他模块与CanSM的交互情况：
+' 定义颜色常量（与原图匹配）
+!define COLOR_APP #A9A9A9  ' 灰色（App方块）
+!define COLOR_COMM #4DA6FF  ' 蓝色（AUTOSAR ComM）
+!define COLOR_STATE #66BB66  ' 绿色（Bus Specific State Manager）
+!define COLOR_GEN_NM #D1A8E0  ' 紫色（Generic NM Interface / Bus Specific NM）
+!define COLOR_INTERFACE #FFCC80  ' 黄色（Bus Specific Interface）
 
-![CanSm与其他模块之间的交互](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_15_41_38_%E6%9A%82%E5%AD%98.png)
+' 第一行：三个 App 方块（横向排列）
+rectangle "App" as App1 #COLOR_APP
+rectangle "App" as App2 #COLOR_APP
+rectangle "App" as App3 #COLOR_APP
 
-ECuM模块会初始化CanSM模块，并与CanSM模块交互进行CAN总线唤醒的验证。ComM模块使用CanSM模块请求CAN网络的通信模式，CanSM模块会将其CAN网络的当前通信模式通知给ComM模块。CanSM模块使用Canlf模块来控制CAN控制器和CAN收发器工作模式，Canlf模块通知CanSM模块CAN总线相关事件。CanSM模块向Dem模块报告总线特定的故障信息。CanSM将总线特定的模式更新通知到BswM模块。CanSM模块将部分网络可用性通知给CanNm模块，并在部分联网的情况下处理已通知的CanNm超时异常。CanSM模块向Det模块报告开发和运行时错误。
+' 第二行：AUTOSAR ComM（长条形蓝色方块，横跨宽度）
+rectangle "AUTOSAR ComM" as ComM #COLOR_COMM
 
-CanSM提供的主要功能主要有：
+' 第三行：左侧绿色方块（Bus Specific State Manager）+ 右侧紫色方块（Generic NM Interface + Bus Specific NM）
+' 左侧绿色方块（两个纵向排列）
+rectangle "<Bus Specific>\nState Manager" as State1 #COLOR_STATE
+rectangle "<Bus Specific>\nState Manager" as State2 #COLOR_STATE
+
+' 右侧紫色方块（分上下两层：上层1个，下层2个）
+rectangle "Generic NM Interface\n(Nm)" as GenNM #COLOR_GEN_NM
+rectangle "<Bus Specific>\nNM" as Nm1 #COLOR_GEN_NM
+rectangle "<Bus Specific>\nNM" as Nm2 #COLOR_GEN_NM
+
+' 第四行：黄色 Bus Specific Interface（长条形，横跨宽度）
+rectangle "<Bus Specific>\nInterface" as Interface #COLOR_INTERFACE
+
+' ==============================================
+' 布局调整（通过隐藏的箭头控制位置关系）
+' ==============================================
+
+' 第一行 App 横向排列（强制间距）
+App1 -[hidden]-> App2
+App2 -[hidden]-> App3
+
+' 第二行 ComM 位于 App 下方（居中对齐）
+App1 -[hidden,dashed]-> ComM
+App3 -[hidden,dashed]-> ComM
+
+' 第三行：左侧绿色方块与右侧紫色方块横向排列
+State2 -[hidden]-> GenNM  ' 绿色方块整体位于紫色方块左侧
+
+' 第三行右侧紫色方块内部布局（上层 GenNM，下层 Nm1/Nm2 横向排列）
+GenNM -[hidden,dashed]-> Nm1
+Nm1 -[hidden]-> Nm2
+
+' 第四行 Interface 位于最底部（居中对齐）
+State1 -[hidden,dashed]-> Interface
+Nm2 -[hidden,dashed]-> Interface
+
+@enduml
+```
+
+![CAN SM架构图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/4_16_22_29_image-20251104162221477.png)
+
+可以看到CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其**总线的通信状态**，所以CanSM模块管理的就是CAN总线的通信状态，而这里的通信状态则包含能不能发送报文，能不能接收报文，总线上有没有错误等。CanSM提供的主要功能主要有：
 
 1. 总线模式切换
-2.  Busoff 恢复管理
+2. Busoff 恢复管理
 3. 切换波特率
 4. 唤醒确认管理
 
+### 模块交互
+
+CanSM模块针对CAN总线状态而言，由上而下，CanSM接收其他模块的总线状态切换请求并通知CanIf模块去执行，由下而上，CanSM接收CanIf模块的总线状态切换反馈并汇报给其他模块。下图显示了在AUTOSAR的BSW层中其他模块与CanSM的交互情况：
+
+![CAN SM和别的模块的交互图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/4_16_26_14_image-20251104162613610.png)
+
+1. ECuM模块会初始化CanSM模块，并与CanSM模块交互进行CAN总线唤醒的验证。
+2. ComM模块使用CanSM模块请求CAN网络的通信模式，CanSM模块会将其CAN网络的当前通信模式通知给ComM模块。
+3. CanSM模块使用Canlf模块来控制CAN控制器和CAN收发器工作模式，Canlf模块通知CanSM模块CAN总线相关事件。
+4. CanSM模块向Dem模块报告总线特定的故障信息。
+5. CanSM将总线特定的模式更新通知到BswM模块。
+6. CanSM模块将部分网络可用性通知给CanNm模块，并在部分联网的情况下处理已通知的CanNm超时异常。
+7. CanSM模块向Det模块报告开发和运行时错误。
+
 ### 通信模式
 
-在CAN通信（尤其是基于AUTOSAR架构）中，有三种通信模式：
+![CAN SM的通信模式](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/4_16_58_45_image-20251104165844386.png)
 
-1. 完全通信模式（FULL_COMMUNICATION）
-   - **功能**： 节点**正常收发数据**，参与总线通信（如ECU运行时）。
-   - 组件状态：
-     - 控制器（CAN Controller）：
-       - `CANIF_CS_STARTED`（启动状态，处理协议层）。
-     - 收发器（CAN Transceiver）：
-       - `TRCVMODE_NORMAL`（主动驱动差分信号）。
-2. 静默通信模式（SILENT_COMMUNICATION）
-   - **功能**： 节点**仅接收数据，不发送数据**，避免干扰总线（如诊断监听）。
-   - 组件状态：
-     - 控制器：
-       - `CANIF_TX_OFFLINE`（发送关闭，仅接收）。
-     - 收发器：
-       - 仍保持`TRCVMODE_NORMAL`（需接收物理层信号）。
-3. 无通信模式（NO_COMMUNICATION）
-   - **功能**： 节点**完全离线**，进入低功耗状态（如车辆熄火后）。
-   - 组件状态：
-     - 控制器：
-       - `CANIF_CS_STOPPED`（协议层停止运行）。
-     - 收发器：
-       - `TRCVMODE_STANDBY`（待机模式，仅保留唤醒能力）。
 
----
+
+在CAN通信（基于AUTOSAR架构）中，有三种通信模式：
+
+1. 完全通信模式（FULL_COMMUNICATION）：节点**正常收发数据**，参与总线通信（如ECU运行时）。
+   - 控制器：`CANIF_CS_STARTED`（启动状态，处理协议层）。
+   - 收发器：`TRCVMODE_NORMAL`（主动驱动差分信号）。
+2. 静默通信模式（SILENT_COMMUNICATION）：节点**仅接收数据，不发送数据**，避免干扰总线（如诊断监听）。
+   - 控制器：`CANIF_TX_OFFLINE`（发送关闭，仅接收）。
+   - 收发器：仍保持`TRCVMODE_NORMAL`（需接收物理层信号）。
+3. 无通信模式（NO_COMMUNICATION）： 节点**完全离线**，进入低功耗状态（如车辆熄火后）。
+   - 控制器：`CANIF_CS_STOPPED`（协议层停止运行）。
+   - 收发器：`TRCVMODE_STANDBY`（待机模式，仅保留唤醒能力）。
 
 模式切换逻辑为：
 
@@ -937,21 +1072,123 @@ CanSM提供的主要功能主要有：
 2. **诊断需求**： `FULL_COMMUNICATION` → **静默** → `SILENT_COMMUNICATION`。
 3. **休眠指令**： `FULL_COMMUNICATION` → **关闭** → `NO_COMMUNICATION`。
 
-### 模式切换
+> [!tip]
+>
+> 在上面的状态机中实际上还有其他的状态，对于通信模式而言只有三种稳定状态，其余都是中间状态。
+>
+> - NOT_INITIALIZED 状态下，只能调用 CanSM_Init。
+> - PRENOCOM/WUVALIDATION/PRE_FULLCOM/CHANGE_BAUDRATE/SILENTCOM_BOR 为中间状态，正常情况下，CanSM不会停留在这些状态中，在这些状态下，调用 CanSM_RequestComMode 会被拒绝。
+> - NOCOM\FULLCOM\SILENTCOM 为稳定状态，处于这些状态下，可接受新的CanSM_RequestComMode 请求。
 
-CanSM模块针对总线模式控制有一个内部状态机，它会接收其他模块的总线模式切换请求以及总线状态变化反馈才进行状态机切换，其内部状态机切换如下图所示：
+> [!Note]
+>
+> 在以上状态机图中，不同的前缀条件代表不同的条件：
+>
+> - T: Trigger
+> - G: Guarding condition
+> - E: Effect
 
-![暂存](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/28_8_30_0_%E6%9A%82%E5%AD%98.png)
+#### 子状态机
 
-- NOT_INITIALIZED 状态下，只能调用 CanSM_Init。
-- PRENOCOM/WUVALIDATION/PRE_FULLCOM/CHANGE_BAUDRATE/SILENTCOM_BOR 为中间状态，正常情况下，CanSM不会停留在这些状态中，在这些状态下，调用 CanSM_RequestComMode 会被拒绝。
-- NOCOM\FULLCOM\SILENTCOM 为稳定状态，处于这些状态下，可接受新的CanSM_RequestComMode 请求。
+> [!note]
+>
+> 如果观察下面的所有状态机，就会发现，在设置控制器模式之前都需要将先设置为Stop模式，将收发器设置为Nomal模式。这是因为控制器可能在上电后默认处于未初始化状态，需先复位到“停止模式”作为启动前的统一基准状态。同理，收发器状态也需要做基准。
 
-关于CanSM的状态机切换非常复杂，上述提到了几种大状态下又会有自己的子状态机，但是不管它多复杂对我们使用它却并没有什么关系，这就是AUTOSAR的可怕之处，它会安排好一切，我们只需要按照需求调用接口和使用回调就行了。在这里，对状态机的详细切换机制我就不多作说明了，大家可以参考这两篇文章：[《AUTOSAR通信之CAN状态管理：CanSM》](https://zhuanlan.zhihu.com/p/126073070)，[《CAN网络状态机》](https://www.likecs.com/show-204291913.html#sc=1100)。
+##### CANSM_BSM_WUVALIDATION
 
-状态转换的时序图：
+在以下的状态机图中：
 
----
+- G开头的我们可以认为是已经切换成功，如**`[G_TRCV_NORMAL_E_OK]`**：若收发器成功切换到正常模式（条件成立），则进入 **`S_TRCV_NORMAL_WAIT`** 状态等待确认。
+- T开头可以认为是触发，如**`T_TRCV_NORMAL_TIMEOUT`**：若设置超时（未收到成功反馈），则可能跳转回自身或进入错误处理。
+
+其中正常的状态转移概述为：
+
+1. 设置CAN收发器为Normal状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_NORMAL)
+2. 设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CC_STOPPED)
+3. 设置CAN控制器为Started状态，CanIf_SetControllerMode(CAN_CC_STARTED)
+
+所以最终的收发器状态为`Normal`，控制器状态为`Started`。
+
+![CANSM_BSM_WUVALIDATION子状态机转换](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_14_10_34_image-20251108141026940.png)
+
+
+
+##### CANSM_BSM_S_PRE_NOCOM
+
+在这个状态机中，对于支持PN功能的程度不同走了两个不同的分支，但是实际上控制器和收发器的最终状态是一致的，改变过程为：
+
+- 设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CC_STOPPED)
+- 设置CAN控制器为Sleep状态，CanIf_SetControllerMode(CAN_CC_SLEEP)
+- 设置CAN收发器为Normal状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_NORMAL)
+- 设置CAN收发器为Standy状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_STANDBY)
+
+所以最终的收发器状态为`Standy`，控制器状态为`Sleep`。
+
+![CANSM_BSM_S_PRE_NOCOM子状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_14_37_30_image-20251108143729733.png)
+
+其中CANSM_BSM_DeInitPnSupported状态机为：
+
+![CANSM_BSM_DeInitPnSupported状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_14_52_24_image-20251108145223989.png)
+
+CANSM_BSM_DeInitPnNotSupported的状态机为：
+
+![CANSM_BSM_DeInitPnNotSupported状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_14_56_43_image-20251108145642729.png)
+
+##### CANSM_BSM_S_SILENTCOM_BOR
+
+
+
+在该状态机中，BOR表示**Bus-Off Recovery**（总线离线恢复），需要将Can设备重启（控制器为`S_RESTART_CC`状态）。同时应该调用Dem_SetEventStatus报告Bus Off事件。
+
+
+
+![CANSM_BSM_S_SILENTCOM_BOR状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_15_5_29_image-20251108150528953.png)
+
+##### CANSM_BSM_S_PRE_FULLCOM
+
+其中正常的状态转移为：
+
+- 设置CAN收发器为Normal状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_NORMAL)
+- 设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CS_STOPPED)
+- 设置CAN控制器为Started状态，CanIf_SetControllerMode(CAN_CS_STARTED)
+
+所以最终的收发器状态为`Normal`，控制器状态为`Started`。
+
+
+
+![CANSM_BSM_S_PRE_FULLCOM状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_15_11_48_image-20251108151147624.png)
+
+##### CANSM_BSM_S_FULLCOM
+
+该状态机的核心功能是在CAN通信正常激活后，**监控总线状态（如总线离线、发送超时）、处理故障恢复（如Bus-Off恢复）以及支持波特率切换**，确保CAN总线持续稳定通信。
+
+- **E_TX_OFF/ON**:总线结果为TX_OFFLINE/TX_ONLINE
+- **G_BUS_OFF_PASSIVE**：如果CANSM_BOR_TX_CONFIRMATION_POLLING禁能且E_TX_ON持续时间大于等于CANSM_BOR_TIME_TX_ENSURED；或如果CANSM_BOR_TX_CONFIRMATION_POLLING使能且API：CanIf_GetTxConfirmationState返回CANIF_TX_RX_NOTIFICATION则满足条件G_BUS_OFF_PASSIVE。
+- **T_SILENT_COM_MODE_REQUEST**：CanSM_RequestComMode(COMM_SILENT_COMMUNICATION)
+- **T_BUS_OFF**：如果回调函数CanSM_ControllerBusOff，则以T_BUS_OFF触发状态切换。
+- **T_RESTART_CC_INDICATED**：在重启CAN控制器后，CanSM获得状态指示，则以T_RESTART_CC_INDICATED触发状态切换。
+- **G_TX_ON**：如果参数CanSMEnableBusOffDelay是FALSE：当bus-off恢复次数小于CanSMBorCounterL1ToL2时，经过时间CanSMBorTimeL1；或当bus-off恢复次数大于等于CanSMBorCounterL1ToL2时，经过时间CanSMBorTimeL2则满足G_TX_ON。
+
+![CANSM_BSM_S_FULLCOM状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_15_28_25_image-20251108152825086.png)
+
+
+
+其中子状态CANSM_BSM_S_TX_TIMEOUT_EXCEPTION为：
+
+![CANSM_BSM_S_TX_TIMEOUT_EXCEPTION状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_15_49_40_image-20251108154940159.png)
+
+最终会将控制器设置为Start状态。
+
+##### CANSM_BSM_S_CHANGE_BAUDRATE
+
+CanIf_SetBaudrate() 如果直接设置波特率失败，执行
+
+- 设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CS_STOPPED)
+- 设置CAN控制器为Started状态，CanIf_SetControllerMode(CAN_CS_STARTED)
+
+![CANSM_BSM_S_CHANGE_BAUDRATE状态机](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/8_15_55_25_image-20251108155525164.png)
+
+#### 模式切换
 
 发送`FULL_COMMUNICATION`请求：
 
@@ -1174,42 +1411,6 @@ MCU编程实现总线关闭“快恢复”和“慢恢复”的一般过程可�
 > 问题：不走Rx是怎么知道发出去的报文是正确的‼‼‼‼‼‼‼‼
 >
 > 
-
-#### 模块层级
-
-
-
-
-
-
-
-```mermaid
-%% 模块层级与接口交互图
-graph TD
-    subgraph 通信管理层
-        ComM(("ComM\n(通信管理器)"))
-    end
-
-    subgraph 网络管理层
-        NmIf(("NmIf\n(通用网络管理接口)"))
-        CanNM(("CanNM\n(CAN网络管理)"))
-    end
-
-    subgraph 状态与硬件抽象层
-        CanSM(("CanSM\n(CAN状态管理器)"))
-        CanIf(("CanIf\n(CAN接口层)"))
-        CanTrcv(("CanTrcv\n(收发器驱动)"))
-    end
-
-    %% 模块间接口连线
-    ComM -- "Nm_NetworkRequest()\nNm_NetworkRelease()" --> NmIf
-    NmIf -- "CanNm_NetworkRequest()\nCanNm_PassiveStartUp()" --> CanNM
-    CanNM -- "CanIf_Transmit()\nCanIf_RxIndication()" --> CanIf
-    CanSM -- "CanIf_SetControllerMode()\nCanIf_SetTrcvMode()" --> CanIf
-    CanIf -- "Trcv_SetMode()\nTrcv_GetStatus()" --> CanTrcv
-    CanSM -- "CanSM_RequestComMode()\nCanSM_CurrentComMode()" --> ComM
-    CanNM -- "NmIf_CarWakeUpIndication()" --> NmIf
-```
 
 ### 切换波特率
 
@@ -1596,6 +1797,10 @@ Com模式提供的滤波方式包括：
 
 ## Dcm
 
+> [!tip]
+>
+> 标准文件请参见https://www.autosar.org/fileadmin/standards/R24-11/CP/AUTOSAR_CP_SWS_DiagnosticCommunicationManager.pdf
+
 Dcm 模块为诊断服务提供标准的函数接口，在控制器产品开发、制造和售后服务期间，用户可以通过外部诊断工具访问 Dcm 模块实现对控制器进行刷新、故障诊断等操作。说白就是Dcm是AUTOSAR架构对UDS协议的具体实现，Dcm模块是PduR模块的上层模块，当PduR接收到下层传输模块的UDS PDU后，就会将其路由发送到Dcm模块，同理，PduR模块也会将Dcm模块下发的PDU路由到对应的传输层模块。
 
 为实现 Dcm 功能，AUTOSAR 规范根据诊断服务执行的过程，将 Dcm 模块分为 3个子模块，分别是：
@@ -1606,36 +1811,904 @@ Dcm 模块为诊断服务提供标准的函数接口，在控制器产品开发�
 
 ![Dcm子功能](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/30_9_37_13_%E6%9A%82%E5%AD%98.png)
 
-### CanTP
 
-CanTp 模块在 AUTOSAR 架构中位于 CanIf 和 PduR 模块之间，参考 ISO 15765 标准，实现通信双方之间的基于 ISO 15765 协议的 CAN 通信功能，即实现了UDS on CAN的网络层，接收来自CanIf传来的诊断报文后对其进行单帧多帧处理，然后将PDU传输给PduR模块。
 
-CanTp模块的主要功能有：
-
-1. 收发单帧和多帧报文，对多帧报文进行解包和组包；
-2. 控制数据流；
-3. 检测报文收发过程中的各类错误，并向上层报告；
-4. 支持多连接通道。
-
-在这里需要了解一下的就是，以前的ISO15765是基于Clasic CAN实现的，一帧CAN报文只有8个字节，但是后面随着CANFD的横空出世，ISO-15765也随之调整，对于4种帧类型的定义变成如下：
-
-![Can类型帧](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/30_9_40_40_%E6%9A%82%E5%AD%98.png)
+### DSL：诊断服务层
 
 
 
-关于CanTP的一些其他具体细节在这里就不多说了，感兴趣的朋友可自行查找相关资料学习。
+DSL(Diagnostic Service Layer)做了下面几件事：
 
-### Dolp
+1. 确定诊断数据请求和响应的数据流；
+2. 监控和确保诊断请求和响应的时序
+3. 管理诊断状态（特别是诊断会话和安全状态）
 
-下面再来看看Dem模块的另外一个传输层DoIP （Diagnostic over IP）模块，这个模块其实就是UDS协议在以太网总线上的传输层的实现，即ISO13400规范的实现，其在AUTOSAR Communication Stack的位置如下图所示：
+#### 请求处理
 
-![Dolp架构](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/30_9_42_17_%E6%9A%82%E5%AD%98.png)
+1. 当DcmDslProtocolRxPduId 开始接收新的诊断请求内容时，PduR模块通过调用Dcm_StartOfReception()指示DCM模块。它通知DCM模块要接收的数据大小，并提供第一帧或单个帧的数据，并允许DCM在数据大小超出其缓冲区大小或请求的服务不可用时拒绝接收。
+2. 使用Dcm_CopyRxData函数将数据从提供的缓冲区复制到DCM缓冲区。
+3. 如果诊断请求的接收完成(当Dcm_StartOfReception成功时)，PduR模块将调用Dcm_TpRxIndication()给DCM模块一个接收指示。
+4. 当地址信息由Dcm_StartofReception()通过DcmRxPdu提供给DCM时，DCM应该能够使用通用连接。这个地址必须要存储并且用于响应和检测来自同tester的请求。
+5. DSL子模块在调用Dcm_TpRxIndication函数后，如果返回Result = E_OK，才会将接收到的数据转发给DSD子模块。
+6. 一旦收到请求消息(当Dcm_TpRxIndication函数返回E_OK之后，直到调用Dcm_TpTxConfirmation()来获取相关的TxDcmPduld)， DSL子模块将阻塞相应的DcmPduld。在处理此请求期间，不能接收相同DcmDslConnection的其他请求(例如，可以通过OBD会话结束增强会话)，直到发送相应的响应消息并再次释放dcmPduld(并发的testpresent请求除外)。
 
-DoIP 模块位于 SoAd 模块之上，负责接收 SoAd 传递的 PDU，对于非诊断报文，在 DoIP 内部进行处理；对于诊断报文，在对头部和部分 payload 检测完之后，将数据传递给上层 PduR，并回复 DoIP 层面的 ACK/NACK；另外，DoIP 也会接收来自 PduR 的 PDU，并加上 DoIP 头部后进行发送。DoIP功能主要有车辆发现，状态查询，路由激活（含安全认证)，诊断数据收发。
+对于不同的诊断通信应用程序，允许有不同的dcmPduld。例如:
 
-在车内用到DoIP模块的一般都是Gateway角色的设备，一般应用场景为：诊断仪Tester作为客户端，对车内网的支持DoIP协议的ECU进行诊断，而通常支持DoIP协议栈的ECU又会起到网关作用，自身作为诊断Server端的同时还具有诊断路由的功能，在路由打通后，发送的诊断数据根据目的地址的不同分别流向车内网的不同ECU。
+- OBD DcmRxPduld:用于接收OBD请求
 
-关于DoIP的一些其他具体细节在这里就不多说了，感兴趣的朋友可自行查找相关资料学习。汽车上还有一个常用总线为FlexRay，这个总线说实话出现的概率不多，就个别车企喜欢用这个，关于FlexRayTP的一些其他具体细节在这里就不多说了，感兴趣的朋友可自行查找相关资料学习。
+  OBD DcmTxPduld:用于传输OBD响应;
+
+- UDS phys DcmRxPduld:用于接收UDS物理地址请求;
+
+  UDS功能DcmRxPduld:用于接收UDS功能寻址请求;
+
+  UDS DcmTxPduld:用于传输UDS响应。
+
+每个DcmRxPduld配置地址类型(物理/功能寻址)。每个DcmRxPduld的配置是可能的，因为对于功能和物理接收，总是有不同的DcmRxPduld值，独立于传输层的寻址格式(扩展寻址，正常寻址)。
+
+> [!tip]
+>
+> 当ECU接收到会话保持请求（SID： 0x3E Sub： 0x80），不会发到DSP。
+
+#### 响应处理
+
+响应处理实际上接收DSP的数据，调用发送触发PduR的数据发送；
+
+1. 当DcmDslMainConnection的诊断响应准备好时，DSL子模块通过PduR_DcmTransmit函数向PduR发送诊断响应，其中Pduld参数为DcmDsIProtocolTxPduRef。
+2. 在周期性传输的情况下，Dcm应提供调用PduR_DcmTransmit()获取完整的有效负载数据（不使用Dcm_CopyTxData函数）
+3. 在周期性传输的情况下，使用Dcm_TxConfirmation()调用Dcm进行周期性传输，从而获取传输结果
+4. 响应与DcmTxPduld一起发送，它在DCM模块配置中链接到DcmRxPduld，即接收请求的ID(参见配置参数DcmDsIProtocolTx)。
+5. 在PduR_DcmTransmit()中，仅给PduR模块提供长度信息和一般连接的寻址信息。在DCM模块成功调用PduR_DcmTransmit()后，PduR模块将调用Dcm_CopyTxData()要求DCM模块提供要传输的数据，并在完整的PDU成功传输或发生错误后调用Dcm_TpTxConfirmation()。
+6. 如果DSL子模块在成功发送完整的DCM PDU后收到确认消息，或者调用Dcm_TpTxConfirmation()发生错误，则DSL子模块应将此确认消息转发给DSD子模块。如果传输失败(PduR_DcmTransmit()请求失败)或错误确认(Dcm_TpTxConfirmation()带有错误)时，DSD子模块不得重复诊断响应传输。
+
+> [!note] 
+>
+> 注意:只有当PduR_DcmTransmit成功时才需要Dcm_TpTxConfirmation。如果DcmDsIProtocolTx的Multiplicity设置为“0”，Dcm将处理接收到的诊断请求而不发送响应。
+
+在DSL中支持多种服务：
+
+1. **支持周期性传输**：对应的服务ReadDataByPeriodicIdentifier (0x2A)，该服务用于向由一个或多个periodicDataIdentifiers标识的ECU请求定期传输数据记录值。
+
+   > DCM模块应使用单独的协议和可配置大小的单独缓冲区发送周期性传输的响应。DcmDslPeriodicTransmissionConRef配置参数允许将用于接收周期性传输请求/发送周期性传输响应的协议链接到用于传输周期性传输消息的协议。注意，可以将多个DcmTxPdulds分配给周期性传输协议。根据通信方式的不同，DCM模块有以下几个限制:
+   >
+   > 1. 周期传输通信只能在完全通信模式下进行。
+   > 2. 在未处于完全通信模式时可能发生周期性传输事件。因此存在以下要求:
+   >    1. DCM模块丢弃全通信模式旁边的周期性传输事件，不将其排队传输。
+   >    2. 周期传输事件不激活完全通信模式。
+
+2. **支持ResponseOnEvent (ROE) 传输**：对应的UDS服务ResponseOnEvent (0x86), 通过该服务。测试人员可以请求ECU启动或停止传输由指定事件发起的响应。当注册一个事件进行传输时，测试者也指定相应的服务来响应(例如:UDS service ReadDataByIdentifier 0x22)。
+
+3. **支持分段响应**：  在某些情况下，例如在例程执行的情况下，应用程序需要立即请求一个NRC 0x78(响应等待)，该请求应立即发送，而不是仅仅在到达响应时间之前(P2ServerMax分别为P2*ServerMax)。当Dcm模块调用一个操作并得到一个错误状态DCM_E_FORCE_RCRRP时，DSL子模块将触发NRC 0x78(响应等待)的负响应传输。这个响应需要从一个单独的缓冲区发送，以避免覆盖正在进行的请求处理。
+
+   > DcmDslProtocolMaximumResponseSize 仅当 DcmPagedBufferEnabled 设置为 TRUE时才存在
+   >
+   > - 当DcmPagedBufferEnabled=TRUE时，如果生成的响应长度大于DcmDsIProtocolMaximumResponseSize，则Dcm响应NRC 0x14 (响应长度过长)。
+   > - 当DcmPagedBufferEnabled == FALSE时，并且生成的响应大于Dcm_MsgContextType结构元素的resMaxDataLen，则Dcm响应NRC 0x14（）.
+   >
+   > 使用分页缓冲处理，ECU不会要求提供与最大响应长度一样大的缓冲区。注意:
+   >
+   > - 分页缓冲区处理仅用于发送-不支持接收。页缓冲区处理不适用于应用程序(仅在dcm内部使用)。
+   > - Dcm应提供TP请求的正确数据量，如果请求的数据量不可用，则返回bufreqe_busy。
+   >
+   > 注意:如果请求的数据量不可用，Dcm应该立即填满分页缓冲区。
+
+4. **支持由应用程序触发的 ResponsePending 响应**：当需要响应诊断请求时，DSL模块通过调用PduR_DcmTransimit()和Dcm_CopyTxData()将数据传递至PDUR模块，其中PduR_DcmTransimit()函数只是传递长度信息、地址信息，数据是通过Dcm_CopyTxData()函数传递至PDUR模块，当数据传输成功后，PDUR模块通过Dcm_TpTxConfirmation()函数告知DCM数据接收成功。PDUR会将数据诊断请求数据从上层的Buffer中Copy到诊断的接收Buffer中，DSD会从此Buffer中取出数据进行处理。
+
+5. **支持等待响应**：上位机发送诊断请求后会要求ECU在一个最大响应时间（一般是50ms）内发出响应报文，但是对于一些请求的处理，ECU内部会耗时比较长（比如0x2E写NVM的请求），来不及在规定时间发出响应。这个时候ECU可以发送0x78（Pending）的否定响应吗来通知上位机ECU内部繁忙（Busy），需要上位机等待（Pending，一版Pending时间可以设置为1秒）。上位机收到0x78（Pending）的否定响应码后就会等待，直到ECU发出积极响应或者Pending时间超时。这个发送Bussy响应来保证诊断时序的功能由DSL模块实现。
+
+   > 如果应用程序(或DSP子模块)能够执行请求的诊断任务，但需要额外的时间来完成任务并准备响应，则DSL子模块应在达到响应时间(DcmDspSessionP2ServerMax -DcmTimStrP2ServerAdjust)时发送NRC 0x78(响应等待)的负响应。DSL子模块应该从一个单独的缓冲区发送负面响应。这是为了避免覆盖正在进行的请求处理，
+   >
+   > 例如，应用程序已经在诊断缓冲区中准备了响应内容。对于一个诊断请求，带有NRC 0x78(响应挂起)的否定响应的数量受到配置参数的限制DcmDsIDiagRespMaxNumRespPend。这避免了应用程序中的死锁。
+   >
+   > 如果请求的诊断任务的否定响应数达到配置参数DcmDsIDiagRespMaxNumRespPend中定义的值，Dcm模块将停止处理活动诊断请求，并通过设置活动端口接口的OpStatus参数通知应用程序或BsW(如果此诊断任务意味着调用SW-C接口或BsW接口)。到DCM_CANCEL，并发送带有NRC 0x10(一般拒绝)的否定回复。
+
+#### 安全管理
+
+在安全管理模块中，有以下功能：
+
+- 管理安全级别
+- 处理Key和Seed
+
+DSL提供Dcm_GetSecurityLevel()、DslInternal_SetSecurityLevel()两个函数分别用于获取当前的安全等级和设置安全等级。
+
+对于配置层面而言，DSL菜单主要是配置诊断帧，包括物理寻址和功能寻址，单次通信的最大Buffer，以及时间参数，包括回复0x78的时间和为了防止诊断服务异常，允许0x78的最大次数等。
+
+
+
+在 Dcm 初始化期间，安全级别设置为值 0x00 （DCM_SEC_LEV_LOCKED）， 在满足下列条件其中之一时，DSL会将安全级别重置为值 0x00：
+
+- 从任意**非默认会话**切换到另一个**非默认会话**（包括当前已激活的会话）。
+- 从任意**非默认会话**切换到**默认会话**（当使用UDS 的0x10服务或 S3 Server 超时执行）
+
+> [!note]
+>
+> 一次只能激活一个安全级别
+
+ 每次安全级别更改时，Dcm 应更新 ModeDeclarationGroup 的DcmSecurityAccess
+
+DcmDspSecurityResetAttemptCounterOnTimeout参数应该在仅当 DcmDspSecurityRow 的 DcmDspSecurityAttemptCounterEnabled 设置为 TRUE 时，才应存在。
+
+#### 会话管理
+
+会话（session）一般有三种：
+
+1. 缺省会话（0x00, Default session）
+2. 编程会话（0x01, Programming session）
+3. 扩展会话（0x02Extended session）
+
+DCM的会话管理有以下几个功能：
+
+- 管理会话状态处理当前激活的Session以及设置新的Sesstion
+- 管理权限状态分为权限模式和默认的模式
+- 跟踪活动的非默认会话
+- 允许修改时间。
+
+DSL子模块保存当前活动会话的状态，为了访问这个变量，DSL子模块提供了以下接口:
+
+- 获取当前活动会话:Dcm_GetSesCtrlType ()
+- 设置会话:DslInternal_SetSesCtrlType()
+
+初始化DCM时，会话状态设置为0x01(“DefaultSession”)。调用Dcm_ResetToDefaultSession()允许应用程序将当前会话重置为默认会话，并调用ModeDeclarationGroupPrototype DcmDiagnosticSessionControl的模式切换SchM_Switch__DcmDiagnosticSessionControl（RTE_MODE_DcmDiagnostic）SessionControl_DEFAULT_SESSION)。示例:超出速度限制时自动终止扩展诊断会话。
+
+> [!note]
+>
+> 每种会话下可以进行的诊断服务不同，根据实际需求由OEM自己定义。一般来说诊断（UDS）刷写功能需要在编程会话下进行，涉及到NVM关键存储数据的写功能需要在扩展会话下进行。根据实际需求可以自己定义会话，比如定义0x60（EOL session）专门用于EOL工厂下线处理。
+
+**会话保持将**在一个单独的DcmRxPduld (UDS功能DcmRxPduld)上接收，该DcmRxPduld与物理请求属于同一个DcmDslConnection。在这种情况下，使用了未显式配置的dcm内部接收缓冲区。由于这个原因，函数testpresent(并且只有没有响应的函数testpresent)以以下方式处理:
+
+> [!tip]
+>
+> 当PduR模块调用Dcm_TpRxIndication并返回E_OK时，如果请求是“testpresent”命令，且“抑制正响应位”设置为TRUE ，则DSL子模块将重置会话超时定时器(S3Server)，并且不会将此请求转发给DSD。
+>
+> 由于绕过了DSL子模块中的功能“testpresent”，Dcm模块能够毫无延迟地接收和处理下一个物理请求。
+
+#### 诊断协议处理
+
+- 处理不同的诊断协议
+- 处理设置诊断协议服务Table， 根据UDS或者OBD链接到不同的诊断协议
+- 设置不同服务协议的优先级
+- 支持优先级抢占机制
+- 并行处理OBD和UDS协议， 可以忽略优先级和抢占机制
+
+**管理资源**
+
+给服务分配对应的Buffer，
+
+1. 在Dcm模块中只允许使用和分配一个诊断缓冲区，这个缓冲区随后用于处理诊断请求和响应
+2. NRC 0x78 (Response pending)响应的输出是通过一个单独的缓冲区完成的
+3. 支持分页缓冲处理
+
+#### 通信模式处理
+
+DCM模块和ComM模块的交互由DSL子模块完成。ComM模块把每个通信通道（channel）的当前通信状态（No-com, Full-com, Silent-com）通知给Dcm模块。Dcm模块的诊断功能将会调用ComM模块的接口功能可能会阻止Ecu进入shutdown模式（ActiveDiagnostic ==’DCM_COMM_ACTIVE’时ECU必须保持唤醒状态，也就是不允许 进入shutdown/sleep）。
+
+应用程序可以调用Xxx_SetActiveDiagnostic()接口通知Dcm模块ActiveDiagnostic的当前状态
+
+- 处理通信要求（Full/Silent/No）:ComM会通知DCM当前的通道， DCM会进行模式的请求， 避免通信进入Sleep；在Silent和NO下， DCM禁止通信
+  - No Communication：ComM模块调用 Dcm_ComM_NoComModeEntered接口通知Dcm模块通信关闭。Dcm模块收到通知后就会Disable所有的诊断接收/传输。
+  - Silent Communication:ComM模块调用 Dcm_ComM_SilentComModeEntered接口通知Dcm模块通信静默。Dcm模块收到通知后就会Disable所有的诊断传输。
+  - Full Communication:ComM模块调用 Dcm_ComM_FullComModeEntered接口通知Dcm模块通信静默。Dcm模块收到通知后就会Enable所有的诊断接收/传输。
+- 指示活动/非活动诊断
+- 启用/禁用所有类型的诊断传输
+
+在DSL里面可以配置多路诊断通道，假设诊断ID有2个以上，通过DcmDslProtocolRows容器实现。
+
+### DSD：诊断调度服务
+
+DSD(Diagnostic Service Dispatche)子模块负责检查传入诊断请求的有效性(诊断会话/安全访问级别/应用程序权限的验证)，并跟踪服务请求执行的进度。
+
+DSD和DSL的交互为：
+
+| 描述      | 解释                         |
+| --------- | ---------------------------- |
+| 双向      | 诊断消息的交换 (接收/发送)   |
+| DSD到DSL  | 获取最新的诊断会话和安全级别 |
+| DSL 到DSD | 诊断报文传输确认             |
+
+DSD和DSP的交互为：
+
+| 描述      | 解释                       |
+| --------- | -------------------------- |
+| DSD 到DSP | 委托诊断处理 ·确认传输消息 |
+| DSP 到DSD | 处理结束的信号             |
+
+#### 检查
+
+DSD模块会检查诊断服务标识和适配诊断消息：
+
+- DSD接收来自DSL的数据， 根据具体的配置参数决定接收到的信号是否在DCM中进行处理
+- 基于ID进行识别
+- 可以选择诊断的ID Table
+- 对于不支持的ID进行Negative 响应
+
+1. 当DSL接收到新的诊断请求，DSL通过内部接口通知DSD。DSD调用Dcm_GetSesCtrlType()、Dcm_GetSecurityLevel()获取当前的Session和安全等级，DSD通过检查以上的参数会响应不同的数据：
+
+   1. DSD模块会在当前Session的“Service Identifier Table”检查诊断请求SID是否在其中，如果不在table中，DSD会发送NRC **0x7F**。
+
+      > 如果配置DcmRespondAllRequest=FALSE，那么当DCM模块收到包含0x40到0x7F或0xC0到0xFF范围内的服务ID的诊断请求，DCM将不响应这样的请求。因为此范围的SID在 ISO 14229-1（UDS）标准中定义是**响应 SID 范围**。
+      >
+
+   2. 如果诊断服务支持，但当前Session不支持该子服务，DSD会发送NRC **0x7E**。
+
+   3. 然后检查当前安全等级是否满足条件，如果当前安全等级不支持该诊断请求，DSD会发送NRC **0x33**。
+
+   4. 最后检查数据的长度。
+
+2. 当DSP模块完成诊断请求处理后，DSD负责将整理响应数据发送至DSL。
+
+   1. DSD模块将服务标识符(SID)(如果是负反馈，则为0x7F)和响应的数据流添加至“Dcm_MsgContextType”。
+   2. 然后DSD将其传送至缓冲区，并在缓冲区的第一个字节添加SID。
+
+> 举个例子：**写VIN号**
+>
+> 1. DSL子模块接收到一条新的诊断消息。诊断信息WriteDataByldentifier = 0x2E,0xF1,0x90,0x57,0x30,0x4C,0x30,0x30,0x30,0x30,0x34,0x33,0x4D,0x42,0x35,0x34,0x31,0x33,0x32,0x36
+> 2. DSL子模块向DSD子模块指示具有“数据指示”功能的新诊断消息。在诊断消息缓冲区中存储诊断消息(buffer = 0x2E,0xF1,0x90，…)。
+> 3. DSD子模块使用传入诊断消息上确定的服务标识符(缓冲区0x2E的第一个字节)对受支持的服务执行检查。
+> 4. 传入的诊断消息存储在DCM变量中Dcm MsgContextType。
+>
+> DcmDsdSidTabServiceld中配置的服务标识符的Id在一个DcmDsdServiceTable中必须是唯一的。
+
+
+
+#### 验证
+
+DSD子模块只有在通过以下六项验证后才会接受服务:
+
+1. 厂商权限验证(厂商接口inctnptn的调用）
+2. SID的验证
+3. 诊断会话的验证
+4. 服务安全访问级别的验证
+5. 供应商权限验证(调用供应商接口指示操作)
+6. 验证服务id的Mode规则
+
+> [!note]
+>
+> **当前**会话下服务不支持响应0x7F（注意区分0x11）,例如10 03下不支持2E一样，当前请求子服务不支持响应0x7E（注意区分0x12）,例如10 03下支持0x2E,但是不支持0x2E F1 89这样的F1 89子服务。一定要注意区分。校验安全等级，一般就是在某些服务下校验0x27是否能正常通过。
+
+并且DSD还会检查格式与子服务：
+
+- 服务权限（0x29服务可以改变权限）
+- 诊断的Session（0x10服务实现不同的Session）
+- Security Access Level（0x27）
+- 服务的关联和依赖
+
+#### 响应
+
+响应主要有以下类型：
+
+- Positive的响应
+- Negative的响应
+- 抑制响应
+
+详细为：
+
+1. **接收请求消息并发送积极响应消息**：服务端接收诊断请求消息。DSD子模块确保请求消息的有效性，将该请求转发到DSP子模块中相应的服务处理程序中。当服务处理函数完成所有数据处理动作后，触发DSD子模块发送响应消息。
+
+   - 如果DSP作为请求指示函数的一部分，立即处理服务，则DSP可以触发该指示函数内部的传输(“同步”)。
+   - 如果处理需要较长的时间(例如等待EEPROM驱动程序)，则数据处理器推迟一些处理(“异步”--使用pending)。响应挂起机制由DSL子模块涵盖。数据处理器显式地触发传输，但是是从数据处理器的上下文中触发的。一旦收到请求消息，相应的DcmPduld就会被DSL子模块阻塞。在处理此请求期间，不能接收其他相同协议类型的请求(例如，可以通过OBD会话结束增强会话)，直到发送相应的响应消息并再次释放DcmPduld。
+
+2. **接收请求消息并抑制积极响应**：这是前一个用例的子用例。在UDS协议中，可以通过在请求消息中设置一个特殊的位来抑制正响应。这种特殊的抑制处理完全在DSD子模块中执行。
+
+3. **接收请求消息并抑制负面响应**：在功能性寻址的情况下，DSD子模块应抑制NRC 0x11, 0x12, 0x31, 0x7E和0x7F的负响应.
+
+4. **接收请求消息并发送否定响应消息**：拒绝请求消息和发送否定响应有许多不同的原因。如果诊断请求无效，或者在当前会话中可能不会执行请求，则DSD子模块将拒绝处理并返回否定响应。但是拒绝执行格式良好的请求消息甚至有很多原因，例如，如果ECU或系统状态不允许执行。在这种情况下，DSP子模块将触发一个否定响应，包括NRC提供该请求被拒绝的额外信息。
+
+   如果请求由多个参数组成(例如，一个有多个标识符要读取的UDS Service ReadDataByldentifier (0x22)请求)，则每个参数被单独处理。每个参数都会返回一个错误。
+
+   如果至少有一个参数被成功处理，这种请求将返回一个积极的响应。
+
+5. **发送一个积极的响应消息，没有相应的请求**：UDS协议中有两种服务，对一个请求发送多个响应。通常，一个服务用于启用(和禁用)由事件或时间触发的另一个服务的传输，该服务再次由ECU发送，而不需要相应的请求.UDS Service readdatabyperiodicentifier (0x2A)。该服务允许客户端请求定期传输由一个或多个periodicDataldentifiers标识的服务器的数据记录值。类型1 = DcmTxPduld上的USDT消息已用于正常诊断响应(仅限单帧);类型2=单独的DcmTxPduld上的udt消息。对于类型1，传出消息必须与具有更高优先级的“正常传出消息”同步。ResponseOnEvent (Ox86)。此服务请求服务器启动或停止对指定事件的响应传输。方式1 = DcmTxPduld上的USDT消息已用于正常诊断响应;方式2 =在单独的DcmTxPduld上发送USDT消息。对于方式1，传出消息必须与具有更高优先级的“正常传出消息”同步。
+
+   这种处理特别由DSL子模块控制。然而，DSD子模块还提供了在没有相应请求的情况下生成响应的可能性。
+
+6. **分段反应**：在诊断协议中，一些服务允许交换大量的数据，例如UDS Service ReadDTCInformation (0x19)和UDS Service传输数据 （0x36）。在传统方法中，ECU内部缓冲区必须足够大，以保存要交换的最长数据消息(最坏情况)，并且在传输开始之前填满整个缓冲区。ECU中的RAM存储器通常是一个关键资源，特别是在较小的微处理器中。在一种更节省内存的方法中，缓冲区只被部分填充，部分传输，然后部分重新填充，以此类推。这种分页机制只需要显著减少的内存量，但需要定义良好的缓冲区重新填充反应时间。用户可以决定是使用“线性缓冲区”还是分页缓冲区进行诊断。
+
+> [!note] 
+>
+> 可能出现的NRC为：
+>
+> - 0x11 (Service not supported)
+> -  0x12(SubFunction not supported)
+> -  0x31(Request out of range)
+> - 0x7E (Subfunction not supported in active session)
+> - 0x7F (Service not supported in active session)
+
+响应过程为：
+
+1. DSD子模块将诊断(响应)消息(正面或负面响应)转发给DSL子模块。
+2. DSL子模块应通过执行DSL传输功能将诊断(响应)消息(正面或负面响应)进一步转发到PduR模块。
+3. DSL子模块在转发数据时将收到PduR模块的确认。
+4. DSL子模块将从PduR模块接收到的确认信息转发给DSD子模块。
+5. DSD子模块应通过内部函数DspInternal_DcmConfirmation()将确认转发给DSP子模块。
+   1. 如果不发送诊断(响应)消息(响应抑制)，则DSL子模块不发送任何响应。
+   2. 在这种情况下，没有数据确认从DSL子模块发送到DSD子模块，但DSD子模块仍将调用内部函数DspInternal_DcmConfirmation （）。
+
+### DSP：诊断服务处理
+
+Diagnostic Service Processing：处理实际的诊断请求。当接收到来自DSD子模块的函数调用要求DSP子模块处理诊断服务请求时， DSP始终执行以下基本处理步骤：
+
+- 分析收到的请求消息
+  - 分析收到的 Service‑ID、子功能码以及报文长度、结构等信息。
+  - 检查格式是否符合 UDS/OBD 规范，若不符合则产生负响应 NRC 0x13（“Message length or format incorrect”）
+- 检查格式以及是否支持寻址的子功能
+  - 判断当前诊断会话、权限、安全等级是否允许该服务；若不允许则返回 NRC 0x10（“General reject”）或其他对应的 NRC
+
+- 在 DEM、 SW-C 或其他 BSW 模块上获取数据或执行所需的函数调用
+  - 与 DEM（Diagnostic Event Manager）、其他 BSW 模块或应用层 SW‑C 交互，读取故障码、执行读/写 DID、进行编程、访问安全访问等功能。
+  - 若使用分页缓冲区机制，DSP 必须先计算整体响应长度，再把数据分段交给 DSD/DSL 处理。
+
+- 服务响应
+  - 将响应 Service‑ID（原 Service‑ID + 0x40）以及相应的数据字段组织成完整的响应帧。
+  - 对于负响应，按照 UDS 规范生成 0x7F 前缀 + 原 Service‑ID + NRC 码
+
+> [!note]
+>
+> 在DSP和bootloader交互的时，如果满足所有先决条件并假设'suppressPosRspMsgIndicationBit标志设置为'false'，则已经确定了跳转到引导加载程序的4个不同用例:
+>
+> 1. 应用程序立即发送一个最终的积极响应，然后跳转到引导加载程序
+> 2. 应用程序首先发送一个NRC 0x78响应，然后是最终的积极响应，然后跳转到引导加载程序
+> 3. 应用程序立即跳转到引导加载程序，引导加载程序发送最终的积极响应
+> 4. 应用程序首先发送一个NRC 0x78响应，然后跳转到引导加载程序，引导加载程序发送最终的积极响应
+>
+> 注意:如果'suppressPosRspMsgIndicationBit'标志被设置为'true'，用例'1'并且用例“3”不会发出积极响应。
+>
+> 
+>
+> 在接收服务诊断sessioncontrol时，如果提供的会话用于跳转到OEM引导加载程序(参数DcmDspSessionForBoot设置为DCM_OEM_BOOT或DCM_OEM_BOOT_RESPAPP)，Dcm应通过触发ModeDeclarationGroupPrototype DcmEcuReset的模式切换来准备跳转到OEM引导加载程序。
+>
+> 注意:通过这种模式切换，DCM通知BswM准备跳转到引导加载程序。
+>
+> 在DCM初始化时，DCM应该调用Dcm_GetProgConditions()来知道初始化是否是从引导加载程序/ ECUReset跳转的结果。注意:当调用Dcm_Init时，确保Dcm_ProgConditionsType中包含的数据有效是软件集成商的责任。例如，如果此数据存储在非易失性存储器中，则在ECU复位后可能需要一些时间才能使其可用。在设计ECU的启动过程时，必须考虑到这一点。
+
+### 关联模块
+
+1. RTE： 接收诊断相关的数据处理诊断相关的通信服务，Dcm模块在完成诊断功能的时候需要通过RTE接口来读写/函数调用其他SWC的数据/服务。
+2. 如果Dcm模块无法直接处理诊断数据请求时，Dcm会把通过以下方式来转发请求并获得结果数据：
+   - 通过SW-C的port-interface。
+   - 通过直接调用BSW模块函数。
+3. BswM：接收DCM的状态变化进行模式模式管理，如果Dcm的初始化是从引导加载程序跳转的结果，则Dcm通知BswM应用程序已被更新（UDS的0x11服务）。Dcm还向BswM表示通信模式的改变（UDS的0x28服务）。
+4. SchM： 提供调度
+5. PduR： 提供收发诊断数据的路由
+6. ComM：处理诊断相关的通信请求，ComM模块提供了一些功能，如Dcm模块可以指示“活动”和“非活动”状态，以便进行诊断通信。Dcm模块提供了处理“Full-/ Silent-/ No-Communication”通信需求的功能。此外，如果ComM模块要求，Dcm模块提供启用和禁用诊断通信的功能。（UDS的0x28服务）
+7. NvM： 存储诊断数据
+8. DEM： 处理诊断事件，DEM模块提供检索与故障内存相关的所有信息的功能，以便Dcm模块能够通过从故障内存中读取数据来响应测试者的请求。通俗的讲就是Dcm能够读取Dem记录的DTC信息
+9. EcuM： 诊断相关的唤醒以及模式切换
+10. PDUR：PduR模块提供诊断数据的发送和接收功能。PduR模块接收和发送诊断数据。PduR为Dcm模块提供一个与具体通信协议无关的接口。
+
+## Dem
+
+ Dem(Diagnostic Event Manager，诊断事件管理), 用来记录和存储诊断事件的，将这些诊断事件及相关信息(冻结帧及扩展数据)记录到EEPROM。简单说其功能是：
+
+1. 故障事件确认前的故障消抖
+2. 故障事件确认时的故障数据存储
+3. 故障发生后的故障老化
+4. 故障替代（AUTOSAR的故障存储策略）
+
+DEM模块相关的标准主要包括两部分：ISO 14229(UDS，车身域诊断遵循的主要标准)和ISO 15031(OBD，该标准制定较早，主要针对排放相关的诊断)。
+
+主要诊断数据为：
+
+1. DTC
+2. 扩展数据
+3. 冻结帧
+
+Dem只要牵涉两个服务：
+
+1. 读取DTC（0x19)
+2. 清除DTC（0x14）
+
+### 术语介绍
+
+| **术语名称** | **英文名称**                  | **定义/说明**                                                |
+| ------------ | ----------------------------- | ------------------------------------------------------------ |
+| 操作周期     | Operation Cycle               | 定义要运行的检测的开始和结束条件。开始时启动故障检测，结束时停止检测。车身与底盘由OEM或供应商确定（如下电、休眠唤醒等），动力域存在其他标准规定。 |
+| 监控周期     | Monitoring Cycle              | 检测时存在一系列条件，并非操作周期开始即检测错误，可分为周期型（Period）或事件型（Event）。需满足特定条件（如灯负载HSD开路故障需在输出打开时检测电流判断）。 |
+| 确认阈值     | Confirmation Threshold        | 确认故障持续存在的**Operation Cycle数**，达到后将其认定为历史DTC，在老化（aging）或手动清除前，confirmed DTC状态位一直存储在EEPROM中。 |
+| 老化计数     | Aging Counter                 | 连续报告**无故障**的Operation Cycle数。AgingCounter也就是处于老化中DTC的计数。当一个OpreationCycle没有检测到testFailed,AgingCounter就会自加1，同时DTC Status的BIT就会清0。当AgingCounter计数达到一定的阈值后，此故障已经完成了老化，可以自愈。同时DTC Status的BIT3清0。 |
+| 老化阈值     | Aging Threshold               | 当Aging Counter达到此次数后，DTC的Confirmed状态位将被清除。  |
+| 错误计数     | Fault Detection Counter (FDC) | 错误检测的计数，可设置步长（向上/向下计数，范围-128~127），用于过滤故障次数；支持jump down（检测通过时跳转至0或其他值并开始递减）。 |
+| 扩展数据     | Extended                      | DTC状态Pending置位后保存在EEPROM中的数据，包含一系列DID（由BSW规定），常用数据包括：1. 错误计数（FDC，同上定义）；2. 老化计数（连续无故障的Operation Cycle数，达到老化阈值后清除DTC的Confirmed状态）。 |
+| 冻结帧       | Freeze Frame                  | 记录故障发生时的工况（Snapshot，由一系列DID组成），当DTC状态位Confirmed由0置为1时记录Snapshot，用于后续故障分析（如环境温度、ECU供电电压等）。 |
+| 消抖         | Debounce                      | 防止故障误报的功能（14229-1规定），通过TripCounter判断故障是否确认：- TripCounter默认0，范围-128~127；- 持续testPassed时计数至-128，BIT4、BIT6由1置0；- 检测到testFailed时从>0开始计数（故障计数比正常快），计数至127时，BIT2与BIT3置位（确认故障）。 |
+| 快照         | Snapshot                      | 一群DID数据的集合，每个DTC在Confirm时生成，存储关键数据至NVM，诊断仪可通过19服务读取具体数据。 |
+
+### DTC状态
+
+DTC状态跟在DTC后面，DTC状态为1个字节，其8个bit位含义各不相同，如下表所示：
+
+| bit位 | 名称                               | 中文释义               | 含义                                                         |
+| ----- | ---------------------------------- | ---------------------- | ------------------------------------------------------------ |
+| 0     | testFailed                         | 测试失败               | 通常来说，ECU内部以循环的方式不断地针对预先定义好的错误路径进行测试，如果在最近的一次测试中，==在某个错误路径中发现了故障，则相应DTC的这一个状态位就 要被置1，表征出错。== <br>虽然此时DTC的testFailed位被置1，但是它不一定被ECU存储到非易失性存储中， 只有当pendingDTC或confirmedDTC被置1时DTC才会被存储。而pendingDTC或 confirmedDTC被置1的条件应该是检测到错误出现的次数或时间满足某个预定义的门限。当错误消失或者诊断仪执行了清除DTC指令时，testFailed会再次被置为0。 |
+| 1     | testFailedThisOperationCycle       | 本次操作周期测试失败   | ==该bit用于标识某个DTC在当前的operation cycle中是否出现过testFailed置1的情 况，即是否出现过错误。== <br>operation cycle的起始点是ECU通过网络管理唤醒到ECU通过网络管理进入睡眠， 对于没有网络管理的ECU，这个起始点就是KL15通断。通过bit 0我们无法判断某个DTC 是否出现过，比如，当前testFailed=0，说明当前这个DTC没有出错，如果 testFailedThisOperationCycle=1的话，就说明这个DTC在当前这个operationcycle中 出过错，但是当前错误又消失了。 |
+| 2     | pendingDTC                         | 待处理DTC              | 根据规范的解释，==pendingDTC=1表示某个DTC在当前或者上一个operationcycle 中是否出现过。== <br>pendingDTC位其实是位于testFailed和confirmedDTC之间的一个状态，有的DTC被确认的判定条件比较严苛，需要在多个operationcycle中出现才可以被判定为 confirmed的状态，此时就需要借助于pendingDTC位。 pendingDTC=1的时候，DTC就要被存储下来了，如果接下来的两个operation cycle中这个DTC都还存在，那么confirmedDTC就要置1了。如果当前operationcycle 中，故障发生，pendingDTC=1，但是在下一个operationcycle中，故障没有了， pendingDTC仍然为1，再下一个operationcycle中，故障仍然不存在，那么pending DTC就可以置0了。 |
+| 3     | confirmedDTC                       | 已确认DTC              | ==当confirmedDTC=1时，则说明某个DTC已经被存储到ECU的非易失性存储中==，说明这个DTC曾经满足了被confirmed的条件。 但是请注意，confirmedDTC=1时，并不意味着当前这个DTC仍然出错，如果confirmedDTC=1，但testFailed=0，则说明这个DTC表示的故障目前已经消失了。 将confirmedDTC重新置0的方法只有删除DTC，对应UDS的[0x14服务](##0x14：清除故障码)服务。 |
+| 4     | testNotCompletedSinceLastCear      | 自上次清除后测试未完成 | 该bit用于标识自从上次调用了清理DTC的服务（UDS0x14服务）之后，==是否成功地执行了对某个DTC的测试==（不管测试结果是什么，只关心是否测了）。因为很多DTC的测试也是需要满足某些边界条件的，并不是ECU上电就一定会对DTC进行检测。<br> testNotCompletedSinceLastClear=1：自清理DTC后还没有完成过针对该DTC的测试。<br>testNotCompletedSinceLastClear=0：自清理DTC之后已经完成过针对该DTC的测试。 |
+| 5     | testFailedSinceLastClear           | 自上次清除后测试失败   | 这个位与bit1：testFailedThisOperationCycle有些类似，后者标识某个DTC在当前 的operationcycle中是否出现过testFailed置1的情况，而testFailedSinceLastClear标识的是在==上次执行过清理DTC之后某个DTC是否出过错==。 testFailedSinceLastClear=0，自从清理DTC之后该DTC没有出过错。<br>testFailedSinceLastClear=1，自从清理DTC之后该DTC出过至少一次错。 |
+| 6     | testNotCompletedThisOperationCycle | 本次操作周期测试未完成 | 这个位与bit4：testNotCompletedSinceLastClear类似，后者标识自从上次调用了 清理DTC的服务之后，是否成功地执行了对某个DTC的测试。而该参数则标识==在当前 operationcycle中是否成功地执行了对某个DTC的测试==。 <br>testNotCompletedThisOperationCycle=1：未成功完成过测试。<br>testNotCompletedThisOperationCycle=0：成功完成过测试。 |
+| 7     | warningIndicatorRequested          | 警告指示灯请求         | ==某些比较严重的DTC会与用户可见的警告指示相关联==，比如仪表上的报警灯，或者 是文字，或者是声音。这个warningIndicatorRequested就用于此类DTC。<br>warningIndicatorRequested=1：ECU请求激活警告指示。<br>warningIndicatorRequested=0：ECU不请求激活警告指示。 <br>注意，如果这个DTC不支持警告指示，则这个位永远置0。 |
+
+故障发生前后动作：
+
+1. **故障确认前**：用户模块上报故障的Debounce防抖处理，确保对应故障不为误报故障。
+2. **故障确认时**：故障事件确认时的故障数据存储至NVM，保证故障能长期保存。
+3.  **故障确认后**：故障的老化，替代，实现故障修复后，故障能被清除的功能。例如，仪表上的发动机故障灯，在发动机修好后一段时间后就会熄灭。
+
+### Event
+
+DTC只是展示给诊断仪使用者,Event才是DTC状态实际操控者，同时Event也是诊断NVM数据存储实际控制者。DTC是系统层面对于故障的描述，而Event是软件层面对故障监控的最小单元。
+
+> 例子：某个电机故障会由电压过高造成，但软件是无法直接识别该故障,软件只能监控是否产生了电压过高的时间Event,从而计算出是否产生DTC.
+
+多个event可以mapping 同一个DTC；而同一个event不能mapping 多个DTC；
+
+DTC可以直接可见，但Event需通过进一步手段才能看到，有时仅对ECU供应商可见；
+
+1. DTC代表某类event集中表现，而event则是某个DTC的具体实例；
+2. event的优先级决定了DTC的优先级；
+3. event之间的依赖关系决定了DTC的依赖关系；
+
+EVENT上报方式为：周期调用Dem_SetEventStatus上报即为周期循环上报；当Event状态变化时，调用Dem_SetEventStatus上报为触发上报。
+
+## Tp
+
+> [!tip]
+>
+> 可参见http://main.weike-iot.com:2211/ebooks/can/%E8%BD%A6%E8%BD%BD%E8%AF%8A%E6%96%AD%E6%A0%87%E5%87%86ISO_15765-2_cn.pdf
+
+### CanTp
+
+ CanTp位于CanIf与PDUR之间，主要目的是对大于8字节的CAN I-PDU，大于64字节的CANFD I-PDU进行分段与重组。位置如下图。
+
+![CANTp层位置](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/10/11_9_11_49_image-20251011091142154.png)
+
+CAN接口(Canlf)提供了平等的机制来访问CAN总线通道，而不管它的位置(uC内部/外部)。从CAN控制器的位置(片上/板上)提取ECU硬件布局和CAN驱动程序的数量。由于CanTp只处理传输协议帧(即SF, FF, CF和FC pdu)，根据N-PDU ID, CAN接口必须将I-PDU转发给CanTp或PduR。根据AUTOSAR的基本软件架构，CanTp提供以下服务:
+
+1. 传输方向的数据分割;
+2. 接收方向的数据重组;
+3. 数据流控制;
+4. 检测分段会话中的错误
+5. 传输取消
+6. 接收取消
+
+### 名词缩写
+
+#### 前缀
+
+| 前缀 | 描述                                                         |
+| ---- | ------------------------------------------------------------ |
+| I-   | 关联AUTOSAR COM交互层                                        |
+| L-   | 关联Canlf，相当于逻辑链路层，上层是数据链路层下层为介质访问控制，介质 其实就是硬件抽象 |
+| N-   | 关联CanTp，可以认为是网络层，个人理解N代表多个               |
+
+| ISO Layer                          | Layer Prefix | AUTOSAR Modules            | PDUName | CAN/ TTCAN prefix                    | LIN prefix                           | FlexRay prefix                    |
+| ---------------------------------- | ------------ | -------------------------- | ------- | ------------------------------------ | ------------------------------------ | --------------------------------- |
+| Layer 6 Presentation (Interaction) | I            | COM,DCM                    | I-PDU   | N/A                                  | ==                                   | ==                                |
+| :                                  | I            | PDU router,PDU multiplexer | I-PDU   | N/A                                  | ==                                   | ==                                |
+| Layer 3 Network Layer              | N            | TP Layer                   | N-PDU   | CAN SF<br>CAN FF<br>CAN CF<br>CAN FC | LIN SF<br>LIN FF<br>LIN CF<br>LIN FC | FR SF <br>FR FF<br>FR CF<br>FR FC |
+| Layer 2: Data LinkLayer            | L            | Driver,Interface           | L-PDU   | CAN                                  | LIN                                  | FR                                |
+
+#### 协议数据缩写
+
+关联CanTp的缩写词, PDU是“协议数据单元”的缩写。PDU包含SDU和PCI。在传输端，PDU从上层传递到下层，下层将这个PDU解释为它的SDU。    
+
+| 缩写词                   | 描述                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| CAN L-SDU                | 属于CanIf模块，与N-PDU类似                                   |
+| CAN LSduId               | CanIf内独一无二的ID，用于引用L-SDU的路由属性，因此为了通过API与CanIf交互，上层可以引用CAN L-SDU的结构体以此进行数据传递 |
+| CAN N-PDU                | 这是CANTP的PDU。它包含唯一标识符、数据长度和数据(协议控制信息加上整个N-SDU或其中的一部分)。 |
+| CAN N-SDU                | 这是CANTP的SDU。在AUTOSAR体系结构中,它是来自PDU路由器的一组数据。 |
+| CAN N-SDU Info Structure | 这是一个CANTP内部常量结构，包含特定的CAN传输层信息，用于处理相关CAN N-SDU的发送、接收、分段和重组。 |
+| I-PDU                    | 这是AUTOSAR COM模块的PDU                                     |
+| PDU                      | 在分层系统中，它指的是在给定层的协议中指定的数据单元。它包含该层(SDU)的用户数据以及可能的协议控制信息。X层的PDU为其下层X-1层的SDU，即(X)-PDU =(x-1)-SDU)。 |
+| PduInfo Type             | 该类型是指用于存储处理PDU(或SDU)收发基本信息的结构，即指向其在RAM中的有效载荷的指针及其长度(以字节为单位)。 |
+| SDU                      | 在分层系统中，这是指由给定层的服务用户发送的一组数据，并将其传输给对等服务用户，同时保持语义不变。 |
+
+> [!tip] 
+>
+> 对于PDU和SDU，PDU 是协议数据单元，表示在 **特定通信层** 中传输的数据单元，包含该层的协议控制信息和有效载荷。SDU 是服务数据单元，表示 **上一层传递给当前层的数据**，不包含当前层的协议信息。可以看作是$PDU = PCI + SDU$ （当前层的协议控制信息 + 上一层的数据单元）
+
+### 帧类别
+
+N-PDU的格式为
+
+
+
+| 地址信息 | 协议控制信息 | 数据域 |
+| -------- | ------------ | ------ |
+| N_AI     | N_PCI        | N_Data |
+
+1. 地址信息(N_AI):N_AI用于标识对等网络实体间的通信。N_AI信息在N_SDU-N_SA,N_TA,N_TAtype,N_AE中接收，应当复制包含在P_PDU中。如果接收到的NSDU中 < MessageData>及< Length>信息很长，需要网络层拆分这些数据以发送完整的信息，N_AI应当被复制并包含在每一个要发送的NPDU中。该域包含地址信息标识交互信息类型，数据交互的接收方和发送方。地址信息包含信息地址。
+2. 协议控制信息(N_PCI):该域标识交互的N_PDUs的类型。它也用来交互在网络层对等实体通信的其它控制参数。
+3. 数据域(N_Data):NPDU中的N_Data用于发送在< MessageData>参数中从服务使用者使用N_USData.request服务接收的数据。如果必要的话，会在网络发送之前拆分为更小的部分，以适应NPDU数据域。N_Data的大小依赖N_PDU的类型及地址格式的选取。
+
+所有的N_PDU通过N_PCI来标识：
+
+| N_PDU名      | N_PCI字节     | ==    | ==    | ==    |
+| ------------ | ------------- | ----- | ----- | ----- |
+| ：           | 字节1         | ==    | 字节2 | 字节3 |
+| ：           | 7-4位         | 3-0位 | ：    | ：    |
+| 单帧（SF）   | N_PCItype=0   | SF_DL | N/A   | N/A   |
+| 首帧（FF)    | N_PCItype = 1 | FF_DL | ==    | N/A   |
+| 连续帧（CF） | N_PCItype = 2 | SN    | N/A   | N/A   |
+| 流控（FC）   | N_PCItype=3   | FS    | BS    | STmin |
+
+其中N_PCItype参数的定义为
+
+| 16进制值 | 描述                                                         |
+| -------- | ------------------------------------------------------------ |
+| 0        | 单帧 (SF)<br>对于未拆分的信息，网络层提供了一个优化的网络协议，即将信息长度值仅放置在PCI字节里。单帧（SF）应当能支持在单个CAN帧中的信息传输。 |
+| 1        | 首帧(FF)<br> 首帧只支持一条信息无法在单个CAN帧中发送时使用。例如，拆分的信息。拆分信息的第一帧编码为FF，在接收到FF时，接受网络层实体应重组这些信息。 |
+| 2        | 连续帧 (CF)<br>当发送拆分数据时，所有的连续帧跟着FF编码为连续帧（CF）。在接收到一个 连续帧，接受网络层实体应当重组接收到的数据字节直到整个信息被接收到。 接收实体在接收最后一帧信息并无接收错误之后，应传递这些信息到相邻的上 层。 |
+| 3        | 流控帧(FC) <br>流控制的目的是调整CF N_PDUs发送的速率。流控协议数据单元的3种类型用 于支持这些功能。这些类型由协议控制信息的流状态（FS）域指示。 |
+| 4-F      | 保留<br>该范围的值为该协议保留。                             |
+
+#### SF
+
+N_PDU的格式为:
+
+| byte  | ==   | ==   | ==   | ==    | ==   | ==   | ==   |
+| ----- | ---- | ---- | ---- | ----- | ---- | ---- | ---- |
+| Byte1 | ==   | ==   | ==   | ==    | ==   | ==   | ==   |
+| 7     | 6    | 5    | 4    | 3     | 2    | 1    | 0    |
+| 0     | 0    | 0    | 0    | SF_DL | ==   | ==   | ==   |
+
+SF_DL值的定义为
+
+| 16进制值 | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| 0        | 保留<br>该范围的值为该协议保留。                             |
+| 1-6      | 单帧数据长度值（SF_DL） SF_DL应编码在N_PCI字节低位，并分配服务参数的值。 |
+| 7        | 单帧数据长度（SF_DL）中标准地址 SF_DL=7时，只允许标准地址    |
+| 8-F      | 无效的<br>该范围值无效                                       |
+
+如果网络层接收到一个SFDL=0的单帧(SF),网络层应当忽略接收SF N_PDU。如果网络层接收到使用标准地址且一个S℉DL大于7的单帧，或大于6且使用扩展或混合地址时，网络层应当忽略该SF N PDU。
+
+#### FF
+
+N_PDU的格式为:
+
+| byte  | ==   | ==   | ==   | ==    | ==   | ==   | ==   | ==    |
+| ----- | ---- | ---- | ---- | ----- | ---- | ---- | ---- | ----- |
+| Byte1 | ==   | ==   | ==   | ==    | ==   | ==   | ==   | Byte2 |
+| 7     | 6    | 5    | 4    | 3     | 2    | 1    | 0    |       |
+| 0     | 0    | 0    | 1    | FF_DL | ==   | ==   | ==   | ==    |
+
+FF_DL值的定义为:
+
+| 16进制数 | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| 0-6      | 无效的<br>该范围值无效                                       |
+| 7        | 首帧数据字节（FF_DL）支持扩展地址及混合地址 <br>FF_DL=7只允许扩展地址及混合地址 |
+| 8 -FFF   | 首帧数据字节（FF_DL）<br> 拆分信息在12个位的长度（FF_DL）上编码，并NPCI字节2中最低位置位“0”， NPCI字节1中最高位置为“3”。拆分信息最大数据长度支持4095个用户数据。 该数据当被分配到服务参数< Length>中。 |
+
+如果网络层接收到FF_DL大于接收方缓冲区的首帧时，应当被认为是错误情况。网络层应当放弃该信息的接收，并且发送包含参数FlowStatus=Overflow的FC N_PDU。如果网络层接收到FF_DL小于8并且使用标准地址，或小于7并且使用扩展地址或混合地址时，网络层应当忽略该首帧并且不必发送一个FC N_PDU。
+
+#### CF
+
+N_PDU的格式为:
+
+| byte  | ==   | ==   | ==   | ==   | ==   | ==   | ==   |
+| ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| Byte1 | ==   | ==   | ==   | ==   | ==   | ==   | ==   |
+| 7     | 6    | 5    | 4    | 3    | 2    | 1    | 0    |
+| 0     | 0    | 1    | 0    | SN   | ==   | ==   | ==   |
+
+SN参数的定义：
+
+| 16进制值 | 描述                                                         |
+| -------- | ------------------------------------------------------------ |
+| 0-F      | 连续号（SN） 连续号应当在N_PCI字节1的低字位编码。SN设置值范围在0到15. |
+
+CF N_PDU中参数SN用以说明连续帧的顺序。
+
+- 对于所有拆分信息，SN开始于0。首帧应当分配值0，它不是明确地包含在NPCI域中，但应当按拆分信息顺序号为0。
+- 紧随FF的第一个CF的SN应该被设置为1
+- 在同一个拆分信息上，每一个新增的连续帧编号(SN)增1：
+- 连续帧编号(SN)的值不受流控帧的影响。
+- 当连续帧编号(SN)到达值15时，它在下一个连续帧中重置为0：
+
+顺序编号为
+
+| N_PDU    | FF   | CF   | CF   | CF   | CF   | CF   | CF   |
+| -------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| SN (hex) | 0    | 1    | ·... | E    | F    | 0    | 1    |
+
+如果接收到一个连续号错误的CF N_PDU信息，网络层则进行出错处理。信息的接收被终止，并且网络层发送一个<N_Result>参数=N_WRONG_SN的N_USData.indication指示服务至相邻上层。
+
+#### FC
+
+N_PDU的格式为:
+
+| byte  | ==   | ==   | ==   | ==   | ==   | ==   | ==   | ==    | ==    |
+| ----- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ----- | ----- |
+| Byte1 | ==   | ==   | ==   | ==   | ==   | ==   | ==   | Byte2 | Byte3 |
+| 7     | 6    | 5    | 4    | 3    | 2    | 1    | 0    |       |       |
+| 0     | 0    | 1    | 1    | FS   | ==   | ==   | ==   | BS    | STmin |
+
+**FS参数定义**：流状态参数(FS)指示发送网络实体是否继续信息的发送，发送网络层实体应当支持所有FS参数规定（不是保留的）的值。
+
+| 16进制值 | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| 0        | 继续发送（CTS） <br>流控帧继续发送参数，通过编码N_PCI第1字节为“0”，表示继续发送。它会促使发送方重新发送连续帧，该值意味着接收者准备好接收最大BS个连续帧。 |
+| 1        | 等待（WT） <br>流控帧等待参数通过编码N_PCI第1字节为“1”。它会促使发送方继续等待新的流控帧(NPDU)的到来，并重新设置N_BS定时器。 |
+| 2        | 溢出（OVFLW） <br>流控帧溢出参数通过编码NPCI第1字节为“2”。它会促使发送方中止拆分信息的发送并且做传递参数=N_BUFFER_OVFLW的N_USData.confirm指 示服务。该NPCI流控参数值仅能在跟在首帧NPDU的流控帧中使用，并且仅能在首帧中FF_DL信息的长度超过了接收实体缓冲区大小时使用。 |
+| 3-F      | 保留 <br>该范围的值为该协议保留                              |
+
+如果接收到的FC N_PDU信息参数出错，网络层进行出错处理。信息的发送被中止，并且网络层传递一个参数< N_Result>=N_INVALID_FS的N_USData.confirm指示服务至相邻的上层。
+
+**BS参数定义：** 
+
+| 16进制值 | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| 00       | 块大小（BS） <br>BS参数为0用于指示发送者在拆分数据的发送期间,流控制帧不再发送流控制帧了。发送网络层实体应当不停的发送剩下的连续帧以便接收网络层实体另外的流控帧，也就是说可以一直发送连续帧。 |
+| 01-FF    | 块大小（BS） 该范围的BS参数值用于指示发送方在没有接收网络实体的流控帧期间能发送 的最大数目的连续帧。 |
+
+**STmin参数定义**：间隔时间(STmin)参数应当编码在FC N_PCI字节3。该时间在拆分数据发送过程中，由接收实体指定，并且由发送网络实体遵守。==STmin参数值指定了连续帧协议数据单元发送的最小时间间隔==。
+
+| 16进制值 | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| 00-7F    | 间隔时间（STmin）范围：0ms-127ms <br>该STmin单元的范围00－7F为绝对单位毫秒（ms） |
+| 80-F0    | 保留 <br>该范围值为该协议保留                                |
+| F1-F9    | 间隔时间（STmin）范围100us－900us <br>该STmin单元的范围F1-F9最小分编为100微秒（us），参数值F1代表100us， 参数值F9代表900us。 |
+| FA-FF    | 保留 <br>该范围值为该协议保留                                |
+
+STmin的度量是在一个连续帧发送完开始到请求下一个连续帧时的间隔时长。例如, 如果STmin=10(十进制)，则连续帧网络协议数据单元最小时间间隔=10ms。
+
+在拆分数据发送期间，如果FC N_PDU信息接收到ST参数值为保留值，发送网络实体则使用最长的ST值，即(7F-127ms),而不使用从接收网络实体接收到的值。
+
+**FC.Wait帧传递的最大值(N_WFTmax)**:该变量用于避免在通信发送方出现潜在错误挂起的时候，后者可能会持续等待。该参数用于对等通信并不被传递，因此不包含在FC的协议数据单元里。
+
+- N_WFTmax参数应当指示一组能有多少个FC N_PDU WT能被接收者接收。
+- N_WFTmax参数的上限由用户根据系统时钟定义。
+- N_WFTmax参数仅由接收网络实体在接收信息的时候使用。
+- 如果N_WFTmax参数值设置为0,流控应当继续仅使用FC N_PDU CTS。流控等待(FC N_PDU WT)不应再该网络实体中使用。
+
+### 数据传输
+
+**单帧传输**
+
+```mermaid
+sequenceDiagram
+    participant Sender
+    participant Receiver
+    
+    Note over Sender,Receiver: SingleFrame (SF) 传输流程
+    Sender->>Receiver: SingleFrame (SF)
+```
+
+**多帧传输**
+
+```mermaid
+sequenceDiagram
+    participant Sender
+    participant Receiver
+    
+    Note over Sender,Receiver: 多帧传输流程（ISO-TP/AUTOSAR TP协议）
+    
+    Sender->>Receiver: FirstFrame (FF)
+    Receiver-->>Sender: FlowControl frame (FC)
+    
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    
+    Receiver-->>Sender: FlowControl frame (FC)
+    
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    
+```
+
+> [!tip]
+>
+> 多帧传输过程为：
+>
+> 首帧-->流控(其中需要传入bs参数)-->连续帧发送bs大小-->流控（传入接下来的bs大小）-->连续帧...以此类推
+>
+> 当bs为0的时候表示中间不需要流控，可以一直发送。 
+
+### 时间参数
+
+不同的层级有不同的时间参数管理：
+
+1. 传输层
+
+   | 参数  | 含义                                                         |
+   | ----- | ------------------------------------------------------------ |
+   | BS    | BlockSizeECU发送流控帧后，Tester被允许发送 连续帧最大帧数据，为0可以一直发。 |
+   | STmin | ECU发送流控帧后，连续帧之间的最大时间间隔                    |
+
+2. 网络层
+
+   | 定时 参数            | 描述                                                         | 数据链路服务                                                 | ==                     | 超时（ms） | 运行需求 (ms)           |
+   | -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------- | ---------- | ----------------------- |
+   | ：                   | ：                                                           | Start                                                        | End                    | ：         | ：                      |
+   | N_As                 | 发送方从请求发送到发送完成的时间间隔，超过这个时间发送中断<br />举例上位机发03 22 F1 84接收方CAN 帧发送时间（任何 N_PDU)<br />ECU响应10 01 62 F1 84 这段时间直至下一 个流控帧接收的时间 | L_Data.request                                               | L_Data.confirm         | 70         | N/A                     |
+   | N_Ar                 | 传输流控帧到发送方的时间                                     | L_Data.request                                               | L_Data.confirm         | 70         | N/A                     |
+   | N_Bs                 | 首帧发送成功的时间节点到流控帧接收成功的时间节点，也就是说从数据确认发送到收到流控帧的最大时间间隔 | L_Data.confirm(FF) <br>L_Data. confirm (FC)<br>L_Data.indicate(FC) | L_Data.indicate(FC)    | 150        | N/A                     |
+   | N_Br                 | 接收到首帧到发送流控帧的时间                                 | L_Data.indicate(FF) L_Data.confirm(FC)                       | L_Data.request (FC)    | 50         | (N_Br+ N_Ar)<(0.9*N_Bs) |
+   | N_Cs                 | 接收到流控帧到发送连续帧的最大时间间隔，此处注意不是STmin的含义 | L_Data.confirm(FC) L_Data.indication(CF)                     | L_Data.request (CF)    | 50         | (N_Cs+ N_As)<(0.9*N_Cr) |
+   | N_Cr                 | 接受方成功发送流控帧到接收到连续帧的时间                     | L_Data.confirm(FC) L_Data.indication(CF)                     | L_Data.indication (CF) | 150        | --                      |
+   | S:发送者<br>R:接收者 | ==                                                           | ==                                                           | ==                     | ==         | ==                      |
+
+3. 会话层
+
+   | 参数      | 含义                                                |
+   | --------- | --------------------------------------------------- |
+   | S3_Tester | 发送方维持非默认会话的最大时间                      |
+   | S3_Sever  | 接收方未接受到任何诊断报文维持在非默认会话下 的时间 |
+
+4. 应用层
+
+   | 参数         | 含义                                                         |
+   | ------------ | ------------------------------------------------------------ |
+   | P2_Client    | 发送方发送完请求消息后等待服务器响应超时的时 间              |
+   | P2*_Client   | 发送方收到否定响应码为0x78的否定响应后等待接 受方发送响应的增强型超时时间设置。 |
+   | P2_Sever     | 接收方收到请求后发出响应的实际时间                           |
+   | P2*_Sever    | 接收方发送0x78否定响应到发出否定响应的实际时 间。 (此处很少用) |
+   | P3_ClientPyh | 发送方在收到物理寻址（phy）的肯定响应下允许发 送下一条物理寻址请求的最小时间间隔 |
+   | P3_ClientFun | 发送方在收到物理寻址（phy）的肯定响应下允许发 送下一条功能寻址（fun）的最小时间间隔 |
+
+#### 单帧传输
+
+![单帧网络层处理](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/10/11_16_21_29_image-20251011162129122.png)
+
+
+
+1. 发送方N_USData.req：会话层向传输网络层发出未分段的消息
+
+   发送方L_Data.req：传输网络层将单帧传输到数据链路层并启动N_As计时器。
+
+2. 接收器L_Data.ind：数据链路层向传输网络层发出CAN帧的接收。
+
+   接收方N_USData.ind：传输网络层向会话层下发未分段的完成信息。
+
+   发送方 L_Data.con：数据链路层向传输网络层确认 CAN 帧已被发送已确认。发送方停止 N_As 计时器。
+
+   发送方N_USData.con：传输网络层向会话层发出未分段的完成信息
+
+#### 多帧传输
+
+
+![image-20251011164311866](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/10/11_16_43_12_image-20251011164311866.png)
+
+1. 发送方N_USData.req：会话层向传输网络层发出分段消息。
+
+   发送方L_Data.req：传输网络层将首帧传输到数据链路层并启动N_As定时器。
+
+2. 接收方L_Data.ind：数据链路层向传输网络层发出CAN帧的接收。接收器启动 N_Br 定时器。
+
+   接收方N_USDataFF.ind：传输网络层向会话层发出接收第一个帧的消息分段消息。
+
+   发送方L_Data.con：数据链路层向传输网络层确认 CAN 帧已被发送，发送方停止N_As 定时器并启动N_Bs 定时器。
+
+3. 接收方L_Data.req：传输网络层传输流控（ContinueToSend和BlockSize，值为2d)到数据链路层并启动N_Ar定时器。
+
+4. 发送方 L_Data.ind：数据链路层向传输/网络层发出CAN 帧的接收。发送方停止 N_Bs 计时器并启动 N_Cs 计时器。
+   接收方 L_Data.con：数据链路层向传输/网络层确认CAN帧已确认。接收器停止 N_Ar 定时器并启动 N_Cr 定时器。
+
+5. 发送方 L_Data.req：传输/网络层将第一个 ConsecutiveFrame 传输到数据链路层并启动 N_As 定时器。
+
+6. 接收方 L_Data.ind：数据链路层向传输/网络层发出 CAN 帧的接收。接收器重新启动 N_Cr 定时器。
+   发送方 L_Data.con：数据链路层向传输/网络层确认 CAN 帧已被确认。发送方停止 N_As 定时器，并根据前一个 FlowControl 的分离时间值 （STmin） 启动 N_Cs 定时器。
+
+7. 发送方 L_Data.req：当 N_Cs 定时器经过时（STmin），传输/网络层将下一个 ConsecutiveFrame 传输到数据链路层，并启动 N_As 定时器。
+
+8. 接收方 L_Data.ind：数据链路层向传输/网络层发出 CAN 帧的接收。接收器停止 N_Cr 定时器并启动 N_Br 定时器。
+   发送方 L_Data.con：数据链路层向传输/网络层确认 CAN 帧已被确认。发送方停止 N_As 计时器并启动 N_Bs 计时器。发送方正在等待下一个 FlowControl。
+
+9. 接收方 L_Data.req：传输/网络层将 FlowControl（等待）传输到数据链路层并启动 N_Ar 定时器。
+
+10. 发送方 L_Data.ind：数据链路层向传输/网络层发出 CAN 帧的接收。发送方重新启动 N_Bs 计时器。
+    接收方 L_Data.con：数据链路层向传输/网络层确认 CAN 帧已确认。接收器停止 N_Ar 定时器并启动 N_Br 定时器。
+
+11. 接收方 L_Data.req：传输/网络层将 FlowControl （ContinueToSend） 传输到数据链路层并启动 N_Ar 计时器。
+
+12. 发送方 L_Data.ind：数据链路层向传输/网络层发出 CAN 帧的接收。发送方停止 N_Bs 计时器并启动 N_Cs 计时器。
+    接收方 L_Data.con：数据链路层向传输/网络层确认 CAN 帧已确认。接收器停止 N_Ar 定时器并启动 N_Cr 定时器。
+
+13. 发送方 L_Data.req：传输/网络层将 ConsecutiveFrame 传输到数据链路层，启动 N_As 定时器。
+
+14. 接收方 L_Data.ind：数据链路层向传输/网络层发出 CAN 帧的接收。接收器重新启动 N_Cr 定时器。
+    发送方 L_Data.con：数据链路层向传输/网络层确认 CAN 帧已被确认。发送方停止 N_As 定时器，并根据前一个 FlowControl 的分离时间值 （STmin） 启动 N_Cs 定时器。
+
+15. 发送方 L_Data.req：当 N_Cs 定时器（STmin）过去时，传输/网络层将最后一个 ConsecutiveFrame 传输到数据链路层，并启动 N_As 定时器。
+
+16. 接收方 L_Data.ind：数据链路层向传输/网络层发出 CAN 帧的接收。接收器停止 N_Cr 计时器。
+    接收方 N_USData.ind：传输/网络层向会话层发出分段消息的完成。
+
+更清晰的时间参数图为：
+
+![时间参数图](https://img.rxi.cc/imgs/2024/07/26/3df93506f3fc7970.png)
+
+#### 超时处理
+
+| 超时 | 触发                                                         | 动作                                                         |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| N_As | 发送方没有及时发送N_PDU                                      | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_A的N_USData.confirm指示 |
+| N_Ar | 接收方没有及时发送N_PDU                                      | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_A 的N_USData.confirm指示 |
+| N_Bs | 发送方没有接收到流控帧（丢失， 覆盖）或在首帧前收到，或连续 帧没有被接收方接收到。 | 放弃信息的发送并传递< N_Result>= N_TIMEOUT_Bs的N_USData.confirm指示 |
+| N_Cr | 接收方没有收到连续帧或之前流 控帧未被发送方收到。            | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_Cr的N_USData.confirm指示 |
+
+### 地址映射
+
+网络层数据交互有三种地址格式的支持：
+
+1. 标准
+2. 扩展
+3. 混合
+
+不同的地址格式需要不同数据长度的CAN帧对包含数据的地址信息进行打包。因此，选择单个CAN帧的数据长度依赖于地址格式类型的选取。
+
+> [!note]
+>
+> 注意：这里的地址和数据格式中的Can ID不同，标准地址并不是标准帧中的CAN id
+
+#### 标准地址
+
+
+
+标准地址的组成格式如下：
+
+| N_PDU类型    | CAN标识 | CAN帧数据域 | ==     | ==     | ==    | ==    | ==    | ==    | ==    |
+| ------------ | ------- | ----------- | ------ | ------ | ----- | ----- | ----- | ----- | ----- |
+|              |         | 字节1       | 字节2  | 字节3  | 字节4 | 字节5 | 字节6 | 字节7 | 字节8 |
+| 单帧（SF)    | N_AI    | N_PCI       | N_Data | ==     | ==    | ==    | ==    | ==    | ==    |
+| 首帧（FF)    | N_AI    | N_PCI       | ==     | N_Data | ==    | ==    | ==    | ==    | ==    |
+| 连续帧（CF） | N_AI    | N_PCI       | N_Data | ==     | ==    | ==    | ==    | ==    | ==    |
+| 流控帧（FC)  | N_AI    | N_PCI       | ==     | ==     | ==    | N/A   | ==    | ==    | ==    |
+
+在标准地址中，不同的N_SA、N_TA、N_TAtype的每个组合，都会分配一个唯一的Can标识符，即一个CAN id就已经定义了这些参数，所以可以将N_AI等价为Can ID。
+
+> [!tip]
+>
+> 注意：以上表格是功能和物理寻址，但是实际上，功能寻址只有单帧数据格式，没有其他的数据格式。
+
+标准混合地址是标准地址的子格式，也就是映射到CAN标识的地址信息更多一层定义。对于标准混合通信只允许有29bit的CAN标识。
+
+标准混合地址物理寻址的数据格式为：
+
+| N_PDU类型    | 29bitCAN标识，位地址 | ==   | ==   | ==       | ==     | ==    | CAN数据域位地址 | ==     | ==     | ==   | ==   | ==   | ==   | ==   |
+| ------------ | -------------------- | ---- | ---- | -------- | ------ | ----- | --------------- | ------ | ------ | ---- | ---- | ---- | ---- | ---- |
+|              | 28...26              | 25   | 24   | 23..·16  | 15...8 | 7...0 | 1               | 2      | 3      | 4    | 5    | 6    | 7    | 8    |
+| 单帧(SF)     | 110 (bin)            | 0    | 0    | 218(dec) | N_TA   | N_SA  | N_PCI           | N_Data | ==     | ==   | ==   | ==   | ==   | ==   |
+| 首帧(FF)     | 110 (bin)            | 0    | 0    | 218(dec) | N_TA   | N_SA  | N_PCI           | ==     | N_Data | ==   | ==   | ==   | ==   | ==   |
+| 连续帧(CF)   | 110 (bin)            | 0    | 0    | 218(dec) | N_TA   | N_SA  | N_PCI           | N_Data | ==     | ==   | ==   | ==   | ==   | ==   |
+| 流控帧（FC） | 110 (bin)            | 0    | 0    | 218(dec) | N_TA   | N_SA  | N_PCI           | ==     | ==     | N/A  | ==   | ==   | ==   | ==   |
+
+> [!tip]
+>
+> 注意：功能寻址仅有单帧数据格式，且23...16位域位219（dec）
+
+#### 拓展地址
+
+对于N_SA,N_TA,N_TAtype,,一个特定的CAN标识符被分配。N_TA安置在CAN帧数据域第一个字节，N_PCI和N_Data安置在CAN帧数据域剩下的字节。
+
+| N_PDU类型    | CAN标识     | CAN帧数据域 | ==    | ==     | ==     | ==    | ==    | ==    | ==    |
+| ------------ | ----------- | ----------- | ----- | ------ | ------ | ----- | ----- | ----- | ----- |
+|              |             | 字节1       | 字节2 | 字节3  | 字节4  | 字节5 | 字节6 | 字节7 | 字节8 |
+| 单帧（SF)    | N_AI,无N_TA | N_TA        | N_PCI | N_Data | ==     | ==    | ==    | ==    | ==    |
+| 首帧（FF)    | N_AI,无N_TA | N_TA        | N_PCI | ==     | N_Data | ==    | ==    | ==    | ==    |
+| 连续帧（CF)  | N_AI,无N_TA | N_TA        | N_PCI | N_Data | ==     | ==    | ==    | ==    | ==    |
+| 流控帧（FC） | N_AI,无N_TA | N_TA        | N_PCI | ==     | ==     | N/A   | ==    | ==    | ==    |
+
+#### 混合地址
+
+混合地址是将Mtype设置为远程诊断的地址格式。混合地址物理寻址的数据格式为：
+
+| N_PDU类型    | 29bitCAN标识，位地址 | ==   | ==   | ==       | ==     | ==     | CAN数据域位地址 | ==    | ==     | ==     | ==   | ==   | ==   | ==   |
+| ------------ | -------------------- | ---- | ---- | -------- | ------ | ------ | --------------- | ----- | ------ | ------ | ---- | ---- | ---- | ---- |
+|              | 28...26              | 25   | 24   | 23...16  | 15...8 | 7...01 | 1               | 2     | 3      | 4      | 5    | 6    | 7    | 8    |
+| 单帧(SF)     | 110 (bin)            | 0    | 0    | 206(dec) | N_TA   | N_SA   | N_AE            | N_PCI | N_Data | ==     | ==   | ==   | ==   | ==   |
+| 首帧(FF)     | 110 (bin)            | 0    | 0    | 206(dec) | N_TA   | N_SA   | N_AE            | N_PCI | ==     | N_Data | ==   | ==   | ==   | ==   |
+| 连续帧(CF)   | 110 (bin)            | 0    | 0    | 206(dec) | N_TA   | N_SA   | N_AE            | N_PCI | N_Data | ==     | ==   | ==   | ==   | ==   |
+| 流控帧（FC） | 110(bin)             | 0    | 0    | 206(dec) | N_TA   | N_SA   | N_AE            | N_PCI | ==     | ==     | N/A  | ==   | ==   | ==   |
+
+> [!tip]
+>
+> 注意：功能寻址仅有单帧数据格式，且23...16位域位205（dec）
+
+
 
 ## CanTsyn
 
@@ -2338,7 +3411,7 @@ SC2类主要在SC1的基础上增加了时间保护功能，其主要保护的�
 2. 任务和二类中断最小执行时间间隔的保护；
 3. 任务和二类中断锁定时间的保护。
 
-##### Execution time protection
+#### Execution time protection
 
 执行时间保护简单点来说就是监测Task和二类中断不能运行的太慢，其运行的时间不能超过限值，执行时间保护包括任务预期执行时间的保护和中断预期执行时间的保护。主要有以下两点：
 
@@ -2555,6 +3628,18 @@ NvM_GetErrorStatus是一个经常被使用到的函数，通过调用这个函�
 ### MemIf模块
 
 上面提到了一个NvM模块Block会对应一个或者多个Fee和Ea模块Block，而MemIf模块就是将这两种位于不同层的Block对应起来，即实现Block Handle和Block ID的对应关系。在这里就不多做介绍了，非常简单。
+
+# 代码部分
+
+代码分成三个部分：
+
+1. Tp
+2. Dcm
+3. Dem
+
+## TP
+
+
 
 
 

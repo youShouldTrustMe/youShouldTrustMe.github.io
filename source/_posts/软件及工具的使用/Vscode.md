@@ -124,35 +124,40 @@ categories:
 
 # 插件
 
-| 插件名称                             | 功能描述                              |
-| ------------------------------------ | ------------------------------------- |
-| Better Align                         | 用于对齐变量名和参数                  |
-| Better Comments                      | 实时显示错误                          |
-| Code Spell Checker                   | 用于检查代码的拼写错误                |
-| Code Translate                       | 鼠标悬停可以查看相关翻译              |
-| Error Lens                           | 高亮显示错误                          |
-| Fitten Code                          | 超强AI编程                            |
-| Git Graph                            | 用于Git的可视化                       |
-| GitLens                              | Git的拓展                             |
-| Hex Editor                           | 十六进制文件查看器                    |
-| LeetCode                             | 力扣的练习                            |
-| MarkMap                              | 用于将markdown文件转化为思维导图      |
-| offic viewer                         | 用于实时渲染markdown文件              |
-| Project Manager                      | 用于保存常用项目                      |
-| Todo Tree                            | 可用于标记代码中的代办项              |
-| Vim                                  | vscode中的vim插件                     |
-| VSCode Animations                    | 实现丝滑动画效果                      |
-| Apc Customize UI++                   | 配合VSCode Animations使用实现丝滑动画 |
-| C/C++ snippets                       | 用于生成代码分割符                    |
-| IAR linker Configuration File Syntax | 用于显示IAR的icf文件                  |
-| Arm Assembly                         | 汇编代码                              |
-| iar build                            | iar官方插件                           |
-| iar                                  | ：                                    |
-| Platform IO                          | 嵌入式替代开发插件                    |
-| wakatime                             | 编程时间及行为跟踪统计                |
-| codeTour                             | 回放代码演示思路                      |
-| koroFileHeader                       | 生成文件头注释                        |
-| image comment                        | 在代码中插入图片注释                  |
+| 插件名称                                | 功能描述                                                     |
+| --------------------------------------- | ------------------------------------------------------------ |
+| Better Align                            | 用于对齐变量名和参数                                         |
+| Better Comments                         | 实时显示错误                                                 |
+| Code Spell Checker                      | 用于检查代码的拼写错误                                       |
+| Code Translate                          | 鼠标悬停可以查看相关翻译                                     |
+| Error Lens                              | 高亮显示错误                                                 |
+| Fitten Code                             | 超强AI编程                                                   |
+| Git Graph                               | 用于Git的可视化                                              |
+| GitLens                                 | Git的拓展                                                    |
+| Hex Editor                              | 十六进制文件查看器                                           |
+| LeetCode                                | 力扣的练习                                                   |
+| MarkMap                                 | 用于将markdown文件转化为思维导图                             |
+| offic viewer                            | 用于实时渲染markdown文件                                     |
+| Project Manager                         | 用于保存常用项目                                             |
+| Todo Tree                               | 可用于标记代码中的代办项                                     |
+| Vim                                     | vscode中的vim插件                                            |
+| VSCode Animations                       | 实现丝滑动画效果                                             |
+| Apc Customize UI++                      | 配合VSCode Animations使用实现丝滑动画                        |
+| C/C++ snippets                          | 用于生成代码分割符                                           |
+| IAR linker Configuration File Syntax    | 用于显示IAR的icf文件                                         |
+| Arm Assembly                            | 汇编代码                                                     |
+| iar build                               | iar官方插件                                                  |
+| iar                                     | ：                                                           |
+| Platform IO                             | 嵌入式替代开发插件                                           |
+| wakatime                                | 编程时间及行为跟踪统计                                       |
+| codeTour                                | 回放代码演示思路                                             |
+| koroFileHeader                          | 生成文件头注释                                               |
+| image comment                           | 在代码中插入图片注释                                         |
+| Peacock                                 | 可以将vscode的颜色跟着不同的项目进行改变                     |
+| file-tree-generator                     | 将文件树转换为txt                                            |
+| Blockman - Highlight Nested Code Blocks | 可以将块代码框起来                                           |
+| Maple Theme                             | 代码文字的美化，[Releases · subframe7536/maple-font (github.com)](https://github.com/subframe7536/maple-font/releases) |
+| Cursor免费续杯                          | [yeongpin/cursor-free-vip: Support 0.49.x](https://github.com/yeongpin/cursor-free-vip) |
 
 ## 配置
 

@@ -16,8 +16,6 @@ tags:
 
 # 概述
 
-![DMA简介](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png)
-
 > [!IMPORTANT]
 >
 > DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程
@@ -50,6 +48,35 @@ DMA的作用就是实现数据的直接传输，而去掉了传统数据传输�
 - 内存到外设
 - 内存到内存
 - 外设到外设
+
+```mermaid
+flowchart TD
+    subgraph DMA数据传输场景
+        A[外设] -->|DMA控制| B[内存]
+        B -->|DMA控制| C[外设]
+        D[内存区域1] -->|DMA控制| E[内存区域2]
+        F[外设1] -->|DMA控制| G[外设2]
+    end
+
+    subgraph 传统传输方式
+        H[外设] -->|CPU中转| I[内存]
+        J[内存] -->|CPU中转| K[外设]
+    end
+
+    style A fill:#cff,stroke:#333
+    style B fill:#fcf,stroke:#333
+    style C fill:#cff,stroke:#333
+    style D fill:#fcf,stroke:#333
+    style E fill:#fcf,stroke:#333
+    style F fill:#cff,stroke:#333
+    style G fill:#cff,stroke:#333
+    style H fill:#cff,stroke:#333
+    style I fill:#fcf,stroke:#333
+    style J fill:#fcf,stroke:#333
+    style K fill:#cff,stroke:#333
+```
+
+
 
 ## DMA传输参数
 
@@ -89,20 +116,74 @@ DMA的作用就是实现数据的直接传输，而去掉了传统数据传输�
 | :        | 0x4000 0000  | 外设寄存器      | 存储各个外设的配置参数           |
 | :        | 0xE000 0000  | 内核外设寄存器  | 存储内核各个外设的配置参数       |
 
-# DMA
+# 外设详解
+
+## 工作原理
+
+外设 DMA 为 Peripheral<>RAM 通道，采用**外设请求触发方式**进行数据传输，每个外设通道都可以支持外设->RAM 或者 RAM->外设的数据传输，并且根据目标外设类型的不同，自适应选择byte/half-word/word 传输方式。
+
+- DMA 作为 Master，在收到 request 后将发起 AHB transactions 进行数据操作，外设目标地址根据通道接入选择自动定位，RAM 目标地址则根据寄存器配置定位。
+
+- 每个 channel 可以从多个外设中选择一个作为 source 或 destination，同时软件可以设置通道优先级，当两个通道同时要访问 RAM 时，由优先级决定谁先访问，另一个通道将被挂起，直到优先通道访问完毕。
+
+  ```mermaid
+  flowchart TD
+      subgraph DMA_Channel
+          direction LR
+          Request[外设请求触发] --> Arbitration{仲裁判断}
+          Arbitration -->|优先级胜出| AHB_Trans[AHB总线操作]
+          AHB_Trans -->|数据传输| Periph[外设寄存器]
+          AHB_Trans -->|数据传输| RAM[内存区域]
+          Arbitration -->|优先级失败| Pending((挂起等待))
+      end
+  
+      CPU -->|配置参数| DMA_Channel
+      DMA_Channel -->|中断信号| CPU
+  ```
+
+- 外设请求可以是准备发送（RAM/Flash->Peripheral）或接收完成（Peripheral->RAM），数据传输通过 AHB 总线完成，当 DMA 访问外设时，CPU 对同一个外设的访问将引起冲突，哪个 Master 访问被挂起取决于 BusMatrix 设置的仲裁优先级。这里需要注意的是，由于大部分外设都被挂在 APB 总线上，APB 映射到 AHB 仅为一个 slave，因此当 DMA 访问 APB 中任意外设时，CPU 即使访问 APB下的其他外设，也同样会引起总线仲裁。通过 DIR 寄存器可以配置每个通道的传输方向，软件必须保证传输方向配置与实际挂载到这个通道上的外设请求相一致。比如通道 1 当前挂载的外设请求是UART0 接收，则必须将 DIR 寄存器配置为 0（数据从外设读出，写入 RAM），每次 UART0 接收完一帧数据，将发送 RXD0 请求给 DMA，DMA 响应请求后，从 UART0 接收缓存寄存器读取数据，如果 DIR 被错误的配置为 1，则 DMA 对 UART0 接收缓存寄存器的写操作将被 UART0 忽略。
+
+  ```mermaid
+       graph LR
+           DMA访问APB -->|总线占用| CPU访问APB外设
+           CPU访问RAM -->|总线仲裁| DMA访问RAM
+  ```
+
+  
+
+- 软件可设置 DMA 的存储器指针，用于配置 DMA 传输的起始地址，可以选择指针递增或递减方式。另有 TSIZE 寄存器配置传输次数，根据起始地址和传输次数，计算得到终止地址，当存储器指针指向终止地址时，本次传输结束，关闭通道。
+
+- 当 channel 被使能后，DMA 就准备好接受通道所选中的外设请求。当配置传输长度一半的字节被传输后，一个 CHHT 中断置位；当配置传输长度全部完成后，CHHT 中断置位。上述中断都可以被相应的中断使能寄存器屏蔽。
+
+- 在 DMA 一个完整 transfer block 完成之前，软件随时可以关闭 channel 使能，此时 DMA 将被挂起，如果软件此后重新使能通道，则 DMA 继续执行之前挂起的操作。但是 TSIZE 还是原始的设置值没有更新，需要注意。
 
 ## 系统框图
 
-flash为主闪存，SRAM为运行内存，各个外设可以看作是寄存器，也是一种SRAM存储器，实际上，我们可以将这个框图看作是一个cpu（cortex-M3）和存储器（框图中的所有）
-
-寄存器是一种特殊的存储器：
+![DMA系统框图](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251202200936506.png)
 
 - 一方面，CPU可以对寄存器进行读写，就像是读写运行内存一样
 - 另一方面，寄存器的每一位背后，都连接了一根导线，这些导线可以控制外设的电路状态，如置引脚高低电平、导通和断开开关、切换数据选择器
 
 在总线矩阵的左端，是主动单元，也就是拥有存储器的访问权，总线矩阵的右端，是被动单元，它们的存储器只能被左边的主动单元读写
 
-![DMA系统框图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_13_52_202409111013244.png)
+## 工作流程 
+
+DMA 对请求响应分成两部分处理：通道请求处理过程和数据搬运过程。
+
+1. 通道请求处理
+   1. DMA 接受到请求，跳到步骤 b
+   2. 判断是否有其他通道正在搬运数据，若有，则停留在步骤 b 直至其他通道当次搬运完成；若无，进一步判断是否有其他同时置起的请求信号，若有，则判断当前通道优先级是否高于其他通道，若是，则跳到步骤 c 并向数据搬运过程发起请求，若否，则停留在步骤 b 直至其他通道当次搬运完成
+   3. 并等待数据搬运完成响应信号，得到响应则，跳到步骤 d，否则停在步骤 c
+   4. 数据搬运长度+1，判断是否达到设定长度，若是则关闭通道使能；判断请求是否释放，若是，则跳到步骤 a，若否，则停留在步骤 d 判断数据传输达到设定长度，否则跳到步骤 a
+2. 数据搬运
+   1. 等待通道请求处理过程发起请求
+   2. 从源地址读取数据
+   3. 将读到的数据写到目标地址
+   4. 向通道请求处理过程发出搬运完成响应，并跳到步骤 a
+
+DMA工作的流程如下图所示：
+
+![DMA工作流程](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251202202420134.png)
 
 ## 数据流动
 
@@ -128,8 +209,40 @@ flash为主闪存，SRAM为运行内存，各个外设可以看作是寄存器�
 
 4. DMA控制器的DMA总线与总线矩阵协调，使用AHB把外设ADC采集的数据经由DMA通道存放到SRAM中，这个数据传输过程中，完全不需要内核参与
 
+```mermaid
+graph LR
+    subgraph ADC 数据寄存器
+        ADC[ADC 数据]
+    end
 
-![DMA处理过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_39_48_202409111039754.png)
+    subgraph SRAM
+        SRAM_Dest[SRAM 目标]
+    end
+
+    subgraph "有 DMA"
+        DMA_C(DMA 控制器)
+        DMA_T(DMA 通道)
+        ADC -->|DMA请求| DMA_C
+        DMA_C -->|获取数据| DMA_T
+        DMA_T -->|AHB/总线矩阵 （高效）| SRAM_Dest
+    end
+
+    subgraph "没有 DMA"
+        CPU(内核/CPU)
+        Bus(Dcode/总线矩阵)
+        ADC -->|AHB/从设备| Bus
+        Bus -->|中转| CPU
+        CPU -->|中转| Bus_2[Dcode/总线矩阵]
+        Bus_2 -->|写回| SRAM_Dest
+    end
+
+    style ADC fill:#f9f,stroke:#333,stroke-width:2px
+    style SRAM_Dest fill:#f9f,stroke:#333,stroke-width:2px
+    style DMA_C fill:#9ff,stroke:#333,stroke-width:2px
+    style CPU fill:#ccf,stroke:#333,stroke-width:2px
+```
+
+
 
 ## DMA请求
 
@@ -141,7 +254,32 @@ flash为主闪存，SRAM为运行内存，各个外设可以看作是寄存器�
 2. 存数据到外设数据寄存器或者当前外设/存储器地址寄存器指示的存储器地址，第一次传输时的开始地址是DMA_CPARx或DMA_CMARx寄存器指定的外设基地址或存储器单元；
 3. 执行一次DMA_CNDTRx寄存器的递减操作，该寄存器包含未完成的操作数目。
 
-![DMA请求](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_37_50_202409111037900.png)
+```mermaid
+sequenceDiagram
+    participant P as 外设 (Peripheral)
+    participant D as DMA 控制器 (Controller)
+
+    Note over P: 事件触发 (Event Occurs)
+    P->>D: 1. 请求信号 (REQ)
+    D->>D: 检查通道优先权
+    activate D
+    Note over D: DMA 获准访问外设
+    D->>P: 2. 应答信号 (ACK)
+    P->>D: 3. 释放请求信号 (Release REQ)
+    D->>P: 4. 撤销应答信号 (Withdraw ACK)
+    deactivate D
+    Note over D: **执行 DMA 传输周期 (3 个操作)**
+    D->>D: 5. 传输数据 (读/写)
+    D->>D: 6. 递减 DMA_CNDTRx 寄存器
+    Note over D: 传输周期结束
+    alt 仍有数据需要传输
+        P->>D: 1. 请求信号 (下一周期)
+    else 传输完成
+        Note over P: 等待下一个事件触发
+    end
+```
+
+
 
 ## DMA通道
 
@@ -190,17 +328,7 @@ DMA优先级
   2. 第二阶段（硬件阶段）：如果两个请求有相同软件优先级，较低偏号的通道比较高偏号的通道有较高的优先级。(大容量芯片中，DMA1控制器拥有高于DMA2控制的优先级)
 - 注意：多个请求通过逻辑或输入到DMA控制器，只能有一个请求有效。
 
-![DMA请求](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_10_37_50_202409111037900.png)
 
-## DMA中断
-
-**每个DMA通道都可以在DMA传输过半、传输完成和传输错误时产生中断**。为应用的灵活性考虑，通过设置寄存器的不同位来打开这些中断。
-
-| 中断事件 | 事件标志位 | 使能控制位 |
-| -------- | ---------- | ---------- |
-| 传输过半 | HTIF       | HTIE       |
-| 传输完成 | TCIF       | TCIE       |
-| 传输错误 | TEIF       | TEIE       |
 
 ## DMA的内存占用
 
@@ -209,10 +337,6 @@ DMA优先级
 但是要注意：
 
 DMA 控制器和Cortex-M3核共享系统数据总线执行直接存储器数据传输。当CPU和DMA同时访问相同的目标(RAM或外设)时，DMA请求可能会停止 CPU访问系统总线达若干个周期，总线仲裁器执行循环调度，以保证CPU至少可以得到一半的系统总线(存储器或外设)带宽。
-
-## 工作过程
-
-![DMA工作过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/11_11_21_27_202409111121675.png)
 
 # 实验
 
