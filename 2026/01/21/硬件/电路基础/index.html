@@ -1,0 +1,681 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>电路基础 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="元器件电阻欧姆定律$$I &#x3D; \frac{U}{R}:只要知道电阻值以及电阻两端的电压，就能够求出流过电阻的电流\R &#x3D; \frac{U}{I}:只要知道电阻值以及流过电阻的电流，就能够求出电阻两端的电压\U&#x3D;I\times R:只要知道电阻两端的电压，以及流过电阻的电流，就能够求出电阻$$ 阻值的识别 色环法 平常使用的色环电阻可以分为四环和五环，通常用四环。其中四">
+<meta property="og:type" content="article">
+<meta property="og:title" content="电路基础">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E7%A1%AC%E4%BB%B6/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="元器件电阻欧姆定律$$I &#x3D; \frac{U}{R}:只要知道电阻值以及电阻两端的电压，就能够求出流过电阻的电流\R &#x3D; \frac{U}{I}:只要知道电阻值以及流过电阻的电流，就能够求出电阻两端的电压\U&#x3D;I\times R:只要知道电阻两端的电压，以及流过电阻的电流，就能够求出电阻$$ 阻值的识别 色环法 平常使用的色环电阻可以分为四环和五环，通常用四环。其中四">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_13.png">
+<meta property="article:published_time" content="2026-01-21T02:07:02.610Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.610Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_13.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "电路基础",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E7%A1%AC%E4%BB%B6/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_13.png",
+  "datePublished": "2026-01-21T02:07:02.610Z",
+  "dateModified": "2026-01-21T02:07:02.610Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E7%A1%AC%E4%BB%B6/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '电路基础',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_13.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">电路基础</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">电路基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.610Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.610Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A1%AC%E4%BB%B6/">硬件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="元器件"><a href="#元器件" class="headerlink" title="元器件"></a>元器件</h1><h2 id="电阻"><a href="#电阻" class="headerlink" title="电阻"></a>电阻</h2><h3 id="欧姆定律"><a href="#欧姆定律" class="headerlink" title="欧姆定律"></a>欧姆定律</h3><p>$$<br>I &#x3D; \frac{U}{R}:只要知道电阻值以及电阻两端的电压，就能够求出流过电阻的电流\<br>R &#x3D; \frac{U}{I}:只要知道电阻值以及流过电阻的电流，就能够求出电阻两端的电压\<br>U&#x3D;I\times R:只要知道电阻两端的电压，以及流过电阻的电流，就能够求出电阻<br>$$</p>
+<h3 id="阻值的识别"><a href="#阻值的识别" class="headerlink" title="阻值的识别"></a>阻值的识别</h3><ol>
+<li><p>色环法</p>
+<p>平常使用的色环电阻可以分为四环和五环，通常用四环。其中四环电阻前二环为数字，第三环表示阻值倍乘的数（$10^n$），最后一环为误差；五环电阻前三环为数字，第四环表示阻值倍乘的数，最后一环为误差。误差通常也是金、银和棕三种颜色（金的误差：5%，银的误差：10%，棕色的误差：1%，无色的误差：20%，很少用的绿色表示误差：0.5%）。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>在计算倍乘的数的时候，金色和银色的0.1和0.01表示的是$10^{-1}$和$10^{-2}$</p>
+</blockquote>
+<p><img src="https://images0.cnblogs.com/i/615344/201405/221650566687070.jpg" alt="色环识别法"></p>
+<p><strong>电阻色环表小口诀：</strong><br>   棕一红二橙是三，四黄五绿六为蓝，七紫八灰九对白，黑是零，金五银十表误差。</p>
+<p>**四色环电阻：**读法示例：</p>
+<ol>
+<li>红，黄，棕，金 24 * 10&#x3D;240Ω 误差为5%</li>
+<li>绿，红，黄，银 52 * 10000&#x3D;520KΩ 误差为10%</li>
+</ol>
+<p>**五色环电阻:**一般五环电阻是相对较精密的电阻，读法示例：</p>
+<ol>
+<li>红，红，黑，黑，棕 220 * 1&#x3D;220Ω 误差为1%</li>
+<li>紫，红，棕，红，绿 521*100&#x3D;52.1KΩ 误差为0.5%</li>
+</ol>
+<p>**六色环电阻：**就是指用六色环表示阻值的电阻，六色环电阻前五色环与五色环电阻表示方法一样，第六色环表示该电阻的温度系数。只在有特定要求的场合下的电子产品才会使用，一般使用非常少。</p>
+</li>
+<li><p>数码法</p>
+<p><strong>整数型电阻</strong>：前两（三）位有效数字，第三（四）位为10的幂次($10^n$)</p>
+<p><strong>小数型电阻</strong>：R前面为整数，R后面为整数</p>
+<blockquote>
+<p>[!note]</p>
+<p>贴片电阻阻值误差精度有$\pm$1％、$\pm$2％、$\pm$5％、$\pm$10％精度，常规用的最多的是$\pm$1％和$\pm$5％，</p>
+<p>$\pm$5％精度的常规是用&#x3D;&#x3D;三位数&#x3D;&#x3D;来表示<br>    1000Ω＝1KΩ,1000000Ω&#x3D;1MΩ</p>
+<p>$\pm$1％的电阻常规多数用&#x3D;&#x3D;四位数&#x3D;&#x3D;来表示</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="电阻的功率"><a href="#电阻的功率" class="headerlink" title="电阻的功率"></a>电阻的功率</h3><p>$$<br>P&#x3D;I \times U\<br>P &#x3D; I^2 \times R \<br>P &#x3D; \frac{U^2}{R}<br>$$</p>
+<p>设计电路过程中，一定不能超过电阻的额定功率，否则电阻发热会很严重</p>
+<h3 id="电阻的限流"><a href="#电阻的限流" class="headerlink" title="电阻的限流"></a>电阻的限流</h3><p>当供电电压大于负载的工作电压时，可以利用电阻限流</p>
+<p>(注意：电路中不能超过电阻的功率，同 同时尽可能只工作在供电电压与负载工作电压相差不大或者工作电流很小的场景）</p>
+<blockquote>
+<p>[!tip]</p>
+<p>电阻会限制电荷的移动，所以叫电阻。</p>
+</blockquote>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/12_19_39_13_202412121939765.png" alt="需要增加电阻进行限流的案例"></p>
+<h3 id="电阻的分流"><a href="#电阻的分流" class="headerlink" title="电阻的分流"></a>电阻的分流</h3><p>电阻的分流公式为：<br>$$<br>I_总 &#x3D; I_1+I_2+I_3<br>$$<br>当负载中的电流较大时，需要进行分流来规避器件损坏的风险。</p>
+<p>如果上图中的发光二极管换成电机，电机的额定电压为10V 500mA，那么如果想要对电机进行限流，使用一个电阻（0.2W）就明显不够，所以需要使用电阻的分流的作用，将小功率的电阻并在一起即可。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/12_20_7_29_202412122007936.png" alt="电阻的分流"></p>
+<h3 id="电阻的分压"><a href="#电阻的分压" class="headerlink" title="电阻的分压"></a>电阻的分压</h3><p>$$<br>V_R&#x3D;\frac{(V_1-V_2)\times R_2}{R_1 +R_2}+V_2<br>$$</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/12_20_10_19_202412122010356.png" alt="电阻的分压"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>很多时候，V2是GND，电阻的分压功能也可以作为参考电压</p>
+</blockquote>
+<h2 id="电容"><a href="#电容" class="headerlink" title="电容"></a>电容</h2><p>电容是两块不连通的导体加上中间的绝缘材料。</p>
+<p>通过控制中间部分绝缘材料的材质和两个导体之间的相对面积大小来控制电容的容值。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/16_19_38_34_202412161938905.png" alt="电容组成"></p>
+<blockquote>
+<p>[!note]</p>
+<p>电解电容是有方向的（分正负极），一般来说，插针式电解电容的负极的侧边上有白色条纹标志，贴片电解电容负极的一侧是黑色。</p>
+<p>最重要的是，电解电容是不能反接的，不然会爆炸！！！💥💥💥</p>
+<p>所以在使用电解电容的时候，一旦发现电路中电流过大，电解电容可能会发生爆炸。</p>
+<p>之所以会炸，是因为内部发生了化学反应，产生了大量气体，导致爆炸。</p>
+</blockquote>
+<blockquote>
+<p>[!important]</p>
+<p>电容的单位为<code>F</code>（法），一般电容上标的是耐压多少伏（最多只能承受的电压值），电容容量多少F</p>
+</blockquote>
+<p>以下贴片电容分别是：普通电容、普通电解电容、钽电容、固态电解电容、二氧化锰类型坦电容、液态电解电容</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/16_20_10_54_202412162010464.png" alt="常见电容特性"></p>
+<p>​	其中，ESR是等效电阻，ESL是等效电感</p>
+<h3 id="电容的电压"><a href="#电容的电压" class="headerlink" title="电容的电压"></a>电容的电压</h3><p>&#x3D;&#x3D;电容两端的相对电压不能突变&#x3D;&#x3D;，只要电容不充电或放电，电容两端的电压就不变</p>
+<p>注意：电容两端的相对电压不能突变，但是两端的电压可以&#x3D;&#x3D;同时突变&#x3D;&#x3D;</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/16_20_23_57_202412162023554.png" alt="电容的两端电压不能突变"></p>
+<ul>
+<li>当S2闭合之后，电源将会给电容充电，充电一段时间后，电容两端的压差达到5V</li>
+<li>此时打开S2，闭合S3，此时，R7上端电压至5V，此时电容上端的电压会变为10V（因为电容两端的电压可以同时进行突变）</li>
+</ul>
+<p>如果在一个供电电路中，没有放置电容，那么可能会出现电压跌落（电压会突然下降然后重新上升）的情况。增加电容可以起到一个稳压（滤波）的作用。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>这里的滤波指的是可以保证不会出现波形的跳变（稳压）。</p>
+</blockquote>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_19_51_29_202412171951594.png" alt="电容的滤波功能"></p>
+<ul>
+<li>上面的电路，当S4没有闭合的时候，$V_{out}$的值将会是一个大于零的值，当S4闭合时，$V_{out}$会立即被电容拉到0V（电压跌落），如果$V_{out}$后面接了电路，那么电路可能会受到影响。</li>
+<li>对于下面的电路，当S5闭合的一瞬间，由于电容两端的电压不能突变，所以将会把$V_{out}$的值维持住（可能会下降，但是会下降的很少）</li>
+</ul>
+<h3 id="电容的储能"><a href="#电容的储能" class="headerlink" title="电容的储能"></a>电容的储能</h3><p>电容可以简单理解成一个小电池，电容的充电速度与电容大小以及充电电流有关。电容的充电时间常数为：<br>$$<br>T&#x3D;R\times C<br>$$<br><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_18_36_6_202412171836103.png" alt="充电电路"></p>
+<p>首先计算出充电时间常数，在第一个<code>RC</code>的时候，电容可以充到63%的电压值，一般来说，3到5个RC就可以充满。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_18_36_47_202412171836072.png" alt="充电过程"></p>
+<p>电容充到指定电压的时间计算公式为：<br>$$<br>V_t &#x3D; V_0 +(V_{cc} -V_0) \times [1-e^{-\frac{t}{R \times C}}]<br>$$<br>电容初始电压$V_0$，充电电阻R，充电电容C，充电电压$V_{CC}$，充电时间t，当电阻单位为kΩ，电容单位为uF的时候，充电时间单位为ms</p>
+<blockquote>
+<p>[!tip]</p>
+<p>当想要选取合适的充电电路的容值和阻值时，需要先选择容值，后再调整阻值，因为电容的容值的选择很少。</p>
+</blockquote>
+<p>利用电容的储能特性可以实现关断延时。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_19_38_47_202412171938302.png" alt="电容的关断延时"></p>
+<p>左边的电路一断电，LED灯会立即就灭，而右边的电路断电之后，LED还会等待一会再灭。</p>
+<h3 id="电容的容抗"><a href="#电容的容抗" class="headerlink" title="电容的容抗"></a>电容的容抗</h3><p>电容在频率越高时，容抗越小，频率越低时，容抗越大。<br>$$<br>X_c&#x3D; \frac{1}{2 \times \pi \times f \times c}<br>$$<br>此处，$X_c$为容抗，$f$为频率（电源频率），$c$为电容容值</p>
+<ul>
+<li>当通直流电的时候,频率为0，那么容抗就无穷大，所以可以看作是断路</li>
+<li>当通交流电时，频率是个确定值，那么容值就是一个确定值</li>
+</ul>
+<h2 id="电感"><a href="#电感" class="headerlink" title="电感"></a>电感</h2><p>电感就是一根导线加一个磁性材料，单位为<code>H</code>（亨）。生活中，所有由线圈组成的器件，都是电感。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/18_19_48_24_202412181948058.png" alt="电感实物图"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>电感中的磁芯实际上是为了增加电感量，任意一个使用导线绕成的线圈都是一个电感，但是没有磁芯的电感的电感量较小</p>
+<p>任意一条导线都有电感特性，只不过电感量较小</p>
+</blockquote>
+<h3 id="电感的电流"><a href="#电感的电流" class="headerlink" title="电感的电流"></a>电感的电流</h3><p>&#x3D;&#x3D;流过电感的电流不能突变&#x3D;&#x3D;，当S6闭合之后，电路中的电流是慢慢上升的，不会突然上升。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/18_20_10_17_202412182010619.png" alt="电感的电流不能突变"></p>
+<blockquote>
+<p>[!important]</p>
+<p>电感只能限制电流的变化速度，但是不能改变电路中的电流最大值</p>
+</blockquote>
+<h3 id="电感的感抗"><a href="#电感的感抗" class="headerlink" title="电感的感抗"></a>电感的感抗</h3><p>电感流过电流时，如果电感回路的电阻突变变得很大，电感会感生出一个很高的电压，此时容易击穿器件，所以应用电感时，必须要考虑电感的续流回路</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/18_20_30_21_202412182030396.png" alt="电感的感抗"></p>
+<p>当开关闭合的时候，产生回路，给电容充电，直至电流稳定。当打开S8的时候，此时电感没有回路，但是电感中仍旧存在电流，所以电感会强制释放电流，将电流&#x3D;&#x3D;存放在开关的两端&#x3D;&#x3D;（开关没有闭合的时候是两个不接触的导体片，此时就可以看作是一个电容），所以在开关断开的一瞬间，开关两端电压会非常高，可能达到上百伏。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>当开关一断开，我们可以将开关看作是一个无穷大的电阻量，而电感为了保持其电流不会进行突变，检测到外部电阻变大，所以会产生一个很大的电压去维持这个电流。将会击穿回路中的器件。</p>
+<p>为了防止出现这种情况，需要合理设计续流回路。</p>
+<p>我们可以在电感左侧和地中间接一个二极管，当S8断开的时候，电感将会和二极管构成回路，将电感中的电流释放掉。</p>
+</blockquote>
+<p>电感实际上也是一个储能器件，使用感抗来描述电感对电流的阻碍大小，电感在频率越高时，阻抗越大，频率越低时，阻抗越小。<br>$$<br>R_L &#x3D; 2 \pi fL<br>$$</p>
+<blockquote>
+<p>[!tip]</p>
+<p>当频率为单位为KHz，电感单位为uH，感抗单位为Ω</p>
+</blockquote>
+<h2 id="二极管"><a href="#二极管" class="headerlink" title="二极管"></a>二极管</h2><p>二极管的结构就是一个PN（Positive-Negative）节，导通后肯定会存在压降（硅管≈0.7V;锗管≈0.3V)，其结构就像一个漏斗结构，普通二极管只能单向导通。&#x3D;&#x3D;二极管的导通压降并不是一成不变的，它还和它的导通电流有关，导通电流越大，导通压降越大&#x3D;&#x3D;。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_19_45_29_202412231945301.png" alt="二极管"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_19_46_2_202412231946173.png" alt="二极管实物图"></p>
+<blockquote>
+<p>[!note] </p>
+<p>二极管两端不能直接接大于二极管导通压降的电压，否则电流会很大，烧毁二极管。</p>
+<p>&#x3D;&#x3D;不能直接和电源并联&#x3D;&#x3D;</p>
+</blockquote>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_20_4_39_202412232004762.png" alt="二极管伏安特性曲线"></p>
+<h3 id="二极管的单向导通"><a href="#二极管的单向导通" class="headerlink" title="二极管的单向导通"></a>二极管的单向导通</h3><p>如下图，假设现在供电是5V，那么D1两侧电压应为0.7V，R25两端电压为0V，D4两端电压为5V</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_20_7_54_202412232007934.png" alt="二极管的单向导通性"></p>
+<p>利用二极管可以控制电路中的电流方向，这样可以实现&#x3D;&#x3D;反接保护&#x3D;&#x3D;。</p>
+<p>假设当电机的电流从上往下的时候，电机正转，电流从下往上的时候，电机反转，当我们需要让电机至只正转，那么我们就接一个二极管就可以实现控制电流方向的作用。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_19_2_9_202412251902819.png" alt="二极管控制电流方向"></p>
+<blockquote>
+<p>[!important]</p>
+<p>一般来说，不建议将二极管接到GND做反接保护，因为这样GND就不是0V了</p>
+</blockquote>
+<p>二极管承受反向电压时会自动截止，但是每一个二极管都有最大反向耐压值。一旦超过反向耐压值，二极管将会被击穿。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_19_15_42_202412251915002.png" alt="二极管的反向耐压"></p>
+<p>而稳压二极管是工作在反向击穿状态，当其发生反向击穿时，稳压二极管两端的电压会保持在某个电压值。（一般的二极管被击穿之后会直接导通）</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_19_23_3_202412251923819.png" alt="稳压二极管"></p>
+<p>稳压二极管的稳压值就是击穿电压，假设这里的稳压二极管的击穿值是5.6V，那么当电源电压小于5.6V时，D6截止，当电源电压大于5.6V（假设不考虑电阻的分压）时，稳压二极管就会被击穿，击穿之后，D6两端的电压就会维持为5.6V。&#x3D;&#x3D;但是实际上稳压管的电压还和流经它的电流有关，电流越大，电压越大，所以使用稳压二极管做一个稳压的时候，一定要注意稳压电流。&#x3D;&#x3D;稳压电流不能太大，也不能太小。</p>
+<blockquote>
+<p>[!note]</p>
+<p>普通的稳压管的工作电流会让它工作在5毫安左右。</p>
+</blockquote>
+<h3 id="二极管的漏电"><a href="#二极管的漏电" class="headerlink" title="二极管的漏电"></a>二极管的漏电</h3><p>二极管反向截止并不代表完全关断，其实会有微弱的漏电流。其中肖特基二极管的漏电流会比较大。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_20_16_33_202412232016236.png" alt="二极管的漏电"></p>
+<h3 id="二极管的钳位"><a href="#二极管的钳位" class="headerlink" title="二极管的钳位"></a>二极管的钳位</h3><p>利用二极管的导通电压特性，可以实现对信号线进行钳位。一般来说，二极管的钳位功能都是用于保护电路。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_18_45_46_202412251845833.png" alt="二极管的钳位功能"></p>
+<p>上图中，假设是直流电源，且没有二极管，那么A点的电压就是$\frac{3}{10+10} &#x3D; 0.15V$，如果加上二极管之后，由于电阻的电压是高于0.7V的，所以二极管就会导通，&#x3D;&#x3D;二极管导通之后，它两端的电压近乎稳定，保持为0.7V（硅管）&#x3D;&#x3D;，而电阻和它并联，所以也会保持0.7V的电压。从而实现了钳位的功能。</p>
+<h2 id="三极管"><a href="#三极管" class="headerlink" title="三极管"></a>三极管</h2><h3 id="三极管的结构"><a href="#三极管的结构" class="headerlink" title="三极管的结构"></a>三极管的结构</h3><p>&#x3D;&#x3D;三极管简单来说就是一个电子开关。&#x3D;&#x3D;</p>
+<p>三极管有三个主要部分：</p>
+<ol>
+<li>发射极（Emitter）</li>
+<li>基极（Base）</li>
+<li>集电极（Collector）。</li>
+</ol>
+<p>有两种主要类型的三极管：</p>
+<ul>
+<li><strong>NPN三极管</strong>（N型三极管）：发射极是N型半导体，基极是P型半导体，集电极是N型半导体。</li>
+<li><strong>PNP三极管</strong>（P型三极管）：发射极是P型半导体，基极是N型半导体，集电极是P型半导体。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_19_55_37_202412251955964.png" alt="三极管内部示意图"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/9_10_18_55_202408091018309.png" alt="三极管示意图"></p>
+<p>三极管的不同封装如下：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/9_10_30_27_202408091030819.png" alt="不同封装的三极管的管脚定义"></p>
+<h3 id="三极管的开关作用"><a href="#三极管的开关作用" class="headerlink" title="三极管的开关作用"></a>三极管的开关作用</h3><p>三极管可以当电子开关来使用，现假设有一个开关，开关两侧为A和B，开关闭合时，A和B导通，我们可以将三极管的C和E类比于A和B。当B到E之间有电流流过，那么C和E之间就会导通。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/9_10_18_55_202408091018309.png" alt="三极管示意图"></p>
+<h3 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h3><p>三极管的工作模式取决于其偏置状态，主要有三个模式：</p>
+<ul>
+<li><strong>放大模式</strong>：当&#x3D;&#x3D;基极和发射极之间的电压大于发射结的阈值&#x3D;&#x3D;（通常是0.7V左右）时，三极管处于放大模式。在这个模式下，小的基极电流（IB）可以控制大的集电极电流（IC），从而实现信号放大。</li>
+<li><strong>饱和模式</strong>：当基极电流足够大，三极管的集电极-发射极之间的电压接近于零（对NPN型来说，VCE接近0V），此时三极管处于饱和状态，像一个闭合开关一样，集电极和发射极之间的电阻很小。</li>
+<li><strong>截止模式</strong>：当基极电流非常小或为零，三极管处于截止状态，集电极和发射极之间的电流几乎为零，相当于开路。</li>
+</ul>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><ul>
+<li><strong>NPN三极管</strong>：在NPN三极管中，当&#x3D;&#x3D;基极电压高于发射极电压&#x3D;&#x3D;时，发射结导通，电子从发射极注入基极。由于基极很薄，大部分电子会穿过基极到达集电极，使得集电极电流IC大于基极电流IB。<em>&#x3D;&#x3D;电子方向 ：E -&gt; C&#x3D;&#x3D;</em></li>
+<li><strong>PNP三极管</strong>：PNP三极管的工作原理与NPN类似，只是电流方向相反。基极电压低于发射极电压时，三极管导通。<em>&#x3D;&#x3D;空穴方向：C -&gt; E&#x3D;&#x3D;</em></li>
+</ul>
+<p><strong>NPN三极管</strong>：基极电流控制从发射极到集电极的电子流。</p>
+<p><strong>PNP三极管</strong>：基极电流控制从集电极到发射极的空穴流。</p>
+<p>所以三极管实际上是通过控制&#x3D;&#x3D;基极&#x3D;&#x3D;来控制输出</p>
+<h3 id="电流放大"><a href="#电流放大" class="headerlink" title="电流放大"></a>电流放大</h3><p>理想的开关只有“开”和“关”两种状态，但是三极管不是一个理想的开关，它有“似开不开、似关不关”的第三种状态（放大）。</p>
+<p>三极管的一个重要参数是电流放大倍数（β），它表示集电极电流IC与基极电流IB的比值。公式为：<br>$$<br>\beta &#x3D; \frac{I_C}{I_B}<br>$$</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/19_19_48_34_202502191948543.png" alt="开关电路设计注意事项"></p>
+<p>R4电阻是一个限流电阻，为了防止$I_B$过大</p>
+<blockquote>
+<p>[!tip]</p>
+<ol>
+<li>当$V_{ce}&#x3D;V_{cc}$，三极管处于断开（截止）状态</li>
+<li>当$V_{ce}&lt;&#x3D;0.3$，三极管处于饱和导通的状态</li>
+<li>当$0.3&lt;V_{ce}&lt;V_{cc}$，三极管处于放大的状态</li>
+</ol>
+</blockquote>
+<h1 id="基础电路"><a href="#基础电路" class="headerlink" title="基础电路"></a>基础电路</h1><h2 id="滤波电路"><a href="#滤波电路" class="headerlink" title="滤波电路"></a>滤波电路</h2><h3 id="低通滤波电路"><a href="#低通滤波电路" class="headerlink" title="低通滤波电路"></a>低通滤波电路</h3><h4 id="RC实现"><a href="#RC实现" class="headerlink" title="RC实现"></a>RC实现</h4><p>低通滤波电路可以让”低频”的信号通过，衰减“高频”的信号，低通滤波电路有以上作用是利用了电容充放电特性实现的。（通低频，阻高频）可以用来滤掉高频噪声信号。&#x3D;&#x3D;一般用于电流很小的电路中(如信号传输)，负载电流会经过R12电阻，而不经过C6电容，大电流流过电阻会增大不必要的能耗&#x3D;&#x3D;</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_20_22_6_202412172022018.png" alt="低通滤波电路"><br>$$<br>f&#x3D;\frac{1}{2\times \pi \times R \times C}<br>$$<br>其中，$f$是截止频率，</p>
+<ul>
+<li>当输入信号$V_{in}$（交流信号）的频率等于截止频率的时候，那么$V_{out}$的峰峰值将会衰减&#x3D;&#x3D;0.707&#x3D;&#x3D;倍，变为有效值。</li>
+<li>当输入的电压频率低于截止频率时，将会保持原有电压大小。</li>
+<li>当输入的电压频率高于截止频率时，电压将会有一个很大的衰减</li>
+</ul>
+<blockquote>
+<p>[!tip]</p>
+<p>我们可以简单的使用分压原理来理解。</p>
+<p>$V_{out}&#x3D;\frac{R_c}{R_c+R_{12}}\times V_{in}$，而通过容抗的计算公式可知，当频率越大的时候，$R_c$越小，那么分到的电压就会越低，相反，$R_c$越大，分到的电压就会越大。</p>
+<p>实际上，低通滤波是通过电容的充放电实现的，由上面的知识可知，电容两端电压值是不能突变的。电路中当R和C确定时，电容的充电时间（速度）是确定的。</p>
+<ul>
+<li><p>如果是直流电输入，那么电容的充电将会经过一段时间后和输入电压保持一致。</p>
+</li>
+<li><p>但是如果使用交流电：</p>
+<ul>
+<li><p>交流电的频率很高时，电容的充放电跟不上，当电容的充电电压等于输入电压时，才会进行放（充）电。下图中绿色表示电容两端的电压，红色表示充电电压，当两条曲线相交的时候，电容开始放（充）电。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_21_2_41_202412172102578.png" alt="高频输入的电容充放电波形"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_21_12_17_202412172112916.png" alt="实际波形图"></p>
+</li>
+<li><p>且交流电的频率很低时，电容的充放电跟得上，那么当电容两端的电压的变化趋势会跟着输入电压</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_21_5_59_202412172105838.png" alt="低频输入电容充放电"></p>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>[!tip]</p>
+<p>截止频率处信号的幅值衰减到原值的 0.7070.707 是由滤波器的数学特性决定的，特别是与其<strong>频率响应</strong>相关。</p>
+<p>以一阶低通滤波器（如 RC 滤波器）为例，其频率响应函数为：<br>$$<br>|H(f)| &#x3D; \frac{1}{\sqrt{1 + \left(\frac{f}{f_c}\right)^2}}<br>$$<br>其中：</p>
+<ul>
+<li>$H(f) $是滤波器的增益（幅值响应）。</li>
+<li>$f_c $是滤波器的截止频率。</li>
+<li>$f$ 是信号频率。</li>
+</ul>
+<p>在 $f &#x3D; f_c$ 时，代入公式得：<br>$$<br>|H(f_c)| &#x3D; \frac{1}{\sqrt{1 + \left(\frac{f_c}{f_c}\right)^2}} &#x3D; \frac{1}{\sqrt{2}} \approx 0.707<br>$$<br>这表明，在截止频率处，信号幅值刚好衰减到原幅值的 0.707。</p>
+<p>信号的功率 $P $与幅值 $A$ 的平方成正比：</p>
+<p>$P \propto A^2$</p>
+<p>因此，当幅值衰减到 0.707 时，功率衰减为：<br>$$<br>P_{\text{out}} &#x3D; 0.707^2 \cdot P_{\text{in}} &#x3D; 0.5 \cdot P_{\text{in}}<br>$$<br>即功率下降了 50%，对应于$ -3 , \text{dB}$：<br>$$<br>10 \cdot \log_{10}(0.5) &#x3D; -3 , \text{dB}<br>$$<br>这就是截止频率被定义为信号功率下降 3 dB 的频率。</p>
+<p>所以实际上在截止频率 $f_c$：</p>
+<ul>
+<li>滤波器对信号开始产生明显衰减，但幅值仍保留 70.7%（功率保留 50%）。</li>
+<li>它标志着低频信号（通过区域）与高频信号（衰减区域）的分界点。</li>
+</ul>
+</blockquote>
+<h4 id="RL实现"><a href="#RL实现" class="headerlink" title="RL实现"></a>RL实现</h4><p>低通滤波电路可以让低频的信号流过，衰减高频信号。&#x3D;&#x3D;由于电感不损耗能量，所以可以用在电流较大的电路中（如电源线上的滤波）&#x3D;&#x3D;</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/21_16_35_40_202412211635330.png" alt="低通滤波电路的RL实现"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>我们可以简单的使用分压原理来解释：<br>$$<br>V_{out}&#x3D;\frac{R_{19}}{R_L+R_{19}}\times V_{in}<br>$$<br>当$R_L$越小的时候，$V_{out}$越大。当$L$的值确定了，那么$R_L$的值和频率有关，当频率增大的时候，$V_{out}$会越小<br>$$<br>V_{out}&#x3D;\frac{R_{19}}{2\pi fl+R_{19}}\times V_{in}<br>$$</p>
+</blockquote>
+<h4 id="LC实现"><a href="#LC实现" class="headerlink" title="LC实现"></a>LC实现</h4><p>&#x3D;&#x3D;LC低通滤波电路比RC低通滤波、LR低通滤波电路的滤波效果更好&#x3D;&#x3D;，在设置LC电路的时候，最好在电感后加一个电阻以限制谐振</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_19_13_56_202412231913753.png" alt="LC实现低通滤波电路"></p>
+<p>$$<br>f_t&#x3D; \frac{1}{2 \pi \sqrt{LC}}<br>$$</p>
+<h3 id="高通滤波电路"><a href="#高通滤波电路" class="headerlink" title="高通滤波电路"></a>高通滤波电路</h3><h4 id="RC实现-1"><a href="#RC实现-1" class="headerlink" title="RC实现"></a>RC实现</h4><p>高通滤波电路可以让“高频”的信号通过，衰减”低频”的信号</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/18_19_31_48_202412181931134.png" alt="高通滤波电路"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>高低频都是一个相对的概念，是相对于截止频率而言的高低频</p>
+<p>实际上，高通滤波电路和低通滤波电路的输出信号从电容两端的电压变成了电阻两端的输出，我们从低通滤波电路可知，电容两端是过低频，那么电阻两端就是高频了</p>
+</blockquote>
+<h4 id="RL实现-1"><a href="#RL实现-1" class="headerlink" title="RL实现"></a>RL实现</h4><p>高通滤波电路可以让高频的信号流过，衰减低频信号</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_18_40_4_202412231840402.png" alt="高通滤波电路RL实现"></p>
+<h2 id="整流电路"><a href="#整流电路" class="headerlink" title="整流电路"></a>整流电路</h2><h3 id="半波整流"><a href="#半波整流" class="headerlink" title="半波整流"></a>半波整流</h3><p>可以使用二极管实现整流功能（峰值检波功能）</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_20_24_23_202412232024357.png" alt="半波整流电路"></p>
+<p>当交流电电压为0.7V时，D2导通，随着交流电电压的上升，开始给电容充电，当电容上的电压与输入信号的电压差0.7V的时候，电容停止充电，由于电容两端没有回路，导致电容不会进行放电，一直保持，直到下一次开始充电，直至充到比峰值少0.7</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_20_50_54_202412232050794.png" alt="初始"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/23_20_51_7_202412232051008.png" alt="稳定"></p>
+<h3 id="全波整流电路"><a href="#全波整流电路" class="headerlink" title="全波整流电路"></a>全波整流电路</h3><p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_18_33_47_202412251833976.png" alt="全波整流电路"></p>
+<p>现将二极管从左到右，从上到下依次为LD1，LD2，LD3，LD4（组成电桥）</p>
+<ol>
+<li>当交流电源处于正半周的时候，电流从LD2流过（不从LD1流过的原因是二极管的单向导电性），然后流过电容，此时就会出现分支，从LD1或从LD3走，但是由于电流从电容走，所以电容会分掉一部分的电压，此时LD1的正极电压是低于LD1的负极电压的，所以不导通，电流将会从LD3走。</li>
+<li>当交流电源处于负半周的时候，，电流将经过LD4、LD1</li>
+</ol>
+<h1 id="Jlink"><a href="#Jlink" class="headerlink" title="Jlink"></a>Jlink</h1><h2 id="管脚定义"><a href="#管脚定义" class="headerlink" title="管脚定义"></a>管脚定义</h2><table>
+<thead>
+<tr>
+<th align="left">仿真器端口</th>
+<th align="left">连接目标板</th>
+<th align="left">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1. VCC</td>
+<td align="left">MCU电源VCC</td>
+<td align="left">VCC</td>
+</tr>
+<tr>
+<td align="left">2. VCC</td>
+<td align="left">MCU电源VCC</td>
+<td align="left">VCC</td>
+</tr>
+<tr>
+<td align="left">3. TRST</td>
+<td align="left">TRST</td>
+<td align="left">Test ReSeT&#x2F; pin</td>
+</tr>
+<tr>
+<td align="left">4. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">5. TDI</td>
+<td align="left">TDI</td>
+<td align="left">Test Data In pin</td>
+</tr>
+<tr>
+<td align="left">6. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">7. TMS, SWIO</td>
+<td align="left">TMS, SWIO</td>
+<td align="left">JTAG:Test Mode State pin ; SWD: Data I&#x2F;O pin</td>
+</tr>
+<tr>
+<td align="left">8. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">9. TCLK, SWCLK</td>
+<td align="left">TMS, SWCLK</td>
+<td align="left">JTAG: Test Clock pin ; SWD: Clock pin</td>
+</tr>
+<tr>
+<td align="left">10. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">11. RTCK</td>
+<td align="left">RTCK</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">12. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">13. TDO</td>
+<td align="left">TDO</td>
+<td align="left">Test Data Out pin</td>
+</tr>
+<tr>
+<td align="left">14. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">15. RESET</td>
+<td align="left">RESET</td>
+<td align="left">RSTIN pin</td>
+</tr>
+<tr>
+<td align="left">16. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">17. NC</td>
+<td align="left">NC</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">18. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">19. NC</td>
+<td align="left">NC</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">20. GND</td>
+<td align="left">GND或悬空</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_8_43_32_202407080843645.png" alt="JTAG图"></p>
+<h2 id="JTAG和SWD"><a href="#JTAG和SWD" class="headerlink" title="JTAG和SWD"></a>JTAG和SWD</h2><p>JTAG（Joint Test Action Group）和SWD（Serial Wire Debug）是两种用于调试和编程嵌入式系统的接口协议。</p>
+<h3 id="JTAG（Joint-Test-Action-Group）"><a href="#JTAG（Joint-Test-Action-Group）" class="headerlink" title="JTAG（Joint Test Action Group）"></a>JTAG（Joint Test Action Group）</h3><p>JTAG是一种标准的调试和编程接口，广泛用于嵌入式系统、微控制器、FPGA和ASIC等设备。JTAG接口提供了一种直接访问芯片内部寄存器和内存的方法，主要用于以下目的：</p>
+<ol>
+<li><strong>调试（Debugging）</strong>：通过JTAG接口，可以单步执行程序、设置断点、查看和修改寄存器和内存的内容，从而调试嵌入式系统中的软件和硬件问题。</li>
+<li><strong>编程（Programming）</strong>：JTAG接口可以用于编程芯片内部的闪存或EEPROM，这对于固件更新和初始编程非常重要。</li>
+<li><strong>测试（Testing）</strong>：JTAG还用于边界扫描（Boundary Scan），它允许测试PCB上的连接和组件，帮助发现制造缺陷。</li>
+</ol>
+<h3 id="SWD（Serial-Wire-Debug）"><a href="#SWD（Serial-Wire-Debug）" class="headerlink" title="SWD（Serial Wire Debug）"></a>SWD（Serial Wire Debug）</h3><p>SWD是ARM公司开发的一种简化版的调试接口，主要用于ARM Cortex-M系列的微控制器。与JTAG相比，SWD有以下特点：</p>
+<ol>
+<li><strong>引脚数少</strong>：SWD只需要两根线（SWDIO和SWCLK）用于通信，而JTAG通常需要四到五根线（TDI、TDO、TCK、TMS和可选的TRST）。这使得SWD在引脚有限的微控制器上更有优势。</li>
+<li><strong>高效</strong>：SWD在不牺牲性能的情况下提供了JTAG的所有基本功能，特别适合资源受限的嵌入式系统。</li>
+<li><strong>简化电路设计</strong>：由于使用的引脚更少，SWD有助于简化PCB的设计和减少硬件成本。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><strong>JTAG</strong> 是一个更通用的接口，适用于广泛的设备和应用场景，包括复杂的调试、编程和测试任务。</li>
+<li><strong>SWD</strong> 专门针对ARM微控制器，提供了一种更简化和高效的调试和编程方法，特别适用于资源受限的嵌入式系统。</li>
+</ul>
+<p>一般自己使用杜邦线的就是SWD，使用整体的线的就是JTAG</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E7%A1%AC%E4%BB%B6/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/">https://youshouldtrustme.github.io/2026/01/21/%E7%A1%AC%E4%BB%B6/%E7%94%B5%E8%B7%AF%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_13.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Batch/" title="Batch"><img class="cover" src="/img/RandomCoverImage/random_5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Batch</div></div><div class="info-2"><div class="info-item-1">批处理基础注释 REM 或 :: 用于添加注释。注释不会被执行。 12REM 这是一个注释:: 这也是一个注释  显示文本 echo 显示文本。@echo off 可以关闭回显（即关闭命令本身的显示），但保留输出。 123echo Hello, World!@echo offecho 这行代码只显示输出，不显示命令本身  变量 set 用于定义变量，%variable% 用于访问变量值。 12set myVar=Helloecho %myVar% World!  set /p 从用户输入中获取变量值。 12set /p userInput=Please enter your name: echo Hello, %userInput%!  条件语句 if 用于执行条件检查，可以用于字符串比较、数值比较和文件存在性检查。 12if &quot;%myVar%&quot;==&quot;Hello&quot; echo It is Hello!if exist &quot;file.txt&quot; echo File exists!   /i：忽略大小写。   比较操作符：  字符...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E7%A1%AC%E4%BB%B6/%E6%A8%A1%E7%94%B5/" title="模电"><img class="cover" src="/img/RandomCoverImage/random_11.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">模电</div></div><div class="info-2"><div class="info-item-1">参考链接02-PN结的形成_4K_哔哩哔哩_bilibili 绪论模拟信号电子电路中信号的分类  数字信号：离散性    数字信号不仅仅在时间上是离散的，在数值上也是离散的。信号必须是整数值 如果出现了夹在两个整数中间的小数（k’）,那么k’就需要根据阈值确定为k还是k+1   模拟信号：连续性。&#x3D;&#x3D;大多数物理量为模拟信号&#x3D;&#x3D;。   模拟信号不仅在时间上连续，在数值上也是连续的    常见半导体本征半导体&#x3D;&#x3D;纯净的具有晶体结构的半导体&#x3D;&#x3D;称为本征半导体。 &#x3D;&#x3D;半导体&#x3D;&#x3D; 物质的导电性能决定于原子结构。导体一般为低价元素，它们的最外层电子极易挣脱原子核的束缚成为自由电子，在外电场的作用下产生定向移动，形成电流。高价元素（如惰性气体）或高分子物质（如橡胶），它们的最外层电子受原子核束缚力很强，很难成为自由电子，所以导电性极差，成为绝缘体。常用的半导体材料硅(Si)和锗(G)均为四价元素，它们的最外层电子既不像导体那么容易挣脱原子核的束缚，也不像绝缘体那样被原子核束缚...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%83%E5%99%A8%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">元器件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E9%98%BB"><span class="toc-number">1.1.</span> <span class="toc-text">电阻</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A7%E5%A7%86%E5%AE%9A%E5%BE%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">欧姆定律</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%80%BC%E7%9A%84%E8%AF%86%E5%88%AB"><span class="toc-number">1.1.2.</span> <span class="toc-text">阻值的识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E9%98%BB%E7%9A%84%E5%8A%9F%E7%8E%87"><span class="toc-number">1.1.3.</span> <span class="toc-text">电阻的功率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E9%98%BB%E7%9A%84%E9%99%90%E6%B5%81"><span class="toc-number">1.1.4.</span> <span class="toc-text">电阻的限流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E9%98%BB%E7%9A%84%E5%88%86%E6%B5%81"><span class="toc-number">1.1.5.</span> <span class="toc-text">电阻的分流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E9%98%BB%E7%9A%84%E5%88%86%E5%8E%8B"><span class="toc-number">1.1.6.</span> <span class="toc-text">电阻的分压</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%AE%B9"><span class="toc-number">1.2.</span> <span class="toc-text">电容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%AE%B9%E7%9A%84%E7%94%B5%E5%8E%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">电容的电压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%AE%B9%E7%9A%84%E5%82%A8%E8%83%BD"><span class="toc-number">1.2.2.</span> <span class="toc-text">电容的储能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E5%AE%B9%E7%9A%84%E5%AE%B9%E6%8A%97"><span class="toc-number">1.2.3.</span> <span class="toc-text">电容的容抗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E6%84%9F"><span class="toc-number">1.3.</span> <span class="toc-text">电感</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E6%84%9F%E7%9A%84%E7%94%B5%E6%B5%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">电感的电流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E6%84%9F%E7%9A%84%E6%84%9F%E6%8A%97"><span class="toc-number">1.3.2.</span> <span class="toc-text">电感的感抗</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1"><span class="toc-number">1.4.</span> <span class="toc-text">二极管</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%9A%84%E5%8D%95%E5%90%91%E5%AF%BC%E9%80%9A"><span class="toc-number">1.4.1.</span> <span class="toc-text">二极管的单向导通</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%9A%84%E6%BC%8F%E7%94%B5"><span class="toc-number">1.4.2.</span> <span class="toc-text">二极管的漏电</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E6%9E%81%E7%AE%A1%E7%9A%84%E9%92%B3%E4%BD%8D"><span class="toc-number">1.4.3.</span> <span class="toc-text">二极管的钳位</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E6%9E%81%E7%AE%A1"><span class="toc-number">1.5.</span> <span class="toc-text">三极管</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%9E%81%E7%AE%A1%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.5.1.</span> <span class="toc-text">三极管的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%9E%81%E7%AE%A1%E7%9A%84%E5%BC%80%E5%85%B3%E4%BD%9C%E7%94%A8"><span class="toc-number">1.5.2.</span> <span class="toc-text">三极管的开关作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.5.3.</span> <span class="toc-text">工作模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.5.4.</span> <span class="toc-text">工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%B5%E6%B5%81%E6%94%BE%E5%A4%A7"><span class="toc-number">1.5.5.</span> <span class="toc-text">电流放大</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%94%B5%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">基础电路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BB%A4%E6%B3%A2%E7%94%B5%E8%B7%AF"><span class="toc-number">2.1.</span> <span class="toc-text">滤波电路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E7%94%B5%E8%B7%AF"><span class="toc-number">2.1.1.</span> <span class="toc-text">低通滤波电路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RC%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.1.1.</span> <span class="toc-text">RC实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RL%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.1.2.</span> <span class="toc-text">RL实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LC%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.1.3.</span> <span class="toc-text">LC实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AB%98%E9%80%9A%E6%BB%A4%E6%B3%A2%E7%94%B5%E8%B7%AF"><span class="toc-number">2.1.2.</span> <span class="toc-text">高通滤波电路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RC%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">2.1.2.1.</span> <span class="toc-text">RC实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RL%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">2.1.2.2.</span> <span class="toc-text">RL实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E6%B5%81%E7%94%B5%E8%B7%AF"><span class="toc-number">2.2.</span> <span class="toc-text">整流电路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8A%E6%B3%A2%E6%95%B4%E6%B5%81"><span class="toc-number">2.2.1.</span> <span class="toc-text">半波整流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%B3%A2%E6%95%B4%E6%B5%81%E7%94%B5%E8%B7%AF"><span class="toc-number">2.2.2.</span> <span class="toc-text">全波整流电路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Jlink"><span class="toc-number">3.</span> <span class="toc-text">Jlink</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E8%84%9A%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">管脚定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JTAG%E5%92%8CSWD"><span class="toc-number">3.2.</span> <span class="toc-text">JTAG和SWD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JTAG%EF%BC%88Joint-Test-Action-Group%EF%BC%89"><span class="toc-number">3.2.1.</span> <span class="toc-text">JTAG（Joint Test Action Group）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SWD%EF%BC%88Serial-Wire-Debug%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">SWD（Serial Wire Debug）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.2.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

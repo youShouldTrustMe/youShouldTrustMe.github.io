@@ -1,0 +1,562 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>时钟 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接【STM32】时钟_stm32f405 定时器时钟-CSDN博客 时钟相关缩写   缩写 英文全称 中文说明    RCC Reset and Clock Control 复位与时钟控制   RTC Real-Time Clock 实时时钟   BKP Backup Registers 备份寄存器   PWR Power Control 电源控制   HCLK AHB Clock AHB总">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时钟">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接【STM32】时钟_stm32f405 定时器时钟-CSDN博客 时钟相关缩写   缩写 英文全称 中文说明    RCC Reset and Clock Control 复位与时钟控制   RTC Real-Time Clock 实时时钟   BKP Backup Registers 备份寄存器   PWR Power Control 电源控制   HCLK AHB Clock AHB总">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128134435579.png">
+<meta property="article:published_time" content="2026-01-21T02:07:02.603Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128134435579.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "时钟",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/",
+  "image": "https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128134435579.png",
+  "datePublished": "2026-01-21T02:07:02.603Z",
+  "dateModified": "2026-01-21T02:07:02.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '时钟',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128134435579.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">时钟</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">时钟</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.603Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.603Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/dengjin20104042056/article/details/108291692">【STM32】时钟_stm32f405 定时器时钟-CSDN博客</a></p>
+<h1 id="时钟相关缩写"><a href="#时钟相关缩写" class="headerlink" title="时钟相关缩写"></a>时钟相关缩写</h1><table>
+<thead>
+<tr>
+<th>缩写</th>
+<th>英文全称</th>
+<th>中文说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RCC</td>
+<td>Reset and Clock Control</td>
+<td>复位与时钟控制</td>
+</tr>
+<tr>
+<td>RTC</td>
+<td>Real-Time Clock</td>
+<td>实时时钟</td>
+</tr>
+<tr>
+<td>BKP</td>
+<td>Backup Registers</td>
+<td>备份寄存器</td>
+</tr>
+<tr>
+<td>PWR</td>
+<td>Power Control</td>
+<td>电源控制</td>
+</tr>
+<tr>
+<td>HCLK</td>
+<td>AHB Clock</td>
+<td>AHB总线时钟</td>
+</tr>
+<tr>
+<td>USBCLK</td>
+<td>USB Clock</td>
+<td>USB时钟</td>
+</tr>
+<tr>
+<td>LSCO</td>
+<td>Low Speed Clock Output</td>
+<td>低速时钟输出</td>
+</tr>
+<tr>
+<td>MSI</td>
+<td>Multi-Speed Internal Clock</td>
+<td>多速内部时钟</td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>Clock Security System</td>
+<td>时钟安全系统</td>
+</tr>
+<tr>
+<td>LPTIM</td>
+<td>Low Power Timer</td>
+<td>低功耗定时器</td>
+</tr>
+<tr>
+<td>WDG</td>
+<td>Watchdog Timer</td>
+<td>看门狗定时器</td>
+</tr>
+<tr>
+<td>HSE</td>
+<td>High-Speed External Clock</td>
+<td>高速外部时钟</td>
+</tr>
+<tr>
+<td>HSI</td>
+<td>High-Speed Internal Clock</td>
+<td>高速内部时钟</td>
+</tr>
+<tr>
+<td>LSE</td>
+<td>Low-Speed External Clock</td>
+<td>低速外部时钟</td>
+</tr>
+<tr>
+<td>LSI</td>
+<td>Low-Speed Internal Clock</td>
+<td>低速内部时钟</td>
+</tr>
+<tr>
+<td>PLL</td>
+<td>Phase-Locked Loop</td>
+<td>锁相环</td>
+</tr>
+<tr>
+<td>SYSCLK</td>
+<td>System Clock</td>
+<td>系统时钟</td>
+</tr>
+<tr>
+<td>PCLK</td>
+<td>Peripheral Clock</td>
+<td>外设时钟</td>
+</tr>
+<tr>
+<td>APB</td>
+<td>Advanced Peripheral Bus</td>
+<td>高级外设总线</td>
+</tr>
+<tr>
+<td>AHB</td>
+<td>Advanced High-performance Bus</td>
+<td>高级高性能总线</td>
+</tr>
+</tbody></table>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>首先我们得搞清楚几个概念：</p>
+<ul>
+<li>时钟：单片机的心脏，所有外设的运作都需要时钟供能。</li>
+<li>时钟周期：又称为振荡周期，可以简单理解为传输一个 0 or 1 所需要的时间。</li>
+<li>指令周期：执行一条指令（如：MOV A，#34H）所需的时间。对于不同类型的指令，指令周期长度可能会不同。</li>
+<li>机器周期：执行一个动作的时间周期。如：执行一个指令需要 “取指令并驿码”、”执行操作数”两个动作。</li>
+</ul>
+<p>以上三个周期的关系图如下：</p>
+<p><img src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128134435579.png" alt="时钟信号"></p>
+<p>简单来说，时钟是具有周期性的脉冲信号，最常用的是占空比50%的方波</p>
+<p>时钟是单片机的脉搏，搞懂时钟走向及关系，对单片机使用至关重要！</p>
+<h1 id="时钟树"><a href="#时钟树" class="headerlink" title="时钟树"></a>时钟树</h1><p>可以使用三种不同的时钟源来驱动系统时钟：</p>
+<ul>
+<li>HSI振荡器时钟</li>
+<li>HSE振荡器时钟</li>
+<li>主PLL（PLL）时钟</li>
+</ul>
+<p>器件有以下两个次级时钟源：</p>
+<ul>
+<li>低速内部 RC (LSI RC)，该 RC 用于驱动独立看门狗，也可选择提供给 RTC 用于停机&#x2F;待机模式下的自动唤醒。</li>
+<li>低速外部晶振（LSE 晶振），用于驱动 RTC 时钟 (RTCCLK)对于每个时钟源来说，在未使用时都可单独打开或者关闭，以降低功耗</li>
+</ul>
+<p>时钟源：</p>
+<table>
+<thead>
+<tr>
+<th>时钟源名称</th>
+<th>频率</th>
+<th>材料</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高速外部振荡器(HSE)</td>
+<td>4~16MHz</td>
+<td>晶体&#x2F;陶瓷</td>
+<td>SYSCLK&#x2F;RTC</td>
+</tr>
+<tr>
+<td>低速外部振荡器(LSE)</td>
+<td>32.768KH Z</td>
+<td>晶体&#x2F;陶瓷</td>
+<td>RTC（实时时钟）</td>
+</tr>
+<tr>
+<td>高速内部振荡器(HSI)</td>
+<td>8MHz</td>
+<td>RC</td>
+<td>SYSCLK</td>
+</tr>
+<tr>
+<td>低速内部振荡器(LSI)</td>
+<td>40KHz</td>
+<td>RC</td>
+<td>RTC&#x2F;IWDG</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>[!TIP]</p>
+<p> H：high       L：low       S：speed       I：internal      E：external</p>
+</blockquote>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/7ee3e4488de86fac0a01eab5485a900f.png#pic_center" alt="时钟树"></p>
+<p>时钟控制器为应用带来了高度的灵活性，用户在运行内核和外设时可选择使用外部晶振或者使用振荡器，既可采用最高的频率，也可为以太网、USB OTG FS 以及 HS、I2S 和 SDIO等需要特定时钟的外设保证合适的频率。</p>
+<p>可通过多个预分频器配置 &#x3D;&#x3D;AHB 频率&#x3D;&#x3D;、&#x3D;&#x3D;高速 APB (APB2)&#x3D;&#x3D; 和&#x3D;&#x3D;低速 APB (APB1)&#x3D;&#x3D;。</p>
+<ul>
+<li>AHB 域的最大频率为 168 MHz。</li>
+<li>高速 APB2 域的最大允许频率为 84 MHz。</li>
+<li>低速 APB1 域的最大允许频率为 42 MHz。</li>
+</ul>
+<p>除以下时钟外，所有外设时钟均由系统时钟 (SYSCLK) 提供：</p>
+<ul>
+<li><p>来自于特定 PLL 输出 (PLL48CLK) 的 USB OTG FS 时钟 (48 MHz)、基于模拟技术的随机数发生器 (RNG) 时钟 (&lt;&#x3D;48 MHz) 和 SDIO 时钟 (&lt;&#x3D;48 MHz)。</p>
+</li>
+<li><p>I2S 时钟</p>
+</li>
+</ul>
+<p>STM32F405xx&#x2F;07xx 和 STM32F415xx&#x2F;17xx 的定时器时钟频率由硬件自动设置。分为两种情况：</p>
+<ol>
+<li>如果 APB 预分频器为 1，定时器时钟频率等于 APB 域的频率。</li>
+<li>否则，等于 APB 域的频率的两倍 (×2)。</li>
+</ol>
+<p>配置时钟：<em>&#x3D;&#x3D;使能时钟 &gt; 调用SystemInit()函数（在system_stm32xxx.c中定义）&gt; 选择时钟源，配置PLL &gt; 选择系统时钟源，配置总线分频器 &gt; 配置扩展外设时钟&#x3D;&#x3D;</em></p>
+<p>代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stm32f10x.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">RCC_Configuration</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 1. 开启HSE时钟</span></span><br><span class="line">    RCC_HSEConfig(RCC_HSE_ON);</span><br><span class="line">    ErrorStatus HSEStartUpStatus = RCC_WaitForHSEStartUp();</span><br><span class="line">    <span class="keyword">if</span> (HSEStartUpStatus == SUCCESS) &#123;</span><br><span class="line">        <span class="comment">// 2. 配置PLL，HSE为PLL输入源，9倍频</span></span><br><span class="line">        RCC_PLLConfig(RCC_PLLSource_HSE_Div1, RCC_PLLMul_9);</span><br><span class="line">        RCC_PLLCmd(ENABLE);</span><br><span class="line">        <span class="comment">// 等待PLL稳定</span></span><br><span class="line">        <span class="keyword">while</span> (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 选择PLL作为系统时钟源</span></span><br><span class="line">        RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);</span><br><span class="line">        <span class="keyword">while</span> (RCC_GetSYSCLKSource() != <span class="number">0x08</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 配置时钟分频</span></span><br><span class="line">        RCC_HCLKConfig(RCC_SYSCLK_Div1);    <span class="comment">// AHB时钟</span></span><br><span class="line">        RCC_PCLK1Config(RCC_HCLK_Div2);     <span class="comment">// APB1时钟</span></span><br><span class="line">        RCC_PCLK2Config(RCC_HCLK_Div1);     <span class="comment">// APB2时钟</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 配置Flash存储器等待状态</span></span><br><span class="line">        FLASH_SetLatency(FLASH_Latency_2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="HSE时钟"><a href="#HSE时钟" class="headerlink" title="HSE时钟"></a>HSE时钟</h1><p>高速外部时钟信号（HSE）有两个时钟源</p>
+<ul>
+<li>HSE外部用户时钟</li>
+<li>HSE外部晶振&#x2F;陶瓷谐振器</li>
+</ul>
+<p><img src="https://i-blog.csdnimg.cn/blog_migrate/3bbdc7154b25de43f8ff4d8c5b1bd85a.png#pic_center" alt="HSE时钟"></p>
+<h2 id="外部源（HSE-旁路）"><a href="#外部源（HSE-旁路）" class="headerlink" title="外部源（HSE 旁路）"></a>外部源（HSE 旁路）</h2><p>在此模式下，必须提供外部时钟源。此模式通过将 RCC 时钟控制寄存器 (RCC_CR) 中的HSEBYP 和 HSEON 位置 1 进行选择。必须使用占空比约为 50% 的外部时钟信号（方波、正弦波或三角波）来驱动 OSC_IN 引脚，同时 OSC_OUT 引脚应保持为高阻态 (hi-Z)。</p>
+<h2 id="外部晶振-陶瓷谐振器（HSE-晶振）"><a href="#外部晶振-陶瓷谐振器（HSE-晶振）" class="headerlink" title="外部晶振&#x2F; 陶瓷谐振器（HSE 晶振）"></a>外部晶振&#x2F; 陶瓷谐振器（HSE 晶振）</h2><p>HSE 的特点是精度非常高。</p>
+<p>RCC 时钟控制寄存器 (RCC_CR) 中的 HSERDY 标志指示高速外部振荡器是否稳定。在启动时，硬件将此位置 1 后，此时钟才可以使用。如在 RCC 时钟中断寄存器 (RCC_CIR) 中使能中断，则可产生中断。</p>
+<p>HSE 晶振可通过 RCC 时钟控制寄存器 (RCC_CR) 中的 HSEON 位打开或关闭。</p>
+<p>负载电容(起振电容)必须&#x3D;&#x3D;尽可能的靠近振荡器&#x3D;&#x3D;&#x2F;谐振器的引脚，以尽量减小输出失真和起振稳定时间，负载电容值必须根据所选振荡器的不同做适当的调整</p>
+<blockquote>
+<p>[!TIP]</p>
+<ol>
+<li><p><strong>晶振（晶体振荡器）</strong>：</p>
+<ul>
+<li><p>利用石英晶体的压电效应来生成稳定的振荡频率。</p>
+</li>
+<li><p>主要用于为电路提供一个高精度的时钟信号，如微控制器、电脑等。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>协振器（谐振器）</strong>：</p>
+<ul>
+<li><p>可以是LC电路或陶瓷谐振器，依靠电感、电容或物理振动来产生共振。</p>
+</li>
+<li><p>它与晶振相似，可以用于生成振荡信号，但通常精度较低，稳定性也比晶振差。</p>
+</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h1 id="HSI时钟"><a href="#HSI时钟" class="headerlink" title="HSI时钟"></a>HSI时钟</h1><p>HSI 时钟信号由内部 16 MHz RC（电阻电容） 振荡器生成，可直接用作系统时钟，或者用作 PLL 输入。HSI RC 振荡器的优点是成本较低（无需使用外部组件）。此外，其启动速度也要比 HSE 晶振快，但即使校准后，其精度也不及外部晶振或陶瓷谐振器。</p>
+<p>STM32中的HSI（High-Speed Internal）内部时钟是指芯片内部产生的高速时钟信号。HSI是STM32微控制器系列的一部分，通常用作系统时钟的一个选项。HSI时钟信号由芯片内部的振荡器产生，其频率通常为16 MHz（具体数值可能因STM32系列而异）。</p>
+<p>HSI时钟通常用于以下用途：</p>
+<ol>
+<li><p><strong>启动和初始化</strong>：在STM32芯片上电后，通常会首先使用HSI时钟来启动和初始化系统，然后再切换到外部时钟源（如HSE）。</p>
+</li>
+<li><p><strong>低功耗模式</strong>：当系统需要进入低功耗模式时，可以选择将时钟切换回HSI，以减少功耗。</p>
+</li>
+<li><p><strong>内部模块时钟</strong>：一些内部模块，如看门狗定时器（WDT）和RTC（实时时钟），可能使用HSI时钟。</p>
+</li>
+<li><p><strong>频率可选性</strong>：HSI时钟通常具有多个频率选项，可以根据应用的需求进行配置。</p>
+</li>
+</ol>
+<p>需要注意的是，HSI时钟通常比外部时钟源（如HSE，高速外部）的精度和稳定性较差，因此在要求高精度的应用中，通常会选择外部时钟源作为系统时钟。但在许多应用中，HSI时钟足够满足要求，并且可以在降低功耗或简化设计时提供灵活性。</p>
+<h1 id="PLL"><a href="#PLL" class="headerlink" title="PLL"></a>PLL</h1><p> F4芯片有两个PLL：</p>
+<ol>
+<li><p>主PLL由HSE和HSI振荡器提供时钟信号，并具有两个不同的输出时钟</p>
+<ul>
+<li><p>用于生成告诉系统时钟（最高达168MHz）</p>
+</li>
+<li><p>输出用于生成USB OTG     FS的时钟（48Mhz）、随机数发生器的时钟（&lt;&#x3D;48MHz）和SDIO时钟（&lt;&#x3D;48MHz）</p>
+</li>
+</ul>
+</li>
+<li><p>专用PLL（PLLI2S）用于生成精确时钟，从而在I2S接口实现高品质的音频性能</p>
+</li>
+</ol>
+<p>由于在 PLL 使能后主 PLL 配置参数便不可更改，所以建议先对 PLL 进行配置，然后再使能（选择 HSI 或 HSE 振荡器作为 PLL 时钟源，并配置分频系数 M、N、P 和 Q）。</p>
+<p>PLLI2S 使用与 PLL 相同的输入时钟（PLLM[5:0] 和 PLLSRC 位为两个 PLL 所共用）。但是，PLLI2S 具有专门的使能&#x2F;禁止和分频系数（N 和 R）配置位。在 PLLI2S 使能后，配置参数便不能更改。</p>
+<p>当进入停机和待机模式后，两个 PLL 将由硬件禁止；如将 HSE 或 PLL（由 HSE 提供时钟信号）用作系统时钟，则在 HSE 发生故障时，两个 PLL 也将由硬件禁止。RCC PLL 配置寄存器 (RCC_PLLCFGR) 和RCC 时钟配置寄存器 (RCC_CFGR) 可分别用于配置 PLL 和 PLLI2S。</p>
+<p>PLL 主要用于以下几个方面：</p>
+<ol>
+<li><p><strong>时钟生成和同步</strong>：PLL 可以用于生成一个稳定的时钟信号，将其锁定到外部参考时钟，从而使系统中的各个部分能够以相同的时间基准运行。这在数字系统、通信系统、计算机系统和许多其他应用中非常重要。</p>
+</li>
+<li><p><strong>频率合成</strong>：PLL 可以将一个低频率的参考信号合成为高频率的输出信号。这对于需要高频率时钟信号的应用非常有用，如通信设备、射频电路和数字信号处理器。</p>
+</li>
+<li><p><strong>时钟恢复</strong>：在通信系统中，接收到的信号通常会被传输过程中的噪声和时延所影响。PLL 可以用于从接收到的信号中恢复出其原始时钟，以便正确解码和处理数据。</p>
+</li>
+<li><p><strong>频率调制和解调</strong>：在调制和解调过程中，PLL 可以用于调整信号的频率，以便将信息嵌入到载波中（调制）或从载波中提取出信息（解调）。</p>
+</li>
+<li><p><strong>时钟多路复用</strong>：PLL 可以用于将多个输入时钟信号多路复用到一个输出时钟上，以满足复杂系统中的时钟要求。</p>
+</li>
+<li><p><strong>频率锁定</strong>：PLL 可以用于锁定一个振荡器或电路的输出频率到一个稳定的参考频率，以确保输出频率与所需频率匹配。</p>
+</li>
+</ol>
+<h1 id="LSE时钟"><a href="#LSE时钟" class="headerlink" title="LSE时钟"></a>LSE时钟</h1><p>LSE 晶振是 32.768 kHz 低速外部 (LSE) 晶振或陶瓷谐振器，可作为实时时钟外设 (RTC) 的时钟源来提供时钟&#x2F;日历或其它定时功能，具有功耗低且精度高的优点。</p>
+<p>LSE 晶振通过 RCC 备份域控制寄存器 (RCC_BDCR) 中的 LSEON 位打开和关闭。</p>
+<p>RCC 备份域控制寄存器 (RCC_BDCR) 中的 LSERDY 标志指示 LSE 晶振是否稳定。在启动时，硬件将此位置 1 后，LSE 晶振输出时钟信号才可以使用。如在 RCC 时钟中断寄存器(RCC_CIR) 中使能中断，则可产生中断。</p>
+<h2 id="外部源（LSE旁路）"><a href="#外部源（LSE旁路）" class="headerlink" title="外部源（LSE旁路）"></a>外部源（LSE旁路）</h2><p>在此模式下，必须提供外部时钟源，最高频率不超过 1 MHz。此模式通过将 RCC 备份域控制寄存器 (RCC_BDCR) 中的 LSEBYP 和 LSEON 位置 1 进行选择。必须使用占空比约为 50%的外部时钟信号（方波、正弦波或三角波）来驱动 OSC32_IN 引脚，同时 OSC32_OUT 引脚应保持为高阻态 (Hi-Z)。</p>
+<h1 id="LSI"><a href="#LSI" class="headerlink" title="LSI"></a>LSI</h1><p>LSI RC 可作为低功耗时钟源在停机和待机模式下保持运行，供独立看门狗 (IWDG) 和自动唤醒单元 (AWU) 使用。时钟频率在 32 kHz 左右。</p>
+<p>LSI RC 可通过 RCC 时钟控制和状态寄存器 (RCC_CSR) 中的 LSION 位打开或关闭。</p>
+<p>RCC 时钟控制和状态寄存器 (RCC_CSR) 中的 LSIRDY 标志指示低速内部振荡器是否稳定。在启动时，硬件将此位置 1 后，此时钟才可以使用。如在 RCC 时钟中断寄存器 (RCC_CIR) 中使能中断，则可产生中断。</p>
+<h1 id="SYSCLK"><a href="#SYSCLK" class="headerlink" title="SYSCLK"></a>SYSCLK</h1><p>在系统复位后，默认系统时钟为 HSI。在直接使用 HSI 或者通过 PLL 使用时钟源来作为系统时钟时，该时钟源无法停止。</p>
+<p>只有在目标时钟源已就绪时（时钟在启动延迟或 PLL 锁相后稳定时），才可从一个时钟源切换到另一个。如果选择尚未就绪的时钟源，则切换在该时钟源就绪时才会进行。RCC 时钟控制寄存器 (RCC_CR) 中的状态位指示哪个（些）时钟已就绪，以及当前哪个时钟正充当系统时钟。</p>
+<h1 id="SYSTICK"><a href="#SYSTICK" class="headerlink" title="SYSTICK"></a>SYSTICK</h1><p>SysTick（滴答）定时器被捆绑在NVIC中，用于产生SYSTICK异常（异常号：15）。</p>
+<p>在以前，大多操作系统需要一个硬件定时器来产生操作系统需要的滴答中断，作为整个系统的&#x3D;&#x3D;时基&#x3D;&#x3D;。</p>
+<p>例如，为多个任务许以不同数目的时间片，确保没有一个任务能霸占系统；或者把每个定时器周期的某个时间范围赐予特定的任务等，还有操作系统提供的各种定时功能，都与这个滴答定时器有关。因此，需要一个定时器来产生周期性的中断，而且最好还让用户程序不能随意访问它的寄存器，以维持操作系统“心跳”的节律。</p>
+<p>Systick定时器就是系统滴答定时器，一个24 位的倒计数定时器，计到0 时，将从RELOAD 寄存器中自动重装载定时初值。只要不把它在SysTick 控制及状态寄存器中的使能位清除，就永不停息，即使在睡眠模式下也能工作。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/">https://youshouldtrustme.github.io/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/">外设组件</a></div><div class="post-share"><div class="social-share" data-image="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128134435579.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/" title="最小系统"><img class="cover" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251128153804695.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">最小系统</div></div><div class="info-2"><div class="info-item-1">是什么最小系统是保障MCU正常工作的最小电路的组成单元 block-beta 	columns 3 	MCU:2 	block 		columns 1 		电源电路 		晶振电路 	end 	下载调试电路 	BOOT启动电路 	复位电路 	其他电路:3   管脚定义   类型 引脚名称 说明    电源 VDD&#x2F;VSS 电源正（VDD）&#x2F;负（VSS）引脚，给STM32供电   ： VDDA&#x2F;VSSA 模拟部分电源正&#x2F;负引脚，给STM32内部模拟部分供电 参考电压正&#x2F;负引脚，给STM32内部ADC&#x2F;DAC提供参考电压   ： VREF+&#x2F;VREF- 100脚及以上的STM32F103型号才有这两个脚   ： VBAT RTC&amp;后备区域供电引脚，给RTC和后备区域供电。一般VBAT 接电池，用于断电维持RTC工作，如不需要，直接将VBAT 接VDD即可   复位 NRST 复位引脚，用于复位STM32，低电平复位 启动选择引脚，一般这两个脚各接一个下拉电阻即可   启动 BOOT0&#x2F;BOOT1 其...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="单片机的启动过程"><img class="cover" src="/img/RandomCoverImage/random_6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">单片机的启动过程</div></div><div class="info-2"><div class="info-item-1">参考链接mcu 启动流程_mcu启动过程-CSDN博客 嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com) STM32启动之旅：从上电到main函数的奇妙历程 (qq.com) 启动流程启动过程如下： sequenceDiagram     participant 电源     participant CPU核心     participant BOOT引脚     participant 存储器     participant 启动代码     participant 应用程序      电源-&gt;&gt;CPU核心: 上电供电     CPU核心-&gt;&gt;CPU核心: POR复位初始化     CPU核心-&gt;&gt;BOOT引脚: 读取BOOT引脚状态     BOOT引脚--&gt;&gt;CPU核心: 返回启动模式     CPU核心-&gt;&gt;存储器: 读取向量表(地址0x00)     存储器--&gt;&gt;CPU核心: 返回栈指针SP     CPU核心-&gt;&gt;存储器: 读取向量表(地址0x04)  ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/" title="ADC"><img class="cover" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251201085552094.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-21</div><div class="info-item-2">ADC</div></div><div class="info-2"><div class="info-item-1">ADC简介Analog-to-Digital Converter的缩写。指模&#x2F;数转换器或者模拟&#x2F;数字转换器。是指将**连续变量的模拟信号转换为离散的数字信号的器件。**典型的模拟数字转换器将模拟信号转换为表示一定比例电压值的数字信号。  [!tip] 各个芯片的外设属性均不一样，以下仅代表其中一个芯片型号的ADC功能，但各家的功能都大差不差。  原理常见ADC类型   ADC电路类型 优点 缺点    并联比较型 转换速度最快 成本高、功耗高，分辨率低   逐次逼近型 结构简单，功耗低 转换速度较慢   并联比较型将输入的参考电压和模拟电压输入进行比较，比较器会输出0或1从而获得二进制的数字量  逐次逼近型 外设详解结构框图  输入通道ADC的信号输入通过通道来实现的，信号通过通道输入到单片机中，单片机经过转换后，将模拟信号转换为数字信号。以上框图中的输入通道为：    通道 10 说明    ADC_IN0 PD11 外部快速通道，单端或差分输入 其中差分对组合关系如下：ADC_IN0-ADC_IN7ADC_IN1-ADC_IN8 ADC_IN2-ADC_I...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/" title="DAC"><img class="cover" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251202085839348.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-21</div><div class="info-item-2">DAC</div></div><div class="info-2"><div class="info-item-1">参考链接【STM32】DAC详解_dac12bit-CSDN博客 简述DAC,全称：Digital-to-Analog Converter,指数字&#x2F;模拟转换器。DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 在 12 位模式下，数据可以采用左对齐或右对齐。 DAC 有两个输出通道，每个通道各有一个转换器。在 DAC 双通道模式下，每个通道可以单独进行转换；当两个通道组合在一起同步执行更新操作时，也可以同时进行转换。可通过一个输入参考电压引脚 V REF+ （与 ADC 共享）来提高分辨率。   [!IMPORTANT] ADC和DAC是模拟电路和数字电路之间的桥梁  特性参数 分辨率：表示模拟电压的最小增量，常用二进制位数表示，比如：8、12位等 建立时间：表示将一个数字量转换为稳定模拟信号所需的时间 精度：转换器实际特性曲线与理想特性曲线之间的最大偏差 误差源：比例系统误差、失调误差、非线性误差 原因：元件参数误差、基准电压不稳定、运算放大器零漂等    外设详解  [!TIP] DAC...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/" title="DMA"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-21</div><div class="info-item-2">DMA</div></div><div class="info-2"><div class="info-item-1">参考链接【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述 [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负  一般而言，DMA控制器将包括一条地址总线、一条数据总线和控制寄存器。高效率的DMA控制器将具有访问其所需要的任意资源的能力，而&#x3D;&#x3D;无须处理器&#x3D;&#x3D;本身的介入，它必须能&#x3D;&#x3D;产生中断&#x3D;&#x3D;。最后，它必须能在控制器内部计算出地址。 一个处理器可以包含多个DMA控制器。每个控制器有多个DMA通道，以及多条直接与存储器站(memory bank)和外设连接的总线。在很多高性能处理器中集成了两种类型的DMA控制器：  第一类通常称为“系统DMA控制器”，可以实现对任何资源(外设和存储器)的访问，对于这种类型的控制器来说，信号周期数是以系统时钟(SCLK)来计数的，以ADI的Blackfin处理器为例，频率最高可达133MHz。 第...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/" title="GPIO"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-21</div><div class="info-item-2">GPIO</div></div><div class="info-2"><div class="info-item-1">端口的基本结构  保护二极管：对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路 施密特触发器：在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量 P-MOS管和N-MOS管  简图为：  输入输出模式概述输入输出都相对于ST芯片而言的，比如输入就是从io口进如芯片内部，输出就是信号从芯片到IO引脚    模式名称 性质 特征    浮空输入 数字输入 可读取引脚电平，若引脚悬空，则电平不确定   上拉输入 数字输入 可读取引脚电平，内部连接上拉电阻，悬空时默认高电平   下拉输入 数字输入 可读取引脚电平，内部连接下拉电阻，悬空时默认低电平   模拟输入 模拟输入 GPIO无效，引脚直接接入内部ADC   开漏输出 数字输出 可输出引脚电平，高电平为高阻态，低电平接VSS   推挽输出 数字输出 可输出引脚电平，高电平接VDD，低电平接VSS   复用开漏输出 数字输出 由片上外设控制，高电平为高阻态，低电平接VSS   复用推挽输出 数字输出 由片上外设控制，高电平接VDD，低电平接VSS   浮空、上拉...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Flash/" title="Flash"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-21</div><div class="info-item-2">Flash</div></div><div class="info-2"><div class="info-item-1">概述实际上，嵌入式系统可以类比PC，他们之间的对应关系如下：    嵌入式芯片组件 (Embedded Chip) 个人电脑组件 (PC) 作用&#x2F;功能描述    Flash (e.g., NOR&#x2F;NAND Flash) 硬盘 (HDD) &#x2F; 固态硬盘 (SSD) 存储程序代码和长期数据。它是非易失性的，即使断电，数据也不会丢失。这是芯片的“记忆”。   CPU &#x2F; Core 中央处理器 (CPU) 执行指令，进行计算和控制。这是芯片的“大脑”。   RAM (Random Access Memory, e.g., SRAM&#x2F;DRAM) 内存条 (RAM) 存储运行时数据和变量。它是易失性的，断电即丢失。这是芯片的“工作台面”。   外设 (Peripherals) 输入&#x2F;输出设备 (I&#x2F;O) &#x2F; 专用卡 (如显卡、网卡) 处理特定任务，如通信 (UART, SPI, I2C)、定时、模数转换等。是芯片与外界交互的“手脚”。    读写FLASH的用途： 利用程序存储器的剩余空间来保存掉电不丢失的用户数...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/" title="PWR"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-21</div><div class="info-item-2">PWR</div></div><div class="info-2"><div class="info-item-1">概述PWR(Power Control)电源控制，PWR负责管理芯片内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：  睡眠模式(Sleep) 停机模式(Stop) 待机模式(Standby)  可在系统空闲时，降低功耗，延长设备使用时间 电源系统结构  VDD(VDDA)：芯片的主电源（VDD）的典型工作电压范围是 1.65~5.5V。  芯片上电时，复位释放阈值主要由 BOR 电路决定，其典型复位释放电压是 1.65V。  芯片下电时，  如果使能了BOR ，下电复位阈值由BOR电路决定，可以由软件配置BORCR.BOR_PDRCFG 获得 4 个阈值档位，默认值为 1.8V。 如果没有使能 BOR，使能了 PDR，下电复位阈值由 PDR 电路决定，软件可以通过 PDRCR.CFG 配置 4 个档位，默认值 1.4V。   综上，芯片的 VDD 实际工作电压范围将由 BOR 和 PDR 电路配置共同决定...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E7%9B%B8%E5%85%B3%E7%BC%A9%E5%86%99"><span class="toc-number">2.</span> <span class="toc-text">时钟相关缩写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%97%B6%E9%92%9F%E6%A0%91"><span class="toc-number">4.</span> <span class="toc-text">时钟树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HSE%E6%97%B6%E9%92%9F"><span class="toc-number">5.</span> <span class="toc-text">HSE时钟</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E6%BA%90%EF%BC%88HSE-%E6%97%81%E8%B7%AF%EF%BC%89"><span class="toc-number">5.1.</span> <span class="toc-text">外部源（HSE 旁路）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E6%99%B6%E6%8C%AF-%E9%99%B6%E7%93%B7%E8%B0%90%E6%8C%AF%E5%99%A8%EF%BC%88HSE-%E6%99%B6%E6%8C%AF%EF%BC%89"><span class="toc-number">5.2.</span> <span class="toc-text">外部晶振&#x2F; 陶瓷谐振器（HSE 晶振）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HSI%E6%97%B6%E9%92%9F"><span class="toc-number">6.</span> <span class="toc-text">HSI时钟</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PLL"><span class="toc-number">7.</span> <span class="toc-text">PLL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LSE%E6%97%B6%E9%92%9F"><span class="toc-number">8.</span> <span class="toc-text">LSE时钟</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E6%BA%90%EF%BC%88LSE%E6%97%81%E8%B7%AF%EF%BC%89"><span class="toc-number">8.1.</span> <span class="toc-text">外部源（LSE旁路）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LSI"><span class="toc-number">9.</span> <span class="toc-text">LSI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SYSCLK"><span class="toc-number">10.</span> <span class="toc-text">SYSCLK</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SYSTICK"><span class="toc-number">11.</span> <span class="toc-text">SYSTICK</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

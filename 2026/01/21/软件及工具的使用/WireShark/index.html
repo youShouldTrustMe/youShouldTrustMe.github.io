@@ -1,0 +1,376 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>WireShark | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="蓝牙抓包参考链接实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客 低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WireShark">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="蓝牙抓包参考链接实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客 低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_15.jpg">
+<meta property="article:published_time" content="2026-01-21T02:07:02.616Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.616Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_15.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "WireShark",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_15.jpg",
+  "datePublished": "2026-01-21T02:07:02.616Z",
+  "dateModified": "2026-01-21T02:07:02.616Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WireShark',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_15.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">WireShark</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">WireShark</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.616Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="蓝牙抓包"><a href="#蓝牙抓包" class="headerlink" title="蓝牙抓包"></a>蓝牙抓包</h1><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/RF_star/article/details/106054980">实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43306777/article/details/139235300">蓝牙—-wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://balancetwk.github.io/2022/04/16/hexo_blog/Bluetooth/%E8%93%9D%E7%89%99%E5%8D%8F%E8%AE%AE%E6%A0%88%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89/">低功耗蓝牙协议栈入门（四）空中抓包 （WireShark + nRF Sniffer） | BalanceTWK的博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.nordicsemi.com/bundle/nrfutil_ble_sniffer_pdf/resource/nRF_Sniffer_BLE_UG_v4.0.0.pdf">nRF Sniffer for Bluetooth LE User Guide v4.0.0 (nordicsemi.com)</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用wireShark抓包，需要使用专用硬件nRF来抓，首先先到<a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark · Go Deep</a>网站下载wireShark，然后再去<a target="_blank" rel="noopener" href="https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE">nRF Sniffer for Bluetooth LE - nordicsemi.com</a>下载nRF sniffer插件。在<a target="_blank" rel="noopener" href="https://docs.nordicsemi.com/bundle/nrfutil/page/nrfutil-ble-sniffer/guides/overview.html">ble-sniffer command overview (nordicsemi.com)</a>上有软件使用手册。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>nRF sniffer是wireShark的一个插件，相当于是安装了nRF sniffer插件，就可以使用wireshark抓蓝牙包了</p>
+</blockquote>
+<p>安装wireshark的时候，一直下一步就行，下面介绍nRF sniffer的安装：</p>
+<p>在安装之前需要确保安装了wireshark v3.41及以上版本和python v3.6及以上版本</p>
+<blockquote>
+<p>[!note]</p>
+<p>一般来说，商家都会烧录好固件，一些支持二次开发的设备可以自己烧录hex程序以支持nRF connect或Wireshark</p>
+</blockquote>
+<p>打开下载好sniffer插件文件夹，打开<code>nrf_sniffer_for_bluetooth_le_4.1.1\extcap</code>文件夹，打开cmd，可以在地址栏中输入cmd用来直接启动</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_20_36_202502051320275.gif" alt="安装必要包"></p>
+<p>在cmd中输入以下命令安装依赖包（注意，这必须在安装了python的前提下）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
+<p>安装完成之后，打开wireshark，在菜单的tab中依次打开*&#x3D;&#x3D;帮助&gt;关于wireshark&gt;文件夹&gt;personal Extcap&#x3D;&#x3D;<em>,将 <code>Sniffer_Software/extcap/</code> 文件夹的内容复制到此文件夹中。之后开始配置wireshark，在菜单的tab中依次打开</em>&#x3D;&#x3D;帮助&gt;关于wireshark&gt;文件夹&gt;personal configuration&#x3D;&#x3D;*，将 profile 文件夹 Sniffer_Software&#x2F;Profile_nRF_Sniffer_Bluetooth_LE 复制到此文件夹的 profiles 子文件夹中。</p>
+<p>最后在 Wireshark 中，选择 Edit &gt; Configuration Profiles，选择 Profile_nRF_Sniffer_Bluetooth_LE 并单击 OK。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>在使用之前，电脑上需要插上硬件设备：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_30_10_202502051330475.png" alt="nRF sniffer外部接线"></p>
+<p>打开wireshark，在捕获界面会出现nRF sniffer设备：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_31_45_202502051331951.png" alt="image-20250205133145838"></p>
+<p>可以点击设备左侧的小齿轮按钮，会弹出相关设置：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_37_10_202502051337676.png" alt="设备设置"></p>
+<p>上面的选项的含义如下：</p>
+<ol>
+<li>仅广播数据包：仅嗅探给定设备的广播数据包。建立新连接后，RF嗅探器会忽略它。</li>
+<li>仅传统广播数据包：仅嗅探给定设备的旧式广告数据包。RF嗅探器不会在辅助广播数据包的扩展广播数据包中查找广告商的设备地址。</li>
+<li>查找扫描响应数据：在嗅探所有广播设备时跟踪扫描请求和扫描响应。此选项可用于在扫描响应数据中查找广播商的名称。</li>
+<li>查找辅助指针数据：在嗅探所有广播设备时，跟随辅助指针获取其他数据。此选项可用于在辅助广播数据中查找广告主的地址和名称。</li>
+<li>扫描和跟踪LE Coded PHY上的设备：在嗅探所有广播设备和特定设备时，嗅探LE编码PHY。nRF Sniffer会跟踪它使用的任何PHY上的连接。要同时对LE1MPHY和LE编码PHY进行嗅探，请使用多个嗅探器。</li>
+</ol>
+<p>nRF嗅探器有两种工作模式：</p>
+<ol>
+<li>监听所有广播频道，从尽可能多的设备中获取尽可能多的数据包。这是默认模式。</li>
+<li>跟踪一个特定设备，并尝试捕获发送到该特定设备或从该特定设备发送的所有数据包。此模式捕获所有：<ol>
+<li>从设备发送的通告和扫描响应</li>
+<li>扫描请求和连接到设备的请求</li>
+<li>连接中的数据包在连接中的两个设备之间发送</li>
+<li>软件界面提供控制nRF Sniffer操作的命令和选项。</li>
+</ol>
+</li>
+</ol>
+<p>可以使用sniffer的过滤器进行筛选：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_43_29_202502051343689.png" alt="功能区"></p>
+<p>其中的含义如下：</p>
+<ol>
+<li>硬件接口：此列表显示了可用的硬件接口。如果您有多个连接了nRF Sniffer固件的DK或加密狗，您可以使用工具栏选择要控制的一个。要同时使用多个硬件接口。</li>
+<li>设备列表：此列表显示附近正在进行广播的设备。当您开始嗅探时，将选中All advertising devices。从列表中选择一个设备以嗅探该特定设备。当您在连接中选择其他设备时，当前连接将丢失。如果未发现要嗅探的设备，您可以手动将其添动加到列表中。</li>
+<li>输入键和值：使用此字段可为嗅探器提供无法单独从空中交通捕获的输入信息。为此，请从下拉菜单中选择输入键，然后在输入字段中输入相应的值。以下输入键可用：<ol>
+<li>旧版密钥：如果您的设备要求您提供密钥，请在密钥文本字段中键入6位数的密钥，然后按Eter。然后在设备中输入密钥。</li>
+<li>旧版OOB数据：如果您的设备使用带有16字节带外（○0B)密钥的传统配对过程，请以十六进制格式提供（以0x开头，大端)。您必须在设备进入加密状态之前执行此操作。如果输入的键短于16字节，则前面用0填充。</li>
+<li>旧版LTK：如果您的设备具有使用引旧版长期密钥(LTK)的现有绑定，请以十六进制格式提供（以0x开头，大端)。您必须在设备进入加密状态之前执行此操作。如果输入的键短于16字节，则前面用0填充</li>
+<li>SC LTK：如果您的设备具有使用LE Secure Connections LTK的现有绑定，请以十六进制格式提供（以0x开头，大端)。您必须在设备进入加密状态之前执行此操作。如果输入的键短于16字节，则前面用0填充。</li>
+<li>SC私钥：如果您的设备使用LE安全连接配对，并且两个设备均未处于调试模式（使用Dbug私钥），请以十六进制格式（以Ox开头，大端）提供设备的32字节Diffie-.Hellman私钥。您必须在设备开始配对过程之前执行此操作。如果输入的键短于32字节，则前面用0填充。</li>
+<li>LE地址：如果要嗅探的设备当前未发布，因此未被发现，请使用此字段将其LE地址添加到设备列表中。输入完整的6字节LE地址，用冒号分隔每个字节，并附加地址类型(“public”或“random”)。例如57:25:B0:81:eb:E5随机</li>
+</ol>
+</li>
+<li>广播信道：您可以更改nRF Sniffer在跟踪设备时切换广告频道的顺序。使用逗号分隔的通道号定义顺序，例如37,38,39。完成后按Enter。<br>使用默认配置，RF嗅探器等待通道37上的数据包。在通道37上收到数据包后，它会转换为在通道38上嗅探。当它在通道38上收到数据包时，它会转换为在通道39上嗅探。当它在通道39上收到数据包时，它开始在通道37上嗅探，并重复该操作。</li>
+</ol>
+<p>在捕获完数据之后，会通过不同的区域展示：</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_56_34_202502051356462.png" alt="不同区域的划分"></p>
+<p>也可以使用wireshark自带的筛选功能，并且nRF sniffer也提供了相关包：</p>
+<table>
+<thead>
+<tr>
+<th>显示筛选器</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>btle.length ! &#x3D; 0</td>
+<td>仅显示低功耗蓝牙数据包的length字段不为零的数据包的过滤器，这意味着它会隐藏空数据包。</td>
+</tr>
+<tr>
+<td>btle.advertising_address</td>
+<td>仅显示具有广播地址的数据包（广播数据包）的筛选器。</td>
+</tr>
+<tr>
+<td>btle</td>
+<td>显示所有低功耗蓝牙数据包的协议筛选器。</td>
+</tr>
+<tr>
+<td>BTATT、BTSMP、BTL2CAP</td>
+<td>分别用于 ATT、SMP 和 L2CAP 数据包的协议过滤器。</td>
+</tr>
+<tr>
+<td>nordic_ble.channel&lt;37</td>
+<td>Fiter仅显示在数据通道上接收的数据包。</td>
+</tr>
+</tbody></table>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_0_31_202502051400310.png" alt="过滤器设置"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>注意：这里可以的逻辑符号可以使用<code>&amp;&amp;</code> <code>||</code> <code>==</code> <code>!=</code> <code>!</code>，并且可以使用<code>.</code>来看一个包下面有那些参数，如<code>btle.</code>，键入<code>.</code>之后就会出现它下面的参数</p>
+</blockquote>
+<p>当然，有时候为了方便对比数据，可以将一个数据放到列上，首先先选中需要查看的列，右键，选择应用为列即可。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_6_44_202502051406915.png" alt="应用为列"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/">https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_15.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/jyySlide/" title="JyySlide"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">JyySlide</div></div><div class="info-2"><div class="info-item-1">下载、安装参考链接sunnysky29&#x2F;jyy-slides: jyy OS PPT (github.com) 工具的安装首先需要安装python，python版本需要在3.10及以上 安装poetry 1pip install poetry  克隆库 12git clone https://github.com/zweix123/jyyslide-md.gitcd jyyslide-md  安装第三方库 1poetry install  转换转换可以使用两种方法：   使用虚拟环境 12poetry shellpython main.py 需要转换的文件地址   直接转换 1poetry run python main.py 需要转换的文件地址   windows的快捷转换：  首先需要先给md文件设置一个右键命令   按下 Win + R 打开“运行”窗口，输入 regedit，然后按回车进入注册表编辑器。 导航到以下路径： 12复制代码HKEY_CLASSES_ROOT\*\shell  右键点击 shell 文件夹，选择“新建” &gt; “项”，将其命名为 C...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img class="cover" src="/img/RandomCoverImage/random_2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Vscode</div></div><div class="info-2"><div class="info-item-1">快捷键常用快捷键   快捷键 功能 备注    Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表    编辑快捷键   快捷键 功能 备注    Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以复制一行   Ctrlz 撤销    Ctrly 重做    CtrlF 查找    Ctrlh 替换    Ctrla 全选    Ctrl/ 注释 注释一行代码   Ctrlspace 引导 可以查看当前布局等   Ctrl. 快速修复    Ctrld 选中单词 如果当前已经选中了一个单词，那么再次按下快捷键将会选中下一个同样的单词，以此类推   Ctrl] 将制表符往右推    Ctrl[ 将制表符往左推    CtrlEnter 向下插入一行 在一行中的任意位置按下快捷键都可以向下插入一行，并且光标移动到此行   Ctrl方向 可以跳过单词 将光标跳过单词   Ctrlu 恢复光标位置  ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E7%89%99%E6%8A%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">蓝牙抓包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">1.3.</span> <span class="toc-text">使用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

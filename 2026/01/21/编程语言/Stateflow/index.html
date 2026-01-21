@@ -1,0 +1,831 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Stateflow | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接Stateflow 快速入门 - MathWorks 中国 Stateflow简介Stateflow是MATLAB和Simulink中的一个工具，用于设计和实现状态机和流程图。它非常适合用于建模逻辑系统，如控制逻辑、任务调度和事件驱动系统。Stateflow通过图形化的方式使复杂的逻辑系统更容易理解和实现。以下是一些关于Stateflow的基本概念和操作指南： Stateflow基本概念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stateflow">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Stateflow/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接Stateflow 快速入门 - MathWorks 中国 Stateflow简介Stateflow是MATLAB和Simulink中的一个工具，用于设计和实现状态机和流程图。它非常适合用于建模逻辑系统，如控制逻辑、任务调度和事件驱动系统。Stateflow通过图形化的方式使复杂的逻辑系统更容易理解和实现。以下是一些关于Stateflow的基本概念和操作指南： Stateflow基本概念">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_10.jpg">
+<meta property="article:published_time" content="2026-01-21T02:07:02.612Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.613Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_10.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Stateflow",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Stateflow/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_10.jpg",
+  "datePublished": "2026-01-21T02:07:02.612Z",
+  "dateModified": "2026-01-21T02:07:02.613Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Stateflow/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Stateflow',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_10.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Stateflow</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Stateflow</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.612Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.613Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">11.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>35分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/stateflow/getting-started.html">Stateflow 快速入门 - MathWorks 中国</a></p>
+<h1 id="Stateflow简介"><a href="#Stateflow简介" class="headerlink" title="Stateflow简介"></a>Stateflow简介</h1><p>Stateflow是MATLAB和Simulink中的一个工具，用于设计和实现状态机和流程图。它非常适合用于建模逻辑系统，如控制逻辑、任务调度和事件驱动系统。Stateflow通过图形化的方式使复杂的逻辑系统更容易理解和实现。以下是一些关于Stateflow的基本概念和操作指南：</p>
+<h1 id="Stateflow基本概念"><a href="#Stateflow基本概念" class="headerlink" title="Stateflow基本概念"></a>Stateflow基本概念</h1><ol>
+<li><strong>状态（State）</strong>：</li>
+</ol>
+<ul>
+<li>表示系统在某一特定时间的情况或条件。每个状态可以包含子状态、图表和动作（如进入和退出动作）。</li>
+</ul>
+<ol start="2">
+<li><p><strong>转换（Transition）</strong>：</p>
+<ul>
+<li>用箭头表示，描述从一个状态到另一个状态的条件。转换可以包含条件、动作和事件。</li>
+</ul>
+</li>
+<li><p><strong>事件（Event）</strong>：</p>
+<ul>
+<li>触发状态转换的信号。事件可以是外部事件（来自Simulink模型）或内部事件（在Stateflow图表中定义）。</li>
+</ul>
+</li>
+<li><p><strong>条件（Condition）</strong>：</p>
+<ul>
+<li>在方括号内定义的逻辑表达式，用于决定状态转换是否发生。</li>
+</ul>
+</li>
+<li><p><strong>动作（Action）</strong>：</p>
+<ul>
+<li>在状态或转换中定义的操作，可以在进入、退出状态时或在转换时执行。</li>
+</ul>
+</li>
+</ol>
+<h1 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h1><p>Stateflow是MATLAB和Simulink中的一个工具，用于设计和模拟状态机和逻辑系统。以下是一些基本的Stateflow命令和操作：</p>
+<h2 id="创建和编辑图表"><a href="#创建和编辑图表" class="headerlink" title="创建和编辑图表"></a>创建和编辑图表</h2><ol>
+<li><p><strong>创建Stateflow图表</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sfnew</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>打开现有图表</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sfopen</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>保存图表</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sfsave</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="添加状态和转换"><a href="#添加状态和转换" class="headerlink" title="添加状态和转换"></a>添加状态和转换</h2><ol>
+<li><p><strong>添加状态</strong>:</p>
+<ul>
+<li>在图表中右键点击并选择“Add State”，或者使用工具栏中的“Add State”按钮。</li>
+</ul>
+</li>
+<li><p><strong>添加转换</strong>:</p>
+<ul>
+<li>在两个状态之间绘制一条线，或者右键点击一个状态并选择“Add Transition”。</li>
+</ul>
+</li>
+</ol>
+<h2 id="设置状态属性"><a href="#设置状态属性" class="headerlink" title="设置状态属性"></a>设置状态属性</h2><ol>
+<li><p><strong>设置状态名称</strong>:</p>
+<ul>
+<li>双击状态，并在对话框中输入名称。</li>
+</ul>
+</li>
+<li><p><strong>设置进入动作（Entry）</strong>:</p>
+<ul>
+<li>双击状态，选择“Actions”选项卡，并在“Entry”框中输入代码。</li>
+</ul>
+</li>
+<li><p><strong>设置退出动作（Exit）</strong>:</p>
+<ul>
+<li>双击状态，选择“Actions”选项卡，并在“Exit”框中输入代码。</li>
+</ul>
+</li>
+</ol>
+<h2 id="设置转换条件"><a href="#设置转换条件" class="headerlink" title="设置转换条件"></a>设置转换条件</h2><ol>
+<li><p><strong>添加条件</strong>:</p>
+<ul>
+<li>双击转换线，并在对话框中输入条件，如 <code>[condition]</code>.</li>
+</ul>
+</li>
+<li><p><strong>添加动作</strong>:</p>
+<ul>
+<li>在条件后面添加动作，如 <code>[condition]&#123;action&#125;</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="仿真和调试"><a href="#仿真和调试" class="headerlink" title="仿真和调试"></a>仿真和调试</h2><ol>
+<li><p><strong>运行仿真</strong>:</p>
+<ul>
+<li>点击Simulink工具栏中的“Run”按钮。</li>
+</ul>
+</li>
+<li><p><strong>设置断点</strong>:</p>
+<ul>
+<li>在图表中右键点击状态或转换，并选择“Set Breakpoint”。</li>
+</ul>
+</li>
+<li><p><strong>查看仿真数据</strong>:</p>
+<ul>
+<li>在MATLAB命令窗口中使用 <code>get</code> 函数查看数据，例如 <code>get_param(&#39;my_chart&#39;, &#39;SimulationStatus&#39;)</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="MATLAB命令与Stateflow接口"><a href="#MATLAB命令与Stateflow接口" class="headerlink" title="MATLAB命令与Stateflow接口"></a>MATLAB命令与Stateflow接口</h2><ol>
+<li><p><strong>获取图表句柄</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chart = sfroot.<span class="built_in">find</span>(<span class="string">&#x27;-isa&#x27;</span>, <span class="string">&#x27;Stateflow.Chart&#x27;</span>, <span class="string">&#x27;-and&#x27;</span>, <span class="string">&#x27;Name&#x27;</span>, <span class="string">&#x27;my_chart&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>访问状态</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state = chart.<span class="built_in">find</span>(<span class="string">&#x27;-isa&#x27;</span>, <span class="string">&#x27;Stateflow.State&#x27;</span>, <span class="string">&#x27;-and&#x27;</span>, <span class="string">&#x27;Name&#x27;</span>, <span class="string">&#x27;my_state&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>访问转换</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trans = chart.<span class="built_in">find</span>(<span class="string">&#x27;-isa&#x27;</span>, <span class="string">&#x27;Stateflow.Transition&#x27;</span>, <span class="string">&#x27;-and&#x27;</span>, <span class="string">&#x27;Source&#x27;</span>, state);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>设置状态动作</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">state.Entry = <span class="string">&#x27;entry_action&#x27;</span>;</span><br><span class="line">state.During = <span class="string">&#x27;during_action&#x27;</span>;</span><br><span class="line">state.Exit = <span class="string">&#x27;exit_action&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>设置转换条件</strong>:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">trans.Condition = <span class="string">&#x27;condition_expression&#x27;</span>;</span><br><span class="line">trans.ConditionAction = <span class="string">&#x27;condition_action&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>这些是Stateflow中的一些基本命令和操作，可以帮助你开始设计和仿真状态机和逻辑系统。如果你有更具体的问题或需要更详细的说明，请告诉我！</p>
+<h1 id="有限状态机的建模"><a href="#有限状态机的建模" class="headerlink" title="有限状态机的建模"></a>有限状态机的建模</h1><h2 id="步骤1：构造并运行Stateflow图"><a href="#步骤1：构造并运行Stateflow图" class="headerlink" title="步骤1：构造并运行Stateflow图"></a>步骤1：构造并运行Stateflow图</h2><p>Stateflow® 图是有限状态机的图形表示，由状态、转移和数据组成。您可以创建 Stateflow 图来定义系统如何响应外部输入信号、事件和基于时间的条件。</p>
+<p>例如，下面的 Stateflow 图展示半波整流器的基础逻辑。该图包含两个标签为 <code>On</code> 和 <code>Off</code> 的状态。在 <code>On</code> 状态下，图输出信号 <code>y</code> 等于输入 <code>x</code>。在 <code>Off</code> 状态下，输出信号设置为零。当输入信号跨越某个阈值 <code>t0</code> 时，图在这些状态之间转移。各个状态下的动作在仿真的每一时间步都会更新 <code>y</code> 的值。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-step4.png" alt="Stateflow chart with two states."></p>
+<p>此示例说明如何创建和仿真此 Stateflow 图。</p>
+<h3 id="构造-Stateflow-图"><a href="#构造-Stateflow-图" class="headerlink" title="构造 Stateflow 图"></a>构造 Stateflow 图</h3><h4 id="打开-Stateflow-编辑器"><a href="#打开-Stateflow-编辑器" class="headerlink" title="打开 Stateflow 编辑器"></a>打开 Stateflow 编辑器</h4><p>Stateflow 编辑器是一个图形环境，用于设计状态转移图、流程图、状态转移表和真值表。</p>
+<ol>
+<li><p>要打开包含 Stateflow 图的新 Simulink 模型，请在 MATLAB 命令行窗口中使用 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/stateflow/ref/sfnew.html"><code>sfnew</code></a> 函数：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sfnew rectify</span><br></pre></td></tr></table></figure>
+
+<p>Simulink® 创建一个名为 <code>rectify</code> 的模型，其中包含一个空的 Stateflow <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/stateflow/ref/chart.html">Chart</a> 模块。</p>
+</li>
+<li><p>要打开 Stateflow 编辑器，请双击图模块。</p>
+</li>
+</ol>
+<p>Stateflow 编辑器的主要组件是图画布、对象选项板和<strong>符号</strong>窗格。</p>
+<ul>
+<li>图画布是一个绘图区域，您可以在其中通过组合状态、转移和其他图形元素来创建图。</li>
+<li>在画布的左侧有一个对象选项板，其中显示了一组可向图中添加图形元素的工具。</li>
+<li>在画布的右侧有一个<strong>符合</strong>窗格，您可以用它向图添加新的数据、事件和消息并解析任何未定义或未使用的符号。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/stateflow-editor.png" alt="Default view of the Stateflow Editor."></p>
+<h4 id="添加状态和转移"><a href="#添加状态和转移" class="headerlink" title="添加状态和转移"></a>添加状态和转移</h4><ol>
+<li><p>在对象选项板中（组件面板），点击<strong>状态</strong>图标 <img src="https://ww2.mathworks.cn/help/stateflow/gs/palette-state.png" alt="img"> 并将指针移至图画布。将出现具有默认转移的状态。要放置该状态，请点击画布上的某个位置。在文本提示中，输入状态名称 <code>On</code> 和状态动作 <code>y = x</code>。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-step1.png" alt="Chart with one state, On."></p>
+</li>
+<li><p>添加另一个状态。右键点击并拖动 <code>On</code> 状态。蓝色图形提示可以帮助您水平或垂直对齐状态。新状态的名称变为 <code>Off</code>。双击该状态并将状态动作修改为 <code>y = 0</code>。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-step2.png" alt="Chart with two states, On and Off."></p>
+</li>
+<li><p>重新对齐两个状态并在两个状态之间的空白处停留片刻。蓝色转移提示指示您可以连接状态的几种方式。要添加转移，请点击适当的提示。</p>
+<p>或者，要绘制转移，请点击并从一个状态的边拖动到另一个状态的边。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-step3.png" alt="Chart with the two states joined by transitions."></p>
+</li>
+<li><p>双击每个转移并输入适当的转移条件 <code>x&lt;t0</code> 或 <code>x&gt;=t0</code>。条件出现在方括号内。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-step4.png" alt="Chart with transition conditions."></p>
+</li>
+<li><p>清理图：</p>
+<ul>
+<li>为使图更加清晰，将每个转移标签移到其对应转移上方或下方的方便位置。</li>
+<li>要对齐图的图形元素并调整其大小，请在<strong>格式</strong>选项卡中，点击<strong>自动排列</strong>或按 <strong>Ctrl+Shift+A</strong>。</li>
+<li>要调整图的大小以适合画布，请按空格键或点击<strong>适应视图大小</strong>图标 <img src="https://ww2.mathworks.cn/help/stateflow/gs/fit-to-view.png" alt="img">。</li>
+</ul>
+</li>
+</ol>
+<h4 id="解析未定义的符号"><a href="#解析未定义的符号" class="headerlink" title="解析未定义的符号"></a>解析未定义的符号</h4><p>在执行图之前，必须定义图中使用的每个符号并指定其作用域（例如，输入数据、输出数据或局部数据）。</p>
+<ol>
+<li><p>在<strong>建模</strong>选项卡的<strong>设计数据</strong>下，选择<strong>符号窗格</strong>。</p>
+<p>在<strong>符号</strong>窗格中，未定义的符号用红色错误标记 <img src="https://ww2.mathworks.cn/help/stateflow/gs/symbols-error.png" alt="img"> 进行标记。</p>
+</li>
+<li><p>在<strong>符号</strong>窗格中，点击<strong>解析未定义的符号</strong> <img src="https://ww2.mathworks.cn/help/stateflow/gs/symbols-resolve-undefined.png" alt="img">。<strong>类型</strong>列根据每个未定义符号在图中的用例显示其建议作用域。Stateflow 编辑器将符号 <code>x</code> 和 <code>t0</code> 解析为输入数据 <img src="https://ww2.mathworks.cn/help/stateflow/gs/symbols-input-data.png" alt="img">，将 <code>y</code> 解析为 <img src="https://ww2.mathworks.cn/help/stateflow/gs/symbols-output-data.png" alt="img">。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-resolve-symbols.png" alt="Before and after views of the Symbols pane resolving the undefined symbols t0, x, and y."></p>
+</li>
+<li><p>由于阈值 <code>t0</code> 在仿真过程中不会更改，因此将其作用域更改为常量数据。在<strong>类型</strong>列中，点击 <code>t0</code> 旁边的数据类型图标，然后选择<img src="https://ww2.mathworks.cn/help/stateflow/gs/symbols-constant-data.png" alt="img"> <strong>常量数据</strong>。</p>
+</li>
+<li><p>设置阈值 <code>t0</code> 的值。在<strong>值</strong>列中，点击 <code>t0</code> 旁边的空白输入框，并输入值 0。</p>
+</li>
+<li><p>保存您的 Stateflow 图。</p>
+</li>
+</ol>
+<h3 id="对模型进行仿真"><a href="#对模型进行仿真" class="headerlink" title="对模型进行仿真"></a>对模型进行仿真</h3><p>要仿真 Simulink 模型，请通过输入和输出端口将图模块连接到模型中的其他模块。</p>
+<ol>
+<li><p>要返回到 Simulink 编辑器，请在画布顶部的浏览器栏中点击 Simulink 模型的名称：<img src="https://ww2.mathworks.cn/help/stateflow/gs/simulink-model.png" alt="img"><strong>rectify</strong>。如果浏览器栏不可见，请点击对象选项板顶部的<strong>隐藏&#x2F;显示资源管理器栏</strong>图标 <img src="https://ww2.mathworks.cn/help/stateflow/gs/palette-explorer-bar.png" alt="img">。</p>
+</li>
+<li><p>执行以下操作以将信源添加到模型中：</p>
+<ul>
+<li>从 Simulink Sources 库中，添加一个 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/simulink/slref/sinewave.html">Sine Wave</a> (Simulink) 模块。</li>
+<li>双击 Sine Wave 模块并将<strong>采样时间</strong>设置为 0.2。</li>
+<li>将 Sine Wave 模块的输出连接到 Stateflow 图的输入。</li>
+<li>将信号标记为 <code>x</code>。</li>
+</ul>
+</li>
+<li><p>向模型中添加一个信宿：</p>
+<ul>
+<li>从 Simulink Sinks 库中，添加一个具有两个输入端口的 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/simulink/slref/scope.html">Scope</a> (Simulink) 模块。</li>
+<li>将 Sine Wave 模块的输出连接到 Scope 模块的第一个输入。</li>
+<li>将 Stateflow 图的输出连接到 Scope 模块的第二个输入。</li>
+<li>将信号标记为 <code>y</code>。</li>
+</ul>
+</li>
+<li><p>保存 Simulink 模型。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-model.png" alt="In a Simulink model, a Sine Wave block creates an input signal for the chart. A Scope block plots the input and output of the chart."></p>
+</li>
+<li><p>要仿真模型，请点击<strong>运行</strong> <img src="https://ww2.mathworks.cn/help/stateflow/gs/toolstrip-run-simulation.png" alt="img">。在仿真过程中，Stateflow 编辑器通过图动画突出显示激活状态和转移。</p>
+</li>
+<li><p>对模型进行仿真后，双击 Scope 模块。示波器显示 Stateflow 图的输入信号和输出信号图。</p>
+<p><img src="https://ww2.mathworks.cn/help/stateflow/gs/rectify-scope.png" alt="Scope block showing the input and output of the chart."></p>
+<p>仿真结果显示整流器滤除了负输入值。</p>
+</li>
+</ol>
+<h2 id="步骤2：使用状态动作和转移标签定义图行为"><a href="#步骤2：使用状态动作和转移标签定义图行为" class="headerlink" title="步骤2：使用状态动作和转移标签定义图行为"></a>步骤2：使用状态动作和转移标签定义图行为</h2><p><em>状态动作</em>和<em>转移动作</em>是您分别在状态内部或转移上编写的指令，用于定义 Stateflow® 图在仿真期间的行为。例如，下图中的动作定义了一个以试验方式验证 Collatz 猜想实例的状态机。对于给定的数值输入 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq15012583454694319273.png" alt="$u$">，该图通过迭代以下规则来计算冰雹序列 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq12219811583566878803.png" alt="$n_0 &#x3D; u,$"> <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq11325635569159405358.png" alt="$n_1,$"> <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq10936753333647109350.png" alt="$n_2,$"> <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq17216054076818118233.png" alt="$n_3,$">：</p>
+<ul>
+<li>如果 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq07382008818407024284.png" alt="$n_i$"> 为偶数，则 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq01795944520665549579.png" alt="$n_{i+1} &#x3D; n_i &#x2F; 2$">。</li>
+<li>如果 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq07382008818407024284.png" alt="$n_i$"> 为奇数，则 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq05435671413409378115.png" alt="$n_{i+1} &#x3D; 3n_i+1$">。</li>
+</ul>
+<p>Collatz 猜想指出，每个正整数都有一个最终达到 1 的冰雹序列。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_01.png" alt="img"></p>
+<p>该图由三个状态组成。在仿真开始时，<code>Init</code> 状态通过以下设置来初始化图数据：</p>
+<ul>
+<li>将局部数据 <code>n</code> 设置为输入 <code>u</code> 的值。</li>
+<li>当 <code>n</code> 除以 2 时，将局部数据 <code>n2</code> 设置为余数。</li>
+<li>将输出数据 <code>y</code> 设置为 <code>false</code>。</li>
+</ul>
+<p>根据输入的奇偶性，图转移到 <code>Even</code> 或 <code>Odd</code> 状态。当状态活动在 <code>Even</code> 和 <code>Odd</code> 状态之间切换时，图会计算冰雹序列中的数字。当序列达到 1 值时，输出数据 <code>y</code> 变为 <code>true</code>，并触发 Simulink® 模型中的 <a target="_blank" rel="noopener" href="https://ww2.mathworks.cn/help/simulink/slref/stopsimulation.html">Stop Simulation</a> (Simulink) 模块。</p>
+<h3 id="状态动作类型"><a href="#状态动作类型" class="headerlink" title="状态动作类型"></a>状态动作类型</h3><p>状态动作定义当状态被激活时 Stateflow 图的动作。最常见的状态动作类型是 <code>entry</code>、<code>during</code> 和 <code>exit</code> 动作：</p>
+<ul>
+<li>当状态被激活时，<code>entry</code> 动作发生。</li>
+<li>当状态已激活并且图未转移出该状态时，<code>during</code> 动作在时间步上发生。</li>
+<li>当图转移出该状态时，<code>exit</code> 动作发生。</li>
+</ul>
+<p>您可以使用完整关键字（<code>entry</code>、<code>during</code>、<code>exit</code>）或缩写（<code>en</code>、<code>du</code> 和 <code>ex</code>）来指定状态动作的类型。您还可以使用逗号组合各状态动作类型。例如，具有组合类型 <code>entry, during</code> 的动作当状态被激活时在时间步上发生，并且在状态保持激活时在每个后续时间步上发生。</p>
+<p>冰雹图包含以下状态下的动作：</p>
+<ul>
+<li><code>Init</code> - 如果此状态在仿真开始时被激活，<code>entry</code> 动作确定 <code>n</code> 的奇偶性并将 <code>y</code> 设置为 <code>false</code>。当图在一个时间步后转移出 <code>Init</code> 时，<code>exit</code> 动作确定 <code>n</code> 是否等于 1。</li>
+<li><code>Even</code> - 当此状态被激活时，在该状态保持激活的每个后续时间步上，组合的 <code>entry, during</code> 动作计算冰雹序列的下一个数字 <code>n/2</code> 的值和奇偶性。</li>
+<li><code>Odd</code> - 当此状态被激活时，在该状态保持激活的每个后续时间步上，组合的 <code>entry, during</code> 动作检查 <code>n</code> 是否大于 1，如果大于 1，则计算冰雹序列的下一个数字 <code>3*n+1</code> 的值和奇偶性。</li>
+</ul>
+<h3 id="转移标签类型"><a href="#转移标签类型" class="headerlink" title="转移标签类型"></a>转移标签类型</h3><p>转移标签定义当激活状态更改时 Stateflow 图执行的动作。最常见的转移标签类型是条件和条件动作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Condition]&#123;ConditionAction&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Condition</code> 是布尔表达式，用于确定是否发生转移。如果不指定条件，转移将在源状态被激活后的下一个时间步发生。</p>
+<p><code>ConditionAction</code> 是在判断转移的条件为 true 时执行的指令。条件动作发生在条件后，但在任何 <code>exit</code> 或 <code>entry</code> 状态动作之前。</p>
+<p>冰雹图包含发生以下转移时的动作：</p>
+<ul>
+<li>到 <code>Init</code> 的默认转移 - 在仿真开始时，条件动作 <code>n = u</code> 将输入值 <code>u</code> 赋给局部数据 <code>n</code>。</li>
+<li>从 <code>Init</code> 到 <code>Even</code> 的转移 - 条件 <code>n2 == 0</code> 确定当 <code>n</code> 为偶数时发生该转移。此转移起始处的数字 1 表示此转移将先于 <code>Init</code> 到 <code>Odd</code> 的转移进行计算。</li>
+<li>从 <code>Odd</code> 到 <code>Even</code> 的转移 - 条件 <code>n2 == 0</code> 确定当 <code>n</code> 为偶数时发生该转移。</li>
+<li>从 <code>Even</code> 到 <code>Odd</code> 的转移 - 条件 <code>n2 ~= 0</code> 确定当 <code>n</code> 为奇数时发生该转移。在这种情况下，条件动作 <code>y = isequal(n,1)</code> 确定 <code>n</code> 是否等于 1。</li>
+</ul>
+<h3 id="检查图行为"><a href="#检查图行为" class="headerlink" title="检查图行为"></a>检查图行为</h3><p>要计算从值 9 开始的冰雹序列，请执行下列步骤：</p>
+<p>1.在 Constant 模块中，输入值 <code>9</code>。</p>
+<p>2.在<strong>仿真</strong>选项卡中，点击<strong>运行</strong>。图用下列动作予以响应：</p>
+<ul>
+<li>在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq05490811019241878006.png" alt="$t &#x3D; 0$"> 处，发生到 <code>Init</code> 的默认转移。转移动作将 <code>n</code> 的值设置为 9。<code>Init</code> 状态被激活。<code>Init</code> 中的 <code>entry</code> 动作将 <code>n2</code> 设置为 1 且将 <code>y</code> 设置为 <code>false</code>。</li>
+<li>在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq12716245961660159691.png" alt="$t &#x3D; 1$"> 处，条件 <code>n2 == 0</code> 为 false，因此图准备转移到 <code>Odd</code>。<code>Init</code> 中的 <code>exit</code> 动作将 <code>y</code> 设置为 <code>false</code>。状态 <code>Init</code> 变为非激活，状态 <code>Odd</code> 被激活。<code>Odd</code> 中的 <code>entry</code> 动作将 <code>n</code> 设置为 28，将 <code>n2</code> 设置为 0。</li>
+<li>在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq03599317120891285387.png" alt="$t &#x3D; 2$"> 处，条件 <code>n2 == 0</code> 为 true，因此图准备转移到 <code>Even</code>。状态 <code>Odd</code> 变为非激活，状态 <code>Even</code> 被激活。<code>Even</code> 中的 entry 动作将 <code>n</code> 设置为 14，将 <code>n2</code> 设置为 0。</li>
+<li>在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq07738249947809783232.png" alt="$t &#x3D; 3$"> 处，条件 <code>n2 ~= 0</code> 为 false，因此图不会发生转移。<code>Even</code> 状态保持激活。<code>Even</code> 中的 <code>during</code> 动作将 <code>n</code> 设置为 7，将 <code>n2</code> 设置为 1。</li>
+<li>在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq15359278158169810469.png" alt="$t &#x3D; 4$"> 处，条件 <code>n2 ~= 0</code> 为 true，因此图准备转移到 <code>Odd</code>。转移动作将 <code>y</code> 设置为 false。状态 <code>Even</code> 变为非激活，状态 <code>Odd</code> 被激活。<code>Odd</code> 中的 <code>entry</code> 动作将 <code>n</code> 设置为 22，将 <code>n2</code> 设置为 0。</li>
+<li>该图继续计算冰雹序列，直到它在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq17315660474862548967.png" alt="$t &#x3D; 19$"> 处达到值 <code>n</code> <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq13562902622338161563.png" alt="$&#x3D; 1$">。</li>
+<li>在时间 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/StateTransitionActionsGetStartedExample_eq05704149810581774953.png" alt="$t &#x3D; 20$"> 处，图准备从 <code>Even</code> 转移到 <code>Odd</code>。转移动作将 <code>y</code> 设置为 <code>true</code>。状态 <code>Even</code> 变为非激活，状态 <code>Odd</code> 被激活。<code>Odd</code> 中的 <code>entry</code> 动作不会修改 <code>n</code> 或 <code>n2</code>。连接到输出信号 <code>y</code> 的 Stop Simulation 模块停止仿真。</li>
+</ul>
+<p>3.在<strong>仿真</strong>选项卡中的<strong>查看结果</strong>下，点击<strong>数据检查器</strong>。</p>
+<p>4.要查看冰雹序列的值，请在仿真数据检查器中，选择记录的信号 <code>n</code>。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_collatz-sdi.png" alt="img"></p>
+<p>冰雹序列在 19 次迭代后达到值 1。</p>
+<h2 id="步骤3：创建层次结构来管理复杂系统"><a href="#步骤3：创建层次结构来管理复杂系统" class="headerlink" title="步骤3：创建层次结构来管理复杂系统"></a>步骤3：创建层次结构来管理复杂系统</h2><p>要控制系统中多层级的复杂度，可在 Stateflow® 图中创建嵌套状态的层次结构，方法是将一个或多个状态置于另一个状态的边界内。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/HierarchyGetStartedExample_01.png" alt="img"></p>
+<p>外部状态是内部状态的父级（或<em>父状态</em>）。内部状态是外部状态的子级（或<em>子状态</em>）。父状态的内容在行为上与较小的图类似。当父状态被激活时，子状态之一也被激活。当父状态变为非激活时，所有子状态都变为非激活。</p>
+<h3 id="媒体播放器建模"><a href="#媒体播放器建模" class="headerlink" title="媒体播放器建模"></a>媒体播放器建模</h3><p>此示例创建了一个由 FM 广播和网络流媒体播放器组成的媒体系统模型。在仿真期间，您可以通过与 Media Player 用户界面上的按钮和旋钮交互来控制该媒体播放器。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsfMediaPlayerApp.png" alt="img"></p>
+<p>要运行媒体播放器，请执行以下操作：</p>
+<ol>
+<li>打开 Simulink 模型，然后点击<strong>运行</strong>。Media Player 将打开。媒体播放器最初处于关闭状态。在 App 的顶部，Media Player Status 框显示消息 <code>Standby (Off)</code>。</li>
+<li>将 Component Selection 旋钮转至 <strong>Stream</strong>。状态消息会短暂显示 <code>Connecting to Handel&#39;s Greatest Hits</code>。短暂停顿后，状态消息变为 <code>Playing: Handel&#39;s Greatest Hits</code>，音乐开始播放。</li>
+<li>点击 Fast-Forward 按钮。音乐停止，开始发出啁啾声。状态消息更改为 <code>Forward &gt;&gt; Handel&#39;s Greatest Hits</code>。流媒体的名称在显示画面上向前滚动。要继续正常播放模式，请点击 Play 按钮。</li>
+<li>点击 Reverse 按钮。将播放啁啾声，状态消息变为 <code>Reverse &gt;&gt; Handel&#39;s Greatest Hits</code>。流媒体的名称在显示画面上向后滚动。要继续正常播放模式，请点击 Play 按钮。</li>
+<li>在 Stream Name 框中，输入新流媒体的名称，然后点击 <strong>Connect</strong>。例如，尝试连接到流媒体 <code>Training Deep Networks</code> 或 <code>Fun With State Machines</code>。</li>
+<li>将 Component Selection 旋钮转至 <strong>Radio</strong>。状态消息显示 <code>Playing: 99.5 FM</code>。要选择另一个电台，请旋转 FM Radio Station 旋钮。</li>
+<li>要停止仿真，请关闭 Media Player。</li>
+</ol>
+<h3 id="通过使用状态层次结构实现行为"><a href="#通过使用状态层次结构实现行为" class="headerlink" title="通过使用状态层次结构实现行为"></a>通过使用状态层次结构实现行为</h3><p>此示例通过一次只关注单个活动层级来实现媒体播放器。例如，流媒体播放器进入快进播放模式需要满足以下条件：</p>
+<ol>
+<li>您打开媒体播放器。</li>
+<li>您选择流媒体播放器。</li>
+<li>您开始播放流媒体。</li>
+<li>您点击 Fast-Forward 按钮。</li>
+</ol>
+<p>该模型使用嵌套状态的层次结构来单独考虑每个条件。例如，模型资源管理器在 <code>Mode Manager</code> 图中显示状态的层次结构。要打开模型资源管理器，请在<strong>建模</strong>选项卡中，选择<strong>模型资源管理器</strong>。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsfMediaPlayer-model-explorer.png" alt="img"></p>
+<p>在层次结构的顶层或最外层，<code>Mode Manager</code> 图有两个用于控制媒体播放器活动的状态：</p>
+<ul>
+<li>当您关闭媒体播放器时，<code>Off</code> 被激活。</li>
+<li>当您将媒体播放器设置为流媒体或广播模式时，<code>On</code> 被激活。</li>
+</ul>
+<p><code>On</code> 的子状态控制媒体播放器组件：</p>
+<ul>
+<li>当您选择流媒体播放器时，<code>Stream</code> 被激活。</li>
+<li>当您选择 FM 广播时，<code>Radio</code> 被激活。</li>
+</ul>
+<p><code>Stream</code> 的子状态控制流媒体播放器的活动：</p>
+<ul>
+<li>当您播放流媒体时，<code>Play</code> 被激活。</li>
+<li>当您暂停流媒体播放器时，<code>Pause</code> 被激活。</li>
+</ul>
+<p><code>Play</code> 的子状态控制流媒体播放器的播放模式：</p>
+<ul>
+<li><code>Normal</code>：在正常播放模式下，该状态被激活。</li>
+<li>当您点击 Reverse 按钮时，<code>Reverse</code> 被激活。</li>
+<li>当您点击 Fast-Forward 按钮时，<code>FastForward</code> 被激活。</li>
+</ul>
+<p>下图显示了图中状态的布局。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/HierarchyGetStartedExample_02.png" alt="img"></p>
+<h3 id="探索示例"><a href="#探索示例" class="headerlink" title="探索示例"></a>探索示例</h3><p>此示例中的模型包含另外两个 Stateflow 图：</p>
+<ul>
+<li><code>App Interface</code> 管理与 MATLAB App 的接口，并将输入传递给 <code>Mode Manager</code> 和 <code>Stream Player</code> 图。</li>
+<li><code>Stream Player</code> 接收来自 <code>App Interface</code> 和 <code>Mode Manager</code> 图的输出，并仿真流媒体播放器的内部行为。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/HierarchyGetStartedExample_03.png" alt="img"></p>
+<p>在仿真过程中，您可以研究每个图如何响应与 Media Player 的交互。要在各图之间快速切换，请使用 Stateflow 编辑器顶部的选项卡。</p>
+<h2 id="步骤4：使用并行分解对同步子系统建模"><a href="#步骤4：使用并行分解对同步子系统建模" class="headerlink" title="步骤4：使用并行分解对同步子系统建模"></a>步骤4：使用并行分解对同步子系统建模</h2><p>要实现并发运行的工作模式，请在 Stateflow® 图中使用并行状态。例如，作为复杂系统设计的一部分，您可以使用并行状态对同时被激活的独立组件或子系统建模。</p>
+<h3 id="状态分解"><a href="#状态分解" class="headerlink" title="状态分解"></a>状态分解</h3><p>图或状态的分解类型指定图或状态包含互斥状态还是并行状态：</p>
+<ul>
+<li>互斥状态表示互斥的工作模式。在同一层级上不能有两个互斥状态同时被激活或执行。Stateflow 图用实线矩形表示每个互斥状态。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_01.png" alt="img"></p>
+<ul>
+<li>并行状态表示独立的工作模式。虽然并行状态会依次执行，但可以有两个或多个并行状态同时处于激活状态。Stateflow 图用虚线矩形表示每个并行状态，其中的数字表示其执行顺序。两个状态需要在父状态设置为并行执行才能设置为并行状态。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_02.png" alt="img"></p>
+<p>通过在状态层次结构的不同层级设置状态分解，您可以在 Stateflow 图中组合互斥和并行状态。默认的状态分解类型是 <code>Exclusive (OR)</code>。要将分解类型更改为 <code>Parallel (AND)</code>，请右键点击父状态并选择<strong>分解</strong> &gt; <strong>并行 (AND)</strong>。要将分解类型改回 <code>Exclusive (OR)</code>，请右键点击父状态并选择<strong>分解</strong> &gt; <strong>互斥(OR)</strong>。</p>
+<h3 id="气温控制器建模"><a href="#气温控制器建模" class="headerlink" title="气温控制器建模"></a>气温控制器建模</h3><p>此示例使用并行分解对一个空调控制器进行建模，该控制器将物理被控对象中的气温保持在 120 度。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_03.png" alt="img"></p>
+<p>在顶层，空调控制器图有两个互斥状态：<code>PowerOff</code> 和 <code>PowerOn</code>。该图使用互斥 (OR) 分解，因为控制器无法同时处于打开和关闭状态。</p>
+<p>控制器使用两个风扇来工作。当气温升至 120 度以上时，启动第一个风扇。当气温升至 150 度以上时，启动第二个风扇以提供额外的冷却。图将这些风扇建模为顶层状态 <code>PowerOn</code> 的并行子状态 <code>FAN1</code> 和 <code>FAN2</code>。由于风扇作为独立的组件运行，根据所需冷却量的多少打开或关闭，<code>PowerOn</code> 使用并行 (AND) 分解来确保在控制器打开时两个子状态都被激活。</p>
+<p>除工作阈值不同以外，这些风扇由具有相同子状态和转移配置的状态建模，表示两种风扇工作模式 <code>On</code> 和 <code>Off</code>。由于两个风扇都不能同时处于打开和关闭状态，<code>FAN1</code> 和 <code>FAN2</code> 具有互斥 (OR) 分解。</p>
+<p>在 <code>PowerOn</code> 中，称为 <code>SpeedValue</code> 的第三个并行状态表示一个独立子系统，它计算在每个时间步内循环启动的风扇数。当 <code>FAN1</code> 的 <code>On</code> 状态被激活时，布尔表达式 <code>in(FAN1.On)</code> 的值为 1。否则，<code>in(FAN1.On)</code> 等于 0。同样，<code>in(FAN2.On)</code> 的值指示 <code>FAN2</code> 是处于循环打开还是关闭状态。这些表达式的总和表示在每个时间步中打开的风扇的数量。</p>
+<h3 id="指定并行状态的执行顺序"><a href="#指定并行状态的执行顺序" class="headerlink" title="指定并行状态的执行顺序"></a>指定并行状态的执行顺序</h3><p>即使 <code>FAN1</code>、<code>FAN2</code> 和 <code>SpeedValue</code> 同时处于激活状态，这些状态在仿真过程中也是依次执行的。状态右上角的数字指定执行顺序。以下是此执行顺序的基本原理：</p>
+<ul>
+<li><code>FAN1</code> 应首先执行，因为它循环打开的温度低于 <code>FAN2</code> 打开的温度。无论 <code>FAN2</code> 是打开还是关闭，它都可以打开。</li>
+<li><code>FAN2</code> 以第二顺位执行，因为它循环打开的温度高于 <code>FAN1</code> 打开的温度。它仅在 <code>FAN1</code> 已打开时才能打开。</li>
+<li><code>SpeedValue</code> 最后执行，因而可以观测 <code>FAN1</code> 和 <code>FAN2</code> 的最新状态。</li>
+</ul>
+<p>默认情况下，Stateflow 根据您将并行状态添加到图的顺序来分配并行状态的执行顺序。要更改某并行状态的执行顺序，请右键点击该状态并从<strong>执行顺序</strong>下拉列表中选择值。</p>
+<h3 id="探索示例-1"><a href="#探索示例-1" class="headerlink" title="探索示例"></a>探索示例</h3><p>此示例包含一个名为 <code>Air Controller</code> 的 Stateflow 图和一个名为 <code>Physical Plant</code> 的 Simulink® 子系统。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_04.png" alt="img"></p>
+<p>根据物理被控对象的气温，图打开风扇，并向子系统输出正在运行的风扇的数量 <code>airflow</code>。此值根据以下规则确定冷却活动因子 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq03091110158048648509.png" alt="$k_{\mathrm Cool}$">：</p>
+<ul>
+<li><code>airflow</code> &#x3D; 0 - 没有风扇运行。气温不会降低，因为 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq14394746751260252312.png" alt="$k_{\mathrm{Cool}} &#x3D; 0$">。</li>
+<li><code>airflow</code> &#x3D; 1 - 一个风扇运行。气温降低，冷却活动因子 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq16298905221389238741.png" alt="$k_{\mathrm{Cool}} &#x3D; 0.05$">。</li>
+<li><code>airflow</code> &#x3D; 2 - 两个风扇运行。气温降低，冷却活动因子 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq12844725938971953643.png" alt="$k_{\mathrm{Cool}} &#x3D; 0.1$">。</li>
+</ul>
+<p>Physical Plant 子系统块根据以下公式更新工厂内的气温 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq02137513487127062277.png" alt="$temp$">：</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq15984319721611355580.png" alt="$$temp(0) &#x3D; T_{\mathrm{Initial}}$$"></p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq05892922162902343283.png" alt="$$temp&#39;(t) &#x3D; (T_{\mathrm{Ambient}}-temp(t)) \cdot (k_{\mathrm{Heat}}-k_{\mathrm{Cool}}),$$"></p>
+<p>其中：</p>
+<ul>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq01572441086277914966.png" alt="$T_{\mathrm{Initial}}$"> 是初始温度。默认值为 70°。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq10604485442030496953.png" alt="$T_{\mathrm{Ambient}}$"> 是环境温度。默认值为 160°。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq07996253399464447700.png" alt="$k_{\mathrm{Heat}}$"> 是被控对象的热传递因子。默认值为 0.01。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ParallelDecompositionGetStartedExample_eq07628547966429477945.png" alt="$k_{\mathrm{Cool}}$"> 是对应于 <code>airflow</code> 的冷却活动因子。</li>
+</ul>
+<p>新温度决定仿真的下一个时间步的冷却量。</p>
+<h2 id="步骤5：通过广播事件同步并行状态"><a href="#步骤5：通过广播事件同步并行状态" class="headerlink" title="步骤5：通过广播事件同步并行状态"></a>步骤5：通过广播事件同步并行状态</h2><p>局部事件允许一个状态触发同一个 Stateflow® 图中另一个状态的转移或动作，从而使您能够协调并行状态。要将事件从一个状态广播到另一个状态，请使用 <code>send</code> 运算符以及事件的名称和激活状态的名称：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">send(eventName,stateName)</span><br></pre></td></tr></table></figure>
+
+<p>当您广播事件时，该事件将在接收状态以及该状态层次结构中的任何子状态中生效。</p>
+<h3 id="家庭安全系统建模"><a href="#家庭安全系统建模" class="headerlink" title="家庭安全系统建模"></a>家庭安全系统建模</h3><p>此示例使用局部事件作为家庭安全系统设计的一部分。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/EventsGetStartedExample_01.png" alt="img"></p>
+<p>该安全系统由一个警报器和三个防入侵传感器（门传感器、窗传感器和运动检测器）组成。在系统检测到入侵后，您可以在较短的一段时间内禁用警报。否则，系统会向警方报告。</p>
+<p>该图通过使用以下并行状态之一对每个传感器进行建模：</p>
+<ul>
+<li>并行状态 <code>Door</code> 对门传感器进行建模。输入信号 <code>D_mode</code> 在此传感器的 <code>Active</code> 和 <code>Disabled</code> 模式之间进行选择。当传感器被激活时，输入信号 <code>Door_sens</code> 指示可能存在入侵。</li>
+<li>并行状态 <code>Win</code> 对窗传感器进行建模。输入信号 <code>W_mode</code> 在此传感器的 <code>Active</code> 和 <code>Disabled</code> 模式之间进行选择。当传感器被激活时，输入信号 <code>Win_sens</code> 指示可能存在入侵。</li>
+<li>并行状态 <code>Motion</code> 对运动检测器进行建模。输入信号 <code>M_mode</code> 在此传感器的 <code>Active</code> 和 <code>Disabled</code> 模式之间进行选择。当传感器被激活时，输入信号 <code>Mot_sens</code> 指示可能存在入侵。</li>
+</ul>
+<p>为减轻偶发误报的影响，运动检测器采用了一种去抖设计，因此只有持续的正触发信号才会产生警报。相反，门传感器和窗传感器将单个正触发信号解释为入侵并立即发出警报。</p>
+<p>称为 <code>Alarm</code> 的第四种并行状态对警报系统的工作模式进行建模。输入信号 <code>Alarm_active</code> 在警报的 <code>On</code> 和 <code>Off</code> 模式之间进行选择。如果一个传感器在警报子系统开启时检测到入侵，该传感器会将局部事件 <code>Alert</code> 广播到 <code>Alarm</code> 状态。在状态 <code>Alarm</code> 的 <code>On</code> 子状态中，该事件触发从 <code>Idle</code> 子状态到 <code>Pending</code> 子状态的转移。当 <code>Pending</code> 被激活时，会发出警报声，提醒住户可能发生入侵。如果发生误报，则住户可以在较短的一段时间内关闭安全系统。如果在这段时间内没有禁用，系统会向警方报警求助，然后返回 <code>Idle</code> 模式。</p>
+<h3 id="与其他-Simulink-模块协调"><a href="#与其他-Simulink-模块协调" class="headerlink" title="与其他 Simulink 模块协调"></a>与其他 Simulink 模块协调</h3><p>Stateflow 图也可以使用事件与 Simulink® 模型中的其他模块进行通信。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/EventsGetStartedExample_02.png" alt="img"></p>
+<p><strong>输出事件</strong></p>
+<p>输出事件是在 Stateflow 图中发生但在 Stateflow 图之外的 Simulink 模块中可见的事件。这种类型的事件支持 Stateflow 图将该图中发生的事件通知给其他模块。例如，在此示例中，输出事件 <code>Sound</code> 和 <code>call_police</code> 负责驱动用来处理警报声和向警方报警的外部模块。当局部事件 <code>Alert</code> 触发到状态 <code>Alarm</code> 的 <code>Pending</code> 子状态的转移时，图会广播这些事件。特别是，在 <code>Pending</code> 子状态中，entry 动作会广播 <code>Sound</code> 事件。同样，发生从 <code>Pending</code> 到 <code>Idle</code> 的转移时执行的条件动作会广播 <code>call_police</code> 事件。在每种情况下，广播输出事件的动作都使用 <code>send</code> 运算符和事件名称：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">send(eventName)</span><br></pre></td></tr></table></figure>
+
+<p>每个输出事件映射到图上的一个输出端口。根据配置，对应的信号可以控制触发子系统或函数调用子系统。要配置输出事件，请执行以下操作：</p>
+<ol>
+<li>在<strong>建模</strong>选项卡的<strong>设计数据</strong>下，选择<strong>符号窗格</strong>和<strong>属性检查器</strong>。</li>
+<li>在<strong>符号</strong>窗格中，选择该输出事件。</li>
+<li>在<strong>属性检查器</strong>中，将<strong>触发器</strong>设置为以下选项之一：</li>
+</ol>
+<ul>
+<li><code>Either edge</code> - 输出事件广播导致传出信号在 0 和 1 之间切换。</li>
+<li><code>Function call</code> - 输出事件广播导致 Simulink 函数调用事件。</li>
+</ul>
+<p>在此示例中，输出事件使用边沿触发器来激活 Simulink 模型中的一对锁存子系统。当每个锁存子系统检测到其输入信号中的值发生变化时，它会短暂输出值 1，然后再返回到 0 输出。</p>
+<p><strong>输入事件</strong></p>
+<p>输入事件是在 Simulink 模块中发生但在 Stateflow 图中可见的事件。这种类型的事件支持其他 Simulink 模块（包括其他 Stateflow 图）将在特定 Stateflow 图之外发生的事件通知该图。例如，在此示例中，输入事件 <code>sl_call</code> 控制运动检测器去抖器的时序以及向警方报警之前的短时延迟。在每个实例中，对时序运算符 <code>after</code> 的调用内会对该事件计数，并在图接收事件达一定次数后触发转移。</p>
+<p>外部 Simulink 模块通过连接到 Stateflow 图上的触发端口的信号发送输入事件。根据具体配置，输入事件是由信号值的变化或通过 Simulink 模块中的函数调用产生的。要配置输入事件，请执行以下操作：</p>
+<ol>
+<li>在<strong>建模</strong>选项卡的<strong>设计数据</strong>下，选择<strong>符号窗格</strong>和<strong>属性检查器</strong>。</li>
+<li>在<strong>符号</strong>窗格中，选择该输入事件。</li>
+<li>在<strong>属性检查器</strong>中，将<strong>触发器</strong>设置为以下选项之一：</li>
+</ol>
+<ul>
+<li><code>Rising</code> - 当输入信号从零或负值变为正值时，图被激活。</li>
+<li><code>Falling</code> - 当输入信号从正值变为零或负值时，图被激活。</li>
+<li><code>Either</code> - 当输入信号在任一方向变化且过零时，图被激活。</li>
+<li><code>Function</code> 调用 - 图通过从 Simulink 模块的函数调用激活。</li>
+</ul>
+<p>在此示例中，一个 Simulink Function-Call Generator 模块通过周期函数调用触发输入事件 <code>sl_call</code> 来控制安全系统的时序。</p>
+<h3 id="探索示例-2"><a href="#探索示例-2" class="headerlink" title="探索示例"></a>探索示例</h3><p>在此示例中，Stateflow 图从几个 Manual Switch 模块接收输入，并输出到一对连接到 Display 模块的锁存子系统。在仿真过程中，您可以：</p>
+<ul>
+<li>通过点击 Switch 模块启用警报和传感器子系统并触发入侵检测。</li>
+<li>观看图动画，其中突出显示了图中的各种激活状态。</li>
+<li>查看 Scope 模块和仿真数据检查器中的输出信号。</li>
+</ul>
+<p>例如，假设您打开警报和传感器子系统，关闭传感器触发器，并开始仿真。在仿真过程中，您执行以下动作：</p>
+<ol>
+<li>在 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/EventsGetStartedExample_eq11392407565812330029.png" alt="$t &#x3D; 250$"> 秒的时刻，您触发门传感器。警报开始响起 (<code>Sound = 1</code>)，因此您立即禁用警报系统。您关闭门传感器触发器，然后重新打开警报。</li>
+<li>在 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/EventsGetStartedExample_eq08815713516279239351.png" alt="$t &#x3D; 520$"> 秒的时刻，您触发窗传感器并且警报开始响起 (<code>Sound = 0</code>)。这次，您不禁用警报。在大约 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/EventsGetStartedExample_eq18318288194079829825.png" alt="$t &#x3D; 600$"> 秒的时刻，安全系统向警方报警 (<code>call_police = 1</code>)。<code>Sound</code> 和 <code>call_police</code> 信号继续每隔 80 秒在 0 和 1 之间切换一次。</li>
+<li>在 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/EventsGetStartedExample_eq01438897797695050524.png" alt="$t &#x3D; 1400$"> 秒的时刻，您禁用警报。<code>Sound</code> 和 <code>call_police</code> 信号停止切换。</li>
+</ol>
+<p>仿真数据检查器显示 <code>Sound</code> 和 <code>call_police</code> 信号对您的动作的响应。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_security-sdi.png" alt="img"></p>
+<h2 id="步骤6：使用激活状态数据监视图的活动"><a href="#步骤6：使用激活状态数据监视图的活动" class="headerlink" title="步骤6：使用激活状态数据监视图的活动"></a>步骤6：使用激活状态数据监视图的活动</h2><p>如果 Stateflow® 图包含与图层次结构相关的数据，则可以使用激活状态数据来简化设计。通过启用激活状态数据，您可以：</p>
+<ul>
+<li>避免手动更新反映图活动的数据。</li>
+<li>在仿真数据检查器中记录并监视图活动。</li>
+<li>使用图活动数据来控制其他子系统。</li>
+<li>将图活动数据导出到其他 Simulink 模块。</li>
+</ul>
+<p>例如，在以下交通信号模型中，被激活的状态决定输出信号 <code>color</code> 的值。您可以通过启用激活状态数据来简化图的设计。在本例中，Stateflow 图可以通过跟踪状态活动来提供交通信号的颜色，因此您不必显式更新 <code>color</code> 的值。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_01.png" alt="img"></p>
+<p>要启用激活状态数据，请选择一个要监控的状态。然后，在<strong>属性检查器</strong>中：</p>
+<p>1.选择<strong>创建监控输出</strong>。</p>
+<p>2.选择以下活动类型之一：</p>
+<ul>
+<li><code>Self activity</code> - 指示状态是否激活的布尔值</li>
+<li><code>Child activity</code> - 指示哪个子状态被激活的枚举值</li>
+<li><code>Leaf state activity</code> - 指示哪个叶状态被激活的枚举值</li>
+</ul>
+<p>3.输入激活状态数据符号的<strong>数据称</strong>。</p>
+<p>4.（可选）对于 <code>Child activity</code> 或 <code>Leaf state activity</code>，输入激活状态数据类型的<strong>枚举名称</strong>。</p>
+<p>默认情况下，Stateflow 图将状态活动作为输出数据报告给 Simulink 模型。要将激活状态数据符号的作用域更改为局部数据，请使用<strong>符号</strong>窗格。</p>
+<h3 id="交通信号控制器建模"><a href="#交通信号控制器建模" class="headerlink" title="交通信号控制器建模"></a>交通信号控制器建模</h3><p>此示例使用激活状态数据为一对交通信号灯的控制器系统建模。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_02.png" alt="img"></p>
+<p>在 <code>Traffic Controller</code> 图中，由两个平行的子图管理着控制交通信号灯的逻辑。这两个子图具有相同的层次结构，即包含三个子状态：<code>Red</code>、<code>Yellow</code> 和 <code>Green</code>。输出数据 <code>Light1</code> 和 <code>Light2</code> 对应于子图中的激活子状态。这些信号：</p>
+<ul>
+<li>确定动画交通信号灯的阶段。</li>
+<li>帮助统计在每个信号灯下等待的汽车数量。</li>
+<li>驱动一个 Safety Assertion 子系统，确认两个交通信号灯永远不会同时呈绿色。</li>
+</ul>
+<p>要查看 Traffic Controller 图中的子图，请点击图左下角的箭头。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_03.png" alt="img"></p>
+<p>每个交通控制器循环遍历其子状态，从 <code>Red</code> 到 <code>Green</code> 到 <code>Yellow</code>，然后再返回到 <code>Red</code>。每个状态对应于交通信号灯循环中的一个阶段。输出信号 <code>Light1</code> 和 <code>Light2</code> 指示在任意给定时刻哪个状态被激活。</p>
+<p><strong>红灯</strong></p>
+<p>当 <code>Red</code> 状态被激活时，交通信号灯循环开始。经过短暂的延迟后，控制器检查在十字路口等待的汽车。如果检测到有至少一辆汽车或者经过了一定的时间，则控制器会将 <code>greenLightRequest</code> 设置为 <code>true</code>，以此来请求绿灯。在发出请求后，控制器继续保持 <code>Red</code> 状态较短的一段时间，直到检测到另一个交通信号为红色，控制器才会将状态转移到 <code>Green</code>。</p>
+<p><strong>绿灯</strong></p>
+<p>当 <code>Green</code> 状态被激活时，控制器会将 <code>greenLightRequest</code> 设置为 <code>false</code>，以此来取消其绿灯请求。控制器将 <code>greenLightLocked</code> 设置为 <code>true</code>，以防止另一个交通信号变绿。在短暂延迟后，控制器会检查是否有来自另一个控制器的绿灯请求。如果它收到请求或经过了一定的时间，则控制器会转移到 <code>Yellow</code> 状态。</p>
+<p><strong>黄灯</strong></p>
+<p>当 <code>Yellow</code> 状态变为非激活时，控制器会将 <code>greenLightLocked</code> 设置为 false，指示另一个交通信号灯可以安全地变绿。在转移到 <code>Red</code> 状态之前，控制器将保持 <code>Yellow</code> 状态一定的时间。然后开始下一个交通信号灯循环。</p>
+<p><strong>交通信号灯的时序</strong></p>
+<p>交通信号灯循环的时序通过几个参数来定义。要更改交通信号灯的计时，请双击 <code>Traffic Controller</code> 图，并在对话框中输入以下参数的新值：</p>
+<ul>
+<li><code>REDDELAY</code> - 从红灯激活到控制器检查十字路口等待车辆之间的时间长度。此值也是控制器发出绿灯请求后，交通信号灯可以变绿的最短时间长度。默认值为 6 秒。</li>
+<li><code>MAXREDDELAY</code> - 控制器在发出绿灯请求前检查车辆的最长时间。默认值为 360 秒。</li>
+<li><code>GREENDELAY</code> - 交通信号灯保持绿色的最长时间。默认值为 180 秒。</li>
+<li><code>MINGREENDELAY</code> - 交通信号灯保持绿色的最短时间长度。默认值为 120 秒。</li>
+<li><code>YELLOWDELAY</code> - 交通信号灯保持黄色的时间长度。默认值为 15 秒。</li>
+</ul>
+<h3 id="探索示例-3"><a href="#探索示例-3" class="headerlink" title="探索示例"></a>探索示例</h3><ol>
+<li>点击左下角的箭头打开图。</li>
+<li>在<strong>符号</strong>窗格中，选择 <code>greenLightRequested</code>。然后，在<strong>属性检查器</strong>中的<strong>记录</strong>下，选择<strong>记录信号数据</strong>。</li>
+<li>对 <code>greenLightLocked</code>、<code>Light1</code> 和 <code>Light2</code> 重复上一步骤。</li>
+<li>在<strong>仿真</strong>选项卡中，点击<strong>运行</strong>。</li>
+<li>在<strong>仿真</strong>选项卡中的<strong>查看结果</strong>下，点击<strong>数据检查器</strong>。</li>
+<li>在仿真数据检查器中，将记录的信号显示在单独的坐标区中。布尔信号 <code>greenLightRequested</code> 和 <code>greenLightLocked</code> 显示为数值 0 或 1。状态活动信号 <code>Light1</code> 和 <code>Light2</code> 为枚举数据，其值为 <code>Green</code>、<code>Yellow</code>、<code>Red</code> 和 <code>None</code>。</li>
+</ol>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_trafficlight-sdi.png" alt="img"></p>
+<p>要在仿真过程中跟踪图活动，可以使用仿真数据检查器中的缩放和光标按钮。例如，下面列出了仿真前 300 秒内的关键时刻：</p>
+<ul>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq05490811019241878006.png" alt="$t &#x3D; 0$"> - 在仿真开始时，两个交通信号灯都为红色。<code>Light1</code> 和 <code>Light2</code> 为 <code>Red</code>，<code>greenLightRequested</code> 为 <code>false</code>，<code>greenLightLocked</code> 为 <code>false</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq09978131082994638030.png" alt="$t &#x3D; 6$"> - 6 秒（<code>REDDELAY</code> 的默认值)后，两条街道上都有汽车在等待，因此两个交通信号灯都请求绿灯。<code>Light1</code> 和 <code>Light2</code> 仍为 <code>Red</code>，<code>greenLightRequested</code> 为 <code>true</code>，<code>greenLightLocked</code> 为 <code>false</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq11951804155291995028.png" alt="$t &#x3D; 12$"> - 再过 6 秒（<code>REDDELAY</code> 的默认值)后，信号灯 1 变为绿色，取消绿灯请求，并将 <code>greenLightLocked</code> 设置为 <code>true</code>。然后，信号灯 2 请求绿灯。<code>Light1</code> 为 <code>Green</code>，<code>Light2</code> 为 <code>Red</code>，<code>greenLightRequested</code> 变为 <code>false</code> 然后为 <code>true</code>，<code>greenLightLocked</code> 为 <code>true</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq15887113488953338383.png" alt="$t &#x3D; 132$"> - 120 秒（<code>MINGREENDELAY</code> 的默认值)后，信号灯 1 变为黄色。<code>Light1</code> 为 <code>Yellow</code>，<code>Light2</code> 为 <code>Red</code>，<code>greenLightRequested</code> 为 <code>true</code>，<code>greenLightLocked</code> 为 <code>true</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq13311095447044303409.png" alt="$t &#x3D; 147$"> - 15 秒（<code>YELLOWDELAY</code> 的默认值)后，信号灯 1 变为红色，并将 <code>greenLightLocked</code> 设置为 <code>false</code>。然后，信号灯 2 变为绿色，取消绿灯请求，并将 <code>greenLightLocked</code> 设置为 <code>true</code>。<code>Light1</code> 为 <code>Red</code>，<code>Light2</code> 为 <code>Green</code>，<code>greenLightRequested</code> 为 <code>false</code>，<code>greenLightLocked</code> 变为 <code>false</code> 然后为 <code>true</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq01350805154886934534.png" alt="$t &#x3D; 153$"> - 6 秒（<code>REDDELAY</code> 的默认值)后，信号灯 1 请求绿灯。<code>Light1</code> 为 <code>Red</code>，<code>Light2</code> 为 <code>Green</code>，<code>greenLightRequested</code> 为 <code>true</code>，<code>greenLightLocked</code> 为 <code>true</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq10304234090842083408.png" alt="$t &#x3D; 267$"> - 在信号灯 2 为绿色 120 秒（<code>MINGREENDELAY</code> 的默认值)后，信号灯 2 变为黄色。<code>Light1</code> 为 <code>Red</code>，<code>Light2</code> 为 <code>Yellow</code>，<code>greenLightRequested</code> 为 <code>true</code>，<code>greenLightLocked</code> 为 <code>true</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq05922833764625562942.png" alt="$t &#x3D; 282$"> - 15 秒（<code>YELLOWDELAY</code> 的默认值)后，信号灯 2 变为红色，并将 <code>greenLightLocked</code> 设置为 <code>false</code>。然后，信号灯 1 变为绿色，取消绿灯请求，并将 <code>greenLightLocked</code> 设置为 <code>true</code>。<code>Light1</code> 为 <code>Green</code>，<code>Light2</code> 为 <code>Red</code>，<code>greenLightRequested</code> 为 <code>false</code>，<code>greenLightLocked</code> 变为 <code>false</code> 然后为 <code>true</code>。</li>
+<li><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq17718326725850168440.png" alt="$t &#x3D; 288$"> - 6 秒（<code>REDDELAY</code> 的默认值)后，信号灯 2 请求绿灯。<code>Light1</code> 为 <code>Green</code>，<code>Light2</code> 为 <code>Red</code>，<code>greenLightRequested</code> 为 <code>true</code>，<code>greenLightLocked</code> 为 <code>true</code>。</li>
+</ul>
+<p>重复循环，直到仿真于 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/ActiveStateDataGetStartedExample_eq01657301476922979099.png" alt="$t &#x3D; 1000$"> 秒处结束。</p>
+<h2 id="步骤7：使用时序逻辑调度图动作"><a href="#步骤7：使用时序逻辑调度图动作" class="headerlink" title="步骤7：使用时序逻辑调度图动作"></a>步骤7：使用时序逻辑调度图动作</h2><p>要定义 Stateflow 图在仿真时间的行为，请在图的状态和转移动作中包含时序逻辑运算符。时序逻辑运算符是内置函数，告知状态保持激活的时间长度或布尔条件保持为 true 的时间长度。使用时序逻辑，您可以控制以下各项的时序：</p>
+<ul>
+<li>各状态之间的转移</li>
+<li>函数调用</li>
+<li>变量值的更改</li>
+</ul>
+<p>以下是最常见的绝对时间时序逻辑运算符：</p>
+<ul>
+<li><code>after</code> - 如果自包含该运算符的状态或包含该运算符的转移的源状态被激活以来经过的仿真时间达到 <code>n</code> 秒，则 <code>after(n,sec)</code> 返回 <code>true</code>。否则，运算符返回 <code>false</code>。此运算符支持以秒 (<code>sec</code>)、毫秒 (<code>msec</code>) 和微秒 (<code>usec</code>) 计的基于事件的时序逻辑和绝对时间时序逻辑。</li>
+<li><code>elapsed</code> - <code>elapsed(sec)</code> 返回自关联状态激活以来经过的仿真时间的秒数。</li>
+<li><code>duration</code> - <code>duration(C)</code> 返回自布尔条件 <code>C</code> 变为 <code>true</code> 以来经过的仿真时间的秒数。</li>
+</ul>
+<h3 id="Bang-Bang-温度控制器建模"><a href="#Bang-Bang-温度控制器建模" class="headerlink" title="Bang-Bang 温度控制器建模"></a>Bang-Bang 温度控制器建模</h3><p>此示例使用时序逻辑对调节锅炉内部温度的 Bang-Bang 控制器建模。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_01.png" alt="img"></p>
+<p>该示例由 Stateflow 图和 Simulink® 子系统组成。<code>Bang-Bang Controller</code> 图将当前锅炉温度与参考设定值进行比较，并确定是否开启锅炉。<code>Boiler Plant Model</code> 子系统通过根据控制器的状态升高或降低温度，对锅炉内部的动态特性进行建模。然后，图使用锅炉温度进行下一步仿真。</p>
+<p><code>Bang-Bang Controller</code> 图使用时序逻辑运算符 <code>after</code> 来实现以下目的：</p>
+<ul>
+<li>当锅炉在开启和关闭之间切换时，调节 Bang-Bang 循环的时序。</li>
+<li>根据锅炉的工作模式控制以不同速率闪烁的状态 LED。</li>
+</ul>
+<p>定义锅炉行为和 LED 子系统行为的计时器彼此独立运行，并不阻断或中断控制器的仿真。</p>
+<h3 id="Bang-Bang-循环的时序"><a href="#Bang-Bang-循环的时序" class="headerlink" title="Bang-Bang 循环的时序"></a>Bang-Bang 循环的时序</h3><p><code>Bang-Bang Controller</code> 图包含一对代表锅炉两种工作模式的子状态：<code>On</code> 和 <code>Off</code>。该图使用激活状态输出数据 <code>boiler</code> 来指示哪个子状态为激活状态。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_02.png" alt="img"></p>
+<p><code>On</code> 和 <code>Off</code> 子状态之间转移上的条件定义 Bang-Bang 控制器的行为：</p>
+<ul>
+<li>在发生从 <code>On</code> 到 <code>Off</code> 的第一个转移时，根据条件 <code>after(20,sec)</code>，锅炉在开启 20 秒后关闭。</li>
+<li>在发生从 <code>Off</code> 到 <code>On</code> 的转移时，如果图形函数 <code>cold()</code> 指示锅炉温度低于参考设定值至少 40 秒，则条件 <code>after(40,sec)[cold()]</code> 开启锅炉。</li>
+<li>在发生从 <code>On</code> 到 <code>Off</code> 的第二个转移时，<code>On</code> 状态中的内部转移逻辑确定在锅炉温度等于或高于参考设定值时关闭锅炉。</li>
+</ul>
+<p>由于存在这些转移动作，Bang-Bang 循环的时序取决于锅炉的当前温度。在仿真开始时，锅炉较冷，控制器在 <code>Off</code> 状态下保持 40 秒，在 <code>On</code> 状态下保持 20 秒。在时间到达 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq05317045536900750900.png" alt="$t &#x3D; 478$"> 秒时，锅炉的温度达到参考设定值。自这一时刻起，锅炉仅需补偿在 <code>Off</code> 状态下的热损失。因而控制器在 <code>Off</code> 状态下保持 40 秒，在 <code>On</code> 状态下保持 4 秒。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_boiler-sdi-temp.png" alt="img"></p>
+<h3 id="状态-LED-的时序"><a href="#状态-LED-的时序" class="headerlink" title="状态 LED 的时序"></a>状态 LED 的时序</h3><p><code>Off</code> 状态包含子状态 <code>Flash</code>，其自环转移由动作 <code>after(5,sec)</code> 触发。由于这种转移，当 <code>Off</code> 状态被激活时，子状态将执行其 <code>entry</code> 动作并每隔 5 秒就调用一次图形函数 <code>flash_LED</code>。该函数使输出符号 <code>LED</code> 的值在 0 和 1 之间切换。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_03.png" alt="img"></p>
+<p><code>On</code> 状态调用图形函数 <code>flash_LED</code> 作为 <code>entry, during</code> 组合状态的动作。当 <code>On</code> 状态被激活时，此动作在仿真的每个时间步调用该函数，以在 0 和 2 之间切换输出符号 <code>LED</code> 的值。</p>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_04.png" alt="img"></p>
+<p>因此，状态 LED 的时序取决于锅炉的工作模式。例如：</p>
+<ul>
+<li>从 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq05490811019241878006.png" alt="$t &#x3D; 0$"> 秒到 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq03650817669656050065.png" alt="$t &#x3D; 40$"> 秒，锅炉关闭，并且 LED 信号每隔 5 秒就在 0 和 1 之间交替一次。</li>
+<li>从 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq03650817669656050065.png" alt="$t &#x3D; 40$"> 秒到 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq01915627481382864964.png" alt="$t &#x3D; 60$"> 秒，锅炉开启，并且 LED 信号每隔一秒就在 0 和 2 之间交替一次。</li>
+<li>从 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq01915627481382864964.png" alt="$t &#x3D; 60$"> 秒到 <img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/TemporalLogicGetStartedExample_eq09033346722860809468.png" alt="$t &#x3D; 100$"> 秒，锅炉关闭，并且 LED 信号每隔 5 秒就在 0 和 1 之间交替一次。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_boiler-sdi-led.png" alt="img"></p>
+<h3 id="探索示例-4"><a href="#探索示例-4" class="headerlink" title="探索示例"></a>探索示例</h3><p>使用其他时序逻辑来研究随着锅炉温度接近参考设定值，Bang-Bang 循环的时序如何变化。</p>
+<p>1.输入调用 <code>elapsed</code> 和 <code>duration</code> 运算符的新状态动作：</p>
+<ul>
+<li>在 <code>On</code> 状态下，将 <code>Timer1</code> 设置为 <code>On</code> 状态被激活的时间长度：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">en,du,ex: Timer1 = elapsed(sec);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 <code>Off</code> 状态下，将 <code>Timer2</code> 设置为锅炉温度等于或高于参考设定值的时间长度：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">en,du,ex: Timer2 = duration(temp&gt;=reference);</span><br></pre></td></tr></table></figure>
+
+<p>2.在<strong>符号</strong>窗格中，点击<strong>解析未定义的符号</strong>。Stateflow 编辑器将符号 <code>Timer1</code> 和 <code>Timer2</code> 解析为输出数据。</p>
+<p>3.对 <code>Timer1</code> 和 <code>Timer2</code> 启用记录。在<strong>符号</strong>窗格中，选择每个符号。然后，在<strong>属性检查器</strong>中的<strong>记录</strong>下，选择<strong>记录信号数据</strong>。</p>
+<p>4.在<strong>仿真</strong>选项卡中，点击<strong>运行</strong>。</p>
+<p>5.在<strong>仿真</strong>选项卡中的<strong>查看结果</strong>下，点击<strong>数据检查器</strong>。</p>
+<p>6.在仿真数据检查器中，在同一坐标区中显示信号 <code>boiler</code> 和 <code>Timer1</code>。绘图表明：</p>
+<ul>
+<li>通常情况下，在锅炉冷时 Bang-Bang 循环的 <code>On</code> 阶段持续 20 秒，在锅炉热时持续 4 秒。</li>
+<li>在锅炉第一次达到参考温度时，循环会提前中断，控制器在 <code>On</code> 状态仅保持 18 秒。</li>
+<li>在锅炉变热后，第一个循环的时间比随后的循环时间略短，在该循环中控制器在 <code>On</code> 状态仅保持了 3 秒。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_boiler-sdi-timer1.png" alt="img"></p>
+<p>7.在仿真数据检查器中，在同一坐标区中显示信号 <code>boiler</code> 和 <code>Timer2</code>。绘图表明：</p>
+<ul>
+<li>在锅炉变热后，Bang-Bang 循环的 <code>Off</code> 阶段通常需要 9 秒才能冷却。</li>
+<li>锅炉第一次达到参考温度时，需要 19 秒来冷却，这是其他循环冷却时间的两倍多。</li>
+</ul>
+<p><img src="https://ww2.mathworks.cn/help/examples/stateflow/win64/xxsf_boiler-sdi-timer2.png" alt="img"></p>
+<p>较短的循环和较长的冷却时间是由于 <code>On</code> 状态内的子状态层次结构导致的。当锅炉首次达到参考温度时，从 <code>HIGH</code> 到 <code>NORM</code> 的转移会使控制器在一个额外的时间步内保持开启，导致锅炉温度超过正常值。而在后面的循环中，历史结点导致 <code>On</code> 阶段以激活的 <code>NORM</code> 子状态开始。然后，控制器在锅炉达到参考温度后立即关闭，从而冷却锅炉。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Stateflow/">https://youshouldtrustme.github.io/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Stateflow/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_10.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Simulink/" title="Simulink"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Simulink</div></div><div class="info-2"><div class="info-item-1">参考链接Simulink 快速入门 - MathWorks 中国 SimulinkSimulink 是 MATLAB 环境中的一个扩展工具，用于多领域动态系统的建模、仿真和分析。它提供了一个图形化的用户界面，使用户能够通过拖放各种模块和连接它们来构建模型。Simulink 特别适用于以下几个领域：  控制系统设计：用户可以设计和仿真复杂的控制系统，包括 PID 控制、模糊控制、鲁棒控制等。 信号处理：Simulink 提供了广泛的信号处理工具箱，可以用于滤波、调制、解调等操作。 通信系统：可以建模和仿真通信系统，包括发射机、接收机、调制解调器等。 物理系统建模：可以建模机械、电气、热力、液压等物理系统，通过物理建模工具箱（如 Simscape）进行仿真。 嵌入式系统：可以设计嵌入式控制器，生成 C&#x2F;C++ 代码，并将其部署到嵌入式硬件上。  Simulink 的主要功能包括：  图形化建模：通过图形化界面，用户可以拖放和连接各种模块来构建系统模型。 仿真：可以对构建的模型进行仿真，分析系统的动态行为。 模块化设计：支持模块化设计，可以将复杂系统分解为多个子系统，进行分层...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Shell/" title="Shell"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Shell</div></div><div class="info-2"><div class="info-item-1">参考链接第十章、认识与学习BASH | 鸟哥的 Linux 私房菜：基础学习篇 第四版 (gitbooks.io) 课程概览与 shell · the missing semester of your cs education (missing-semester-cn.github.io) 第十二章、学习 Shell Scripts | 鸟哥的 Linux 私房菜：基础学习篇 第四版 (gitbooks.io) BASH</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stateflow%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">Stateflow简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Stateflow%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">Stateflow基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">基本命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E7%BC%96%E8%BE%91%E5%9B%BE%E8%A1%A8"><span class="toc-number">4.1.</span> <span class="toc-text">创建和编辑图表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%8A%B6%E6%80%81%E5%92%8C%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.2.</span> <span class="toc-text">添加状态和转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%8A%B6%E6%80%81%E5%B1%9E%E6%80%A7"><span class="toc-number">4.3.</span> <span class="toc-text">设置状态属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%BD%AC%E6%8D%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">4.4.</span> <span class="toc-text">设置转换条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BF%E7%9C%9F%E5%92%8C%E8%B0%83%E8%AF%95"><span class="toc-number">4.5.</span> <span class="toc-text">仿真和调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MATLAB%E5%91%BD%E4%BB%A4%E4%B8%8EStateflow%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.6.</span> <span class="toc-text">MATLAB命令与Stateflow接口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.</span> <span class="toc-text">有限状态机的建模</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A41%EF%BC%9A%E6%9E%84%E9%80%A0%E5%B9%B6%E8%BF%90%E8%A1%8CStateflow%E5%9B%BE"><span class="toc-number">5.1.</span> <span class="toc-text">步骤1：构造并运行Stateflow图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0-Stateflow-%E5%9B%BE"><span class="toc-number">5.1.1.</span> <span class="toc-text">构造 Stateflow 图</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%BC%80-Stateflow-%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">5.1.1.1.</span> <span class="toc-text">打开 Stateflow 编辑器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%8A%B6%E6%80%81%E5%92%8C%E8%BD%AC%E7%A7%BB"><span class="toc-number">5.1.1.2.</span> <span class="toc-text">添加状态和转移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E6%9C%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E7%AC%A6%E5%8F%B7"><span class="toc-number">5.1.1.3.</span> <span class="toc-text">解析未定义的符号</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%A8%A1%E5%9E%8B%E8%BF%9B%E8%A1%8C%E4%BB%BF%E7%9C%9F"><span class="toc-number">5.1.2.</span> <span class="toc-text">对模型进行仿真</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A42%EF%BC%9A%E4%BD%BF%E7%94%A8%E7%8A%B6%E6%80%81%E5%8A%A8%E4%BD%9C%E5%92%8C%E8%BD%AC%E7%A7%BB%E6%A0%87%E7%AD%BE%E5%AE%9A%E4%B9%89%E5%9B%BE%E8%A1%8C%E4%B8%BA"><span class="toc-number">5.2.</span> <span class="toc-text">步骤2：使用状态动作和转移标签定义图行为</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%8A%A8%E4%BD%9C%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.2.1.</span> <span class="toc-text">状态动作类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%A7%BB%E6%A0%87%E7%AD%BE%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.2.2.</span> <span class="toc-text">转移标签类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%9B%BE%E8%A1%8C%E4%B8%BA"><span class="toc-number">5.2.3.</span> <span class="toc-text">检查图行为</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A43%EF%BC%9A%E5%88%9B%E5%BB%BA%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E6%9D%A5%E7%AE%A1%E7%90%86%E5%A4%8D%E6%9D%82%E7%B3%BB%E7%BB%9F"><span class="toc-number">5.3.</span> <span class="toc-text">步骤3：创建层次结构来管理复杂系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AA%92%E4%BD%93%E6%92%AD%E6%94%BE%E5%99%A8%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.3.1.</span> <span class="toc-text">媒体播放器建模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E4%BD%BF%E7%94%A8%E7%8A%B6%E6%80%81%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%AE%9E%E7%8E%B0%E8%A1%8C%E4%B8%BA"><span class="toc-number">5.3.2.</span> <span class="toc-text">通过使用状态层次结构实现行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.3.3.</span> <span class="toc-text">探索示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A44%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%B9%B6%E8%A1%8C%E5%88%86%E8%A7%A3%E5%AF%B9%E5%90%8C%E6%AD%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.4.</span> <span class="toc-text">步骤4：使用并行分解对同步子系统建模</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%88%86%E8%A7%A3"><span class="toc-number">5.4.1.</span> <span class="toc-text">状态分解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%94%E6%B8%A9%E6%8E%A7%E5%88%B6%E5%99%A8%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.4.2.</span> <span class="toc-text">气温控制器建模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%B9%B6%E8%A1%8C%E7%8A%B6%E6%80%81%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">5.4.3.</span> <span class="toc-text">指定并行状态的执行顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E7%A4%BA%E4%BE%8B-1"><span class="toc-number">5.4.4.</span> <span class="toc-text">探索示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A45%EF%BC%9A%E9%80%9A%E8%BF%87%E5%B9%BF%E6%92%AD%E4%BA%8B%E4%BB%B6%E5%90%8C%E6%AD%A5%E5%B9%B6%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="toc-number">5.5.</span> <span class="toc-text">步骤5：通过广播事件同步并行状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B6%E5%BA%AD%E5%AE%89%E5%85%A8%E7%B3%BB%E7%BB%9F%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.5.1.</span> <span class="toc-text">家庭安全系统建模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96-Simulink-%E6%A8%A1%E5%9D%97%E5%8D%8F%E8%B0%83"><span class="toc-number">5.5.2.</span> <span class="toc-text">与其他 Simulink 模块协调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E7%A4%BA%E4%BE%8B-2"><span class="toc-number">5.5.3.</span> <span class="toc-text">探索示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A46%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%BF%80%E6%B4%BB%E7%8A%B6%E6%80%81%E6%95%B0%E6%8D%AE%E7%9B%91%E8%A7%86%E5%9B%BE%E7%9A%84%E6%B4%BB%E5%8A%A8"><span class="toc-number">5.6.</span> <span class="toc-text">步骤6：使用激活状态数据监视图的活动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E9%80%9A%E4%BF%A1%E5%8F%B7%E6%8E%A7%E5%88%B6%E5%99%A8%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.6.1.</span> <span class="toc-text">交通信号控制器建模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E7%A4%BA%E4%BE%8B-3"><span class="toc-number">5.6.2.</span> <span class="toc-text">探索示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A47%EF%BC%9A%E4%BD%BF%E7%94%A8%E6%97%B6%E5%BA%8F%E9%80%BB%E8%BE%91%E8%B0%83%E5%BA%A6%E5%9B%BE%E5%8A%A8%E4%BD%9C"><span class="toc-number">5.7.</span> <span class="toc-text">步骤7：使用时序逻辑调度图动作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bang-Bang-%E6%B8%A9%E5%BA%A6%E6%8E%A7%E5%88%B6%E5%99%A8%E5%BB%BA%E6%A8%A1"><span class="toc-number">5.7.1.</span> <span class="toc-text">Bang-Bang 温度控制器建模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bang-Bang-%E5%BE%AA%E7%8E%AF%E7%9A%84%E6%97%B6%E5%BA%8F"><span class="toc-number">5.7.2.</span> <span class="toc-text">Bang-Bang 循环的时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81-LED-%E7%9A%84%E6%97%B6%E5%BA%8F"><span class="toc-number">5.7.3.</span> <span class="toc-text">状态 LED 的时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E7%A4%BA%E4%BE%8B-4"><span class="toc-number">5.7.4.</span> <span class="toc-text">探索示例</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

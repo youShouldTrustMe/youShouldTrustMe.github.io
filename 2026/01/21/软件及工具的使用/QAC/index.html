@@ -1,0 +1,611 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>QAC | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="相关基础知识评估标准 缺陷数量：报告中列出的所有缺陷和警告的数量。 缺陷严重性：缺陷的等级分类（如严重、中等、轻微），帮助优先处理高风险问题。 代码复杂度：圈复杂度等度量，反映代码的复杂程度。 代码规范违例：违反编码标准和最佳实践的数量和类型。 代码覆盖率：静态分析所覆盖的代码比例，评估代码的全面性。 重复代码：检测到的重复代码块的数量。 安全漏洞：识别的安全问题和潜在的漏洞。 性能警告：关于性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QAC">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="相关基础知识评估标准 缺陷数量：报告中列出的所有缺陷和警告的数量。 缺陷严重性：缺陷的等级分类（如严重、中等、轻微），帮助优先处理高风险问题。 代码复杂度：圈复杂度等度量，反映代码的复杂程度。 代码规范违例：违反编码标准和最佳实践的数量和类型。 代码覆盖率：静态分析所覆盖的代码比例，评估代码的全面性。 重复代码：检测到的重复代码块的数量。 安全漏洞：识别的安全问题和潜在的漏洞。 性能警告：关于性能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg">
+<meta property="article:published_time" content="2026-01-21T02:07:02.616Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.616Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "QAC",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg",
+  "datePublished": "2026-01-21T02:07:02.616Z",
+  "dateModified": "2026-01-21T02:07:02.616Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'QAC',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">QAC</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">QAC</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.616Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="相关基础知识"><a href="#相关基础知识" class="headerlink" title="相关基础知识"></a>相关基础知识</h1><h2 id="评估标准"><a href="#评估标准" class="headerlink" title="评估标准"></a>评估标准</h2><ol>
+<li><strong>缺陷数量</strong>：报告中列出的所有缺陷和警告的数量。</li>
+<li><strong>缺陷严重性</strong>：缺陷的等级分类（如严重、中等、轻微），帮助优先处理高风险问题。</li>
+<li><strong>代码复杂度</strong>：圈复杂度等度量，反映代码的复杂程度。</li>
+<li><strong>代码规范违例</strong>：违反编码标准和最佳实践的数量和类型。</li>
+<li><strong>代码覆盖率</strong>：静态分析所覆盖的代码比例，评估代码的全面性。</li>
+<li><strong>重复代码</strong>：检测到的重复代码块的数量。</li>
+<li><strong>安全漏洞</strong>：识别的安全问题和潜在的漏洞。</li>
+<li><strong>性能警告</strong>：关于性能问题的警告和建议。</li>
+</ol>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><p>在 <strong>QAC</strong>（Quality Assurance C）中，<strong>规则</strong> 是一组编码标准或检查项，用于静态代码分析。它们的主要作用是自动检测源代码中的潜在错误、不符合编码规范的地方，以及可能导致软件漏洞或性能问题的代码。具体来说，QAC中的规则主要有以下几个作用：</p>
+<ol>
+<li><strong>编码标准一致性</strong>：确保代码符合编码标准（例如MISRA-C标准），提升代码的一致性和可维护性。</li>
+<li><strong>错误检测</strong>：帮助识别常见的编程错误，如空指针引用、数组越界、未初始化的变量等。</li>
+<li><strong>代码质量提高</strong>：通过检测潜在的错误和坏习惯，提升代码的整体质量和可读性。</li>
+<li><strong>安全性增强</strong>：识别可能导致安全漏洞的代码，如未正确处理用户输入、内存泄漏等。</li>
+<li><strong>减少调试时间</strong>：在代码早期阶段检测并修复问题，减少后期调试和修复的工作量。</li>
+<li><strong>符合行业规范</strong>：某些行业（如汽车、医疗设备）对软件安全性和可靠性要求很高，QAC的规则有助于确保代码符合这些行业规范。</li>
+</ol>
+<h2 id="检测原理"><a href="#检测原理" class="headerlink" title="检测原理"></a>检测原理</h2><ol>
+<li><p><strong>代码解析（Parsing）</strong></p>
+<ul>
+<li><strong>词法分析和语法分析</strong>：QAC 首先对源代码进行词法分析，将代码分解成标记（tokens），然后进行语法分析，构建语法树（Abstract Syntax Tree, AST）。这一步确保代码的语法结构正确，并为后续的分析提供基础。</li>
+<li><strong>语义分析</strong>：在语法树基础上，QAC 进行语义分析，理解代码的实际含义，包括变量类型、作用域、函数调用等信息。</li>
+</ul>
+</li>
+<li><p><strong>规则应用（Rule Application）</strong></p>
+<ul>
+<li><strong>预定义规则</strong>：QAC 内置了大量的规则，这些规则可能基于行业标准（如 MISRA-C、CERT C）或最佳编码实践。这些规则涵盖了代码风格、潜在错误、安全漏洞等多个方面。</li>
+<li><strong>自定义规则</strong>：用户可以根据项目需求定义自有规则，进一步细化代码检查标准。</li>
+<li><strong>规则匹配</strong>：QAC 将解析后的代码与这些规则进行匹配，识别出不符合规范或存在潜在问题的代码片段。</li>
+</ul>
+</li>
+<li><p><strong>控制流和数据流分析（Control Flow and Data Flow Analysis）</strong></p>
+<ul>
+<li><strong>控制流分析</strong>：QAC 分析代码中的控制结构（如条件分支、循环、跳转等），识别复杂或不合理的控制流模式，预防死循环、未定义行为等问题。</li>
+<li><strong>数据流分析</strong>：通过追踪变量的定义、使用和传递，QAC 检测未初始化变量、变量覆盖、内存泄漏、数据竞争等问题。</li>
+</ul>
+</li>
+<li><p><strong>抽象语法树（AST）和中间表示（Intermediate Representation）</strong></p>
+<ul>
+<li><strong>AST 构建</strong>：通过构建 AST，QAC 能够深入理解代码的结构和层次关系，支持复杂的代码模式识别。</li>
+<li><strong>中间表示</strong>：QAC 可能将代码转换为中间表示，以便进行更高效和全面的分析，如路径分析、依赖分析等。</li>
+</ul>
+</li>
+<li><p><strong>错误检测与报告（Error Detection and Reporting）</strong></p>
+<ul>
+<li><strong>错误分类</strong>：QAC 将检测到的问题按照严重性、类型进行分类，如警告、错误、建议等。</li>
+<li><strong>详细报告</strong>：生成详细的报告，指出问题所在的具体位置（文件、行号）、问题描述以及可能的解决建议，帮助开发人员快速定位和修复问题。</li>
+</ul>
+</li>
+<li><p><strong>集成与自动化（Integration and Automation）</strong></p>
+<ul>
+<li><strong>集成开发环境（IDE）支持</strong>：QAC 可以集成到各种 IDE 中，实时反馈代码问题，提高开发效率。</li>
+<li><strong>持续集成（CI）支持</strong>：与持续集成工具集成，实现自动化的代码检查，确保每次代码提交都符合质量标准。</li>
+</ul>
+</li>
+<li><p><strong>增量分析与优化（Incremental Analysis and Optimization）</strong></p>
+<ul>
+<li><strong>增量分析</strong>：QAC 支持对代码的增量分析，只分析发生变化的部分，提高分析效率。</li>
+<li><strong>性能优化</strong>：通过优化算法和数据结构，QAC 能在保证分析深度和准确性的同时，提高分析速度。</li>
+</ul>
+</li>
+</ol>
+<p><strong>总结</strong></p>
+<p>QAC 通过全面的静态代码分析方法，包括语法和语义解析、规则匹配、控制流和数据流分析，结合预定义和自定义的规则集，实现对代码质量、安全性和规范性的多维度检查。其自动化、集成化的特点，使得开发团队能够在早期阶段发现并修复潜在问题，提升软件的整体质量和可靠性。</p>
+<h1 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h1><p>QAC工程构成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">project</span><br><span class="line">	├─prqa</span><br><span class="line">    │	├─configs</span><br><span class="line">   	│	│  └─Initial</span><br><span class="line">    │	│      ├─cip</span><br><span class="line">    │	│      ├─config</span><br><span class="line">    │	│      ├─logs</span><br><span class="line">    │	│      ├─output</span><br><span class="line">    │	│      └─reports</span><br><span class="line">    │	├─unified</span><br><span class="line">    │	└─upgrade</span><br><span class="line">	├─prqaproject.xml</span><br><span class="line">  	├─src</span><br><span class="line">  	└─lib</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>prqaproject.xml：文件保存工程相关信息</li>
+<li>config：包含工程各配置文件，如 cct、 acf、 rcf 等。</li>
+<li>output：按照代码层次创建文件夹，保存分析后输出文件。</li>
+<li>reports： 保存生成的报告文件</li>
+<li>src\lib…：相关代码文件夹， 可手动或通过同步导入（保持其结构）</li>
+</ul>
+<h2 id="新建工程"><a href="#新建工程" class="headerlink" title="新建工程"></a>新建工程</h2><ol>
+<li>点击 Create New Project 按钮，或点击 Project 菜单下的 Create New Project，创建新工程</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/23_14_34_39_202409231434699.png" alt="新建工程"></p>
+<ol start="2">
+<li>在弹出对话框设置工程基本信息 。<ol>
+<li><p>通过 Project Location 右侧按钮选择工程根目录， Project Name 栏以根目录名作为工程名。通过右侧按钮选择工程根目录，以根目录名作为工程名， 选好目录后可以进行修改，修改后重新创建工程目录， 工程名称根据选定的工程路径自动生成。</p>
+</li>
+<li><p>根据工程需要在下拉菜单选择配置文件。（初始选择 default.acf 和 default.en_US.rcf 即可）</p>
+<blockquote>
+<p>[!TIP]</p>
+<p>注意，这里不能勾选AUTO CTT，否则就不能next</p>
+</blockquote>
+</li>
+<li><p>点击 Next， 进行相应编译器的选择，先选择 C，在选择 C++，如果只用是 C 或者只是C++的代码，则另外一种 CCT（Compiler Compatibility Template， 编译器兼容模板） 可以任意选择。</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>建议选择与实际编译器匹配或接近的 CCT 文件，没有匹配的编译器时选择Helix_Generic_C 或 Helix_Generic_C++ 。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<p>设置完毕后，点击 Finish， 则可在弹出的窗口进行工程详细设定（可暂时不进行详细设定）。  </p>
+<p>在<code>files</code>卡片中会显示相关工程的组成结构</p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>Reprise License Manager（服务器端） 在每次使用 QAC 前都要启动， 并在QAC 使用期间保持打开。  </p>
+</blockquote>
+<h2 id="添加源码"><a href="#添加源码" class="headerlink" title="添加源码"></a>添加源码</h2><p><em><code>手动</code>导入</em></p>
+<p>手动添加代码可选择添加单一文件，或添加文件夹。  </p>
+<p>可通过右键resource，选择add file来添加源码文件</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/23_15_47_50_202409231547444.png" alt="添加源码文件"></p>
+<p><em><code>同步</code>方式</em></p>
+<p>同步方式需要跟踪编译过程， 因此 QAC 客户端电脑具备编译环境时才可使用此方式， 主要适用于以下情况：</p>
+<ol>
+<li><p>分析一个已经成功编译的完整工程</p>
+</li>
+<li><p>Linux 环境下的测试，尤其是使用了 Linux 下的交叉编译环境，由于调用路径纷繁不好追踪， “同步”这种半自动化方式可以协助解决此类问题</p>
+</li>
+</ol>
+<p>步骤如下：</p>
+<ol>
+<li><p>点击 project-&gt;synchronize  </p>
+</li>
+<li><p>在弹出的窗口中填写调用的编译环境，并点击 Synchronize，进行调用。一般可有如下两种模式：  </p>
+<ol>
+<li><p>“Enter Build Command”直接填写编译环境调用的命令，如“.\Keil_v5\UV4\UV4.exe”，则“Optional Working Directory”中无需填写任何路径，该种情况下，点击“Synchronize”按钮之后，会自动调用对应的 keil 编译环境，直接在编译器界面对待测试工程进行build 手动操作，即可实现 QAC 的源码同步</p>
+</li>
+<li><p>“Enter Build Command”填写的是跟踪待测工程的编译命令，如“ make clean &amp;&amp;make”， 则必须在“Optional Working Directory”中指明 make 指令执行的 makefile文件的路径，否则无法实现跟踪</p>
+</li>
+</ol>
+<blockquote>
+<p>[!NOTE]</p>
+<p>需要注意， 两种模式均需保证工程编译之前是 clean 的状态  </p>
+</blockquote>
+<blockquote>
+<p>这里以keil为例，在synchronize的页面的entre build command的输入框中输入keil的运行程序exe文件</p>
+</blockquote>
+</li>
+<li><p>此时等待 QAC 自动调起 keil。切换到自己需要进行静态分析的工程,对该工程 clean再进行 build 一次，等待 build 完成。在编译环境 build 过程中， QAC 客户端窗口会显示一些文件逐步 File-added  </p>
+</li>
+<li><p>build 完成后， 手动关闭 keil，可以在 QAC 中发现刚刚编译的文件已经添加进来</p>
+</li>
+<li><p>打开所创建的 QAC 工程目录，一级目录下有文件 prqaproject.xml 文件，文本格式打开可以看到加载进去的所有源码文件,以及源码对应的一些头文件或宏定义信息。</p>
+</li>
+</ol>
+<h2 id="工程配置"><a href="#工程配置" class="headerlink" title="工程配置"></a>工程配置</h2><ol>
+<li><p>点击 Project -&gt; Project Properties，打开工程属性页面。  </p>
+<ol>
+<li><p>Analysis 用于分析配置。从 Component Option 中选择配置选项，在对应 Argument 窗口（界面右下角）中进行对应设置。</p>
+<ol>
+<li><p>-d：进行必要的宏定义添加</p>
+</li>
+<li><p>-threshold<br>度量元检测值定义</p>
+<p>metric{&lt; 或 &lt;&#x3D; 或 &#x3D; 或 &gt; 或 &gt;&#x3D;}value[:msq no]</p>
+<p>eg.STCYC&gt;10.6000</p>
+</li>
+<li><p>-i：添加需要的头文件路径</p>
+</li>
+<li><p>-quiet：屏蔽对头文件的扫描</p>
+</li>
+<li><p>-warncall<br>调用函数设置警告</p>
+<p>function[&#x3D;msq no]</p>
+<p>eq:open&#x3D;6001</p>
+</li>
+<li><p>-maxerrors</p>
+<p>指定最大错误数</p>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/23_16_23_25_202409231623694.png" alt="参数设置"></p>
+</li>
+<li><p>Rule Configuration 用于消息设定 ：在 Rule Configuration 可查看变更 Message 以及规则组  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_9_57_47_202409240957871.png" alt="消息配置"></p>
+<ol>
+<li><p>Analysis 界面中添加 M3CM 组件（弹出的窗口点击 Yes）</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_10_4_30_202409241004394.png" alt="添加组件"></p>
+<p>点击完确认之后，会显示产生的相关文件</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_10_6_38_202409241006372.png" alt="产生的文件名"></p>
+</li>
+<li><p>根据 QAC 版本选择对应的 m3cm 规则集进行导入。点击保存即可</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_10_12_59_202409241012717.png" alt="导入相关规则文件"></p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="执行分析"><a href="#执行分析" class="headerlink" title="执行分析"></a>执行分析</h2><p>分析方法有两种：</p>
+<ol>
+<li><p>方式一： 通过菜单栏 Analysis-&gt;File-Based Analysis，选择对当前工程、所选文件或勾选指定文件进行静态分析。</p>
+<ol>
+<li>也可以直接点击快捷键进行分析  <img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_10_17_53_202409241017018.png#icon" alt="image-20240924101752916" style="zoom:200%;" /></li>
+</ol>
+</li>
+<li><p>方式二： 可在工程文件列表中， 选择相应文件夹&#x2F;文件，右键 Analyse selected file(s)，对其进行分析。</p>
+</li>
+</ol>
+<h2 id="分析结果查看"><a href="#分析结果查看" class="headerlink" title="分析结果查看"></a>分析结果查看</h2><p>当分析完成文件之后，将会显示源代码，在源代码的左侧会显示行代码是否有问题</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_10_25_18_202409241025469.png" alt="代码检测结果"></p>
+<ol>
+<li>违反消息处有叹号标记<ol>
+<li>Analysis Results&#x2F;Diagnostics 中罗列当前选中文件中违反的消息信息。点击具体 ID 查看 Message 帮助文件，点击 Rule，查看规则详细信息，双击消息内容，在代码中高亮显示违反部分代码。可以通过窗口上方叹号标记筛选显示不同级别消息。筛选同时作用于源代码上的标记。</li>
+<li>红色标记： Error message</li>
+<li>黄色标记： Warning message</li>
+<li>绿色标记： User message</li>
+<li>蓝色标记： Information message</li>
+</ol>
+</li>
+<li>点击“Rule” 下规则条目， 可通过悬浮窗可查看每个违反消息的帮助文档</li>
+<li>消息索引：Files、 Rule Groups、 Message Levels</li>
+</ol>
+<h2 id="导出报告"><a href="#导出报告" class="headerlink" title="导出报告"></a>导出报告</h2><p>点击*&#x3D;&#x3D;菜单&gt;Report&gt;选择生成工程或单独文件的报告。&#x3D;&#x3D;*</p>
+<p>可生成 7 种相关报告：</p>
+<ol>
+<li>Code Review Report：生成 html类型文件，显示文件相关度量结果和分析状态（未被抑制的违反规则数）</li>
+<li>Metrics Data Report：点击生成 Metrics Data Report，将生成 xml 文件，存储相关度量指标数据。</li>
+<li>Rule Compliance Report：生成 html 类型文件，显示文件详细的违反规则数。</li>
+<li>Suppression Report：生成 xml 文件，显示被抑制的消息信息。</li>
+<li>HIS Metrics Report：生成 html 文件，显示 HIS 度量报告。</li>
+<li>Standards Compliance Report： 生成 html 文件， 根据项目所选的规则集显示项目关于该规则集的合规性报告。</li>
+<li>MISRA Compliance Report： 生成 html 文件， 显示 MISRA 合规性报告。</li>
+</ol>
+<h1 id="Dashboard相关操作"><a href="#Dashboard相关操作" class="headerlink" title="Dashboard相关操作"></a>Dashboard相关操作</h1><h2 id="上传项目"><a href="#上传项目" class="headerlink" title="上传项目"></a>上传项目</h2><ol>
+<li><p>服务器端 Perforce -&gt; Helix QAC Dashboard server ， 保持 Dashboard server 开启状态</p>
+</li>
+<li><p>打开 Helix QAC， 点击*&#x3D;&#x3D;Portals &gt; Dashboard &gt; connect to Dashboard Sever&#x3D;&#x3D;*，设置 URL、用户名及密码后，连接到相应的 Dashboard Sever。（注意：首行 Dashboard URL 的填写格式为“Dashboard server 端 IP 地址:8080”）</p>
+<blockquote>
+<p>默认登录 Username 和 Password 均为 admin。</p>
+</blockquote>
+<p>也可以使用快捷按键<img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_11_12_24_202409241112963.png#icon" alt="连接服务端" style="zoom:150%;" /></p>
+</li>
+<li><p>连接成功后页面右下角显示：  Dashboard Connection Status:Connected to 192.168.3.224:8080</p>
+</li>
+<li><p>点击 <em>&#x3D;&#x3D;Portals &gt; Dashboard &gt; Upload Results&#x3D;&#x3D;</em>，选择上传文件或工程分析结果到 Dashboard。  </p>
+</li>
+<li><p>在弹出窗口填写相关信息：</p>
+<blockquote>
+<p>注意： Upload Source 选择 All， 可以将源码以及诊断消息全部上传到 dashboard 上，默认只上传诊断消息。</p>
+<p>Snapshot Nam填写当前测试的版本</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>[!WARNING]</p>
+<p>注意：这里需要查看是否上传完成</p>
+<p>需要关掉翻墙软件，防止出现ip地址不明的情况</p>
+</blockquote>
+<h2 id="查看项目"><a href="#查看项目" class="headerlink" title="查看项目"></a>查看项目</h2><p>在打开的 IE 浏览器输入<code>http://服务器地址：端口号</code>（比如 <a href="http://localhost:8080）">http://localhost:8080）</a></p>
+<p>输入用户名和密码，都是 admin，进入 Dashboard 界面：</p>
+<ol>
+<li>从主面板进入工程界面，选中上传之后的项目之后可以对项目做以下的操作：<ol>
+<li>Web Message Browser</li>
+<li>Diagnostic Summary</li>
+<li>Measurement Analysis</li>
+<li>Reports</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>**Web Message Browser 界面  **</p>
+<p>会展示所有的相关消息</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_14_32_38_202409241432310.png" alt="相关规则组消息"></p>
+<p>也可以根据消息的严重程度来筛选所要展示的消息</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_14_35_38_202409241435503.png" alt="根据消息的严重程度选择性的展示"></p>
+<p>在不同的区域右键会出现不同的相关信息</p>
+<ol>
+<li>在消息上右键出现Message 菜单： 鼠标右键点击某一条消息会弹出此菜单（消息号、消息帮助链接、严重等级、对应行号、所属消息组、抑制选项等信息）</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_14_49_56_202409241449165.png" alt="Message菜单"></p>
+<ol start="2">
+<li><p>在源码上右键出现Source Code 菜单： 鼠标右键点击某一行代码会弹出此菜单（行号、所在函数名、文件及函数度量信息、抑制选项等）</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_14_54_41_202409241454409.png" alt="source code菜单"></p>
+</li>
+<li><p>在消息组上右键出现Message Group 菜单： 鼠标右键点击某一个消息组会弹出此菜单（主要用来设置抑制选项）</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_14_58_18_202409241458058.png" alt="Message group菜单"></p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>**Diagnostic Summary 界面  **</p>
+<p>显示了工程代码的结构：选择任意文件夹或者文件可以查看所选粒度的诊断信息， 可生成固定报告模板。  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_15_14_19_202409241514909.png" alt="诊断总结页面"></p>
+</blockquote>
+<blockquote>
+<p>**Measurement Analysis 界面  **</p>
+<p>显示质量度量指标的发展趋势：可以根据快照名称或者快照的日期来查看趋势。  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_15_22_25_202409241522086.png" alt="image-20240924152224957"></p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>以下是度量标准相关释义：</p>
+<ol>
+<li><strong>STCAL</strong>（Static Complexity Analysis）：评估代码的整体复杂性，通常基于控制流和数据流分析。</li>
+<li><strong>STM29</strong>（Module Complexity Analysis）：分析模块的复杂性，关注模块的功能和结构。</li>
+<li><strong>STCYC</strong>（Static Cyclomatic Complexity）：基于控制流图的分支和循环结构，衡量代码的复杂性。</li>
+<li><strong>STPFL</strong>（Static Path Length）：评估执行路径的长度，反映程序的复杂性。</li>
+<li><strong>STVFL</strong>（Static Variable Flow）：分析变量在程序中的使用和流动，关注数据依赖性。</li>
+<li><strong>STFAN</strong>（Static Fan-in&#x2F;Fan-out Analysis）：评估模块之间的调用关系，关注模块的耦合度。</li>
+<li><strong>STCLO</strong>（Static Closure Analysis）：衡量代码的封闭性，反映模块的独立性和可重用性。</li>
+<li><strong>STNFC</strong>（Static Nested Function Complexity）：测量嵌套函数的复杂性，关注其对可读性的影响。</li>
+<li><strong>STMAX</strong>（Static Maximum Depth）：评估程序中嵌套结构的最大深度，反映复杂性。</li>
+<li><strong>STDDM</strong>（Static Data Dependency Measurement）：分析数据依赖关系，关注变量间的影响。</li>
+<li><strong>STRED</strong>（Static Redundancy Measurement）：测量代码中冗余部分的复杂度。</li>
+<li><strong>STMFC</strong>（Static Module Function Complexity）：评估模块内函数的复杂性。</li>
+<li><strong>STDEC</strong>（Static Depth of Execution Complexity）：评估执行路径的深度。</li>
+<li><strong>STWMC</strong>（Static Weighted Method Complexity）：考虑权重的函数复杂度度量。</li>
+<li><strong>STLCC</strong>（Static Lines of Code Complexity）：基于代码行数的复杂度评估。</li>
+<li><strong>STLOP</strong>（Static Logic Operation Complexity）：评估逻辑操作的复杂性。</li>
+<li><strong>STCFG</strong>（Static Control Flow Graph Complexity）：分析控制流图的复杂度。</li>
+<li><strong>STCAI</strong>（Static Call Instruction Complexity）：评估调用指令的复杂性。</li>
+<li><strong>STBFC</strong>（Static Branch Frequency Complexity）：分析分支频率对代码复杂性的影响。</li>
+<li><strong>STABI</strong>（Static Abstraction Complexity）：评估代码的抽象层次。</li>
+<li><strong>STMPI</strong>（Static Module Performance Indicator）：评估模块的性能指标。</li>
+<li><strong>STTDC</strong>（Static Type Dependency Complexity）：分析类型依赖关系的复杂性。</li>
+<li><strong>STEXT</strong>（Static Execution Trace Complexity）：评估执行轨迹的复杂度。</li>
+<li><strong>STHWC</strong>（Static Hardware Complexity）：评估代码与硬件交互的复杂性。</li>
+</ol>
+</blockquote>
+</blockquote>
+<h2 id="生成报告"><a href="#生成报告" class="headerlink" title="生成报告"></a>生成报告</h2><p>自定制报告，点击 Report，进入自定制报告界面  </p>
+<p>在界面右上角，点击 Add Report Object，进行报告自定制， 支持 HTML、 PDF 或者XML 格式。  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_16_53_24_202409241653863.png" alt="生成报告"></p>
+<h2 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h2><p>Dashboard 最多可同时登录 5 个用户，默认用户为 admin。创建新用户的步骤如下：</p>
+<ol>
+<li><p>在 Dashboard 主界面（Project Dashboard），点击“User Management”按钮。</p>
+</li>
+<li><p>进入 User Management 界面，点击左上角“Add New User”按钮；填写新用户信息（用户名和密码）， 点击“Save”。</p>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_16_58_16_202409241658612.png" alt="用户管理页面"></p>
+<ol start="3">
+<li>选中新建用户，使能权限。点击 Edit permissions，在用户权限界面可依实际需求进行选择，点击 Toggle All Tickboxes 可使能全部权限。</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/24_17_6_26_202409241706262.png" alt="新建用户"></p>
+<h1 id="可能出现的问题及解决方案"><a href="#可能出现的问题及解决方案" class="headerlink" title="可能出现的问题及解决方案"></a>可能出现的问题及解决方案</h1><p>对于rlm软件打开一会自动关闭的情况，解决方法如下：</p>
+<blockquote>
+<p>在打开rlm软件的情况下，访问<a target="_blank" rel="noopener" href="http://localhost:5054/">localhost:5054</a></p>
+<p>在用户和密码位置键入账号和密码（首次登陆的账号和密码均是admin）</p>
+<p>点击change passward，修改密码为yxd12345（自定义）</p>
+<p>重启rlm即可</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/">https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_12.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img class="cover" src="/img/RandomCoverImage/random_5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Qt</div></div><div class="info-2"><div class="info-item-1">参考链接【Qt】Qt6系列教程汇总_qt6教程-CSDN博客 </div></div></div></a><a class="pagination-related" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/" title="PyQT"><img class="cover" src="/img/RandomCoverImage/random_13.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">PyQT</div></div><div class="info-2"><div class="info-item-1">参考链接Python 小白从零开始 PyQt5 项目实战（8）汇总篇（完整例程）_pyqt项目实战教程-CSDN博客 免费学习编程 - Python、JavaScript、Java、Git 等 (freecodecamp.org) 白月黑羽 (byhy.net) UIfluent-widgets参考链接：快速上手 - PyQt-Fluent-Widgets silicon参考链接：ChinaIceF&#x2F;PyQt-SiliconUI: A powerful and artistic UI library based on PyQt5，基于 PyQt5 的UI框架，灵动、优雅而轻便 (github.com) 安装安装python 从官网下载：Welcome to Python.org IDE的选择  &#x3D;&#x3D;VSCODE&#x3D;&#x3D;（❤❤❤）：Visual Studio Code - Code Editing. Redefined &#x3D;&#x3D;Cursor&#x3D;&#x3D;(AI级选手，面向自然语言编程，amazing❗❗❗)：C...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">相关基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%84%E4%BC%B0%E6%A0%87%E5%87%86"><span class="toc-number">1.1.</span> <span class="toc-text">评估标准</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%84%E5%88%99"><span class="toc-number">1.2.</span> <span class="toc-text">规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">检测原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">操作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">新建工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%BA%90%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">添加源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="toc-number">2.3.</span> <span class="toc-text">工程配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%88%86%E6%9E%90"><span class="toc-number">2.4.</span> <span class="toc-text">执行分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E7%BB%93%E6%9E%9C%E6%9F%A5%E7%9C%8B"><span class="toc-number">2.5.</span> <span class="toc-text">分析结果查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%8A%A5%E5%91%8A"><span class="toc-number">2.6.</span> <span class="toc-text">导出报告</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dashboard%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">Dashboard相关操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.1.</span> <span class="toc-text">上传项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E9%A1%B9%E7%9B%AE"><span class="toc-number">3.2.</span> <span class="toc-text">查看项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%8A%A5%E5%91%8A"><span class="toc-number">3.3.</span> <span class="toc-text">生成报告</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">3.4.</span> <span class="toc-text">用户管理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">4.</span> <span class="toc-text">可能出现的问题及解决方案</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

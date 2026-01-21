@@ -1,0 +1,1311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>软件基础 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接这些嵌入式知识助 你秋招，也助你进阶 (qq.com) ASSIC码表   Bin(二进制) Oct(八进制) Dec(十进制) Hex(十六进制) 缩写&#x2F;字符 解释    0000 0000 00 0 0x00 NUL(null) 空字符   0000 0001 01 1 0x01 SOH(start of headline) 标题开始   0000 0010 02 2 0x0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件基础">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接这些嵌入式知识助 你秋招，也助你进阶 (qq.com) ASSIC码表   Bin(二进制) Oct(八进制) Dec(十进制) Hex(十六进制) 缩写&#x2F;字符 解释    0000 0000 00 0 0x00 NUL(null) 空字符   0000 0001 01 1 0x01 SOH(start of headline) 标题开始   0000 0010 02 2 0x0">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_1.png">
+<meta property="article:published_time" content="2026-01-21T02:07:02.601Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.601Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_1.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "软件基础",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_1.png",
+  "datePublished": "2026-01-21T02:07:02.601Z",
+  "dateModified": "2026-01-21T02:07:02.601Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '软件基础',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">软件基础</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">软件基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.601Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.601Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/reQv2l8EBYWu1P0nDd73QA">这些嵌入式知识助 你秋招，也助你进阶 (qq.com)</a></p>
+<h1 id="ASSIC码表"><a href="#ASSIC码表" class="headerlink" title="ASSIC码表"></a>ASSIC码表</h1><table>
+<thead>
+<tr>
+<th align="center">Bin(二进制)</th>
+<th align="center">Oct(八进制)</th>
+<th align="center">Dec(十进制)</th>
+<th align="center">Hex(十六进制)</th>
+<th align="center">缩写&#x2F;字符</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0000 0000</td>
+<td align="center">00</td>
+<td align="center">0</td>
+<td align="center">0x00</td>
+<td align="center">NUL(null)</td>
+<td align="center">空字符</td>
+</tr>
+<tr>
+<td align="center">0000 0001</td>
+<td align="center">01</td>
+<td align="center">1</td>
+<td align="center">0x01</td>
+<td align="center">SOH(start of headline)</td>
+<td align="center">标题开始</td>
+</tr>
+<tr>
+<td align="center">0000 0010</td>
+<td align="center">02</td>
+<td align="center">2</td>
+<td align="center">0x02</td>
+<td align="center">STX (start of text)</td>
+<td align="center">正文开始</td>
+</tr>
+<tr>
+<td align="center">0000 0011</td>
+<td align="center">03</td>
+<td align="center">3</td>
+<td align="center">0x03</td>
+<td align="center">ETX (end of text)</td>
+<td align="center">正文结束</td>
+</tr>
+<tr>
+<td align="center">0000 0100</td>
+<td align="center">04</td>
+<td align="center">4</td>
+<td align="center">0x04</td>
+<td align="center">EOT (end of transmission)</td>
+<td align="center">传输结束</td>
+</tr>
+<tr>
+<td align="center">0000 0101</td>
+<td align="center">05</td>
+<td align="center">5</td>
+<td align="center">0x05</td>
+<td align="center">ENQ (enquiry)</td>
+<td align="center">请求</td>
+</tr>
+<tr>
+<td align="center">0000 0110</td>
+<td align="center">06</td>
+<td align="center">6</td>
+<td align="center">0x06</td>
+<td align="center">ACK (acknowledge)</td>
+<td align="center">收到通知</td>
+</tr>
+<tr>
+<td align="center">0000 0111</td>
+<td align="center">07</td>
+<td align="center">7</td>
+<td align="center">0x07</td>
+<td align="center">BEL (bell)</td>
+<td align="center">响铃</td>
+</tr>
+<tr>
+<td align="center">0000 1000</td>
+<td align="center">010</td>
+<td align="center">8</td>
+<td align="center">0x08</td>
+<td align="center">BS (backspace)</td>
+<td align="center">退格</td>
+</tr>
+<tr>
+<td align="center">0000 1001</td>
+<td align="center">011</td>
+<td align="center">9</td>
+<td align="center">0x09</td>
+<td align="center">HT (horizontal tab)</td>
+<td align="center">水平制表符</td>
+</tr>
+<tr>
+<td align="center">0000 1010</td>
+<td align="center">012</td>
+<td align="center">10</td>
+<td align="center">0x0A</td>
+<td align="center">LF (NL line feed, new line)</td>
+<td align="center">换行键</td>
+</tr>
+<tr>
+<td align="center">0000 1011</td>
+<td align="center">013</td>
+<td align="center">11</td>
+<td align="center">0x0B</td>
+<td align="center">VT (vertical tab)</td>
+<td align="center">垂直制表符</td>
+</tr>
+<tr>
+<td align="center">0000 1100</td>
+<td align="center">014</td>
+<td align="center">12</td>
+<td align="center">0x0C</td>
+<td align="center">FF (NP form feed, new page)</td>
+<td align="center">换页键</td>
+</tr>
+<tr>
+<td align="center">0000 1101</td>
+<td align="center">015</td>
+<td align="center">13</td>
+<td align="center">0x0D</td>
+<td align="center">CR (carriage return)</td>
+<td align="center">回车键</td>
+</tr>
+<tr>
+<td align="center">0000 1110</td>
+<td align="center">016</td>
+<td align="center">14</td>
+<td align="center">0x0E</td>
+<td align="center">SO (shift out)</td>
+<td align="center">不用切换</td>
+</tr>
+<tr>
+<td align="center">0000 1111</td>
+<td align="center">017</td>
+<td align="center">15</td>
+<td align="center">0x0F</td>
+<td align="center">SI (shift in)</td>
+<td align="center">启用切换</td>
+</tr>
+<tr>
+<td align="center">0001 0000</td>
+<td align="center">020</td>
+<td align="center">16</td>
+<td align="center">0x10</td>
+<td align="center">DLE (data link escape)</td>
+<td align="center">数据链路转义</td>
+</tr>
+<tr>
+<td align="center">0001 0001</td>
+<td align="center">021</td>
+<td align="center">17</td>
+<td align="center">0x11</td>
+<td align="center">DC1 (device control 1)</td>
+<td align="center">设备控制1</td>
+</tr>
+<tr>
+<td align="center">0001 0010</td>
+<td align="center">022</td>
+<td align="center">18</td>
+<td align="center">0x12</td>
+<td align="center">DC2 (device control 2)</td>
+<td align="center">设备控制2</td>
+</tr>
+<tr>
+<td align="center">0001 0011</td>
+<td align="center">023</td>
+<td align="center">19</td>
+<td align="center">0x13</td>
+<td align="center">DC3 (device control 3)</td>
+<td align="center">设备控制3</td>
+</tr>
+<tr>
+<td align="center">0001 0100</td>
+<td align="center">024</td>
+<td align="center">20</td>
+<td align="center">0x14</td>
+<td align="center">DC4 (device control 4)</td>
+<td align="center">设备控制4</td>
+</tr>
+<tr>
+<td align="center">0001 0101</td>
+<td align="center">025</td>
+<td align="center">21</td>
+<td align="center">0x15</td>
+<td align="center">NAK (negative acknowledge)</td>
+<td align="center">拒绝接收</td>
+</tr>
+<tr>
+<td align="center">0001 0110</td>
+<td align="center">026</td>
+<td align="center">22</td>
+<td align="center">0x16</td>
+<td align="center">SYN (synchronous idle)</td>
+<td align="center">同步空闲</td>
+</tr>
+<tr>
+<td align="center">0001 0111</td>
+<td align="center">027</td>
+<td align="center">23</td>
+<td align="center">0x17</td>
+<td align="center">ETB (end of trans. block)</td>
+<td align="center">结束传输块</td>
+</tr>
+<tr>
+<td align="center">0001 1000</td>
+<td align="center">030</td>
+<td align="center">24</td>
+<td align="center">0x18</td>
+<td align="center">CAN (cancel)</td>
+<td align="center">取消</td>
+</tr>
+<tr>
+<td align="center">0001 1001</td>
+<td align="center">031</td>
+<td align="center">25</td>
+<td align="center">0x19</td>
+<td align="center">EM (end of medium)</td>
+<td align="center">媒介结束</td>
+</tr>
+<tr>
+<td align="center">0001 1010</td>
+<td align="center">032</td>
+<td align="center">26</td>
+<td align="center">0x1A</td>
+<td align="center">SUB (substitute)</td>
+<td align="center">代替</td>
+</tr>
+<tr>
+<td align="center">0001 1011</td>
+<td align="center">033</td>
+<td align="center">27</td>
+<td align="center">0x1B</td>
+<td align="center">ESC (escape)</td>
+<td align="center">换码(溢出)</td>
+</tr>
+<tr>
+<td align="center">0001 1100</td>
+<td align="center">034</td>
+<td align="center">28</td>
+<td align="center">0x1C</td>
+<td align="center">FS (file separator)</td>
+<td align="center">文件分隔符</td>
+</tr>
+<tr>
+<td align="center">0001 1101</td>
+<td align="center">035</td>
+<td align="center">29</td>
+<td align="center">0x1D</td>
+<td align="center">GS (group separator)</td>
+<td align="center">分组符</td>
+</tr>
+<tr>
+<td align="center">0001 1110</td>
+<td align="center">036</td>
+<td align="center">30</td>
+<td align="center">0x1E</td>
+<td align="center">RS (record separator)</td>
+<td align="center">记录分隔符</td>
+</tr>
+<tr>
+<td align="center">0001 1111</td>
+<td align="center">037</td>
+<td align="center">31</td>
+<td align="center">0x1F</td>
+<td align="center">US (unit separator)</td>
+<td align="center">单元分隔符</td>
+</tr>
+<tr>
+<td align="center">0010 0000</td>
+<td align="center">040</td>
+<td align="center">32</td>
+<td align="center">0x20</td>
+<td align="center">(space)</td>
+<td align="center">空格</td>
+</tr>
+<tr>
+<td align="center">0010 0001</td>
+<td align="center">041</td>
+<td align="center">33</td>
+<td align="center">0x21</td>
+<td align="center">!</td>
+<td align="center">叹号</td>
+</tr>
+<tr>
+<td align="center">0010 0010</td>
+<td align="center">042</td>
+<td align="center">34</td>
+<td align="center">0x22</td>
+<td align="center">“</td>
+<td align="center">双引号</td>
+</tr>
+<tr>
+<td align="center">0010 0011</td>
+<td align="center">043</td>
+<td align="center">35</td>
+<td align="center">0x23</td>
+<td align="center">#</td>
+<td align="center">井号</td>
+</tr>
+<tr>
+<td align="center">0010 0100</td>
+<td align="center">044</td>
+<td align="center">36</td>
+<td align="center">0x24</td>
+<td align="center">$</td>
+<td align="center">美元符</td>
+</tr>
+<tr>
+<td align="center">0010 0101</td>
+<td align="center">045</td>
+<td align="center">37</td>
+<td align="center">0x25</td>
+<td align="center">%</td>
+<td align="center">百分号</td>
+</tr>
+<tr>
+<td align="center">0010 0110</td>
+<td align="center">046</td>
+<td align="center">38</td>
+<td align="center">0x26</td>
+<td align="center">&amp;</td>
+<td align="center">和号</td>
+</tr>
+<tr>
+<td align="center">0010 0111</td>
+<td align="center">047</td>
+<td align="center">39</td>
+<td align="center">0x27</td>
+<td align="center">‘</td>
+<td align="center">闭单引号</td>
+</tr>
+<tr>
+<td align="center">0010 1000</td>
+<td align="center">050</td>
+<td align="center">40</td>
+<td align="center">0x28</td>
+<td align="center">(</td>
+<td align="center">开括号</td>
+</tr>
+<tr>
+<td align="center">0010 1001</td>
+<td align="center">051</td>
+<td align="center">41</td>
+<td align="center">0x29</td>
+<td align="center">)</td>
+<td align="center">闭括号</td>
+</tr>
+<tr>
+<td align="center">0010 1010</td>
+<td align="center">052</td>
+<td align="center">42</td>
+<td align="center">0x2A</td>
+<td align="center">*</td>
+<td align="center">星号</td>
+</tr>
+<tr>
+<td align="center">0010 1011</td>
+<td align="center">053</td>
+<td align="center">43</td>
+<td align="center">0x2B</td>
+<td align="center">+</td>
+<td align="center">加号</td>
+</tr>
+<tr>
+<td align="center">0010 1100</td>
+<td align="center">054</td>
+<td align="center">44</td>
+<td align="center">0x2C</td>
+<td align="center">,</td>
+<td align="center">逗号</td>
+</tr>
+<tr>
+<td align="center">0010 1101</td>
+<td align="center">055</td>
+<td align="center">45</td>
+<td align="center">0x2D</td>
+<td align="center">-</td>
+<td align="center">减号&#x2F;破折号</td>
+</tr>
+<tr>
+<td align="center">0010 1110</td>
+<td align="center">056</td>
+<td align="center">46</td>
+<td align="center">0x2E</td>
+<td align="center">.</td>
+<td align="center">句号</td>
+</tr>
+<tr>
+<td align="center">0010 1111</td>
+<td align="center">057</td>
+<td align="center">47</td>
+<td align="center">0x2F</td>
+<td align="center">&#x2F;</td>
+<td align="center">斜杠</td>
+</tr>
+<tr>
+<td align="center">0011 0000</td>
+<td align="center">060</td>
+<td align="center">48</td>
+<td align="center">0x30</td>
+<td align="center">0</td>
+<td align="center">字符0</td>
+</tr>
+<tr>
+<td align="center">0011 0001</td>
+<td align="center">061</td>
+<td align="center">49</td>
+<td align="center">0x31</td>
+<td align="center">1</td>
+<td align="center">字符1</td>
+</tr>
+<tr>
+<td align="center">0011 0010</td>
+<td align="center">062</td>
+<td align="center">50</td>
+<td align="center">0x32</td>
+<td align="center">2</td>
+<td align="center">字符2</td>
+</tr>
+<tr>
+<td align="center">0011 0011</td>
+<td align="center">063</td>
+<td align="center">51</td>
+<td align="center">0x33</td>
+<td align="center">3</td>
+<td align="center">字符3</td>
+</tr>
+<tr>
+<td align="center">0011 0100</td>
+<td align="center">064</td>
+<td align="center">52</td>
+<td align="center">0x34</td>
+<td align="center">4</td>
+<td align="center">字符4</td>
+</tr>
+<tr>
+<td align="center">0011 0101</td>
+<td align="center">065</td>
+<td align="center">53</td>
+<td align="center">0x35</td>
+<td align="center">5</td>
+<td align="center">字符5</td>
+</tr>
+<tr>
+<td align="center">0011 0110</td>
+<td align="center">066</td>
+<td align="center">54</td>
+<td align="center">0x36</td>
+<td align="center">6</td>
+<td align="center">字符6</td>
+</tr>
+<tr>
+<td align="center">0011 0111</td>
+<td align="center">067</td>
+<td align="center">55</td>
+<td align="center">0x37</td>
+<td align="center">7</td>
+<td align="center">字符7</td>
+</tr>
+<tr>
+<td align="center">0011 1000</td>
+<td align="center">070</td>
+<td align="center">56</td>
+<td align="center">0x38</td>
+<td align="center">8</td>
+<td align="center">字符8</td>
+</tr>
+<tr>
+<td align="center">0011 1001</td>
+<td align="center">071</td>
+<td align="center">57</td>
+<td align="center">0x39</td>
+<td align="center">9</td>
+<td align="center">字符9</td>
+</tr>
+<tr>
+<td align="center">0011 1010</td>
+<td align="center">072</td>
+<td align="center">58</td>
+<td align="center">0x3A</td>
+<td align="center">:</td>
+<td align="center">冒号</td>
+</tr>
+<tr>
+<td align="center">0011 1011</td>
+<td align="center">073</td>
+<td align="center">59</td>
+<td align="center">0x3B</td>
+<td align="center">;</td>
+<td align="center">分号</td>
+</tr>
+<tr>
+<td align="center">0011 1100</td>
+<td align="center">074</td>
+<td align="center">60</td>
+<td align="center">0x3C</td>
+<td align="center">&lt;</td>
+<td align="center">小于</td>
+</tr>
+<tr>
+<td align="center">0011 1101</td>
+<td align="center">075</td>
+<td align="center">61</td>
+<td align="center">0x3D</td>
+<td align="center">&#x3D;</td>
+<td align="center">等号</td>
+</tr>
+<tr>
+<td align="center">0011 1110</td>
+<td align="center">076</td>
+<td align="center">62</td>
+<td align="center">0x3E</td>
+<td align="center">&gt;</td>
+<td align="center">大于</td>
+</tr>
+<tr>
+<td align="center">0011 1111</td>
+<td align="center">077</td>
+<td align="center">63</td>
+<td align="center">0x3F</td>
+<td align="center">?</td>
+<td align="center">问号</td>
+</tr>
+<tr>
+<td align="center">0100 0000</td>
+<td align="center">0100</td>
+<td align="center">64</td>
+<td align="center">0x40</td>
+<td align="center">@</td>
+<td align="center">电子邮件符号</td>
+</tr>
+<tr>
+<td align="center">0100 0001</td>
+<td align="center">0101</td>
+<td align="center">65</td>
+<td align="center">0x41</td>
+<td align="center">A</td>
+<td align="center">大写字母A</td>
+</tr>
+<tr>
+<td align="center">0100 0010</td>
+<td align="center">0102</td>
+<td align="center">66</td>
+<td align="center">0x42</td>
+<td align="center">B</td>
+<td align="center">大写字母B</td>
+</tr>
+<tr>
+<td align="center">0100 0011</td>
+<td align="center">0103</td>
+<td align="center">67</td>
+<td align="center">0x43</td>
+<td align="center">C</td>
+<td align="center">大写字母C</td>
+</tr>
+<tr>
+<td align="center">0100 0100</td>
+<td align="center">0104</td>
+<td align="center">68</td>
+<td align="center">0x44</td>
+<td align="center">D</td>
+<td align="center">大写字母D</td>
+</tr>
+<tr>
+<td align="center">0100 0101</td>
+<td align="center">0105</td>
+<td align="center">69</td>
+<td align="center">0x45</td>
+<td align="center">E</td>
+<td align="center">大写字母E</td>
+</tr>
+<tr>
+<td align="center">0100 0110</td>
+<td align="center">0106</td>
+<td align="center">70</td>
+<td align="center">0x46</td>
+<td align="center">F</td>
+<td align="center">大写字母F</td>
+</tr>
+<tr>
+<td align="center">0100 0111</td>
+<td align="center">0107</td>
+<td align="center">71</td>
+<td align="center">0x47</td>
+<td align="center">G</td>
+<td align="center">大写字母G</td>
+</tr>
+<tr>
+<td align="center">0100 1000</td>
+<td align="center">0110</td>
+<td align="center">72</td>
+<td align="center">0x48</td>
+<td align="center">H</td>
+<td align="center">大写字母H</td>
+</tr>
+<tr>
+<td align="center">0100 1001</td>
+<td align="center">0111</td>
+<td align="center">73</td>
+<td align="center">0x49</td>
+<td align="center">I</td>
+<td align="center">大写字母I</td>
+</tr>
+<tr>
+<td align="center">01001010</td>
+<td align="center">0112</td>
+<td align="center">74</td>
+<td align="center">0x4A</td>
+<td align="center">J</td>
+<td align="center">大写字母J</td>
+</tr>
+<tr>
+<td align="center">0100 1011</td>
+<td align="center">0113</td>
+<td align="center">75</td>
+<td align="center">0x4B</td>
+<td align="center">K</td>
+<td align="center">大写字母K</td>
+</tr>
+<tr>
+<td align="center">0100 1100</td>
+<td align="center">0114</td>
+<td align="center">76</td>
+<td align="center">0x4C</td>
+<td align="center">L</td>
+<td align="center">大写字母L</td>
+</tr>
+<tr>
+<td align="center">0100 1101</td>
+<td align="center">0115</td>
+<td align="center">77</td>
+<td align="center">0x4D</td>
+<td align="center">M</td>
+<td align="center">大写字母M</td>
+</tr>
+<tr>
+<td align="center">0100 1110</td>
+<td align="center">0116</td>
+<td align="center">78</td>
+<td align="center">0x4E</td>
+<td align="center">N</td>
+<td align="center">大写字母N</td>
+</tr>
+<tr>
+<td align="center">0100 1111</td>
+<td align="center">0117</td>
+<td align="center">79</td>
+<td align="center">0x4F</td>
+<td align="center">O</td>
+<td align="center">大写字母O</td>
+</tr>
+<tr>
+<td align="center">0101 0000</td>
+<td align="center">0120</td>
+<td align="center">80</td>
+<td align="center">0x50</td>
+<td align="center">P</td>
+<td align="center">大写字母P</td>
+</tr>
+<tr>
+<td align="center">0101 0001</td>
+<td align="center">0121</td>
+<td align="center">81</td>
+<td align="center">0x51</td>
+<td align="center">Q</td>
+<td align="center">大写字母Q</td>
+</tr>
+<tr>
+<td align="center">0101 0010</td>
+<td align="center">0122</td>
+<td align="center">82</td>
+<td align="center">0x52</td>
+<td align="center">R</td>
+<td align="center">大写字母R</td>
+</tr>
+<tr>
+<td align="center">0101 0011</td>
+<td align="center">0123</td>
+<td align="center">83</td>
+<td align="center">0x53</td>
+<td align="center">S</td>
+<td align="center">大写字母S</td>
+</tr>
+<tr>
+<td align="center">0101 0100</td>
+<td align="center">0124</td>
+<td align="center">84</td>
+<td align="center">0x54</td>
+<td align="center">T</td>
+<td align="center">大写字母T</td>
+</tr>
+<tr>
+<td align="center">0101 0101</td>
+<td align="center">0125</td>
+<td align="center">85</td>
+<td align="center">0x55</td>
+<td align="center">U</td>
+<td align="center">大写字母U</td>
+</tr>
+<tr>
+<td align="center">0101 0110</td>
+<td align="center">0126</td>
+<td align="center">86</td>
+<td align="center">0x56</td>
+<td align="center">V</td>
+<td align="center">大写字母V</td>
+</tr>
+<tr>
+<td align="center">0101 0111</td>
+<td align="center">0127</td>
+<td align="center">87</td>
+<td align="center">0x57</td>
+<td align="center">W</td>
+<td align="center">大写字母W</td>
+</tr>
+<tr>
+<td align="center">0101 1000</td>
+<td align="center">0130</td>
+<td align="center">88</td>
+<td align="center">0x58</td>
+<td align="center">X</td>
+<td align="center">大写字母X</td>
+</tr>
+<tr>
+<td align="center">0101 1001</td>
+<td align="center">0131</td>
+<td align="center">89</td>
+<td align="center">0x59</td>
+<td align="center">Y</td>
+<td align="center">大写字母Y</td>
+</tr>
+<tr>
+<td align="center">0101 1010</td>
+<td align="center">0132</td>
+<td align="center">90</td>
+<td align="center">0x5A</td>
+<td align="center">Z</td>
+<td align="center">大写字母Z</td>
+</tr>
+<tr>
+<td align="center">0101 1011</td>
+<td align="center">0133</td>
+<td align="center">91</td>
+<td align="center">0x5B</td>
+<td align="center">[</td>
+<td align="center">开方括号</td>
+</tr>
+<tr>
+<td align="center">0101 1100</td>
+<td align="center">0134</td>
+<td align="center">92</td>
+<td align="center">0x5C</td>
+<td align="center">\</td>
+<td align="center">反斜杠</td>
+</tr>
+<tr>
+<td align="center">0101 1101</td>
+<td align="center">0135</td>
+<td align="center">93</td>
+<td align="center">0x5D</td>
+<td align="center">]</td>
+<td align="center">闭方括号</td>
+</tr>
+<tr>
+<td align="center">0101 1110</td>
+<td align="center">0136</td>
+<td align="center">94</td>
+<td align="center">0x5E</td>
+<td align="center">^</td>
+<td align="center">脱字符</td>
+</tr>
+<tr>
+<td align="center">0101 1111</td>
+<td align="center">0137</td>
+<td align="center">95</td>
+<td align="center">0x5F</td>
+<td align="center">_</td>
+<td align="center">下划线</td>
+</tr>
+<tr>
+<td align="center">0110 0000</td>
+<td align="center">0140</td>
+<td align="center">96</td>
+<td align="center">0x60</td>
+<td align="center">&#96;</td>
+<td align="center">开单引号</td>
+</tr>
+<tr>
+<td align="center">0110 0001</td>
+<td align="center">0141</td>
+<td align="center">97</td>
+<td align="center">0x61</td>
+<td align="center">a</td>
+<td align="center">小写字母a</td>
+</tr>
+<tr>
+<td align="center">0110 0010</td>
+<td align="center">0142</td>
+<td align="center">98</td>
+<td align="center">0x62</td>
+<td align="center">b</td>
+<td align="center">小写字母b</td>
+</tr>
+<tr>
+<td align="center">0110 0011</td>
+<td align="center">0143</td>
+<td align="center">99</td>
+<td align="center">0x63</td>
+<td align="center">c</td>
+<td align="center">小写字母c</td>
+</tr>
+<tr>
+<td align="center">0110 0100</td>
+<td align="center">0144</td>
+<td align="center">100</td>
+<td align="center">0x64</td>
+<td align="center">d</td>
+<td align="center">小写字母d</td>
+</tr>
+<tr>
+<td align="center">0110 0101</td>
+<td align="center">0145</td>
+<td align="center">101</td>
+<td align="center">0x65</td>
+<td align="center">e</td>
+<td align="center">小写字母e</td>
+</tr>
+<tr>
+<td align="center">0110 0110</td>
+<td align="center">0146</td>
+<td align="center">102</td>
+<td align="center">0x66</td>
+<td align="center">f</td>
+<td align="center">小写字母f</td>
+</tr>
+<tr>
+<td align="center">0110 0111</td>
+<td align="center">0147</td>
+<td align="center">103</td>
+<td align="center">0x67</td>
+<td align="center">g</td>
+<td align="center">小写字母g</td>
+</tr>
+<tr>
+<td align="center">0110 1000</td>
+<td align="center">0150</td>
+<td align="center">104</td>
+<td align="center">0x68</td>
+<td align="center">h</td>
+<td align="center">小写字母h</td>
+</tr>
+<tr>
+<td align="center">0110 1001</td>
+<td align="center">0151</td>
+<td align="center">105</td>
+<td align="center">0x69</td>
+<td align="center">i</td>
+<td align="center">小写字母i</td>
+</tr>
+<tr>
+<td align="center">0110 1010</td>
+<td align="center">0152</td>
+<td align="center">106</td>
+<td align="center">0x6A</td>
+<td align="center">j</td>
+<td align="center">小写字母j</td>
+</tr>
+<tr>
+<td align="center">0110 1011</td>
+<td align="center">0153</td>
+<td align="center">107</td>
+<td align="center">0x6B</td>
+<td align="center">k</td>
+<td align="center">小写字母k</td>
+</tr>
+<tr>
+<td align="center">0110 1100</td>
+<td align="center">0154</td>
+<td align="center">108</td>
+<td align="center">0x6C</td>
+<td align="center">l</td>
+<td align="center">小写字母l</td>
+</tr>
+<tr>
+<td align="center">0110 1101</td>
+<td align="center">0155</td>
+<td align="center">109</td>
+<td align="center">0x6D</td>
+<td align="center">m</td>
+<td align="center">小写字母m</td>
+</tr>
+<tr>
+<td align="center">0110 1110</td>
+<td align="center">0156</td>
+<td align="center">110</td>
+<td align="center">0x6E</td>
+<td align="center">n</td>
+<td align="center">小写字母n</td>
+</tr>
+<tr>
+<td align="center">0110 1111</td>
+<td align="center">0157</td>
+<td align="center">111</td>
+<td align="center">0x6F</td>
+<td align="center">o</td>
+<td align="center">小写字母o</td>
+</tr>
+<tr>
+<td align="center">0111 0000</td>
+<td align="center">0160</td>
+<td align="center">112</td>
+<td align="center">0x70</td>
+<td align="center">p</td>
+<td align="center">小写字母p</td>
+</tr>
+<tr>
+<td align="center">0111 0001</td>
+<td align="center">0161</td>
+<td align="center">113</td>
+<td align="center">0x71</td>
+<td align="center">q</td>
+<td align="center">小写字母q</td>
+</tr>
+<tr>
+<td align="center">0111 0010</td>
+<td align="center">0162</td>
+<td align="center">114</td>
+<td align="center">0x72</td>
+<td align="center">r</td>
+<td align="center">小写字母r</td>
+</tr>
+<tr>
+<td align="center">0111 0011</td>
+<td align="center">0163</td>
+<td align="center">115</td>
+<td align="center">0x73</td>
+<td align="center">s</td>
+<td align="center">小写字母s</td>
+</tr>
+<tr>
+<td align="center">0111 0100</td>
+<td align="center">0164</td>
+<td align="center">116</td>
+<td align="center">0x74</td>
+<td align="center">t</td>
+<td align="center">小写字母t</td>
+</tr>
+<tr>
+<td align="center">0111 0101</td>
+<td align="center">0165</td>
+<td align="center">117</td>
+<td align="center">0x75</td>
+<td align="center">u</td>
+<td align="center">小写字母u</td>
+</tr>
+<tr>
+<td align="center">0111 0110</td>
+<td align="center">0166</td>
+<td align="center">118</td>
+<td align="center">0x76</td>
+<td align="center">v</td>
+<td align="center">小写字母v</td>
+</tr>
+<tr>
+<td align="center">0111 0111</td>
+<td align="center">0167</td>
+<td align="center">119</td>
+<td align="center">0x77</td>
+<td align="center">w</td>
+<td align="center">小写字母w</td>
+</tr>
+<tr>
+<td align="center">0111 1000</td>
+<td align="center">0170</td>
+<td align="center">120</td>
+<td align="center">0x78</td>
+<td align="center">x</td>
+<td align="center">小写字母x</td>
+</tr>
+<tr>
+<td align="center">0111 1001</td>
+<td align="center">0171</td>
+<td align="center">121</td>
+<td align="center">0x79</td>
+<td align="center">y</td>
+<td align="center">小写字母y</td>
+</tr>
+<tr>
+<td align="center">0111 1010</td>
+<td align="center">0172</td>
+<td align="center">122</td>
+<td align="center">0x7A</td>
+<td align="center">z</td>
+<td align="center">小写字母z</td>
+</tr>
+<tr>
+<td align="center">0111 1011</td>
+<td align="center">0173</td>
+<td align="center">123</td>
+<td align="center">0x7B</td>
+<td align="center">{</td>
+<td align="center">开花括号</td>
+</tr>
+<tr>
+<td align="center">0111 1100</td>
+<td align="center">0174</td>
+<td align="center">124</td>
+<td align="center">0x7C</td>
+<td align="center">|</td>
+<td align="center">垂线</td>
+</tr>
+<tr>
+<td align="center">0111 1101</td>
+<td align="center">0175</td>
+<td align="center">125</td>
+<td align="center">0x7D</td>
+<td align="center">}</td>
+<td align="center">闭花括号</td>
+</tr>
+<tr>
+<td align="center">0111 1110</td>
+<td align="center">0176</td>
+<td align="center">126</td>
+<td align="center">0x7E</td>
+<td align="center">~</td>
+<td align="center">波浪号</td>
+</tr>
+<tr>
+<td align="center">0111 1111</td>
+<td align="center">0177</td>
+<td align="center">127</td>
+<td align="center">0x7F</td>
+<td align="center">DEL (delete)</td>
+<td align="center">删除</td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/" title="链接文件"><img class="cover" src="/img/RandomCoverImage/random_13.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">链接文件</div></div><div class="info-2"><div class="info-item-1">参考链接DARM-30 (iar.com) 嵌入式IDE(1)：IAR中ICF链接文件详解和实例分析_icf文件-CSDN博客 概述链接文件主要用于划分存储区域，不同芯片的存储配置不同，数据的放置需要根据芯片的存储来配置，标准段为    Section Kind Description Memory Location Example    .text ro code Holds the program code ROM void Function(void)   .rodata const Holds constant data ROM const uint32 variable &#x3D; 0   .textrw inited Holds _ramfunc declared program code RAM _ramfunc void Function(void)   .textrw_int  Holds initializers for the .textrw declared section ROM    .intvec ro code Holds the reset v...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/" title="计算机系统基础"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/6_11_15_6_202408061115430.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">计算机系统基础</div></div><div class="info-2"><div class="info-item-1">参考链接计算机系统基础(一)：程序的表示、转换与链接_南京大学_中国大学MOOC(慕课) 概述计算机基本工作原理冯诺依曼结构硬件模型基本结构  模型中包含以下四个部分  用来存放指令和数据的主存储器，简称&#x3D;&#x3D;主存或内存&#x3D;&#x3D;； 用来进行算术逻辑运算的部件，即算术逻辑部件(Arithmetic Logic Unit,简称&#x3D;&#x3D;ALU&#x3D;&#x3D;),在ALU操作控制信号ALUop的控制下，ALU可以对输人端A和B进行不同的运算，得到结果F; 用于自动逐条取出指令并进行译码的部件，即控制部件(Control Unit,简称CU),也称&#x3D;&#x3D;控制器&#x3D;&#x3D;； 用来和用户交互的&#x3D;&#x3D;输入设备和输出设备&#x3D;&#x3D;。  CPU内部不同的组件  为了临时存放从主存取来的数据或运算的结果，还需要若干通用寄存器(General Purpose Register)组成通用寄存器组(&#x3D;&#x3D;GPRs&#x3D;&#x3D;)，ALU两个输入端A和B的数据来...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ASSIC%E7%A0%81%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">ASSIC码表</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

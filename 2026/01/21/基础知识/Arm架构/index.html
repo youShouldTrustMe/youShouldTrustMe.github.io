@@ -1,0 +1,1098 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Arm架构 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接Documentation for binutils 2.40 (sourceware.org) GDB Documentation (sourceware.org) Using as (sourceware.org) [Documentation – Arm Developer](https:&#x2F;&#x2F;developer.arm.com&#x2F;documentation#tab&#x3D;all&amp;cf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arm架构">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Arm%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接Documentation for binutils 2.40 (sourceware.org) GDB Documentation (sourceware.org) Using as (sourceware.org) [Documentation – Arm Developer](https:&#x2F;&#x2F;developer.arm.com&#x2F;documentation#tab&#x3D;all&amp;cf">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg">
+<meta property="article:published_time" content="2026-01-21T02:07:02.598Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.598Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Arm架构",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Arm%E6%9E%B6%E6%9E%84/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg",
+  "datePublished": "2026-01-21T02:07:02.598Z",
+  "dateModified": "2026-01-21T02:07:02.598Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Arm%E6%9E%B6%E6%9E%84/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Arm架构',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_4.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Arm架构</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Arm架构</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.598Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.598Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a target="_blank" rel="noopener" href="https://sourceware.org/binutils/docs-2.40/">Documentation for binutils 2.40 (sourceware.org)</a></p>
+<p><a target="_blank" rel="noopener" href="https://sourceware.org/gdb/documentation/">GDB Documentation (sourceware.org)</a></p>
+<p><a target="_blank" rel="noopener" href="https://sourceware.org/binutils/docs-2.40/as.html">Using as (sourceware.org)</a></p>
+<p>[Documentation – Arm Developer](<a target="_blank" rel="noopener" href="https://developer.arm.com/documentation#tab=all&cf-navigationhierarchiesproducts=Architectures,CPU">https://developer.arm.com/documentation#tab=all&amp;cf-navigationhierarchiesproducts=Architectures,CPU</a> Architecture,M-Profile,Armv6-M&amp;numberOfResults&#x3D;48)</p>
+<h1 id="中断向量表"><a href="#中断向量表" class="headerlink" title="中断向量表"></a>中断向量表</h1><h2 id="向量表内容"><a href="#向量表内容" class="headerlink" title="向量表内容"></a>向量表内容</h2><ol>
+<li><p><strong>初始堆栈指针 (SP)</strong>:</p>
+<ul>
+<li><strong>位置</strong>: 向量表的第一个条目（偏移量0）。</li>
+<li><strong>内容</strong>: 初始化堆栈指针的地址。系统复位时，处理器会将这个值加载到主堆栈指针（MSP）寄存器中。</li>
+</ul>
+</li>
+<li><p><strong>复位处理程序地址 (PC)</strong>:</p>
+<ul>
+<li><strong>位置</strong>: 向量表的第二个条目（偏移量4）。</li>
+<li><strong>内容</strong>: 复位处理程序的入口地址。系统复位时，处理器会跳转到这个地址开始执行。</li>
+</ul>
+</li>
+<li><p><strong>异常和中断处理程序地址</strong>:</p>
+<ul>
+<li><strong>位置</strong>: 从向量表的第三个条目开始（偏移量8），依次存放各个异常和中断的处理程序地址。</li>
+<li><strong>内容</strong>: 包括各种异常（如NMI、硬故障）和外部中断的处理程序地址。每个处理程序地址占用4个字节。</li>
+</ul>
+</li>
+</ol>
+<h2 id="向量表排列示例"><a href="#向量表排列示例" class="headerlink" title="向量表排列示例"></a>向量表排列示例</h2><p>假设向量表的起始地址为 <code>0x08000000</code>，以下是一个示例排列：</p>
+<table>
+<thead>
+<tr>
+<th>偏移量</th>
+<th>内容</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0x00</td>
+<td>初始SP地址</td>
+<td>初始堆栈指针</td>
+</tr>
+<tr>
+<td>0x04</td>
+<td>复位处理程序地址</td>
+<td>复位处理程序（入口点）</td>
+</tr>
+<tr>
+<td>0x08</td>
+<td>NMI处理程序地址</td>
+<td>非屏蔽中断处理程序</td>
+</tr>
+<tr>
+<td>0x0C</td>
+<td>硬故障处理程序地址</td>
+<td>硬故障处理程序</td>
+</tr>
+<tr>
+<td>0x10</td>
+<td>内存管理故障处理程序地址</td>
+<td>内存管理故障处理程序</td>
+</tr>
+<tr>
+<td>0x14</td>
+<td>总线故障处理程序地址</td>
+<td>总线故障处理程序</td>
+</tr>
+<tr>
+<td>0x18</td>
+<td>用法故障处理程序地址</td>
+<td>用法故障处理程序</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>0xXX</td>
+<td>外部中断处理程序地址</td>
+<td>外部中断处理程序（如EXTI）</td>
+</tr>
+</tbody></table>
+<p>下面展示一个芯片的中断向量表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">__vector_table</span><br><span class="line">        DCD     sfe(CSTACK)</span><br><span class="line">		DCD     Reset_Handler             ; Reset Handler</span><br><span class="line">		DCD     NMI_Handler               ; NMI Handler</span><br><span class="line">		DCD     HardFault_Handler         ; Hard Fault Handler</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     SVC_Handler               ; SVCall Handler</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     0                         ; Reserved</span><br><span class="line">		DCD     PendSV_Handler            ; PendSV Handler</span><br><span class="line">		DCD     SysTick_Handler           ; SysTick Handler</span><br><span class="line"></span><br><span class="line">		; External Interrupts</span><br><span class="line">		DCD     WDT_IRQHandler            ; 0:  WWDT </span><br><span class="line">		DCD     SVD_IRQHandler            ; 1:  SVD     </span><br><span class="line">		DCD     RTC_IRQHandler            ; 2:  RTC     </span><br><span class="line">		DCD     FLASH_IRQHandler          ; 3:  FLASH    </span><br><span class="line">		DCD     FDET_IRQHandler           ; 4:  LFDET    </span><br><span class="line">		DCD     ADC_IRQHandler            ; 5:  ADC    </span><br><span class="line">		DCD     DAC_IRQHandler            ; 6:  DAC</span><br><span class="line">		DCD     SPI0_IRQHandler           ; 7:  SPI0     </span><br><span class="line">		DCD     SPI1_IRQHandler           ; 8:  SPI1</span><br><span class="line">		DCD     SPI2_IRQHandler           ; 9:  SPI2    </span><br><span class="line">		DCD     UART0_IRQHandler          ; 10:  UART0    </span><br><span class="line">		DCD     UART1_IRQHandler          ; 11:  UART1        </span><br><span class="line">		DCD     UART3_IRQHandler          ; 12:  UART3    </span><br><span class="line">		DCD     UART4_IRQHandler          ; 13:  UART4    </span><br><span class="line">		DCD     UART5_IRQHandler          ; 14:  UART5        </span><br><span class="line">		DCD     U7816_IRQHandler          ; 15:  U7816    </span><br><span class="line">		DCD     LPUARTx_IRQHandler        ; 16:  LPUART   </span><br><span class="line">		DCD     I2C_IRQHandler            ; 17:  I2C    </span><br><span class="line">		DCD     CCL_IRQHandler            ; 18:  CCL  </span><br><span class="line">		DCD     AES_IRQHandler            ; 19:  AES    </span><br><span class="line">		DCD     LPTIM_IRQHandler          ; 20:  LPTIM    </span><br><span class="line">		DCD     DMA_IRQHandler            ; 21:  DMA    </span><br><span class="line">		DCD     WKUPx_IRQHandler          ; 22:  WKUP    </span><br><span class="line">		DCD     LUT_IRQHandler            ; 23:  LUT   </span><br><span class="line">		DCD     BSTIM_IRQHandler          ; 24:  BSTIM</span><br><span class="line">		DCD     COMPx_IRQHandler          ; 25:  COMPx</span><br><span class="line">		DCD     GPTIM0_1_IRQHandler       ; 26:  GPTIM0_1    </span><br><span class="line">		DCD     GPTIM2_IRQHandler         ; 27:  GPTIM2    </span><br><span class="line">		DCD     ATIM_IRQHandler           ; 28:  ATIM    </span><br><span class="line">		DCD     VREF_IRQHandler           ; 29:  VREF    </span><br><span class="line">		DCD     GPIO_IRQHandler           ; 30:  GPIO</span><br><span class="line">		DCD     CAN_IRQHandler      	  ; 31:  CAN</span><br><span class="line">__Vectors_End</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ul>
+<li><strong>对齐要求</strong>: 向量表的起始地址通常需要对齐到特定的边界（如128字节或256字节），具体取决于处理器的实现。</li>
+<li><strong>可重定位</strong>: 在某些情况下，向量表可以被重定位到RAM中，以支持动态修改中断向量。</li>
+<li><strong>安全性</strong>: 确保向量表的内容在系统运行期间不会被意外修改，以防止中断处理程序被篡改。</li>
+</ul>
+<h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1><p>Arm-M系列的CPU寄存器有</p>
+<ol>
+<li><p>通用寄存器（General Purpose Registers）：<strong>R0 ~ R12</strong>：13个低位通用寄存器（Low Registers）</p>
+<ul>
+<li>均可用于数据运算、地址计算。</li>
+<li>R0~R3 常用于函数参数传递和返回值（ABI规定）。</li>
+<li>R4~R11 常用于保存局部变量。</li>
+<li>R12：IP（Intra-Procedure-call scratch register），过程间调用临时寄存器。</li>
+</ul>
+</li>
+<li><p>特殊功能寄存器（Special Registers）</p>
+<ol>
+<li><strong>R13 (SP)</strong>：栈指针（Stack Pointer）<ul>
+<li>有两个：Main SP (MSP) 和 Process SP (PSP)，用于操作系统线程切换。</li>
+</ul>
+</li>
+<li><strong>R14 (LR)</strong>：链接寄存器（Link Register）<ul>
+<li>保存函数返回地址，调用子函数时自动保存。</li>
+</ul>
+</li>
+<li><strong>R15 (PC)</strong>：程序计数器（Program Counter）<ul>
+<li>指向当前执行指令地址，可读可写（用于跳转）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>其他重要系统寄存器（通过MRS&#x2F;MSR指令访问）</p>
+<table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>名称</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CONTROL</td>
+<td>控制寄存器</td>
+<td>选择栈指针（MSP&#x2F;PSP）、特权级别、FPU使能等</td>
+</tr>
+<tr>
+<td>PRIMASK</td>
+<td>中断屏蔽寄存器</td>
+<td>禁止所有可屏蔽中断（类似关全局中断）</td>
+</tr>
+<tr>
+<td>FAULTMASK</td>
+<td>异常屏蔽寄存器</td>
+<td>禁止所有异常（除NMI和HardFault）</td>
+</tr>
+<tr>
+<td>BASEPRI</td>
+<td>基础优先级寄存器</td>
+<td>设置中断优先级阈值，屏蔽低优先级中断</td>
+</tr>
+<tr>
+<td>IPSR</td>
+<td>中断程序状态寄存器</td>
+<td>当前正在执行的异常&#x2F;中断编号</td>
+</tr>
+<tr>
+<td>EPSR</td>
+<td>执行程序状态寄存器</td>
+<td>包含Thumb状态标志（T位）、条件标志等</td>
+</tr>
+<tr>
+<td>APSR</td>
+<td>应用程序状态寄存器</td>
+<td>包含NZCVQ标志位（负、零、进位、溢出等）</td>
+</tr>
+<tr>
+<td>xPSR</td>
+<td>组合程序状态寄存器</td>
+<td>IPSR + EPSR + APSR 的组合（常用）</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>FPU寄存器（仅Cortex-M4&#x2F;M7&#x2F;M33带FPU时存在）</p>
+<ul>
+<li>S0 ~ S31：32个单精度浮点寄存器（可配对成16个双精度D0~D15）</li>
+</ul>
+</li>
+</ol>
+<h1 id="函数调用过程"><a href="#函数调用过程" class="headerlink" title="函数调用过程"></a>函数调用过程</h1><p>ARM Cortex-M系列（Cortex-M0&#x2F;M3&#x2F;M4&#x2F;M7等）芯片使用<strong>Thumb&#x2F;Thumb-2指令集</strong>（几乎所有嵌入式应用都强制Thumb模式），GCC（arm-none-eabi-gcc）生成的函数调用遵循<strong>AAPCS</strong>（ARM Architecture Procedure Call Standard）调用约定。</p>
+<h2 id="调用约定（AAPCS）"><a href="#调用约定（AAPCS）" class="headerlink" title="调用约定（AAPCS）"></a>调用约定（AAPCS）</h2><p>调用约定（AAPCS）核心规则（Cortex-M）：</p>
+<ol>
+<li><strong>参数传递</strong>：<ul>
+<li>前4个整数参数（int、指针等）用 <strong>R0 ~ R3</strong> 传递。</li>
+<li>第5个及以后参数压入栈（push）。</li>
+<li>返回值用 <strong>R0</strong>（或R0+R1用于64位）。</li>
+</ul>
+</li>
+<li><strong>寄存器分类</strong>：<ul>
+<li><strong>Caller-saved</strong>（调用者负责保存）：R0~R3、R12（可被被调用函数破坏）。</li>
+<li><strong>Callee-saved</strong>（被调用者负责保存）：R4~R11（如果函数使用，必须保存）。</li>
+<li><strong>LR (R14)</strong>：保存返回地址，调用函数时硬件自动保存到LR。</li>
+<li><strong>SP (R13)</strong>：栈指针。</li>
+</ul>
+</li>
+<li><strong>栈对齐</strong>：SP必须8字节对齐（AAPCS要求）。</li>
+</ol>
+<h2 id="调用侧（Caller）"><a href="#调用侧（Caller）" class="headerlink" title="调用侧（Caller）"></a>调用侧（Caller）</h2><ul>
+<li><p>把前4个参数放入 R0~R3。</p>
+<ul>
+<li><p>调用函数c语言视角为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Key_IO_Init(gatIoKeyTable, IO_KEY_NUM);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用函数汇编视角为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LDR            R3, =gatIoKeyTable            ; [PC, #12] [0x000294D0] =0x2000018C</span><br><span class="line">MOVS           R1, #6</span><br><span class="line">MOVS           R0, R3</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!note] </p>
+<p>这里看着是先将gatIoKeyTable参数的地址加载到R3寄存器中，之后又将R3的数据复制到R0中，看到汇编指令可能会有疑问，为什么不直接将gatIoKeyTable的地址存到R3中？</p>
+<hr>
+<p><strong>寄存器分配器的决定</strong>：GCC 的寄存器分配器（register allocator）在生成代码时，决定使用哪个寄存器来持有这个地址。</p>
+<ul>
+<li>它选择了 <strong>R3</strong> 作为临时寄存器来加载地址（因为 R3 是 caller-saved，低寄存器，适合临时值）。</li>
+<li>但后续代码需要这个地址在 <strong>R0</strong> 中（可能是作为函数参数、指针使用，或优化后 R0 更合适）。</li>
+</ul>
+<p>因此，需要额外一条 MOVS R0, R3（或等价的 mov r0, r3）来复制值。这在优化级别下很常见（-O1&#x2F;-O2&#x2F;-O3），GCC 会优先使用低寄存器（R0~R3）作为临时，但最终根据使用位置调整。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>如果有更多参数：<code>push &#123;寄存器&#125;</code> 或 <code>sub sp, #N</code> + <code>str</code> 存储。</p>
+<ul>
+<li><p>调用函数c语言视角为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="type">void</span>)AesEncryptUpdate(ECB_Zero, <span class="literal">NULL</span>, <span class="number">16</span>, Zero, <span class="number">16</span>, dataout, <span class="number">16</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用函数汇编视角为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">MOVS           R3, #40</span><br><span class="line">ADDS           R2, R7, R3</span><br><span class="line">MOVS           R3, #16</span><br><span class="line">STR            R3, [SP, #8]		；这里的STR指令就是在压栈，从上往下压栈</span><br><span class="line">MOVS           R4, #24</span><br><span class="line">ADDS           R3, R7, R4</span><br><span class="line">STR            R3, [SP, #4]</span><br><span class="line">MOVS           R3, #16</span><br><span class="line">STR            R3, [SP, #0]</span><br><span class="line">MOVS           R3, R2</span><br><span class="line">MOVS           R2, #16</span><br><span class="line">MOVS           R1, #0</span><br><span class="line">MOVS           R0, #2</span><br><span class="line">BL             AesEncryptUpdate </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>[!note] </p>
+<p>这里可能会有疑问，栈的生长方向明明是向下的，为什么压栈的时候是将SP向上偏移压栈？</p>
+<hr>
+<p>实际上，每个函数都有自己的栈帧，也就是每个函数都有自己的函数栈，在开始的时候，会首先分配栈空间，也就是sub指令，将栈向下生长，如以下函数序言：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">; test函数</span><br><span class="line">PUSH           &#123;R4-R5, R7, LR&#125;</span><br><span class="line">SUB            SP, SP, #16		；这里的函数分配了16个字节大小的栈空间</span><br><span class="line">ADD            R7, SP, #0</span><br><span class="line">STR            R0, [R7, #12]</span><br><span class="line">STR            R1, [R7, #8]</span><br><span class="line">STR            R2, [R7, #4]</span><br><span class="line">STR            R3, [R7]</span><br></pre></td></tr></table></figure>
+
+<p>如果调用这个函数，那么栈空间的分配为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">高地址</span><br><span class="line">+-------------------+  	← 起始地址</span><br><span class="line">|        数据        |   ← 外面调用test函数的栈数据</span><br><span class="line">+-------------------+  ← 调用test函数前的SP</span><br><span class="line">| 将要存放test函数中   |</span><br><span class="line">| 产生的数据          |</span><br><span class="line">+-------------------+  ← test序言结束之后的SP，分配了16个字节大小的数据</span><br><span class="line">低地址</span><br></pre></td></tr></table></figure>
+
+<p>序言结束后，函数内部的一些操作就可以安心的使用栈了，比如将很多参数（如果栈空间足够大）都压入栈中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">STR R5, [SP, #20]   ; 第10个参数（假设）</span><br><span class="line">STR R4, [SP, #16]   ; 第9个参数</span><br><span class="line">STR R0, [SP, #12]   ; 第8个参数</span><br><span class="line">STR R1, [SP, #8]    ; 第7个参数</span><br><span class="line">STR R2, [SP, #4]    ; 第6个参数</span><br><span class="line">STR R3, [SP, #0]    ; 第5个参数</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>调用指令：<strong>bl  &lt; function &gt;</strong>（Branch with Link）</p>
+<ul>
+<li><p>把返回地址保存到 <strong>LR</strong>。</p>
+</li>
+<li><p>跳转到被调用函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BL  Key_IO_Init 	; 这里的BL指令会跳转到Key_IO_Init，同时将PC + 4的地址保存到LR中</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>返回后：返回值在 R0，调用者可继续使用 R0~R3（因为它们可能被破坏）。</p>
+<ul>
+<li><p>在被调用者的结尾可以看到将数据移入R0寄存器的操作：</p>
+<ul>
+<li><p>c语言视角为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> u8CanShouldBeClose;	<span class="comment">//函数体执行完成</span></span><br></pre></td></tr></table></figure>
+
+<p>汇编视角为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LDR            R3, =u8CanShouldBeClose       ; [PC, #8] [0x000297A8] =0x2000172E</span><br><span class="line">LDRB           R3, [R3]		;此时将计算出来的数据存放在R3中</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>代码视角：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#125;	<span class="comment">// 函数结束</span></span><br></pre></td></tr></table></figure>
+
+<p>汇编视角：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MOVS           R0, R3	; 这个时候就会将R3中的数据移至R0中</span><br><span class="line">MOV            SP, R7</span><br><span class="line">POP            &#123;R7, PC&#125;</span><br><span class="line">NOP</span><br><span class="line">PUSH           &#123;R4, R7, LR&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="被调用侧（Callee）"><a href="#被调用侧（Callee）" class="headerlink" title="被调用侧（Callee）"></a>被调用侧（Callee）</h2><p>被调用侧除函数体外还有函数序言（prologue）和结尾（epilogue）</p>
+<p>从C语言的角度来看：序言就是函数之前要执行的指令，结尾就是函数之后要执行的指令。💯</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">test</span><span class="params">()</span></span><br><span class="line"><span class="comment">//序言</span></span><br><span class="line">&#123;	</span><br><span class="line"></span><br><span class="line">&#125;	</span><br><span class="line"><span class="comment">//结尾</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="序言（prologue）"><a href="#序言（prologue）" class="headerlink" title="序言（prologue）"></a>序言（prologue）</h3><p>函数序言通常需要完成以下几件事（顺序可能略有差异）：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>目的</th>
+<th>典型指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>保存链接寄存器 LR（返回地址）</td>
+<td>PUSH {…, LR} 或包含在 push 列表中</td>
+<td>如果函数会调用其他函数（非叶子函数），必须保存 LR，否则子函数的 BL 会覆盖它。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>保存被调用者需要保存的寄存器（callee-saved）</td>
+<td>PUSH {R4-R11, …}</td>
+<td>根据 AAPCS，R4~R11、R13(SP)、R14(LR) 如果函数中使用，必须由当前函数（被调用者）负责保存和恢复。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>为局部变量分配栈空间</td>
+<td>SUB SP, SP, #N</td>
+<td>N 是局部变量总大小（包括对齐，通常 8 字节对齐）。如果没有局部变量，可能省略。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>（可选）建立帧指针（Frame Pointer）</td>
+<td>MOV R7, SP 或 ADD R7, SP, #0</td>
+<td>方便通过 [R7 + offset] 访问局部变量和参数，常用于带调试信息或中等优化级别。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>（可选）保存传入的参数到栈</td>
+<td>STR R0, [R7, #offset] 等</td>
+<td>当函数需要长期使用参数、或准备调用 varargs 函数、或需要调试信息时，会把 R0~R3 的参数备份到栈上。</td>
+</tr>
+</tbody></table>
+<p>典型序言模式为：</p>
+<ol>
+<li><p>模式1：带 frame pointer 的标准序言（最常见于 -O1&#x2F;-O2 + 调试信息）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PUSH    &#123;R4-R7, LR&#125;     ; 保存用到的 callee-saved 寄存器 + 旧 R7 + LR</span><br><span class="line">SUB     SP, SP, #32     ; 为局部变量分配空间（例如 32 字节）</span><br><span class="line">ADD     R7, SP, #0      ; 建立 frame pointer R7 = 当前 SP</span><br><span class="line">; 可选：STR R0~R3 到 [R7 + offset] 保存参数</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模式2：不带 frame pointer 的优化序言（加 -fomit-frame-pointer，-O2&#x2F;-O3 常见）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH    &#123;R4-R7, LR&#125;     ; 只保存实际用到的寄存器 + LR</span><br><span class="line">SUB     SP, SP, #24     ; 分配局部变量空间（所有访问用 SP + offset）</span><br><span class="line">; 不再有 MOV R7, SP</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模式3：叶子函数序言（函数内部不调用其他函数，所以不需要将LR压栈）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH    &#123;R4-R6&#125;         ; 只保存用到的寄存器，不需要保存 LR（因为不会被覆盖）</span><br><span class="line">SUB     SP, SP, #16     ; 分配局部变量</span><br><span class="line">; 返回时用 BX LR（LR 仍是调用者写入的）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模式4：极简序言（无局部变量、无需保存寄存器）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">; 什么都不做，直接进入函数体</span><br><span class="line">; 返回用 BX LR</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>[!tip] </p>
+<p>为什么序言必须做这些事？</p>
+<ol>
+<li><strong>保证正确返回</strong>：保存 LR（返回地址），否则子函数调用会破坏它，导致返回到错误位置。</li>
+<li><strong>遵守调用约定（AAPCS）</strong>：callee-saved 寄存器（R4~R11）必须由当前函数保存和恢复，不能破坏调用者的值。</li>
+<li><strong>为局部变量提供空间</strong>：栈向下增长，sub sp 预留空间。</li>
+<li><strong>便于访问变量</strong>：用 frame pointer（R7）或 SP + offset 统一访问局部变量和参数备份。</li>
+<li><strong>支持调试和异常栈回溯</strong>：带 frame pointer 的序言能让调试器（gdb）或异常处理程序准确展开调用栈。</li>
+</ol>
+</blockquote>
+<h3 id="结尾（Epilogue）"><a href="#结尾（Epilogue）" class="headerlink" title="结尾（Epilogue）"></a>结尾（Epilogue）</h3><p>函数结尾（epilogue）的主要任务是<strong>逆序撤销序言（prologue）所做的一切</strong>，恢复调用者的寄存器环境、释放栈空间，并正确返回到调用者。</p>
+<p>&#x3D;&#x3D;<strong>结尾必须严格与序言对应</strong>&#x3D;&#x3D;，否则会导致栈失衡、寄存器破坏或返回地址错误。</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>目的</th>
+<th>典型指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>释放局部变量栈空间</td>
+<td>ADD SP, SP, #N<br>或直接融入 POP</td>
+<td>把序言中 SUB SP, SP, #N 分配的空间回收，使 SP 回到保存寄存器前的位置。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>恢复 callee-saved 寄存器和 LR</td>
+<td>POP {R4-R11, … , LR}<br>或 POP {…, PC}</td>
+<td>把序言中 PUSH 保存的寄存器值恢复回来。特别重要的是恢复 LR（返回地址）。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>返回到调用者</td>
+<td>POP 到 PC<br>或 BX LR</td>
+<td>将 LR 中的返回地址写入 PC，实现跳转回调用者 BL 指令的下一条指令。</td>
+</tr>
+</tbody></table>
+<p>常见结尾模式（与序言对应）</p>
+<ol>
+<li><p>模式1：带 frame pointer 的标准结尾（最常见，与你序言匹配）</p>
+<p>序言示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PUSH &#123;R4-R5, R7, LR&#125;</span><br><span class="line">SUB  SP, SP, #16</span><br><span class="line">ADD  R7, SP, #0</span><br></pre></td></tr></table></figure>
+
+<p>对应结尾通常是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ADD     SP, SP, #16     ; 释放局部变量空间（恢复到 push 后的 SP）</span><br><span class="line">POP     &#123;R4-R5, R7, PC&#125; ; 一次性恢复 R4、R5、旧 R7，并把保存的 LR 直接 pop 到 PC 返回</span><br></pre></td></tr></table></figure>
+
+<p>或者等价的两步形式（较少见）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ADD     SP, SP, #16</span><br><span class="line">POP     &#123;R4-R5, R7, LR&#125;</span><br><span class="line">BX      LR</span><br></pre></td></tr></table></figure>
+
+<p><strong>关键点</strong>：Thumb 模式下允许 <code>POP &#123;..., PC&#125;</code>，硬件会特殊处理把 LR 值写入 PC 并自动切换到 Thumb 状态。</p>
+</li>
+<li><p>模式2：不带 frame pointer 的优化结尾</p>
+<p>序言：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUSH &#123;R4-R7, LR&#125;</span><br><span class="line">SUB  SP, SP, #24</span><br></pre></td></tr></table></figure>
+
+<p>结尾：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ADD     SP, SP, #24</span><br><span class="line">POP     &#123;R4-R7, PC&#125;      ; 直接返回</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模式3：叶子函数结尾（序言没保存 LR）</p>
+<p>序言只 PUSH 了部分寄存器，没动 LR：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PUSH &#123;R4-R6&#125;</span><br><span class="line">SUB  SP, SP, #16</span><br></pre></td></tr></table></figure>
+
+<p>结尾：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ADD     SP, SP, #16</span><br><span class="line">POP     &#123;R4-R6&#125;</span><br><span class="line">BX      LR               ; LR 仍是调用者 BL 时写入的原始返回地址</span><br></pre></td></tr></table></figure></li>
+</ol>
+<blockquote>
+<p>[!important]</p>
+<p>为什么结尾可以直接 POP 到 PC？</p>
+<ul>
+<li>Thumb&#x2F;Thumb-2 指令集特意设计了 <code>POP &#123;..., PC&#125;</code> 和 <code>LDMIA SP!, &#123;..., PC&#125;</code> 支持这种高效返回。</li>
+<li>硬件检测到写 PC 时，会自动清除 LR 最低位的 Thumb 状态位（因为它本来就是置 1 的），确保返回后仍在 Thumb 模式执行。</li>
+</ul>
+</blockquote>
+<p>结尾的核心任务</p>
+<ol>
+<li><strong>释放局部变量空间</strong>（ADD SP 或融入 POP）。</li>
+<li><strong>恢复所有保存的寄存器</strong>（包括旧 R7 如果用了 frame pointer）。</li>
+<li><strong>恢复返回地址到 PC</strong>（POP PC 或 BX LR）。</li>
+</ol>
+<p>只要结尾严格逆序对应序言，就能保证：</p>
+<ul>
+<li>栈平衡（不泄漏内存）。</li>
+<li>寄存器环境不变（调用者看不到变化）。</li>
+<li>正确返回。</li>
+</ul>
+<p>这也是为什么阅读反汇编时，看到结尾基本就是序言的“镜像反操作”。</p>
+<p><strong>总结</strong>：函数序言的核心任务就是**“保存必要寄存器 + 分配栈空间 + 建立访问基址”**，确保函数体能安全执行，并在退出时正确恢复现场并返回。GCC 会根据优化级别、是否需要调试信息、函数是否为叶子函数等自动选择最合适的序言形式。</p>
+<h1 id="CPU错误状态"><a href="#CPU错误状态" class="headerlink" title="CPU错误状态"></a>CPU错误状态</h1><p>当CPU出现问题时，我们可以通过CPU的一些寄存器可以看出问题的来源：</p>
+<ol>
+<li><p>首要查看：故障状态寄存器（Fault Status Registers）</p>
+<p>这些寄存器位于 System Control Block (SCB) 中，专门记录当前是否发生了故障以及故障类型。</p>
+<table>
+<thead>
+<tr>
+<th>寄存器名称</th>
+<th>地址（相对于 SCB）</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SCB-&gt;CFSR (Configurable Fault Status Register)</td>
+<td>0xE000ED28</td>
+<td>最重要！分为三部分：UFSR &#x2F; BFSR &#x2F; MMFSR，记录 UsageFault、BusFault、MemManageFault 的具体原因</td>
+</tr>
+<tr>
+<td>SCB-&gt;HFSR (HardFault Status Register)</td>
+<td>0xE000ED2C</td>
+<td>记录是否发生了 HardFault，以及是否由其他故障升级而来</td>
+</tr>
+<tr>
+<td>SCB-&gt;DFSR (Debug Fault Status Register)</td>
+<td>0xE000ED30</td>
+<td>调试相关故障（一般不关心）</td>
+</tr>
+<tr>
+<td>SCB-&gt;MMFAR (MemManage Fault Address Register)</td>
+<td>0xE000ED34</td>
+<td>MemManage 故障时的无效地址</td>
+</tr>
+<tr>
+<td>SCB-&gt;BFAR (Bus Fault Address Register)</td>
+<td>0xE000ED38</td>
+<td>BusFault 时的无效地址</td>
+</tr>
+</tbody></table>
+<p><strong>推荐做法</strong>：在 HardFault_Handler 或其他故障处理函数里第一时间读取并保存 SCB-&gt;HFSR 和 SCB-&gt;CFSR 的值。</p>
+</li>
+<li><p>CFSR 寄存器详解（最有诊断价值）</p>
+<p>CFSR 是 32 位寄存器，分成三个子寄存器（位段）：</p>
+<table>
+<thead>
+<tr>
+<th>位段</th>
+<th>位位置</th>
+<th>常见标志位及含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UFSR (Usage Fault Status)</td>
+<td>[31:16]</td>
+<td>UNDEFINSTR：执行了未定义指令<br>DIVBYZERO：除以 0（需使能）<br>UNALIGNED：非对齐访问（需使能）<br>NOCP：访问了不存在的协处理器<br>INVPC：无效的 PC 加载（异常返回错误）<br>INVSTATE：无效的 EPSR 状态（通常 Thumb 位错误）</td>
+</tr>
+<tr>
+<td>BFSR (Bus Fault Status)</td>
+<td>[15:8]</td>
+<td>IBUSERR：指令预取总线错误<br>PRECISERR：精确数据总线错误（有有效地址在 BFAR）<br>IMPRECISERR：非精确数据总线错误（地址可能不准）<br>UNSTKERR：异常返回时出栈错误<br>STKERR：异常入栈错误</td>
+</tr>
+<tr>
+<td>MMFSR (MemManage Fault Status)</td>
+<td>[7:0]</td>
+<td>IACCVIOL：指令访问违反 MPU 或缺页<br>DACCVIOL：数据访问违反 MPU 或缺页<br>MUNSTKERR：异常返回时 MPU 违反<br>MSTKERR：异常入栈时 MPU 违反<br>MLSPERR：浮点懒惰状态保存错误（M7）</td>
+</tr>
+</tbody></table>
+<p>只要 CFSR 不为 0，就说明发生了可配置故障。</p>
+</li>
+<li><p>其他有助于诊断的寄存器</p>
+<table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SCB-&gt;ICSR</td>
+<td>包含当前正在执行的异常号（VectActive）和挂起的异常</td>
+</tr>
+<tr>
+<td>SCB-&gt;SHCSR</td>
+<td>使能了哪些故障（MemManage、BusFault、UsageFault）</td>
+</tr>
+<tr>
+<td>LR（进入异常时）</td>
+<td>进入异常前的值通常是特殊 EXC_RETURN 值（如 0xFFFFFFF1&#x2F;9&#x2F;D&#x2F;E），可以判断是从线程还是 Handler 模式进入、是否用了 FPU 等</td>
+</tr>
+<tr>
+<td>栈上保存的上下文</td>
+<td>异常发生时硬件自动压入栈的 8 个寄存器（R0-R3,R12,LR,PC,xPSR），其中栈上的 PC 就是故障指令地址！</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>需要注意的是，有些芯片是没有不支持这些寄存器的，如M0的核就不支持这些寄存器。</p>
+</blockquote>
+<p>在写代码的时候可以在 HardFault_Handler 中加入以下代码（C 语言）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">HardFault_Handler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="type">uint32_t</span> hfsr = SCB-&gt;HFSR;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="type">uint32_t</span> cfsr = SCB-&gt;CFSR;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="type">uint32_t</span> mmfar = SCB-&gt;MMFAR;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="type">uint32_t</span> bfar  = SCB-&gt;BFAR;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="type">uint32_t</span> stacked_pc;  <span class="comment">// 故障指令地址</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从栈中提取发生故障时的 PC（需要知道当前栈指针）</span></span><br><span class="line">   __asm <span class="title function_">volatile</span> <span class="params">(</span></span><br><span class="line"><span class="params">        <span class="string">&quot;tst lr, #4 \n&quot;</span>          <span class="comment">// 第1步：测试 LR 的 bit2 是否为 1</span></span></span><br><span class="line"><span class="params">        <span class="string">&quot;ite eq \n&quot;</span>              <span class="comment">// 第2步：如果等于 0（EQ），则执行下一条指令的 E 版本，否则 T 版本</span></span></span><br><span class="line"><span class="params">        <span class="string">&quot;mrseq r0, msp \n&quot;</span>       <span class="comment">// 第3步：如果 EQ（bit2 == 0），把 MSP（主栈指针）加载到 R0</span></span></span><br><span class="line"><span class="params">        <span class="string">&quot;mrsne r0, psp \n&quot;</span>       <span class="comment">// 第4步：如果 NE（bit2 == 1），把 PSP（进程栈指针）加载到 R0</span></span></span><br><span class="line"><span class="params">        <span class="string">&quot;ldr %0, [r0, #24]&quot;</span>      <span class="comment">// 第5步：从 R0（即正确的栈指针） + 24 字节偏移处加载值到输出变量 stacked_pc</span></span></span><br><span class="line"><span class="params">        : <span class="string">&quot;=r&quot;</span> (stacked_pc)      <span class="comment">// 输出操作数：stacked_pc 接收 ldr 加载的值</span></span></span><br><span class="line"><span class="params">	)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>);  <span class="comment">// 停在这里，用调试器查看以上变量，不过尽量不要使用死循环，可以在这里打个断点查看stacked_pc数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 J-Link &#x2F; ST-Link &#x2F; DAPLink 连接后，程序停在 HardFault 时，直接在调试器里查看 cfsr、hfsr、stacked_pc，就能快速定位：</p>
+<ul>
+<li>是非法指令？</li>
+<li>是非法地址访问？</li>
+<li>是除零？</li>
+<li>是栈溢出导致入栈失败？</li>
+<li>还是返回时出栈错误？</li>
+</ul>
+<h1 id="thumb指令集"><a href="#thumb指令集" class="headerlink" title="thumb指令集"></a>thumb指令集</h1><h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MOV</td>
+<td><code>MOV Rd, Rm</code></td>
+<td>复制 <code>Rm</code> 到 <code>Rd</code></td>
+<td><code>MOV R1, R2</code></td>
+</tr>
+<tr>
+<td>MVN</td>
+<td><code>MVN Rd, Rm</code></td>
+<td><code>Rd = ~Rm</code>（按位取反）</td>
+<td><code>MVN R1, R2</code></td>
+</tr>
+<tr>
+<td>ADD</td>
+<td><code>ADD Rd, Rn, Rm</code></td>
+<td><code>Rd = Rn + Rm</code></td>
+<td><code>ADD R1, R2, R3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>ADD Rd, Rn, #imm3</code></td>
+<td><code>Rd = Rn + 3-bit 立即数</code></td>
+<td><code>ADD R1, R2, #1</code></td>
+</tr>
+<tr>
+<td>SUB</td>
+<td><code>SUB Rd, Rn, Rm</code></td>
+<td><code>Rd = Rn - Rm</code></td>
+<td><code>SUB R1, R2, R3</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>SUB Rd, Rn, #imm3</code></td>
+<td><code>Rd = Rn - 3-bit 立即数</code></td>
+<td><code>SUB R1, R2, #1</code></td>
+</tr>
+<tr>
+<td>AND</td>
+<td><code>AND Rd, Rm</code></td>
+<td><code>Rd = Rd &amp; Rm</code>（按位与）</td>
+<td><code>AND R1, R2</code></td>
+</tr>
+<tr>
+<td>ORR</td>
+<td><code>ORR Rd, Rm</code></td>
+<td>&#96;Rd &#x3D; Rd</td>
+<td>Rm&#96;（按位或）</td>
+</tr>
+<tr>
+<td>EOR</td>
+<td><code>EOR Rd, Rm</code></td>
+<td><code>Rd = Rd ^ Rm</code>（按位异或）</td>
+<td><code>EOR R1, R2</code></td>
+</tr>
+<tr>
+<td>NEG</td>
+<td><code>NEG Rd, Rm</code></td>
+<td><code>Rd = -Rm</code>（取负）</td>
+<td><code>NEG R1, R2</code></td>
+</tr>
+<tr>
+<td>CMP</td>
+<td><code>CMP Rn, Rm</code></td>
+<td>比较 <code>Rn</code> 和 <code>Rm</code>，设置标志位</td>
+<td><code>CMP R1, R2</code></td>
+</tr>
+<tr>
+<td></td>
+<td><code>CMP Rn, #imm8</code></td>
+<td>比较 <code>Rn</code> 和 8-bit 立即数</td>
+<td><code>CMP R1, #10</code></td>
+</tr>
+<tr>
+<td>TST</td>
+<td><code>TST Rn, Rm</code></td>
+<td>测试 <code>Rn &amp; Rm</code>，设置标志位</td>
+<td><code>TST R1, R2</code></td>
+</tr>
+</tbody></table>
+<h2 id="移位操作"><a href="#移位操作" class="headerlink" title="移位操作"></a>移位操作</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LSL</td>
+<td><code>LSL Rd, Rm, #imm5</code></td>
+<td>逻辑左移 <code>Rm</code>（最多 31 位）</td>
+<td><code>LSL R1, R2, #4</code></td>
+</tr>
+<tr>
+<td>LSR</td>
+<td><code>LSR Rd, Rm, #imm5</code></td>
+<td>逻辑右移 <code>Rm</code>（最多 31 位）</td>
+<td><code>LSR R1, R2, #4</code></td>
+</tr>
+<tr>
+<td>ASR</td>
+<td><code>ASR Rd, Rm, #imm5</code></td>
+<td>算术右移 <code>Rm</code>（符号位扩展）</td>
+<td><code>ASR R1, R2, #4</code></td>
+</tr>
+<tr>
+<td>ROR</td>
+<td><code>ROR Rd, Rm, #imm5</code></td>
+<td>循环右移 <code>Rm</code></td>
+<td><code>ROR R1, R2, #4</code></td>
+</tr>
+</tbody></table>
+<h2 id="分支与控制"><a href="#分支与控制" class="headerlink" title="分支与控制"></a>分支与控制</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B</td>
+<td><code>B label</code></td>
+<td>无条件跳转到 <code>label</code></td>
+<td><code>B loop</code></td>
+</tr>
+<tr>
+<td>BL</td>
+<td><code>BL label</code></td>
+<td>跳转到 <code>label</code>，保存返回地址到 <code>LR</code></td>
+<td><code>BL func</code></td>
+</tr>
+<tr>
+<td>BX</td>
+<td><code>BX Rm</code></td>
+<td>跳转到 <code>Rm</code>，可切换 ARM&#x2F;Thumb 模式</td>
+<td><code>BX R1</code></td>
+</tr>
+<tr>
+<td>BEQ&#x2F;BNE</td>
+<td><code>B&#123;cond&#125; label</code></td>
+<td>条件跳转（基于 <code>CPSR</code> 标志位）</td>
+<td><code>BEQ loop</code>（Z&#x3D;1 时跳转）</td>
+</tr>
+</tbody></table>
+<h2 id="加载和存储"><a href="#加载和存储" class="headerlink" title="加载和存储"></a>加载和存储</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LDR</td>
+<td><code>LDR Rd, [Rn, #imm5]</code></td>
+<td>从 <code>[Rn + imm5]</code> 加载 32 位数据</td>
+<td><code>LDR R1, [R2, #4]</code></td>
+</tr>
+<tr>
+<td>STR</td>
+<td><code>STR Rd, [Rn, #imm5]</code></td>
+<td>存储 <code>Rd</code> 到 <code>[Rn + imm5]</code></td>
+<td><code>STR R1, [R2, #4]</code></td>
+</tr>
+<tr>
+<td>LDRB</td>
+<td><code>LDRB Rd, [Rn, #imm5]</code></td>
+<td>从 <code>[Rn + imm5]</code> 加载 8 位数据</td>
+<td><code>LDRB R1, [R2, #4]</code></td>
+</tr>
+<tr>
+<td>STRB</td>
+<td><code>STRB Rd, [Rn, #imm5]</code></td>
+<td>存储 <code>Rd</code> 的低 8 位</td>
+<td><code>STRB R1, [R2, #4]</code></td>
+</tr>
+<tr>
+<td>LDRH</td>
+<td><code>LDRH Rd, [Rn, #imm5]</code></td>
+<td>从 <code>[Rn + imm5]</code> 加载 16 位数据</td>
+<td><code>LDRH R1, [R2, #4]</code></td>
+</tr>
+<tr>
+<td>STRH</td>
+<td><code>STRH Rd, [Rn, #imm5]</code></td>
+<td>存储 <code>Rd</code> 的低 16 位</td>
+<td><code>STRH R1, [R2, #4]</code></td>
+</tr>
+<tr>
+<td>LDMIA</td>
+<td><code>LDMIA Rn!, &#123;reg-list&#125;</code></td>
+<td>从 <code>Rn</code> 加载多个寄存器（递增）</td>
+<td><code>LDMIA R1!, &#123;R2, R3&#125;</code></td>
+</tr>
+<tr>
+<td>STMIA</td>
+<td><code>STMIA Rn!, &#123;reg-list&#125;</code></td>
+<td>存储多个寄存器到 <code>Rn</code>（递增）</td>
+<td><code>STMIA R1!, &#123;R2, R3&#125;</code></td>
+</tr>
+</tbody></table>
+<h2 id="栈操作"><a href="#栈操作" class="headerlink" title="栈操作"></a>栈操作</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PUSH</td>
+<td><code>PUSH &#123;reg-list&#125;</code></td>
+<td>压入寄存器到栈（<code>SP</code> 递减）</td>
+<td><code>PUSH &#123;R1, R2&#125;</code></td>
+</tr>
+<tr>
+<td>POP</td>
+<td><code>POP &#123;reg-list&#125;</code></td>
+<td>从栈弹出数据到寄存器（<code>SP</code> 递增）</td>
+<td><code>POP &#123;R1, R2&#125;</code></td>
+</tr>
+</tbody></table>
+<h2 id="软件中断"><a href="#软件中断" class="headerlink" title="软件中断"></a>软件中断</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SWI</td>
+<td><code>SWI #imm8</code></td>
+<td>触发软件中断（<code>imm8</code> 为参数）</td>
+<td><code>SWI #0</code></td>
+</tr>
+</tbody></table>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><table>
+<thead>
+<tr>
+<th><strong>指令</strong></th>
+<th><strong>格式</strong></th>
+<th><strong>功能</strong></th>
+<th><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ADC</td>
+<td><code>ADC Rd, Rm</code></td>
+<td>带进位加法 <code>Rd = Rd + Rm + C</code></td>
+<td><code>ADC R1, R2</code></td>
+</tr>
+<tr>
+<td>SBC</td>
+<td><code>SBC Rd, Rm</code></td>
+<td>带借位减法 <code>Rd = Rd - Rm - !C</code></td>
+<td><code>SBC R1, R2</code></td>
+</tr>
+<tr>
+<td>MUL</td>
+<td><code>MUL Rd, Rm</code></td>
+<td>乘法 <code>Rd = Rd * Rm</code>（低 32 位）</td>
+<td><code>MUL R1, R2</code></td>
+</tr>
+<tr>
+<td>RSB</td>
+<td><code>RSB Rd, Rn, #0</code></td>
+<td>反向减法 <code>Rd = 0 - Rn</code></td>
+<td><code>RSB R1, R2, #0</code></td>
+</tr>
+<tr>
+<td>CMN</td>
+<td><code>CMN Rn, Rm</code></td>
+<td>比较 <code>Rn + Rm</code>，设置标志位</td>
+<td><code>CMN R1, R2</code></td>
+</tr>
+<tr>
+<td>ADR</td>
+<td><code>ADR Rd, label</code></td>
+<td>加载 <code>label</code> 的地址到 <code>Rd</code></td>
+<td><code>ADR R1, data</code></td>
+</tr>
+</tbody></table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Arm%E6%9E%B6%E6%9E%84/">https://youshouldtrustme.github.io/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Arm%E6%9E%B6%E6%9E%84/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/BootLoader/" title="BootLoader"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">BootLoader</div></div><div class="info-2"><div class="info-item-1">参考链接基于UDS的BootLoader设计——架构设计及规范_nxp s32k144 bootloader 基于uds-CSDN博客 Bootloader升级方式一————擦、写flash在RAM中运行 - isAndyWu - 博客园 (cnblogs.com) 基础介绍Boot Loader又称为引导加载程序，引导加载程序是系统上电后运行的第一段软件代码，常被用来加载系统或者更新系统等。因此，大部分的Boot Loader存在两种不同的操作模式：  &#x3D;&#x3D;启动模式&#x3D;&#x3D;：启动加载（BootLoading）模式也称为自主模式（Autonmous），即BootLoader从目标机上某个固态存储设备上将操作系统加载至RAM中运行，整个过程中并没有用户的介入。 &#x3D;&#x3D;下载模式&#x3D;&#x3D;：在下载（DownLoading）模式下，目标机上的Boot Loader将通过串口连接或者网络连接等通信手段下载文件，如下载内核映像和根文件系统映像等。通常文件会保存在RAM中，然后将其写入目标地址完后系统的更新等。   [!tip...</div></div></div></a><a class="pagination-related" href="/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/" title="CAPL"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">CAPL</div></div><div class="info-2"><div class="info-item-1">1 概述CAPL全称为Communication Access Programming Language，即通信访问编程语言。它是Vector公司专门为CANoe开发环境设计的编程语言，在语法和概念上与C语言类似。借助CAPL，用户可以编写程序并应用到网络的各个节点上，也可以利用CAPL编程加强测量分析功能，以及搭建高效的自动化测试模块。   2 CAPL开发环境 3 数据类型3.1 全局变量和局部变量在CAPL中，全局变量需要被声明在variables部分，同时可以使用直接赋值方法进行初始化。如果没有初始化，编译器会执行自动初始化，默认值为0。全局变量的作用域包括整个CAPL文件以及与此文件有链接的其他CAPL文件。 与C语言不同，局部变量在CAPL中总是被静态地创建。这意味着初始化只在程序体启动时执行，当再次进入程序时，局部变量被假定是上一次跳出程序时的值。局部变量的作用域，仅限于当前函数体范围内，即该函数的大括号范围内。 3.2 简单变量3.2.1 整型整数就是没有小数部分的数字，如3、201、-3412和0。根据数值的大小不同，CAPL提供了以下几种整型。  3.2.2 ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">中断向量表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E8%A1%A8%E5%86%85%E5%AE%B9"><span class="toc-number">2.1.</span> <span class="toc-text">向量表内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E8%A1%A8%E6%8E%92%E5%88%97%E7%A4%BA%E4%BE%8B"><span class="toc-number">2.2.</span> <span class="toc-text">向量表排列示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">2.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">函数调用过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A%EF%BC%88AAPCS%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">调用约定（AAPCS）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E4%BE%A7%EF%BC%88Caller%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">调用侧（Caller）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A2%AB%E8%B0%83%E7%94%A8%E4%BE%A7%EF%BC%88Callee%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">被调用侧（Callee）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E8%A8%80%EF%BC%88prologue%EF%BC%89"><span class="toc-number">4.3.1.</span> <span class="toc-text">序言（prologue）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E5%B0%BE%EF%BC%88Epilogue%EF%BC%89"><span class="toc-number">4.3.2.</span> <span class="toc-text">结尾（Epilogue）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CPU%E9%94%99%E8%AF%AF%E7%8A%B6%E6%80%81"><span class="toc-number">5.</span> <span class="toc-text">CPU错误状态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#thumb%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="toc-number">6.</span> <span class="toc-text">thumb指令集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-number">6.1.</span> <span class="toc-text">数据处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="toc-number">6.2.</span> <span class="toc-text">移位操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF%E4%B8%8E%E6%8E%A7%E5%88%B6"><span class="toc-number">6.3.</span> <span class="toc-text">分支与控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%AD%98%E5%82%A8"><span class="toc-number">6.4.</span> <span class="toc-text">加载和存储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%88%E6%93%8D%E4%BD%9C"><span class="toc-number">6.5.</span> <span class="toc-text">栈操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E4%B8%AD%E6%96%AD"><span class="toc-number">6.6.</span> <span class="toc-text">软件中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">6.7.</span> <span class="toc-text">其他</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>

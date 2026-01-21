@@ -1,0 +1,880 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Tessy | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="如何评判 代码覆盖率：  语句覆盖率（Statement Coverage）：检查是否每个代码语句都被执行过。 分支覆盖率（Branch Coverage）：测试代码中每个条件的所有分支是否都被执行。 路径覆盖率（Path Coverage）：所有可能的执行路径是否都被测试。   边界值分析：  测试输入参数和输出值的边界，确保程序在极端条件下（如最大值、最小值、空值）能够正常运行。   缺陷率（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tessy">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="如何评判 代码覆盖率：  语句覆盖率（Statement Coverage）：检查是否每个代码语句都被执行过。 分支覆盖率（Branch Coverage）：测试代码中每个条件的所有分支是否都被执行。 路径覆盖率（Path Coverage）：所有可能的执行路径是否都被测试。   边界值分析：  测试输入参数和输出值的边界，确保程序在极端条件下（如最大值、最小值、空值）能够正常运行。   缺陷率（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg">
+<meta property="article:published_time" content="2026-01-21T02:07:02.616Z">
+<meta property="article:modified_time" content="2026-01-21T02:07:02.616Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Tessy",
+  "url": "https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg",
+  "datePublished": "2026-01-21T02:07:02.616Z",
+  "dateModified": "2026-01-21T02:07:02.616Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Tessy',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Tessy</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Tessy</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-21T02:07:02.616Z" title="更新于 2026-01-21 02:07:02">2026-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>21分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="如何评判"><a href="#如何评判" class="headerlink" title="如何评判"></a>如何评判</h1><ol>
+<li><p><strong>代码覆盖率</strong>：</p>
+<ul>
+<li><strong>语句覆盖率（Statement Coverage）</strong>：检查是否每个代码语句都被执行过。</li>
+<li><strong>分支覆盖率（Branch Coverage）</strong>：测试代码中每个条件的所有分支是否都被执行。</li>
+<li><strong>路径覆盖率（Path Coverage）</strong>：所有可能的执行路径是否都被测试。</li>
+</ul>
+</li>
+<li><p><strong>边界值分析</strong>：</p>
+<ul>
+<li>测试输入参数和输出值的边界，确保程序在极端条件下（如最大值、最小值、空值）能够正常运行。</li>
+</ul>
+</li>
+<li><p><strong>缺陷率（Defect Rate）</strong>：</p>
+<ul>
+<li>代码中的缺陷数量与代码总行数或模块的比例。通过动态测试发现的缺陷越少，代码质量通常越高。</li>
+</ul>
+</li>
+<li><p><strong>执行时间与性能（Execution Time and Performance）</strong>：</p>
+<ul>
+<li>测试代码在不同输入情况下的运行时间，确保其满足性能要求，特别是在嵌入式系统中。</li>
+</ul>
+</li>
+<li><p><strong>内存使用率（Memory Usage）</strong>：</p>
+<ul>
+<li>测试代码的内存使用情况，确保在不同输入条件下不会发生内存溢出或过度使用内存。</li>
+</ul>
+</li>
+<li><p><strong>代码复杂度（Cyclomatic Complexity）</strong>：</p>
+<ul>
+<li>动态测试可以帮助你识别高复杂度的代码部分，复杂度越高的代码更容易出错，因此测试应重点关注这些区域。</li>
+</ul>
+</li>
+<li><p><strong>错误检测与修复率（Defect Detection and Fix Rate）</strong>：</p>
+<ul>
+<li>通过动态测试发现并修复的错误数量与整体代码中发现错误的比率，修复率越高，代码质量越好。</li>
+</ul>
+</li>
+<li><p><strong>功能正确性（Functional Correctness）</strong>：</p>
+<ul>
+<li>确保代码的功能行为与预期一致，动态测试会运行各种输入并验证输出结果是否正确。</li>
+</ul>
+</li>
+</ol>
+<h1 id="术语表"><a href="#术语表" class="headerlink" title="术语表"></a>术语表</h1><table>
+<thead>
+<tr>
+<th><strong>缩写</strong></th>
+<th><strong>全称</strong></th>
+<th><strong>具体含义</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TO</td>
+<td>Test Object</td>
+<td>被测试的代码单元，通常是函数或模块，TESSY 对其进行测试。</td>
+</tr>
+<tr>
+<td>TC</td>
+<td>Test Case</td>
+<td>测试用例，指在特定条件下对某个测试对象执行的具体测试，包含输入、预期输出和结果判定。</td>
+</tr>
+<tr>
+<td>TF</td>
+<td>Test Frame</td>
+<td>测试执行环境，包含测试所需的输入数据、预期结果及其他资源和配置。</td>
+</tr>
+<tr>
+<td>TS</td>
+<td>Test Step</td>
+<td>测试过程中执行的小步骤或操作，用于分步完成复杂的测试任务。</td>
+</tr>
+<tr>
+<td>TR</td>
+<td>Test Report</td>
+<td>测试结果报告，包含执行情况、测试结果和代码覆盖率等详细信息。</td>
+</tr>
+<tr>
+<td>TD</td>
+<td>Test Data</td>
+<td>输入到测试对象中的数据集，用于验证功能是否符合预期。</td>
+</tr>
+<tr>
+<td>TSP</td>
+<td>Test Specification</td>
+<td>测试说明文件，描述测试对象、测试条件、输入输出数据和预期结果等。</td>
+</tr>
+<tr>
+<td>Stub</td>
+<td>Stub</td>
+<td>用于替代未实现或不适合在测试中执行的功能，模拟系统中某部分的行为。</td>
+</tr>
+<tr>
+<td>Driver</td>
+<td>Driver</td>
+<td>测试驱动程序，调用测试对象并提供必要的输入，常用于嵌入式系统测试。</td>
+</tr>
+<tr>
+<td>Cov</td>
+<td>Test Coverage</td>
+<td>测试覆盖率，指测试执行过程中涉及的代码行数或分支数。常见指标有语句覆盖率和分支覆盖率。</td>
+</tr>
+<tr>
+<td>TH</td>
+<td>Test Harness</td>
+<td>测试框架或工具，用于自动化测试，包括驱动、桩和测试数据。</td>
+</tr>
+<tr>
+<td>RT</td>
+<td>Regression Test</td>
+<td>回归测试，针对修改后的代码进行，确保改动未引入新错误。</td>
+</tr>
+<tr>
+<td>CA</td>
+<td>Code Access</td>
+<td>代码通过</td>
+</tr>
+<tr>
+<td>CR</td>
+<td>Coverage Review</td>
+<td>覆盖评审</td>
+</tr>
+<tr>
+<td>CV</td>
+<td>Coverage Viewer</td>
+<td>覆盖视图</td>
+</tr>
+<tr>
+<td>CC</td>
+<td>Code Complexity</td>
+<td>代码复杂度</td>
+</tr>
+</tbody></table>
+<h1 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h1><p><strong>单元测试</strong>（Unit Testing）是软件测试中的一种方法，用来验证代码中的<strong>最小可测试单元</strong>（通常是一个函数、方法或类）的<strong>功能正确性</strong>。每个单元测试通常只测试代码中的一个小部分，确保其在特定的输入下产生预期的输出。</p>
+<p><strong>单元测试的特点</strong>：</p>
+<ol>
+<li><strong>独立性</strong>：单元测试应当独立进行，测试代码的每个部分不应该依赖于其他部分，以便能够单独运行和验证。</li>
+<li><strong>小范围测试</strong>：单元测试的目标是代码的最小单元，如函数或方法，而不是整个系统或大型模块。</li>
+<li><strong>自动化</strong>：单元测试通常是自动化的，使用测试框架（如JUnit、xUnit、pytest等）可以轻松重复执行测试。</li>
+<li><strong>早期检测错误</strong>：单元测试有助于在开发的早期阶段发现问题，节省后续集成或系统级别调试的时间。</li>
+</ol>
+<p><strong>单元测试的好处</strong>：</p>
+<ul>
+<li><strong>提高代码质量</strong>：通过测试代码的每个部分，可以在开发过程中及早发现并修复错误。</li>
+<li><strong>便于维护</strong>：随着软件的发展，单元测试能够帮助验证新代码的正确性，确保修改或新增的代码不会破坏原有功能。</li>
+<li><strong>简化调试</strong>：当一个测试失败时，开发人员可以快速定位到具体的单元，减少调试范围。</li>
+</ul>
+<h2 id="测试步骤"><a href="#测试步骤" class="headerlink" title="测试步骤"></a>测试步骤</h2><ol>
+<li><strong>创建项目</strong><ol>
+<li><strong>导入代码</strong></li>
+<li><strong>选择测试对象</strong></li>
+<li><strong>生成测试框架</strong></li>
+</ol>
+</li>
+<li><strong>创建测试用例</strong><ol>
+<li><strong>设置测试环境</strong></li>
+<li><strong>执行测试</strong></li>
+</ol>
+</li>
+<li><strong>分析结果</strong><ol>
+<li><strong>记录和保存测试结果</strong></li>
+<li><strong>重复测试</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="新建工程"><a href="#新建工程" class="headerlink" title="新建工程"></a>新建工程</h2><h3 id="新建及导入"><a href="#新建及导入" class="headerlink" title="新建及导入"></a>新建及导入</h3><p>新建：点击*&#x3D;&#x3D;file-&gt;New Project&#x3D;&#x3D;*:</p>
+<ol>
+<li>Name:给项目命名</li>
+<li>Project Root：项目路径地址</li>
+<li>选择刚刚建立的工程，打开</li>
+</ol>
+<p>选择&amp;导入：点击*&#x3D;&#x3D;file&gt;Select Project&#x3D;&#x3D;*打开相应的工程</p>
+<h3 id="导入源码"><a href="#导入源码" class="headerlink" title="导入源码"></a>导入源码</h3><p>有两种方法可以导入源代码：</p>
+<ol>
+<li>将待测代码移至项目工程下</li>
+<li>导入代码至项目工程下</li>
+</ol>
+<h4 id="移动创建法"><a href="#移动创建法" class="headerlink" title="移动创建法"></a>移动创建法</h4><p>将待测的工程复制到TESSY创建工程的目录下，使得待测工程文件与TESSY工程处于同一目录  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Root/</span><br><span class="line">├── tessy工程</span><br><span class="line">└── 待测项目</span><br><span class="line">    └── test.c</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>当移动待测文件之后，刷新一下</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_9_38_17_202409190938165.png" alt="刷新"></p>
+</li>
+<li><p>打开创建的 TESSY 工程，在 *<code>Test Cockpit </code>*视图下选中需要的测试工程右键并点击 <em><code>New Modules  </code></em></p>
+</li>
+<li><p>在 General 界面选择编译器 Environment 选择 <em><code>GNU GCC Eclipse CDT (Default)</code></em>， Test Type 选择 *<code>Unit Test</code>*后点击 OK  </p>
+</li>
+<li><p>在 Test Project 视图下会自动创建测试集合和自动导入代码并进行代码分析  </p>
+</li>
+<li><p>在 Test Cockpit 视图下会自动分析 CA覆盖情况，将鼠标悬停在需要测试的*<code>modules</code>*上</p>
+</li>
+<li><p>在 CV 页面下的 CR (依次点击*&#x3D;&#x3D;CV&gt;CR&#x3D;&#x3D;*)支持处理无法访问的源代码行， 在 CV 页面选中待测的代码，不可达的代码会标记为黄色  </p>
+</li>
+<li><p>在 CR（Coverage, Review）视图下选中代码不可达的原因进行提交后，不可达代码标记为蓝色且 CA 覆盖率变为 100%，最终提交的原因会在 Summary Report 中显示  </p>
+<blockquote>
+<p>这里相当于是忽略没有覆盖到的代码,然后解释一下为什么没有覆盖</p>
+<p>创建依次点击*&#x3D;&#x3D;CR&gt;印章形状(新建CR)&gt;添加代码不可达的原因&#x3D;&#x3D;*</p>
+<p>需要手动输入不可达的代码行号，并且提交时comment部分必须要写</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="导入创建法"><a href="#导入创建法" class="headerlink" title="导入创建法"></a>导入创建法</h4><ol>
+<li><p>创建好之后新建测试集合，任意命名即可</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/10/13_13_29_56_image-20251013132949534.png" alt="创建测试集合"></p>
+</li>
+<li><p>创建测试模块</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/10/13_13_31_14_image-20251013133114572.png" alt="创建测试模块"></p>
+</li>
+<li><p>增加源码</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/10/13_13_44_20_image-20251013134419793.png" alt="增加源码"></p>
+<blockquote>
+<p>[!tip]</p>
+<p>如果在测试的cockpit中没有相关源码路径，请刷新。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="导入宏和头文件"><a href="#导入宏和头文件" class="headerlink" title="导入宏和头文件"></a>导入宏和头文件</h3><p>如果待测工程涉及到头文件，需要在 TESSY 中加入头文件的路径信息， TESSY 提供了两种方式进行头文件路径添加  </p>
+<ol>
+<li><p>自动创建测试集合&#x3D;&#x3D;前&#x3D;&#x3D;</p>
+<ol>
+<li><p>导入头文件：在 Test Cockpit 视图下选中待测工程右键点击 New Modules 在 Create Modules 窗口下选中 Includes 后，将头文件路径信息进行添加，点击图标 ，可以指定头文件路径</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_10_28_50_202409191028918.png" alt="导入头文件"></p>
+</li>
+<li><p>定义宏：在create new modulues窗口下选择*<code>Defines</code>*，点击加号即可定义宏</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_10_42_54_202409191042735.png" alt="定义宏"></p>
+</li>
+</ol>
+</li>
+<li><p>自动创建测试集合&#x3D;&#x3D;后&#x3D;&#x3D;</p>
+<ol>
+<li>在 Test Project 视图下选中待测的模块，在 Sources 页面点击 Include ，导入头文件或者手动定义宏    </li>
+<li><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_10_51_17_202409191051501.png" alt="宏定义及头文件的导入"></li>
+</ol>
+</li>
+</ol>
+<h3 id="修改相关参数"><a href="#修改相关参数" class="headerlink" title="修改相关参数"></a>修改相关参数</h3><p>当一切准备就绪之后，可以点击Tessy解析出来的函数，点击函数就可以看见该函数的相关配置，步骤为：</p>
+<ol>
+<li>选中被测函数</li>
+<li>点击 TIE 界面，可以看到 TESSY 自动识别出来的输入和输出接口， 如果需要进行改动，可在想要修改的位置修改测试对象接口</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_11_0_47_202409191100958.png" alt="image-20240919110047817"></p>
+<h2 id="设计测试用例"><a href="#设计测试用例" class="headerlink" title="设计测试用例"></a>设计测试用例</h2><h3 id="新建测试用例"><a href="#新建测试用例" class="headerlink" title="新建测试用例"></a>新建测试用例</h3><p>测试步骤如下：</p>
+<ol>
+<li>点击TDE页面</li>
+<li>选择需要测试的单元项目</li>
+<li>选择测试test item页面</li>
+<li>新建一个测试用例</li>
+<li>填入测试用例的相关参数</li>
+<li>保存</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_11_19_32_202409191119529.png" alt="新建一个测试用例"></p>
+<p>点击运行，查看用例的通过情况</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_11_24_0_202409191124747.png" alt="image-20240919112400605"></p>
+<h3 id="设置覆盖度"><a href="#设置覆盖度" class="headerlink" title="设置覆盖度"></a>设置覆盖度</h3><p>点击测试执行绿色按钮右边的下拉小三角 ，选择 Edit Test Execution Settings . . . ，可以对覆盖度进行设置，保存后执行  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_11_46_31_202409191146408.png" alt="设置覆盖度"></p>
+<ol>
+<li><p>首先需要选择是否需要覆盖：</p>
+<ol>
+<li><p>None：表示不计算任何覆盖度</p>
+</li>
+<li><p>Test object only ：表示只计算当前被测函数的覆盖度</p>
+</li>
+<li><p>Test object and called functions： 表示计算被测函数和调用函数的覆盖度</p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_11_46_16_202409191146646.png" alt="是否需要覆盖率"></p>
+<ol start="2">
+<li>单元测试时，选Test object only，覆盖度选C0， C1， MC&#x2F;DC（注意，自定义选择时需要将Use preselected coverage选项关掉）</li>
+<li>集成测试时，选Test object and called functions，覆盖度选CPC和FC</li>
+</ol>
+<p>当配置好单元测试之后，就可以在Test project选项卡中看到代码的通过情况了</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_11_55_35_202409191155505.png" alt="代码通过情况"></p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>测试的<strong>覆盖度</strong>（Coverage）是指在测试过程中，代码被执行和验证的程度。覆盖度衡量了测试用例对代码的覆盖范围，反映了代码被测试的全面性。以下是一些常见的覆盖度类型：</p>
+<ol>
+<li><p><strong>语句覆盖（Statement Coverage）</strong></p>
+<ul>
+<li>也叫<strong>行覆盖</strong>。衡量测试用例是否执行了程序中的每一条语句，确保每个代码行至少被执行一次。</li>
+<li>示例：在 <code>if</code> 语句中，即使条件不成立导致某些分支未执行，语句覆盖也可能被视为已满足。</li>
+</ul>
+</li>
+<li><p><strong>分支覆盖（Branch Coverage）</strong></p>
+<ul>
+<li>衡量测试用例是否执行了程序中的每一个分支路径。每个条件判断的<strong>真</strong>和<strong>假</strong>路径都必须被执行。</li>
+<li>示例：对于 <code>if (x &gt; 0)</code>，必须测试 <code>x &gt; 0</code> 为真和 <code>x &gt; 0</code> 为假的两种情况。</li>
+</ul>
+</li>
+<li><p><strong>条件覆盖（Condition Coverage）</strong></p>
+<ul>
+<li>每个布尔条件都必须在测试中至少有一次为真和一次为假。它比分支覆盖更详细。</li>
+<li>示例：<code>if (A &amp;&amp; B)</code>，需要测试 A 和 B 各自为真和假的情况。</li>
+</ul>
+</li>
+<li><p><strong>路径覆盖（Path Coverage）</strong></p>
+<ul>
+<li>测试用例应执行代码中所有可能的独立路径。路径覆盖比分支覆盖更复杂，尤其是当代码中存在多重嵌套和循环时，路径数量会快速增加。</li>
+</ul>
+</li>
+<li><p><strong>函数覆盖（Function Coverage）</strong></p>
+<ul>
+<li>确保程序中每个函数都被至少调用一次。</li>
+</ul>
+</li>
+<li><p><strong>MC&#x2F;DC（Modified Condition&#x2F;Decision Coverage，修正条件&#x2F;判定覆盖）</strong></p>
+<ul>
+<li>一种严格的覆盖度标准，确保每个条件可以<strong>独立</strong>影响判定结果。它需要测试每个条件在不影响其他条件的情况下独立为真或假。</li>
+<li>这是航空、汽车等高安全性领域常用的覆盖度标准。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p>点击 CV 界面可查看覆盖度情况， 在 Statement(C0) Coverage 视图下能看到测试的 C0 覆盖情况  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_12_0_18_202409191200100.png" alt="CV覆盖率的图形化界面"></p>
+<p>可以通过切换不同的视图，查看不同测试图形化</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_13_39_51_202409191339969.png" alt="分支测试的图形化显示"></p>
+<blockquote>
+<p>[!TIP]</p>
+<p>在切换视图的时候可以看到测试用例分支的覆盖情况</p>
+<p>双击图中的分支在下方的源代码视图中会显示相关分支所对应的代码</p>
+</blockquote>
+<h3 id="插入需求"><a href="#插入需求" class="headerlink" title="插入需求"></a>插入需求</h3><p>打开 <em><code>Requirement Management </code><em>界面，右键选择</em><code>Import</code></em> </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_14_23_0_202409191423618.png" alt="插入需求"></p>
+<blockquote>
+<p>  [!NOTE]</p>
+<p>导入的文件可以为csv、tsv、txt、vxv、xml、reqif格式</p>
+<p>使用txt格式时，Tessy会认为一行文字为一条需求</p>
+</blockquote>
+<p>提交：提交时可以选中一个提交，也可以提交全部</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_14_25_40_202409191425923.png" alt="提交需求"></p>
+<p>将需求和测试用例链接：依次点击*&#x3D;&#x3D;TDE&gt;Requirements coverage&#x3D;&#x3D;*</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_14_45_18_202409191445539.png" alt="image-20240919144518358"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>这里使用可视化页面链接测试用例和需求，通过在需求项下勾选测试用例，从而达到链接测试用例的功能</p>
+</blockquote>
+<p>测试用例与需求链接完成后，在 TDE 界面的TEST item页面中选中对应的测试用例，在 Test Definition 标签下可以查看链接到该测试用例的需求  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_14_50_33_202409191450038.png" alt="查看链接"></p>
+<h2 id="导出测试报告"><a href="#导出测试报告" class="headerlink" title="导出测试报告"></a>导出测试报告</h2><p>点击 下拉小三角可选择导出测试报告， 点击 Edit Test Details Report Settings…可设置报告选项和报告存放路径， 击 Generate Test Detail Report 可按默认设置生成详细测试报告  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_13_56_45_202409191356679.png" alt="导出测试报告"></p>
+<p>可以生成以下几种报告：</p>
+<ol>
+<li>Test Detail Report，详细测试报告  </li>
+<li>Test Overview Report，概要测试报告  </li>
+<li>Planning Coverage Report ：计划需求覆盖报告（需要需求文件）</li>
+<li>Execution Coverage Report：需求执行覆盖率报告（需要需求文件）</li>
+</ol>
+<h1 id="组件测试"><a href="#组件测试" class="headerlink" title="组件测试"></a>组件测试</h1><h2 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h2><p>新建工程和单元测试相同，导入源码与单元测试部分基本相同，不同之处在于新建测试集合的时候 Test Type 选择 Component Test</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_15_26_47_202409191526690.png" alt="组件测试新建工程页面"></p>
+<p>配置好编译器、头文件、宏定义等其他选项后， 点击 OK，此时 Test Project视图会自动创建测试集合并分析代码。 与单元测试不同的是，组件测试分析完成后不会列出所有源码文件中的函数列表，而是只显示 Scenarios 一个测试对象  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_15_33_30_202409191533972.png" alt="单元测试项详情"></p>
+<p>可根据被测对象功能以及对外接口，在 TIE 界面中进行接口设置  </p>
+<p>对于一些依赖或者外部函数，可以使用*<code>桩函数</code><em>进行模拟（这里的桩函数是LightOff和LightOn），选择需要打桩的函数，右键，点击</em><code>create stub</code>*</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_15_49_23_202409191549491.png" alt="桩函数"></p>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>在 TESSY 中，<strong>桩函数</strong>（Stub Function）是一种用于替代实际函数的测试工具，通常在被测代码（单元）依赖于其他模块或函数，但这些模块或函数尚未实现、不可用或不便在测试中使用时，使用桩函数来模拟其行为。桩函数可以控制依赖的输入和输出，以便对单元进行隔离测试，确保测试环境的独立性和稳定性。</p>
+<p>桩函数的作用：</p>
+<ol>
+<li><p><strong>隔离测试单元</strong>：</p>
+<ul>
+<li>在单元测试中，测试的目的是针对某个具体的函数或模块进行验证。如果该函数依赖于其他未实现的模块或外部库，使用桩函数可以避免实际依赖的复杂性，确保测试的集中性和独立性。</li>
+</ul>
+</li>
+<li><p><strong>模拟外部依赖</strong>：</p>
+<ul>
+<li>桩函数可以模拟外部依赖（如硬件接口、数据库访问、网络调用等），并且可以根据测试用例设置返回值，确保不同场景下被测单元的行为能够被充分验证。</li>
+</ul>
+</li>
+<li><p><strong>控制测试环境</strong>：</p>
+<ul>
+<li>桩函数提供了对外部依赖行为的完全控制，这样可以模拟异常情况、边界条件或极端场景（例如硬件故障、超时等），而不必实际依赖外部系统。</li>
+</ul>
+</li>
+<li><p><strong>提高测试效率</strong>：</p>
+<ul>
+<li>使用桩函数可以加速测试执行，因为它避免了对外部资源（如硬件设备或网络）的依赖，从而使测试更加快速和稳定。</li>
+</ul>
+</li>
+</ol>
+<p>TESSY 中的桩函数实现步骤：</p>
+<ol>
+<li><p><strong>识别依赖函数</strong>：</p>
+<ul>
+<li>首先确定在被测试的模块中哪些函数是依赖外部模块的，这些函数是需要替换为桩函数的目标。</li>
+</ul>
+</li>
+<li><p><strong>自动生成桩函数</strong>：</p>
+<ul>
+<li>TESSY 支持自动生成桩函数的基本框架。被测单元中的依赖函数可以由 TESSY 自动创建对应的桩函数。</li>
+</ul>
+</li>
+<li><p><strong>配置桩函数行为</strong>：</p>
+<ul>
+<li>在 TESSY 中，可以手动配置桩函数的行为。例如，你可以为桩函数设定不同的返回值，或模拟异常返回，以便测试被测单元在各种情况下的响应。</li>
+</ul>
+</li>
+<li><p><strong>执行测试</strong>：</p>
+<ul>
+<li>使用配置好的桩函数执行测试，确保被测单元在隔离的环境中正常运行。</li>
+</ul>
+</li>
+<li><p><strong>分析测试结果</strong>：</p>
+<ul>
+<li>测试完成后，TESSY 会提供详细的报告，包括桩函数调用的次数、输入参数、返回值等信息，帮助开发人员分析测试结果。</li>
+</ul>
+</li>
+</ol>
+<p>使用桩函数的典型场景：</p>
+<ul>
+<li><strong>硬件接口的模拟</strong>：当软件依赖硬件设备时，无法直接在测试中访问这些设备，可以使用桩函数模拟硬件行为。</li>
+<li><strong>尚未实现的功能</strong>：如果依赖的某些模块尚未开发完成，桩函数可以临时替代这些模块，确保其他部分的代码可以正常测试。</li>
+<li><strong>外部库或服务调用</strong>：对于依赖于外部服务或库的代码，桩函数可以模拟服务的行为，避免实际调用外部系统。</li>
+</ul>
+</blockquote>
+<h2 id="导入源码-1"><a href="#导入源码-1" class="headerlink" title="导入源码"></a>导入源码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    closed, open</span><br><span class="line">&#125; co_states;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    off, on</span><br><span class="line">&#125; oo_states;</span><br><span class="line"></span><br><span class="line">co_states sensor_door, state_door;</span><br><span class="line">oo_states sensor_ignition, state_light;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">LightOn</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">LightOff</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    sensor_door = open;</span><br><span class="line">    sensor_ignition = off;</span><br><span class="line">    state_door = open;</span><br><span class="line">    state_light = off;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">set_sensor_ignition</span><span class="params">(oo_states i)</span></span><br><span class="line">&#123;</span><br><span class="line">    sensor_ignition = i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">set_sensor_door</span><span class="params">(co_states d)</span></span><br><span class="line">&#123;</span><br><span class="line">    sensor_door = d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">iLightOn</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (on == state_light)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        state_light = on;</span><br><span class="line">        LightOn();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">iLightOff</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (off == state_light)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        state_light = off;</span><br><span class="line">        LightOff();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">tick</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> Timer = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((state_door == open) &amp;&amp; (sensor_door == closed))</span><br><span class="line">    &#123; <span class="comment">//Door was closed ---&gt; start timer!</span></span><br><span class="line">        Timer = <span class="number">500</span>;   <span class="comment">// 5 seconds = 500 cycles of 10 ms</span></span><br><span class="line">        iLightOn();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (on == sensor_ignition)</span><br><span class="line">    &#123;</span><br><span class="line">        iLightOff();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Timer &gt; <span class="number">0</span>)</span><br><span class="line">        Timer--;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span> == Timer)</span><br><span class="line">        iLightOff();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Store current value for next tick</span></span><br><span class="line">    state_door = sensor_door;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="设计测试用例-1"><a href="#设计测试用例-1" class="headerlink" title="设计测试用例"></a>设计测试用例</h2><p>针对本示例工程设计如下测试用例：当关闭车门时(set_sensor_door &#x3D; closed)，内部照明灯点亮； 当有打火动作时(set_sensor_ignition &#x3D; on)，照明灯立即熄灭。  </p>
+<p>设计步骤如下：</p>
+<ol>
+<li><p>设置入口函数。 进入 SCE 界面，选中组件函数 tick()，点击 ，设置为 work task（入口函数选取条件：&#x3D;&#x3D;void 类型且没有形参&#x3D;&#x3D;）  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_15_54_57_202409191554977.png" alt="设置入口函数"></p>
+<p>同时需要设置该函数的开始时间及循环周期</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/27_16_18_10_202409271618981.png" alt="入口函数参数设置"></p>
+</li>
+<li><p>在 SCE 界面下的选中 Test Data 后鼠标放在在 Test Items 空白处点击创建测试用例  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_15_58_11_202409191558077.png" alt="新建测试用例页面"></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_16_3_1_202409191603714.png" alt="测试用例详情"></p>
+</li>
+<li><p>首先选择刚刚新建的测试用例，点击 Insert Time Step 添加时间节点  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_16_8_52_202409191608649.png" alt="image-20240919160852514"></p>
+</li>
+<li><p>按照需要将组件函数拖到指定时间节点（鼠标左键按住函数可拖动到时间节点相应位置），搭建场景。 具体场景为： 在 30ms 时关闭车门，则 40ms 时车灯会亮； 在 70ms 时将发动机点火，则 80ms 时车灯会灭   </p>
+</li>
+<li><p>选中 set_sensor_door()函数，在 Properties 界面设置其参数值 d&#x3D;closed。set_sensor_ignition()函数同理，设置 i&#x3D;on </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/19_16_26_44_202409191626320.png" alt="修改函数参数"></p>
+</li>
+<li><p>将function call页面中的 LightOn()、 LightOff()和静态函数 iLgihtOn()、 iLightOff()拖到指定时间节点，用于监控车灯变化情况。 设置外部函数和静态函数预估调用时间（在 10ms内预计调用一次）。选中 LightOn()函数， 在 Properties 界面设置 Time Frame 为 10。iLightOn()、 LightOff()、 iLightOff()同理 </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_9_45_49_202409200945562.png" alt="函数调用"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意：这里的两个静态函数iLightOn()和iLightOff()函数分别调用了两个外部函数（桩函数）</p>
+<p>从function call中拖拽函数是用来监控该函数是否被调用及调用次数和从component function中拖拽是不一样的</p>
+</blockquote>
+</li>
+<li><p>编写测试用例</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_9_50_3_202409200950799.png" alt="测试用例"></p>
+</li>
+<li><p>设置测试需要的参数</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_8_41_1_202409200841376.png" alt="测试参数"></p>
+</li>
+<li><p>点击运行按钮，查看测试运行的结果</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_9_53_40_202409200953551.png" alt="运行结果"></p>
+</li>
+<li><p>点击 CV 界面的 Called Functions 视图和 Call Pair Coverage 视图下可查看函数覆盖和调用覆盖的情况</p>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_9_53_31_202409200953285.png" alt="测试用例覆盖情况"></p>
+<h1 id="桩函数"><a href="#桩函数" class="headerlink" title="桩函数"></a>桩函数</h1><h2 id="普通桩"><a href="#普通桩" class="headerlink" title="普通桩"></a>普通桩</h2><p>以下四种情况通常可以打普通桩：</p>
+<ol>
+<li>函数没有返回值、 没有形参</li>
+<li>函数不影响后续实现以及变量</li>
+<li>函数本身有返回值但无需使用</li>
+<li>函数有形参，</li>
+</ol>
+<blockquote>
+<p>栗子：</p>
+<p>STUB_1()在当前.c 文件中没有定义， 如果直接执行测试用例会报未定义错误 。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> STUB <span class="number">1</span>();</span><br><span class="line"><span class="keyword">extern</span> hirain u8 STUB <span class="number">2</span>();</span><br><span class="line"><span class="type">void</span> <span class="title function_">test_fun_stub_1</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    STUB_1();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只需要在 TIE 界面将其打普通桩， 并点击保存， 解决报错  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_9_57_6_202409200957979.png" alt="函数打桩"></p>
+</blockquote>
+<h2 id="高级桩"><a href="#高级桩" class="headerlink" title="高级桩"></a>高级桩</h2><p>以下两种情况建议打高级桩：</p>
+<ol>
+<li><p>使用到桩函数的返回值</p>
+</li>
+<li><p>如果函数有形参，并且需要接口传参检测</p>
+</li>
+</ol>
+<blockquote>
+<p>栗子1：</p>
+<p>被测函数中用到了 STUB_2()函数的返回值，如果对 STUB_2()函数打普通桩会报无返回值的错误  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">STUB_1</span><span class="params">()</span>;</span><br><span class="line"><span class="keyword">extern</span> hirain u8 <span class="title function_">STUB_2</span><span class="params">()</span>;</span><br><span class="line">hirain_u8 <span class="title function_">test_fun_stub_2</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    hirain_u8 temp=STUB_2();</span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 TIE 界面将其打高级桩并保存，并在 TDE 界面设置其预期返回值  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_10_4_1_202409201004600.png" alt="高级桩"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意：这里设置的IN是相较于被测函数来说是IN，如果传参数的话，那么passing应该设置为out，因为对于被测函数来说，形参是输出</p>
+</blockquote>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_10_12_32_202409201012622.png" alt="设置期待返回值"></p>
+<p>栗子2：</p>
+<p>对 STUB_3()函数进行传参检测，需要给该函数打高级桩，第一个接口为返回值，其余为形参接口  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line"><span class="keyword">extern</span> <span class="type">void</span> <span class="title function_">STUB_1</span><span class="params">()</span>;</span><br><span class="line"><span class="keyword">extern</span> hirain_u8 <span class="title function_">STUB_2</span><span class="params">()</span>;</span><br><span class="line"><span class="type">static</span> hirain_u8 <span class="title function_">STUB_3</span><span class="params">(hirain_u8 temp)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> temp*temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">hirain_u8 <span class="title function_">test_fun_stub_4</span><span class="params">(hirain_u8 temp)</span></span><br><span class="line">&#123;</span><br><span class="line">    hirain_u8 tem <span class="title function_">STUB_3</span><span class="params">(temp)</span>;</span><br><span class="line">    <span class="keyword">return</span> tem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_10_12_49_202409201012162.png" alt="带有形参的桩函数"></p>
+</blockquote>
+<h2 id="手写桩"><a href="#手写桩" class="headerlink" title="手写桩"></a>手写桩</h2><p>如果需要让桩函数有额外的功能，如： 传参检测、局部数据处理、多传参检测、函数实现变更等，可以进行手写桩。  </p>
+<blockquote>
+<p>栗子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line"><span class="keyword">extern</span> hirain_u8 <span class="title function_">STUB_3</span><span class="params">(hirain_u8 temp)</span>;</span><br><span class="line">hirain_u8 <span class="title function_">loop_test3</span><span class="params">(hirain_u8 temp)</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(hirain_u8 i=<span class="number">0</span>;i&lt;temp;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        STUB_3(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>想要监控对 STUB_3()函数每一次参数传递是否正确，可以对其打普通桩，通过手写桩函数实现传参检测。步骤如下：  </p>
+<ol>
+<li><p>在test cockpit页面选中待测函数，然后在 TIE 界面点击新建变量，输入 name 选择类别为普通变量， 新建一个数组并在Type 设置为对应的变量类型，示例为 unsigned char 类型 </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_10_20_23_202409201020925.png" alt="新建变量"></p>
+</li>
+<li><p>对 STUB_3()打普通桩并保存</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_11_18_12_202409201118004.png" alt="打桩"></p>
+</li>
+<li><p>设置创建的全局变量数组为 OUT</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_11_38_57_202409201138360.png" alt="设置数组为全局变量"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意：当修改被测函数之后，工程的接口就需要变更，在TDE页面就会显示接口变更</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_13_49_25_202409201349144.png" alt="接口变更"></p>
+<p>然后切换到IDA页面，双击变更的函数，将会展示新旧之间的对比（Tessy只列出相关属性，需要测试工程师自己匹配是否正确）</p>
+<p>​    <img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_13_53_10_202409201353738.png" alt="提交页面"></p>
+</blockquote>
+</li>
+<li><p>然后在TDE 的 Stub Functions 界面手写桩函数的代码  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_13_56_48_202409201356456.png" alt="手写桩函数代码的编写"></p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意：这里的桩函数填写时，需要先在右边的usercode Outline页面，选中该桩函数的作用域，可以不同的用例使用不同的桩函数，写在顶层会导致所有的测试用例都使用该桩函数</p>
+</blockquote>
+<ol start="4">
+<li><p>TDE 界面选中新建的全局变量数组右键选择 Show All Array Elements 显示所有数组元素，然后对 new_array 数组输入预期值，检查测试结果  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_14_57_7_202409201457306.png" alt="填写数组期待值"></p>
+</li>
+<li><p>点击运行即可查看相关测试结论</p>
+</li>
+</ol>
+<h1 id="指针相关测试"><a href="#指针相关测试" class="headerlink" title="指针相关测试"></a>指针相关测试</h1><blockquote>
+<p>[!IMPORTANT]</p>
+<p>带有指针的测试不可以直接给指针赋值，而需要使指针指向数组或变量，给数组和变量赋值才可以使用</p>
+</blockquote>
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><p>与指针有关的测试要点在于构建合适的对象，将地址传入指针接口。  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> hirain_32;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span>&#123;</span></span><br><span class="line">    hirain_32 str1;</span><br><span class="line">    hirain_32 str2;</span><br><span class="line">&#125;STR;</span><br><span class="line">hirain_u8 a;</span><br><span class="line"><span class="type">void</span> <span class="title function_">TS_FUN_PON_2</span><span class="params">(hirain_u8 *p,STR *p1)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//p++s</span></span><br><span class="line">    a=*p;</span><br><span class="line">    p1-&gt;str2 = p1-&gt;str1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>在 TIE 界面设置输入输出接口，根据不同的测试需求进行设置，示例的输入输出接口如下： </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_15_22_56_202409201522961.png" alt="输入输出接口"></p>
+</li>
+<li><p>在 TDE 界面创建测试用例后， 设置指针的具体指向，赋值后执行测试  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_15_32_39_202409201532104.png" alt="image-20240920153238924"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>注意：这里需要选中测试用例之后，才能右键创建指针指向的目标值</p>
+</blockquote>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_15_38_25_202409201538136.png" alt="完善测试用例"></p>
+<p>当在测试过程中，使用了字符串的指针，需要先设置一个目标数组，然后将需要测试的指针指向这个数组</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/25_10_33_34_202409251033052.png" alt="目标数组"></p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>需要注意的是，在字符指针所要指向的数组中不可以直接填写字符，需要填写字符所要对应的ASSIC码，并且字符串的结尾需要以<code>\0</code>结尾</p>
+</blockquote>
+<h2 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h2><p>与函数指针有关的测试要点在于构建与函数指针类型相同的函数对象，并将地址传入指针接口</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> hirain_32;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">int</span> hirain_u32;</span><br><span class="line">hirain_u32 (*T_pon)(hirain_u32 i);</span><br><span class="line">hirain_u32 <span class="title function_">hirain_stuv_4</span><span class="params">(hirain_u32 temp2)</span>&#123;</span><br><span class="line">    <span class="type">int</span> temp=T_pon(temp2);</span><br><span class="line">    <span class="keyword">return</span> temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>在 TIE 界面设置函数指针的输入输出接口  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_15_46_18_202409201546123.png" alt="设置函数指针的输入输出接口"></p>
+</li>
+<li><p>在 TDE 的 Declarations&#x2F;Definition 界面实现函数的声明和定义（注意要与函数指针类型一致），并让函数指针指向这个函数，赋值后执行测试</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_15_53_47_202409201553725.png" alt="函数的申明与定义"></p>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_15_56_26_202409201556964.png" alt="image-20240920155553108"></p>
+<h2 id="void型指针"><a href="#void型指针" class="headerlink" title="void型指针"></a>void型指针</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line">hirain_u8 a;</span><br><span class="line">hirain_u8 <span class="title function_">TS_FUN_PON_1</span><span class="params">(<span class="type">int</span> *p,<span class="type">void</span> *p1)</span>&#123;</span><br><span class="line">    hirain_u8 temp =<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> *temp1 = p1;</span><br><span class="line">    a=*p;</span><br><span class="line">    <span class="keyword">return</span> *temp1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>需要在 TIE 界面新建一个有类型的全局变量并根据不同的测试需求设置输入或输出，然后保存，在TDE页面 右键void类型指针，选择 set pointer target，当鼠标变成带有瞄准框的样式，选中你想要指向的变量</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_16_5_28_202409201605361.png" alt="image-20240920160506507"></p>
+</li>
+<li><p>然后在 TDE 界面将指针指向该变量，将变量地址传入指针接口，设置测试数据并运行</p>
+</li>
+</ol>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_16_9_16_202409201609191.png" alt="定义指针指向"></p>
+<h1 id="故障注入"><a href="#故障注入" class="headerlink" title="故障注入"></a>故障注入</h1><p>在单元测试过程中可能会遇到死循环、 先写后读等特殊情况下的代码， 无法正常实施测试或无法达到相应的触发条件，满足不了覆盖要求。 对于这种类型函数的测试，可以利用故障注入的方式进行测试（这里以死循环为例）  </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">unsigned</span> <span class="type">char</span> hirain_u8;</span><br><span class="line">hirain_u8 <span class="title function_">loop_test2</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>对于上述示例待测函数，若直接在 TDE 界面运行测试用例， TESSY 会一直处于执行测试过程  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_16_14_8_202409201614768.png" alt="死循环"></p>
+</li>
+<li><p>此时需要建立故障注入的测试用例来进行测试，首先在 TDE 界面的 Test Items 视图下鼠标右键选中 New Fault Injection Test Case 建立故障注入的测试用例  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_16_20_24_202409201620676.png" alt="故障注入"></p>
+</li>
+<li><p>然后跳转至 CV 界面，在测试函数的框图处选择死循环的部分，然后鼠标双击会弹出故障注入的窗口，输入对应的故障注入代码并保存  </p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/20_16_46_20_202409201646521.png" alt="代码注入"></p>
+</li>
+<li><p>最后跳转至 TDE 界面根据不同的测试需求设计测试用例，执行测试用例</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/">https://youshouldtrustme.github.io/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Vim</div></div><div class="info-2"><div class="info-item-1">启动 &amp;安装包管理工具我们可以使用Scoop来安装软件，使用gitee上的Scoop就不用担心网络的问题，可以访问https://gitee.com/scoop-installer/scoop来安装scoop。  给Scoop创建环境变量（在PowerShell中执行） 1[Environment]::SetEnvironmentVariable(&#x27;SCOOP&#x27;,&#x27;D:\Scoop&#x27;,&#x27;USER&#x27;)  设置完环境变量之后需要重启一下Powershell  安装到指定位置 123## 自定义安装目录（注意将目录修改为合适位置)irm scoop.201704.xyz -outfile &#x27;install.ps1&#x27;.\install.ps1 -ScoopDir &#x27;D:\Scoop&#x27; -ScoopGlobalDir &#x27;D:\GlobalScoopApps&#x27;  安装 12345# 脚本执行策略更改，默认自动同意Set-ExecutionPolicy RemoteS...</div></div></div></a><a class="pagination-related" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img class="cover" src="/img/RandomCoverImage/random_5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Qt</div></div><div class="info-2"><div class="info-item-1">参考链接【Qt】Qt6系列教程汇总_qt6教程-CSDN博客 </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">86</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AF%84%E5%88%A4"><span class="toc-number">1.</span> <span class="toc-text">如何评判</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%AF%E8%AF%AD%E8%A1%A8"><span class="toc-number">2.</span> <span class="toc-text">术语表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text">单元测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.1.</span> <span class="toc-text">测试步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">新建工程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E5%8F%8A%E5%AF%BC%E5%85%A5"><span class="toc-number">3.2.1.</span> <span class="toc-text">新建及导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%BA%90%E7%A0%81"><span class="toc-number">3.2.2.</span> <span class="toc-text">导入源码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E5%88%9B%E5%BB%BA%E6%B3%95"><span class="toc-number">3.2.2.1.</span> <span class="toc-text">移动创建法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E5%88%9B%E5%BB%BA%E6%B3%95"><span class="toc-number">3.2.2.2.</span> <span class="toc-text">导入创建法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E5%AE%8F%E5%92%8C%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">3.2.3.</span> <span class="toc-text">导入宏和头文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="toc-number">3.2.4.</span> <span class="toc-text">修改相关参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">3.3.</span> <span class="toc-text">设计测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">3.3.1.</span> <span class="toc-text">新建测试用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%A6%86%E7%9B%96%E5%BA%A6"><span class="toc-number">3.3.2.</span> <span class="toc-text">设置覆盖度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E9%9C%80%E6%B1%82"><span class="toc-number">3.3.3.</span> <span class="toc-text">插入需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%B5%8B%E8%AF%95%E6%8A%A5%E5%91%8A"><span class="toc-number">3.4.</span> <span class="toc-text">导出测试报告</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%B5%8B%E8%AF%95"><span class="toc-number">4.</span> <span class="toc-text">组件测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">创建工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E6%BA%90%E7%A0%81-1"><span class="toc-number">4.2.</span> <span class="toc-text">导入源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B-1"><span class="toc-number">4.3.</span> <span class="toc-text">设计测试用例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A1%A9%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">桩函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E6%A1%A9"><span class="toc-number">5.1.</span> <span class="toc-text">普通桩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E6%A1%A9"><span class="toc-number">5.2.</span> <span class="toc-text">高级桩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E6%A1%A9"><span class="toc-number">5.3.</span> <span class="toc-text">手写桩</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E7%9B%B8%E5%85%B3%E6%B5%8B%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">指针相关测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88"><span class="toc-number">6.1.</span> <span class="toc-text">指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="toc-number">6.2.</span> <span class="toc-text">函数指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#void%E5%9E%8B%E6%8C%87%E9%92%88"><span class="toc-number">6.3.</span> <span class="toc-text">void型指针</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5"><span class="toc-number">7.</span> <span class="toc-text">故障注入</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC"><img src="/img/RandomCoverImage/random_12.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="QAC"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img src="/img/RandomCoverImage/random_5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Qt"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img src="/img/RandomCoverImage/random_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Tessy"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy">Tessy</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim"><img src="/img/RandomCoverImage/random_16.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vim"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode"><img src="/img/RandomCoverImage/random_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Vscode"/></a><div class="content"><a class="title" href="/2026/01/21/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/" title="Vscode">Vscode</a><time datetime="2026-01-21T02:07:02.616Z" title="发表于 2026-01-21 02:07:02">2026-01-21</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.4.3</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/嵌入式/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍡 嵌入式 (25)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/基础知识/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍼 基础知识 (13)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/编程语言/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍉 编程语言 (18)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://youshouldtrustme.github.io/categories/软件及工具/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🍟 软件及工具的使用 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://youshouldtrustme.github.io/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #e9e9e9;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: var(--text-bg-hover)}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/UDS/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">UDS</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/UDS/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/SPI/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">SPI</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/SPI/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/IIC/" alt=""><img width="48" height="48" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">IIC</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/IIC/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2026/01/21/嵌入式/通信协议/CAN/" alt=""><img width="48" height="48" src="https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125132704192.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2026-01-21</span><a class="blog-slider__title" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">CAN</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" href="2026/01/21/嵌入式/通信协议/CAN/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
