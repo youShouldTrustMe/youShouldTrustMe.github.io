@@ -15,6 +15,8 @@ tags:
 
 [STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客](https://blog.csdn.net/qq_54747686/article/details/119202856)
 
+[I2C-bus specification and user manual (nxp.com)](https://www.nxp.com/docs/en/user-guide/UM10204.pdf)
+
 # 概述
 
 IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总线。
@@ -25,7 +27,7 @@ IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工
 
 # 物理层
 
-![ICC电路结构](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png)
+![ICC电路结构](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082152133.png)
 
 物理层描述：
 
@@ -50,7 +52,7 @@ IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工
 
 - 由于是半双工的协议，所以主机的SDA在发送的时侯是输出，在接收的时候是输入，同样的，从机的SDA也会在输入和输出之间反复切换，为了协调这一点，==禁止所有设备输出强上拉的高电平，采用外置弱上拉电阻加开漏输出的电路结构==。
 
-  ![内部结构](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_13_11_202409131413040.png)
+  ![内部结构](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082248208.png)
 
 - 图中的SCLK就是连接的结构图的SCL，SDA同理，所以才规定SCL和SDA都必须配置成==开漏输出==模式
 
@@ -71,9 +73,11 @@ SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电�
 
 如果想要开始通讯，就先将SDA拉下来，当从机捕获到SCL高电平且SDA==下降沿==信号时，就会进行自身的复位，等待主机的召唤，主机将SCL拉下来，将SCL拉下来一方面是为了占用这个总线，另外一方面也方便基本单元的拼接
 
+
+
 > SCL高电平期间，SDA从高电平切换到低电平
 
-![开始信号](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_26_31_202409131426942.png)
+![开始信号](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082653565.png)
 
 *`结束`*
 
@@ -81,13 +85,13 @@ SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电�
 
 > SCL高电平期间，SDA从低电平切换到高电平
 
-![结束信号](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_27_45_202409131427923.png)
+![结束信号](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082715140.png)
 
 *`发送`*
 
 发送一个字节：SCL低电平期间，主机将数据位依次放到SDA线上(高位先行)，然后释放SCL,从机将在SCL高电平期间读取数据位所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可发送一个字节
 
-![发送过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_32_52_202409131432013.png)
+![发送过程](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082540921.png)
 
 > [!NOTE]
 >
@@ -95,13 +99,13 @@ SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电�
 
 发送应答：主机在接收完一个字节之后，在下一个时钟发送一位数据，数据0表示应答，数据1表示非应答
 
-![发送应答](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_49_38_202409131449061.png)
+![发送应答](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082843982.png)
 
 *`接收`*
 
 接收一个字节：SCL低电平期间，从机将数据位依次放到SDA线上(高位先行)，然后释放SCL,主机将在SCL高电平期间读取数据位所以SCL高电平期间SDA不允许有数据变化，依次循环上述过程8次，即可接收一个字节（主机在接收之前，需要释放SDA)
 
-![接收过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_53_2_202409131453678.png)
+![接收过程](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082829084.png)
 
 > [!TIP]
 >
@@ -109,11 +113,13 @@ SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电�
 
 接收应答：主机在发送完一个字节之后，在下一个时钟接收一位数据，判断从机是否应答，数据0表示应答，数据1表示非应答（主机在接收之前，需要释放SDA)
 
-![接收应答](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_14_56_11_202409131456092.png)
+![接收应答](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108082900806.png)
 
 ## 基本读写过程
 
-![基本读写过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_0_21_202409131500703.png)
+![数据格式](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108083805086.png)
+
+
 
 1.  S 表示由主机的 I2C 接口产生的传输起始信号(S)，这时连接到 I2C 总线上的所有从机都会接收到这个信号。
 2. 起始信号产生后，所有从机就开始等待主机紧接下来广播的从机地址信号(SLAVE_ADDRESS)。在 I2C 总线上，每个设备的地址都是唯一的（每个从机地址码不同，如果相同，可以通过调整从机上的引脚改变从机地址）
@@ -127,7 +133,11 @@ SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电�
 
 若配置的方向传输位为“写数据”方向，广播完地址，接收到应答信号后，一般设备都会向从机发送一个寄存器的地址，用于目标寄存器，当收到应答时，主机开始正式向从机传输数据(DATA)，数据包的大小为 8位，**主机每发送完一个字节数据，都要等待从机的应答信号(ACK)**，重复这个过程，可以向从机传输 N 个数据，这个 N 没有大小限制。当数据传输结束时，主机向从机发送一个停止传输信号§，表示不再传输数据。
 
+![主机写数据到从机](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108083541531.png)
+
 *`读数据 `*
+
+![主机由从机中读数据](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108083605451.png)
 
 若配置的方向传输位为“读数据”方向，广播完地址，接收到应答信号后:
 
@@ -148,23 +158,23 @@ SCL初始保持高电平也是通过上拉电阻实现的，默认输出高电�
 
 IIC 使用 SDA 信号线来传输数据，使用 SCL 信号线进行数据同步。SDA数据线在 SCL 的每个时钟周期传输一位数据。传输时，SCL 为高电平的时候 SDA 表示的数据有效，即此时的 SDA 为高电平时表示数据“1”，为低电平时表示数据“0”。当 SCL为低电平时，SDA 的数据无效，一般在这个时候 SDA 进行电平切换，为下一次表示数据做好准备。
 
-![数据的有效性](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_18_14_202409131518847.png)
+![数据的有效性](https://i-blog.csdnimg.cn/blog_migrate/2c9dec8bee67e34a9462d64d28f4e2b5.png#pic_center)
 
 *`地址和数据方向`*
 
 I2C 总线上的每个设备都有自己的独立地址，主机发起通讯时，通过 SDA 信号线发送设备地址(SLAVE_ADDRESS)来查找从机。I2C 协议规定设备地址可以是 7 位或 10 位，实际中 7 位的地址应用比较广泛。紧跟设备地址的一个数据位用来表示数据传输方向，它是数据方向位(R/W)，第 8 位或第 11 位。数据方向位为“1”时表示主机由从机读数据，该位为“0”时表示主机向从机写数据。
 
-![地址和数据方向](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_21_27_202409131521743.png)
+![地址和数据方向](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108083929304.png)
 
 *`响应`*
 
 I2C 的数据和地址传输都带响应。响应包括“应答(ACK)”和“非应答(NACK)”两种信号。作为数据接收端时，当设备(无论主从机)接收到 I2C 传输的一个字节数据或地址后，若希望对方继续发送数据，则需要向对方发送“应答(ACK)”信号，发送方会继续发送下一个数据；若接收端希望结束数据传输，则向对方发送“非应答(NACK)”信号，发送方接收到该信号后会产生一个停止信号，结束信号传输。
 
-![响应](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_22_23_202409131522727.png)
+![响应](https://i-blog.csdnimg.cn/blog_migrate/ec784fa1c576be2d3c0e6ca5731b2f6d.png#pic_center)
 
 ## 完整的传输过程
 
-![完整的传输过程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_24_11_202409131524450.png)
+![完整的传输过程](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260108084139726.png)
 
 # IIC架构
 
@@ -271,9 +281,7 @@ EEPROM是一种掉电后据不丢失的储存器，常用来存储一些配置�
 
 AT24C02是一个2Kbit的EEPROM存储器，使用IIC通信方式。
 
-![EEPROM](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_41_23_202409131541708.png)
-
-### 详细参数
+详细参数
 
 | **AT24Cxx** | **容量（**bit）    | **页数** | **页内字节数** | **数据地址(占用bit数)** |
 | ----------- | ------------------ | -------- | -------------- | ----------------------- |
@@ -292,8 +300,6 @@ AT24C02是一个2Kbit的EEPROM存储器，使用IIC通信方式。
 
 通讯地址的高位一般都是由厂家设置好的，用户只可调整低位
 
-![通讯地址](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_43_14_202409131543824.png)
-
 ### 读写时序
 
 写操作：
@@ -302,16 +308,12 @@ AT24C02是一个2Kbit的EEPROM存储器，使用IIC通信方式。
 2. 字节写模式就是一个地址一个数据进行写入。
 3. 页写模式就是连续写入数据。只需要写一个地址，连续写入据时地址会自增，但存在页的限制，超出一页时，超出数据覆盖原先写入的数据。但读会自动翻页。
 
-![写操作](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_45_15_202409131545076.png)
-
 读操作：
 
 1. AT24C02支持当前地址读模式，随机地址读模式和顺序读模式。
 2. 当前读模式是基于上一次读/写操作的最后位置继续读出数据。
 3. 随机地址读模式是指定地址读出数据。
 4. 顺序读模式是连续读出数据。
-
-![读操作](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_45_24_202409131545361.png)
 
 ### 软件和硬件实现的区别
 
@@ -482,18 +484,6 @@ int main(void){
 
 
 ## 硬件实现
-
-![硬件实现](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_5_202409131547001.png)
-
-主机发送
-
-当起始信号来临时，会产生一个EV5事件，可以将这些EV事件看作是标志位
-
-![主机发送](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_39_202409131547273.png)
-
-## 主机接收
-
-![主机接收](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_15_47_54_202409131547396.png)
 
 ## 代码
 

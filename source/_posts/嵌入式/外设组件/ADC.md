@@ -1,7 +1,7 @@
 ---
 title: ADC
 
-cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_9_7_4_202407090907138.png
+cover: https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251201085552094.png
 categories: 
   - 嵌入式
 tags:

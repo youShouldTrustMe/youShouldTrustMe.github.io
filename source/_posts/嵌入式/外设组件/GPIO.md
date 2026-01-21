@@ -43,6 +43,10 @@ tags:
 
 ![浮空、上拉、下拉输入](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200145068.png)
 
+> [!tip]
+>
+> 对于有些芯片而言，如果将GPIO口设置为输入，那么如果外部使其悬空，输入引脚波动会很大，可能会在-5v~5v之间来回跳动，导致芯片的电流会逐步增加（可能从uA增长到mA级别）。所以需要注意GPIO作为输入时，最好不要使其悬空。
+
 ## 模拟输入
 
 ![模拟输入](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200236079.png)

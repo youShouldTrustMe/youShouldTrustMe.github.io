@@ -20,11 +20,13 @@ tags:
 
 [CANalyzer及CANOE使用六：VH6501干扰仪的使用（busoff多种干扰/短路/采样点）_基于vh6501的can干扰测试-CSDN博客](https://blog.csdn.net/qq_36407982/article/details/122054927)
 
+[AUTOSAR Classic Platform](https://www.autosar.org/standards/classic-platform)
+
 [AUTOSAR_TR_BSWModuleList.xls](https://www.autosar.org/fileadmin/standards/R21-11/CP/AUTOSAR_TR_BSWModuleList.pdf)
 
 [AUTOSAR Layered Software Architecture](https://autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_EXP_LayeredSoftwareArchitecture.pdf)
 
-> 以下文章多基于[墨客博客 (xcnm.net)](https://xcnm.net/)的博客加上我自己的理解写的，感兴趣可以去看原博客。
+> 以下内容多基于标准文件及[墨客博客 (xcnm.net)](https://xcnm.net/)的博客加上我自己的理解写的，感兴趣可以去看原博客及标准文件。
 
 # 常见缩写
 
@@ -378,9 +380,9 @@ Communication Stack所提供的服务，主要有两类：
 >
 > 标准文件参见[AUTOSAR_SWS_CANInterface.pdf](https://www.autosar.org/fileadmin/standards/R20-11/CP/AUTOSAR_SWS_CANInterface.pdf)
 
-CanIf结构图如下：
+下图展示了Can模块所处的位置：
 
-![CanIf结构图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_12_41_24_%E6%9A%82%E5%AD%98.png)
+![Can模块处于的位置](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251211155458676.png)
 
 在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN controller芯片需要IO来进行输入输出，有些特殊的CAN Tranceiver也需要IO来进行输入输出，比如经典的TJA1043，就有一个EN引脚和STB引脚，所以就需要IO Driver来控制。
 
@@ -393,19 +395,112 @@ CAN Interface 模块主要功能如下：
 3. 发送确认服务
 4. 接收指示服务
 5. Controller 模式控制服务
-6. Transceiver 模式控制服务
 7. PDU channel mode 控制服务
 
-### 发送缓冲区
+CANIF可能应用在以下情景：
 
-首先介绍一个叫做（**HOH**）Hardware Object handles的这个概念，这个其实在MCAL层出现的较多，对MCAL的上层软件来说，HOH其实就是一个CAN报文的消息缓冲区，上层软件想发送报文的时候，就把报文往里面塞就好了，MCAL会负责发送出去，同理，接收报文就是从缓冲区里读取。但是在MCAL层，这个HOH的实现就五花八门了，这里就不多解释了。后文出现的HTH意思就是用来发送的HOH，而HRH意思就是用来接收的HOH。
+1. 中断模式 CanDrv 处理由 CAN 控制器触发的中断。CanIf 是基于事件的，当事件发生时会被通知。在这种情况下，相关的 CanIf 服务在 CanDrv 对应的 ISR 中被调用。
+2. 轮询模式 CanDrv 由 SchM 触发并执行后续过程（轮换模式）。在这种情况下，必须在规定的时间区间内定期调用 Can_MainFunction_<写/读/总线关闭/唤醒/收发器>（）。CanDrv 会通知 CanDrv 在某个 CAN 控制器中发生的事件（接收、传输、总线关闭、超时），与中断驱动作同样有效。CanDrv 负责更新属于 CAN 控制器中事件的对应信息，例如接收 L-PDU。
+3. 混合模式：中断驱动和轮询驱动的 CanDrv 功能可根据所用 CAN 控制器分为中断驱动和轮询驱动作模式。
 
-再来介绍一下BasicCAN 和FullCAN的概念：
+与别的模块的关联性如下：
 
-1. BasicCAN 就是说一个HOH可以同时接收和发送多个CAN ID报文
-2. 而FullCAN则是一个HOH直接接收和发送单个CAN ID报文。
+![CANIf与其他模块的关联性](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251211162102508.png)
+
+### 物理信道
+
+一个物理信道通过一个 CAN 控制器和一个 CAN 收发器连接，而一个或多个物理信道可以连接到单一网络。CanIf 提供控制所有 CAN 设备（如 CAN 控制器和所有支持 ECU 通道的 CAN 收发器）的服务。这些 API 被 CanSm 用于向 ComM提供网络视图，用于对所有连接到单一网络的物理通道执行唤醒和睡眠请求。CanIf 分别将 CanDrv 和 CanTrcv 提供的状态信息传递给每个物理通道，作为 CanSm 的状态信息。
+
+CanIf 将提供一个控制器Id，该 Id 从不同 CanDrv 实例的不同控制器中抽象出来。CanIf 内 ControllerId 的范围应以“0”开头。它应可通过 CanIfCtrlId.c（）进行配置。
+
+| Canlf          | CanDrv A     | CanDrv B     |
+| -------------- | ------------ | ------------ |
+| Controllerld 0 | Controller 0 |              |
+| Controllerld 1 | Controller 1 |              |
+| Controllerld 2 |              | Controller 0 |
+
+CanIf 将提供一个收发器 Id，从不同 CanTrcv 实例的不同收发器中抽象出来。CanIF 内收发器的范围应以“0”开头。它应可通过 CanIfTrcvId.c（） 进行配置。
+
+| Canlf           | CanDrv A      | CanDrv B      |
+| --------------- | ------------- | ------------- |
+| TransceiverId 0 | Transceiver 0 |               |
+| TransceiverId 1 | Transceiver 1 |               |
+| TransceiverId 2 |               | Transceiver 0 |
+
+在通知过程中，CanIf 会将原始 CAN 控制器或 CAN 收发器参数从驱动模块映射到 CanSm。这种映射是在引用的 CAN 控制器或 CAN 收发器参数被用抽象的 CanIf 参数 ControllerId 或 TransceiverId 配置时完成的。
+
+![物理信道单通道视图](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251216113110616.png)
+
+CanIf 支持多个物理 CAN 通道。这些必须通过网络控制的 CanSm 进行区分。CanIf API 为多个底层物理 CAN 通道提供请求和读取控制。
+此外，CanIf 不区分专用类型的 CAN 物理层（即低速 CAN 或高速 CAN），不区分连接一个或多个 CAN 控制器的类型。
+
+![物理信道多通道视图](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251216113548445.png)
+
+
+
+### 工作流
+
+#### 初始化
+
+EcuM 调用 CanIf 的函数 CanIf_Init（），用于初始化整个 CanIf。在初始化过程中，所有全局变量和数据结构（包括标志和缓冲区）都会被初始化。EcuM 通过调用对应的初始化服务分别执行 CanDrvs 和 CanTrcvs 的初始化。
+
+CanIf 期望 CAN 控制器在初始化过程完成后，保持在**开机重置后停止状态**。在此模式下，CanIf 和 CanDrv 既无法发送也无法接收 CAN L-PDU。
+如果运行时需要重新初始化整个 CAN 模块，EcuM 应调用 CanSm，通过调用 CAN 接口模块的 API 服务 CanIf_SetControllerMode（）启动 CAN 控制器所需的状态转换。CanIf 将 CanSm 的调用映射到相应 CanDrv 的调用。
+
+#### 发送请求
+
+CanIf 的传输请求函数 CanIf_Transmit（）是 CAN 网络上上层传输 L-PDU 的常用接口。上层通信层模块仅通过 CanIf 的服务发起传输，无法直接访问 CanDrv。如果 CanDrv 能够将 L-PDU 数据写入 CAN 硬件传输对象，则发送请求成功完成。上层模块使用 API 服务 CanIf_Transmit（） 来发起传输请求。
+
+CanIf_Transmit函数将会进行以下操作：
+
+1. 检查CanIf的初始化状态
+2. 识别CanDrv(仅在使用多个CanDrv时)
+3. 确定访问CAN硬件传输对象的HTH
+4. 调用CanDry的 Can_Write(）函数
+
+如果传输请求服务CanIf_Transmit()返回E_OK,则传输成功完成。
+
+如果请求通过 PDU 信道模式传输 L-PDU，请求返回 CANIF_OFFLINE，CanIf 应向 DET 的 Det_ReportRuntimeError（）服务报告运行时错误代码 CANIF_E_STOPPED，CanIf_Transmit（）返回 E_NOT_OK
+
+#### 传输数据流
+
+发射请求服务Canlf Transmit()基于L-PDU。访问L-SDU特定数据的参数如下：
+
+- 发送L-PDU=>L-SDU ID
+- 引用包含L-SDU相关数据的数据结构：指向L-SDU,指向元数据的指针和L-SDU长度。
+
+对L-SDU数据结构的引用被用作多个Canlf API服务中的参数，例如Canlf Transmit()或回调服务<User_RxIndication>()。如果L-PDU配置为触发传输，则L-SDU指针为空指针。
+
+![传输数据流](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251216194659599.png)
+
+CanIf 存储了为传输目的配置的可用硬件对象的信息。函数 CanIf_Transmit（） 将 CanTxPduId 映射到对应的 HTH，并调用函数 Can_Write（）。
+
+如果总线镜像已全局启用（参见 CanIfBusMirroringSupport），并且通过调用 CanIf_EnableBusMirroring 激活 CAN 控制器，CanIf 应在传输前存储每个帧的内容
+注意：帧内容应仅在实际发送时提供给总线镜像模块。因此，内容必须存储，以便能够从 CanIf_TxConfirmation（）内部提供给总线镜像模块。
+
+#### 传输缓冲
+
+##### 发送缓冲区
+
+首先介绍一个叫做（**HOH**）Hardware Object handles的这个概念，这个其实在MCAL层出现的较多，对MCAL的上层软件来说，HOH其实就是一个CAN报文的消息缓冲区，该结构包含与 CAN 相关的参数，如 CanId、DLC 和数据。基于 CAN 硬件缓冲区抽象，每个硬件对象在 CanIf 中被引用，独立于 CAN 硬件缓冲区布局。上层软件想发送报文的时候，就把报文往里面塞就好了，MCAL会负责发送出去，同理，接收报文就是从缓冲区里读取。但是在MCAL层，这个HOH的实现就五花八门了，这里就不多解释了。后文出现的HTH意思就是用来发送的HOH，而HRH意思就是用来接收的HOH。HOH 作为 CanDrv 接口服务调用中的参数，由 CanDrv 配置提供，CanDrv 用作 CAN 邮箱通信缓冲区的标识符。
+
+CanIf 仅作为硬件对象句柄的用户，但不会基于硬件特定信息来解释。因此，CanIf 始终独立于硬件。
+
+1. CanIf 应避免直接访问硬件特定的通信缓冲区，仅通过 CanDrv 接口服务访问。CanIf 与硬件保持独立，因为 CanDrv 接口调用时带有 HOH 参数，这些参数抽象了具体的 CAN 硬件缓冲区属性。
+2. 每个 CAN 控制器可以在 CAN 邮箱中提供多个 CAN 传输硬件对象。这些可以逻辑上通过HTH寻址动态的连接到一个完整的硬件对象池（复用硬件对象）
+   1. 多个物理硬件对象（如CAN控制器提供的多个发送邮箱）可以被**逻辑映射到一个统一的资源池**中。
+   2. 通过这种复用机制，**一个HTH可以动态关联到池中的任意空闲硬件对象**，而非固定绑定到某个物理邮箱。
+3. CanIf 将使用两种类型的 HOH 以实现对 CanDrv 的访问
+
+HRH应该可以收到：
+
+1. BasicCAN：一组CanId和在一个区域或一个范围内的CANID
+2. FullCan：单个CanId
+3. 所有的Canid
 
 这里不妨衍生一下，这两个的定义其实起源颇深，大家可参考文章：[《Full-CAN vs. Basic-CAN》](https://zhuanlan.zhihu.com/p/484354161)。
+
+![PDU ID和硬件对象句柄之间的映射](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251215085708380.png)
 
 当 CANIF_PUBLIC_TX_BUFFERING 配置为 ON 的时候， CanIf 会为 Basic 类型（多个 PDU 共享一个 HTH）的 PDU 分配发送缓冲区。
   当 CanIf 调用 Can_Write 返回 CAN_BUSY 的时候，说明当前的 HTH 正在发送上一帧数据，不能写入新的数据。此时， CanIf 将会把新的数据储存在 CanIf 的缓冲区。在 Can 的发送确认中，针对刚刚发送成功的 HTH（此时已经处于空闲状态，可以写入新的数据）， CanIf 将查询分配给该 HTH 的 PDU，是否有数据在缓冲区中，如果有的话， CanIf 将自动把缓冲区中的数据写入 HTH，并发送出去。CanIf 发送缓冲区具有如下特性：
@@ -415,7 +510,287 @@ CAN Interface 模块主要功能如下：
 3. 当 CANIF_PUBLIC_TX_BUFFERING 配置为 OFF 时，所有的 PDU 都没有发送缓冲区；
 4. 如果同一 HTH 的缓冲区中有多个 PDU，将按照 PDU 的优先级（CANID 从小到大的顺序）进行发送。
 
-### Can controller模式控制
+##### 一般行为
+
+在 CanIf 的范围内，传输过程从调用 CanIf_Transmit（）开始，最终以调用上层模块的回调服务（）结束。在传输过程中，CanIf、CanDrv 和 CAN 邮箱应将 L-PDU 存储一次，只在一个位置发送一次。根据发射方式的不同，这些包括：
+
+1. CAN 硬件传输对象
+2. CanIf 内的发射 L-PDU 缓冲区（如果启用了传输缓冲，CanIf 会将 Tx L-PDU 存储在 CanIf 传输 L-PDU 缓冲区（CanIfBufferCfg）中，前提是 CanDrv 在发送请求时拒绝该缓冲。）
+
+> [!note] 
+>
+> 对于触发传输，CanIf 只需存储给定 L-PDU 的发送请求，而无需存储其数据。当 HTH 再次空闲时，通过触发传输功能及时获取数据。单个 Tx L-PDU 若被请求传输，绝不能存储两次。这种行为对应于 CAN 网络上通常的周期性通信方式。
+
+基本上，CanIf 中用于缓冲 Tx L-PDU 的整体缓冲区由一个或多个 CanIfBufferCfg 组成。而每个 CanIfBufferCfg 分配给一个或多个专用 CanIfBufferHthRef，并可配置为缓冲一个或多个 Tx L-PDU。但如上所述，每个 Tx L-PDU 只能缓冲一个实例，包含 CanIfBufferCfg 的总量。
+
+在 L-PDU 传输过程中，CanIf 的行为会根据对应发送L-PDU 的配置设置是否启用传输缓冲而有所不同：
+
+- 如果传输缓冲被禁用且发送请求失败（CAN 控制器邮箱正在使用 BasicCAN），L-PDU 不会被复制到 CAN 控制器邮箱，CanIf_Transmit（）返回值 E_NOT_OK。
+- 如果启用了传输缓冲且发送请求失败，根据 CanIfTxBuffer 配置，L-PDU 可以存储在 CanIfTxBuffer 中。在这种情况下，CanIf_Transmit（）返回了值 E_OK，尽管无法执行传输。在这种情况下，CanIf 通过 CanIf_TxConfirmation（）回调处理 L-PDU 的未完成传输，上层无需重试发送请求。
+
+在配置 **CanIf** 模块时，你为发送 L-PDU（即应用层想要通过 CAN 发送的数据包）分配的**实际 RAM 缓冲区数量**，**可以完全独立于**你在 CAN 网络描述文件（如 `.dbc` 文件）中为该 ECU 定义的**要发送的 L-PDU 数量**。假设你的 ECU 可能在网络描述文件中定义了 10 个不同的 Tx L-PDU，但你可能只需要配置 5 个 CanIf Tx L-PDU 缓冲区，因为这些 L-PDU 可以共用硬件发送对象 (HTH)，或者有些 L-PDU 不需要 CanIf 内部缓冲。
+
+根据 AUTOSAR 规范，每个 Tx L-PDU（通过配置容器 `CanIfTxPduCfg` 定义）都需要通过一个 **`CanIfBufferCfg`** 配置容器来关联一个或多个 **HTH (Hardware Transmit Handle)**，HTH 是由 CAN Driver 提供的，代表 CAN 硬件上的发送邮箱或缓冲区。
+
+当某个 Tx L-PDU **不需要** CanIf 模块内部提供 RAM 缓冲时（例如，这个 L-PDU 直接使用 CAN 硬件的发送邮箱，不需要在软件层排队或存储），`CanIfBufferCfg` 仍然是**必需的**。此时，需要将 `CanIfBufferCfg` 中的配置参数 **`CanIfBufferSize`** 设置为 **0**。当 `CanIfBufferSize` 设置为 0 时，`CanIfBufferCfg` 配置容器的作用就只剩下**引用**或**关联**该 L-PDU 将要使用的 **HTH**，它不再具备实际的软件缓冲功能。
+
+
+
+##### L-PDU的存储
+
+配置的不同的传输方式也会进行不同的缓存处理：
+
+1. 当 L-PDU 被配置为 **直接传输** (Direct Transmission) 模式时：
+
+   - 如果缓冲功能已启用，并且 `Can_Write()` 返回 `CAN_BUSY`，CanIf 必须检查是否有可能将**整个**被请求传输的 **CanIf Tx L-PDU 数据** 缓冲到 `CanIfTxBuffer` 中。
+   - 对于 **动态 (Dynamic)** Tx L-PDUs，**CanID (CAN 标识符)** 也必须与 L-PDU 数据一起存储在缓冲区中。
+   - **数据长度不匹配的处理**：
+     - 如果被拒绝的 L-PDU **数据长度**超过了配置的缓冲区大小 (`CanIfBufferSize`)，CanIf 必须：
+       1. **只缓冲**配置允许的**数据量**，并**丢弃**其余部分。
+       2. 向 **DET (Development Error Tracer)** 报告运行时错误码 **`CANIF_E_DATA_LENGTH_MISMATCH`**。
+
+2. 当 L-PDU 被配置为 **触发传输** (Triggered Transmission) 模式时：
+
+   - 如果缓冲功能已启用，并且 `Can_Write()` 返回 `CAN_BUSY`，CanIf 必须检查是否有可能将**发送请求 (Transmit Request)** 缓冲到 `CanIfTxBuffer` 中。
+
+     > [!note] 
+     >
+     > 注：对于触发传输，通常缓冲的不是实际的数据，而是发送请求本身（即一个标志），实际数据会在后续由 PDU Router 或上层模块提供（例如在 `PduR_CanIfTriggerTransmit()` 被调用时）。
+
+CanIf 只有在配置参数 **`CanIfPublicTxBuffering`** 启用时，才支持对 **BasicCAN** 传输进行 L-PDU 缓冲。
+
+> [!note] 
+>
+> BasicCAN 通常指一个 L-PDU 可能使用多个不同的 HTH，且通常需要软件缓冲来处理排队。FullCAN L-PDU 通常不使用 CanIf 缓冲。
+
+尝试发送过程如下：
+
+1. 上层 (如 PduR) 调用 `CanIf_Transmit()`。
+2. CanIf 尝试立即调用 `Can_Write()` 写入 CAN Driver。
+   1. **结果 A (`CAN_OK`):** 发送成功，流程结束。
+   2. **结果 B (`CAN_BUSY`):** 硬件繁忙（无 HTH 可用）。
+      1. **CanIf 检查：**
+         1. 如果 **`CanIfPublicTxBuffering` 禁用**：发送失败，向上传输结果。
+         2. 如果 **`CanIfPublicTxBuffering` 启用**：将 L-PDU **数据**（直接传输）或 L-PDU **请求**（触发传输）存储到 CanIf 内部的 Tx L-PDU 缓冲区中。
+      2. 当 CAN Driver 报告发送完成（通过 `CanIf_TxConfirmation()`）且有 HTH 释放时，CanIf 会将缓冲区中的 L-PDU 写入 CAN Driver。
+
+#### 发送确认
+
+如果之前的传输请求成功完成，CanDrv 会通过调用 CanIf_TxConfirmation（）通知 CanIf。
+
+如果总线镜像在全局启用，并且通过调用 CanIf_EnableBusMirroring（）激活 CAN 控制器，CanIf 应对该控制器上的每个帧传输通过 CanIf_TxConfirmation（）确认发送帧，调用 Mirror_ReportCanFrame（）服务，调用时，需要提供**存储的内容**和**实际的 CAN ID**）
+
+> [!tip]
+>
+> 总线镜像允许外部工具或模块监听 ECU 实际发送的 CAN 帧，常用于诊断和调试。
+
+当 `CanIf_TxConfirmation()` 回调服务被调用时，CanIf 必须执行以下操作：
+
+1. **识别**与成功传输的 L-PDU 链接的**上层通信层**（例如 PduR 或某个应用模块）。
+2. 通过调用该上层模块的**发送确认服务**（返回值为 **`E_OK`**）来通知其传输已完成。
+
+**上层回调：** 这个回调服务是由被通知的**上层模块实现**的。
+
+**配置静态分配：** 一个 Transmit L-PDU 只能静态地分配给一个**单一**的发送确认回调服务。上层模块可以配置为对不同的 L-PDU 使用单个或多个回调服务。
+
+如果配置启用了 **发送确认轮询支持** (`CanIfPublicTxConfirmPollingSupport`)。并且，对应的 CAN 控制器模式处于 **`CAN_CS_STARTED`** 状态。那么，CanIf 必须为每个 CAN 控制器**缓冲**接收到的 TxConfirmation **信息**。这允许 CanIf 在后续的 `CanIf_MainFunction()` 中，通过轮询的方式处理这些确认信息，而不是立即在中断上下文（如果 TxConfirmation 是在中断中触发的话）中处理。
+
+#### 接收数据流
+
+根据 AUTOSAR 基础软件架构，接收到的数据将在上层通信栈（如 AUTOSAR COM、CanNm、CanTp、DCM）中进行评估和处理，这意味着，上层模块既不能使用 CanDrv (Rx) 的缓冲区，也不能访问 CanIf (Tx) 的缓冲区。
+
+如果有新的 L-PDU 接收，CanDrv 会调用 CanIf 的 CanIf_RxIndication（）。对 L-PDU 指定数据的访问由以下参数决定：
+
+- 硬件接收句柄（HRH）
+- 接收 CAN 标识符（CanId）
+- 接收数据长度
+- 接收 L-PDU 的Reference
+
+接收的 L-PDU 依赖硬件（字节和字节排序、访问类型），并分配给通信系统中最低层——CanDrv，其中**HRH (Hardware Receive Handle)** 充当了 **CanDrv** 和使用该 L-PDU 的**上层模块**之间的**链接**。
+
+当 CanDrv 接收到一个 L-PDU 后，它会调用 **`CanIf_RxIndication()`** 来通知 CanIf 模块。
+
+- CanIf **无法识别** CanDrv 是使用了**临时缓冲**还是**直接硬件访问**来获取数据。
+- CanIf 期望在 `CanIf_RxIndication()` 的调用中接收到的 L-PDU 数据是**规范化 (normalized) 的**（即，CanDrv 必须处理硬件的字节序等依赖性，向 CanIf 提供统一格式的数据）。
+
+硬件接收对象的锁定与释放：
+
+- **锁定：** 在将数据**复制**到**临时缓冲区**或**上层模块缓冲区**的过程中，CAN 硬件接收对象是处于**锁定**状态的。
+  - 这个锁定确保了数据在被复制完成之前不会被新的接收帧覆盖。
+- **释放：** 为了避免数据丢失，在 CanIf 的 `CanIf_RxIndication()` 函数**返回**给 CanDrv 后，该硬件接收对象**必须立即被释放**。
+  - *这保证了 CAN 硬件能够迅速准备好接收下一个传入的 CAN 帧。*
+
+缓冲区访问：
+
+- **共享缓冲区：** **CanDrv**、**CanIf** 以及属于该接收 L-PDU 的**上层模块**，都可能访问**同一个临时中间缓冲区**。
+- **缓冲区位置：** 这个临时缓冲区可以位于：
+  1. **CAN 控制器的 CAN 硬件接收对象**中。
+  2. **CanDrv 的临时缓冲区**中。
+
+![接收数据流](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251217102724045.png)
+
+#### 接收指示
+
+`CanIf_RxIndication()` 是 CAN Driver 用来通知 CanIf 模块接收到新 CAN 帧的回调函数。CanIf 接收到调用后，其主要任务是评估 L-PDU 的**接受性**并准备 **L-SDU** (上层数据)。
+
+1. 总线镜像报告
+   1. 如果全局启用了**总线镜像** (`CanIfBusMirroringSupport`) 且已为该控制器激活。
+   2. CanIf 必须为该控制器上**每个**通过 `CanIf_RxIndication()` 指示的接收帧，调用 **`Mirror_ReportCanFrame()`** 进行报告。
+2. 软件过滤 (Software Filtering)
+   1. 一旦调用 `CanIf_RxIndication()`，CanIf 必须对接收到的 L-PDU 执行**软件过滤**（如果配置了，例如通过 `CanIfHrhRangeCfg`）。
+   2. **如果软件过滤拒绝了**该 L-PDU，CanIf 必须**立即终止**该 `CanIf_RxIndication()` 的后续处理。
+   3. *注：软件过滤主要用于 FullCAN 未能覆盖到的 BasicCAN 接收，或用于更复杂的过滤逻辑。*
+3. 数据长度检查 (Data Length Check)
+   1. 如果 L-PDU **通过**了软件过滤。
+   2. CanIf 随后必须执行**数据长度检查**（如果配置了，通过 `CanIfPrivateDataLengthCheck` 和 `CanIfRxPduDataLengthCheck`）。
+   3. *注：这确保接收到的数据长度不超过配置所允许的长度。*
+4. 缓冲和数据复制
+   1. 如果 L-PDU **通过**了数据长度检查。
+   2. 并且该 L-PDU 配置了使用 **静态接收缓冲区**。
+   3. CanIf 必须将接收到的 L-PDU 数据（L-SDU）**复制**到该静态接收缓冲区中，复制的字节数应等于配置的**数据长度**。
+   4. 如果 L-SDU 配置了 **元数据 (MetaData)**。
+   5. CanIf 必须将 L-PDU 的**有效载荷 (payload)** 复制到静态接收缓冲区，并将 **CAN ID** 复制到类型为 `CAN_ID_32` 的 **MetaDataItem** 中。
+5. 通知上层模块 (Upper Layer Indication)
+   1. 如果 L-PDU **通过**了数据长度检查。
+   2. CanIf 必须检查是否配置了**目标上层模块**，以便调用其**接收指示服务**来处理接收到的 L-SDU（通过 `CanIfRxPduUserRxIndicationUL` 等参数配置）。
+   3. 如果配置了要调用目标上层模块，CanIf 必须调用这个配置好的**接收指示回调服务** (`CanIfRxPduUserRxIndicationName`)。
+   4. CanIf 将基于 `CanIf_RxIndication()` 的参数，提供上层通知回调函数所需的参数。
+   5. *注：一个接收 L-PDU 只能分配给**一个单一**的接收指示回调服务。*
+
+#### 读取接收数据
+
+**通过同步 API `CanIf_ReadRxPduData()` 读取数据**。这提供了一种与异步接收指示 (Rx_Indication) 不同的数据获取方式。
+
+1. API 的作用和接口
+
+   1. **作用：** `CanIf_ReadRxPduData()` 是 CanIf 模块提供给上层模块（如 PduR 或应用层）用来**读取**最近从 CAN 网络接收到的 **CAN L-SDU** 的通用接口。
+   2. **访问方式：** 上层模块通过 CanIf 的服务（即这个 API）发起接收请求，**不直接访问 CanDrv**。
+   3. **完成标志：** 当 CanIf 将接收到的 L-SDU **写入**上层模块提供的 I-PDU 缓冲区时，接收请求成功完成。
+
+2. 独立于接收事件
+
+   1. **配置启用：** 如果配置参数 **`CanIfPublicReadRxPduDataApi`** 启用，则可以使用此 API 读取数据。
+   2. **异步解耦：** 这种读取方式使得数据读取**不依赖于接收事件的发生（即 `RxIndication`）**。
+   3. **灵活配置：** 当此 API 启用时，**不必**同时为同一个 L-SDU 配置**接收指示服务** (`CanIfRxPduUserRxIndicationUL`)。当然，如果需要，两者也可以同时启用。
+
+3. 缓冲机制的要求
+
+   1. 如果配置参数 **`CanIfPublicReadRxPduDataApi`** 设置为 `TRUE`。
+   2. 并且某个特定的 L-SDU 配置参数 **`CanIfRxPduReadData`** 设置为 `TRUE`。
+   3. 那么，CanIf **必须**为该接收 L-SDU **分配**并使用一个**接收 L-SDU 缓冲区**来存储接收到的数据。
+   4. 在 `CanIf_RxIndication()` 调用过程中，如果 L-PDU **通过**了软件过滤和数据长度检查，CanIf 必须将接收到的 L-SDU **存储**到这个接收 L-SDU 缓冲区中。
+   5. **互斥访问：** 在调用 `CanIf_ReadRxPduData()` 期间（即上层正在读取数据时），CanIf **必须避免**可能抢占访问该接收 L-SDU 缓冲区的事件（例如，新的 `CanIf_RxIndication` 或其他并行访问），以确保数据的一致性。
+
+4. 接收机制的选择
+
+   1. 通过配置参数 **`CanIfRxPduUserRxIndicationUL`**（用于**异步通知**）和 **`CanIfRxPduReadData`**（用于**同步读取**），上层模块可以根据自己的需求，在配置时选择适合的接收 L-SDU 机制：
+
+      | **机制**     | **异步通知 (Rx Indication Callback)**     | **同步读取 (ReadRxPduData API)**             |
+      | ------------ | ----------------------------------------- | -------------------------------------------- |
+      | **触发方式** | 数据**到达**时，CanIf 主动调用上层回调。  | 上层模块**需要**数据时，主动调用 CanIf API。 |
+      | **配置参数** | `CanIfRxPduUserRxIndicationUL`            | `CanIfRxPduReadData`                         |
+      | **数据缓冲** | 可选，通常不强制要求 CanIf 内部静态缓冲。 | **强制**要求 CanIf 内部静态缓冲              |
+
+
+#### 通知状态轮询
+
+AUTOSAR CanIf 模块提供的另一种状态获取机制：**通知状态轮询 (Notification Status Polling)**。除了通过回调函数（Callback）被动接收通知外，上层模块还可以主动调用 API 来查询某个 PDU 是否已经成功发送或接收。
+
+1. CanIf 提供了两个专门用于查询状态的 API，实现了“**读并清除 (Read-and-Consume)**”的机制：
+
+   1. **`CanIf_ReadTxNotifStatus()`**: 用于查询某个 **发送 (Tx) L-PDU** 的发送确认状态。
+   2. **`CanIf_ReadRxNotifStatus()`**: 用于查询某个 **接收 (Rx) L-PDU** 的接收指示状态。
+
+2. 配置与启用
+
+   1. 这两个 API 的功能可以通过配置参数在**全局**或**单个 PDU** 级别进行开启或关闭：
+
+      | **级别**        | **发送 (Tx) 配置参数**                | **接收 (Rx) 配置参数**                |
+      | --------------- | ------------------------------------- | ------------------------------------- |
+      | **全局开关**    | `CanIfPublicReadTxPduNotifyStatusApi` | `CanIfPublicReadRxPduNotifyStatusApi` |
+      | **单 PDU 开关** | `CanIfTxPduReadNotifyStatus`          | `CanIfRxPduReadNotifyStatus`          |
+
+   2. 只有当全局开关设为 `TRUE` 时，CanIf 才会为每个 L-PDU 维护（存储）这个内部状态位。
+
+3. “读并清除”机制 (Read-and-Consume)
+
+   1. **逻辑含义**：当上层模块调用这些 API 读取状态后，CanIf 会**自动将该状态重置**（通常重置为 `CANIF_NO_NOTIFICATION`）。
+   2. **设计目的**：确保上层模块获取到的“成功”状态，代表的是**自上次调用该服务以来**，至少发生过一次新的成功发送或接收事件。
+   3. **状态返回值**：
+      - `CANIF_TX_RX_NOTIFICATION`: 自上次清除以来已发生事件。
+      - `CANIF_NO_NOTIFICATION`: 自上次清除以来未发生新事件。
+
+> [!note]
+>
+> 在 AUTOSAR 架构中，并不是所有上层模块都适合用“回调/中断”模式工作。以下场景通常会用到这些 API：
+>
+> 1. **非事件驱动型任务**：某些应用层任务（SWC）运行在固定的周期循环中，它们更倾向于在每个周期开始时“轮询”一下数据是否更新，而不是被中断随机打断。
+> 2. **降低中断负载**：如果通信频率极高，频繁的回调会占用大量 CPU 资源。通过轮询状态，可以将处理逻辑集中在低优先级的周期性任务中。
+> 3. **双重确认**：在某些安全关键应用中，除了等待回调，还可以通过该 API 进行状态的二次校验。
+
+当相关配置参数使能后， CanIf 提供了接口，可通过这些接口查询 CanIf PDU 的的状态和数据，这包括：
+
+1. CanIf_ReadRxNotifStatus 查询某个 PDU 是否接收到；
+2. CanIf_ReadTxNotifStatus 查询某个 PDU 是否发送成功；
+3. CanIf_ReadRxPduData，读取某个 PDU 的接收数据；
+4. CanIf_GetTxConfirmationState，获取是否有报文发送成功，主要用于 Busoff 恢复。
+
+### DLC检查
+
+当 CanIf 从 Can Drviver接收到一帧报文，可以对报文的 DLC 进行检查，如果 DLC 不合法，可以报错，并进行相应的处理。DLC 检查的方法有两种：
+
+1. AUTOSAR 标准算法：当实际接收到的 DLC 小于配置的 DLC 时，认为 DLC 不合法；
+2. 用户自定义算法：用户需要完成 CanIf_DlcCheckCallout 函数，自行进行检查。
+
+若 DLC 检查失败，等同于该报文没有接收到，不会调用上层的接收指示回调函数。
+
+### 控制器模式
+
+#### 通用功能
+
+**CanIf** 在控制 **CAN 控制器模式（Controller Mode）** 时的角色的核心思想是：**CanIf 是“执行者”，而 CanSm（CAN State Manager）是“决策者”**。
+
+1. CanIf 的角色：执行与透传
+   1. **核心职责**：CanIf 提供了一组 API（如 `CanIf_SetControllerMode()`），允许上层模块请求改变 CAN 控制器的状态（如：START, STOP, SLEEP）。
+   2. **不做校验**：**CanIf 不负责判断模式切换是否合法**。它只是简单地把请求通过 `CanDrv` 的接口转发给硬件。
+   3. **状态存储**：CanIf 会存储控制器的当前状态，并执行转换。为了优化性能，它会记录由 `CanIf_ControllerModeIndication()` 上报的最新状态，以避免频繁调用底层驱动获取信息。
+2. CanSm 的角色：网络级决策
+   1. **全局管理**：**CanSm** 负责管理整个 CAN 网络（Network）的一致性。例如，当一个网络需要进入睡眠时，CanSm 会依次命令该网络下的所有控制器进入睡眠。
+   2. **状态机实现**：复杂的网络状态机逻辑（如 Bus-Off 恢复流程、网络激活/去激活）是在 CanSm 中实现的，而不是在 CanIf 中。
+3.  模式切换流程
+   1. **全局管理**：**CanSm** 负责管理整个 CAN 网络（Network）的一致性。例如，当一个网络需要进入睡眠时，CanSm 会依次命令该网络下的所有控制器进入睡眠。
+   2. **状态机实现**：复杂的网络状态机逻辑（如 Bus-Off 恢复流程、网络激活/去激活）是在 CanSm 中实现的，而不是在 CanIf 中。
+
+> [!tip]
+>
+> - **Bus-Off 处理**：虽然 `CanIf_SetControllerMode()` 是主动请求，但 `CanIf_ControllerBusOff()` 是由硬件检测到故障后被动触发的。
+> - **多方请求**：规范提到“不仅只有 CanSm 能请求改变模式”。这意味着在某些特定配置下，其他模块（如 BswM）也可能直接介入控制。
+> - **性能优化**：CanIf 内部缓存控制器状态是推荐的做法，这样在响应 `CanIf_GetControllerMode()` 时速度更快。
+
+#### 操作模式
+
+当控制器进入 `CAN_CS_STOPPED` 状态时，当控制器被停止（例如为了节能或准备进入睡眠状态）时，CanIf 必须清理所有相关的中间状态：
+
+1. **拒绝新的发送请求**：
+   - 如果控制器处于 `STOPPED` 状态，任何调用 `CanIf_Transmit()` 的请求都会被拦截。
+   - CanIf **不会**调用底层的 `Can_Write()`，而是直接返回 **`E_NOT_OK`**。
+2. **清理缓冲区**：
+   - 控制器一旦停止，CanIf 必须**清空（Clear）**分配给该控制器的所有 Tx 缓冲区（Tx Buffers）。这防止了陈旧的数据在控制器重启后被意外发送。
+3. **通知上层失败**：
+   - 对于所有已经在缓冲区中或正在等待确认（Outstanding）的发送 PDU，CanIf 必须通过调用上层的 **`TxConfirmation(id, E_NOT_OK)`** 告知发送失败。
+   - **原则**：这保证了对于每一个 `CanIf_Transmit` 请求，上层最终都会收到一个确定的反馈（要么成功，要么失败），不会出现“悬挂”状态。
+   - 如果开启了轮询模式（Polling），相关的确认信息也要被清除。
+
+状态通知与回调转发
+
+CanIf 作为一个中间层，负责将底层的硬件状态回调转发给正确的决策模块（通常是 **CanSm**）：
+
+- **Bus-Off 处理**：
+  - 当硬件检测到 Bus-Off 并调用 `CanIf_ControllerBusOff()` 时，CanIf 必须立即通知 **CanSm**。CanSm 随后会启动恢复状态机。
+- **模式切换确认 **：
+  - 当底层驱动真正完成了模式切换（例如从 START 到 STOP）并调用 `CanIf_ControllerModeIndication()` 时，CanIf 将此信息转发给 **CanSm**。
+- **收发器状态**：
+  - 同理，CAN 收发器（Transceiver）的模式切换也会通过 CanIf 转发给 **CanSm**。
 
 CAN controller 在硬件实现上的状态抽象为以下四种基本状态：
 
@@ -427,9 +802,9 @@ CAN controller 在硬件实现上的状态抽象为以下四种基本状态：
 对每个 CAN Controller，在 Can Interface 模块上有一个对应的“软件”状态机，其有以下几种状态：
 
 1.  CANIF_CS_UNINIT
-2. CANIF_CS_STOPPED
-3. CANIF_CS_STARTED
-4. CANIF_CS_SLEEP
+2.  CANIF_CS_STOPPED
+3.  CANIF_CS_STARTED
+4.  CANIF_CS_SLEEP
 
 上层可以通过调用 CanIf_SetControllerMode()服务来改变 CAN Controller 的状态。下表展示了用户使用CanIf_SetControllerMode()时的状态转换:
 
@@ -444,37 +819,6 @@ CAN controller 在硬件实现上的状态抽象为以下四种基本状态：
 不合法的状态转换请求，例如 SLEEP 到 START， START 到 SLEEP，将在 Can 模块被检测到，并返回 E_NOT_OK。在转换阶段， Can Interface 模块中软件状态机的状态可能会与 CAN controller 中的硬件状态不一致。
 
 调用 CanIf_SetControllerMode 进行模式切换，如果硬件的模式能够在较短的时间内完成，那么模式转换可以是同步的，也就是说，在 CanIf_SetControllerMode 返回之前，模式转换已经完成，并且通过 User_ControllerModeIndication 通知了上层。否则，模式转换是异步完成的，用户需周期调用 Can_MainFunction_Mode 来完成模式转换并通知上层。
-
-### PDU Mode控制
-
-CanIf中，可调用 CanIf_SetPduMode 控制某个 CAN 通道上 PDU 的接收和发送，各 CAN通道可分别控制。CanIf支持的Pdu Mode 模式和特征描述如下所示：
-
-| PDU Mode                | 描述                                                         |
-| ----------------------- | ------------------------------------------------------------ |
-| CANIF_OFFLINE           | 1. 阻止发送请求，调用 CanIf_Transmit() 时，返回 E_NOT_OK。<br>2. 清除相关通道的发送缓冲区。<br>3. 阻止调用上层的接收指示回调函数。<br>4. 阻止调用上层的发送确认回调函数。 |
-| CANIF_TX_OFFLINE_ACTIVE | 1. 调用的 CanIf_Transmit() 时，返回 E_OK，但是不调用 Can 的发送接口发送报文。<br>2. 调用的 CanIf_Transmit() 时，直接调用上层的发送确认函数。<br>3. 阻止调用上层的接收指示回调函数。 |
-| CANIF_TX_OFFLINE        | 1. 阻止发送请求，调用 CanIf_Transmit() 时，返回 E_NOT_OK。<br>2. 清除相关通道的发送缓冲区。<br>3. 允许调用上层的接收指示回调函数。<br>4. 阻止调用上层的发送确认回调函数。 |
-| CANIF_ONLINE            | 1. 调用 CanIf_Transmit() 时，正常发送报文，返回 E_OK。<br>2. 报文发送成功时，调用上层的发送确认函数。<br>3. 接收到报文时，调用上层的接收指示回调函数。 |
-
-### DLC检查
-
-当 CanIf 从 Can Drviver接收到一帧报文，可以对报文的 DLC 进行检查，如果 DLC 不合法，可以报错，并进行相应的处理。DLC 检查的方法有两种：
-
-1. AUTOSAR 标准算法：当实际接收到的 DLC 小于配置的 DLC 时，认为 DLC 不合法；
-2. 用户自定义算法：用户需要完成 CanIf_DlcCheckCallout 函数，自行进行检查。
-
-若 DLC 检查失败，等同于该报文没有接收到，不会调用上层的接收指示回调函数。
-
-### 查询状态
-
-当相关配置参数使能后， CanIf 提供了接口，可通过这些接口查询 CanIf PDU 的的状态和数据，这包括：
-
-1. CanIf_ReadRxNotifStatus 查询某个 PDU 是否接收到；
-2. CanIf_ReadTxNotifStatus 查询某个 PDU 是否发送成功；
-3. CanIf_ReadRxPduData，读取某个 PDU 的接收数据；
-4. CanIf_GetTxConfirmationState，获取是否有报文发送成功，主要用于 Busoff 恢复。
-
-### 控制器模式
 
 在AUTOSAR架构中，**CAN控制器（CAN Controller）的模式**由通信接口层（CAN Interface, CANIf）管理。通过分层控制（控制器模式 + PDU模式），AUTOSAR实现了灵活且低功耗的CAN通信管理。CAN控制器模式如下：
 
@@ -551,6 +895,342 @@ PDU模式与控制器模式协同工作，独立控制发送/接收行为：
 | `CANIF_CS_STARTED` | 全双工   | 高   | 始终活跃      | 正常运行 |
 | `CANIF_CS_STOPPED` | 无       | 中   | 硬件/总线唤醒 | 短时休眠 |
 | `CANIF_CS_SLEEP`   | 无       | 极低 | 软件指令唤醒  | 深度休眠 |
+
+#### 模式转换
+
+在 AUTOSAR 中，改变 CAN 控制器的状态并不是“即时”完成的，而是一个请求与响应的过程。
+
+1. **异步流程**：
+   - **请求阶段**：上层模块调用 `CanIf_SetControllerMode(CAN_CS_SLEEP)`。此时 CanIf 只是将指令下发给 CanDrv，API 随即返回。
+   - **执行阶段**：CAN 控制器硬件在完成当前的通信任务后，才开始物理切换。
+   - **通知阶段**：一旦硬件完成切换，CanDrv 调用回调函数 `CanIf_ControllerModeIndication()`。随后，CanIf 会将此通知转发给 `CanSm`。
+2. **特殊情况（快速切换）**：
+   - 如果硬件响应极快，`CanIf_ControllerModeIndication()` 可能会在 `CanIf_SetControllerMode()` 还没执行完时就被触发（嵌套调用）。这是实现相关的。
+3. **失败处理**：
+   - CanIf 本身不监控“模式转换是否超时”。如果转换失败或没有响应，必须由**上层模块**（如 CanSm）通过超时机制来跟踪处理。
+
+> [!tip]
+>
+> 🛌 睡眠与唤醒机制 (Wake-up):CAN 控制器的硬件差异（是否支持 Sleep/Wake-up）被 `CanDrv` 屏蔽了，CanIf 只需要处理标准化的模式。
+
+**内部唤醒 vs 外部唤醒**
+
+CanIf 严格区分了两类唤醒请求：
+
+| **特性**     | **内部唤醒 (Internal Request)**                     | **外部/网络唤醒 (External Request)**   |
+| ------------ | --------------------------------------------------- | -------------------------------------- |
+| **触发源**   | 软件逻辑（ECU 主动想通信）                          | 外部总线活动（其他节点发出的帧）       |
+| **触发方式** | 调用 `CanIf_SetControllerMode(..., CAN_CS_STARTED)` | 硬件检测到信号，由 CanDrv/CanTrcv 通知 |
+| **处理性质** | 异步软件请求                                        | 硬件中断事件                           |
+
+> **注意：** 在从 `STOPPED` 切换到 `SLEEP` 的敏感过程中，硬件可能会意外产生一个唤醒中断给集成代码（ECU Integration Code），这在开发底层驱动时需要特别注意。
+
+**状态查询**：如果上层模块不想等待异步通知，可以随时调用 `CanIf_GetControllerMode()` 主动轮询。
+
+**硬件解耦**：无论底层硬件如何实现，CanIf 看到的都是统一的 `START`、`STOP`、`SLEEP`。
+
+**责任分担**：CanIf 负责“传话”和“记录”，CanSm 负责“决策”和“监控”。
+
+#### 唤醒
+
+为了支持通过 CAN 网络唤醒 ECU（无论是通过 CAN 控制器还是收发器），硬件必须处于一种**“监听唤醒”**的状态。唤醒模式的硬件前提：
+
+1. **必须进入休眠（Sleep Mode）**：
+   - 唤醒监听通常是在 **Sleep Mode** 下实现的。
+   - 在这个模式下，**正常的通信功能是关闭的**。这种“禁用通信”是确保 CAN 控制器能够完全停止（Stopped）的必要条件。
+2. **唤醒中断的使能**：
+   - 只有当控制器停止了正常的帧处理逻辑，硬件才能将资源切换到检测特定的总线活动（如 WUP - Wake-up Pattern）。
+   - 此时，**唤醒中断（Wake-up Interrupt）** 才能被安全地使能。如果控制器还在正常发送/接收数据，硬件是无法区分普通信号和唤醒信号的。
+3. **硬件独立性**：
+   - 规范提到，无论唤醒信号是通过 **CAN 控制器** 直接检测，还是通过 **CAN 收发器 (Transceiver)** 检测，这种逻辑都适用。
+
+🔄 唤醒流程图解
+
+当 ECU 处于低功耗状态时，数据的流动和状态切换如下：
+
+- **进入休眠**：CanSm 发起请求 $\rightarrow$ CanIf 转发 $\rightarrow$ CanDrv 将硬件设为休眠并开启中断。
+- **监听状态**：此时总线上没有该节点的流量，耗电极低，但硬件电路仍在监控差分电压的变化。
+- **外部触发**：总线上出现特定波形（如远程节点发送的网络管理帧）。
+- **中断触发**：硬件产生唤醒中断 $\rightarrow$ 触发 ECU 的启动序列 $\rightarrow$ CanIf 收到通知并将模式切回 `CAN_CS_STARTED`。
+
+这段话的核心技术意义在于：**通信的“停止”是唤醒“开启”的前提**。在设计 AUTOSAR 系统的休眠逻辑时，必须先通过 `CanIf_SetControllerMode` 确保控制器进入 `CAN_CS_SLEEP`，否则硬件层面的唤醒中断可能无法正确初始化。
+
+**CanIf** 模块在 AUTOSAR 唤醒流程中扮演的“协调者”角色，特别是它如何响应 **ECU Manager (EcuM)** 的请求来验证物理硬件是否真的发生了唤醒。
+
+
+
+#### 唤醒检查
+
+🛡️ CanIf 唤醒检查机制 (`CanIf_CheckWakeup`)：当 ECU 处于睡眠状态并检测到潜在的唤醒信号时，系统的处理逻辑遵循从上到下再到下的链式调用。
+
+1. 触发源：集成代码与 EcuM
+   1. **调用背景**：当硬件检测到总线活动，**EcuM**（通过集成代码）会启动唤醒验证流程。它会调用 `CanIf_CheckWakeup(WakeupSource)`。
+   2. **参数意义**：`WakeupSource` 是一个位掩码，代表 EcuM 定义的唤醒源。CanIf 需要知道这个“源”对应的是哪些具体的 CAN 控制器或收发器。
+2. 映射逻辑：寻找目标硬件
+   1. **配置引用**：CanIf 通过配置（`CanIfCtrlCanCtrlRef`）建立起 **EcuM 唤醒源** 与 **CAN 控制器/收发器** 之间的映射关系。
+   2. **精准定位**：当 EcuM 问“这个唤醒源有没有唤醒？”时，CanIf 查表得知该源涉及哪些驱动（CanDrv 或 CanTrcv）。
+3.  执行验证：向下查询
+   1. 这是核心动作。CanIf 不自己判断，而是去问底层：
+      1. 问收发器驱动：`CanTrcv_CheckWakeup()`
+      2. 问控制器驱动：`Can_CheckWakeup()`
+   2. **目的**：底层驱动会读取硬件状态寄存器，确认是否真的发生了有效的总线唤醒波形（例如符合 ISO 11898-2 的唤醒序列）。
+4. 判定规则 (返回值的逻辑)
+   1. CanIf 汇总底层驱动的检查结果并反馈给 EcuM：
+      - **只要有一个行，就行**：
+        - 只要底层驱动中有一个返回 `E_OK`（确认有唤醒事件），`CanIf_CheckWakeup()` 就向 EcuM 返回 **`E_OK`**。
+      - **必须全不行，才算不行**：
+        - 只有当所有相关的底层驱动都返回 `E_NOT_OK` 时，`CanIf_CheckWakeup()` 才向 EcuM 返回 **`E_NOT_OK`**。
+
+📝 总结：CanIf 在这里的职责
+
+1. **分发者**：将 EcuM 抽象的 `WakeupSource` 翻译成具体的硬件对象。
+2. **调用者**：统一调用不同厂商（Vendor）提供的 CAN 驱动 API。
+3. **聚合者**：将多个驱动的状态合并成一个简单的成功或失败，供 EcuM 决策是否需要全面启动 ECU（即从低功耗状态切回正常运行状态）。
+
+💡 为什么需要这个过程？
+
+这个机制是为了**防止误唤醒（False Wakeups）**。
+
+- 有时候总线上的电磁干扰（EMC）可能会触发一个虚假的唤醒中断。
+- EcuM 通过 `CanIf_CheckWakeup` 强制要求驱动层去检查硬件内部的**唤醒标志位**。如果标志位没置位，ECU 会认为这是一个噪声，从而继续保持睡眠，节省功耗。
+
+#### 唤醒校验
+
+**唤醒校验 (Wake-up Validation)**的存在是为了防止 ECU 被总线上的电磁干扰（噪声）误唤醒，从而浪费电量。
+
+当 CAN 控制器检测到总线活动并触发唤醒中断后，ECU 此时仅处于“疑似唤醒”状态。为了确认这确实是一个有效的通信请求，而不是由于电线接触不良产生的火花，**EcuM (ECU Manager)** 需要看到一个**真实的 CAN 报文**。
+
+1. 校验的前提：控制器必须“转起来”
+
+   1. 控制器不能直接从 `SLEEP` 跳到 `STARTED`。
+   2. **流程**：当硬件产生唤醒事件通知 EcuM 后，EcuM 会通过 `CanIf_SetControllerMode()` 将控制器设为 `STARTED` 状态。只有控制器开始工作，才能接收报文来进行校验。
+
+2. 谁能通过校验？ (`CanIf_RxIndication`)
+
+   1. CanIf 会盯住控制器启动后的**第一条**报文：
+
+      - 如果配置了 `CanIfPublicWakeupCheckValidByNM = TRUE`：只有**网络管理 (NM) 报文**才能算作有效的唤醒。
+      - 如果为 `FALSE`：任何在配置表里的 **Rx PDU**（普通应用报文）都能通过校验。
+
+      - 一旦收到这第一条符合要求的报文，CanIf 内部就会存下一个“已验证”的标记。
+
+> [!important]
+>
+> 规范中特别提到：**在校验期间，PDU 通道模式（PduRoute）不能设为 `ONLINE`。**
+>
+> - **原因**：如果校验还没通过就把通道设为 `ONLINE`，那么上层应用模块（如 PduR, Com）就会立刻收到数据。
+> - **逻辑矛盾**：如果最后校验发现这个唤醒是“误报”，但此时应用层已经开始处理数据了，会导致系统逻辑混乱。
+> - **正确做法**：只有在 EcuM 确认校验成功后，才会将 PDU 通道切换到 `ONLINE`，允许数据流向应用层。
+
+🔄 校验的生命周期管理
+
+| **动作**         | **CanIf 的处理逻辑**                                         |
+| ---------------- | ------------------------------------------------------------ |
+| **检测到报文**   | 检查是否为合法的 NM 或应用报文，并记录状态。                 |
+| **触发校验请求** | EcuM 调用 `CanIf_CheckValidation()`，CanIf 回复：收到有效帧了。 |
+| **重置标记**     | 当控制器重新进入 `CAN_CS_SLEEP` 时，清空“已验证”标记，为下次唤醒做准备。 |
+
+**唤醒校验**是一个“二次确认”的过程：
+
+1. **硬件**说：“有人拍我，我醒了（产生中断）。”
+2. **EcuM** 说：“别急，把控制器打开，我看看他说了什么（请求校验）。”
+3. **CanIf** 说：“我看到他发了一个合法的报文，确实是自己人（收到 RxIndication）。”
+4. **EcuM** 说：“好，现在全员正常开工（切换 ONLINE）。”
+
+### PDU模式
+
+#### PDU信道组
+
+📂 什么是 L-PDU 通道组？
+
+在 AUTOSAR 中，ECU 可能会连接多个 CAN 网络。为了方便管理，CanIf 将 L-PDU 进行了逻辑分组：
+
+1. **物理对应关系**：
+   - 每个 **L-PDU** 都固定分配给一个物理 CAN 通道（即一个 CAN 控制器 + 一个 CAN 网络）。
+   - 属于同一个物理通道的所有 L-PDU 被归为一个**逻辑组**。
+2. **单一性原则**：
+   - 一个 L-PDU **只能**属于一个通道组。这确保了模式切换（如：一键关闭该网络的所有通信）时逻辑的唯一性。
+3. **逻辑抽象**：
+   - 通过这种分组，上层模块不需要逐个操作成百上千个 PDU，而是可以针对整个“通道组”下达指令。
+
+------
+
+🎮 谁在控制这些通道组？
+
+虽然 CanIf 负责执行，但**控制权**属于更高层的模块：
+
+- **PduR (PDU Router)**：负责路由 PDU。它可以决定某个路径的通信是否开启。
+- **NM (Network Management)**：负责网络管理。当网络需要休眠或激活时，NM 会通知 CanIf 切换通道组的状态。
+
+------
+
+🚦 通道模式（PDU Operation Modes）
+
+当 PduR 或 NM 控制这些组时，主要是在切换以下几种模式（即 **PduChannelMode**）：
+
+| **模式**                    | **发送 (TX)** | **接收 (RX)** | **描述**                                                     |
+| --------------------------- | ------------- | ------------- | ------------------------------------------------------------ |
+| **CANIF_OFFLINE**           | ❌ 禁用        | ❌ 禁用        | 通信完全切断。                                               |
+| **CANIF_ONLINE**            | ✅ 启用        | ✅ 启用        | 正常通信状态。                                               |
+| **CANIF_TX_OFFLINE**        | ❌ 禁用        | ✅ 启用        | 仅接收，不发送。常用于诊断或网络启动初期。                   |
+| **CANIF_TX_OFFLINE_ACTIVE** | ⚠️ 模拟        | ✅ 启用        | 模拟发送成功（触发 TxConfirmation），但实际不往总线上发。用于测试或静默模式。 |
+
+------
+
+📝 这种设计的意义在于：
+
+- **简化操作**：上层只需要通过一个 `CanIf_SetPduMode(ChannelGroup, Mode)` 调用，就能瞬间改变整个控制器的通信行为。
+- **解耦**：上层模块（如 NM）只需要关注“网络（Network）”的状态，而不必关心这个网络里具体有哪些 PDU。
+- **一致性**：确保属于同一网络的所有报文在状态转换时步调一致。
+
+![信道PDU组](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251218134713741.png)
+
+#### PDU信道模式
+
+如果说控制器模式（Controller Mode）是整个控制器的“电源总闸”，那么 **PDU 通道模式（PDU Channel Mode）** 就是每个逻辑通道的“分路开关”。
+
+CanIf 允许上层模块（如 PduR 或 CanSm）通过 `CanIf_SetPduMode()` 来控制一个逻辑通道内所有 PDU 的行为。
+
+1. 四种核心模式对比
+
+   | **模式**                    | **发送 (Tx)** | **接收 (Rx)** | **行为描述**                                                 |
+   | --------------------------- | ------------- | ------------- | ------------------------------------------------------------ |
+   | **CANIF_OFFLINE**           | ❌ 禁用        | ❌ 禁用        | **默认状态**。该通道的所有 PDU 既不发送也不接收。            |
+   | **CANIF_ONLINE**            | ✅ 启用        | ✅ 启用        | **全功能状态**。报文在总线和上层之间自由流动。               |
+   | **CANIF_TX_OFFLINE**        | ❌ 禁用        | ✅ 启用        | **被动监听模式**。节点可以听到总线上的声音，但自己保持沉默。常用于网络初始化或诊断期间。 |
+   | **CANIF_TX_OFFLINE_ACTIVE** | ⚠️ 模拟        | ✅ 启用        | **模拟发送模式**。CanIf **不**将数据传给驱动，但会向上层回复“发送确认”。这用于欺骗上层协议栈，使其认为发送已成功。 |
+
+2. 关键约束：必须先“通电”
+
+   1. 只有当对应的 CAN 控制器处于 **`CAN_CS_STARTED`** 状态时，才允许更改 PDU 通道模式。
+   2. **逻辑关系**：如果控制器本身都处于 `STOPPED` 或 `SLEEP` 状态（总闸关了），那么调节 PDU 的分路开关是没有意义且不被允许的。
+
+![PDU信道模式控制](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251218143925247.png)
+
+------
+
+1. 静默模式（TX_OFFLINE）：
+
+   当 ECU 处于某些特殊诊断状态或刚上电需要观察总线流量（防止干扰其他节点）时，会将模式设为 CANIF_TX_OFFLINE。
+
+2. 模拟通信（TX_OFFLINE_ACTIVE）：
+
+   在某些测试场景或特定的网络管理（NM）流程中，可能需要维持上层协议栈的状态机运行，但又不希望实际报文干扰总线。此时开启“模拟发送”，上层模块会收到正常的 TxConfirmation，从而维持业务逻辑不报错。
+
+3. 防止“悬挂”请求：
+
+   当模式从 ONLINE 切换到 OFFLINE 时，CanIf 会负责清理该通道关联的所有缓冲区，确保不会有旧数据残留在里面。
+
+- **默认状态**始终是 `OFFLINE`，必须显式切换才能通信。
+- **精细控制**：你可以单独关闭发送路径（TX_OFFLINE），而保持接收能力。
+- **状态查询**：上层可以随时通过 `CanIf_GetPduMode()` 确认当前的通信状态。
+
+##### CANIF_OFFLINE
+
+1. 模式的触发条件
+
+   1. 根据规范，PDU 通道模式往往会随着控制器的状态变化而**自动同步**：
+      - **初始化 **：系统启动时，所有通道默认处于 `CANIF_OFFLINE` 状态。
+      - **进入睡眠**：当调用 `CanIf_SetControllerMode(..., CAN_CS_SLEEP)` 时，通道会自动切换到 `CANIF_OFFLINE`。
+      - **停止或 BusOff**：当控制器进入 `CAN_CS_STOPPED` 或发生 `BusOff` 时，通道会自动切换到 `CANIF_TX_OFFLINE`。
+
+2.  核心模式行为对比表
+
+   | **行为特性**                      | **CANIF_OFFLINE (全离线)** | **CANIF_TX_OFFLINE (发送离线)**   |
+   | --------------------------------- | -------------------------- | --------------------------------- |
+   | **新发送请求 (`CanIf_Transmit`)** | ❌ 拒绝 (返回 `E_NOT_OK`)   | ❌ 拒绝 (返回 `E_NOT_OK`)          |
+   | **发送缓冲区 (Tx Buffer)**        | 🧹 **立即清空**             | 🧹 **立即清空**                    |
+   | **发送确认回调 (TxConfirmation)** | ❌ 屏蔽/拦截                | ❌ 屏蔽/拦截                       |
+   | **接收指示回调 (RxIndication)**   | ❌ 屏蔽/拦截                | ✅ **正常触发** (允许监听)         |
+   | **触发场景**                      | 初始化、睡眠 (Sleep)       | 停止 (Stopped)、总线关闭 (BusOff) |
+
+> 1. 缓冲区的“暴力”清理 :一旦通道切换到 `OFFLINE` 或 `TX_OFFLINE`，CanIf 内部的 Tx 软件缓冲区会**立刻清空**。这防止了当网络恢复正常（回到 `ONLINE`）时，缓冲区中积压的陈旧数据突然“喷涌”而出，干扰总线时序。
+> 2. BusOff 通知的“残留处理”
+>    1. **场景**：如果有些报文在模式切换**之前**已经进入了硬件寄存器（Hardware Object），但还没发出去。
+>    2. **现象**：切换到 `OFFLINE` 后，硬件可能仍会尝试发送这些残留报文。如果发送导致了 `BusOff`。
+>    3. **处理**：CanIf **不会禁止** 这个 `BusOff` 的通知。这意味着上层模块（如 CanSm）依然能收到这个最后的故障信号，从而启动恢复流程。
+> 3. 唤醒通知的独立性：**唤醒通知 (Wake-up Notification)** 不受 PDU 通道模式的影响。即便通道是 `OFFLINE`，只要硬件配置了唤醒监听，唤醒事件依然会正常上报。
+
+- **`CANIF_OFFLINE` 是“全闭口”**：不听也不说，通常用于断电或深度睡眠。
+- **`CANIF_TX_OFFLINE` 是“只听不说”**：用于节点生病（BusOff）或被要求闭嘴（Stopped）时，维持基本的网络监听能力。
+- **自动化管理**：CanIf 通过同步控制器状态和 PDU 状态，确保了即使上层模块没有精细操作每个 PDU，整个通信系统的状态也是安全的。
+
+##### CANIF_ONLINE
+
+当一个逻辑通道（Channel Group）切换到此模式时，通信的所有“闸门”都会打开，允许数据在控制器和上层应用之间自由流动。当物理通道切换到 `CANIF_ONLINE` 时，CanIf 必须执行以下操作：
+
+1. 开启发送转发 (Enable Transmit Forwarding)
+   1. **逻辑：** 允许 `CanIf_Transmit()` 请求通过。
+   2. **行为：** 当上层模块（如 PduR）请求发送数据时，CanIf 不再直接返回错误或拦截，而是将其转发给底层的 **CanDrv**（调用 `Can_Write()`）。
+2. 开启接收通知 (Enable Receive Indication)
+   1. **逻辑：** 允许底层接收到的数据上传给应用层。
+   2. **行为：** 当总线上收到报文并触发 `CanIf_RxIndication()` 时，CanIf 会执行过滤和检查，并最终调用上层配置的 **Rx 回调函数**（如 `PduR_CanIfRxIndication`）。
+3. 开启发送确认通知 (Enable Transmit Confirmation)
+   1. **逻辑：** 允许反馈发送成功的状态。
+   2. **行为：** 当硬件完成报文发送并触发 `CanIf_TxConfirmation()` 时，CanIf 会将此成功信号转发给上层。这对于需要确认机制的协议（如诊断 TP 或网络管理 NM）至关重要。
+
+为了方便理解，我们可以将 `CANIF_ONLINE` 与之前提到的 `OFFLINE` 模式进行对比：
+
+| **功能路径**                    | **CANIF_OFFLINE**       | **CANIF_ONLINE**         |
+| ------------------------------- | ----------------------- | ------------------------ |
+| **发送请求 (`CanIf_Transmit`)** | ❌ 拒绝并返回 `E_NOT_OK` | ✅ **转发至 CanDrv**      |
+| **发送确认 (`TxConfirmation`)** | ❌ 拦截/屏蔽             | ✅ **转发至上层**         |
+| **接收指示 (`RxIndication`)**   | ❌ 拦截/屏蔽             | ✅ **转发至上层**         |
+| **缓冲区状态**                  | 🧹 清空并锁定            | ✅ **启用（如果已配置）** |
+
+> [!tip]
+>
+> ⚠️ 关键提示：从 Offline 恢复到 Online
+>
+> 虽然进入 `CANIF_ONLINE` 会开启所有功能，但有两点需要注意：
+>
+> - **不自动补发**：切换到 `ONLINE` **不会**自动补发之前在 `OFFLINE` 期间被拒绝的报文（因为那些报文在进入 `OFFLINE` 时已经被清空了）。
+> - **前提条件**：正如之前规范提到的，切换到 `ONLINE` 模式的前提是 CAN 控制器必须已经处于 **`CAN_CS_STARTED`** 状态。
+
+
+
+##### CANIF_OFFLINE_ACTIVE
+
+👻 **`CANIF_TX_OFFLINE_ACTIVE` (发送离线激活模式)**：简单来说，这是一种**“虚拟发送”**或**“欺骗”**模式。它让上层模块以为报文发成功了，但实际上物理总线上静悄悄。
+
+1. 什么是“模拟成功传输”？
+   1. 在正常的 `CANIF_ONLINE` 模式下，`TxConfirmation` 必须等到硬件发出报文并收到 ACK 之后，由中断触发。但在 `CANIF_TX_OFFLINE_ACTIVE` 模式下：
+      - 当上层调用 `CanIf_Transmit()` 时，CanIf **不会**把报文发给 `CanDrv`（硬件），也**不会**存入缓冲区。
+      - **立即回调**：CanIf 会在 `CanIf_Transmit()` 函数内部，**立即**调用上层的 `TxConfirmation` 回调函数。
+2. “立即”意味着什么？
+   1. 这改变了 AUTOSAR 典型的异步逻辑。在正常的发送流程中，`CanIf_Transmit` 返回 `E_OK` 后很久才会触发回调；而在本模式下，回调几乎是同步发生的。上层模块必须能够处理这种“刚请求发送就收到确认”的情况。
+
+>  🛠️ 为什么要设计这个模式？（应用场景）
+>
+> 规范中提到了一个核心词：**诊断被动模式 (Diagnosis Passive Mode)**。
+>
+> - **避免总线干扰**：在某些诊断场景下（例如刷新其他 ECU 或执行某些系统测试），当前 ECU 不允许向总线上发送任何报文，以免产生干扰。
+> - **维持状态机运行**：虽然不发报文，但上层协议栈（如 `Com`、`PduR`、`NM`）的状态机可能依赖于 `TxConfirmation` 才能进入下一个状态。
+> - **无感切换**：如果直接使用 `OFFLINE` 模式，上层会因为收不到确认而报错或超时。使用 `TX_OFFLINE_ACTIVE`，上层模块逻辑保持不变（依然能收到确认），实现了“逻辑在线、物理离线”。
+
+| **模式**              | **是否传给硬件 (CanDrv)** | **是否触发 TxConfirmation** | **物理总线表现** |
+| --------------------- | ------------------------- | --------------------------- | ---------------- |
+| **ONLINE**            | ✅ 是                      | ✅ 是（异步，等待硬件反馈）  | 有报文           |
+| **OFFLINE**           | ❌ 否                      | ❌ 否                        | 无报文           |
+| **TX_OFFLINE**        | ❌ 否                      | ❌ 否                        | 无报文           |
+| **TX_OFFLINE_ACTIVE** | ❌ 否                      | ✅ **是（立即模拟触发）**    | **无报文**       |
+
+> [!note]
+>
+> 💡 提示
+>
+> 这个功能是可选的。在配置工具中，必须先将全局参数 **`CanIfTxOfflineActiveSupport`** 设置为 `TRUE`，才能使用 `CanIf_SetPduMode()` 切换进入此状态。
+>
+> 在执行 **UDS 28服务 (Communication Control)** 时，利用这个模式来关闭应用报文但保持网络管理或诊断响应的
+
+CanIf中，可调用 CanIf_SetPduMode 控制某个 CAN 通道上 PDU 的接收和发送，各 CAN通道可分别控制。CanIf支持的Pdu Mode 模式和特征描述如下所示：
+
+| PDU Mode                | 描述                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| CANIF_OFFLINE           | 1. 阻止发送请求，调用 CanIf_Transmit() 时，返回 E_NOT_OK。<br>2. 清除相关通道的发送缓冲区。<br>3. 阻止调用上层的接收指示回调函数。<br>4. 阻止调用上层的发送确认回调函数。 |
+| CANIF_TX_OFFLINE_ACTIVE | 1. 调用的 CanIf_Transmit() 时，返回 E_OK，但是不调用 Can 的发送接口发送报文。<br>2. 调用的 CanIf_Transmit() 时，直接调用上层的发送确认函数。<br>3. 阻止调用上层的接收指示回调函数。 |
+| CANIF_TX_OFFLINE        | 1. 阻止发送请求，调用 CanIf_Transmit() 时，返回 E_NOT_OK。<br>2. 清除相关通道的发送缓冲区。<br>3. 允许调用上层的接收指示回调函数。<br>4. 阻止调用上层的发送确认回调函数。 |
+| CANIF_ONLINE            | 1. 调用 CanIf_Transmit() 时，正常发送报文，返回 E_OK。<br>2. 报文发送成功时，调用上层的发送确认函数。<br>3. 接收到报文时，调用上层的接收指示回调函数。 |
 
 ### 收发器模式
 
@@ -639,7 +1319,60 @@ C --> D[控制器停止: CANIF_CS_STOPPED]
 
 在介绍CanNm模块之前，首先需要搞清楚CanNm模块和NM模块的关系。如下图所示，Nm 模块位于 AUTOSAR 的通信服务层，对上与ComM 交互，对下控制各总线网络管理模块，为 ComM 提供统一的网络管理功能，同时当开启网络协同功能时，协调各总线网络管理模块之间的状态关系。
 
-![NM模板框图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_14_27_20_image-20250727142719861.png)
+```mermaid
+graph TD
+    %% 定义节点
+    subgraph Apps [ ]
+        direction LR
+        App1[App]
+        App2[App]
+        App3[App]
+    end
+
+    ComM[AUTOSAR ComM]
+
+    SM1["&lt;Bus Specific&gt;<br/>State Manager"]
+    SM2["&lt;Bus Specific&gt;<br/>State Manager"]
+
+    Nm["Generic NM Interface<br/>(Nm)"]
+
+    NM_Bus1["&lt;Bus Specific&gt;<br/>NM"]
+    NM_Bus2["&lt;Bus Specific&gt;<br/>NM"]
+
+    BusIF["&lt;Bus Specific&gt;<br/>Interface"]
+
+    %% 定义连接关系
+    App1 & App2 & App3 --- ComM
+    
+    ComM --- SM1
+    ComM --- SM2
+    ComM --- Nm
+
+    Nm --- NM_Bus1
+    Nm --- NM_Bus2
+
+    SM1 --- BusIF
+    SM2 --- BusIF
+    NM_Bus1 --- BusIF
+    NM_Bus2 --- BusIF
+
+    %% 样式设置
+    style Apps fill:none,stroke:none
+    style App1 fill:#A9A9A9,stroke:#333,color:#000,font-weight:bold
+    style App2 fill:#A9A9A9,stroke:#333,color:#000,font-weight:bold
+    style App3 fill:#A9A9A9,stroke:#333,color:#000,font-weight:bold
+    
+    style ComM fill:#4FC3F7,stroke:#333,color:#000,font-weight:bold
+    
+    style SM1 fill:#81C784,stroke:#333,color:#000,font-weight:bold
+    style SM2 fill:#81C784,stroke:#333,color:#000,font-weight:bold
+    
+    style Nm fill:#E1BEE7,stroke:#333,color:#000,font-weight:bold
+    style NM_Bus1 fill:#E1BEE7,stroke:#333,color:#000,font-weight:bold
+    style NM_Bus2 fill:#E1BEE7,stroke:#333,color:#000,font-weight:bold
+    
+    style BusIF fill:#FFD54F,stroke:#333,color:#000,font-weight:bold
+```
 
 CanNm模块其实只是CAN总线上的NM，而LIN, FlexRay也有其对应的NM，大家都大同小异，都实现着一模一样的目的，所以对于CanNm模块和NM模块的关系，说得再简单点，NM模块是一个经理，CanNm模块是真正打工人，那么站在NM之上的ComM模块则是老板了，ComM模块后面会介绍到，这里不多说。这里推荐一篇文章，里面详细的讲述了NM模块的一些基本理论知识：[《一文搞懂AUTOSAR CanNm模块》](https://mp.weixin.qq.com/s/GyGCdNZu3_0E2ZN6KnD-EQ)。
 
@@ -652,252 +1385,329 @@ CanNm 模块主要功能如下：
 5. 向应用层提供网络上节点信息
 6. 降低总线负载机制
 
-### 初始化
+CanNM和其他层的依赖关系为：
 
-如果CanNm模块初始化成功，即：调用函数CanNm_Init成功，则CanNm模块应将网络管理状态设置为总线睡眠模式（Bus-Sleep Mode）。 CanNm模块应该在CanIf初始化之后，并且在任何其他网络管理服务被调用之前，进行初始化。CanNm_Init函数应通过传递的配置指针参数选择活动配置集。如果CanNmGlobalPnSupport设置为TRUE，并且CanNm已被初始化（调用CanNm_Init），则CanNm需停止NM消息传输超时计时器（NM Message Tx Timeout Timer）。在初始化期间，CanNm模块应停用总线，减少总线负载。初始化后，CanNm模块应通过停止消息周期定时器（Message Cycle Timer）来停止网络管理PDU的传输。
+![CANNM与其他模块的依赖关系](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251218195335863.png)
 
-### 模式切换
+ **CanNm (CAN Network Management)** 的核心原理是基于一种**去中心化（Decentralized）**的直接网络管理策略，即每个节点只根据总线上接收或发送的 NM PDU（网络管理报文）来独立决定自己的状态。
 
- CanNm 模块的状态切换是被动的，根据自身控制器和网络的当前状态来调用相关接口发起 CanNm 模块状态切换，模块状态切换后会调用上层 NM 模块提供的回调接口以通知应用层。NM有三种模式模式：
+1. 核心机制：周期性 NM PDU 与“保持唤醒”，CanNm 的运行逻辑可以类比为一种“心跳”机制：
+   1. **广播通信**：每个节点周期性地向网络发送 NM PDU。
 
-1. 网络模式(`Network Mode `,NM)
-2. 准备总线睡眠模式(`Prepare Bus-Sleep Mode `,PBSM)
-3. 总线睡眠模式(`Bus-Sleep Mode`,BSM)
+   2. **保持唤醒信号**：只要一个节点接收到来自其他任何节点的 NM PDU，就意味着集群中仍有节点需要通信。
+   3. **节点的独立性**：节点不需要知道集群中有多少个节点，也不需要主从节点（Master/Slave）的概念。它只关心“总线上是否还有人在说话”。
+2. 进入 Bus-Sleep Mode 的逻辑：从正常运行到进入休眠，必须经过严格的计时逻辑，以确保整个网络同步关闭：
+   1. **主动释放**：当节点本身不再需要通信时，它会停止发送自己的 NM PDU。
+   2. **被动等待**：即使停止了发送，节点仍必须监听总线。只要收到别人的 NM PDU，就必须维持唤醒状态。
+   3. **计时触发**：只有当总线上没有任何 NM PDU 出现，且经过了以下两个时间段的累加后，节点才会进入 Bus-Sleep Mode：
+      - **CanNmTimeoutTime**：检测不到 NM PDU 的超时时间。
+      - **CanNmWaitBusSleepTime**：进入休眠前的准备/等待时间（用于确保所有节点都已准备就绪）。
+3. 核心需求：
+   1. 发送准则：只要节点需要总线通信，就必须发送周期性的 NM PDU；不需要时，必须停止发送。
+   2. 休眠准则：如果没有外部报文且自身已释放，经过 Timeout + WaitBusSleep 时间后，必须切换至 Bus-Sleep。
+4. CanNm 状态机概览
+   1. CanNm 的状态机是理解其行为的关键。一个节点通常在以下主要状态间切换：
 
-NM模式切换图如下：
+      - **Bus-Sleep Mode**：网络完全静默，控制器可能处于低功耗模式。
+      - **Network Mode**：包含以下子状态：
+        - **Repeat Message State**：节点刚启动或检测到唤醒时进入，确保所有节点都能看到彼此。
+        - **Normal Operation State**：节点正常发送和接收 NM PDU。
+        - **Ready Sleep State**：节点自身已准备好休眠，但仍在监听总线上其他节点的报文。
+      - **Prepare Bus-Sleep Mode**：总线活动已停止，节点正在等待进入物理休眠。
 
-![NM模式切换](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/27_14_54_18_%E6%9A%82%E5%AD%98.png)
 
-#### 网络模式
+CanNm 的精髓在于其**自发性**：
 
+1. **唤醒**：任何节点发送 NM PDU 都能拉起整个集群。
+2. **维持**：只要有人发，大家都不能睡。
+3. **关闭**：只有当所有人都不发且计时结束，大家才整齐划一地睡去。
 
+这种设计具有极高的鲁棒性，因为任何一个节点的故障（只要不乱发报文）都不会阻止其他节点进入休眠或保持唤醒。
 
-**网络模式（Network Mode）** 包含三种内部状态：
+### 操作模式
 
-1. 重复报文状态（Repeat Message State, RMS）
-2. 正常操作状态（Normal Operation State, NOS）
-3. 准备睡眠状态（Ready Sleep State, RSS)
+操作模式转换图如下：
 
-这些状态的转换由网络管理报文（NM PDU）的收发、定时器超时以及应用层请求触发，具体转换逻辑如下：
+![CanNM的操作模式转换](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260105085004416.png)
 
----
+#### Network Mode
 
-重复报文状态（RMS）
+网络模式是 CanNm 状态机中最活跃的部分，其核心职责是通过发送和接收 NM PDU 来维持集群的唤醒状态。网络模式包含三个核心子状态，它们决定了节点是主动“发言”还是被动“监听”：
 
-- 触发进入条件：
+- **Repeat Message State (重复消息状态)**：通常是进入网络模式的第一站，确保节点在线。
+- **Normal Operation State (常规运行状态)**：应用层需要通信时保持心跳的状态。
+- **Ready Sleep State (准备休眠状态)**：自身已释放通信，等待其他节点关闭。
 
-  1. 主动唤醒：ECU因本地唤醒（如点火信号）或主动请求通信时，进入RMS并启动`T_Repeat_Message`定时器，快速发送NM报文以唤醒其他节点
-  2. 被动唤醒：ECU被总线上的NM报文唤醒后，需短暂进入RMS发送几帧NM报文，通知其他节点自身已唤醒。
+1. ⏱️ NM-Timeout Timer：网络存活的“呼吸灯”，在网络模式中，所有的活动都围绕着 **NM-Timeout Timer** 展开。
+   - **启动与重置**：
+     - **进入模式**：一旦从休眠或准备休眠进入网络模式，计时器立即启动。
+     - **发送确认**：每成功发出一个 NM PDU，计时器重置。
+     - **成功接收**：只要收到总线上其他节点的 NM PDU，计时器重置。
+   - **重要意义**：只要计时器在不断重置（因为收到了或发送了报文），节点就会留在网络模式。如果计时器归零，说明总线已经静默，节点将尝试滑向休眠状态。
+2. 🔄 进入网络模式的默认路径
+   - **默认入口** ：无论是从 Bus-Sleep（冷启动）还是 Prepare Bus-Sleep（唤醒重连）进入网络模式，默认都必须先进入 Repeat Message State，这确保了该节点的存在能够被网络上其他所有节点检测到。
+   - **上层通知**：进入模式时，CanNm 必须通过回调 `Nm_NetworkMode` 通知 `Nm` 模块。
+3. 🧬 部分网络 (Partial Networking) 的动态映射
+   - PN Learning (PN 学习请求)：当系统需要重新映射 PNC 与通道的关系时，会触发学习请求。
+   - 强制跳转：如果收到或发起了 PN 学习请求，CanNm 必须在 CBV (Control Bit Vector) 字节中设置 Repeat Message Bit 和 Partial Network Learning Bit 为 1，并强制重新进入（Restart） Repeat Message 状态。
+   - **意义**：这通过强制所有相关节点进入重复消息阶段，确保新的网络配置信息能被快速广播并同步。
+4. 🚫 逻辑约束
+   - 被动启动限制：如果节点已经在 Network Mode 运行，此时调用 CanNm_PassiveStartUp（通常用于被动唤醒）是非法的，函数会返回 E_NOT_OK。因为节点已经在线，不需要再执行“启动”逻辑。
 
-- 退出条件：
+##### Repeat Message State
 
-  - T_Repeat_Message超时后：
+**Repeat Message State（重复消息状态）** 是网络管理的“声明阶段”，确保节点在进入网络时不仅能被其他节点发现，还能在总线上保持足够的活跃时间。
 
-    - 若存在**主动请求**（如应用层调用`CanNm_NetworkRequest`），则跳转到**NOS**。
+1. 📡 Repeat Message State 的核心作用
 
-    - 若无请求，则跳转到RSS
+   1. **可见性（Visibility）**：确保从休眠（Bus-Sleep）或准备休眠（Prepare Bus-Sleep）转换过来的节点能通过发送 NM PDU 让全网感知。
+   2. **节点检测（Node Detection）**：通过保持一段时间的活跃，方便诊断工具或主节点识别当前总线上有哪些节点在线。
+   3. **最小活跃时间**：强制节点至少运行 `CanNmRepeatMessageTime` 这么久，防止网络频繁地在唤醒和休眠之间剧烈抖动。
 
-  - 强制跳转：若收到NM报文的控制位向量（CBV）中`Repeat Message Request Bit`（Bit 0）置1，则重新进入RMS。
+2. 🛠️ 关键行为与需求解析
 
----
+   1. **报文发送** ：一旦进入此状态，CanNm 必须开始（或重新开始）发送周期性的 NM PDU。这是“我已上线”的物理宣告。
 
-正常操作状态（NOS）
+      > 注意：如果配置为被动模式（Passive Mode）或通信被禁用，则不发送。
 
-- 触发进入条件：
-  1. 从RMS跳转：`T_Repeat_Message`超时且存在主动请求。
-  2. 从RSS跳转：ECU在RSS状态下收到主动请求（如重新需要通信）。
-- 行为：
-  - 周期性发送NM报文（周期为`CanNmMsgCycleTime`），保持网络活跃。
-  - 重置`T_NM_Timeout`定时器以监听总线活动。
-- 退出条件：
-  - **释放网络**：应用层调用`CanNm_NetworkRelease`时，跳转到**RSS**。
-  - 收到重复请求：若NM报文的`Repeat Message Request Bit`置1，则强制返回RMS。
+   2. **定时器与超时处理**:在 Repeat Message 状态下，如果 `NM-Timeout Timer` 到期：
 
----
+      - **不会导致休眠**：CanNm 会立即**重启**该计时器。
 
-准备睡眠状态（RSS）
+      - **错误报告**：它会向 DET 报告 `CANNM_E_NETWORK_TIMEOUT`。
 
-- 触发进入条件：
-  1. 从RMS跳转：`T_Repeat_Message`超时且无主动请求。
-  2. 从NOS跳转：应用层释放网络（`CanNm_NetworkRelease`）。
-- 行为：
-  - 停止发送NM报文，但继续接收NM报文和应用报文。
-  - 启动`T_NM_Timeout`定时器，若超时且未收到NM报文，则跳转到预睡眠模式（PBSM）。
-- 退出条件：
-  - **重新请求通信**：调用`CanNm_NetworkRequest`跳转到**NOS**。
-  - 收到重复请求：NM报文的`Repeat Message Request Bit`置1时，返回RMS。
+      - **逻辑意义**：这说明在 Repeat Message 期间，节点没能从总线上收到任何 NM PDU（包括自己发出的确认），暗示总线可能存在硬件故障或只有自己一个节点。
 
----
+   3. **状态退出与去向**:该状态的停留时间固定由配置参数 **`CanNmRepeatMessageTime`** 决定。时间一到，节点根据自身的“网络请求状态”决定去向：
+      - **进入 Normal Operation**：如果应用层还需要通信（Network Requested）。
+      - **进入 Ready Sleep**：如果应用层已经释放了请求（Network Released）。
 
-状态转换图与关键参数
+3. 🏁 离开状态时的清理工作
 
-1. 定时器作用：
-   - `T_Repeat_Message`：控制RMS状态的持续时间（通常较短，如100ms）。
-   - `T_NM_Timeout`：检测总线是否空闲（超时后触发休眠流程）。
-2. 控制位向量（CBV）：
-   - Bit 0（重复请求位）和Bit 4（主动唤醒位）直接影响状态跳转。
-3. 应用层接口：
-   - `CanNm_NetworkRequest`和`CanNm_NetworkRelease`是触发NOS与RSS切换的核心API。
+   1. 当计时结束准备退出 Repeat Message State 时，CanIf 需要清理控制位向量（CBV）中的相关标志：
+      - **Repeat Message Bit **：如果启用了节点检测，将此位清零。
+      - **Partial Network Learning Bit **：如果启用了动态 PNC 映射，将学习位清零。
+
+4. 🚫 禁止操作
+
+   如果在 **Repeat Message State**、**Prepare Bus-Sleep** 或 **Bus-Sleep** 期间调用 `CanNm_RepeatMessageRequest`：
+
+   - **结果**：函数直接返回 `E_NOT_OK`。
+   - **原因**：在这些状态下，系统要么已经在执行重复消息逻辑，要么正处于不可触发该请求的状态。该 API 通常只在 `Normal Operation` 或 `Ready Sleep` 状态下使用，用于强制所有节点重新进入 Repeat Message 阶段。
+
+##### Normal Operation State
+
 
-```mermaid
-stateDiagram-v2
-    [*] --> BSM: 初始休眠
-    BSM --> RMS: 唤醒事件
-    RMS --> NOS: 有通信需求
-    RMS --> RSS: 无需求
-    NOS --> RSS: 释放网络
-    RSS --> NOS: 重新请求
-    RSS --> BSM: 超时无活动
-    NOS --> RMS: 收到重复请求
-```
+
+ **Normal Operation State（常规运行状态）** 是 CanNm 的核心业务状态：只要应用层（通过 ComM）请求了网络，节点就会留在此状态发送“心跳”，确保整个网络不掉线。
 
----
+1. 🚀 Normal Operation State 的核心职责
+   1. **主动保活**：只要本地 ECU 需要使用总线（Network Requested），它就通过周期性发送 NM PDU 来阻止其他节点进入休眠。
+   2. **双向通信**：既发送自己的 NM PDU，也监听别人的 NM PDU。
+2. 🛠️ 关键行为与需求解析
+   1. 恢复发送：如果节点是从 **Ready Sleep**（只听不发）返回到 **Normal Operation**（又听又发）：
+      1. **动作**：CanNm 必须立刻重新开启 NM PDU 的周期性发送。
+      2. **意义**：这通常发生在 ECU 本来准备睡觉，但突然应用层又要发数据的情况。
+   2. 定时器异常处理 ：在 Normal Operation 状态下，理想情况是不断收到自己发送成功的确认或别人的报文来重置 `NM-Timeout Timer`。
+      - **异常**：如果该计时器到期，说明总线上完全没有通信反馈。
+      - **处理**：CanNm 会重启计时器并向 DET 报告 `CANNM_E_NETWORK_TIMEOUT`。
+      - **注意**：这**不会**导致状态跳转，节点会倔强地继续尝试在 Normal Operation 状态发送。
+   3. 释放网络
+      1. **触发**：当上层 ComM 调用 `Nm_NetworkRelease`，表明应用层不再需要总线。
+      2. **动作**：节点从 Normal Operation 跳转到 **Ready Sleep State**。
+      3. **结果**：节点停止发送报文，但开始等待全网静默。
+   4. 强制重入重复消息状态：如果启用了 **节点检测（Node Detection）**：
+      - **外部触发**：收到其他节点发来的 NM PDU，且其 CBV（控制位向量）中的 `Repeat Message Request Bit` 位为 1。
+      - **内部触发**：本地软件调用了 `CanNm_RepeatMessageRequest()`。
+      - **动作**：节点必须立即跳回 **Repeat Message State**，并在发送的报文中将 `Repeat Message Bit` 置 1。
+      - **意义**：这用于同步全网节点，让大家一起进入“点名模式”，方便相互识别。
+
+>  [!note]
+>
+> 💡 深入思考
+>
+> 在 Normal Operation 状态下，发送周期由 `CanNmMsgCycleTime` 决定。如果在这个状态下发生 **Bus-Off**，CanNm 的状态机本身不会直接崩溃，但由于无法成功发送（收不到 TxConfirmation），`NM-Timeout Timer` 可能会频繁到期并触发 DET 报错。
+
+##### Ready Sleep State
+
+ **Ready Sleep State（就绪休眠状态）**是网络管理中实现“同步关机”的关键环节。在这个状态下，本节点已经不想“说话”了，但它必须留下来陪着总线上其他还在“说话”的节点，直到全场静默。
+
+1. 🤫 Ready Sleep State 的核心逻辑
+
+   这个状态可以形象地理解为：**“我已经准备好睡觉了，但我得等最后一个人关灯。”**
+
+2. 停止主动发言
+
+   1. **行为**：一旦从 Repeat Message 或 Normal Operation 进入此状态，CanNm 必须**停止发送** NM PDU。
+   2. **目的**：通过停止自己的心跳，告诉网络其他节点“我已经不再请求网络了”。
+   3. **例外**：如果涉及部分网络（Partial Networking），为了确保同步关闭，可能仍会发送特殊的 PN 关闭报文。
+
+3. 监听与计时 
+
+   - **关键动作**：节点虽然不发报文，但仍在接收总线上的 NM PDU。
+   - **重置计时**：每当收到总线上其他节点发来的 NM PDU，`NM-Timeout Timer` 就会重置。
+   - **跳转条件**：只有当 `NM-Timeout Timer` **彻底耗尽（Expire）**，意味着在配置的时间内总线上没有任何节点发声了，本节点才会进入 **Prepare Bus-Sleep Mode**。
+
+4. 🔄 状态的逆转与中断
+
+   1. 即使处于准备睡觉的状态，节点也可以被随时拉回活跃状态：
+      - 应用层反悔：如果在 Ready Sleep 期间，本地应用层（ComM）突然又请求了网络，节点会立即跳回 Normal Operation State 并重新开始发送报文。
+      - 被要求“点名” ：如果启用了节点检测，且收到了带有 Repeat Message Bit 的报文，或者本地触发了 CanNm_RepeatMessageRequest，节点必须跳回 Repeat Message State。
+
+5. 📊 状态行为对比
+
+   | **维度**             | **Normal Operation**  | **Ready Sleep**              |
+   | -------------------- | --------------------- | ---------------------------- |
+   | **发送 NM PDU**      | ✅ 周期性发送          | ❌ 停止发送                   |
+   | **接收 NM PDU**      | ✅ 接收并重置计时器    | ✅ 接收并重置计时器           |
+   | **超时后果**         | 报 DET 错误，保持原状 | **跳转至 Prepare Bus-Sleep** |
+   | **本地网络请求状态** | Requested (需要总线)  | Released (释放总线)          |
+
+#### Prepare Bus-Sleep Mode
+
+**Prepare Bus-Sleep Mode（准备总线休眠模式）**。如果说 `Ready Sleep` 是在等别人关灯，那么 `Prepare Bus-Sleep` 就是**“最后一次扫除”**——确保所有节点的缓存都清空，总线彻底静默。
+
+1. 🧹 Prepare Bus-Sleep Mode 的核心目的
+   1. 在进入物理休眠（Bus-Sleep）之前，必须给硬件驱动和收发器留出一点时间来处理尾声工作：
+      1. **平息总线活动**：确保队列中积压的普通应用报文（Application PDUs）全部发出，让所有 Tx-buffers 变为空。
+      2. **软着陆**：防止 ECU 还没发完报文就突然断电或进入休眠导致错误。
+2. 🛠️ 关键行为与需求解析
+   1. 通知与计时 
+      1. **通知上层**：进入该模式时，通过 `Nm_PrepareBusSleepMode` 回调通知上层（通常是 `ComM` 或 `CanSm`）。
+      2. **停留时间**：由参数 **`CanNmWaitBusSleepTime`** 决定。
+      3. **无限停留模式**：如果配置了 `CanNmStayInPbsEnabled = TRUE`，节点将永远停留在此模式而不会进入 Bus-Sleep。这常用于某些需要保持控制器供电但不通信的特殊测试或特定 ECU 电源策略。
+   2. 紧急唤醒与重返 :即使是在“清扫阶段”，节点也可以被随时拉回：
+      1. **外部唤醒**：只要在总线上收到了 NM PDU，说明其他节点还没睡，必须立刻返回 **Network Mode**（进入 Repeat Message 状态）。
+      2. **内部请求**：本地应用层突然请求网络，同样跳回 **Network Mode**。
+   3. 立即重启机制 :这是为了应对一个**竞争风险**：
+      1. **场景**：当本节点在 Prepare Bus-Sleep 模式下收到请求准备重回网络时，**其他节点可能还在 Prepare Bus-Sleep 模式中**，并且很快就要滑入真正的休眠了。
+      2. **策略**：如果开启了 `CanNmImmediateRestartEnabled`，节点在切换到 Network Mode 的瞬间会**立即**发送一条 NM PDU。
+      3. **意义**：NM PDU 通常有发送偏移（Offset），如果等周期发送可能太慢了。通过立即发送，可以“大喊一声”叫醒那些正准备睡觉的其他节点，防止网络意外中断。
+3. 📋 模式对比：Ready Sleep vs. Prepare Bus-Sleep
 
-示例场景
+| **特性**        | **Ready Sleep**             | **Prepare Bus-Sleep**   |
+| --------------- | --------------------------- | ----------------------- |
+| **计时器**      | `NM-Timeout Timer`          | `CanNmWaitBusSleepTime` |
+| **总线活动**    | 可能还有其他节点在发报文    | 理论上总线已经静默      |
+| **主要动作**    | 监听并重置计时器            | 等待缓冲区清空          |
+| **收到 NM PDU** | 留在 Ready Sleep (重置计时) | **跳回 Network Mode**   |
 
-- 车辆启动时：
-  1. ECU被点火信号（本地唤醒）触发，进入**RMS**，快速发送NM报文唤醒其他节点。
-  2. `T_Repeat_Message`超时后，因有通信需求，跳转到**NOS**，维持周期性通信。
-- 车辆熄火后：
-  1. 应用层释放网络，ECU从**NOS**跳转到**RSS**，停止发送NM报文。
-  2. `T_NM_Timeout`超时后，进入PBSM，最终休眠。
+`Prepare Bus-Sleep` 是进入休眠前的**“安全检查站”**。它确保了：
 
-#### 准备总线睡眠模式
+1. 通信是**优雅地停止**而非骤停。
+2. 只要网络有变，能以**最快速度（Immediate Tx）**恢复通信。
 
-在AUTOSAR CAN网络管理中，**准备总线睡眠模式（Prepare Bus-Sleep Mode, PBSM）**是网络从活跃状态（Network Mode）过渡到完全休眠状态（Bus-Sleep Mode）的中间状态，其核心作用是协调节点间的同步休眠，避免因通信中断导致的数据丢失或系统冲突。
+#### Bus-Sleep Mode
 
----
 
- 功能定义：
 
-- 目的：确保所有节点在进入低功耗的Bus-Sleep Mode前完成必要的清理操作（如停止应用报文发送、保存临时数据），并同步确认无其他节点需要通信。
-- 触发条件：
-  - 节点从`Network Mode`的**Ready Sleep State (RSS)**退出后，若`T_NM_Timeout`定时器超时且未收到任何网络管理报文（NM PDU），则进入PBSM。
-  - 部分配置下，需满足`CanNmWaitBusSleepTime`参数定义的额外等待时间。
+**Bus-Sleep Mode（总线休眠模式）**是网络管理的终点，也是 ECU 节能的核心阶段。在此模式下，节点不仅停止了所有通信，还开启了“监听唤醒”的低功耗监控逻辑。
 
----
+1. 🔋 Bus-Sleep Mode 的核心目的与行为
+   1. **节能降耗**：CAN 控制器切换到 Sleep 状态，硬件唤醒机制（如收发器的 WUP 检测）被激活，ECU 功耗降至最低。
+   2. **全网同步休眠**：
+      - **计算公式**：进入休眠的总时间 = $CanNmTimeoutTime + CanNmWaitBusSleepTime$。
+      - **同步性**：如果全网节点配置了相同的这两个参数，理论上它们会**几乎同时**进入休眠。
+      - **抖动（Jitter）因素**：实际上受晶振漂移（Drift）、任务周期（Task Cycle）以及发送确认延迟的影响，各节点进入休眠的时间点会有微小差异。
+2. 🚨 唤醒逻辑：为什么不自动跳转？
+   1. 这是一个非常关键的设计点 ：如果在 Bus-Sleep 模式下收到了 NM PDU（由于硬件可能已部分唤醒或正在启动），CanNm 不会直接跳回 Network Mode。
+      - **处理方式**：它仅调用回调函数 `Nm_NetworkStartIndication` 通知上层。
+      - **设计初衷（Rationale）**：
+        - 为了防止**竞态条件（Race Conditions）**。
+        - 唤醒决策权属于上层模块（如 `EcuM` 或 `ComM`）。上层需要判断当前 ECU 是正在执行关机序列还是刚准备启动，从而决定是否允许网络层重新激活。
+      - **异常记录 **：在休眠状态下收到报文会被视为一种异常指示，会向 DET 报告 `CANNM_E_NET_START_IND`。
+3. 🔄 离开休眠模式的路径:离开 Bus-Sleep 进入 Network Mode（默认进入 Repeat Message 状态）只有两种合规途径：
+   1. 被动启动 
+      - **触发**：上层调用 `CanNm_PassiveStartUp`。
+      - **含义**：这通常意味着 ECU 检测到了外部唤醒源（如总线上的 NM 报文），上层决定响应该请求并启动网络管理。
+   2. 主动请求
+      - **触发**：本地应用层（ComM）请求网络（Network Requested）。
+      - **含义**：ECU 自身需要发送数据，因此主动唤醒并请求进入网络。
+4. 📝 CanNm 状态切换总结表
 
-行为特性:
+| **模式**              | **控制器状态** | **报文发送** | **接收处理**              | **跳转至下一步的触发点**     |
+| --------------------- | -------------- | ------------ | ------------------------- | ---------------------------- |
+| **Network**           | `STARTED`      | ✅ 周期发送   | ✅ 重置 $NM-Timeout$       | 本地释放且 $NM-Timeout$ 到期 |
+| **Prepare Bus-Sleep** | `STARTED`      | ❌ 停止发送   | ✅ 收到报文则跳回 Network  | $WaitBusSleepTime$ 到期      |
+| **Bus-Sleep**         | `SLEEP`        | ❌ 彻底静默   | 🔔 仅通知上层 (Indication) | 收到请求或被动启动 API 调用  |
 
-- 通信限制：
-  - 禁止发送NM报文：节点停止发送网络管理报文，仅监听总线上的NM PDU。
-  - 允许完成未发送的应用报文：已缓存的APP报文可继续发送，但新生成的APP报文会被阻塞。
-- 定时器机制：
-  - 启动`T_WaitBusSleep`定时器（可配置），若超时前未收到其他节点的NM PDU，则跳转到Bus-Sleep Mode；若收到NM PDU，则返回Network Mode的Repeat Message State (RMS)。
+### 相关参数
 
----
+#### 时间参数
 
-状态转换逻辑
+| **计时参数**                | **功能描述**                                                 | **核心作用**                                   |
+| --------------------------- | ------------------------------------------------------------ | ---------------------------------------------- |
+| **CanNmTimeoutTime**        | **NM 超时时间**。在该时间内如果没有收到或发出 NM PDU，则认为总线已静默。 | 判定总线上是否还有其他活跃节点。               |
+| **CanNmRepeatMessageTime**  | **重复消息时间**。节点处于 `Repeat Message State` 的固定持续时间。 | 确保节点上线后有足够的曝光时间，用于节点发现。 |
+| **CanNmWaitBusSleepTime**   | **等待总线休眠时间**。从检测到总线静默到进入物理休眠之间的缓冲时间。 | 确保所有节点清空缓冲区，实现“软着陆”同步休眠。 |
+| **CanNmRemoteSleepIndTime** | **远端休眠指示时间**。如果在该时间内没收到某节点的 NM 报文，则认为该远端节点已准备休眠。 | 用于检测网络中其他节点是否已经释放了网络请求。 |
 
-1. 进入PBSM：
-   - 从`Ready Sleep State`超时触发，或由网关节点通过协调算法强制触发（如同步关闭部分网络集群PNC）。
-2. 退出PBSM：
-   - 成功休眠：`T_WaitBusSleep`超时后，节点关闭收发器，进入Bus-Sleep Mode。
-   - 重新唤醒：若在PBSM期间检测到NM PDU或本地唤醒请求（如KL15信号），则立即返回Network Mode。
+通过过程可以清晰地看到这些时间参数如何驱动状态机的跳转：
 
----
+1. **启动阶段**：进入网络模式后，强制停留 `CanNmRepeatMessageTime` 时长。
+2. **运行阶段**：每次收到或发送 NM PDU，内部的 `NM-Timeout Timer` 就会被重置为 `CanNmTimeoutTime`。
+3. **准备阶段**：当 `NM-Timeout Timer` 减到 0 时，说明总线静默，进入 `Prepare Bus-Sleep`，启动 `CanNmWaitBusSleepTime` 计时。
+4. **休眠阶段**：`WaitBusSleep` 计时结束，进入 `Bus-Sleep`。
 
-应用场景示例
+> [!note] 
+>
+> 🔍 什么是 Remote Sleep Indication (远端休眠指示)?
+>
+> 这是一个经常被误解的参数。
+>
+> - **逻辑**：如果一个节点在 `CanNmRemoteSleepIndTime` 时间内没有收到任何其他节点的 NM 报文，它会向应用层发送一个“远端休眠指示”通知。
+> - **应用**：这并不直接导致状态跳转，但它可以告诉应用层（通过 `Nm_RemoteSleepIndication` 回调）：“目前总线上似乎只有我一个人想保持唤醒了，其他人可能都已经释放了请求。”
 
-- 整车熄火流程：
-  1. ECU应用层释放通信权限，进入Ready Sleep State。
-  2. 总线无活动超时后，ECU转入PBSM，停止NM报文发送。
-  3. 若所有节点均进入PBSM且无通信需求，最终同步休眠。
-- 异常恢复：若某个节点在PBSM阶段因故障持续发送NM PDU，其他节点会检测到该报文并维持Network Mode，避免误休眠。
 
----
 
-与相关模式的对比
+⚠️ 配置一致性要求
 
-| **模式**              | 通信行为                     | 功耗水平       | 典型触发条件                   |
-| --------------------- | ---------------------------- | -------------- | ------------------------------ |
-| **Network Mode**      | NM和APP报文正常收发          | 高             | 唤醒事件或通信请求             |
-| **Prepare Bus-Sleep** | 仅接收NM报文，停止发送       | 中（过渡状态） | `T_NM_Timeout`超时             |
-| **Bus-Sleep Mode**    | 完全停止通信，仅支持硬件唤醒 | 极低           | `T_WaitBusSleep`超时或协调完成 |
+为了保证全网同步，通常要求同一个 CAN 网络（NM Cluster）中所有节点的以下两个参数**必须完全一致**：
 
-#### 总线睡眠模式
+- **CanNmTimeoutTime**
+- **CanNmWaitBusSleepTime**
 
-在AUTOSAR CAN网络管理中，**总线睡眠模式（Bus-Sleep Mode, BSM）** 是网络节点在无通信需求时进入的低功耗状态，其核心目的是通过关闭通信功能降低静态电流消耗，同时保留唤醒能力以响应后续请求。
+如果配置不一致，会导致某些节点过早进入休眠（产生“僵尸节点”）或某些节点迟迟不肯休眠，从而导致蓄电池耗尽。
 
----
 
- 功能定义
 
-- 核心作用：当所有节点无通信需求时，协调全网同步进入低功耗状态，典型静态电流可降至毫安级（如大众车型中舒适CAN总线休眠后整车电流仅6mA）。
-- 触发条件：
-  - 节点从准备总线睡眠模式（Prepare Bus-Sleep Mode, PBSM）过渡而来，且`T_WaitBusSleep`定时器超时后确认无NM报文活动。
-  - 部分配置需满足`CanNmWaitBusSleepTime`参数定义的额外等待时间。
+#### PDU格式
 
----
+通过**控制位向量 (CBV)** ，网络中的 ECU 可以交换关键信息，如：谁发出的报文、是否请求重启计时、以及哪些“部分网络”需要激活。
 
-行为特性
-
-- 通信限制：
-  - 完全停止NM报文和应用报文（APP报文）的收发，仅支持硬件唤醒（如总线显性电平或本地唤醒信号）。
-  - 收发器切换至低功耗模式（如TJA1145的Sleep模式，INH引脚悬空以关闭外部电源）。
-- 唤醒机制：
-  - 远程唤醒：通过总线上的NM报文触发（如特定ID的唤醒帧）。
-  - 本地唤醒：KL15信号、硬线电平或传感器事件（如车门解锁）。
-
----
-
-状态转换逻辑
-
-1. 进入流程：
-   - 节点从Network Mode经Ready Sleep State (RSS)进入Prepare Bus-Sleep Mode，超时后最终跳转至BSM。
-   - 网关节点可能通过同步关闭部分网络集群（PNC）协调全网休眠。
-2. 退出流程：
-   - 唤醒事件触发后，节点直接进入Repeat Message State (RMS)，快速同步网络状态。
-
----
-
- 应用场景与优化
-
-- 整车场景：
-
-  - 车辆熄火后，舒适CAN总线通常在15分钟内进入BSM，2小时后进一步降低至控制单元深度休眠（如关闭MCU供电）。
-  - 若休眠失败（如OBD设备持续通信），可能导致蓄电池亏电。
-
-- 功耗对比：
-
-  | **模式**           | 典型电流消耗 | 通信能力       |
-  | ------------------ | ------------ | -------------- |
-  | **Network Mode**   | 800mA+       | 全双工通信     |
-  | **Bus-Sleep Mode** | <10mA        | 仅支持唤醒检测 |
-
----
-
- 与其他模块的协同
-
-- 与收发器联动：
-  - BSM下，收发器（如TJA1145）进入Sleep模式，仅VBAT引脚维持微安级供电。
-- 与电源管理：
-  - INH引脚拉低后关闭外部稳压器，MCU完全断电（KL30节点）。
-
-### PDU格式
-
-网络管理的报文有特定的格式要求，报文数据段格式如图：
-
-
+📦 NM PDU 的结构布局为：
 
 | 字节序列 | 数据描述               |
 | -------- | ---------------------- |
-| Byte 7   | User data 5            |
-| Byte 6   | User data 4            |
-| Byte 5   | User data 3            |
-| Byte 4   | User data 2            |
+| Byte 7   | PNC data 3             |
+| Byte 6   | PNC data 2             |
+| Byte 5   | PNC data 1             |
+| Byte 4   | PNC data 0             |
 | Byte 3   | User data 1            |
 | Byte 2   | User data 0            |
 | Byte 1   | Control Bit Vector     |
 | Byte 0   | Source Node Identifier |
 
-其中 CBV（ControlBitVector）字节对应的 bit 位标识如下：
+1. 系统字节 (System Bytes)
+   1. **SNI (Source Node Identifier) **: 发送节点的 ID。位置可配置在 Byte 0、Byte 1 或关闭（Off）。如果关闭，该字节可腾给用户数据。
+   2. **CBV (Control Bit Vector) **: 控制位向量。位置同样可配置在 Byte 0、Byte 1 或关闭。
+2. 部分网络向量 (PNC Bit Vector)
+   1. 如果开启了 **Partial Networking (PN)**，报文中会包含 PNC 位向量。它的起始位置（Offset）和长度（Length）都是可调的。
+3. 用户数据 (User Data)
+   1. 除去系统字节和 PNC 向量后，剩余的字节统称为用户数据。
+   2. **布局规则**：用户数据必须是连续的，通常位于系统字节之后、PNC 向量之前，或者 PNC 向量之后直到报文末尾。
 
+🕹️ 控制位向量 (CBV) 位定义:CBV 是 NM PDU 的“指挥中心”，每一位（Bit）都承载特定的控制逻辑：
 
-
-| Bit7 | Bit6    | Bit5 | Bit4              | Bit3                       | Bit 2                                 | Bit1                                 | Bit0                   |
-| ---- | ------- | ---- | ----------------- | -------------------------- | ------------------------------------- | ------------------------------------ | ---------------------- |
-| Res  | PNI Bit | Res  | Active Wakeup Bit | NM Coordinator Sleep Ready | Res R3.2 NM Coordinator ID (High Bit) | Res R3.2 NM Coordinator ID (Low Bit) | Repeat Message Request |
+| **位 (Bit)** | **名称**                   | **描述**                                                    |
+| ------------ | -------------------------- | ----------------------------------------------------------- |
+| **Bit 0**    | **Repeat Message Request** | **1**: 请求全网进入重复消息状态（点名模式）。               |
+| **Bit 1**    | **PN Shutdown Request**    | **1**: 包含同步的部分网络关闭请求。                         |
+| **Bit 3**    | **NM Coordinator Sleep**   | **1**: 协调器请求开始同步关机。                             |
+| **Bit 4**    | **Active Wakeup Bit**      | **1**: 本节点是主动唤醒者（即因为自己需要通信而唤醒总线）。 |
+| **Bit 5**    | **PN Learning Bit**        | **1**: 请求进行部分网络学习/映射。                          |
+| **Bit 6**    | **PN Information Bit**     | **1**: 表示报文中包含有效的 PNC 激活信息。                  |
+| **Bit 7**    | **Res**                    | 保留                                                        |
 
 对于 CBV 中的 bit 说明如下：
 
@@ -918,42 +1728,429 @@ stateDiagram-v2
 
 NmPdu 中的 UserData 可以通过 CanNm 的配置引用 EcuC 中的 Pdu。未使用的情况下默认全 0xFF，通过 Nm 的接口去抓取当前接收与发送的 UserData。
 
-### 远程睡眠指示
+> [!tip] 
+>
+> 🚀 主动唤醒位 (Active Wakeup Bit) 的逻辑
+>
+> 这是一个非常重要的诊断和逻辑标志：
+>
+> - **设置时机**：当 ECU 从 `Bus Sleep` 或 `Prepare Bus Sleep` 切换到 `Network Mode` 是因为本地调用了 `CanNm_NetworkRequest`（即本地应用需要唤醒总线）时，CBV 中的 **Active Wakeup Bit** 被置为 1。
+> - **清除时机**：当节点离开网络模式（准备休眠）时，该位被清零。
+> - **意义**：这允许网络中的其他节点通过查看 NM 报文知道“是谁把大家叫醒的”。
 
-远程睡眠指示功能是指当本地节点一直工作在 Normal Operation State，在一定时间内却一直收不到总线上其他节点的网络管理报文，此时本地节点 CanNm 认为总线上除了自己，其他节点都已经满足睡眠，进而向上层 NM 模块报告远程睡眠指示并在 CanNm 模块内部记录此事件，后续上层 NM 模块还可以调用 CanNm_CheckRemoteSleepIndication()函数接口主动查询远程睡眠是否已经发生。该功能一般在网关节点上使用。
+假设一个典型的 8 字节报文配置：
 
-### 同步睡眠策略
+1. **Byte 0**: 发送者 ID (SNI)。
+2. **Byte 1**: 控制标志 (CBV)，例如 `0x10` 表示主动唤醒。
+3. **Byte 2-3**: 自定义的用户数据（如车辆状态信息）。
+4. **Byte 4-7**: PNC 位向量，标志着哪些局部网络簇需要保持工作。
 
-AUTOSAR CanNm 算法基于周期传输的网络管理 PDU 实现，接收到 NM PDU 表示发送此 NM PDU 的节点需要网络保持唤醒。如果某节点准备进入 Bus-Sleep Mode，此节点就停止发送 NM PDU，但是只要能收到网络上其他节点发送的网络管理报文，此节点就推迟进入 Bus-Sleep Mode。最终，不再收到其他节点的 NM PDU，并且此状态持续指定的时间后，所有的节点均同时开始进入 Bus-Sleep Mode。
+### 工作流
 
-### 降低总线负载机制
+#### 网络状态
 
-NM PDU 的发送周期取决于时间参数 CANNM_MSG_CYCLE_TIME，同一网络中所有节点的此时间参数都相同。当网络中节点数量比较多，并且不采取任何措施时，就容易导致总线负载过高。为解决此问题，提出了降低总线负载机制。实现降低总线负载机制需遵循如下两点：
+除了模式（Network, Bus-Sleep）这种全局状态外，CanNm 还维护着一个**内部意图状态**。这反映了本地 ECU “主观上”是否想留在总线上。
 
-1. 如果节点成功接收 NM 报文，则此节点发送周期定时器重置为节点特殊参数CANNM_MSG_REDUCED_TIME，此参数取值范围为 1/2(CANNM_MSG_CYCLE_TIME) ~ CANNM_MSG_CYCLE_TIME。
-2. 如 果 节 点 成 功 发 送 NM 报 文 ， 则 此 节 点 发 送 周 期 定 时 器 重 置 为CANNM_MSG_CYCLE_TIME。
+- **Requested (已请求) **：
+  - **触发**：上层（ComM）调用 `CanNm_NetworkRequest`。
+  - **意义**：本地应用 SWC 需要发送数据。即使总线上没有别人，我也要通过发 NM 报文来保持网络唤醒。
+- **Released (已释放) **：
+  - **触发**：上层调用 `CanNm_NetworkRelease`。
+  - **意义**：本地应用不需要总线了。
+  - **重要特性**：网络被释放**不代表**通信立刻停止。如果总线上还有其他 ECU 在发报文（即其他 ECU 处于 Requested），本节点仍会留在 Network Mode 并保持监听。
 
-遵循此两点则产生如下结果：网络中仅拥有最小的 CANNM_MSG_REDUCED_TIME 的两个节点（假定为 1、2 节点）交替发送 NM PDU，如果其中一个节点（节点 1）准备进入休眠而停止发送 NM PDU，则其余需要总线唤醒的节点中 CANNM_MSG_REDUCED_TIME 值最小的节点，比如 3节点，则代替刚停止发送 NM PDU 的节点，开始与 2 节点交替发送 NM PDU。依次类推，直到网络中只有一个节点需要总线唤醒时，则按照CANNM_MSG_CYCLE_TIME 周期发送NM PDU。
+#### 初始化
 
-这样做的目的就是让NM报文由一开始的所有ECU报文周期性发送变成了总线上同一段实际只有两个ECU交替发送NM报文，前提时是这些ECU开启了这个机制。
+初始化是将 CanNm 从未定义状态带入确定的、安全的初始状态的过程。
 
-### 通信控制
+1. 核心状态设置
 
-CanNm 模块中有对本模块通信控制的功能，可根据实际情况，在不需要网络管理模块 通 信 时 （ 如 诊 断 中 0x28 诊 断 服 务 ） ， 上 层 接 口 可 调 用 通 信 控 制 接 口 函 数CanNm_DisableCommunication()和CanNm_EnableCommunication()来控制网络管理模块通信。
+   1. **默认模式 **：初始化成功后，节点必须进入 **Bus-Sleep Mode**。
+   2. **默认意图 **：网络状态默认为 **Released**（即默认不想主动唤醒总线）。
 
-### CanNm的Timer
+2. 静态配置与重置
 
-CanNm 模块使用的定时参数如下表所示：
+   1. **配置选择 **：通过指针选择预定义的配置集（如波特率、计时器数值等）。
+   2. **禁止发送 **：初始化后必须停止 `Message Cycle Timer`。此时不准发送任何 NM PDU，直到被明确请求。
+   3. **总线负载 **：停用“总线负载降低（Bus Load Reduction）”功能，确保初始通信的鲁棒性。
 
-| 参数名称                  | 描述                                   |
-| ------------------------- | -------------------------------------- |
-| CanNmImmediateNmCycleTime | 定义快速发送 NM PDU 的发送周期         |
-| CanNmMsgCycleTime         | 定义 NM PDU 的发送周期                 |
-| CanNmMsgReducedTime       | 定义在降低总线负载下的 NM PDU 发送周期 |
-| CanNmMsgTimeoutTime       | 定义 NM PDU 发送超时时间               |
-| CanNmRepeatMessageTime    | 定义 RepeatMessage 状态下的持续时间    |
-| CanNmTimeoutTime          | 定义等待 NM PDU 的超时时间             |
-| CanNmWaitBusSleepTime     | 定义总线休眠的超时时间                 |
+3. 数据与控制位的初始值：初始化时，CanNm 会对报文中的控制信息进行“清零”或“预置”：
+
+   | 字段**                       | **初始值** | **备注**                                             |
+   | ---------------------------- | ---------- | ---------------------------------------------------- |
+   | **User Data**                | **0xFF**   | 每个字节均设为 0xFF。                                |
+   | **Control Bit Vector (CBV)** | **0x00**   | 初始不设置任何标志位（如 Repeat Message 或 PN 位）。 |
+   | **PNC Bit Vector **          | **0x00**   | 如果启用了部分网络（PN），所有的 PNC 位向量清零。    |
+
+4. 关于部分网络 (PN) 的特殊逻辑
+
+   1. 如果启用了 **`CanNmGlobalPnSupport`**，初始化时会停止 `NM Message Tx Timeout Timer`。
+   2. **原因**：在 PN 场景下，报文的发送往往由特定的过滤逻辑触发。在系统未完全启动并确定哪些“部分网络”需要激活之前，不应启动发送监控计时器，以避免产生错误的超时上报。
+
+规范特别指出了一点：**CanNm 必须在 CanIf 初始化之后进行初始化。**
+
+1. **CanIf_Init**: 准备好 CAN 通道。
+2. **CanNm_Init**: 状态机进入 `Bus-Sleep`，意图设为 `Released`，CBV 清零。
+3. **ComM/CanSm**: 随后调用 API 来真正开启网络。
+
+#### 发送
+
+CanNm 的发送行为主要取决于节点当前处于状态机的哪个位置。
+
+1. 核心发送模式:
+   1. **周期性发送 (Periodic Transmission) **：
+      - **适用状态**：Repeat Message State 和 Normal Operation State。
+      - **机制**：根据 `CanNmMsgCycleTime` 定时器循环发送 NM PDU。
+   2. **总线负载降低模式 (Bus Load Reduction) **：
+      - **适用状态**：仅限 Normal Operation State。
+      - **机制**：采用特殊算法（如基于特定位变化的发送）来减少总线报文总量，优化带宽。
+2. 立即发送机制 (Immediate NM Transmissions):这是为了解决“唤醒太慢”的问题。在传统的周期性发送中，第一条报文可能因为 Offset 延迟。
+   1. **触发场景**：
+      - 由于本地调用 `CanNm_NetworkRequest`（主动唤醒）进入 Repeat Message 状态。
+      - 配置了 `CanNmPnHandleMultipleNetworkRequests` 且在网络模式下再次收到请求。
+   2. **行为**：
+      - **跳过 Offset**：第一条报文立即发出。
+      - **爆发式发送 (Burst)**：随后的 `CanNmImmediateNmTransmissions` 次发送将使用更短的 `CanNmImmediateNmCycleTime`。
+      - **重试逻辑**：如果 `CanIf_Transmit` 返回失败，CanNm 会在下个 `MainFunction` 中立即重试，直到成功发完指定的 Burst 次数。
+3. 定时器管理与冲突处理
+   1. **启动偏移**：如果不是因为主动唤醒进入状态，第一条报文会延迟 `CanNmMsgCycleOffset` 再发出，以错开网络中不同节点的发送峰值。
+   2. **同步 PNC 关闭优先 **：
+      - 如果启用了 **Synchronized PNC Shutdown** 且当前有待处理的关闭请求，周期性的 NM 报文发送会**推迟**。
+      - **原因**：关闭指令具有最高优先级，必须立即发送，哪怕会延误一个 MainFunction 周期。
+      - **安全余量**：设计时需确保 $(CanNmPnResetTime - CanNmMsgCycleTime) > n * MainFunctionPeriod$，以容忍这种推迟。
+4. 虚拟发送确认 (Immediate Tx Confirmation)
+   - **常规方式**：CanNm 发出请求 -> CanIf 转发 -> CanDrv 发出成功 -> 回调 CanIf -> 回调 CanNm（TxConfirmation）。
+   - **立即确认模式**：CanNm 调用 `CanIf_Transmit` 后，系统**立即模拟**一个发送成功的回调给 CanNm。
+   - **适用场景**：离线设计已经规划好 arbitration time 的系统，不关心硬件层面的实际确认，以节省中断处理和函数调用链产生的执行开销。
+
+📝 关键参数汇总
+
+| **配置参数**                        | **描述**                                        |
+| ----------------------------------- | ----------------------------------------------- |
+| **`CanNmMsgCycleTime`**             | 常规周期发送间隔（通常为 100ms - 1000ms）。     |
+| **`CanNmImmediateNmCycleTime`**     | 快速爆发发送的间隔（通常为 10ms - 20ms）。      |
+| **`CanNmImmediateNmTransmissions`** | 进入 Repeat Message 后立即发送的报文数量。      |
+| **`CanNmMsgCycleOffset`**           | 节点启动发送时的随机/固定偏移量，防止总线拥堵。 |
+
+CanNm 的发送逻辑非常严密：平时按部就班地发“心跳”（周期发送）；遇到唤醒或紧急需求时，立刻开启“大声呼喊”模式（立即发送）；在面临 PNC 关闭等关键操作时，懂得“让路”优先保障核心指令。
+
+#### 接收
+
+当 **CanIf** 模块在总线上识别并接收到一条网络管理报文时，它会触发 `CanNm_RxIndication`。这是 CanNm 处理外部网络状态的起点。
+
+📥 接收指示（RxIndication）的核心行为
+
+CanNm 在收到该回调时的首要任务是**数据同步**：
+
+- **原子性拷贝**：CanNm 必须立即将接收到的 NM PDU 数据（包含控制位 CBV、节点 ID 以及用户数据）从 CanIf 指向的临时缓冲区拷贝到 **CanNm 内部定义的影子缓冲区（Internal Buffer）** 中。
+- **目的**：
+  - **数据一致性**：CanIf 的缓冲区可能会在下一个 MainFunction 周期之前被新的报文覆盖。拷贝到内部确保了 CanNm 在后续的逻辑处理（如状态机跳转判断）中使用的是最新且完整的快照。
+  - **解耦处理**：允许接收中断快速返回，而复杂的协议逻辑（如 PNC 位向量分析、节点检测等）可以在 `CanNm_MainFunction` 中异步处理。
+
+🔄 接收后的连锁反应
+
+成功接收还会触发以下逻辑：
+
+1. 重启计时器 ：
+
+   如果当前处于 Network Mode，NM-Timeout Timer 会被重置，防止节点进入休眠。
+
+2. 状态监控：
+
+   如果当前处于 Bus-Sleep，会触发 Nm_NetworkStartIndication 通知上层有外部唤醒。
+
+3. 解析控制位 (CBV)：
+
+   CanNm 会检查拷贝后的数据中 Repeat Message Bit 是否为 1。如果是，且启用了节点检测，本地节点将准备跳转回 Repeat Message State。
+
+4. 部分网络 (PN) 过滤：
+
+   如果启用了 PN，CanNm 会解析 PDU 中的 PNC Bit Vector。只有当收到的 PNC 与本地感兴趣的 PNC 匹配时，才会进一步重置对应的 PnResetTimer。
+
+📝 CanNm 处理报文的“三步走”
+
+1. **触发**：硬件接收 -> `CanIf_RxIndication` -> `CanNm_RxIndication`。
+2. **拷贝**：将数据存入内部 Buffer。
+3. **处理**：在下一个周期中，根据 Buffer 里的 CBV 和数据更新计时器和状态机。
+
+
+
+#### 降低总线负载机制
+
+在大型网络（如拥有 30 个 ECU 的 CAN 网络）中，如果每个节点都在 `Normal Operation` 状态下每 100ms 发送一次 NM PDU，总线负载会非常高。该机制的核心目标是：**无论网络中有多少个节点，确保每个周期内总线上最多只出现两条 NM 报文。**
+
+⚖️ 总线负载削减的核心算法
+
+这个算法利用了每个节点配置的微小时间差异（`CanNmMsgReducedTime`）来实现“优胜劣汰”：
+
+1. **发送后行为**：当本节点**发送**了一条 NM PDU，它将定时器重置为标准周期 **`CanNmMsgCycleTime`**。
+2. **接收后行为**：当本节点**收到**别人的 NM PDU，它将定时器重置为一个缩短的时间 **`CanNmMsgReducedTime`**。
+   - **约束条件**：$\frac{1}{2} CanNmMsgCycleTime < CanNmMsgReducedTime < CanNmMsgCycleTime$。
+
+> [!note]
+>
+> - 由于 $ReducedTime < CycleTime$，那些收到报文的节点会比刚发完报文的节点**更早**触发定时器。
+> - 通过精细配置每个节点的 `CanNmMsgReducedTime`，系统会自动演变成：**只有两个 `ReducedTime` 最小的节点在交替发送报文**。
+> - 其他节点因为一直在接收报文并不断重置较短的定时器，它们的 `CycleTime` 永远无法归零，从而保持沉默。
+
+🔄 状态切换与机制激活
+
+该机制并不是一直开启的，它只在稳定的通信阶段生效：
+
+- 进入 Repeat Message 禁用 ：进入 Repeat Message State 时必须禁用此机制。
+  - *原因*：该状态是为了“节点发现”，必须让所有节点都有机会发声，不能被削减。
+- 进入 Normal Operation 启用：进入 Normal Operation 且配置开启时，激活此机制。
+  - *原因*：此时网络已稳定，只需维持唤醒，不需要所有人都发声。
+
+📋 负载削减逻辑对比
+
+| **场景**                  | **定时器重置值**                           | **结果**                             |
+| ------------------------- | ------------------------------------------ | ------------------------------------ |
+| **未启用负载削减**        | 无论是发还是收，均设为 `CanNmMsgCycleTime` | 所有节点周期性齐射报文。             |
+| **启用负载削减 (发送后)** | `CanNmMsgCycleTime`                        | 刚发完的节点暂时进入长周期等待。     |
+| **启用负载削减 (接收后)** | `CanNmMsgReducedTime`                      | 听众节点进入短周期等待，准备“抢答”。 |
+
+🛡️ 鲁棒性保障
+
+该算法具有**自动冗余**特性：
+
+- 如果当前负责发送的两个节点中有一个故障（停止发送），下一个 `CanNmMsgReducedTime` 最小的节点会发现定时器归零，从而**自动接替**成为新的“发言人”。
+- 如果整个网络只有本节点需要通信，它会退化为每 `CanNmMsgCycleTime` 发送一次的标准模式。
+
+总线负载削减机制通过简单的**“谁听到了报文，谁就缩短下一次发送等待时间”**的逻辑，实现了分布式竞选。它既保证了总线永远有“心跳”维持唤醒，又避免了节点过多导致的通信拥堵。
+
+#### 远程睡眠指示
+
+ **Remote Sleep Indication（远端休眠指示）** 机制是一种“软检测”功能，让一个依然处于活跃状态的节点能够感知到：**“虽然我还在发报文保活，但总线上其他所有人都已经想睡觉了。”**
+
+🧐 什么是远端休眠指示？
+
+在复杂的网络中，可能只有一个 ECU（例如网关）因为某些后台任务需要保持总线唤醒，而其他 ECU 已经完成了工作并进入了 `Ready Sleep State`（只听不发）。
+
+- **核心逻辑**：如果一个处于 `Normal Operation` 的节点在 **`CanNmRemoteSleepIndTime`** 时间内没有收到来自任何其他节点的 NM PDU，它就推断出其他节点都已经释放了网络请求。
+
+1. 触发通知 
+   1. **触发条件**：在 `Normal Operation State` 下，连续 `CanNmRemoteSleepIndTime` 时间未收到 NM PDU。
+   2. **动作**：调用回调函数 `Nm_RemoteSleepIndication` 通知上层（Nm/ComM）。
+   3. **配置**：必须将 `CanNmRemoteSleepIndEnabled` 设置为 TRUE 才能启用此检测。
+2. 状态取消（Cancellation）
+   1. 如果之前已经检测到了远端休眠，但在以下情况发生时，必须调用 `Nm_RemoteSleepCancellation` 通知上层“有人醒了”：
+      - **收到报文 **：在 `Normal Operation` 或 `Ready Sleep` 状态下再次收到了 NM PDU。
+      - **进入点名模式 **：节点重新进入了 `Repeat Message State`（这通常意味着有新的节点加入或有人发起了重置请求）。
+3. API 调用限制 
+   1. **约束**：只有在 `Normal Operation` 或 `Ready Sleep` 状态下检查远端休眠才有意义。
+   2. **禁止**：在 `Bus-Sleep`、`Prepare Bus-Sleep` 或 `Repeat Message` 状态下调用 `CanNm_CheckRemoteSleepIndication` 将直接返回 `E_NOT_OK`。
+
+------
+
+📊 为什么需要这个功能？
+
+**Remote Sleep Indication** 对系统设计有以下几个重要帮助：
+
+1. **诊断与监控**：帮助网关或主节点监控网络节点的活跃度。
+2. **电源管理优化**：上层 ComM 可以根据此指示决定是否可以提前关闭某些非必要的后台服务，因为除了自己，没有其他 ECU 需要这些服务了。
+3. **防止“僵尸”节点**：如果一个节点一直请求网络却不知道其他人都想睡了，这可能暗示某种系统级的逻辑设计问题。
+
+为了防止混淆，请看这两个相似但用途完全不同的计时器：
+
+| **计时器参数**                | **监控对象**   | **超时后果**                               |
+| ----------------------------- | -------------- | ------------------------------------------ |
+| **`CanNmTimeoutTime`**        | 整个网络的存活 | 判定总线静默，触发**状态跳转**（去睡觉）。 |
+| **`CanNmRemoteSleepIndTime`** | 其他节点的意图 | 仅发送**回调通知**，不改变节点当前状态。   |
+
+> **注意：** 通常配置 $RemoteSleepIndTime < TimeoutTime$，这样节点可以在网络真正关闭之前，先得到“远端已准备好休眠”的预警。
+
+#### 用户数据
+
+
+
+1. **传统 API 方式：Set/Get User Data**：这是最直接的数据交换方式，通过 CanNm 模块提供的专用 API 手动管理数据。
+   1. **发送 ：上层调用 `CanNm_SetUserData`。CanNm 会将这些数据存入内部 Buffer，并在**下一次发送 NM PDU 时将其发出。
+   2. **接收：上层调用 `CanNm_GetUserData`。CanNm 返回**最近一次收到的 NM PDU 中的数据。
+   3. **状态约束**：
+      - **Repeat Message**：肯定会发送用户数据。
+      - **Normal Operation**：如果开启了负载削减，只有“胜出”的发送节点会发出用户数据。
+      - **Ready Sleep**：不发送用户数据（因为停止了发送）。
+2. **COM 映射方式：COM User Data**：在现代 AUTOSAR 架构中，更常见的做法是将 NM 用户数据直接映射到 **COM 栈**。这样应用层可以像处理普通信号一样处理 NM 数据，无需直接调用 CanNm API。
+   1. 核心逻辑与约束
+      - **API 互斥 **：一旦启用了 `CanNmComUserDataSupport`，手动设置数据的 API `CanNm_SetUserData` 将失效。
+      - **触发获取**：当 CanNm 准备发送报文时，它会通过 PduR_CanNmTriggerTransmit 向上层（COM 模块）“索取”最新的 I-PDU 数据，并将其与 NM 控制字节（SNI/CBV）合并。
+      - **错误处理 **：如果 PduR 获取数据失败，CanNm 会使用**上一次发送成功**的旧数据。
+   2. 确认与同步
+      - **发送确认** ：当硬件确认报文发出后，CanNm 会调用 `PduR_CanNmTxConfirmation`，最终由 COM 模块更新其信号状态。
+      - **长度匹配 **：在配置工具生成代码时，NM PDU 中预留的用户数据字节数必须与 COM 中定义的 I-PDU 长度完全匹配，否则会报错。
+3. 数据流对比：API vs COM
+
+| **特性**       | **API 方式 (CanNm_SetUserData)** | **COM 方式 (CanNmComUserDataSupport)** |
+| -------------- | -------------------------------- | -------------------------------------- |
+| **数据源**     | 应用层手动调用 API               | COM 模块的 I-PDU 信号                  |
+| **数据更新**   | 异步（调用即更新 Buffer）        | 同步（在发送瞬间通过 PduR 抓取）       |
+| **上层透明度** | 需要感知 NM 模块                 | 就像读写普通 CAN 信号一样              |
+| **典型应用**   | 简单的节点 ID 或基础状态         | 复杂的跨模块协同信息                   |
+
+> [!note]
+>
+> 💡 关键提示：TriggerTransmit (触发发送)
+>
+> 规范中提到的 **TriggerTransmit** 机制非常重要。
+>
+> 1. 如果 `CanIfTxPduTriggerTransmit` 为 **FALSE**：CanNm 主动通过 PduR 拉取数据再发送。
+> 2. 如果为 **TRUE**（通常用于 TTCAN 或严格时间触发网络）：CanNm 只发出长度请求，实际数据会在更底层的 `CanNm_TriggerTransmit` 回调中从 PduR 获取。
+
+通过 `CanNmComUserDataSupport`，AUTOSAR 实现了 **“管理面” (NM)** 与 **“数据面” (COM)** 的解耦。这使得开发人员可以利用已有的信号处理逻辑（如信号超时监控、信号过滤）来处理网络管理报文里的负载数据。
+
+
+
+
+
+### PN
+
+在汽车电子（AUTOSAR）领域，**PN (Partial Networking，部分网络)** 的核心作用是：**“按需唤醒，节能减排”**。
+
+在没有 PN 技术的传统网络中，只要总线上一台 ECU 发出唤醒信号，全车几十个甚至上百个 ECU 都会被同时叫醒。这种“一人开灯，全家不睡”的模式在电动化和高度智能化的今天，会产生严重的电能浪费。
+
+以下是 PN 解决的核心问题和工作机制：
+
+1. PN 的核心用途：实现“局部待机”
+   1. PN 允许将整车的 ECU 划分为多个逻辑上的 **PNC (Partial Network Cluster，局部网络簇)**。
+      - **传统模式（全网唤醒）**：你只是想在车里听个歌，结果发动机控制单元（ECU）、雷达控制单元、座椅控制单元全都得通电待命，即使它们根本不干活。
+      - **PN 模式（局部唤醒）**：你听歌时，只有娱乐系统相关的几个 ECU 保持活跃，其他不相关的 ECU（如底盘、动力系统）继续在“深度休眠”中省电。
+2. PN 是如何工作的？（报文过滤机制）
+   1. PN 的实现依赖于一种特殊的硬件（支持 PN 的 CAN 收发器）和软件（CanNm 过滤算法）。
+      - **PNC 位向量 (Bit Vector)**：在 NM 报文（网络管理报文）中，有一段专门的位域，每一位代表一个 PNC。
+      - **掩码匹配 (Filter Mask)**：每个 ECU 内部都存有一个“掩码”，记录了自己属于哪几个 PNC。
+      - **精准判断**：当一个 ECU 收到 NM 报文时，它会对比报文里的位向量。
+        - 如果报文里请求的 PNC 与自己无关 $\rightarrow$ **忽略报文，继续睡觉**。
+        - 如果报文里请求的位正好命中了自己 $\rightarrow$ **重置计时器，保持唤醒**。
+3. PN 的关键优势
+   1. **降低静态电流（Quiescent Current）**：对于新能源汽车（EV）尤为重要。在充电或远程空调预热时，只需唤醒少量 ECU，能显著延长电池续航。
+   2. **减少总线负载**：不活跃的节点不发报文，总线带宽利用率更高。
+   3. **符合环保标准**：有助于汽车厂商满足日益严苛的碳排放和能效限制。
+
+#### RX处理
+
+
+
+当 CanNm 接收到一条 NM PDU 时，它会根据配置和报文控制位（CBV）进入不同的处理分支：
+
+1. 当 PN 功能禁用时
+
+   如果 `CanNmPnEnabled` 为 **FALSE**，不做任何过滤。所有的 NM PDU 都会按常规流程处理（重启超时计时器）。
+
+2. 当 PN 功能启用时 
+
+   1. **PNI (Partial Network Information)** 位为 0 表示该报文不包含特定的 PNC 激活信息。
+      - **Case A**: 如果 `CanNmAllNmMessagesKeepAwake` 为 **TRUE**（通常用于网关），报文被接受，节点保持唤醒。
+      - **Case B**: 如果该参数为 **FALSE**，报文被**丢弃**。节点不会因为这条报文而重启计时器。
+   2. **PNI (Partial Network Information)** 位为 1是 PN 逻辑的核心。CanNm 会提取 **PNC Bit Vector**（位向量）并交给上层（Nm 模块）进行过滤匹配。
+      1. **转发逻辑**：CanNm 根据偏移量提取位向量，调用 `Nm_PncBitVectorRxIndication`。
+      2. **处理条件**：只有满足以下之一，报文才会被进一步处理（即维持唤醒）：
+         - `CanNmAllNmMessagesKeepAwake` 为 TRUE。
+         - CanSM 尚未确认 PN 的可用性（初始化阶段为了安全，默认全部接受）。
+         - **关键点**：`RelevantPncRequestDetectedPtr` 返回 TRUE。这意味着报文中请求的某个 PNC 正好是本 ECU 感兴趣的。
+
+🛑 同步 PNC 关闭 (Synchronized PNC Shutdown) 逻辑：这是针对更高级场景（如网关协调关闭）的保护机制：
+
+1. 非法请求处理 
+
+   如果一个**主动协调器（Active Coordinator）**收到了带有 `PNSR`（Shutdown Request）位的报文，这是逻辑冲突的。
+
+   - **动作**：忽略该报文，向 DET 报运行时错误。
+   - **反应**：如果开启了错误反应机制，它会立即发送一条包含当前正确 PN 信息的报文来“纠正”总线状态。
+
+2. 合法转发 
+
+   当 PNI=1 且 PNSR=1 时，CanNm 提取位向量并通过 `Nm_ForwardSynchronizedPncShutdown` 转发。这确保了关闭指令能跨拓扑传递，实现整个网络簇的同时休眠。
+
+📊 报文布局示例解析
+
+规范中提供了一个清晰的 8 字节 PDU 示例，展示了数据是如何挤在一起的：
+
+| **字节 (Byte)** | **字段名称**         | **示例值** | **含义**                                                     |
+| --------------- | -------------------- | ---------- | ------------------------------------------------------------ |
+| **0**           | **CBV**              | `0x40`     | 二进制 `0100 0000`：**PNI=1**, PNSR=0。表示包含 PN 信息。    |
+| **1**           | **NID**              | `0x00`     | 发送节点 ID。                                                |
+| **2 - 3**       | **User Data**        | `0xFF`     | 填充的用户数据。                                             |
+| 4               | **PNC Vector Data1** | `0x12`     | **PNC 位向量**。用于匹配过滤掩码（Filter Mask）。            |
+| 5               | **PNC Vector Data2** | `0x8E`     | 二进制数据为0001 0010，那么PNC ID就对应1和4（bit1和bit4为1） |
+| 6               | **PNC Vector Data3** | `0x80`     | 二进制数据为1000 1110，那么PNC ID对应9, 10, 11, 15 。这里需要注意的是，位是从第8bit开始的，所以PNC id是从8开始 |
+| 7               | **PNC Vector Data4** | `0x01`     | 以此类推                                                     |
+
+#### Tx的处理
+
+**CanNm 发送报文时 PN（部分网络）标志位的设置**，以及一个非常关键的机制：**同步 PNC 关闭（Synchronized PNC Shutdown）**。其核心目标是：当某个功能（PNC）不再需要时，通知全网相关 ECU 同时关闭该功能，以达到最高效的省电效果。
+
+1. PN 标志位的基本设置 
+
+   在 NM 报文的 **CBV（控制位向量）** 中，有一个 **PNI (Partial Network Information)** 位：
+
+   - **启用 PN 时**：发送的报文中 PNI 位必须设为 **1**。
+   - **禁用 PN 时**：发送的报文中 PNI 位必须设为 **0**。
+
+2. 正常发送流
+
+   当需要发送一条普通的 NM 报文（非关闭请求）时，CanNm 遵循以下精密顺序：
+
+   1. **获取状态**：调用 `Nm_PncBitVectorTxIndication` 获取本地当前哪些 PNC 是活跃的。
+   2. **组装向量**：将获取到的 PNC 状态填入报文的 **PNC Bit Vector** 区域。
+   3. **合并用户数据**：如果开启了用户数据，从 COM 或内部缓存抓取数据填入。
+   4. **执行发送**：调用 `CanIf_Transmit` 发射报文。
+
+3.  同步 PNC 关闭机制 (Synchronized PNC Shutdown)
+
+   这是该规范最复杂也最重要的部分。当网关或主节点决定关闭某个 PNC 时，它不能只是自己闭嘴，必须发一个“撤退命令”。
+
+---
+
+触发与存储
+
+上层调用 `CanNm_RequestSynchronizedPncShutdown`。CanNm 会把这个关闭请求存起来，等待在 `MainFunction` 中异步处理。
+
+---
+
+构造关闭报文 (PNSR Bit) 
+
+关闭报文与普通报文的不同点：
+
+- **PNSR 位 = 1**：在 CBV 中将“PN 关闭请求位”置 1。
+- **精准位图**：将需要关闭的 `PncId` 转换成位图。例如 `PncId 10` 对应 `byteIndex = 1` (10/8), `bitIndex = 2` (10%8)。
+- **覆盖写入**：在此报文中，只有请求关闭的 PNC 位设为 1，其他设为 0。
+
+---
+
+重传与错误处理 
+
+由于关闭指令至关重要，CanNm 引入了重传计时器：
+
+- **重传启动**：第一次发关闭报文时，启动 `CanNmPnShutdownMessageRetransmissionDuration` 计时器。
+- **确认机制**：
+  - 收到 **E_OK**：任务完成，清除存储的关闭请求，停止重传计时器。
+  - 收到 **E_NOT_OK** 或发送失败：如果在重传周期内，下个周期立刻**重试**。
+  - **超时失败**：如果计时器到期还没发成功，上报 DET 错误 `CANNM_E_TRANSMISSION_OF_PN_SHUTDOWN_MESSAGE_FAILED`。
+
+---
+
+冲突预防
+
+如果一个 PNC 正准备关闭，但此时突然：
+
+- **外部唤醒**：收到了别人发来的该 PNC 激活报文。
+- **内部请求**：本地应用突然又需要这个 PNC 了。
+- **动作**：CanNm 必须立刻从“待关闭列表”中移除该 PNC，取消关闭行动。
+
+---
+
+📊普通 NM 报文 vs PN 关闭报文
+
+| **特性**           | **普通 NM PDU**    | **PN 关闭 (Shutdown) PDU**   |
+| ------------------ | ------------------ | ---------------------------- |
+| **CBV PNI 位**     | 1                  | 1                            |
+| **CBV PNSR 位**    | 0                  | **1**                        |
+| **PNC 位向量内容** | 当前所有活跃的 PNC | **仅包含请求关闭的 PNC**     |
+| **优先级**         | 正常周期           | 高优先级（可能推迟普通报文） |
+| **重传机制**       | 依赖下个周期       | 专门的重传计时器快速重试     |
+
+
 
 ## CanSm
 
@@ -961,73 +2158,7 @@ CanNm 模块使用的定时参数如下表所示：
 >
 > 标准文件请参见[Specification of CAN State Manager (autosar.org)](https://www.autosar.org/fileadmin/standards/R20-11/CP/AUTOSAR_SWS_CANStateManager.pdf)
 
-框架图如下：
-
-```plantUML
-@startuml
-
-' 设置字体和箭头样式
-skinparam defaultFontName "Arial"
-skinparam arrowColor #666666
-skinparam linetype ortho  ' 强制直角连接（更符合框图布局）
-
-' 定义颜色常量（与原图匹配）
-!define COLOR_APP #A9A9A9  ' 灰色（App方块）
-!define COLOR_COMM #4DA6FF  ' 蓝色（AUTOSAR ComM）
-!define COLOR_STATE #66BB66  ' 绿色（Bus Specific State Manager）
-!define COLOR_GEN_NM #D1A8E0  ' 紫色（Generic NM Interface / Bus Specific NM）
-!define COLOR_INTERFACE #FFCC80  ' 黄色（Bus Specific Interface）
-
-' 第一行：三个 App 方块（横向排列）
-rectangle "App" as App1 #COLOR_APP
-rectangle "App" as App2 #COLOR_APP
-rectangle "App" as App3 #COLOR_APP
-
-' 第二行：AUTOSAR ComM（长条形蓝色方块，横跨宽度）
-rectangle "AUTOSAR ComM" as ComM #COLOR_COMM
-
-' 第三行：左侧绿色方块（Bus Specific State Manager）+ 右侧紫色方块（Generic NM Interface + Bus Specific NM）
-' 左侧绿色方块（两个纵向排列）
-rectangle "<Bus Specific>\nState Manager" as State1 #COLOR_STATE
-rectangle "<Bus Specific>\nState Manager" as State2 #COLOR_STATE
-
-' 右侧紫色方块（分上下两层：上层1个，下层2个）
-rectangle "Generic NM Interface\n(Nm)" as GenNM #COLOR_GEN_NM
-rectangle "<Bus Specific>\nNM" as Nm1 #COLOR_GEN_NM
-rectangle "<Bus Specific>\nNM" as Nm2 #COLOR_GEN_NM
-
-' 第四行：黄色 Bus Specific Interface（长条形，横跨宽度）
-rectangle "<Bus Specific>\nInterface" as Interface #COLOR_INTERFACE
-
-' ==============================================
-' 布局调整（通过隐藏的箭头控制位置关系）
-' ==============================================
-
-' 第一行 App 横向排列（强制间距）
-App1 -[hidden]-> App2
-App2 -[hidden]-> App3
-
-' 第二行 ComM 位于 App 下方（居中对齐）
-App1 -[hidden,dashed]-> ComM
-App3 -[hidden,dashed]-> ComM
-
-' 第三行：左侧绿色方块与右侧紫色方块横向排列
-State2 -[hidden]-> GenNM  ' 绿色方块整体位于紫色方块左侧
-
-' 第三行右侧紫色方块内部布局（上层 GenNM，下层 Nm1/Nm2 横向排列）
-GenNM -[hidden,dashed]-> Nm1
-Nm1 -[hidden]-> Nm2
-
-' 第四行 Interface 位于最底部（居中对齐）
-State1 -[hidden,dashed]-> Interface
-Nm2 -[hidden,dashed]-> Interface
-
-@enduml
-```
-
-![CAN SM架构图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/4_16_22_29_image-20251104162221477.png)
-
-可以看到CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其**总线的通信状态**，所以CanSM模块管理的就是CAN总线的通信状态，而这里的通信状态则包含能不能发送报文，能不能接收报文，总线上有没有错误等。CanSM提供的主要功能主要有：
+CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其**总线的通信状态**，所以CanSM模块管理的就是CAN总线的通信状态，而这里的通信状态则包含能不能发送报文，能不能接收报文，总线上有没有错误等。CanSM提供的主要功能主要有：
 
 1. 总线模式切换
 2. Busoff 恢复管理
@@ -1038,7 +2169,7 @@ Nm2 -[hidden,dashed]-> Interface
 
 CanSM模块针对CAN总线状态而言，由上而下，CanSM接收其他模块的总线状态切换请求并通知CanIf模块去执行，由下而上，CanSM接收CanIf模块的总线状态切换反馈并汇报给其他模块。下图显示了在AUTOSAR的BSW层中其他模块与CanSM的交互情况：
 
-![CAN SM和别的模块的交互图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/4_16_26_14_image-20251104162613610.png)
+![CAN SM和别的模块的交互图](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260105090049317.png)
 
 1. ECuM模块会初始化CanSM模块，并与CanSM模块交互进行CAN总线唤醒的验证。
 2. ComM模块使用CanSM模块请求CAN网络的通信模式，CanSM模块会将其CAN网络的当前通信模式通知给ComM模块。
@@ -1050,7 +2181,7 @@ CanSM模块针对CAN总线状态而言，由上而下，CanSM接收其他模块�
 
 ### 通信模式
 
-![CAN SM的通信模式](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/11/4_16_58_45_image-20251104165844386.png)
+![CAN SM的通信模式](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260105091015967.png)
 
 
 
@@ -1087,6 +2218,50 @@ CanSM模块针对CAN总线状态而言，由上而下，CanSM接收其他模块�
 > - T: Trigger
 > - G: Guarding condition
 > - E: Effect
+
+在图中详细描述了 **CanSM** 模块的状态机触发条件（Trigger）、判定条件（Guard）以及产生的效应（Effect）。CanSM 通过这些机制在 **ComM**（通信管理器）和 **CanIf**（CAN 接口）之间起到承上启下的作用。
+
+1. 状态机触发条件 (Triggers)：状态机的跳转由外部 API 调用或底层回调触发：
+   - **系统初始化与去初始化**：
+     - **PowerOn**: 初始状态为 `CANSM_BSM_NOT_INITIALIZED`。
+     - **CanSM_Init**: 触发所有配置网络的初始化流程。
+     - **CanSM_DeInit**: 触发去初始化，前提是网络已处于 `NO_COMMUNICATION`。
+   - **唤醒源控制**：
+     - **T_START_WAKEUP_SOURCE**: 由 `CanSM_StartWakeUpSource` 成功返回后触发。
+     - **T_STOP_WAKEUP_SOURCE**: 由 `CanSM_StopWakeUpSource` 成功返回后触发。
+   - **模式请求 (来自 ComM)**：
+     - **T_FULL_COM_MODE_REQUEST**: 请求进入全通信模式。
+     - **T_SILENT_COM_MODE_REQUEST**: 请求进入静默模式（通常用于准备进入总线睡眠）。
+     - **T_NO_COM_MODE_REQUEST**: 请求关闭通信。
+   - **异常监控**：
+     - **T_BUS_OFF**: 底层检测到控制器 Bus-Off 时通过回调触发。
+2. 判定条件 (Guarding Conditions)：在执行某些跳转前，状态机会检查最近一次被接受的模式请求：
+   1. **G_FULL_COM_MODE_REQUESTED**: 检查最后一次请求是否为 `COMM_FULL_COMMUNICATION`。
+   2. **G_SILENT_COM_MODE_REQUESTED**: 检查最后一次请求是否为 `COMM_SILENT_COMMUNICATION`。
+3. 执行效应 (Effects)：当状态跳转发生时，CanSM 会通过一系列 API 调用来配置底层硬件并通知上层模块。
+   1. 进入全通信模式 (E_FULL_COM)：这是最复杂的效应，包含多个步骤：
+      1. **设置 PDU 模式**：
+         - 若 **ECU Passive** 为 FALSE：调用 `CanIf_SetPduMode` 为 `CANIF_ONLINE`。
+         - 若 **ECU Passive** 为 TRUE：设置为 `CANIF_TX_OFFLINE_ACTIVE`。
+      2. **通知 ComM**：调用 `ComM_BusSM_ModeIndication` 指示 `COMM_FULL_COMMUNICATION`。
+      3. **通知 BswM**：调用 `BswM_CanSM_CurrentState` 指示 `CANSM_BSWM_FULL_COMMUNICATION`。
+   2. 进入静默模式 (E_FULL_TO_SILENT_COM)：执行步骤如下：
+      1. **通知 BswM**：设置为 `CANSM_BSWM_SILENT_COMMUNICATION`。
+      2. **设置 PDU 模式**：调用 `CanIf_SetPduMode` 为 `CANIF_TX_OFFLINE`。
+      3. **通知 ComM**：指示 `COMM_SILENT_COMMUNICATION`。
+   3. 关闭通信流程 (E_PRE_NOCOM & E_NOCOM)
+      - **E_PRE_NOCOM**: 预关闭阶段，通知 BswM 状态为 `CANSM_BSWM_NO_COMMUNICATION`。
+      - **E_NOCOM**:
+        - 更新内部存储的模式为 `COMM_NO_COMMUNICATION`。
+        - 若请求确实是关闭通信，则向 ComM 发送最终的模式指示。
+
+📝 效应汇总表
+
+| **效应名称**             | **目标通信模式** | **主要动作**                              |
+| ------------------------ | ---------------- | ----------------------------------------- |
+| **E_FULL_COM**           | Full Com         | 开启 PDU 传输（Online），通知 ComM/BswM。 |
+| **E_FULL_TO_SILENT_COM** | Silent Com       | 禁用发送（TX_Offline），通知 ComM/BswM。  |
+| **E_NOCOM**              | No Com           | 更新内部状态，通知 ComM。                 |
 
 #### 子状态机
 
