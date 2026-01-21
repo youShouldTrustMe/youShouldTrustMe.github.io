@@ -1,7 +1,7 @@
 ---
 title: UDS
 
-cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/10_16_55_30_202407101655309.png
+cover: https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251125085207933.png
 swiper_index: 4
 categories: 
   - 嵌入式
