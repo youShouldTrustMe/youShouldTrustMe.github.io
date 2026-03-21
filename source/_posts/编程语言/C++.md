@@ -7,6 +7,8 @@ categories:
 
 
 
+
+
 # 参考链接
 
 [C++学习网 – 世界上最好的中文C++学习网站 (studycpp.cn)](https://www.studycpp.cn/)
@@ -308,11 +310,7 @@ $$
 声明语法为：
 
 ```cpp
-class-key
-[attributes]
-[class-name]
-[class-property-specs]
-[base-clause]
+class-key [attributes] [class-name] [class-property-specs] [base-clause]
 {
     member-specification
 };
@@ -528,20 +526,6 @@ class-key
 
    这些**不产生对象成员**，但**强烈影响语义**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### 前向声明
 
 前向声明实际上是为了**打破类型之间的编译依赖环**
@@ -660,8 +644,6 @@ void f() {
    };
    ```
 
-   
-
 2. **禁止的声明**：
 
    ```cpp
@@ -746,8 +728,6 @@ void f() {
       ```
 
 #### 成员初始化
-
-
 
 非静态数据成员可以通过以下两种方式之一进行初始化：
 
@@ -964,9 +944,6 @@ void f() {
          std::move(s).f(); // 把 s 强制当成临时对象，调用 && 版本
      }
      ```
-
-     
-
 
 
 | **特性分类**        | **语法示例**          | **核心目的**                               |
@@ -1258,7 +1235,7 @@ private:   int pri;
 >     public:
 >         virtual void speak();
 >     };
->           
+>                     
 >     class Dog : public Animal {};
 >     ```
 >
@@ -2300,97 +2277,319 @@ Abstract& r;   // OK
 
 ### 重写函数
 
-什么叫“重写（override）”
+`override` 是一个**编译期约束说明符**，用于**强制声明：该成员函数必须重写（override）某个基类的虚函数**。它不改变运行时行为，只用于**静态语义检查**。
 
-当派生类中出现一个函数，满足以下条件时：
-
-- 函数名相同
-- 参数列表完全相同
-- cv / ref 限定符相同
-
-那么：
-
-> 派生类函数 **重写（override）** 了基类虚函数
-> 并且 **自动也是 virtual**
-
-即使你**不写 `virtual`**。
+在 C++11 之前，以下错误**不会报错**：
 
 ```cpp
 struct Base {
-    virtual void f();
+    virtual void f(int);
 };
 
 struct Derived : Base {
-    void f();  // 仍然是 virtual
+    void f(double);  // ❌ 本意是重写，但实际上是“隐藏”
 };
 ```
 
-------
+问题在于：
 
-# 5. `override` 不是语义，而是“编译期校验工具”
+- 参数列表不匹配
+- 并未重写 `Base::f(int)`
+- 却**悄无声息地通过编译**
+
+`override` 的作用就是：**把这种错误变成编译期错误**。
+
+但是当你写：
 
 ```cpp
 void f() override;
 ```
 
-作用只有一个：
+编译器会强制检查：
 
-> **强制编译器检查：
-> 你是不是“真的重写了某个虚函数”**
+1. **基类中必须存在一个虚函数**
+2. 该虚函数在当前类中：
+   - 名称相同
+   - 参数列表完全一致
+   - `cv` / `ref` 限定符一致
+3. 该函数确实构成“覆盖关系”
 
-如果没有重写成功 → **直接编译错误**
+否则：**程序格式错误（ill-formed）**
 
-### 工程准则（非常重要）
+> [!note]
+>
+> `override` 自动蕴含的语义:
+>
+> 1. 使用 `override` 的函数一定是虚函数
+>
+>    即使你没写 `virtual`：
+>
+>    ```cpp
+>    struct D : B {
+>        void f() override; // f 一定是 virtual
+>    };
+>    ```
+>
+>    这是语言保证的。
+>
+> 2. `override` 不参与重写判断
+>
+>    重写是否成立，只看：
+>
+>    - 基类是否有虚函数
+>    - 函数签名是否匹配
+>
+>    `override` **只是验证者，不是触发器**。
 
-> **派生类重写虚函数，必须写 `override`**
+并且`override`的语法位置十分严格：
 
-------
+1. 在类内声明
 
-# 6. 隐藏（hiding） vs 重写（override）
+   ```cpp
+   struct D : B {
+       void f() override = 0;   // OK
+   };
+   ```
 
-这是 C++ 中**非常容易踩坑**的点。
+   顺序规则：`声明符 → override / final → =0`
 
-```cpp
-struct Base {
-    virtual void f();
-};
+2. 在类内定义
 
-struct Derived : Base {
-    void f(int);   // ❌ 没有重写，只是隐藏
-};
+   ```cpp
+   struct D : B {
+       void f() override { }   // OK
+   };
+   ```
+
+   此时：`override 紧贴函数体之前`
+
+3. 不允许的位置
+
+   ```cpp
+   void f() = 0 override;  // ❌
+   ```
+
+以下展示一些错误示例：
+
+1. 签名不匹配
+
+   ```cpp
+   struct A {
+       virtual void foo();
+   };
+   
+   struct B : A {
+       void foo() const override; // ❌ const 不匹配
+   };
+   ```
+
+   👉 编译期直接失败
+
+2. 基函数不是虚函数
+
+   ```cpp
+   struct A {
+       void bar();
+   };
+   
+   struct B : A {
+       void bar() override; // ❌ A::bar 不是 virtual
+   };
+   
+   ```
+
+3. 名字隐藏但未重写
+
+   ```cpp
+   struct B {
+       virtual void f();
+   };
+   
+   struct D : B {
+       void f(int) override; // ❌ 不构成 override
+   };
+   ```
+
+> [!tip]
+>
+> `override` 不是关键字（严格意义上）
+>
+> ```cpp
+> void override(); // 合法
+> int override = 42; // 合法
+> ```
+>
+> 原因：
+>
+> - `override` 是 **上下文相关关键字**
+> - 仅在“虚函数说明符序列”中有特殊含义
+
+### 禁止拓展函数
+
+**`final` 用于在类型系统中“封死扩展点”**：
+
+- 用在 **虚函数** 上：该虚函数**不能再被派生类覆盖**
+- 用在 **类** 上：该类**不能再被继承**
+
+它是**编译期语义约束**，不改变语言运行模型。
+
+`final` 有两种用途：
+
+1. 用于虚函数：禁止继续重写
+
+   ```cpp
+   struct A {
+       virtual void f();
+   };
+   
+   struct B : A {
+       void f() final;   // B::f 是最终覆盖器
+   };
+   
+   struct C : B {
+       void f();         // ❌ 编译错误：试图覆盖 final 函数
+   };
+   ```
+
+   **语义要点：**
+
+   - `final` 隐含该函数是 **virtual**
+   - 标记该函数为该虚函数的 **final overrider**
+   - 任何更派生类再定义同签名函数 → **格式错误**
+
+2. 用于类：禁止被继承
+
+   ```cpp
+   struct Base final {};
+   
+   struct Derived : Base {}; // ❌ 编译错误
+   ```
+
+   **语义要点：**
+
+   - `final` 类 **不能出现在任何 base-specifier-list 中**
+   - 适用于 `class / struct / union`
+   - 对 `union` 实际无行为影响（union 本就不可继承）
+
+和`override`一样，`final`也有着严格的语法位置：
+
+1. 成员函数
+
+   ```cpp
+   void f() final;
+   void f() override final;
+   void f() final override;
+   ```
+
+   规则：
+
+   - 出现在 **声明符之后**
+   - 在 `=0` 之前（如果是纯虚函数）
+   - 在函数体之前（若在类内定义）
+
+2. 类
+
+   ```cpp
+   struct A final : Base {};
+   ```
+
+   规则：
+
+   - 紧随 **类名**
+   - 在 `:` 之前
+   - **不能用于前置声明**
+
+   ```cpp
+   struct A final; // ❌ 不允许
+   ```
+
+下面举几个非法定义的例子：
+
+1. 非虚函数不能是 `final`
+
+   ```cpp
+   struct A {
+       void g() final; // ❌ 错误：g 不是 virtual
+   };
+   ```
+
+   原因：`final` 的前提是“存在可被覆盖的虚函数”
+
+2. 不能覆盖 `final` 虚函数
+
+   ```cpp
+   struct A {
+       virtual void f() final;
+   };
+   
+   struct B : A {
+       void f() override; // ❌
+   };
+   ```
+
+3. 不能继承 `final` 类
+
+   ```cpp
+   struct A final {};
+   struct B : A {}; // ❌
+   ```
+
+> [!tip]
+>
+> `final` 与 `override` 的关系是：
+>
+> | 说明符     | 作用                       |
+> | ---------- | -------------------------- |
+> | `override` | **验证**：我是否真的在覆盖 |
+> | `final`    | **限制**：我不允许再被覆盖 |
+>
+> 组合使用非常常见：
+>
+> ```cpp
+> void f() override final;
+> ```
+>
+> 含义明确：
+>
+> > “我确实覆盖了基类虚函数，而且这是最后一次覆盖”
+
+`virtual`、`override`和`final`的关系如下图：
+
+```mermaid
+graph TD
+    A["Base<br/>virtual f()"]
+    
+    B["Mid1<br/>override f()"]
+    C["Mid2<br/>(不重写)"]
+    
+    D["Leaf1<br/>override f()"]
+    E["Leaf2<br/>override f() final"]
+    
+    F["BadLeaf<br/>override f() ❌"]
+    
+    A --> B
+    A --> C
+    B --> D
+    B --> E
+    E --> F
+
+    classDef pure fill:#fff3cd,stroke:#d39e00;
+    classDef final fill:#f8d7da,stroke:#721c24;
+    classDef ok fill:#d4edda,stroke:#155724;
+    classDef bad fill:#f5c6cb,stroke:#721c24;
+
+    A:::ok
+    B:::ok
+    C:::ok
+    D:::ok
+    E:::final
+    F:::bad
+
 ```
 
-结果：
 
-- `Derived::f(int)` **隐藏了** `Base::f`
-- 但 **没有重写**
-- 多态失败
 
-```cpp
-Base* p = new Derived;
-p->f();   // 调用 Base::f()
-```
 
-### 结论
-
-> **参数不同 ≠ 重写
-> 只会发生名字隐藏**
-
-------
-
-# 7. 最终重写者（final overrider）
-
-在一条继承链上：
-
-- 对每个虚函数
-- 在每个对象中
-- **恰好只能有一个“最终实现”**
-
-这叫 **final overrider**。
-
-如果一个对象中出现两个最终重写者 → **程序不合法**
-
-这是多重继承中虚基类规则存在的根本原因之一。
 
 ## friend
 

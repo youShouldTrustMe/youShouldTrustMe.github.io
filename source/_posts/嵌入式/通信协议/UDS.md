@@ -822,35 +822,35 @@ sequenceDiagram
 
 
 
-### 4. **BS（Block Size）与 STmin（Separation Time）**
+### **BS（Block Size）与 STmin（Separation Time）**
 
 - **应用场景**：多帧传输（如CAN TP协议）时的流控参数。
   - **BS（Block Size）**：接收方允许连续发送的帧数量（如BS=0表示无限制）。
   - **STmin**：发送方连续帧之间的最小间隔时间（如 **0ms~127ms**）。
 - **用途**：避免接收方缓冲区溢出，控制数据流速率。
 
-### 5. **N_As（Network Layer Acknowledgement Timeout）**
+### **N_As（Network Layer Acknowledgement Timeout）**
 
 - **定义**：发送方等待接收方流控帧（如CTS）的超时时间（默认值通常为 **1000ms**）。
 - **用途**：检测接收方是否准备好继续接收数据。
 
-### 6. **N_Bs（Network Layer Block Timeout）**
+###  **N_Bs（Network Layer Block Timeout）**
 
 - **定义**：发送方在BS限制下发送完一帧后，等待下一组流控帧的超时时间。
 - **用途**：确保流控机制的正常运作。
 
-### 7. **N_Cr（Network Layer Response Timeout）**
+###  **N_Cr（Network Layer Response Timeout）**
 
 - **定义**：诊断工具等待ECU响应（如肯定应答ACK）的超时时间（默认值通常为 **1000ms**）。
 - **用途**：判断ECU是否无响应，需重发请求。
 
-### 8. **Timing during Security Access**
+### **Timing during Security Access**
 
 - **Seed & Key 交互**：
   - **Delay**：ECU发送Seed后可能强制延迟（如 **200ms**）才允许接收Key，防止暴力破解。
   - **Timeout**：发送Key的窗口时间（如 **5000ms**），超时需重新获取Seed。
 
-### 9. **其他应用层时间参数**
+### **其他应用层时间参数**
 
 - **Routine Control执行时间**：某些诊断例程（如擦除内存）可能需较长时间，ECU返回 **0x78（Pending）** 并持续发送状态更新。
 - **DTC捕获时间**：故障码触发条件需满足特定时间（如故障持续 **500ms** 才记录）。
