@@ -12,7 +12,7 @@ tags:
 
 
 
-![端口的基本结构](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209195818090.png)
+![端口的基本结构](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251209195818090.png)
 
 1. 保护二极管：对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路
 2. 施密特触发器：在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量
@@ -20,7 +20,7 @@ tags:
 
 简图为：
 
-![端口基本功能简图](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200820927.png)
+![端口基本功能简图](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251209200820927.png)
 
 # 输入输出模式
 
@@ -41,7 +41,7 @@ tags:
 
 ## 浮空、上拉、下拉输入
 
-![浮空、上拉、下拉输入](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200145068.png)
+![浮空、上拉、下拉输入](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251209200145068.png)
 
 > [!tip]
 >
@@ -49,17 +49,17 @@ tags:
 
 ## 模拟输入
 
-![模拟输入](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200236079.png)
+![模拟输入](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251209200236079.png)
 
 模拟输入可以说是ADC模数转换器的专属配置
 
 ## 开漏、推挽输出
 
-![开漏推挽输出](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200535172.png)
+![开漏推挽输出](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251209200535172.png)
 
 ## 开漏、推挽复用输出
 
-![开漏、推挽复用输出](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20251209200632547.png)
+![开漏、推挽复用输出](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251209200632547.png)
 
 
 

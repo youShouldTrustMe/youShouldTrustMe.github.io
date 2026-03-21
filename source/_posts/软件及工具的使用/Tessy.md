@@ -116,7 +116,7 @@ Root/
 
 1. 当移动待测文件之后，刷新一下
 
-   ![刷新](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318093147408.png)
+   ![刷新](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318093147408.png)
 
 2. 打开创建的 TESSY 工程，在 *`Test Cockpit `*视图下选中需要的测试工程右键并点击 *`New Modules  `*
 
@@ -142,11 +142,11 @@ Root/
 
 2. 创建测试模块
 
-   ![创建测试模块](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318092806670.png)
+   ![创建测试模块](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318092806670.png)
 
 3. 增加源码
 
-   ![增加源码](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318092958246.png)
+   ![增加源码](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318092958246.png)
 
    > [!tip]
    >
@@ -159,24 +159,24 @@ Root/
 1. 自动创建测试集合==前==
    1. 导入头文件：在 Test Cockpit 视图下选中待测工程右键点击 New Modules 在 Create Modules 窗口下选中 Includes 后，将头文件路径信息进行添加，点击图标 ，可以指定头文件路径
 
-      ![创建集合前导入文件](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318112837264.png)
+      ![创建集合前导入文件](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318112837264.png)
    
    2. 定义宏：在create new modulues窗口下选择*`Defines`*，点击加号即可定义宏
    
-      ![创建集合前导入宏](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318112916224.png)
+      ![创建集合前导入宏](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318112916224.png)
    
 2. 自动创建测试集合==后==
    1. 在 Test Project 视图下选中待测的模块，在 Sources 页面点击 Include ，导入头文件或者手动定义宏	
    
-      ![导入头文件](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318105556715.png)
+      ![导入头文件](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318105556715.png)
    
    1. 导入宏：
    
-      ![定义宏](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318105800628.png)
+      ![定义宏](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318105800628.png)
    
    1. 整体操作为：
    
-      ![整体操作](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113015129.png)
+      ![整体操作](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113015129.png)
 
 ### 修改相关参数
 
@@ -185,7 +185,7 @@ Root/
 1. 选中被测函数
 2. 点击 TIE 界面，可以看到 TESSY 自动识别出来的输入和输出接口， 如果需要进行改动，可在想要修改的位置修改测试对象接口  
 
-![修改参数](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113109008.png)
+![修改参数](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113109008.png)
 
 ## 设计测试用例
 
@@ -200,11 +200,11 @@ Root/
 5. 填入测试用例的相关参数
 6. 保存
 
-![新建一个测试用例](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318111350069.png)
+![新建一个测试用例](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318111350069.png)
 
 点击运行，查看用例的通过情况
 
-![测试结果](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113136898.png)
+![测试结果](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113136898.png)
 
 ### 设置覆盖度
 
@@ -212,7 +212,7 @@ Root/
 
 点击测试执行绿色按钮右边的下拉小三角 ，选择 Edit Test Execution Settings . . . ，可以对覆盖度进行设置，保存后执行  
 
-![设置覆盖度](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113152764.png)
+![设置覆盖度](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113152764.png)
 
 1. 首先需要选择是否需要覆盖：
 
@@ -222,14 +222,14 @@ Root/
 
    1. Test object and called functions： 表示计算被测函数和调用函数的覆盖度
 
-![是否需要覆盖率](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113158213.png)
+![是否需要覆盖率](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113158213.png)
 
 2. 单元测试时，选Test object only，覆盖度选C0， C1， MC/DC（注意，自定义选择时需要将Use preselected coverage选项关掉）
 3. 集成测试时，选Test object and called functions，覆盖度选CPC和FC
 
 当配置好单元测试之后，就可以在Test project选项卡中看到代码的通过情况了
 
-![代码通过情况](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113211281.png)
+![代码通过情况](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113211281.png)
 
 > [!IMPORTANT]
 >
@@ -260,11 +260,11 @@ Root/
 
 点击 CV 界面可查看覆盖度情况， 在 Statement(C0) Coverage 视图下能看到测试的 C0 覆盖情况  
 
-![CV覆盖率的图形化界面](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113223478.png)
+![CV覆盖率的图形化界面](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113223478.png)
 
 可以通过切换不同的视图，查看不同测试图形化
 
-![分支测试的图形化显示](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113228884.png)
+![分支测试的图形化显示](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113228884.png)
 
 > [!TIP]
 >
@@ -276,7 +276,7 @@ Root/
 
 打开 *`Requirement Management `*界面，右键选择*` Import `* 
 
-![插入需求](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113239283.png)
+![插入需求](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113239283.png)
 
 >   [!NOTE]
 >
@@ -286,11 +286,11 @@ Root/
 
 提交：提交时可以选中一个提交，也可以提交全部
 
-![提交需求](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113248913.png)
+![提交需求](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113248913.png)
 
 将需求和测试用例链接：依次点击*==TDE>Requirements coverage==*
 
-![将需求和测试用例链接](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113257138.png)
+![将需求和测试用例链接](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113257138.png)
 
 > [!NOTE]
 >
@@ -298,13 +298,13 @@ Root/
 
 测试用例与需求链接完成后，在 TDE 界面的TEST item页面中选中对应的测试用例，在 Test Definition 标签下可以查看链接到该测试用例的需求  
 
-![查看链接](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113331011.png)
+![查看链接](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113331011.png)
 
 ## 导出测试报告
 
 点击 下拉小三角可选择导出测试报告， 点击 Edit Test Details Report Settings…可设置报告选项和报告存放路径， 击 Generate Test Detail Report 可按默认设置生成详细测试报告  
 
-![导出测试报告](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113342277.png)
+![导出测试报告](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113342277.png)
 
 可以生成以下几种报告：
 
@@ -319,17 +319,17 @@ Root/
 
 新建工程和单元测试相同，导入源码与单元测试部分基本相同，不同之处在于新建测试集合的时候 Test Type 选择 Component Test
 
-![组件测试新建工程页面](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113356640.png)
+![组件测试新建工程页面](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113356640.png)
 
 配置好编译器、头文件、宏定义等其他选项后， 点击 OK，此时 Test Project视图会自动创建测试集合并分析代码。 与单元测试不同的是，组件测试分析完成后不会列出所有源码文件中的函数列表，而是只显示 Scenarios 一个测试对象  
 
-![单元测试项详情](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113404162.png)
+![单元测试项详情](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113404162.png)
 
 可根据被测对象功能以及对外接口，在 TIE 界面中进行接口设置  
 
 对于一些依赖或者外部函数，可以使用*`桩函数`*进行模拟（这里的桩函数是LightOff和LightOn），选择需要打桩的函数，右键，点击*`create stub`*
 
-![桩函数](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113411292.png)
+![桩函数](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113411292.png)
 
 > [!IMPORTANT]
 >
@@ -468,31 +468,31 @@ void tick()
 
 1. 设置入口函数。 进入 SCE 界面，选中组件函数 tick()，点击 ，设置为 work task（入口函数选取条件：==void 类型且没有形参==）  
 
-   ![设置入口函数](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113426860.png)
+   ![设置入口函数](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113426860.png)
 
    同时需要设置该函数的开始时间及循环周期
 
-   ![入口函数参数设置](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113432388.png)
+   ![入口函数参数设置](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113432388.png)
 
 2. 在 SCE 界面下的选中 Test Data 后鼠标放在在 Test Items 空白处点击创建测试用例  
 
-   ![新建测试用例页面](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113442401.png)
+   ![新建测试用例页面](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113442401.png)
 
-   ![测试用例详情](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113449548.png)
+   ![测试用例详情](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113449548.png)
 
 3. 首先选择刚刚新建的测试用例，点击 Insert Time Step 添加时间节点  
 
-   ![添加时间节点](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113456061.png)
+   ![添加时间节点](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113456061.png)
 
 4. 按照需要将组件函数拖到指定时间节点（鼠标左键按住函数可拖动到时间节点相应位置），搭建场景。 具体场景为： 在 30ms 时关闭车门，则 40ms 时车灯会亮； 在 70ms 时将发动机点火，则 80ms 时车灯会灭   
 
 5. 选中 set_sensor_door()函数，在 Properties 界面设置其参数值 d=closed。set_sensor_ignition()函数同理，设置 i=on 
 
-   ![修改函数参数](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113526839.png)
+   ![修改函数参数](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113526839.png)
 
 6. 将function call页面中的 LightOn()、 LightOff()和静态函数 iLgihtOn()、 iLightOff()拖到指定时间节点，用于监控车灯变化情况。 设置外部函数和静态函数预估调用时间（在 10ms内预计调用一次）。选中 LightOn()函数， 在 Properties 界面设置 Time Frame 为 10。iLightOn()、 LightOff()、 iLightOff()同理 
 
-   ![函数调用](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113533368.png)
+   ![函数调用](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113533368.png)
 
    > [!NOTE]
    >
@@ -502,19 +502,19 @@ void tick()
 
 7. 编写测试用例
 
-   ![测试用例](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113542416.png)
+   ![测试用例](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113542416.png)
 
 8. 设置测试需要的参数
 
-   ![测试参数](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113548856.png)
+   ![测试参数](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113548856.png)
 
 9. 点击运行按钮，查看测试运行的结果
 
-   ![运行结果](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113556587.png)
+   ![运行结果](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113556587.png)
 
 10. 点击 CV 界面的 Called Functions 视图和 Call Pair Coverage 视图下可查看函数覆盖和调用覆盖的情况  
 
-![测试用例覆盖情况](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113604671.png)
+![测试用例覆盖情况](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113604671.png)
 
 # 桩函数
 
@@ -542,7 +542,7 @@ void tick()
 >
 > 只需要在 TIE 界面将其打普通桩， 并点击保存， 解决报错  
 >
-> ![函数打桩](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113616931.png)
+> ![函数打桩](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113616931.png)
 
 ## 高级桩
 
@@ -568,13 +568,13 @@ void tick()
 >
 > 在 TIE 界面将其打高级桩并保存，并在 TDE 界面设置其预期返回值  
 >
-> ![高级桩](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113624816.png)
+> ![高级桩](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113624816.png)
 >
 > > [!NOTE]
 > >
 > > 注意：这里设置的IN是相较于被测函数来说是IN，如果传参数的话，那么passing应该设置为out，因为对于被测函数来说，形参是输出
 >
-> ![设置期待返回值](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113638253.png)
+> ![设置期待返回值](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113638253.png)
 >
 > 栗子2：
 >
@@ -596,7 +596,7 @@ void tick()
 > }
 > ```
 >
-> ![带有形参的桩函数](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113819842.png)
+> ![带有形参的桩函数](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113819842.png)
 
 ## 手写桩
 
@@ -620,29 +620,29 @@ void tick()
 >
 > 1. 在test cockpit页面选中待测函数，然后在 TIE 界面点击新建变量，输入 name 选择类别为普通变量， 新建一个数组并在Type 设置为对应的变量类型，示例为 unsigned char 类型 
 >
->    ![新建变量](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318113949501.png)
+>    ![新建变量](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318113949501.png)
 >
 > 2. 对 STUB_3()打普通桩并保存
 >
->    ![打桩](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114001353.png)
+>    ![打桩](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114001353.png)
 >
 > 3. 设置创建的全局变量数组为 OUT
 >
->    ![设置数组为全局变量](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114010243.png)
+>    ![设置数组为全局变量](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114010243.png)
 >
 >    > [!NOTE]
 >    >
 >    > 注意：当修改被测函数之后，工程的接口就需要变更，在TDE页面就会显示接口变更
 >    >
->    > ![接口变更](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114040659.png)
+>    > ![接口变更](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114040659.png)
 >    >
 >    > 然后切换到IDA页面，双击变更的函数，将会展示新旧之间的对比（Tessy只列出相关属性，需要测试工程师自己匹配是否正确）
 >    >
->    > ​	![提交页面](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114048089.png)
+>    > ​	![提交页面](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114048089.png)
 >
 > 4. 然后在TDE 的 Stub Functions 界面手写桩函数的代码  
 >
->    ![手写桩函数代码的编写](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114057096.png)
+>    ![手写桩函数代码的编写](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114057096.png)
 
 > [!NOTE]
 >
@@ -650,7 +650,7 @@ void tick()
 
 4. TDE 界面选中新建的全局变量数组右键选择 Show All Array Elements 显示所有数组元素，然后对 new_array 数组输入预期值，检查测试结果  
 
-   ![填写数组期待值](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114123648.png)
+   ![填写数组期待值](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114123648.png)
 
 5. 点击运行即可查看相关测试结论
 
@@ -682,21 +682,21 @@ void TS_FUN_PON_2(hirain_u8 *p,STR *p1)
 
 1. 在 TIE 界面设置输入输出接口，根据不同的测试需求进行设置，示例的输入输出接口如下： 
 
-   ![输入输出接口](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114136511.png)
+   ![输入输出接口](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114136511.png)
 
 2. 在 TDE 界面创建测试用例后， 设置指针的具体指向，赋值后执行测试  
 
-   ![让指针指向变量](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114142681.png)
+   ![让指针指向变量](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114142681.png)
    
    > [!NOTE]
    >
    > 注意：这里需要选中测试用例之后，才能右键创建指针指向的目标值
 
-![完善测试用例](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114222918.png)
+![完善测试用例](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114222918.png)
 
 当在测试过程中，使用了字符串的指针，需要先设置一个目标数组，然后将需要测试的指针指向这个数组
 
-![目标数组](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114239645.png)
+![目标数组](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114239645.png)
 
 > [!NOTE]
 >
@@ -718,13 +718,13 @@ hirain_u32 hirain_stuv_4(hirain_u32 temp2){
 
 1. 在 TIE 界面设置函数指针的输入输出接口  
 
-   ![设置函数指针的输入输出接口](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114248710.png)
+   ![设置函数指针的输入输出接口](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114248710.png)
 
 2. 在 TDE 的 Declarations/Definition 界面实现函数的声明和定义（注意要与函数指针类型一致），并让函数指针指向这个函数，赋值后执行测试
 
-   ![函数的申明与定义](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114256051.png)  
+   ![函数的申明与定义](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114256051.png)  
 
-![函数具体实现](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114307349.png)
+![函数具体实现](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114307349.png)
 
 ## void型指针
 
@@ -741,11 +741,11 @@ hirain_u8 TS_FUN_PON_1(int *p,void *p1){
 
 1. 需要在 TIE 界面新建一个有类型的全局变量并根据不同的测试需求设置输入或输出，然后保存，在TDE页面 右键void类型指针，选择 set pointer target，当鼠标变成带有瞄准框的样式，选中你想要指向的变量
 
-   ![void类型指针指向](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114456100.png)
+   ![void类型指针指向](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114456100.png)
 
 2. 然后在 TDE 界面将指针指向该变量，将变量地址传入指针接口，设置测试数据并运行  
 
-![定义指针指向](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114517182.png)
+![定义指针指向](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114517182.png)
 
 # 故障注入
 
@@ -762,15 +762,15 @@ hirain_u8 loop_test2(){
 
 1. 对于上述示例待测函数，若直接在 TDE 界面运行测试用例， TESSY 会一直处于执行测试过程  
 
-   ![死循环](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114527300.png)
+   ![死循环](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114527300.png)
 
 2. 此时需要建立故障注入的测试用例来进行测试，首先在 TDE 界面的 Test Items 视图下鼠标右键选中 New Fault Injection Test Case 建立故障注入的测试用例  
 
-   ![故障注入](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114533304.png)
+   ![故障注入](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114533304.png)
 
 3. 然后跳转至 CV 界面，在测试函数的框图处选择死循环的部分，然后鼠标双击会弹出故障注入的窗口，输入对应的故障注入代码并保存  
 
-   ![代码注入](https://gitee.com/you-trust-me/pictures/raw/master/Images/image-20260318114540688.png)
+   ![代码注入](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260318114540688.png)
 
 4. 最后跳转至 TDE 界面根据不同的测试需求设计测试用例，执行测试用例  
 
