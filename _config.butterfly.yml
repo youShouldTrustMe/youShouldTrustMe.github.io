@@ -61,7 +61,7 @@ social:
 favicon: /img/favicon.png
 
 avatar:
-  img: /img/avatar.jpg
+  img: /img/avatar.webp
   effect: false
 
 # Disable all banner images
@@ -97,31 +97,19 @@ footer_img: false
 
 # Website Background
 # Can set it to color or image url
-background: /img/index.jpg
+background: /img/index.webp
 
 cover:
   # Disable the cover or not
-  index_enable: true
+  index_enable: false
   aside_enable: true
-  archives_enable: true
+  archives_enable: false
   # When cover is not set, the default cover is displayed
   default_cover:
     - /img/RandomCoverImage/random_1.png
     - /img/RandomCoverImage/random_2.jpg
     - /img/RandomCoverImage/random_3.jpg
     - /img/RandomCoverImage/random_4.jpg
-    - /img/RandomCoverImage/random_5.png    
-    - /img/RandomCoverImage/random_6.jpg
-    - /img/RandomCoverImage/random_7.jpg
-    - /img/RandomCoverImage/random_8.jpg
-    - /img/RandomCoverImage/random_9.jpg
-    - /img/RandomCoverImage/random_10.jpg
-    - /img/RandomCoverImage/random_11.png
-    - /img/RandomCoverImage/random_12.jpg
-    - /img/RandomCoverImage/random_13.png
-    - /img/RandomCoverImage/random_14.png
-    - /img/RandomCoverImage/random_15.jpg
-    - /img/RandomCoverImage/random_16.jpg
 
 
 # Replace Broken Images
@@ -169,7 +157,7 @@ index_top_img_height:
 
 # The subtitle on homepage
 subtitle:
-  enable: true
+  enable: false
   # Typewriter Effect
   effect: true
   # Customize typed.js
@@ -203,9 +191,9 @@ index_layout: 3
 # 3: auto_excerpt (default)
 # false: do not show the article introduction
 index_post_content:
-  method: 4
+  method: 3
   # If you set method to 2 or 3, the length need to config
-  length: 500
+  length: 150
 
 # --------------------------------------
 # Post Settings
@@ -505,7 +493,7 @@ search:
   # Local Search
   local_search:
     # Preload the search data when the page loads.
-    preload: true
+    preload: false
     # Show top n results per article, show all results by setting to -1
     top_n_per_article: 1
     # Unescape html strings to the readable one.
@@ -854,7 +842,7 @@ hr_icon:
 # Typewriter Effect
 # https://github.com/disjukr/activate-power-mode
 activate_power_mode:
-  enable: true
+  enable: false
   colorful: true
   shake: true
   mobile: false
@@ -895,7 +883,7 @@ canvas_nest:
 
 # Mouse click effects: fireworks
 fireworks:
-  enable: true
+  enable: false
   zIndex: 9999
   mobile: false
 
@@ -1023,7 +1011,7 @@ instantpage: false
 lazyload:
   enable: false
   # Use browser's native lazyload instead of vanilla-lazyload
-  native: false
+  native: true
   # Specify the field to use lazyload (site or post)
   field: site
   placeholder:
@@ -1076,7 +1064,7 @@ CDN:
   # Note: Dev version can only use 'local' for internal scripts
   # Note: When setting third-party scripts to 'local', you need to install hexo-butterfly-extjs
   internal_provider: local
-  third_party_provider: jsdelivr
+  third_party_provider: cdnjs
 
   # Add version number to url, true or false
   version: false
@@ -1086,12 +1074,13 @@ CDN:
   custom_format:
 
   option:
-    # abcjs_basic_js:
-    # activate_power_mode:
-    # algolia_js:
-    # algolia_search:
-    # aplayer_css:
-    # aplayer_js:
+     # abcjs_basic_js:
+    # activate_power_mode: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js
+    # algolia_js: https://cdn1.tianli0.top/npm/js-heo@1.0.11/algolia/algolia.js
+    # algolia_search: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/instantsearch.js/2.10.5/instantsearch.min.js
+    # algolia_search_css: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/instantsearch.js/2.10.5/instantsearch.min.css
+    # aplayer_css: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.css
+    # aplayer_js: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/aplayer/1.10.1/APlayer.min.js
     # artalk_css:
     # artalk_js:
     # blueimp_md5:
@@ -1102,48 +1091,49 @@ CDN:
     # chartjs:
     # click_heart:
     # clickShowText:
-    # disqusjs:
-    # disqusjs_css:
+    # disqusjs: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/disqusjs/1.3.0/disqus.js
+    # disqusjs_css: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/disqusjs/1.3.0/disqusjs.css
     # docsearch_css:
     # docsearch_js:
     # egjs_infinitegrid:
-    # fancybox:
-    # fancybox_css:
+    # fancybox: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.js
+    # fancybox_css: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/fancybox/3.5.7/jquery.fancybox.min.css
     # fireworks:
-    # fontawesome:
-    # gitalk:
-    # gitalk_css:
+    # fontawesome: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
+    # gitalk: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.js
+    # gitalk_css: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/gitalk/1.7.2/gitalk.min.css
     # giscus:
-    # instantpage:
+    # instantpage: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js
     # instantsearch:
     # katex:
     # katex_copytex:
-    # lazyload:
+    # lazyload: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js
     # local_search:
     # main:
     # main_css:
     # mathjax:
-    # medium_zoom:
+    # medium_zoom: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/medium-zoom/1.0.6/medium-zoom.min.js
     # mermaid:
-    # meting_js:
-    # prismjs_autoloader:
-    # prismjs_js:
-    # prismjs_lineNumber_js:
-    # pjax:
-    # sharejs:
-    # sharejs_css:
-    # snackbar:
-    # snackbar_css:
-    # translate:
-    # twikoo:
-    # typed:
+    # meting_js: https://cdn1.tianli0.top/npm/js-heo@1.0.12/metingjs/Meting.min.js
+    # prismjs_autoloader: https://cdn1.tianli0.top/npm/prismjs/plugins/autoloader/prism-autoloader.min.js
+    # prismjs_js: https://cdn1.tianli0.top/npm/prismjs@1.1.0/prism.js
+    # prismjs_lineNumber_js: https://cdn1.tianli0.top/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js
+    # pjax: https://lib.baomitu.com/pjax/0.2.8/pjax.min.js
+    # sharejs: https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js
+    # sharejs_css: https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css
+    # snackbar: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.js
+    # snackbar_css: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/node-snackbar/0.1.16/snackbar.min.css
+    # translate: https://cdn1.tianli0.top/npm/js-heo@1.0.6/translate/tw_cn.js
+    # twikoo: https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/twikoo/1.4.18/twikoo.all.min.js
+    # typed: https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/typed.js/2.0.12/typed.min.js
     # utils:
-    # valine:
+    # valine: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/valine/1.4.16/Valine.min.js
     # waline_css:
-    # waline_js:
+    # waline_js: https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/waline/1.5.4/Waline.min.js
+
 
 swiper:
-  enable: true # 开关
+  enable: false # 开关
   priority: 1 #过滤器优先权
   enable_page: / # 应用页面
   timemode: date #date/updated

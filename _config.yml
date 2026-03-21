@@ -116,7 +116,7 @@ search:
 
 # 小冰分类磁贴
 magnet:
-  enable: true
+  enable: false
   priority: 2
   enable_page: /
   type: categories
