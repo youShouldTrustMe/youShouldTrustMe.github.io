@@ -1143,7 +1143,7 @@ CDN:
 
 
 swiper:
-  enable: false # 开关
+  enable: true # 开关
   priority: 1 #过滤器优先权
   enable_page: / # 应用页面
   timemode: date #date/updated
