@@ -10,7 +10,7 @@ tags:
   - 汽车行业标准
 ---
 
-# 参考链接
+# **参考链接**
 
 [ 搞一点AutoSar-墨客博客 (xcnm.net)](https://xcnm.net/archives/gao-yi-dian-autosar-yi-zhang-tu-bang-ni-li-jie-cantong-xin-quan-guo-cheng)
 
@@ -3082,202 +3082,1118 @@ ComM 模块主要功能如下：
 
 ### PNC状态管理
 
-ComM进行通信模式管理提供有两大状态机，其中一个就是PNC 状态管理，在介绍之前，得搞清楚PNC到底是个啥？PNC是Partial Network Cluster的缩写，一般将这些在某种条件下需要保持同样工作状态，且连接在同一总线（或由网关连接）的ECU称之为一组PNC，对这些ECU统一进行网络管理。在一些特殊应用中，如果网关也使能了PNC，那么则可以通过网关进行网络协调，让不同总线上的ECU组成一个大型PNC组。
+**部分网络簇管理（Partial Network Cluster Management, PNC）** 是 AUTOSAR 通信管理器（ComM）的一项核心功能，旨在通过仅激活必要的网络节点来降低功耗。
 
-ComM 模块对每组 PN 定义了一组状态机，用于描述各 PN 组的状态、状态转移关系和状态转移动作。该状态机共包含 4 种状态，分别为：
+- **状态机管理**：ComM 为每个 PNC 实现了一个独立的状态机，用以代表该簇的通信模式。
+- **用户交互**：ComM 用户通过“请求（Request）”和“释放（Release）”操作来控制 PNC 的激活状态。
+- **状态映射**：每个 PNC 的状态定义与 ComM 的整体状态相关联，以便进行简单的逻辑映射。
 
-1. PNC_NO_COMMUNICATION
-2. PNC_PREPARE_SLEEP
-3. PNC_READY_SLEEP
-4. PNC_REQUESTED
+状态交换机制（比特向量）：
 
-状态切换如下图所示：
+PNC 的状态信息通过网络管理（NM）用户数据在系统节点间交换：
 
-![PNC状态转换](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/29_8_7_7_%E6%9A%82%E5%AD%98.png)
+- **专用比特位**：每个 PNC 在 NM 用户数据的比特向量中拥有一个固定的位置。
+  - **激活**：当本地用户请求某 PNC 时，节点将对应比特位置为 **1**。
+  - **释放**：当不再有用户请求该 PNC 时，对应比特位被置为 **0**。
+- **数据聚合**：总线网络管理模块（BusNms）收集并汇总这些数据，通过 **COM 信号** 将比特向量提供给 ComM。
+- **向量类型**：ComM 使用两种比特向量来交换状态：
+  - **EIRA (External Internal Request Aggregate)**：外部/内部请求聚合。
+  - **ERA (External Request Aggregate)**：外部请求聚合。
 
-观察状态切换图，可以看到上面出现了ERA, EIRA的字眼，无论是开启还是关闭ECU的通信功能，都是需要进行请求的，而这个请求则分为内部请求与外部请求，我们称之为External Internal Request Array，也即EIRA。每一个ECU都需要有EIRA，来根据部分网络活动进而切换IPdu Group的状态。至于ERA，External Requested Array，它主要用于网关，仅收集外部PN请求的场景。网关会将外部PN请求镜像回请求总线，同时将这个请求发送到其他的总线上。IRA，Internal Requested Array，代表ECU内部对于PNC状态的请求，既可以是SWC通过RTE直接请求ComM接口，或者在某种条件满足时，由BswM请求ComM接口。
+> [!note]
+>
+> 总线支持与物理执行:
+>
+> - **支持的总线类型**：部分网络管理目前仅支持 **CAN** 和 **FlexRay** 总线。
+> - **通道控制**：ComM 根据 PNC 的需求，请求或释放节点所需的系统通信总线通道。
+> - **PDU 组管理**：
+>   - 在 FlexRay 节点上，必须激活或停用 PNC 相关的 **I-PDU 组**，以避免产生错误的超时错误。
+>   - **BswM** 负责实际执行 COM 模块中 I-PDU 组的启动与停止。
 
-系统上电后整个PNC的状态在COMM_PNC_NO_COMMUNICATION。
+#### 功能细节
 
-在PNC状态切换过程中如果是主动唤醒节点直接请求FULL通信，或者是网关节点控制的节点在收到网关下的ERA数组的相关状态位，直接从COMM_PNC_NO_COMMUNICATION进入到COMM_PNC_REQUESTED阶段。如果是被动唤醒的节点，则根据接收到唤醒报文中的PNC位状态切换到COMM_PNC_READY_SLEEP或者COMM_PNC_PREPARE_SLEEP。
 
-而COMM_PNC_FULL_COMMUNICATION内部的三个子状态的切换也是根据该节电的是否能被动唤醒功能进行内部的状态切换，主要体现是主动唤醒下需要Request Full相关的操作以及NM报文中对应的UserData中相关的PNC位进行转换的。
 
-总结一下可以让ComM的PNC状态机切换的事件可以来自于：
+**部分网络簇管理（PNC）的功能细节**主要集中在配置、信号交换以及如何在比特向量中定位特定 PNC 的逻辑上。
 
-1. 来自用户的请求 ComM_RequestComMode()函数调用
-2. 来自 EcuM 模块的唤醒通知 ComM_EcuM_WakeUpIndication()
-3. 来自 Com 模块的 PNC 值变化通知
-4. ComM 模块内部定时器超时事件
+1. 开启与配置要求
+
+   - **启用开关**：只有当 `ComMPncSupport` 参数设置为 `TRUE` 时，PNC 功能才存在。
+   - **后构建配置**：PNC 功能的启用或禁用必须支持 **Post-build**（后构建）阶段配置。
+   - **状态通知**：ComM 状态机每当发生状态变化时，都会通过调用 `BswM_ComM_CurrentPncMode()` 来通知 **BswM**。
+
+2. 比特向量（Bit Vector）交换逻辑
+
+   为了在各节点间交换 PNC 状态，ComM 使用了紧凑的比特向量：
+
+   - **容量限制**：比特向量被定义为单一信号，最多包含 **56 个 PNC 状态位**。
+
+   - **数据类型**：ComM 要求该比特向量被配置为 `uint8_t` 类型的数组。
+
+   - **位置计算 (byteIndex & bitIndex)**：
+
+     对于一个特定的 `ComMPncId`，其在数组中的位置通过以下公式计算：
+
+     - **字节索引**：
+
+       $$byteIndex = ComMPncId ÷ 8 - \text{Offset}$$
+
+     - **位索引**：
+
+       $$bitIndex = ComMPncId \mod 8$$
+
+     > *注：Offset 值可从网络管理（NM）模块的配置中获得。*
+
+3. 信号接收与分发
+
+   - **信号接收**：ComM 通过 `Com_ReceiveSignal()` 接收比特向量信号，这些信号可以是 **EIRA**（外部/内部请求聚合）或 **ERA**（外部请求聚合）类型。
+   - **变化回调**：ComM 提供 `ComM_COMCbk_<SignalName>()` 回调 API，用于在模块通信中指示信号发生变化。
+   - **状态分发**：ComM 能够通过一个或多个通信总线分发 PNC 状态（即 PNC 状态机运行的结果）。它是通过配置为 `TX` 方向的比特向量信号（COM Signal）来完成的。
+
+PNC 信号处理流向为：
+
+1. **输入**：通过 `Com_ReceiveSignal` 获取 EIRA/ERA 信号。
+2. **处理**：根据 `byteIndex` 和 `bitIndex` 提取对应 `ComMPncId` 的状态。
+3. **反馈**：状态机变化后通知 BswM。
+4. **输出**：将本地请求状态通过 `TX` 方向的比特向量发送至总线。
+
+#### PNC状态机
+
+1. 状态机结构与容量
+
+   - **数量限制**：ComM 模块最多支持 **56 个** PNC 状态机。
+   - **实现原则**：每个 Partial Network 仅实现一个 PNC 状态机，无论它关联了多少个通信通道（ComMChannels）。
+   - **状态层次**：
+     - **两大主状态**：`COMM_PNC_FULL_COMMUNICATION` 和 `COMM_PNC_NO_COMMUNICATION`。
+     - **子状态**：在全通信主状态下，包含 `COMM_PNC_REQUESTED`（已请求）、`COMM_PNC_READY_SLEEP`（准备睡眠）和 `COMM_PNC_PREPARE_SLEEP`（预备睡眠）三个子状态。
+2. 状态切换与通知机制
+   - **执行时机**：由 `ComM_RequestComMode()` 触发的状态切换必须仅在 `ComM_MainFunction` 中执行。
+   - **优先级顺序**：如果 PNC 功能开启，PNC 相关的动作必须在通道（Channel）相关动作之前执行。
+   - **外部通知**：除了从 PowerOff 进入 `COMM_PNC_NO_COMMUNICATION` 外，所有的状态变更都必须通过 `BswM_ComM_CurrentPncMode()` 通知 BswM。
+3. 请求处理优先级 (Handling Order)
+   在处理映射到一个或多个 PNC 的通道时，`ComM_MainFunction` 必须按照以下严格顺序处理请求状态：
+   - **映射到 PNC 的用户请求**：本地 SW-C 等用户对 PNC 的请求。
+   - **直接映射到通道的用户请求**：不通过 PNC 直接请求通道的用户。
+   - **ERA (External Request Aggregate)**：外部请求聚合信号（需开启网关功能）。
+   - **EIRA (External Internal Request Aggregate)**：外部/内部请求聚合信号。
+4. 信号聚合与触发源
+   - **EIRA/ERA 逻辑**：
+     - 如果 Rx 比特向量中对应 PNC 的任何位为 '1'，则 ComM 中该 PNC 的 EIRA 位设为 '1'。
+     - 只有在开启 `ComMPncGatewayEnabled` 且配置了网关类型的通道上，Rx 比特向量中的 ERA 位才会被处理并映射到 ComM 的 ERA 位。
+   - **触发定义**：
+     - **ComM_COMCbk**：代表来自 COM 模块的通知，指示收到了包含 ERA 或 EIRA 信息的信号。
+     - **ComMUser**：代表来自应用层的通信请求（通过 `ComM_RequestComMode`）。
+5. 特殊规则
+   - **多信号分配**：允许将多个包含 PNC 位的 COM 信号分配给同一个 PNC（例如一个 EIRA 和多个 ERA），这支持跨多个物理通道（如 FlexRay、多个 CAN 链路）的 ID 配置。
+   - **等效性**：在处理“通信允许（Communication allowed）”和模式抑制（mode inhibitions）时，来自 PNC 状态机的请求被视为等同于对应通道的用户请求。
+
+![PNC状态机](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260326170720707.png)
+
+
+
+##### COMM_NO_COMMUNICATION 
+
+
+1. 默认与初始状态
+
+   - **上电默认值**：在 ECU 上电或切换电源供应后，`COMM_PNC_NO_COMMUNICATION` 是默认的初始状态。
+   - **维持条件**：只要该 PNC 既没有被 ECU 内部请求，也没有被外部请求，它就会保持在这个目标状态。
+
+2. 唤醒指示引发的跳转 (Wake-up)
+
+    当系统处于无通信状态时，不同的唤醒指示决定了状态机的去向：
+   - **同步唤醒 (Synchronous Wake-up)**：
+     - 如果调用了 `ComM_EcuM_WakeUpIndication()` 且配置参数 `ComMSynchronousWakeUp` 为 **TRUE**，状态机会离开无通信状态并进入 `COMM_PNC_PREPARE_SLEEP`。
+   - **异步唤醒 (Asynchronous Wake-up)**：
+     - 如果 `ComMSynchronousWakeUp` 为 **FALSE**，调用上述 API 后状态将保持在 `COMM_PNC_NO_COMMUNICATION`，直到收到明确的 PNC 请求（即 EIRA 位变为 '1'）。
+   - **特定 PNC 唤醒**：
+     - 如果调用了专门的 `ComM_EcuM_PNCWakeUpIndication()`，状态机将直接进入 `COMM_PNC_PREPARE_SLEEP`。
+
+3. 用户请求与信号触发的跳转
+
+   除了唤醒事件，主动请求和网络信号也会触发状态机的升级：
+
+   - **本地用户请求**：
+     - 当至少一个分配给该 PNC 的 `ComMUser` 请求“全通信”模式时，状态机进入 `COMM_PNC_REQUESTED` 子状态。
+   - **外部 EIRA 信号**：
+     - 当 EIRA 比特向量中代表该 PNC 的位变为 '1' 时，状态机进入 `COMM_PNC_READY_SLEEP`。
+   - **外部 ERA 信号（网关模式）**：
+     - 如果开启了 `ComMPncGatewayEnabled` 且对应的通道配置了网关类型，当 ERA 比特向量中对应位变为 '1' 时，状态机进入 `COMM_PNC_REQUESTED`。
+
+下表总结了从 `COMM_PNC_NO_COMMUNICATION` 出发的不同跳转路径：
+
+| **触发源**        | **条件/配置**              | **目标子状态**             |
+| ----------------- | -------------------------- | -------------------------- |
+| **ComMUser 请求** | 至少一人请求 FULL_COM      | **COMM_PNC_REQUESTED**     |
+| **ERA 信号**      | 开启网关功能               | **COMM_PNC_REQUESTED**     |
+| **EIRA 信号**     | 对应位变为 '1'             | **COMM_PNC_READY_SLEEP**   |
+| **通用唤醒指示**  | 同步唤醒 = TRUE            | **COMM_PNC_PREPARE_SLEEP** |
+| **PNC 唤醒指示**  | 调用 `PNCWakeUpIndication` | **COMM_PNC_PREPARE_SLEEP** |
+
+##### COMM_PNC_REQUESTED
+
+
+
+1. 进入状态时的动作 (On Entry)
+
+   当 PNC 状态机进入 `COMM_PNC_REQUESTED` 时，ComM 会立即执行以下操作：
+   - **物理通道请求**：无论通道当前处于什么状态，ComM 必须为该 PNC 关联的所有配置通道请求 `COMM_FULL_COMMUNICATION`。
+   - **发送激活信号 (TX Bit = 1)**：
+     - **非网关模式**：如果未开启网关功能，直接通过 `Com_SendSignal` 将该 PNC 对应的 TX 位设为 **'1'**。
+     - **网关模式**：如果开启了网关（`ComMPncGatewayEnabled = TRUE`），则仅在 `COMM_GATEWAY_TYPE_ACTIVE`（主动网关）类型的通道上将 TX 位设为 **'1'**。
+
+2. 网关模式下的行为 (Gateway Behavior)
+
+   在 `COMM_PNC_REQUESTED` 状态中，针对 `PASSIVE`（被动）类型的网关通道，信号的发送逻辑由动态条件决定：
+   - **转发/激活 (TX = 1)**：在被动网关通道上发送 '1' 的前提是：至少有一个本地用户请求全通信，**或者**从主动网关通道（`ACTIVE`）收到了该 PNC 的 `ERA` 信号（RX = 1）。
+   - **停止/去激活 (TX = 0)**：如果在被动网关通道上，既没有本地用户请求，也没有来自主动网关通道的外部 `ERA` 信号，则通过 `Com_SendSignal` 将 TX 位设为 **'0'**。
+   - **向量规避 (Vector Avoidance)**：如果开启了 `ComM0PncVectorAvoidance` 且上述 TX 信号变为 '0'，ComM 会释放该物理通道以节省资源；一旦信号恢复为 '1'，则重新请求该通道。
+
+3. 状态维持与退出条件
+
+   `COMM_PNC_REQUESTED` 状态的维持取决于本地和远程的请求聚合：
+
+   - **维持条件**：
+     1. 只要有至少一个本地 `ComMUser` 请求 `FULL_COM`。
+     2. 或者开启了网关功能且远程 `ERA` 信号指示该 PNC 仍被请求。
+   - **退出到 READY_SLEEP**：
+     - **非网关环境**：当**所有**本地用户都释放了请求（请求 `NO_COM`）时，进入 `COMM_PNC_READY_SLEEP`。
+     - **网关环境**：必须满足**所有**本地用户释放请求 **且** 所有关联通道的 `ERA` 信号位均为 **0** 时，才能进入 `COMM_PNC_READY_SLEEP`。
+
+网关类型对信号的影响：
+
+| **网关类型 (GatewayType)** | **进入时的动作 (TX)**  | **运行时的逻辑**                                 |
+| -------------------------- | ---------------------- | ------------------------------------------------ |
+| **NONE (非网关)**          | 立即设为 '1'           | 仅随本地用户请求状态维持                         |
+| **ACTIVE (主动)**          | 立即设为 '1'           | 作为源头，将状态同步给其他通道                   |
+| **PASSIVE (被动)**         | 不在进入时强制设为 '1' | 只有本地有请求或来自 ACTIVE 通道的信号时才发 '1' |
+
+##### COMM_PNC_READY_SLEEP
+
+其核心特征是**停止本地请求但保持总线监听**。
+
+1. 进入状态时的动作 (On Entry)
+
+   当状态机从 `COMM_PNC_REQUESTED` 切换至 `COMM_PNC_READY_SLEEP` 时，ComM 必须立即执行以下退避操作：
+   - **停止发送激活信号 (TX Bit = 0)**：调用 `Com_SendSignal()` 将该 PNC 在所有关联通道上的 TX 比特位设为 **'0'**。这意味着该节点不再主动要求总线保持唤醒。
+   - **释放物理通道请求**：ComM 必须针对该 PNC 涉及的所有配置通道，释放之前的 `COMM_FULL_COMMUNICATION` 请求。
+
+2. 状态维持与运行行为
+
+   在 `COMM_PNC_READY_SLEEP` 状态下，系统处于一种“待命观察”模式：
+   - **维持条件**：只要外部信号（EIRA 比特向量）中该 PNC 的位仍为 **'1'**（意味着网络上其他节点仍在请求该 PNC），且本地没有用户提出新的 `FULL_COM` 请求，状态机就会保持在该状态。
+   - **逻辑意义**：此时本节点不再发话（TX=0），但因为总线还在活动（EIRA=1），它会保持接收能力，随时准备被重新激活。
+
+3. 状态退出触发
+
+   该状态有三个主要去向，取决于本地用户意图和外部网络状态：
+
+   | **触发条件**     | **条件细节**                                  | **目标子状态**             |
+   | ---------------- | --------------------------------------------- | -------------------------- |
+   | **外部请求结束** | EIRA 比特向量中对应位全部变为 **'0'**         | **COMM_PNC_PREPARE_SLEEP** |
+   | **本地新请求**   | 至少有一个本地 `ComMUser` 再次请求 `FULL_COM` | **COMM_PNC_REQUESTED**     |
+   | **网关外部请求** | 开启网关功能且对应的 `ERA` 信号位变为 **'1'** | **COMM_PNC_REQUESTED**     |
+
+`COMM_PNC_READY_SLEEP` 实际上是 **“逻辑上的释放”** 与 **“物理上的关闭”** 之间的一个缓冲区：
+
+- 本节点已经“释放”了请求（因此 TX=0，并释放了通道请求）。
+  
+- 但只要总线上还有人在用这个 PNC（EIRA=1），本节点就不能真正进入睡眠，必须留在 `READY_SLEEP` 等待。
+  
+- 只有当全网都没有人再请求这个 PNC（EIRA=0）时，它才会进入 `PREPARE_SLEEP` 倒计时阶段。
+  
+
+##### COMM_PNC_PREPARE_SLEEP
+
+这个状态本质上是一个**延时观察期**，旨在确保在全网彻底关闭该 PNC 通信前，给各节点留出统一的缓冲时间，防止因信号抖动导致网络频繁唤醒。
+
+1. 进入状态时的动作 (On Entry)
+
+   一旦进入 `COMM_PNC_PREPARE_SLEEP`：
+
+   - **启动计时器**：系统必须启动一个名为 `ComMPncPrepareSleepTimer` 的计时器，其初值由配置参数 `ECUC_ComM_00841` 决定。
+
+1. 状态维持逻辑 (Behavior)
+   - **静默等待**：只要计时器还在运行，且本地用户请求、外部 EIRA 或 ERA 信号都没有发生变化，状态机就保持在 `COMM_PNC_PREPARE_SLEEP` 状态。
+   - **超时自动退出**：一旦计时器倒计时结束（Expire），状态机将彻底离开全通信主状态，回到最初的 **`COMM_PNC_NO_COMMUNICATION`**。
+2. 中途被重新唤醒的跳转 (Interruption)
+   如果在计时器运行期间，系统收到了新的请求或信号，计时器将立即**停止**，并根据来源跳转到相应的激活状态：
+   | **触发源**     | **跳转条件**                      | **目标子状态**                |
+   | ----------- | ----------------------------- | ------------------------ |
+   | **本地用户**    | 至少一个 `ComMUser` 请求 `FULL_COM` | **COMM_PNC_REQUESTED**   |
+   | **外部 EIRA** | 收到 EIRA 信号（位变为 '1'）           | **COMM_PNC_READY_SLEEP** |
+   | **网关 ERA**  | 开启网关功能且收到对应 ERA 信号            | **COMM_PNC_REQUESTED**   |
+
+
+在部分网络（Partial Networking）中，`PREPARE_SLEEP` 扮演着“维稳”的角色：
+
+1. **防止总线负载颠簸**：如果没有这个延时，当最后一个节点释放请求时，总线可能立即尝试关闭。但如果此时某个节点突然又有了瞬时请求，会导致总线反复在开启和关闭之间切换（抖动），增加功耗并消耗 CPU 资源。
+2. **全网同步**：由于不同节点的处理速度和采样周期不同，这个计时器给全网络提供了一个“冷静期”，确保所有节点在真正进入 `NO_COMMUNICATION` 前都达成了一致。
+3. **优先级区分**：
+   - 收到 **EIRA** 跳回 `READY_SLEEP`：说明网络上有人还在用，但我本地没请求，所以我继续“陪跑”监听。
+   - 收到 **用户请求或 ERA** 跳回 `REQUESTED`：说明本地或网关对端需要主动发话，我必须立刻恢复“主动请求”身份。
+
+#### PNC Gateway
+**主动（Active）**与**被动（Passive）**网关类型在多通道环境下的职责分工。其核心目标是确保跨越多个通信通道（如 CAN1 和 CAN2）的 Partial Network 在请求和释放时间上保持同步。
+
+1. PNC 网关的基本原则
+   - **多通道协调**：如果一个 PNC 连接到多个 `ComMChannel`，它们必须作为一个整体被协调。应用层不应该感知底层通道的具体状态，只需请求 PNC，ComM 负责确保所有关联通道同步请求或释放。
+   - **一致性要求**：如果没有 PNC 网关进行协调，必须通过其他手段确保所有受影响的通道在同一时间点被请求或释放。
+
+2. 主动 PNC 网关 (Active PNC Gateway)
+   - **行为一致性**：即使作为主动网关，其核心行为逻辑仍遵循标准的 **PNC 状态机**（即你之前看到的 `REQUESTED` -> `READY_SLEEP` 等过程）。
+   - **决策权威**：主动网关通常是系统通道上**最后一个释放 PNC 的节点**。
+   - **状态判定**：如果所有关联通道的 `ERA`（外部请求聚合）信号位都为 **0**，则意味着除了该网关本地外，没有其他外部节点在请求这个 PNC。
+
+3. 被动 PNC 网关 (Passive PNC Gateway)
+
+   被动协调通常出现在一个通道连接了两个不同网关的复杂拓扑中。
+
+     -  **唯一性原则**：如果一个通道映射到两个 PNC 网关，只能有**一个网关将其设为 Active** 进行主动协调，另一个网关则必须设为 **Passive**。
+     -  **映射关系**：一个 PNC 网关必须至少映射到一个 `Active` 类型的通道，同时可以映射到一个或多个 `Passive` 类型的通道。
+     -  **请求逻辑**：被动网关在以下任一条件满足时请求 PNC：
+        - . 本地有 `ComMUser` 提出了请求。
+          - 或者，来自该网关**主动协调通道**的 `ERA` 信号位不为 0（即将主动通道的请求转发至被动通道
+
+4. 信号计算规则
+
+   - **ERA TX 比特计算**：被动网关在计算要发送到被动通道的 `ERA` 比特位时，计算方式与主动通道一致。
+   - **强制置零规则**：虽然计算方式一致，但必须遵循 **SWS_ComM_00959** 的规则（即当本地无请求且主动通道也无外部请求时，强制将该位设为 '0'），以允许该分支网络进入睡眠。
+
+
+
+💡 Active vs Passive 的本质区别
+
+|**特性**|**主动网关 (Active)**|**被动网关 (Passive)**|
+|---|---|---|
+|**控制权**|负责主导该通道的唤醒与保持|仅作为信号的“跟随者”或“转发者”|
+|**拓扑角色**|通道状态的源头，最后一个释放者|辅助网关，防止多网关冲突|
+|**信号转发**|将本地请求/外部请求广播至通道|仅在本地或其主动侧有请求时才向被动侧转发|
+
+#### PNC处理示例
+
+假设你的 ECU 充当网关，连接了 **CAN1（配置为 Active）** 和 **CAN2（配置为 Passive）**，且两者都属于同一个 `PNC_01`。
+
+当 CAN1 上的外部节点发出唤醒请求时，信号在你的网关 ECU 内部会经历从物理层到逻辑层、再回流到物理层的闭环。
+
+
+
+第一阶段：信号接收与识别 (RX)
+
+1. **物理层感知**：CAN1 上的外部节点发送包含 PNC 向量的 NM 报文（比特位为 1）。
+2. **CanIf / CanNm 提取**：`CanIf` 接收报文，`CanNm` 提取其中的用户数据（NM User Data），识别出 `PNC_01` 对应的比特位。
+3. **ComM 接收 EIRA/ERA**：通过 `Com_ReceiveSignal`，ComM 获取到该位。
+   - 此时，网关检测到 CAN1（Active 侧）的 **ERA** 信号由 `0` 变为 `1`
+
+第二阶段：PNC 状态机跳转 (Logic)
+
+1. **状态切换**：`PNC_01` 的状态机感应到外部请求（ERA=1），从 `PNC_NO_COMMUNICATION` 直接跳转到 **`PNC_REQUESTED`**。 
+2. **联动 BswM**：ComM 调用 `BswM_ComM_CurrentPncMode`，通知 BswM 该 PNC 已激活。
+3. **开启通道**：由于 `PNC_01` 进入了请求状态，ComM 会向 **CAN2** 的通道请求 `COMM_FULL_COMMUNICATION`（如果 CAN2 还没开）。 
+
+第三阶段：信号转发与唤醒 (TX)
+
+1. **计算被动侧信号**：因为 CAN2 被配置为 `PASSIVE` 网关类型，ComM 检查跳转条件：
+   - 条件：本地有用户请求 **或者** 来自 `ACTIVE` 侧（CAN1）的 ERA 信号为 1。 
+   - 结果：满足条件，ComM 决定在 CAN2 上也发送 '1'。
+2. **触发发送**：ComM 调用 `Com_SendSignal`，将 `PNC_01` 在 CAN2 对应的 TX 比特位置为 **1**。 
+3. **总线传播**：`CanNm` 将此比特位装入发送缓存，通过 `CanIf` 发往 CAN2 总线。此时，CAN2 上的所有 PNC 成员节点感应到该位，完成唤醒。
+
+
+
+| **步骤** | **组件**              | **动作**                     | **目的**                     |
+| -------- | --------------------- | ---------------------------- | ---------------------------- |
+| **1**    | **CanIf/CanNm**       | 采样并解析 NM 报文           | 捕获原始唤醒物理信号         |
+| **2**    | **ComM (EIRA/ERA)**   | 聚合各通道位向量             | 将物理信号转为逻辑请求       |
+| **3**    | **PNC State Machine** | `NO_COM` -> `REQUESTED`      | 驱动 PNC 核心逻辑跳转        |
+| **4**    | **ComM (Gateway)**    | 根据 Active/Passive 路由信号 | 决定是否要“透传”请求到另一侧 |
+| **5**    | **Com / CanNm**       | `Com_SendSignal` -> 总线发送 | 物理唤醒目标网段（CAN2）     |
+
+网关 ECU 在这里扮演了**“逻辑映射器”**的角色：
+
+1. 它把 CAN1 的 **Input (ERA)** 变成了自己内部 PNC 状态机的 **Request**。
+2. 它又把内部状态机的 **Result** 变成了 CAN2 的 **Output (TX)**。
 
 ### Channel状态管理
 
-上面提到ComM进行通信模式管理提供有两大状态机，另外一个就是Channel状态管理。这里的Channel指的是一个通信总线，比方说，一路ECU有两路CAN，一路FlexRay，那么就可以说对于ComM模块就有3个Channel。ComM 模块对每一个Channel都定义了一个状态机，用于描述通道的各种状态、状态转移关系和状态转移动作。该状态机共包含 3 个主状态，分别为：
+与之前的 PNC 状态机不同，通道状态机直接面向物理总线和对应的总线状态管理器（如 CanSM）。
 
-1. COMM_NO_COMMUNICATION
-2. COMM_FULL_COMMUNICATION
-3. COMM_SILENT_COMMUNICATION
+1. 通道独立性与优先级
 
-其中除 COMM_SILENT_COMMUNICATION 外，其余状态还包含有子状态。其状态转移图如下：
+   - **独立控制**：ComM 为每个通信通道实现一个独立的状态机。这允许不同通道拥有不同的通信能力（例如，LIN 通道在采集传感器数据时处于全通信状态，而 CAN 通道保持非活动状态）。
+   - **PNC 优先**：如果启用了 PNC 功能，所有 PNC 相关的动作必须在通道动作之前执行。
+   - **强推 NM 请求**：如果配置了 `ComMPncNmRequest`，当 PNC 状态机切换到 `COMM_PNC_REQUESTED` 时，ComM 必须调用 `Nm_NetworkRequest()`。这确保了 NM 报文能立即发送，从而同步唤醒网络上的所有 PNC 节点。
 
-![Channel状态转换](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/28_9_5_48_%E6%9A%82%E5%AD%98.png)
+2. 状态结构与子状态
 
-1. **COMM_NO_COMMUNICATION**：系统上电后进入到COMM_NO_COMMUNICATION，在该状态下具有下面两个子状态
-   1. COMM_NO_COM_NO_PENDING_REQUEST
-   2. COMM_NO_COM_REQUEST_PENDING。
+   通道状态机由三个主状态组成，涵盖了通信的不同阶段：
 
-2. **COMM_NO_COM_NO_PENDING_REQUEST**：在初始化完成ComM后进入该状态，该状态下总线不能进行任何的通信活动，需要等待FULL_COM请求切换状态，请求可来源于：
-   1. 用户请求User Request；
-   2. DCM Notification需要激活对应的通道；
-   3. 来自于EcuM或者NM的Passive WakeUp通知。
+   | **主状态**                    | **子状态**                                           | **说明**                                                     |
+   | ----------------------------- | ---------------------------------------------------- | ------------------------------------------------------------ |
+   | **COMM_NO_COMMUNICATION**     | `NO_COM_NO_PENDING_REQUEST` `NO_COM_REQUEST_PENDING` | 默认状态。在 `REQUEST_PENDING` 子状态下，系统会检查 `CommunicationAllowed` 标志位。 |
+   | **COMM_FULL_COMMUNICATION**   | `FULL_COM_NETWORK_REQUESTED` `FULL_COM_READY_SLEEP`  | 允许正常的发送和接收。`READY_SLEEP` 用于同步总线关闭过程。   |
+   | **COMM_SILENT_COMMUNICATION** | (无子状态)                                           | 仅允许接收，禁止发送。主要用于 NM 的同步关闭流程。           |
 
-3. **COMM_NO_COM_REQUEST_PENDING**：收到FULL_COM请求后，会切换至COMM_NO_COM_REQUEST_PENDING状态，然后等待Communication Allowed的触发信号，只有 “CommunicationAllowed=TRUE时” 才能将通信模式转换为FULL_COM模式下进行数据通信，如果没有Allowed的使能，则对FULL_COM请求将不会被执行。
-4. **COMM_FULL_COMMUNICATION**：离开NO_COM状态后，则进入COMM_FULL_COMMUNICATION状态，在该状态下总线可以进行正常的数据通信，其也有两个子状态：COMM_FULL_COM_NETWORK_REQUESTED和COMM_FULL_COM_READY_SLEEP。而这两个模式的切换则是会根据**NmVariant**的变化来变化，后面会对NmVariant进行介绍。
-5. **COMM_SILENT_COMMUNICATION**：该状态主要用于支持NM的Sleep流程处理，是NM状态机的Prepare Sleep阶段，只有在NM进入到prepare Sleep模式下该状态才进入。
+3. 通信能力映射 (Mode vs Capability)
 
-总结一下可以让ComM的Channel状态机切换的事件可以来自于：
+   根据上表，不同模式下的物理能力对比如下：
 
-1. **来自 User 的请求 ComM_RequestComMode()函数调用**
+   - **FULL**：发送 **On**，接收 **On**。请求总线通信。
+   - **SILENT**：发送 **Off**，接收 **On**。已释放总线通信，仅保持监听。
+   - **NO**：发送 **Off**，接收 **Off**。总线完全释放。
 
-2. 来 自 Dcm 模 块 的 ComM_DCM_ActiveDiagnostic() 和ComM_DCM_InactiveDiagnostic()函数调用
+   
 
-   当诊断仪与 Dcm 模块通信时，需要保证通道的正常可用状态，不能进入休眠。这时Dcm 模块通过在适当的时机调用 ComM 模块的 ComM_DCM_ActiveDiagnostic()来请求通道保持在FULL_COM状态 。 完成诊断通信后 ， Dcm模块再调用ComM_DCM_InactiveDiagnostic()接口释放对通道的使用。这时如果没有其他用户再使用该通道，则通道最终将进入 NOCOM 模式，通道关闭，所以在前面介绍Channel状态管理状态切换的时候就提到了Dcm模块是让ComM Channel状态切换的一个重要来源。
+4. 关键运行机制
 
-3. **来 自 Nm 模 块 的 网 络 状 态 通 知 ComM_Nm_NetworkMode() 与ComM_Nm_PrepareBusSleepMode()和 ComM_Nm_BusSleepMode()函数调用**
+   - **用户透明性**：状态机的内部逻辑（如“最高者胜”仲裁）对用户（SW-C）是不可见的。用户只需提出模式请求，无需关心内部如何处理冲突。
+   - **许可检查 (CommunicationAllowed)**：这是一个重要的安全锁。状态机只有在 `COMM_NO_COM_REQUEST_PENDING` 子状态下才会评估这个标志位。这意味着如果通道已经在运行中，即便该标志变为 `FALSE`，通道也不会立即关停。
+   - **用户通知 (Fan-out)**：每当主状态发生变化，ComM 必须通知所有关联该通道的用户。如果一个通道对应多个用户，通知会进行分发（Fan-out）。
 
-4. **来自 Nm 的 ComM_Nm_RestartIndication()和 ComM_Nm_NetworkStartIndication()**
+5. 状态机的职责界限
 
-5. **来自 EcuM 模块的唤醒通知 ComM_EcuM_WakeUpIndication()**
+   通道状态机直接与其连接的 **Bus State Manager**（如 CanSM）通信，负责处理特定通道/网络的硬件状态映射，而其他跨模块接口则由 ComM 模块统一处理。
 
-   当某个通信通道发生唤醒事件后，EcuM 会调用 ComM_WakeupIndication()函数通知ComM 模块。该通知会作为通道正常工作的一个触发源，将该通道状态切换到 FULLCOM模式。这时 ComM 会调用网络管理模块的 Nm_PassiveStartup()唤醒网络管理模块。
+状态机如下：
 
-6. **ComM 模块内部定时器等**
+![通道状态机](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260330091113021.png)
 
 
-### 通信禁止功能
 
-通信禁止包含两种情况：
+ ComM 中 存在**“管理通道（Managing Channel）”** 与 **“被管理通道（Managed Channel）”** 。这种机制主要用于处理**跨通道的通信协调**，特别是在一个通道拥有网络管理（NM）能力而另一个通道没有的情况下。
 
-1. 禁止唤醒总线
-2. 限制通信。
+1. 管理关系与配置
 
-在某些唤醒线路故障情况下，某些应用会错误地请求总线，从而错误地唤醒总线上其他 ECU。这时可以通过调用 ComM_PreventWakeUp()接口，忽略用户请求，从而避免系统错误。该功能称为禁止唤醒总线。该功能只在对应通道进入 NO_COM 或 SILENT_COM时有效。
+   - **引用关系**：通过配置参数 `ComMManageReference`，一个通道可以引用其他通道。
+   - **角色定义**：
+     - **Managing Channel (管理通道)**：引用的发起方（源）。
+     - **Managed Channel (被管理通道)**：被引用的目标。
+   - **数量限制**：
+     - 一个管理通道可以管理 **0 到多个** 被管理通道。
+     - 一个被管理通道只能被 **0 到 1 个** 管理通道所管理。
 
-当通道处于 FULL_COM 模式时，应用可以调用 ComM_LimitChannelToNoComMode()或 ComM_LimitECUToNoComMode()来强制某个通道或整个 ECU 所有通道进入 NO_COM模式。这时 ComM 将忽略 User 对通道的占用，调用 Nm_NetworkRelease()释放网络管理。当远程休眠条件满足时，通道将最终进入 NO_COM 模式。该功能称为限制通信。该功能只在对应通道处于 FULL_COM 时有效。
+2. 典型使用场景 (Use Case)
 
-### 不同类型的NM
+   这种设计主要为了支持以下场景：
 
-NM模块有一个参数叫做NmVariant，可以指定每一个通道所对应的NM模块的网络管理能力，分为四种类型：
+   **管理通道负责处理 NM 模块的交互（如同步唤醒、协调关机），而被管理通道本身没有 NM 功能。** 例如：一个 CAN 通道作为 Managing Channel 运行完整的 AUTOSAR NM，同时带动一个没有 NM 的 LIN 子网（Managed Channel）同步启动或关闭。
 
-1. FULL：该通道具备网络管理模块的所有功能，因此本 ECU 具备保持总线唤醒的能力，同时可以由 NM 向 ComM 模块指示何时进入网络同步休眠状态。
-2. PASSIVE：该通道的网络管理模块处于 PASSIVE 模式，即本身只接收网络管理报文，但不向外发送网络管理报文。本 ECU 不具备保持总线唤醒的能力，但可以根据其他 ECU的网络管理报文，向 ComM 模块指示进入网络同步休眠状态。
-3. LIGHT：该通道不具有网络管理模块，因此不会接收或发送网络管理报文。但可以通过配置定时器，在没有通信需求的一段时间以后自动进入休眠状态。该配置项一般用于需要延迟休眠的场景。
-4. NONE：该通道不具有网络管理模块，因此不会接收或发送网络管理报文。一旦进入FULL_COM模式就不会退出，也不会自动进入休眠状态，只有通过 ECU 电源才能控制网络关闭。
+3. 配置约束 (Limitations)
 
-在同一个 ECU 上，FULL 和 PASSIVE 不能同时存在，即当某个通道配置了 PASSIVE类型时，本 ECU 上所有通道都只能为 PASSIVE、LIGHT 或 NONE 之一，不能为 FULL。当某个通道配置了 FULL 时，本 ECU 上所有通道都只能为 FULL、LIGHT 或 NONE 之一，不能为 PASSIVE：
+   为了确保这种管理关系逻辑正常，规范设定了严格的配置约束：
 
-1. FULL 是最常见的网络类型，在大部分应用场景中推荐使用该配置，这时需要将 NM的 PASSIVE 模式禁用。在 FULL 类型网络通道上，状态转移图与标准图一致。
-2. PASSIVE 节点对网络的休眠唤醒没有决定权，完全听从其他节点的仲裁。例如本节点在仍有发送应用报文的需求时，网络上其他节点决定休眠，则本节点会无条件同步休眠，关闭总线接口的发送功能。
-3. LIGHT 节点和 NONE 节点不具备网络管理功能，若接入一个具备网络管理功能的网络中，会影响网络正常休眠唤醒功能。一般应当独立使用或同样类型的节点组网。这两种类型的通道没有 SILENT 状态。NONE 节点一旦进入 FULL_COM 状态就无法切回NO_COM，除非系统复位。LIGHT 节点从 FULL_COM 到 NO_COM 是通过内部的一个定时器实现的，该定时器参数值由配置参数 ComMNmLightTimeout 决定。
+   - 对于管理通道 (Managing Channel):
+     - **NM 变体限制**：其 `ComMNmVariant` 必须设置为 **FULL**。这意味着管理通道必须具备完整的网络管理能力，才能承担起协调者的职责。
+   - 对于被管理通道 (Managed Channel):
+     - **NM 变体限制**：其 `ComMNmVariant` 必须设置为 **LIGHT**。因为它的通信生命周期（尤其是与 NM 相关的部分）已经交由管理通道来处理了。
+     - **PNC 网关限制**：被管理通道的 `ComMPncGatewayType` **不能** 设置为 `ACTIVE` 或 `PASSIVE`。这意味着被管理通道不能同时作为 PNC 网关参与复杂的跨段协调，其状态纯粹随管理通道而变。
 
-### User、PNC与Channel的映射
+这种“父子”式的管理关系，实际上是将**网络管理的复杂性**集中在了 Managing Channel 上。
 
+- **同步逻辑**：当 Managing Channel 进入 `COMM_FULL_COMMUNICATION` 并触发 NM 请求时，其下的 Managed Channels 会被带动进入相应的通信状态。
+- **简化设计**：对于开发者而言，这简化了那些不支持 NM 协议（如 LIN 或某些简单的私有 CAN 协议）的通道与系统主网同步的难度。
 
+#### COMM_NO_COMMUNICATION
 
-上面提到了ComM模块的两种状态机，那么怎么样正确使用这两种状态机呢？用户，PNC，Channel三者的映射关系如下图所示：
+这是 ECU 关机、休眠或初始化后的基准状态。
 
-![ComM状态机映射](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/29_8_26_36_%E6%9A%82%E5%AD%98.png)
+1. 初始化与默认子状态
+   - **默认子状态**：一旦进入 `COMM_NO_COMMUNICATION`，状态机必须首先进入 `COMM_NO_COM_NO_PENDING_REQUEST`（无待处理请求）子状态。
+   - **初始化静默**：在上电初始化进入此状态时，ComM **不应** 向 RTE 或 BswM 发出模式变更指示。这是因为此时 RTE 可能尚未完成初始化，无法处理回调。
+2. 硬件与总线请求
+   - **关闭通信能力**：进入该状态的核心动作是关闭发送和接收能力。ComM 通过向底层的总线状态管理器（如 CanSM）请求 `COMM_NO_COMMUNICATION` 模式来实现物理层的切断。
+   - **网络管理释放 (NM Release)**：如果该通道的 NM 变体配置为 `FULL`，ComM 必须调用 `Nm_NetworkRelease()` 来释放网络。这确保了如果之前请求过网络唤醒，现在能够正确通知网络管理模块进入休眠序列。
+3. 设计原理与限制
+   - **不可中断性**：对于 FlexRay 等总线，关闭过程不能被中断，以避免出现局部网络运行不一致的情况。
+   - **禁止请求**：在此状态下，通道状态机**不允许**向总线状态管理器请求任何形式的总线通信。
+   - **局部性原则**：
+     - **本地运行**：ECU 可以在不参与总线通信的情况下执行本地控制功能（例如仅进行传感器采样而不发送数据）。
+     - **通道独立**：无通信状态是针对单一通道的。即使通道 A 处于 `NO_COM`，ECU 依然可以通过通道 B 进行通信。
 
+进入 `NO_COM` 后的链式反应
 
+1. **逻辑层**：进入子状态 `NO_PENDING_REQUEST`。
+2. **服务层**：调用 `Nm_NetworkRelease`（若为 FULL NM）。
+3. **抽象层**：调用 `XXSM_RequestComMode(COMM_NO_COMMUNICATION)` 通知硬件管理器。
+4. **硬件层**：控制器停止 PDU 收发，收发器可能进入低功耗模式。
 
-每个 User 向下可以关联多个 PNC，每个 PNC 向上也可以关联多个 User，User 既可以关联 PNC 也可以直接关联 Channel，每个 PNC 向下可以关联多个 Channel，每个 Channel向上也可以关联多个 PNC 或 User。但是同一 Channel 不能既关联 User，又关联该 User下的 PNC。说得简单点就是自上而下，是交叉树状自上而下，用户想要控制一个一个总线接口，可以是User->PNC->Channel， 也可以是User->Channel。
 
-User 可以通过接口请求 FULLCOM 和 NOCOM 模式，此时所有该 User 映射的通道或 PNC 都会收到请求。由于一个通道或 PNC 可以映射多个 User，因此只有当映射的所有 User 都请求了 NOCOM 时，ComM 才会在该通道或 PNC 上释放通信能力，否则只要有一个 User 请求 FULLCOM，ComM 都会为该通道或 PNC 保持通信能力。
 
-在某些特殊情况下，用户可以通过 API 限制某个通道或整个 ECU 的通信能力，这时即使有用户请求FULLCOM，该请求也会被暂时抑制。限制通信的优先级高于 User 对通道的请求。
+##### COMM_NO_COM_NO_PENDING_REQUEST 
 
-DCM 模块会使用某些通道作为诊断通道。它通过 API 激活该通道的通信能力。此时不论该通道映射的 User 请求何种模式，也不论该通道是否被限制通信，ComM 都会为该通道保持通信能力，也就是说 DCM 激活通道的优先级最高。
+ComM 通道状态机从“静默”的初始子状态 **`COMM_NO_COM_NO_PENDING_REQUEST`** 触发并跳转到 **`COMM_NO_COM_REQUEST_PENDING`**。这是系统从休眠或空闲走向通信激活的“第一步”。
 
-### 状态保存
+1. 主动请求触发 (User & DCM)
 
-ComM 的一些配置状态和计数值可以保存到非易失存储器中，在下次上电后恢复。可以保存的内容包含：
+   - **本地用户请求**：当用户请求 `COMM_FULL_COMMUNICATION` 且未开启通信限制时，通道状态机立即跳转。
+     - **联动逻辑**：如果该通道是被管理通道（Managed Channel），ComM 会自动请求其关联的管理通道（Managing Channel）进入全通信模式。
+   - **诊断激活**：当 DCM 指示 `ComM_DCM_ActiveDiagnostic` 时，无论是否存在通信限制，状态机都会跳转。诊断请求具有高优先级，会自动使通信限制暂时失效。
 
-1. ECU 所有通道的禁止唤醒总线状态（NoWakeup）
-2. ECU 组分类（EcuGroupClassification）
-3. 禁止计数器
+2. 外部总线唤醒 (Wake-up)
 
-当使能此功能时，需要在 NvM 模块配置这几个 Block，且需要将其在 NvM 模块中将这几个模块配置在 ReadAll 和 WriteAll 列表中，以便在上电时自动恢复数据，以及下电前自动保存数据。
+   为了保证总线唤醒后能尽快恢复通信，规范定义了多种唤醒处理方式：
 
-## PduR、IpduM
+   - **同步唤醒 (`ComMSynchronousWakeUp = TRUE`)**：
+     - 一旦调用 `ComM_EcuM_WakeUpIndication`，**所有**通道状态机都会跳转到 `REQUEST_PENDING`。
+   - **异步唤醒 (`ComMSynchronousWakeUp = FALSE`)**：
+     - 仅**被指示唤醒的特定通道**发生跳转。同样，如果该通道是 Managed Channel，其对应的 Managing Channel 也会同步跳转。
+   - **NM 重启指示**：如果网络管理模块指示 `Nm_RestartIndication`，状态机立即跳转。
 
-首先介绍一个在Communication Stack中出现频率很高的词I-PDU， 全称为Interaction Layer Protocol Data Unit, 意思就是交互PDU，可以理解成是软件协议层面上的一个完整性消息。PduR即为PDU Router。PduR 模块位于 AUTOSAR 的通信服务的核心位置， 作为上层模块与下层接口模块或传输层模块传输 I-PDU 的桥梁。说的简单一点就是个内部消息路由器，当PduR 收到底层传输层或者interface抽象层传输的 I-PDU后，将其传输到对应的服务模块，而上层服务模块需要发送 I-PDU时，PduR模块则会将消息传输到相应的传输层或者interface抽象层。
+3. 部分网络 (PNC) 唤醒指示
 
-通信模块根据其在 AUTOSAR 架构中的位置和传输 I-PDU时的角色，可以分为三类：
+   针对启用了 PNC 功能的系统，唤醒逻辑更加精细：
 
-1. **上层模块**：上层模块位于 PduR 上层，一般包括 Com、 Dcm 和 Cdd。
-2. **下层接口模块**：下层接口模块位于 PduR 下层，一般包括 CanIf、 LinIf、 SoAdIf、 FrIf、 CddIf 等。
-3. **下层传输层模块**：下层传输层模块同样位于 PduR 下层，一般包括 CanTp、 LinTp、 SoAdTp、 DoIPTp、FrTp 和 CddTp 等。
+   - **特定 PNC 唤醒 (`PNCWakeUpIndication`)**：
+     - **异步模式**：仅将引用了该 PNC 的通道（包括管理通道和被管理通道）切换到 `REQUEST_PENDING`。
+     - **同步模式**：将**所有**通道切换到 `REQUEST_PENDING`。
 
-而PduR模块则是连接这些模块的枢纽，位于上层模块和下层模块之间，充当一个终极消息中转站。
+4. 关键防止抖动机制
 
-![PdusR框图](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/29_8_37_9_%E6%9A%82%E5%AD%98.png)
+   在进入 `COMM_FULL_COM_NETWORK_REQUESTED` 后，即使暂时没有用户请求，系统也不会立刻跳回 `NO_COM`：
 
-PduR模块主要包含两部分，分别是路由表和路由引擎，其中路由表非常好理解，就是它会给上层服务的所有 I-PDU编号，静态确定消息路径，里面会包含各种总线特征，比如CAN ID，这样PduR模块就可以根据路由表来进行消息路由，路由引擎则就是用来传输消息的搬运工，负责把 I-PDU从源方路由到目标方。
+   - **计时器保护**：参数 `ComMTMinFullComModeDuration` 会强制通道在全通信模式下保持一段时间。
+   - **目的**：克服系统启动/初始化过程中的延迟，防止状态机在“开启”和“关闭”之间剧烈抖动。
 
-PduR 模块主要功能如下：
+跳转触发矩阵
 
-1. 初始化
-2. 接收下层模块（接口模块、传输层模块） I-PDU并传递给上层模块
-3. 发送上层模块 I-PDU到低层模块
-4. 接收接口层 I-PDU并传递给其他接口层模块
-5. 接收传输层 I-PDU并传递给其他传输层模块
+| **触发源**          | **通道范围 (Synchronous=FALSE)** | **通道范围 (Synchronous=TRUE)** |
+| ------------------- | -------------------------------- | ------------------------------- |
+| **User Request**    | 仅请求通道 (+其 Managing 通道)   | 仅请求通道                      |
+| **DCM Diagnostic**  | 仅关联通道                       | 仅关联通道                      |
+| **General Wake-up** | 仅指示唤醒的通道                 | **所有**通道                    |
+| **PNC Wake-up**     | 仅引用该 PNC 的通道              | **所有**通道                    |
+| **NM Restart**      | 仅指示重启的通道                 | 仅指示重启的通道                |
 
-### I-PDU的传输
+##### COMM_NO_COM_REQUEST_PENDING 
 
-下面举一个最简单的例子，如果PduR的下层模块为接口模块，以CAN为例子，那下层接口模块即为CanIf模块。如果Com模块需要通过CAN总线发送一条消息，那么这条消息的流向应该如下：
+**ComM 通道状态机** 在关键中间状态 **`COMM_NO_COM_REQUEST_PENDING`**（无通信-请求待处理）下的逻辑。这个状态充当了“请求发起”与“硬件开启”之间的**安全审查层**。
 
-![IPDU的传输路径](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/29_8_41_43_%E6%9A%82%E5%AD%98.png)
+1. 通信许可评估 (The Gatekeeper)
 
-Com调用PduR_ComTransmit发起消息发送， PduR模块接收到消息查表后确认消息目的方为CAN，然后调用CanIf_Transmit触发CAN消息的发送，消息发送成功后，最终由CanIf模块传来发送确认。
+   即便有了用户请求或唤醒指示，通道也不会盲目开启。
 
-当PduR的下层模块为传输层模块的时候，则当传输层接收到 FF 或 SF 时，传输层将调用 PduR_StartOfReception 通知 PduR模块接收开始， PduR 模块通过调用_StartOfReception 传递给相应的上层模块，例如_StartOfIReception。传输层通过调用函数 PduR__CopyRxData 将数据传递给 PduR， PduR 模块通过调用_CopyRxData 将数据传递给上层模块。当接收完成时传输层模块将调用 PduR_RxIndication 通知 PduR 模块， PduR 将此指示传递给上层模块通过_TpRxIndication 函数。
+   - **权限检查**：在此子状态下，状态机必须评估 `CommunicationAllowed` 标志位。
+   - **跳转条件**：只有当 `CommunicationAllowed == TRUE` 时，状态机才会真正跨越门槛，进入 **`COMM_FULL_COMMUNICATION`** 主状态。
+   - **设计意图**：这允许系统（例如通过 BswM 或 EcuM）根据整车电源状态或安全约束，在物理层面上“锁死”或“放行”通信。
 
-### 路由路径
+2. 请求撤销与退回逻辑
 
-PduR 通过路由路径实现路由。一个路由路径由一个源 Id 和一个（或多个）目的 Id组成。当路由路径只包含一个目的 Id 时，称为单播，当路由路径包含多个目的 Id 时，称为多播。路由路径全部静态配置，不支持动态路由。
+   如果在等待许可的过程中请求消失了，系统需要具备“回撤”能力：
 
-某个路由路径的目的可能同时包含多个接口，如 CanIf 接口和 LinIf 接口，为了能够支持整体关闭某种接口， PduR 具有路由路径组的概念。一个路由路径组包含多个目的 Id，它们可以属于同一个路由路径，也可以属于不同路由路径。反过来一个路由路径的不同目的 Id 可以属于不同的路由路径组。
+   - **普通通道退回**：如果没有有效的 `FULL_COM` 挂起请求（例如用户改主意请求了 `NO_COM`，或诊断会话结束），状态机会跳回默认的 `COMM_NO_COM_NO_PENDING_REQUEST`。
+   - **管理通道 (Managing Channel) 特殊规则**：
+     - 一个管理通道只有在满足以下两个条件时才能退回：
+       1. 本身没有有效的 `FULL_COM` 请求。
+       2. **所有**由它管理且未被 PNC 引用的从属通道（Managed Channels）也都没有 `FULL_COM` 请求。
+   - **典型场景**：用户调用了 `ComM_RequestComMode(FULL)` 触发了跳转，但在 `CommunicationAllowed` 变为 `TRUE` 之前，又调用了 `COMM_NO_COMMUNICATION` 撤销了请求。
 
-路由路径组也是静态配置的。路由路径组可以单独使能或关闭。每个路由路径组的初始状态由配置决定。 PduR 提供了两个接口函数来动态使能或关闭某个路由路径组，分别为 PduR_EnableRouting()和PduR_DisableRouting()，它们主要由 BswM 模块调用。
+3. 诊断请求的特殊性
 
-### Zero Cost Operation
+   正如之前提到的，DCM 的 `ActiveDiagnostic` 指示也会触发进入此状态。如果诊断仪取消了会话（`InactiveDiagnostic`），而此时还没有获得通信许可，状态机也会根据上述规则安全退回。
 
-Zero Cost Operation是指当 PduR 只充当简单的路由功能时，为了优化性能而将各主要函数实现为宏的形式。该功能通过配置项 ZeroCostOperation 使能。要使用该功能，必须同时满足如下条件：
+`REQUEST_PENDING` 的三种结局
 
-1. 用户配置的 PduRRoutingTable 路径中仅包含 Com-CanIf， CanIf-Com， Dcm-CanTp，CanTp-Dcm ， CanNm-Com ， Com-CanNm时；
-2. PduRGeneral 里 PduRVersionInfoApi 为 FALSE 时；
-3. 不包含 Routing Group 时。
+| **结局**     | **触发条件**                                     | **后续动作**                         |
+| ------------ | ------------------------------------------------ | ------------------------------------ |
+| **开启通信** | `CommunicationAllowed` 变为 **TRUE**             | 进入 `FULL_COM`，通知 BusSM 开启总线 |
+| **保持等待** | `CommunicationAllowed` 为 **FALSE** 且请求仍存在 | 停留在该子状态，总线保持关闭         |
+| **放弃请求** | 用户/诊断撤回请求 (请求变回 `NO_COM`)            | 退回 `NO_PENDING_REQUEST`            |
 
-### IpduM模块
+#### COMM_SILENT_COMMUNICATION
 
-在结构上PduR的旁边有一个IpduM（Interaction PDU multiplexer）模块，该模块看上去比较独立，它在AUTOSAR架构中，只和PduR模块和Com模块有交互。PDU多路复用即PDU的PCI相同而SDU布局不同，简单的来说就是使用相同的 IpduM I-PDU 发送或接收不同的 Com I-PDU，再简单一点说就是使用同一个PDU ID来发送不同的报文内容。对于多路复用的I-PDU来说，它的数据流向则变成了Com->PduR->IpduM->PduR->CanIf。
+这个状态的主要目的是支持**协调关机 (Coordinated Shutdown)**，特别是在使用 AUTOSAR 网络管理 (NM) 时。在这种模式下，ECU 就像一个“只听不说的观察员”。
 
-那么IpduM模块是怎么实现PDU复用的呢？IpduM 提供了两种模式来实现多路复用:
+1. 核心行为：单向通信
 
-1. I-PDU Multiplexing
+   - **动作**：进入该状态时，ComM 会向底层总线状态管理器（XXSM）请求 `COMM_SILENT_COMMUNICATION` 模式。
+   - **效果**：
+     - **发送 (TX)**：强制关闭。
+     - **接收 (RX)**：保持开启。
+   - **典型用途**：在 NM 准备进入总线睡眠（Prepare Bus Sleep）之前，确保 ECU 不再主动发送应用报文，但仍能监听网络上是否有其他节点再次唤醒总线。
 
-    其实现方式则为将一个多路复用的I-PDU分为一个静态部分和一个动态部分，其中静态部分由零个或多个信号或信号组组成，静态部分信号或者信号组的位置大小都是固定的，不会随着PDU多路复用而变化； 动态部分由Selector Field和一个或多个信号或信号组组成，这一部分除了Selector Field的位置不会变动外，信号和信号组的位置是可以随意发生变化的。如下图所示：
+2. 状态的升级与恢复 (Upgrade)
 
-   ![I-PDU Multiplexing报文结构](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/29_9_6_17_image-20250729090617090.png)
+   如果 ECU 处于静默状态，但突然产生了通信需求，它会立即恢复“全通信”：
 
-   静态部分和动态部分的位置可根据I-PDU进行配置，静态部分和动态部分可以被细分为不同的段。对于每个多路复用的I-PDU，只能定义一个Selector Field，所以IpduM模块就是通过Selector Field的值来进行PD路由，根据其不同的值来解包I-PDU的动态部分的内容。Selector Field大小可以配置为1到16个连续位，其位置也可以通过配置来定义。
+   - **用户请求**：当本地用户请求 `COMM_FULL_COMMUNICATION` 且无限制时，直接跳回全通信主状态。
+   - **诊断激活**：当 DCM 触发 `ActiveDiagnostic` 指示时，状态机会忽略任何通信限制并跳回全通信主状态。
 
-2. Multiple PDU to Container Mapping
+3. 与网络管理 (NM) 的深度联动
 
-   这种方式就更好理解了，即创建一个容器，然后将多路复用的每一种PDU layout都分配一个Header，当Com层出发信号发送时，则会根据该信号的I-PDU layout的所对应的Header在容器中来进行查找，然后进行数据组装最好进行发送，接收同理。
+   在静默状态下，NM 的指示决定了通道是彻底关闭还是重新激活：
 
-   ![Multiple PDU to Container Mapping帧结构](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/29_9_7_22_image-20250729090722184.png)
+   - **彻底关闭 (`SILENT` -> `NO_COM`)**：
 
+     当 NM 模块发出 `ComM_Nm_BusSleepMode()` 指示（意味着全网已达成一致，可以睡觉了），通道状态机切换到 **`COMM_NO_COMMUNICATION`**。
+
+   - **重新激活 (`SILENT` -> `FULL_COM`)**：
+
+     当 NM 模块发出 `ComM_Nm_NetworkMode()` 指示（意味着总线上有其他节点再次请求了网络），状态机切换回 **`COMM_FULL_COMMUNICATION`**，并进入其子状态 **`READY_SLEEP`**。
+
+静默状态的“守门人”角色
+
+| **外部输入**            | **逻辑含义**                   | **结果状态**           |
+| ----------------------- | ------------------------------ | ---------------------- |
+| **NM 指示 BusSleep**    | 外部节点全安静了，可以放心关机 | **NO_COMMUNICATION**   |
+| **NM 指示 NetworkMode** | 外部有人发话了，我得赶紧醒过来 | **FULL_COMMUNICATION** |
+| **本地 User/DCM 请求**  | 我自己有话要说，不能再保持沉默 | **FULL_COMMUNICATION** |
+
+> [!tip]
+>
+> 🔍 为什么需要这个状态？
+>
+> 设想如果没有 `SILENT` 状态，ECU 可能会直接从 `FULL_COM` 跳到 `NO_COM`。如果此时总线上其他 ECU 还没准备好关机，它们会因为收不到这个 ECU 的信号而报出“通信丢失”的故障。通过 `SILENT` 状态，ECU 停止了发话，但还在“听”着大家的动静，直到 NM 确认全网都已经同步准备好入睡，才会真正切断电源。
+
+#### COMM_FULL_COMMUNICATION
+
+ComM 通道状态机中最活跃的主状态：**`COMM_FULL_COMMUNICATION`（全通信状态）**。在该状态下，节点拥有完整的发送和接收能力，并详细规定了如何从这一状态安全“降级”以关闭通信。
+
+1. 进入全通信状态的动作
+
+   当通道状态机跨入全通信门槛时：
+
+   - **默认子状态**：通常进入 **`COMM_FULL_COM_NETWORK_REQUESTED`**。除非是从静默状态（Silent）由于 NM 重新检测到网络模式而跳回，这种情况下可以直接进入 `READY_SLEEP`。
+   - **开启硬件能力**：ComM 必须向底层的 `BusSM`（如 CanSM）请求 `COMM_FULL_COMMUNICATION` 模式，从而激活 PDU 的发送和接收。
+
+2. 状态的“降级”与退出逻辑
+
+   全通信状态不会永久持续，它通过以下路径根据网络情况退回到低功耗状态：
+
+   - 降级到静默状态 (To SILENT)
+     - **触发条件**：对于配置为 `FULL` 或 `PASSIVE` 网络管理的通道，当 NM 模块指示 **`PrepareBusSleepMode`**（准备总线睡眠）时，状态机切换到 `COMM_SILENT_COMMUNICATION`。
+     - **逻辑背景**：这通常发生在本地已经调用了 `Nm_NetworkRelease()`，且全网其他节点也表现出睡眠意图时。进入静默模式是为了停止发送应用报文，避免干扰正在进行的网络关断过程。
+
+   - 直接退回到无通信状态 (To NO_COM)
+
+     在某些特殊或精简的配置下，状态机会跳过静默状态：
+
+     - **强行同步**：如果 NM 已经指示 **`BusSleepMode`**，即便本地用户请求可能“来晚了”（NM 已达成关断共识），状态机也必须切换到 `COMM_NO_COMMUNICATION`。
+     - **特定变体 (LIN Slave)**：对于 LIN 从节点，其通信完全由主节点控制。如果 `BusSM` 指示总线进入睡眠，状态机直接切换到 `COMM_NO_COMMUNICATION`。
+
+全通信状态的生命周期
+
+| **阶段**             | **动作/事件**              | **目的**                               |
+| -------------------- | -------------------------- | -------------------------------------- |
+| **激活 (Entry)**     | 请求 `XXSM_FULL_COM`       | 开启收发器，允许 PDU 传输。            |
+| **维持 (Running)**   | 用户持续请求或 NM 保持激活 | 保证应用层数据的正常交互。             |
+| **退让 (To SILENT)** | 收到 `PrepareBusSleep`     | 停止“发声”，仅保持监听，配合全网关断。 |
+| **关断 (To NO_COM)** | 收到 `BusSleep`            | 彻底切断通信，进入省电模式。           |
+
+> [!tip]
+>
+> 🔍 为什么 NM 的指示如此关键？
+>
+> 在 `FULL_COMMUNICATION` 状态下，ComM 高度依赖 NM 的指示。这是因为在多节点网络中，**“什么时候可以关机”**不是由一个 ECU 说了算的，而是全网共同决定的。
+>
+> - 如果本地想睡但别人还在发数据，ECU 进入 `READY_SLEEP` 观察。
+> - 如果全网都准备睡了（`PrepareBusSleep`），ECU 进入 `SILENT`。
+> - 只有全网达成共识熄火了（`BusSleep`），ECU 才进入 `NO_COM`。
+
+##### COMM_FULL_COM_NETWORK_REQUESTED
+
+在这个子状态下，ECU 不仅仅是在线，而且是在**主动请求总线保持唤醒**。
+
+1. 进入动作：如何与 NM 模块交互？
+
+   当状态机进入该子状态时，ComM 会根据触发源的不同，向网络管理（NM）模块发出不同的指令：
+
+   - **被动启动 (`Nm_PassiveStartup`)**：
+     - 如果是由 **EcuM 唤醒指示**（普通或 PNC 唤醒）触发进入的。
+     - 如果由 **NM 重启**（`RestartIndication`）或 **网络启动**（`NetworkStartIndication`）触发。
+     - **原则**：被动启动意味着 ECU 准备好参与通信，但它本身不一定是那个“带头唤醒”的人。
+   - **主动请求 (`Nm_NetworkRequest`)**：
+     - 如果 **本地用户请求** 了全通信。
+     - 如果 **DCM 诊断激活** 了。
+     - **原则**：这会触发 NM 立即并多次发送 NM 报文，强制要求总线保持在 Network 模式。
+
+2. 时间保护：防止状态抖动
+
+   对于没有复杂 NM 协议（如 `LIGHT` 或 `NONE` 变体）的通道，系统引入了强制计时：
+
+   - **启动计时**：进入该状态时，启动 `ComMTMinFullComModeDuration` 计时器。
+   - **目的**：即使请求瞬间消失，ECU 也必须在该状态停留一段时间。这能确保系统有足够的时间完成启动和同步，防止状态机在 `NO_COM` 和 `FULL_COM` 之间剧烈“打摆子”。
+
+3. 退回到 READY_SLEEP 的条件
+
+   一旦主动请求消失，状态机将降级到 `READY_SLEEP`（即“我已经做完我的事了，但我陪你们保持唤醒”）：
+
+   | **NM 变体类型**  | **退出跳转到 READY_SLEEP 的条件**                            |
+   | ---------------- | ------------------------------------------------------------ |
+   | **LIGHT / NONE** | 计时器超时 **且** 无本地用户/诊断请求。                      |
+   | **FULL**         | 只要无本地用户/诊断请求即可（不需要计时器，因为 FULL NM 协议内部有类似保护）。 |
+   | **LIN SLAVE**    | 只要无本地用户请求即可。                                     |
+   | **PASSIVE**      | 始终保持跳转（被动通道从不主动请求网络）。                   |
+
+4. 特殊管理规则
+
+   - **管理通道联动**：如果一个管理通道（Managing Channel）要退回到 `READY_SLEEP`，它不仅要检查自己没请求，还要确保它下面所有**未绑定 PNC** 的被管理通道（Managed Channels）也都没有请求。
+   - **通信限制 (Communication Limitation)**：如果此时系统收到了通信限制请求，且当前没有活动的诊断会话，状态机会立即无视计时器，强行跳入 `READY_SLEEP`。
+
+`NETWORK_REQUESTED` 的本质
+
+这个子状态代表了 ECU 的**“主观能动性”**：
+
+1. **我在发话**：通过 `Nm_NetworkRequest` 告诉全网我需要用总线。
+2. **我有底线**：通过 `MinFullComModeDuration` 保证一旦开启就不会闪退。
+3. **我能让步**：一旦我的事情做完了（用户释放、诊断结束），我会退到 `READY_SLEEP`，把关掉总线的权利交给全网。
+
+##### COMM_FULL_COM_READY_SLEEP
+
+在这个状态下，ECU 处于一种“**逻辑释放但物理在线**”的状态。这意味着本节点已经完成了自己的通信任务，不再主动要求总线保持开启，但它必须留在该状态，等待全网络（通过 NM 协议）达成一致后再关机。
+
+1. 进入状态时的动作：释放请求
+
+   一旦从 `NETWORK_REQUESTED` 降级到 `READY_SLEEP`，ComM 会根据 NM 变体执行不同的操作：
+
+   - **FULL NM (标准网管)**：调用 `Nm_NetworkRelease()`。这会告诉 NM 模块：“本节点不再需要总线了，你可以开始进入准备睡眠的投票流程了。”
+   - **LIGHT NM (简化网管)**：启动 `ComMNmLightTimeout` 计时器。由于没有复杂的 NM 握手协议，这种变体通过简单的超时机制来决定何时关机。
+
+2. 状态退出与“降级”路径
+
+   在 `READY_SLEEP` 状态下，通道会根据配置和总线类型决定去向：
+
+   | **条件 / 变体**   | **触发事件**                                   | **目标状态**                  |
+   | ----------------- | ---------------------------------------------- | ----------------------------- |
+   | **LIGHT NM**      | `ComMNmLightTimeout` 计时器超时                | **COMM_NO_COMMUNICATION**     |
+   | **INTERNAL 总线** | 只要进入 `READY_SLEEP`                         | **立即进入 NO_COMMUNICATION** |
+   | **FULL NM**       | 收到 `PrepareBusSleep` (见前文 SWS_ComM_00826) | **COMM_SILENT_COMMUNICATION** |
+
+3. 被重新“拉回”激活状态 (Re-activation)
+
+   如果在准备睡觉的过程中，本地突然又有了新的通信需求，状态机会立即升级回 `NETWORK_REQUESTED`：
+
+   - **本地用户再次请求**：如果 `CommunicationAllowed` 允许，立即跳回 `NETWORK_REQUESTED`。如果是被管理通道，其管理通道也会同步被拉回激活状态。
+   - **诊断激活 (DCM)**：一旦诊断会话激活，立即忽略通信限制并跳回 `NETWORK_REQUESTED`。
+   - **计时器处理 (针对 LIGHT NM)**：如果在计时器运行期间发生了上述重新激活，必须立即取消 `ComMNmLightTimeout` 计时器。
+
+`READY_SLEEP` 的“待命”哲学
+
+1. **不再主动**：通过 `Nm_NetworkRelease` 或启动超时计时器，表达了“我想关机”的意图。
+2. **服从大局**：它不会立刻关机，而是留在 `FULL_COM` 模式下。这样如果总线上其他节点还在发数据，本节点依然可以正常接收，不会产生通信丢失（Timeout）错误。
+3. **随时待命**：一旦用户或诊断仪在最后一秒改变主意，它可以瞬间从“准备睡”切换回“全力发话”状态。
+
+PNC 状态机与通道状态机的关联
+
+至此，我们已经完整梳理了 PNC 逻辑和通道逻辑。简单来说：
+
+- **PNC 状态机** 决定了某个**功能集群**是否需要通信。
+- **通道状态机** 决定了具体的**物理导线**是否需要通电发信号。
+- 当 PNC 进入 `REQUESTED` 时，它会驱动关联的通道状态机进入 `NETWORK_REQUESTED`。
+
+### 通信抑制
+
+ComM 的**扩展功能：通信抑制（Communication Inhibition）**。如果说之前的状态机决定了“如何运行”，那么通信抑制则决定了“**是否允许运行**”。这种机制通常用于特殊的车辆状态（如展厅模式、生产线刷写或极端低电压保护），允许系统强制限制某些通道的通信能力。
+
+1. 核心概念：抑制与限制 (Inhibition & Limitation)
+
+   通信抑制主要分为两类逻辑，通过不同的 API 进行控制：
+
+   - **限制至无通信 (Limit to NoCom)**：
+     - **控制 API**：`ComM_LimitChannelToNoComMode()` 或 `ComM_LimitECUToNoComMode()`。
+     - **效果**：即便用户请求了 `FULL_COM`，ComM 也会强制通道保持在 `NO_COMMUNICATION` 状态。
+   - **唤醒抑制 (Wakeup Inhibition)**：
+     - **控制 API**：`ComM_PreventWakeUp()`。
+     - **效果**：防止总线上的外部请求（如接收到 NM 报文）将 ECU 从休眠中唤醒，但本地用户主动请求通常不受此限。
+
+2. 配置与控制：三位一体
+
+   抑制功能的生效取决于三个要素的综合作用：
+
+   1. **请求位 (Request Bit)**：通过上述 API 设置的 `ComMNoCom` 或 `ComMNoWakeup` 标志位。
+   2. **掩码位 (Mask Bits)**：`ComMEcuGroupClassification`。这是一个全局开关，决定了当前 ECU 属于哪一类分组（例如：是否受抑制影响）。
+   3. **运行时 API**：`ComM_SetECUGroupClassification()`。可以在运行时改变 ECU 的分类，从而动态开启或关闭抑制功能（例如：通过诊断命令切换模式）。
+
+3. 关键运行逻辑
+
+   - **状态存储与“记忆”功能 **
+
+     这是 ComM 设计中非常人性化的一点：
+
+     - **静默记录**：当通信被抑制时，如果用户发送了 `FULL_COM` 请求，ComM **不会丢弃**这个请求，而是将其记录下来。
+     - **自动恢复**：一旦抑制功能被解除（例如诊断仪发出了允许通信的指令），ComM 会立即检查之前的存储状态，并自动将通道切入用户请求的 `FULL_COM` 模式。
+
+   - **诊断优先原则** 
+
+     **诊断会话是最高优先级的例外。**
+
+     - 当 DCM 调用 `ComM_DCM_ActiveDiagnostic()` 时，所有的通信抑制逻辑会**暂时失效**。
+     - **理由**：必须确保在诊断期间 ECU 不会因为抑制逻辑而强行进入睡眠，否则会导致诊断中断或刷写失败。
+
+4. 角色定义：谁在控制抑制？
+
+   规范特别提到：**ComM 模块本身不会触发这些抑制功能 **。
+
+   - 通常由 **特权 SW-C**（如电源管理应用）或 **OEM 特有的 BSW 模块** 负责调用这些 API。
+   - 这是一种典型的“策略与机制分离”的设计：ComM 提供“限制”的**机制**，而其他模块决定执行“限制”的**策略**。
+
+抑制功能的层级
+
+| **功能类型**   | **影响对象** | **核心目的**               | **绕过条件**   |
+| -------------- | ------------ | -------------------------- | -------------- |
+| **NoCom 限制** | 本地用户请求 | 极端省电或生产安全         | 活跃的诊断会话 |
+| **唤醒抑制**   | 外部总线请求 | 防止意外唤醒（如展厅模式） | 活跃的诊断会话 |
+
+#### 总线唤醒抑制
+
+**总线唤醒抑制（Bus Wake Up Inhibition）** 的核心逻辑其精髓在于：**防止一个“可能有故障”的 ECU 因为内部错误的触发而意外唤醒整个车载网络。**
+
+1. 核心定义：什么是唤醒抑制？
+
+   唤醒抑制并不是关闭 ECU 的接收能力，而是**限制 ECU 的“主动发言权”**。
+
+   - **初衷**：如果某个传感器损坏或线路短路，导致 ECU 误以为需要通信，如果不加限制，这个 ECU 会发出网络管理报文，进而把全车几十个 ECU 全部叫醒，造成电池耗尽。
+   - **手段**：通过**“假装没听见”**本地用户的请求来实现。
+
+2. 核心行为逻辑：忽略但不丢弃 
+
+   - **接受请求**：当 `ComMNoWakeup = TRUE` 时，如果 SW-C 请求 `FULL_COM`，ComM 会记录下这个请求。
+   - **不执行**：ComM 不会触发状态机跳转，总线保持静默。
+   - **延时生效**：一旦抑制位被解除，之前缓存的请求会立即触发“最高优先级胜出”逻辑，使通道进入全通信模式。
+
+3. 生效的临界条件
+
+   唤醒抑制只有在“总线还没醒”的时候才管用：
+
+   - **生效区间**：通道处于 `COMM_NO_COMMUNICATION` 或 `COMM_SILENT_COMMUNICATION` 时。
+   - **无效区间**：如果通道已经处于 `COMM_FULL_COMMUNICATION`，抑制逻辑**不起作用**。
+   - **逻辑背后的哲学**：既然总线已经醒了（大家都在说话），这时候再限制某个节点说话已经没有“节能”或“防干扰”的意义了，所以不干预当前的活动通信。
+
+4. 被动唤醒：永远的例外 
+
+   **ComM 绝不会抑制“被动唤醒（Passive Wake-up）”能力。**
+
+   - **含义**：即便开启了唤醒抑制，如果外部总线（如其他 ECU）发来了唤醒信号，本 ECU 必须能够正常响应并进入通信状态。
+   - **理由**：唤醒抑制是为了防止“我害别人”，但不能变成“我自闭”。ECU 必须始终具备对外部网络请求的反应能力。
+
+5. 持久化存储
+
+   - **要求**：`ComMNoWakeup` 的状态必须存储在 **非易失性存储器（如 NvM/Flash）** 中。
+   - **必要性**：抑制状态必须在 ECU 上电初始化那一刻就生效。如果在启动后还需要等其他 ECU 告诉它是否抑制，那么在等待的过程中，故障请求可能已经把总线唤醒了。
+
+唤醒抑制 vs. 普通通信限制
+
+| **特性**     | **唤醒抑制 (Wake Up Inhibition)**    | **限制至 NoCom (Limit to NoCom)**  |
+| ------------ | ------------------------------------ | ---------------------------------- |
+| **主要目标** | 防止 ECU 成为唤醒源                  | 强制 ECU 保持静默（如刷写模式）    |
+| **抑制对象** | 仅抑制从 `NO_COM` 发起的**主动**跳转 | 抑制**所有**进入 `FULL_COM` 的尝试 |
+| **外部唤醒** | **允许**（被动唤醒）                 | **禁止**（除非诊断激活）           |
+| **存储要求** | 必须非易失存储                       | 视 OEM 需求而定                    |
+
+🛠️ 典型应用案例
+
+在**运输模式（Transport Mode）**下，为了防止车辆在船运或卡车运输过程中因为震动触发某些传感器唤醒总线，OEM 会通过诊断仪设置 `ComMNoWakeup = TRUE`。这样，即便传感器乱跳，ECU 也会乖乖睡觉，直到诊断仪解除该标志。
+
+#### 限制至无通信模式
+
+如果说“唤醒抑制”是防患于未然的“拒之门外”，那么本节定义的 **限制至无通信模式（Limit to NoCom）** 就是针对运行中故障的“强制熔断”。
+
+这种机制赋予了系统一种**强制关机**的能力，即便本地有应用软件（SW-C）死抓着总线不放，ComM 也能通过逻辑强行切断通信。
+
+1. 强制关机的核心逻辑 
+
+   当 `ComMNoCom = TRUE` 被触发时，ComM 不会暴力直接切断硬件，而是采用**优雅的降级流程**：
+
+   - **强制跳转**：即便用户还在请求 `FULL_COM`，状态机会强行从 `NETWORK_REQUESTED` 切换到 **`READY_SLEEP`**。
+   - **启动关机序列**：进入 `READY_SLEEP` 后，ComM 会调用 `Nm_NetworkRelease()`，通知网络管理模块开始关机投票。
+   - **忽略新请求**：在限制生效期间，任何新的 `FULL_COM` 请求都会被记录但被立即忽略。
+
+2. 生效范围与精准打击
+
+   这是一把只针对“主动请求”的利剑：
+
+   - **目标状态**：该限制逻辑仅在通道处于 **`COMM_FULL_COM_NETWORK_REQUESTED`**（即本地正在主动请求总线）时才会被触发跳转。
+   - **被动唤醒不受限**：如果通道是被外部远程唤醒的（Passive Wake-up），`Limit to NoCom` **不会**执行强制跳转。
+   - **设计意图**：这确保了限制功能只用来对付“本地不听话的软件”，而不是切断节点对外部合法请求的响应。
+
+3. 故障恢复：强制重启 
+
+   当一个 SW-C 发生故障导致它无法释放总线请求时，简单的状态跳转可能解决不了根本问题。
+
+   - **强制复位**：如果配置了 `ComMResetAfterForcingNoComm=TRUE`，在通道进入 `NO_COMMUNICATION` 后，ComM 会通过 BswM 触发 **ECU 重置**。
+   - **理由**：假设用户代码陷入死循环持续发送请求，重置是清除这种顽固故障状态的最终手段。
+   - **请求清理**：一旦所有通道都回到了 `NO_COM` 模式，ComM 会清空该用户的所有挂起请求。
+
+4. 存储与初始化特性
+
+   与“唤醒抑制”不同，`Limit to NoCom` 具有不同的生存周期：
+
+   - **非持久化**：`ComMNoCom` 状态**不要求**非易失性存储（NvM）。
+   - **初始化重载**：每次 ECU 重启初始化时，该标志位都会恢复为配置工具中设定的默认值。
+   - **逻辑哲学**：这种限制通常是针对运行时检测到的临时异常（如监控模块发现某个 SW-C 逻辑异常），因此不需要像“唤醒抑制”那样具备跨上电周期的记忆。
+
+两类限制功能的对比
+
+| **特性**       | **唤醒抑制 (Wakeup Inhibition)** | **限制至无通信 (Limit to NoCom)**         |
+| -------------- | -------------------------------- | ----------------------------------------- |
+| **主要动作**   | **拦截**进入全通信的尝试         | **中断**当前正在进行的全通信              |
+| **状态机行为** | 停留在 `NO_COM` 或 `SILENT`      | 从 `NETWORK_REQUESTED` 强跳 `READY_SLEEP` |
+| **针对故障**   | 传感器/硬件误唤醒                | 软件组件（SW-C）逻辑挂死                  |
+| **极端手段**   | 忽略请求                         | 重置 ECU (`BswM_InitiateReset`)           |
+| **存储**       | NvM 存储（上电生效）             | 初始化重载（运行时生效）                  |
+
+🔍 实际应用案例
+
+在一个多网关复杂的系统中，如果“网络大师（Network Master）”检测到某个 ECU 即使在全网都该睡觉时仍在疯狂发报文，它会通过诊断指令给这个 ECU 发送“禁言令”。ComM 接收到指令后设置 `ComMNoCom`，强制本地状态机释放 NM 信号，并可能通过重启来尝试修复那个“发疯”的应用软件。
+
+
+
+### 与SM和NM联动
+
+在 AUTOSAR 通信栈中，**ComM（Communication Manager）** 是最高层的管理者，它不直接操作硬件，而是通过驱动 **CanNM（Network Management）** 和 **CanSM（State Manager）** 来实现业务需求。
+
+三者的角色分配如下：
+
+- **ComM**：决策者（决定“我要不要通信”）。
+- **CanNM**：协调者（决定“全网是否都同意睡觉”）。
+- **CanSM**：执行者（决定“控制收发器和控制器的上下电/物理模式”）。
+
+它们之间的状态切换存在明显的层级联锁关系：
+
+1. **ComM 请求 Full Com**：
+   - ComM 进入 `FULL_COM_NETWORK_REQUESTED`。
+   - **联动 CanSM**：ComM 调用 `CanSM_RequestComMode(FULL)`，让 CanSM 将控制器的物理状态切换到能够收发 PDU 的模式。
+   - **联动 CanNM**：ComM 调用 `Nm_NetworkRequest()`，让 CanNM 开始在总线上发 NM 报文（告知别人：我醒了，你们也别睡）。
+2. **ComM 释放请求（准备睡眠）**：
+   - ComM 进入 `FULL_COM_READY_SLEEP`。
+   - **联动 CanNM**：ComM 调用 `Nm_NetworkRelease()`。此时 CanNM 进入 `Ready Sleep` 状态，停止发送自己的 NM 报文，开始监听总线上是否还有别人的 NM 报文。
+3. **全网同步入睡**：
+   - **CanNM 反馈**：当总线上所有人都不发 NM 报文了，CanNM 进入 `Bus Sleep`，并回调通知 ComM：`ComM_Nm_BusSleepMode()`。
+   - **ComM 降级**：ComM 收到回调后，状态机跳往 `NO_COMMUNICATION`。
+   - **最终执行**：ComM 调用 `CanSM_RequestComMode(NO_COM)`，由 CanSM 真正关闭收发器物理供电。
+
+```mermaid
+sequenceDiagram
+    participant User as SW-C (User)
+    participant ComM as ComM
+    participant CanNM as CanNM
+    participant CanSM as CanSM
+    participant Bus as CAN Bus
+
+    Note over User, Bus: --- 唤醒与启动流程 ---
+    User->>ComM: ComM_RequestComMode(FULL_COM)
+    ComM->>ComM: 进入 NETWORK_REQUESTED
+    
+    ComM->>CanSM: CanSM_RequestComMode(FULL_COM)
+    CanSM->>Bus: 控制收发器进入 Normal 模式
+    CanSM-->>ComM: 异步回调确认
+    
+    ComM->>CanNM: Nm_NetworkRequest()
+    CanNM->>Bus: 发送 NM PDU (Repeat Message)
+
+    Note over User, Bus: --- 正常通信中 ---
+
+    Note over User, Bus: --- 释放与关闭流程 (Shutdown) ---
+    User->>ComM: ComM_RequestComMode(NO_COM)
+    ComM->>ComM: 降级至 READY_SLEEP
+    
+    ComM->>CanNM: Nm_NetworkRelease()
+    CanNM->>CanNM: 停止发送 NM PDU，进入 Ready Sleep 监听
+    
+    Bus-->>CanNM: 监测到总线无 NM 信号 (Timeout)
+    CanNM->>ComM: ComM_Nm_BusSleepMode() 回调
+    
+    ComM->>ComM: 进入 NO_COMMUNICATION
+    ComM->>CanSM: CanSM_RequestComMode(NO_COM)
+    CanSM->>Bus: 控制收发器进入 Sleep/Standby
+```
+
+关键状态对应关系表
+
+| **阶段**       | **ComM 状态**                | **CanNM 状态**                        | **CanSM 状态**           |
+| -------------- | ---------------------------- | ------------------------------------- | ------------------------ |
+| **初始/休眠**  | `NO_COMMUNICATION`           | `Bus Sleep Mode`                      | `CANSM_BSM_S_NOT_READY`  |
+| **主动唤醒**   | `FULL_COM_NETWORK_REQUESTED` | `Repeat Message` / `Normal Operation` | `CANSM_BSM_S_FULL_COM`   |
+| **本地释放**   | `FULL_COM_READY_SLEEP`       | `Ready Sleep Mode`                    | `CANSM_BSM_S_FULL_COM`   |
+| **协调关机中** | `SILENT_COMMUNICATION`       | `Prepare Bus Sleep`                   | `CANSM_BSM_S_SILENT_COM` |
+| **彻底关闭**   | `NO_COMMUNICATION`           | `Bus Sleep Mode`                      | `CANSM_BSM_S_NO_COM`     |
+
+🔍 总结
+
+- **ComM 是“大脑”**：它汇总所有 User 的需求，决定逻辑状态。
+- **CanNM 是“嘴巴”**：它负责跟总线上其他 ECU “商量”能不能睡。
+- **CanSM 是“手脚”**：它负责开关硬件开关。
+- **关联点**：ComM 的子状态跳转往往是由 User 的 API 调用触发的，而主状态（如从 Full Com 跳回 No Com）通常是由 CanNM 的回调（`BusSleepMode`）触发的。
+
+## PduR
+
+> [!tip]
+>
+> 标准文件请参见[Specification of PDU Router](https://www.autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_SWS_PDURouter.pdf)
+
+如果说 ComM 是“司令部”，那么 PduR 就是 ECU 内部的“**物流转运中心**”。它不关心数据包（PDU）里装的是什么信号，它只根据“路由表”决定这个包该发往哪里。
+
+1. PduR 的层级位置：承上启下
+
+   PduR 处于一个非常特殊的中间位置，它切断了应用层与底层总线之间的直接耦合：
+
+   - **上层模块 (Upper Layers)**：数据的源头或终点。
+     - **COM**：信号层，处理应用数据。
+     - **DCM**：诊断层，处理诊断协议。
+   - **下层模块 (Lower Layers)**：数据的物理传输路径。
+     - **Interface 模块** (如 CanIf, LinIf)：处理短报文（单帧）。
+     - **TP 模块** (如 CanTp)：处理需要分包重组的长报文（如诊断数据）。
+
+2. PduR 的三大核心业务逻辑
+
+   1. 本地接收 (PDU Reception)
+
+      - **方向**：下层 $\rightarrow$ 上层。
+      - **逻辑**：总线上来了一个报文，PduR 查表发现本 ECU 需要它，于是分发给 COM 或 DCM。
+      - **特性 (Fan-out)**：支持“一对多”。一个报文进来，可以同时分发给多个上层模块。
+
+   2. 本地发送 (PDU Transmission)
+
+      - **方向**：上层 $\rightarrow$ 下层。
+      - **逻辑**：COM 或 DCM 产生数据，请求 PduR 发送。PduR 根据 ID 找到对应的总线接口（CAN、LIN 等）并传达发送指令。
+
+   3. 网关转发 (PDU Gateway)
+
+      这是 PduR 最强大的功能，数据**不经过上层应用**，直接在底层模块间流转。
+
+      - **Interface 级网关**：CAN1 的报文直接转到 CAN2（适用于实时性要求高的 L-PDU）。
+      - **TP 级网关**：诊断长报文在不同网段间转发。PduR 会管理中间缓存，实现一边收一边发的“流水线”操作。
+
+3. 关键点解析：灵活的混合模式
+
+   规范中特别提到一个极具代表性的场景：**接收与网关并存**。
+
+   > **举例**：一个网关 ECU 收到发动机转速报文。
+   >
+   > 1. **动作 A (接收)**：PduR 把报文给本机的 **COM**，供仪表盘显示当前转速。
+   > 2. **动作 B (网关)**：同时，PduR 把这个报文转发给 **LIN 总线**，供后排娱乐系统显示。
+   >
+   > **结论**：这两个动作在 PduR 内部是并行触发的，互不干扰，极大地提高了路由效率。
+
+💡 PduR 的本质：
+
+PduR 本质上是一个**静态的、无状态的路由矩阵**：
+
+1. **它是无感的**：它不解析 PDU 里的具体信号（如温度、转速）。
+2. **它是高效的**：基于 I-PDU ID 的查表转发，逻辑路径在配置阶段（arxml）就已固定。
+3. **它是解耦的**：上层模块不需要知道报文是走 CAN 还是以太网，只需要把 PDU 交给 PduR，剩下的路径寻找由 PduR 完成。
+
+![PDUR交互图](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260403162816757.png)
+
+
+
+1. 核心路由准则：静态 ID 路由
+
+   - **非动态路由**：PduR 绝对不会在运行时根据 PDU 的**有效载荷（Payload）**去决定路由方向。
+   - **静态标识符**：所有的路由决定都是基于预先配置好的 **I-PDU ID**。
+   - **意义**：这意味着 PduR 的执行效率极高，且行为是确定性的（Deterministic），符合汽车电子对实时性和安全性的要求。
+
+2. 模块分类：接口类 vs. 传输协议类
+
+   PduR 处理两类本质不同的通信接口：
+
+   | **模块类型**                 | **处理对象**          | **典型模块**                             |
+   | ---------------------------- | --------------------- | ---------------------------------------- |
+   | **通信接口模块 (Interface)** | 短报文 / 单帧 (L-PDU) | `CanIf`, `LinIf`, `FrIf`, `Com`, `IpduM` |
+   | **传输协议模块 (TP)**        | 长报文 / 分段 (N-PDU) | `CanTp`, `DCM`, `J1939Tp`, `FrTp`        |
+
+   - **技术细节**：PduR 需要区分这两类，因为 TP 路由涉及分段传输、流控制（Flow Control）和缓冲区管理，而 Interface 路由通常只是简单的直接转发。
+
+3. 最常见的路由组合 (Case Studies)
+
+   1. **DCM $\leftrightarrow$ TP 模块**：处理诊断仪与 ECU 之间的多帧长报文交互。
+   2. **COM $\leftrightarrow$ Interface 模块**：处理最基础的循环信号报文（如车速、转速）。
+   3. **COM $\leftrightarrow$ TP 模块**：处理大数据的信号传输。
+   4. **IpduM $\leftrightarrow$ Interface 模块**：处理多路复用报文的收发。
+
+### I-Pdu处理
+
+它的工作本质可以概括为：**ID 转换（ID Conversion）** 与 **透明传输（Transparent Transfer）**。
+
+1. 核心原则：数据一致性与透明性
+
+   - **无修改传输**：PduR 必须在不修改数据内容的情况下，将 I-PDU 从源模块传输到目标模块。
+   - **一致性**：确保数据在搬运过程中不会被截断或损坏。PduR 扮演的是“管道”角色，不感知负载（Payload）的具体含义。
+
+2. I-PDU 的身份识别：ID 与 符号名
+
+   规范区分了两种识别方式，这主要取决于你的编译策略：
+
+   - **I-PDU ID**：主要用于 **Post-build**（后编译配置）。因为在代码编译后，只有通过固定的 ID 才能在内存中定位和识别 PDU。
+   - **Symbolic Name (符号名)**：主要用于 **Pre-compile**（预编译配置）。在源代码阶段，开发者可以使用具有可读性的名称（如 `Engine_Speed_PDU`），由工具链最终映射为具体的 ID。
+
+3. 核心机制：ID 转换 (ID Conversion) 
+
+   这是 PduR 最重要的功能。每个 BSW 模块（Com, CanIf, LinIf）都有自己的一套 I-PDU ID 查表。
+
+   - **逻辑转换**：PduR 就像一个翻译官。
+     - **发送路径**：COM 调用 `PduR_ComTransmit(ID_A)`，PduR 查表发现对应的目标是 CanIf，于是将其转换为 CanIf 认识的 `ID_B`，然后调用 `CanIf_Transmit(ID_B)`。
+     - **确认/指示路径**：当底层反馈 `PduR_CanIfTxConfirmation(ID_B)` 时，PduR 再将其反向转换回 `ID_A` 并告诉上层 `Com_TxConfirmation(ID_A)`。
+
+4. 路由路径的唯一性
+
+   - **唯一识别**：一条路由路径是由 **源模块 I-PDU ID** 和 **目标模块 I-PDU ID** 的组合唯一确定的。
+
+   - **多路分发 (Fan-out) 示例**：
+
+     如规范所述，如果 COM 发送一个 PDU 给 CanIf 和 LinIf：
+
+     1. COM 提供一个源 ID 给 PduR。
+     2. PduR 将其转换为 **两个不同的目标 ID**：一个给 CanIf，一个给 LinIf。
+     3. 原始的数据指针（`PduInfoType`）被原封不动地传递给这两个模块。
+
+5. 严格的静态约束
+
+   - **严禁动态路由**：PduR 只能根据配置好的路径干活。如果配置里没写这条路，PduR 绝对不会转发。
+   - **MetaData 类型检查**：如果两个 I-PDU 的 `MetaDataTypes`（元数据类型，常用于带地址信息的通信，如 J1939 或以太网）不一致，生成工具必须报错。这保证了路由两端的数据结构是兼容的。
+
+PduR 到底在做什么？
+
+为了方便理解，我们可以把 PduR 处理 I-PDU 的过程想象成 **“拨号转发”**：
+
+| **步骤**            | **动作**                                       | **类比**                                 |
+| ------------------- | ---------------------------------------------- | ---------------------------------------- |
+| **1. 接收请求**     | 模块 A 发起 Transmit(ID_1)                     | 邮局收到一封发往“北京”的信               |
+| **2. 查表转换**     | PduR 查找路由表，发现 ID_1 对应模块 B 的 ID_99 | 邮局确认“北京”对应的邮编是“100000”       |
+| **3. 数据透明搬运** | 将数据指针原样传给模块 B                       | 把信件装进发往“100000”的邮袋，内容不准看 |
+| **4. 反馈转换**     | 模块 B 回复确认(ID_99)，PduR 转换回 ID_1 给 A  | 投递成功后，告诉发信人“北京”的信到了     |
+
+通信样例为：
+
+```mermaid
+sequenceDiagram
+    participant COM
+    participant PduR
+    participant CanIf
+    COM->>PduR: PduR_ComTransmit(11)
+    PduR->>CanIf: CanIf_Transmit(22)
+    CanIf->>PduR: PduR_CanIfTxConfirmation(42)
+    PduR->>COM: Com_TxConfirmation(32)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## IpduM
+
+> [!tip]
+>
+> 标准文件请参见[Specification of I-PDU Multiplexer](https://www.autosar.org/fileadmin/standards/R23-11/CP/AUTOSAR_CP_SWS_IPDUMultiplexer.pdf)
 
 ## Com
 

@@ -53,19 +53,19 @@ pip3 install -r requirements.txt
 
 在使用之前，电脑上需要插上硬件设备：
 
-![nRF sniffer外部接线](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_30_10_202502051330475.png)
+![nRF sniffer外部接线](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162659112.png)
 
 
 
 打开wireshark，在捕获界面会出现nRF sniffer设备：
 
-![image-20250205133145838](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_31_45_202502051331951.png)
+![显示nrf Sniffer](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162738451.png)
 
 
 
 可以点击设备左侧的小齿轮按钮，会弹出相关设置：
 
-![设备设置](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_37_10_202502051337676.png)
+![设备设置](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162812258.png)
 
 上面的选项的含义如下：
 
@@ -86,7 +86,7 @@ nRF嗅探器有两种工作模式：
 
 可以使用sniffer的过滤器进行筛选：
 
-![功能区](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_43_29_202502051343689.png)
+![功能区](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162823528.png)
 
 
 
@@ -106,7 +106,7 @@ nRF嗅探器有两种工作模式：
 
 在捕获完数据之后，会通过不同的区域展示：
 
-![不同区域的划分](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_13_56_34_202502051356462.png)
+![不同区域的划分](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162834240.png)
 
 
 
@@ -120,7 +120,7 @@ nRF嗅探器有两种工作模式：
 | BTATT、BTSMP、BTL2CAP    | 分别用于 ATT、SMP 和 L2CAP 数据包的协议过滤器。              |
 | nordic_ble.channel<37    | Fiter仅显示在数据通道上接收的数据包。                        |
 
-![过滤器设置](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_0_31_202502051400310.png)
+![过滤器设置](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162841496.png)
 
 
 
@@ -130,7 +130,7 @@ nRF嗅探器有两种工作模式：
 
 当然，有时候为了方便对比数据，可以将一个数据放到列上，首先先选中需要查看的列，右键，选择应用为列即可。
 
-![应用为列](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/5_14_6_44_202502051406915.png)
+![应用为列](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323162849083.png)
 
 
 

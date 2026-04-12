@@ -66,4 +66,76 @@
 }
 
 /***************************************  页脚设置 ****************************************/
+/* 1. 引入 VLOOK 的核心颜色变量（确保编号颜色和 OWL 主题一致） */
+:root {
+    --v-t1: #7735cc; /* VLOOK OWL 的经典紫色 */
+}
 
+/* 2. 重置文章内的计数器 */
+#article-container {
+    counter-reset: h1-count;
+}
+
+/* 3. 标题居中 */
+#article-container h2, 
+#article-container h3, 
+#article-container h4 {
+    text-align: center !important;
+    display: block !important;
+}
+
+/* 4. 彻底隐藏 Butterfly 默认的标题前缀（这是“没有反应”的主要原因） */
+#article-container h2::before,
+#article-container h3::before,
+#article-container h4::before {
+    content: none !important; /* 先清除掉主题自带的 # 符号或图标 */
+}
+
+/* 5. 重新定义 VLOOK 风格的自动编号 */
+
+/* H2 编号 (1, 2, 3...) */
+#article-container h2 {
+    counter-increment: h1-count;
+}
+#article-container h2::before {
+    content: counter(h1-count) ". " !important;
+    counter-reset: h2-count;
+    color: var(--v-t1) !important;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* H3 编号 (1.1, 1.2...) */
+#article-container h3 {
+    counter-increment: h2-count;
+}
+#article-container h3::before {
+    content: counter(h1-count) "." counter(h2-count) " " !important;
+    counter-reset: h3-count;
+    color: var(--v-t1) !important;
+    font-size: 0.9em;
+    margin-right: 6px;
+}
+
+/* H4 编号 (1.1.1...) */
+#article-container h4 {
+    counter-increment: h3-count;
+}
+#article-container h4::before {
+    content: counter(h1-count) "." counter(h2-count) "." counter(h3-count) " " !important;
+    color: var(--v-t1) !important;
+    font-size: 0.8em;
+    margin-right: 4px;
+}
+
+/* 6. 可选：增加 VLOOK 特有的下划线装饰 */
+#article-container h2::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 3px;
+    background: var(--v-t1);
+    margin: 8px auto 0;
+    border-radius: 2px;
+    opacity: 0.3;
+}

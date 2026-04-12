@@ -144,6 +144,6 @@ $$
 x + y = 1 \\
 x - y = 2
 \end{array}
-\right.
+\right\}
 $$
 

@@ -67,7 +67,7 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
 
 1. 经典蓝牙：一帧数据包有357个字节
 
-   ![经典蓝牙报文帧](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_1_45_202412091401409.png)
+   ![经典蓝牙报文帧](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163653529.png)
 
    1. 前9字节是访问地址用于区分不同的蓝牙设备
 
@@ -77,7 +77,7 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
 
 2. 低功耗蓝牙：一帧数据包有261个字节
 
-   ![低功耗蓝牙数据报文](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_6_0_202412091406390.png)
+   ![低功耗蓝牙数据报文](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163705800.png)
 
    1. 第一个字节是预补码，用于时钟同步和信道估计
    2. 后四个字节是访问地址，用于区分不同的蓝牙设备
@@ -86,13 +86,13 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
 
 实际上，蓝牙通过高频信号和低频信号来表达0和1
 
-![载波信号](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_8_59_202412091408388.png)
+![载波信号](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163721189.png)
 
 
 
 所以说，虽然蓝牙的通信协议的频率为2.4GHZ，但是实际上蓝牙的传输速率最快也就是3MB/S
 
-![调制解调蓝牙信号](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_10_51_202412091410028.png)
+![调制解调蓝牙信号](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163732727.png)
 
 所以说蓝牙需要两种频率才能传输数据，2.4GHz只是一个大概频率，蓝牙利用的是高斯频移键控（Gaussian Frequency Shift Keying ，GFSK）技术。
 
@@ -101,17 +101,17 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
 1. 逻辑1是在中心频率的基础上加185KHz
 2. 逻辑0是在中心频率的基础上减185KHz
 
-![电平表示](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_20_8_202412091420580.png)
+![电平表示](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163743396.png)
 
 但是在同一个空间中，所有的蓝牙都是使用的是2.402GHz作为中心频率，那么蓝牙的通信不就是全乱的吗，实际上并不会。
 
 蓝牙采用了多信道通信，如低功耗蓝牙有40个信道，信道范围从2.402GHz到2.480GHz，每个信道的间隔是==2MHz==。
 
-![信道演示](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_23_27_202412091423825.png)
+![信道演示](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163802084.png)
 
 比如在2.402GHz内通信，那么它实际传输的就是刚刚通过GFSK计算的频率，经典蓝牙的每个信道的间隔是==1MHz==，并且他们会频繁的在不同的信道之间开始通信，一秒之内可以达到上百次跳频
 
-![不同蓝牙的信道数量](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_29_25_202412091429310.png)
+![不同蓝牙的信道数量](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163812040.png)
 
 
 
@@ -121,7 +121,7 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
 
 蓝牙这个名称来自于第十世纪的一位丹麦国王哈洛德·布美塔特（（Harald Blåtand），丹麦语的Blåtand翻译成英语就是 Bluetooth，因此这位国王又叫哈拉尔蓝牙王（Harald Bluetooth）。因为国王喜欢吃蓝莓，牙龈每天都是蓝色的所以叫蓝牙。**蓝牙的标志是一个结合符文，它融合了卢恩字母（古北欧人使用的一类字母，现已灭绝）中的H（ᚼ）和B（ᛒ）符文，同时也是哈拉尔国王名字的首字母缩写。**
 
-![蓝牙logo](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_50_20_202412091450861.png)
+![蓝牙logo](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163822502.png)
 
 
 
@@ -149,7 +149,7 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
 
 ## 系统组成
 
-![蓝牙协议系统组成](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/11_13_44_8_202412111344891.png)
+![蓝牙协议系统组成](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163841144.png)
 
 1. 应用程序（Application）
 
@@ -205,7 +205,7 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
    - 物理层和调制解调器（控制射频信号的发送和接收）
    - 射频层使用频率跳跃扩频技术（FHSS），在2.4GHz ISM频段内工作，以提高通信稳定性和抗干扰能力
 
-![蓝牙细节](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/11_13_44_48_202412111344470.png)
+![蓝牙细节](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163854286.png)
 
 
 
@@ -228,7 +228,7 @@ https://www.mouser.com/pdfdocs/bluetooth-Core-v50.pdf
    - 网络访问协议：PPP、IP、TCP、UDP
    - 电话控制协议：TCS、AT指令集。
 
-   ![image-20241211135058152](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/11_13_50_58_202412111350260.png)
+   ![image-20241211135058152](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260323163921720.png)
 
 3. 应用协议
 

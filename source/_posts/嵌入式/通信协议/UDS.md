@@ -1442,7 +1442,7 @@ sequenceDiagram
 
   > [!tip]
   >
-  > 注意：这里DID和
+  > 注意：这里DID和诊断调查表中的DID是一个东西
 
 > [!tip]
 >
