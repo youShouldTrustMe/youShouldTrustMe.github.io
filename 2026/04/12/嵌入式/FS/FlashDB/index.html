@@ -1,0 +1,1372 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FlashDB | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 FlashDB&#x2F;README_zh.md at master · armink&#x2F;FlashDB (github.com) 基本概念  键值数据库（KVDB）：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。 时序数据（TSDB） ：时间序列数据库 （Time Series Database , 简称 TSDB），它">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FlashDB">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/FS/FlashDB/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 FlashDB&#x2F;README_zh.md at master · armink&#x2F;FlashDB (github.com) 基本概念  键值数据库（KVDB）：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。 时序数据（TSDB） ：时间序列数据库 （Time Series Database , 简称 TSDB），它">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png">
+<meta property="article:published_time" content="2026-04-12T08:12:40.242Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.242Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="FS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FlashDB",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/FS/FlashDB/",
+  "image": "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png",
+  "datePublished": "2026-04-12T08:12:40.242Z",
+  "dateModified": "2026-04-12T08:12:40.242Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/FS/FlashDB/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FlashDB',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">FlashDB</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FlashDB</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.242Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.242Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://github.com/armink/FlashDB/blob/master/README_zh.md">FlashDB/README_zh.md at master · armink/FlashDB (github.com)</a></p>
+<h1>基本概念</h1>
+<ul>
+<li><strong>键值数据库（KVDB）</strong>：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。</li>
+<li><strong>时序数据（TSDB）</strong> ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 <strong>时间顺序存储</strong> 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。</li>
+<li><strong>时序记录（TSL）</strong> ：TSL (Time series log)，是 TSDB 中每条记录的简称。</li>
+<li><strong>Blob</strong> ：在计算机中，blob 常常是数据库中用来存储二进制文件的字段类型。在 FlashDB 中， KV 和 TSL 都使用 blob 类型来存储，该类型可以兼容任意变量类型。</li>
+<li><strong>迭代器（iterator）</strong>：它可以让用户透过特定的接口巡访容器中的每一个元素，而不用了解底层的实现。 TSDB 和 KVDB 都支持通过迭代器对数据库进行遍历访问。</li>
+</ul>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png" alt="框架结构" loading='lazy'></p>
+<h1>KVDB</h1>
+<h2 id="字符串类型">字符串类型</h2>
+<p>使用一个名为 <code>&quot;temp&quot;</code> 的 KV 来存储温度值，分别演示了字符串 KV 从 <code>创建-&gt;读取-&gt;修改-&gt;删除</code> 的全过程。大致内容如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">kvdb_type_string_sample</span><span class="params">(<span class="type">fdb_kvdb_t</span> kvdb)</span></span><br><span class="line">&#123;</span><br><span class="line">    FDB_INFO(<span class="string">&quot;==================== kvdb_type_string_sample ====================\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* CREATE new Key-Value */</span></span><br><span class="line">        <span class="type">char</span> temp_data[<span class="number">10</span>] = <span class="string">&quot;36C&quot;</span>;</span><br><span class="line">        <span class="comment">/* It will create new KV node when &quot;temp&quot; KV not in database. */</span></span><br><span class="line">        fdb_kv_set(kvdb, <span class="string">&quot;temp&quot;</span>, temp_data);</span><br><span class="line">        FDB_INFO(<span class="string">&quot;create the &#x27;temp&#x27; string KV, value is: %s\n&quot;</span>, temp_data);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* GET the KV value */</span></span><br><span class="line">        <span class="type">char</span> *return_value, temp_data[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">        <span class="comment">/* Get the &quot;temp&quot; KV value.</span></span><br><span class="line"><span class="comment">         * <span class="doctag">NOTE:</span> The return value saved in fdb_kv_get&#x27;s buffer. Please copy away as soon as possible.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        return_value = fdb_kv_get(kvdb, <span class="string">&quot;temp&quot;</span>);</span><br><span class="line">        <span class="comment">/* the return value is NULL when get the value failed */</span></span><br><span class="line">        <span class="keyword">if</span> (return_value != <span class="literal">NULL</span>) &#123;</span><br><span class="line">            <span class="built_in">strncpy</span>(temp_data, return_value, <span class="keyword">sizeof</span>(temp_data));</span><br><span class="line">            FDB_INFO(<span class="string">&quot;get the &#x27;temp&#x27; value is: %s\n&quot;</span>, temp_data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* CHANGE the KV value */</span></span><br><span class="line">        <span class="type">char</span> temp_data[<span class="number">10</span>] = <span class="string">&quot;38C&quot;</span>;</span><br><span class="line">        <span class="comment">/* change the &quot;temp&quot; KV&#x27;s value to &quot;38C&quot; */</span></span><br><span class="line">        fdb_kv_set(kvdb, <span class="string">&quot;temp&quot;</span>, temp_data);</span><br><span class="line">        FDB_INFO(<span class="string">&quot;set &#x27;temp&#x27; value to %s\n&quot;</span>, temp_data);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* DELETE the KV by name */</span></span><br><span class="line">        fdb_kv_del(kvdb, <span class="string">&quot;temp&quot;</span>);</span><br><span class="line">        FDB_INFO(<span class="string">&quot;delete the &#x27;temp&#x27; finish\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    FDB_INFO(<span class="string">&quot;===========================================================\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先创建了一个 KV 名为 <code>&quot;temp&quot;</code> ，并给予初值 36℃</li>
+<li>读取 <code>&quot;temp&quot;</code> KV 当前的值，发现与初值相同</li>
+<li>修改 <code>&quot;temp&quot;</code> KV 的值为 38℃</li>
+<li>最后删除 <code>&quot;temp&quot;</code> KV</li>
+</ul>
+<h2 id="Blob类型">Blob类型</h2>
+<p>blob KV 是一个比较常用类型，其 value 是一个没有类型限制的二进制类型。在功能上，blob KV 也兼容字符串 KV 。在 API 的使用上， blob KV 拥有一套独立的 API ，可以很快速的实现各种类型 KV 到 KVDB 中的存储，比如：基本类型，数组以及结构体等。</p>
+<p>下面的代码使用一个名为 <code>&quot;temp&quot;</code> 的 KV 来存储温度值，分别演示了 blob KV 从 <code>创建-&gt;读取-&gt;修改-&gt;删除</code> 的全过程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">kvdb_type_blob_sample</span><span class="params">(<span class="type">fdb_kvdb_t</span> kvdb)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line">    </span><br><span class="line">    FDB_INFO(<span class="string">&quot;==================== kvdb_type_blob_sample ====================\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* CREATE new Key-Value */</span></span><br><span class="line">        <span class="type">int</span> temp_data = <span class="number">36</span>;</span><br><span class="line">        <span class="comment">/* It will create new KV node when &quot;temp&quot; KV not in database.</span></span><br><span class="line"><span class="comment">         * fdb_blob_make: It&#x27;s a blob make function, and it will return the blob when make finish.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        fdb_kv_set_blob(kvdb, <span class="string">&quot;temp&quot;</span>, fdb_blob_make(&amp;blob, &amp;temp_data, <span class="keyword">sizeof</span>(temp_data)));</span><br><span class="line">        FDB_INFO(<span class="string">&quot;create the &#x27;temp&#x27; blob KV, value is: %d\n&quot;</span>, temp_data);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* GET the KV value */</span></span><br><span class="line">        <span class="type">int</span> temp_data = <span class="number">0</span>;</span><br><span class="line">        <span class="comment">/* get the &quot;temp&quot; KV value */</span></span><br><span class="line">        fdb_kv_get_blob(kvdb, <span class="string">&quot;temp&quot;</span>, fdb_blob_make(&amp;blob, &amp;temp_data, <span class="keyword">sizeof</span>(temp_data)));</span><br><span class="line">        <span class="comment">/* the blob.saved.len is more than 0 when get the value successful */</span></span><br><span class="line">        <span class="keyword">if</span> (blob.saved.len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            FDB_INFO(<span class="string">&quot;get the &#x27;temp&#x27; value is: %d\n&quot;</span>, temp_data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123; <span class="comment">/* CHANGE the KV value */</span></span><br><span class="line">        <span class="type">int</span> temp_data = <span class="number">38</span>;</span><br><span class="line">        <span class="comment">/* change the &quot;temp&quot; KV&#x27;s value to 38 */</span></span><br><span class="line">        fdb_kv_set_blob(kvdb, <span class="string">&quot;temp&quot;</span>, fdb_blob_make(&amp;blob, &amp;temp_data, <span class="keyword">sizeof</span>(temp_data)));</span><br><span class="line">        FDB_INFO(<span class="string">&quot;set &#x27;temp&#x27; value to %d\n&quot;</span>, temp_data);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* DELETE the KV by name */</span></span><br><span class="line">        fdb_kv_del(kvdb, <span class="string">&quot;temp&quot;</span>);</span><br><span class="line">        FDB_INFO(<span class="string">&quot;delete the &#x27;temp&#x27; finish\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    FDB_INFO(<span class="string">&quot;===========================================================\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>首先创建了一个 KV 名为 <code>&quot;temp&quot;</code> ，并给予初值 36℃</li>
+<li>读取 <code>&quot;temp&quot;</code> KV 当前的值，发现与初值相同</li>
+<li>修改 <code>&quot;temp&quot;</code> KV 的值为 38℃</li>
+<li>最后删除 <code>&quot;temp&quot;</code> KV</li>
+</ul>
+<h2 id="遍历（迭代器）">遍历（迭代器）</h2>
+<p>下面的示例代码中，首先初始化了 KVDB 的迭代器，然后使用迭代器 API ，将 KVDB 的所有 KV 逐一遍历出来。</p>
+<p>遍历出来的 KV 对象含有 KV 的一些属性，包括：key name, value saved addr, value length 等，用户通过 <code>fdb_blob_read</code> 配合 <code>fdb_kv_to_blob</code> 读取出来，做一些自己的业务处理。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">kvdb_tarversal_sample</span><span class="params">(<span class="type">fdb_kvdb_t</span> kvdb)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fdb_kv_iterator</span> <span class="title">iterator</span>;</span></span><br><span class="line">    <span class="type">fdb_kv_t</span> cur_kv;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line">    <span class="type">size_t</span> data_size;</span><br><span class="line">    <span class="type">uint8_t</span> *data_buf;</span><br><span class="line">    </span><br><span class="line">    fdb_kv_iterator_init(kvdb, &amp;iterator);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (fdb_kv_iterate(kvdb, &amp;iterator)) &#123;</span><br><span class="line">        cur_kv = &amp;(iterator.curr_kv);</span><br><span class="line">        data_size = (<span class="type">size_t</span>) cur_kv-&gt;value_len;</span><br><span class="line">        data_buf = (<span class="type">uint8_t</span> *) <span class="built_in">malloc</span>(data_size);</span><br><span class="line">        <span class="keyword">if</span> (data_buf == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            FDB_INFO(<span class="string">&quot;Error: malloc failed.\n&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        fdb_blob_read((<span class="type">fdb_db_t</span>) kvdb, fdb_kv_to_blob(cur_kv, fdb_blob_make(&amp;blob, data_buf, data_size)));</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * balabala do what ever you like with blob...</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="built_in">free</span>(data_buf);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>TSDB</h1>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">tsdb_sample</span><span class="params">(<span class="type">fdb_tsdb_t</span> tsdb)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line">    </span><br><span class="line">    FDB_INFO(<span class="string">&quot;==================== tsdb_sample ====================\n&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* APPEND new TSL (time series log) */</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">env_status</span> <span class="title">status</span>;</span></span><br><span class="line">        <span class="comment">/* append new log to TSDB */</span></span><br><span class="line">        status.temp = <span class="number">36</span>;</span><br><span class="line">        status.humi = <span class="number">85</span>;</span><br><span class="line">        fdb_tsl_append(tsdb, fdb_blob_make(&amp;blob, &amp;status, <span class="keyword">sizeof</span>(status)));</span><br><span class="line">        FDB_INFO(<span class="string">&quot;append the new status.temp (%d) and status.humi (%d)\n&quot;</span>, status.temp, status.humi);</span><br><span class="line">        status.temp = <span class="number">38</span>;</span><br><span class="line">        status.humi = <span class="number">90</span>;</span><br><span class="line">        fdb_tsl_append(tsdb, fdb_blob_make(&amp;blob, &amp;status, <span class="keyword">sizeof</span>(status)));</span><br><span class="line">        FDB_INFO(<span class="string">&quot;append the new status.temp (%d) and status.humi (%d)\n&quot;</span>, status.temp, status.humi);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* QUERY the TSDB */</span></span><br><span class="line">        <span class="comment">/* query all TSL in TSDB by iterator */</span></span><br><span class="line">        fdb_tsl_iter(tsdb, query_cb, tsdb);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* QUERY the TSDB by time */</span></span><br><span class="line">        <span class="comment">/* prepare query time (from 1970-01-01 00:00:00 to 2020-05-05 00:00:00) */</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">tm</span> <span class="title">tm_from</span> =</span> &#123; .tm_year = <span class="number">1970</span> - <span class="number">1900</span>, </span><br><span class="line">                             .tm_mon = <span class="number">0</span>, </span><br><span class="line">                             .tm_mday = <span class="number">1</span>, </span><br><span class="line">                             .tm_hour = <span class="number">0</span>, </span><br><span class="line">                             .tm_min = <span class="number">0</span>, </span><br><span class="line">                             .tm_sec = <span class="number">0</span> </span><br><span class="line">                            &#125;;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">tm</span> <span class="title">tm_to</span> =</span> &#123; .tm_year = <span class="number">2020</span> - <span class="number">1900</span>, </span><br><span class="line">                           .tm_mon = <span class="number">4</span>, </span><br><span class="line">                           .tm_mday = <span class="number">5</span>, </span><br><span class="line">                           .tm_hour = <span class="number">0</span>, </span><br><span class="line">                           .tm_min = <span class="number">0</span>, </span><br><span class="line">                           .tm_sec = <span class="number">0</span> </span><br><span class="line">                          &#125;;</span><br><span class="line">        <span class="type">time_t</span> from_time = mktime(&amp;tm_from), to_time = mktime(&amp;tm_to);</span><br><span class="line">        <span class="type">size_t</span> count;</span><br><span class="line">        <span class="comment">/* query all TSL in TSDB by time */</span></span><br><span class="line">        fdb_tsl_iter_by_time(tsdb, from_time, to_time, query_by_time_cb, tsdb);</span><br><span class="line">        <span class="comment">/* query all FDB_TSL_WRITE status TSL&#x27;s count in TSDB by time */</span></span><br><span class="line">        count = fdb_tsl_query_count(tsdb, from_time, to_time, FDB_TSL_WRITE);</span><br><span class="line">        FDB_INFO(<span class="string">&quot;query count is: %u\n&quot;</span>, count);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    &#123; <span class="comment">/* SET the TSL status */</span></span><br><span class="line">        <span class="comment">/* Change the TSL status by iterator or time iterator</span></span><br><span class="line"><span class="comment">         * set_status_cb: the change operation will in this callback</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         * <span class="doctag">NOTE:</span> The actions to modify the state must be in orderC.</span></span><br><span class="line"><span class="comment">         *       like: FDB_TSL_WRITE -&gt; FDB_TSL_USER_STATUS1 -&gt; FDB_TSL_DELETED -&gt; FDB_TSL_USER_STATUS2</span></span><br><span class="line"><span class="comment">         *       The intermediate states can also be ignored.</span></span><br><span class="line"><span class="comment">         *       such as: FDB_TSL_WRITE -&gt; FDB_TSL_DELETED</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        fdb_tsl_iter(tsdb, set_status_cb, tsdb);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    FDB_INFO(<span class="string">&quot;===========================================================\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分别来看下这几个过程</p>
+<ul>
+<li>
+<p><strong>追加</strong>：分两次修改结构体对象 <code>status</code> 的值然后追加到 TSDB 中；</p>
+</li>
+<li>
+<p><strong>查询</strong>：通过 TSDB 的迭代器 API ，在每次迭代时会自动执行 <code>query_cb</code> 回调函数，实现对 TSDB 中所有记录的查询，回调函数内容如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">bool</span> <span class="title function_">query_cb</span><span class="params">(<span class="type">fdb_tsl_t</span> tsl, <span class="type">void</span> *arg)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">env_status</span> <span class="title">status</span>;</span></span><br><span class="line">    <span class="type">fdb_tsdb_t</span> db = arg;</span><br><span class="line">    fdb_blob_read((<span class="type">fdb_db_t</span>) db, fdb_tsl_to_blob(tsl, fdb_blob_make(&amp;blob, &amp;status, <span class="keyword">sizeof</span>(status))));</span><br><span class="line">    FDB_INFO(<span class="string">&quot;[query_cb] queried a TSL: time: %ld, temp: %d, humi: %d\n&quot;</span>, tsl-&gt;time, status.temp, status.humi);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>按时间查询</strong>：TSDB 还提供了按时间迭代的 API : <code>fdb_tsl_iter_by_time</code> ，可以传入起始和截至时间，此时迭代器会按照传入的时间段，对时序记录进行迭代。每次迭代时会执行 <code>query_by_time_cb</code> 回调，在回调中读取当前记录的内容，并打印出来。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">bool</span> <span class="title function_">query_by_time_cb</span><span class="params">(<span class="type">fdb_tsl_t</span> tsl, <span class="type">void</span> *arg)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">env_status</span> <span class="title">status</span>;</span></span><br><span class="line">    <span class="type">fdb_tsdb_t</span> db = arg;</span><br><span class="line">    fdb_blob_read((<span class="type">fdb_db_t</span>) db, fdb_tsl_to_blob(tsl, fdb_blob_make(&amp;blob, &amp;status, <span class="keyword">sizeof</span>(status))));</span><br><span class="line">    FDB_INFO(<span class="string">&quot;[query_by_time_cb] queried a TSL: time: %ld, temp: %d, humi: %d\n&quot;</span>, tsl-&gt;time, status.temp, status.humi);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>修改状态</strong>：每条 TSL 在被追加到 TSDB 后，都可以修改其状态，状态共有 4 种：</p>
+<ul>
+<li>
+<p><code>FDB_TSL_WRITE</code>：已写入状态，TSL 被追加到 TSDB 中后的默认状态；</p>
+</li>
+<li>
+<p><code>FDB_TSL_USER_STATUS1</code>：该状态介于写入与删除之间，用户可自定义其状态含义，比如：数据已被同步至云端；</p>
+</li>
+<li>
+<p><code>FDB_TSL_DELETED</code> ：已删除状态，当 TSL 需要删除时，修改 TSL 的状态为该状态即可；</p>
+<blockquote>
+<p>提示：在 FlashDB 中，为了提升 Flash 寿命，删除动作并不会真正的将数据从 Flash 从擦除，而是将其标记为删除状态，用户可以通过状态对不同的数据记录进行区分。</p>
+</blockquote>
+</li>
+<li>
+<p><code>FDB_TSL_USER_STATUS2</code>：删除状态之后的自定义状态，预留给用户使用；</p>
+</li>
+</ul>
+<p>修改状态时只能按照 <code>FDB_TSL_WRITE -&gt; FDB_TSL_USER_STATUS1 -&gt; FDB_TSL_DELETED -&gt; FDB_TSL_USER_STATUS2</code> 顺序进行修改，不能逆序修改。也可以跳过中间状态，例如：从 <code>FDB_TSL_WRITE</code> 直接修改为<code>FDB_TSL_DELETED</code> 状态，跳过 <code>FDB_TSL_USER_STATUS1</code> 状态。</p>
+<p>示例中通过迭代器将当前所有的 TSL 都修改为 <code>FDB_TSL_USER_STATUS1</code> 状态，迭代器中的回调代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">bool</span> <span class="title function_">set_status_cb</span><span class="params">(<span class="type">fdb_tsl_t</span> tsl, <span class="type">void</span> *arg)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">fdb_tsdb_t</span> db = arg;</span><br><span class="line">    FDB_INFO(<span class="string">&quot;set the TSL (time %ld) status from %d to %d\n&quot;</span>, tsl-&gt;time, tsl-&gt;status, FDB_TSL_USER_STATUS1);</span><br><span class="line">    fdb_tsl_set_status(db, tsl, FDB_TSL_USER_STATUS1);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1>移植</h1>
+<h2 id="介绍">介绍</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_13_44_14_202412251344836.png" alt="框架图" loading='lazy'></p>
+<p>移植的主要工作都在 FAL 这边，其他接口并不是强依赖，可以根据自己的情况进行对接。</p>
+<p>移植前建议先了解下 FAL 功能介绍，详见：<a target="_blank" rel="noopener" href="http://packages.rt-thread.org/detail.html?package=fal">http://packages.rt-thread.org/detail.html?package=fal</a></p>
+<p>FAL 底层将不同的 Flash 存储介质进行了统一封装，并提供了分区表机制，暴露给上层用户。</p>
+<p>FlashDB 的每个数据库就是基于 FAL 提供的分区机制，每个数据库都坐落在某个 FAL 的分区上，相当于一个分区对应一个数据库。</p>
+<h2 id="定义Flash设备">定义Flash设备</h2>
+<p>在定义 Flash 设备表前，需要先定义 Flash 设备。可以是片内 flash, 也可以是片外基于 SFUD 的 spi flash：</p>
+<ul>
+<li>定义片内 flash 设备可以参考 <a target="_blank" rel="noopener" href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_flash_stm32f2_port.c"><code>fal_flash_stm32f2_port.c</code></a> 。</li>
+<li>定义片外 spi flash 设备可以参考 <a target="_blank" rel="noopener" href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_flash_sfud_port.c"><code>fal_flash_sfud_port.c</code></a> 。</li>
+</ul>
+<p>定义具体的 Flash 设备对象，用户需要根据自己的 Flash 情况分别实现 <code>init</code>、 <code>read</code>、 <code>write</code>、 <code>erase</code> 这些操作函数：</p>
+<ul>
+<li><code>static int init(void)</code>：<strong>可选</strong> 的初始化操作。</li>
+<li><code>static int read(long offset, uint8_t *buf, size_t size)</code>：读取操作。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">offset</td>
+<td style="text-align:left">读取数据的 Flash 偏移地址</td>
+</tr>
+<tr>
+<td style="text-align:left">buf</td>
+<td style="text-align:left">存放待读取数据的缓冲区</td>
+</tr>
+<tr>
+<td style="text-align:left">size</td>
+<td style="text-align:left">待读取数据的大小</td>
+</tr>
+<tr>
+<td style="text-align:left">return</td>
+<td style="text-align:left">返回实际读取的数据大小</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>static int write(long offset, const uint8_t *buf, size_t size)</code> ：写入操作。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">offset</td>
+<td style="text-align:left">写入数据的 Flash 偏移地址</td>
+</tr>
+<tr>
+<td style="text-align:left">buf</td>
+<td style="text-align:left">存放待写入数据的缓冲区</td>
+</tr>
+<tr>
+<td style="text-align:left">size</td>
+<td style="text-align:left">待写入数据的大小</td>
+</tr>
+<tr>
+<td style="text-align:left">return</td>
+<td style="text-align:left">返回实际写入的数据大小</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>static int erase(long offset, size_t size)</code> ：擦除操作。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">offset</td>
+<td style="text-align:left">擦除区域的 Flash 偏移地址</td>
+</tr>
+<tr>
+<td style="text-align:left">size</td>
+<td style="text-align:left">擦除区域的大小</td>
+</tr>
+<tr>
+<td style="text-align:left">return</td>
+<td style="text-align:left">返回实际擦除的区域大小</td>
+</tr>
+</tbody>
+</table>
+<p>用户需要根据自己的 Flash 情况分别实现这些操作函数。在文件最底部定义了具体的 Flash 设备对象 ，如下示例定义了 stm32f2 片上 flash：stm32f2_onchip_flash</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">fal_flash_dev</span> <span class="title">stm32f2_onchip_flash</span> =</span></span><br><span class="line">&#123;</span><br><span class="line">    .name       = <span class="string">&quot;stm32_onchip&quot;</span>,</span><br><span class="line">    .addr       = <span class="number">0x08000000</span>,</span><br><span class="line">    .len        = <span class="number">1024</span>*<span class="number">1024</span>,</span><br><span class="line">    .blk_size   = <span class="number">128</span>*<span class="number">1024</span>,</span><br><span class="line">    .ops        = &#123;init, read, write, erase&#125;,</span><br><span class="line">    .write_gran = <span class="number">8</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&quot;stm32_onchip&quot;</code> : Flash 设备的名字。</li>
+<li><code>0x08000000</code>: 对 Flash 操作的起始地址。</li>
+<li><code>1024*1024</code>：Flash 的总大小（1MB）。</li>
+<li><code>128*1024</code>：Flash 块/扇区大小（因为 STM32F2 各块大小不均匀，所以擦除粒度为最大块的大小：128K）。</li>
+<li><code>&#123;init, read, write, erase&#125;</code> ：Flash 的操作函数。 如果没有 init 初始化过程，第一个操作函数位置可以置空。</li>
+<li><code>8</code> : 设置写粒度，单位 bit， 0 表示未生效（默认值为 0 ），该成员是 fal 版本大于 0.4.0 的新增成员。各个 flash 写入粒度不尽相同，可通过该成员进行设置，以下列举几种常见 Flash 写粒度：
+<ul>
+<li>nor flash: 1 bit</li>
+<li>stm32f2/f4: 8 bit</li>
+<li>stm32f1: 32 bit</li>
+<li>stm32l4: 64 bit</li>
+</ul>
+</li>
+</ul>
+<h2 id="定义Flash设备表">定义Flash设备表</h2>
+<p>Flash 设备表定义在 <code>fal_cfg.h</code> 头文件中，定义分区表前需 <strong>新建 <code>fal_cfg.h</code> 文件</strong> ，请将该文件统一放在对应 BSP 或工程目录的 port 文件夹下，并将该头文件路径加入到工程。fal_cfg.h 可以参考 <a target="_blank" rel="noopener" href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_cfg.h">示例文件 fal/samples/porting/fal_cfg.h</a> 完成。</p>
+<p>设备表示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ===================== Flash device Configuration ========================= */</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">fal_flash_dev</span> <span class="title">stm32f2_onchip_flash</span>;</span></span><br><span class="line"><span class="keyword">extern</span> <span class="class"><span class="keyword">struct</span> <span class="title">fal_flash_dev</span> <span class="title">nor_flash0</span>;</span></span><br><span class="line"><span class="comment">/* flash device table */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FAL_FLASH_DEV_TABLE                                          \</span></span><br><span class="line"><span class="meta">&#123;                                                                    \</span></span><br><span class="line"><span class="meta">    &amp;stm32f2_onchip_flash,                                           \</span></span><br><span class="line"><span class="meta">    &amp;nor_flash0,                                                     \</span></span><br><span class="line"><span class="meta">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>Flash 设备表中，有两个 Flash 对象，一个为 STM32F2 的片内 Flash ，一个为片外的 Nor Flash。</p>
+<h2 id="定义Flash分区表">定义Flash分区表</h2>
+<p>分区表也定义在 <code>fal_cfg.h</code> 头文件中。Flash 分区基于 Flash 设备，每个 Flash 设备又可以有 N 个分区，这些分区的集合就是分区表。在配置分区表前，务必保证已定义好 <strong>Flash 设备</strong> 及 <strong>设备表</strong>。fal_cfg.h 可以参考 <a target="_blank" rel="noopener" href="https://github.com/RT-Thread-packages/fal/blob/master/samples/porting/fal_cfg.h">示例文件 fal/samples/porting/fal_cfg.h</a> 完成。</p>
+<p>分区表示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> NOR_FLASH_DEV_NAME             <span class="string">&quot;norflash0&quot;</span></span></span><br><span class="line"><span class="comment">/* ====================== Partition Configuration ========================== */</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> FAL_PART_HAS_TABLE_CFG</span></span><br><span class="line"><span class="comment">/* partition table */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FAL_PART_TABLE                                                               \</span></span><br><span class="line"><span class="meta">&#123;                                                                                    \</span></span><br><span class="line"><span class="meta">    &#123;FAL_PART_MAGIC_WORD,        <span class="string">&quot;bl&quot;</span>,     <span class="string">&quot;stm32_onchip&quot;</span>,         0,   64*1024, 0&#125;, \</span></span><br><span class="line"><span class="meta">    &#123;FAL_PART_MAGIC_WORD,       <span class="string">&quot;app&quot;</span>,     <span class="string">&quot;stm32_onchip&quot;</span>,   64*1024,  704*1024, 0&#125;, \</span></span><br><span class="line"><span class="meta">    &#123;FAL_PART_MAGIC_WORD, <span class="string">&quot;easyflash&quot;</span>, NOR_FLASH_DEV_NAME,         0, 1024*1024, 0&#125;, \</span></span><br><span class="line"><span class="meta">    &#123;FAL_PART_MAGIC_WORD,  <span class="string">&quot;download&quot;</span>, NOR_FLASH_DEV_NAME, 1024*1024, 1024*1024, 0&#125;, \</span></span><br><span class="line"><span class="meta">&#125;</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* FAL_PART_HAS_TABLE_CFG */</span></span></span><br></pre></td></tr></table></figure>
+<p>上面这个分区表详细描述信息如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">分区名</th>
+<th style="text-align:left">Flash 设备名</th>
+<th style="text-align:left">偏移地址</th>
+<th style="text-align:left">大小</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">“bl”</td>
+<td style="text-align:left">“stm32_onchip”</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">64KB</td>
+<td style="text-align:left">引导程序</td>
+</tr>
+<tr>
+<td style="text-align:left">“app”</td>
+<td style="text-align:left">“stm32_onchip”</td>
+<td style="text-align:left">64*1024</td>
+<td style="text-align:left">704KB</td>
+<td style="text-align:left">应用程序</td>
+</tr>
+<tr>
+<td style="text-align:left">“easyflash”</td>
+<td style="text-align:left">“norflash0”</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">1MB</td>
+<td style="text-align:left">EasyFlash 参数存储</td>
+</tr>
+<tr>
+<td style="text-align:left">“download”</td>
+<td style="text-align:left">“norflash0”</td>
+<td style="text-align:left">1024*1024</td>
+<td style="text-align:left">1MB</td>
+<td style="text-align:left">OTA 下载区</td>
+</tr>
+</tbody>
+</table>
+<p>用户需要修改的分区参数包括：分区名称、关联的 Flash 设备名、偏移地址（相对 Flash 设备内部）、大小，需要注意以下几点：</p>
+<ul>
+<li>分区名保证 <strong>不能重复</strong>；</li>
+<li>关联的 Flash 设备 <strong>务必已经在 Flash 设备表中定义好</strong> ，并且 <strong>名称一致</strong> ，否则会出现无法找到 Flash 设备的错误；</li>
+<li>分区的起始地址和大小 <strong>不能超过 Flash 设备的地址范围</strong> ，否则会导致包初始化错误；</li>
+</ul>
+<blockquote>
+<p>[!tip]</p>
+<p>注意：每个分区定义时，除了填写上面介绍的参数属性外，需在前面增加 <code>FAL_PART_MAGIC_WORD</code> 属性，末尾增加 <code>0</code> （目前用于保留功能）</p>
+</blockquote>
+<h1>配置</h1>
+<p>FlashDB 的使用时，可以通过 fdb_cfg.h 对其进行功能配置。</p>
+<ol>
+<li>
+<p>FDB_USING_KVDB：使能 KVDB 功能</p>
+</li>
+<li>
+<p>FDB_KV_AUTO_UPDATE：使能 KV 自动升级功能。该功能使能后， <code>fdb_kvdb.ver_num</code> 存储了当前数据库的版本，如果版本发生变化时，会自动触发升级动作，将更新新的默认 KV 集合至当前数据库中。</p>
+</li>
+<li>
+<p>FDB_USING_TSDB:使能 TSDB 功能</p>
+</li>
+<li>
+<p>FDB_USING_FAL_MODE:使能 FAL 模式，FAL 里的分区用于存储数据库。该模式下，FlashDB 直接操作 Flash，所以性能较好</p>
+</li>
+<li>
+<p>FDB_USING_FILE_POSIX_MODE：使用 POSIX 的文件模式，需要系统提供 open/read/write/close 相关文件访问接口。</p>
+</li>
+<li>
+<p>FDB_USING_FILE_LIBC_MODE：使用 C 标准库的文件模式，需要系统提供 fopen/fread/fwrite/fclose 相关文件访问接口。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>FDB_USING_FILE_LIBC_MODE 与 FDB_USING_FILE_POSIX_MODE 模式只能二选一。相比 FAL 模式，文件模式下数据库的存储位置、大小及数量没有限制。</p>
+</blockquote>
+</li>
+<li>
+<p>FDB_WRITE_GRAN:Flash 写粒度，单位为 bit。目前支持：</p>
+<ul>
+<li>1: nor flash</li>
+<li>8: stm32f2/f4 片上 Flash</li>
+<li>32: stm32f1 片上 Flash</li>
+</ul>
+<blockquote>
+<p>[!tip]</p>
+<p>如果数据库中使用了多种 Flash 规格，例如：既有 nor flash，也有 stm32f4 片上 Flash ，此时取最大值作为配置项，即：8 bit</p>
+</blockquote>
+</li>
+<li>
+<p>FDB_BIG_ENDIAN：MCU 大小端配置，默认不配置时，系统自动使用小端配置</p>
+</li>
+<li>
+<p>FDB_PRINT(…)：打印函数宏定义配置，默认不配置时，使用 printf 作为打印日志是输出函数。用户也可以自定义新的打印函数宏定义，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_PRINT(...)              my_printf(__VA_ARGS__)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>FDB_DEBUG_ENABLE：使能调试信息输出。关闭该配置时，系统将不会输出用于调试的日志。</p>
+</li>
+</ol>
+<h1>API</h1>
+<h2 id="Blob">Blob</h2>
+<h3 id="构造-blob-对象">构造 blob 对象</h3>
+<p>构造 blob 对象的过程，其内部是对 blob 结构体初始化赋值的过程，将传入的参数写入 blob 结构体中，并进行返回</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_blob_t</span> <span class="title function_">fdb_blob_make</span><span class="params">(<span class="type">fdb_blob_t</span> blob, <span class="type">const</span> <span class="type">void</span> *value_buf, <span class="type">size_t</span> buf_len)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">blob 初始对象</td>
+</tr>
+<tr>
+<td style="text-align:left">value_buf</td>
+<td style="text-align:left">存放数据的缓冲区</td>
+</tr>
+<tr>
+<td style="text-align:left">buf_len</td>
+<td style="text-align:left">缓冲区的大小</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">创建完成后的 blob 对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="读取-blob-数据">读取 blob 数据</h3>
+<p>通过 KVDB 和 TSDB 的 API 可以返回 blob 对象，此时返回的 blob 对象里存放了 blob 数据的存储地址。该 API 可以将数据库里存放的 blob 数据读取出来，并存放至 <code>blob-&gt;buf</code> 。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">size_t</span> <span class="title function_">fdb_blob_read</span><span class="params">(<span class="type">fdb_db_t</span> db, <span class="type">fdb_blob_t</span> blob)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">blob 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">实际读取到的 blob 数据长度</td>
+</tr>
+</tbody>
+</table>
+<h2 id="KVDB">KVDB</h2>
+<h3 id="初始化-KVDB">初始化 KVDB</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_kvdb_init</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *name, <span class="type">const</span> <span class="type">char</span> *path, <span class="keyword">struct</span> fdb_default_kv *default_kv, <span class="type">void</span> *user_data)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">数据库名称</td>
+</tr>
+<tr>
+<td style="text-align:left">path</td>
+<td style="text-align:left">FAL 模式：分区表中的分区名，文件模式：数据库保存的路径</td>
+</tr>
+<tr>
+<td style="text-align:left">default_kv</td>
+<td style="text-align:left">默认 KV 集合，第一次初始化时，将会把默认 KV 写入数据库中</td>
+</tr>
+<tr>
+<td style="text-align:left">user_data</td>
+<td style="text-align:left">用户自定义数据，没有时传入 NULL</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="控制-KVDB">控制 KVDB</h3>
+<p>通过命令控制字，用户可以对数据库进行一些控制操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_kvdb_control</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">int</span> cmd, <span class="type">void</span> *arg)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">cmd</td>
+<td style="text-align:left">命令控制字</td>
+</tr>
+<tr>
+<td style="text-align:left">arg</td>
+<td style="text-align:left">控制的参数</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<p>支持的命令控制字如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_SET_SEC_SIZE     0x00             <span class="comment">/**&lt; 设置扇区大小，需要在数据库初始化前配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_GET_SEC_SIZE     0x01             <span class="comment">/**&lt; 获取扇区大小 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_SET_LOCK         0x02             <span class="comment">/**&lt; 设置加锁函数 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_SET_UNLOCK       0x03             <span class="comment">/**&lt; 设置解锁函数 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_SET_FILE_MODE    0x09             <span class="comment">/**&lt; 设置文件模式，需要在数据库初始化前配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_SET_MAX_SIZE     0x0A             <span class="comment">/**&lt; 在文件模式下，设置数据库最大大小，需要在数据库初始化前配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_KVDB_CTRL_SET_NOT_FORMAT   0x0B             <span class="comment">/**&lt; 设置初始化时不进行格式化，需要在数据库初始化前配置 */</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="扇区大小与块大小">扇区大小与块大小</h4>
+<p>FlashDB 内部存储结构由 N 个扇区组成，每次格式化时是以扇区作为最小单位。而一个扇区通常是 Flash 块大小的 N 倍，比如： Nor Flash 的块大小一般为 4096。</p>
+<p>默认 KVDB 会使用 1倍 的块大小作为扇区大小，即：4096。此时，该 KVDB 无法存入超过 4096 长度的 KV 。如果想要存入比如：10K 长度的 KV ，可以通过 control 函数，设置扇区大小为 12K，或者更大大小即可。</p>
+<h3 id="反初始化-KVDB">反初始化 KVDB</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_kvdb_deinit</span><span class="params">(<span class="type">fdb_kvdb_t</span> db)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="设置-KV">设置 KV</h3>
+<p>使用此方法可以实现对 KV 的增加和修改功能。</p>
+<ul>
+<li>
+<p><strong>增加</strong> ：当 KVDB 中不存在该名称的 KV 时，则会执行新增操作；</p>
+</li>
+<li>
+<p><strong>修改</strong> ：入参中的 KV 名称在当前 KVDB 中存在，则把该 KV 值修改为入参中的值；</p>
+<blockquote>
+<p>在 KVDB 内部实现中，修改 KV 会先删除旧的 KV ，再增加新的 KV，所以修改后数据库剩余容量会变小</p>
+</blockquote>
+</li>
+</ul>
+<p>通过 KV 的名字来获取其对应的值。支持两种接口</p>
+<h4 id="设置-blob-类型KV">设置 blob 类型KV</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_kv_set_blob</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *key, <span class="type">fdb_blob_t</span> blob)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">KV 的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">blob 对象，做为 KV 的 value</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line"><span class="type">int</span> temp_data = <span class="number">36</span>;</span><br><span class="line"><span class="comment">/* 通过 fdb_blob_make 构造 blob 对象，作为 &quot;temp&quot; KV 的 value */</span></span><br><span class="line">fdb_kv_set_blob(kvdb, <span class="string">&quot;temp&quot;</span>, fdb_blob_make(&amp;blob, &amp;temp_data, <span class="keyword">sizeof</span>(temp_data)));</span><br></pre></td></tr></table></figure>
+<h4 id="设置-string-类型KV">设置 string 类型KV</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_kv_set</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *key, <span class="type">const</span> <span class="type">char</span> *value)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">KV 的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">value</td>
+<td style="text-align:left">KV 的 value</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="获取-KV">获取 KV</h3>
+<h4 id="获取-blob-类型-KV">获取 blob 类型 KV</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">size_t</span> <span class="title function_">fdb_kv_get_blob</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *key, <span class="type">fdb_blob_t</span> blob)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">KV 的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">通过 blob 对象，返回 KV 的 blob value</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">fdb_blob</span> <span class="title">blob</span>;</span></span><br><span class="line"><span class="type">int</span> temp_data = <span class="number">0</span>;</span><br><span class="line"><span class="comment">/* 构造 blob 对象，用于存储 get 回来的 &quot;temp&quot; KV 的 value 数据 */</span></span><br><span class="line">fdb_kv_get_blob(kvdb, <span class="string">&quot;temp&quot;</span>, fdb_blob_make(&amp;blob, &amp;temp_data, <span class="keyword">sizeof</span>(temp_data)));</span><br><span class="line"><span class="comment">/* 如果有需要，可以检查 blob.saved.len 是否大于 0 ，确保 get 成功 */</span></span><br><span class="line"><span class="keyword">if</span> (blob.saved.len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    FDB_INFO(<span class="string">&quot;get the &#x27;temp&#x27; value is: %d\n&quot;</span>, temp_data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取-KV-对象">获取 KV 对象</h4>
+<p>与 <code>fdb_kv_get_blob</code> API 不同，该 API 在 get 过程中并不会执行 value 数据的读取动作。返回的 KV 对象中存放了读取回来的 KV 属性，该 API 适用于 value 长度不确定，或 value 长度过长，需要分段读取的场景。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_kv_t</span> <span class="title function_">fdb_kv_get_obj</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *key, <span class="type">fdb_kv_t</span> kv)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">KV 的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">kv</td>
+<td style="text-align:left">通过 KV 对象，返回 KV 的属性，可以再用 <code>fdb_kv_to_blob</code> 转换为 blob 对象，再进行数据读取</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h4 id="获取字符串类型-KV">获取字符串类型 KV</h4>
+<p><strong>注意</strong> ：</p>
+<ul>
+<li>该函数不允许连续使用，使用时需使用 strdup 包裹，确保每次返回回来的字符串内存空间独立；</li>
+<li>该函数不支持可重入，返回的值位于函数内部缓冲区，出于安全考虑，请加锁保护。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> *<span class="title function_">fdb_kv_get</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *key)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">KV 的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">!=NULL: KV 的 value；NULL: 获取失败</td>
+</tr>
+</tbody>
+</table>
+<h3 id="删除-KV">删除 KV</h3>
+<blockquote>
+<p>在 KVDB 内部实现中，删除 KV 并不会完全从 KVDB 中移除，而是标记为了删除状态，所以删除后数据库剩余容量不会有变化</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_kv_del</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *key)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">KV 的名称</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="重置-KVDB">重置 KVDB</h3>
+<p>将 KVDB 中的 KV 重置为 <strong>首次初始时</strong> 的默认值</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_kv_set_default</span><span class="params">(<span class="type">fdb_kvdb_t</span> db)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="打印-KVDB-中的-KV-信息">打印 KVDB 中的 KV 信息</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_kv_print</span><span class="params">(<span class="type">fdb_kvdb_t</span> db)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="KV-对象转换为-blob-对象">KV 对象转换为 blob 对象</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_blob_t</span> <span class="title function_">fdb_kv_to_blob</span><span class="params">(<span class="type">fdb_kv_t</span> kv, <span class="type">fdb_blob_t</span> blob)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">kv</td>
+<td style="text-align:left">待转换的 KV 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">转换前的 blob 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">转换后的 blob 对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="初始化-KV-迭代器">初始化 KV 迭代器</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_kv_iterator_t</span> <span class="title function_">fdb_kv_iterator_init</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">fdb_kv_iterator_t</span> itr)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">itr</td>
+<td style="text-align:left">待初始化的迭代器对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">初始化后的迭代器对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="迭代-KV">迭代 KV</h3>
+<p>使用该迭代器 API，可以遍历整个 KVDB 中的所有 KV。</p>
+<blockquote>
+<p>[!important]</p>
+<p><strong>注意</strong>：使用前请先初始化迭代器</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">bool</span> <span class="title function_">fdb_kv_iterate</span><span class="params">(<span class="type">fdb_kvdb_t</span> db, <span class="type">fdb_kv_iterator_t</span> itr)</span></span><br></pre></td></tr></table></figure>
+<h2 id="TSDB">TSDB</h2>
+<h3 id="初始化-TSDB">初始化 TSDB</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_tsdb_init</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, <span class="type">const</span> <span class="type">char</span> *name, <span class="type">const</span> <span class="type">char</span> *path, fdb_get_time get_time, <span class="type">size_t</span> max_len, <span class="type">void</span> *user_data)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">name</td>
+<td style="text-align:left">数据库名称</td>
+</tr>
+<tr>
+<td style="text-align:left">path</td>
+<td style="text-align:left">FAL 模式：分区表中的分区名，文件模式：数据库保存的路径</td>
+</tr>
+<tr>
+<td style="text-align:left">get_time</td>
+<td style="text-align:left">获取当前时间戳的函数</td>
+</tr>
+<tr>
+<td style="text-align:left">max_len</td>
+<td style="text-align:left">每条 TSL 的最大长度</td>
+</tr>
+<tr>
+<td style="text-align:left">user_data</td>
+<td style="text-align:left">用户自定义数据，没有时传入 NULL</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="控制-TSDB">控制 TSDB</h3>
+<p>通过命令控制字，用户可以对数据库进行一些控制操作</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_tsdb_control</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, <span class="type">int</span> cmd, <span class="type">void</span> *arg)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">cmd</td>
+<td style="text-align:left">命令控制字</td>
+</tr>
+<tr>
+<td style="text-align:left">arg</td>
+<td style="text-align:left">控制的参数</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<p>支持的命令控制字如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_SEC_SIZE     0x00             <span class="comment">/**&lt; 设置扇区大小，需要在数据库初始化前配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_GET_SEC_SIZE     0x01             <span class="comment">/**&lt; 获取扇区大小 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_LOCK         0x02             <span class="comment">/**&lt; 设置加锁函数 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_UNLOCK       0x03             <span class="comment">/**&lt; 设置解锁函数 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_ROLLOVER     0x04             <span class="comment">/**&lt; 设置是否滚动写入，默认滚动。设置非滚动时，如果数据库写满，无法再追加写入。需要在数据库初始化后配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_GET_ROLLOVER     0x05             <span class="comment">/**&lt; 获取是否滚动写入 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_GET_LAST_TIME    0x06             <span class="comment">/**&lt; 获取上次追加 TSL 时的时间戳  */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_FILE_MODE    0x09             <span class="comment">/**&lt; 设置文件模式，需要在数据库初始化前配置，需要在数据库初始化前配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_MAX_SIZE     0x0A             <span class="comment">/**&lt; 在文件模式下，设置数据库最大大小，需要在数据库初始化前配置 */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FDB_TSDB_CTRL_SET_NOT_FORMAT   0x0B             <span class="comment">/**&lt; 设置初始化时不进行格式化，需要在数据库初始化前配置 */</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="反初始化-TSDB">反初始化 TSDB</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_tsdb_deinit</span><span class="params">(<span class="type">fdb_tsdb_t</span> db)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+</tbody>
+</table>
+<h3 id="追加-TSL">追加 TSL</h3>
+<p>对于 TSDB ，新增 TSL 的过程，就是往 TSDB 末尾追加新 TSL 的过程</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_tsl_append</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, <span class="type">fdb_blob_t</span> blob)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">blob 对象，做为 TSL 的数据</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="迭代-TSL">迭代 TSL</h3>
+<p>遍历整个 TSDB 并执行迭代回调</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_tsl_iter</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, fdb_tsl_cb cb, <span class="type">void</span> *cb_arg)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">cb</td>
+<td style="text-align:left">回调函数，每次遍历到 TSL 时会执行该回调</td>
+</tr>
+<tr>
+<td style="text-align:left">cb_arg</td>
+<td style="text-align:left">回调函数的参数</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="逆序迭代-TSL">逆序迭代 TSL</h3>
+<p>逆序遍历整个 TSDB 并执行迭代回调</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_tsl_iter_reverse</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, fdb_tsl_cb cb, <span class="type">void</span> *cb_arg)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">cb</td>
+<td style="text-align:left">回调函数，每次遍历到 TSL 时会执行该回调</td>
+</tr>
+<tr>
+<td style="text-align:left">cb_arg</td>
+<td style="text-align:left">回调函数的参数</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="按时间段迭代-TSL">按时间段迭代 TSL</h3>
+<p>按时间段范围，遍历整个 TSDB 并执行迭代回调</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_tsl_iter_by_time</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, <span class="type">fdb_time_t</span> from, <span class="type">fdb_time_t</span> to, fdb_tsl_cb cb, <span class="type">void</span> *cb_arg)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">from</td>
+<td style="text-align:left">开始时间戳。如果结束时间戳比开始时间戳要小，此时将会执行逆序迭代。</td>
+</tr>
+<tr>
+<td style="text-align:left">to</td>
+<td style="text-align:left">结束时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">cb</td>
+<td style="text-align:left">回调函数，每次遍历到 TSL 时会执行该回调</td>
+</tr>
+<tr>
+<td style="text-align:left">cb_arg</td>
+<td style="text-align:left">回调函数的参数</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="查询-TSL-的数量">查询 TSL 的数量</h3>
+<p>按照传入的时间段，查询符合状态的 TSL 数量</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">size_t</span> <span class="title function_">fdb_tsl_query_count</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, <span class="type">fdb_time_t</span> from, <span class="type">fdb_time_t</span> to, <span class="type">fdb_tsl_status_t</span> status)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">from</td>
+<td style="text-align:left">开始时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">to</td>
+<td style="text-align:left">结束时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">status</td>
+<td style="text-align:left">TSL 的状态条件</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">数量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="设置-TSL-状态">设置 TSL 状态</h3>
+<p>TSL 状态详见 <code>enum fdb_tsl_status</code> ，必须按照顺序设置 TSL 状态。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_err_t</span> <span class="title function_">fdb_tsl_set_status</span><span class="params">(<span class="type">fdb_tsdb_t</span> db, <span class="type">fdb_tsl_t</span> tsl, <span class="type">fdb_tsl_status_t</span> status)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">tsl</td>
+<td style="text-align:left">TSL 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">status</td>
+<td style="text-align:left">TSL 的新状态</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="清空-TSDB">清空 TSDB</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fdb_tsl_clean</span><span class="params">(<span class="type">fdb_tsdb_t</span> db)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">db</td>
+<td style="text-align:left">数据库对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">错误码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="TSL-对象转换为-blob-对象">TSL 对象转换为 blob 对象</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">fdb_blob_t</span> <span class="title function_">fdb_tsl_to_blob</span><span class="params">(<span class="type">fdb_tsl_t</span> tsl, <span class="type">fdb_blob_t</span> blob)</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">tsl</td>
+<td style="text-align:left">待转换的 TSL 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">blob</td>
+<td style="text-align:left">转换前的 blob 对象</td>
+</tr>
+<tr>
+<td style="text-align:left">返回</td>
+<td style="text-align:left">转换后的 blob 对象</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/FS/FlashDB/">https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/FS/FlashDB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FS/">FS</a></div><div class="post-share"><div class="social-share" data-image="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/" title="DAC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202085839348.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">DAC</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】DAC详解_dac12bit-CSDN博客 简述 DAC,全称：Digital-to-Analog Converter,指数字/模拟转换器。DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式"><img class="cover" src="/img/RandomCoverImage/random_6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">设计模式</div></div><div class="info-2"><div class="info-item-1">参考链接 概述 设计模式不是代码，而是：在特定上下文下，针对反复出现的设计问题，总结出的可复用设计思想与结构。 核心特征：    特征 说明     可复用 不是一次性方案   语言无关 不依赖 C / C++ / Java   抽象层面 描述“对象如何协作”，而非“语法怎么写”   经实践验...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">KVDB</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">字符串类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Blob%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">Blob类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%EF%BC%88%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">遍历（迭代器）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">TSDB</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">移植</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Flash%E8%AE%BE%E5%A4%87"><span class="toc-number">5.2.</span> <span class="toc-text">定义Flash设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Flash%E8%AE%BE%E5%A4%87%E8%A1%A8"><span class="toc-number">5.3.</span> <span class="toc-text">定义Flash设备表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Flash%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="toc-number">5.4.</span> <span class="toc-text">定义Flash分区表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">API</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Blob"><span class="toc-number">7.1.</span> <span class="toc-text">Blob</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0-blob-%E5%AF%B9%E8%B1%A1"><span class="toc-number">7.1.1.</span> <span class="toc-text">构造 blob 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96-blob-%E6%95%B0%E6%8D%AE"><span class="toc-number">7.1.2.</span> <span class="toc-text">读取 blob 数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KVDB"><span class="toc-number">7.2.</span> <span class="toc-text">KVDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-KVDB"><span class="toc-number">7.2.1.</span> <span class="toc-text">初始化 KVDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6-KVDB"><span class="toc-number">7.2.2.</span> <span class="toc-text">控制 KVDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%87%E5%8C%BA%E5%A4%A7%E5%B0%8F%E4%B8%8E%E5%9D%97%E5%A4%A7%E5%B0%8F"><span class="toc-number">7.2.2.1.</span> <span class="toc-text">扇区大小与块大小</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%88%9D%E5%A7%8B%E5%8C%96-KVDB"><span class="toc-number">7.2.3.</span> <span class="toc-text">反初始化 KVDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-KV"><span class="toc-number">7.2.4.</span> <span class="toc-text">设置 KV</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-blob-%E7%B1%BB%E5%9E%8BKV"><span class="toc-number">7.2.4.1.</span> <span class="toc-text">设置 blob 类型KV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-string-%E7%B1%BB%E5%9E%8BKV"><span class="toc-number">7.2.4.2.</span> <span class="toc-text">设置 string 类型KV</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-KV"><span class="toc-number">7.2.5.</span> <span class="toc-text">获取 KV</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-blob-%E7%B1%BB%E5%9E%8B-KV"><span class="toc-number">7.2.5.1.</span> <span class="toc-text">获取 blob 类型 KV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-KV-%E5%AF%B9%E8%B1%A1"><span class="toc-number">7.2.5.2.</span> <span class="toc-text">获取 KV 对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B-KV"><span class="toc-number">7.2.5.3.</span> <span class="toc-text">获取字符串类型 KV</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4-KV"><span class="toc-number">7.2.6.</span> <span class="toc-text">删除 KV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E7%BD%AE-KVDB"><span class="toc-number">7.2.7.</span> <span class="toc-text">重置 KVDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%8D%B0-KVDB-%E4%B8%AD%E7%9A%84-KV-%E4%BF%A1%E6%81%AF"><span class="toc-number">7.2.8.</span> <span class="toc-text">打印 KVDB 中的 KV 信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KV-%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BA-blob-%E5%AF%B9%E8%B1%A1"><span class="toc-number">7.2.9.</span> <span class="toc-text">KV 对象转换为 blob 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-KV-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">7.2.10.</span> <span class="toc-text">初始化 KV 迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3-KV"><span class="toc-number">7.2.11.</span> <span class="toc-text">迭代 KV</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TSDB"><span class="toc-number">7.3.</span> <span class="toc-text">TSDB</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-TSDB"><span class="toc-number">7.3.1.</span> <span class="toc-text">初始化 TSDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6-TSDB"><span class="toc-number">7.3.2.</span> <span class="toc-text">控制 TSDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%88%9D%E5%A7%8B%E5%8C%96-TSDB"><span class="toc-number">7.3.3.</span> <span class="toc-text">反初始化 TSDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E5%8A%A0-TSL"><span class="toc-number">7.3.4.</span> <span class="toc-text">追加 TSL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3-TSL"><span class="toc-number">7.3.5.</span> <span class="toc-text">迭代 TSL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%86%E5%BA%8F%E8%BF%AD%E4%BB%A3-TSL"><span class="toc-number">7.3.6.</span> <span class="toc-text">逆序迭代 TSL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%97%B6%E9%97%B4%E6%AE%B5%E8%BF%AD%E4%BB%A3-TSL"><span class="toc-number">7.3.7.</span> <span class="toc-text">按时间段迭代 TSL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2-TSL-%E7%9A%84%E6%95%B0%E9%87%8F"><span class="toc-number">7.3.8.</span> <span class="toc-text">查询 TSL 的数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-TSL-%E7%8A%B6%E6%80%81"><span class="toc-number">7.3.9.</span> <span class="toc-text">设置 TSL 状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E7%A9%BA-TSDB"><span class="toc-number">7.3.10.</span> <span class="toc-text">清空 TSDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSL-%E5%AF%B9%E8%B1%A1%E8%BD%AC%E6%8D%A2%E4%B8%BA-blob-%E5%AF%B9%E8%B1%A1"><span class="toc-number">7.3.11.</span> <span class="toc-text">TSL 对象转换为 blob 对象</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>单片机的启动过程 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 mcu 启动流程_mcu启动过程-CSDN博客 嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com) STM32启动之旅：从上电到main函数的奇妙历程 (qq.com) 启动流程 启动过程如下： sequenceDiagram     participant 电源     participant CPU核心     participant BOOT引脚">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单片机的启动过程">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 mcu 启动流程_mcu启动过程-CSDN博客 嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com) STM32启动之旅：从上电到main函数的奇妙历程 (qq.com) 启动流程 启动过程如下： sequenceDiagram     participant 电源     participant CPU核心     participant BOOT引脚">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_15.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.243Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.243Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_15.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "单片机的启动过程",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_15.jpg",
+  "datePublished": "2026-04-12T08:12:40.243Z",
+  "dateModified": "2026-04-12T08:12:40.243Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '单片机的启动过程',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_15.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">单片机的启动过程</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">单片机的启动过程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.243Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.243Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42734533/article/details/131812546">mcu 启动流程_mcu启动过程-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/57c6006e637a">嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/0pbeLH3uO1mDkZModu-bGg">STM32启动之旅：从上电到main函数的奇妙历程 (qq.com)</a></p>
+<h1>启动流程</h1>
+<p>启动过程如下：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant 电源
+    participant CPU核心
+    participant BOOT引脚
+    participant 存储器
+    participant 启动代码
+    participant 应用程序
+
+    电源-&gt;&gt;CPU核心: 上电供电
+    CPU核心-&gt;&gt;CPU核心: POR复位初始化
+    CPU核心-&gt;&gt;BOOT引脚: 读取BOOT引脚状态
+    BOOT引脚--&gt;&gt;CPU核心: 返回启动模式
+    CPU核心-&gt;&gt;存储器: 读取向量表(地址0x00)
+    存储器--&gt;&gt;CPU核心: 返回栈指针SP
+    CPU核心-&gt;&gt;存储器: 读取向量表(地址0x04)
+    存储器--&gt;&gt;CPU核心: 返回复位向量PC
+    CPU核心-&gt;&gt;启动代码: 跳转到Reset_Handler
+    启动代码-&gt;&gt;启动代码: 数据初始化
+    启动代码-&gt;&gt;启动代码: 调用SystemInit配置时钟
+    启动代码-&gt;&gt;应用程序: 跳转到main函数
+    应用程序-&gt;&gt;应用程序: 用户程序开始运行</code></pre>
+<h2 id="上电复位">上电复位</h2>
+<p><strong>硬件的&quot;晨间仪式“</strong></p>
+<p>就像你早上被闹钟叫醒，芯片的&quot;觉醒&quot;也需要一个过程。当电源接通的瞬间，芯片并不会立即开始工作，而是要经历一个称为**上电复位（Power-On Reset, POR）**的过程。这个过程就像人从深度睡眠中醒来：</p>
+<ol>
+<li><strong>睁开眼睛</strong>：电源电压逐渐升高，达到工作阈值（通常是 2.0V 左右）</li>
+<li><strong>意识清醒</strong>：内部复位电路工作，确保所有寄存器都回到初始状态</li>
+<li><strong>大脑启动</strong>：内部 RC 振荡器开始工作，提供最基本的 8MHz 时钟信号（HSI）</li>
+</ol>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant 电源电压
+    participant POR电路
+    participant 内部振荡器
+    participant CPU核心
+
+    Note over 电源电压,POR电路: 上电阶段
+    电源电压-&gt;&gt;POR电路: 电压上升到阈值
+    POR电路-&gt;&gt;POR电路: 检测电压稳定性
+    
+    Note over POR电路,CPU核心: 复位释放阶段
+    POR电路-&gt;&gt;CPU核心: 释放复位信号
+    CPU核心-&gt;&gt;CPU核心: 寄存器初始化为默认值
+    
+    Note over 内部振荡器,CPU核心: 时钟启动阶段
+    CPU核心-&gt;&gt;内部振荡器: 启动内部时钟
+    内部振荡器-&gt;&gt;CPU核心: 提供8MHz时钟
+    CPU核心-&gt;&gt;CPU核心: CPU准备就绪，等待执行</code></pre>
+<p>此时的 STM32 就像一个刚醒来的人，处于最基本的工作状态：</p>
+<ul>
+<li>• ⏰ <strong>时钟</strong>：使用内部 8MHz RC 振荡器（HSI）</li>
+<li>• 🧠 <strong>CPU 状态</strong>：所有寄存器清零，程序计数器 PC 等待赋值</li>
+<li>• 💾 <strong>存储器</strong>：还未映射到具体位置</li>
+<li>• ⚡ <strong>功耗</strong>：基本工作模式，等待进一步配置</li>
+</ul>
+<p><strong>这个阶段耗时</strong>：约 1-5 毫秒</p>
+<h2 id="启动方式">启动方式</h2>
+<p><strong>三岔路口的抉择</strong></p>
+<p>复位释放后，CPU 面临一个重要选择：**从哪里开始执行代码？**这就是 BOOT 引脚的作用——它就像路口的指示牌，告诉 CPU 该走哪条路。</p>
+<p>芯片上有 BOOT0（部分型号还有 BOOT1）引脚，通过硬件电平配置，可以选择三种不同的&quot;起点&quot;：</p>
+<ol>
+<li>flash启动（最常用）：stm32的flash能够擦写数十万次，用户通过JTAG或SWD模式，将程序下载至此，重新启动从此处启动</li>
+<li>sytem memory （系统存储器启动）：系统存储器是芯片内的一块特定的区域，系统存储器中预置了一段bootloader,bootloder将程序下载到flash区，通过flash启动</li>
+<li>内嵌SRAM启动：从内存中直接启动代码，避免因小修改反复擦写flash内存，一般用于高速调试</li>
+</ol>
+<pre><code class="highlight mermaid">graph TD
+    A[CPU复位释放] --&gt; B&#123;读取BOOT0引脚&#125;
+    
+    B --&gt;|BOOT0 = 0| C[路径1: 从Flash启动]
+    C --&gt; D[地址: 0x08000000]
+    D --&gt; E[正常运行模式]
+    style E fill:#90EE90,stroke:#333
+    
+    B --&gt;|BOOT0 = 1| F&#123;读取BOOT1引脚&#125;
+    
+    F --&gt;|BOOT1 = 0| G[路径2: 从系统存储器启动]
+    G --&gt; H[地址: 0x1FFF0000]
+    H --&gt; I[Bootloader模式]
+    style I fill:#FFFF99,stroke:#333
+    
+    F --&gt;|BOOT1 = 1| J[路径3: 从SRAM启动]
+    J --&gt; K[地址: 0x20000000]
+    K --&gt; L[调试模式]
+    style L fill:#87CEFA,stroke:#333
+
+    style A fill:#DDA0DD,stroke:#333
+    style B fill:#DDA0DD,stroke:#333,stroke-width:2px
+    style C fill:#DDA0DD,stroke:#333
+    style F fill:#DDA0DD,stroke:#333,stroke-width:2px
+    style G fill:#DDA0DD,stroke:#333
+    style J fill:#DDA0DD,stroke:#333</code></pre>
+<h2 id="中断向量">中断向量</h2>
+<p><strong>神秘的&quot;任务清单&quot;</strong></p>
+<p>当 CPU 确定了起点（比如 0x08000000），接下来要做的第一件事就是查看这个位置的<strong>中断向量表（Vector Table）</strong>。</p>
+<p>把向量表想象成一本&quot;任务清单&quot;或&quot;地址簿&quot;，里面记录了各种重要信息。而在这本&quot;清单&quot;的最开头，有两个最关键的条目–第一个字和第二个字。</p>
+<pre><code class="highlight mermaid">graph TD
+    subgraph 中断向量表结构 [&quot;中断向量表结构&quot;]
+        direction LR
+        A[地址 0x00&lt;br/&gt;&lt;span style=&#x27;color:#FF6347&#x27;&gt;第一个字&lt;br/&gt;初始栈指针 SP&lt;/span&gt;] --&gt;|指向 RAM 顶部&lt;br/&gt;（例:0x20005000）| A1[&quot;栈空间起始位置&lt;br/&gt;&lt;small&gt;（&#x27;仓库在这里&#x27;）&lt;/small&gt;&quot;]
+        B[地址 0x04&lt;br/&gt;&lt;span style=&#x27;color:#32CD32&#x27;&gt;第二个字&lt;br/&gt;复位向量地址&lt;/span&gt;] --&gt;|指向 Reset_Handler 函数&lt;br/&gt;（例:0x08000189）| B1[&quot;程序执行入口&lt;br/&gt;&lt;small&gt;（&#x27;从这里开始干活&#x27;）&lt;/small&gt;&quot;]
+        C[地址 0x08&lt;br/&gt;NMI 中断]
+        D[地址 0x0C&lt;br/&gt;HardFault 中断]
+        E[地址 0x10~0xFFF&lt;br/&gt;其他中断和异常...]
+    end
+
+    style 中断向量表结构 fill:#FFFACD,stroke:#333,stroke-width:1px
+    style A fill:#FF6347,stroke:#333,stroke-width:1px,color:white
+    style B fill:#32CD32,stroke:#333,stroke-width:1px,color:white
+    style C fill:white,stroke:#333
+    style D fill:white,stroke:#333
+    style E fill:white,stroke:#333
+    style A1 fill:#F0F8FF,stroke:#6495ED,stroke-width:1px
+    style B1 fill:#F0F8FF,stroke:#6495ED,stroke-width:1px</code></pre>
+<p>CPU 硬件会<strong>自动</strong>完成以下两步（不需要任何软件代码）：</p>
+<ol>
+<li>
+<p>加载栈指针</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SP = *((<span class="type">uint32_t</span>*)<span class="number">0x00000000</span>);  <span class="comment">// 从地址0x00读取值，加载到栈指针寄存器</span></span><br></pre></td></tr></table></figure>
+<p>栈指针就像是告诉 CPU：“你的工作仓库在 RAM 的这个位置，所有临时数据都放这里”。</p>
+</li>
+<li>
+<p>加载程序计数器</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PC = *((<span class="type">uint32_t</span>*)<span class="number">0x00000004</span>);  <span class="comment">// 从地址0x04读取值，加载到程序计数器</span></span><br></pre></td></tr></table></figure>
+<p>程序计数器装载的是<strong>Reset_Handler 函数的地址</strong>，CPU 会立即跳转到这里开始执行第一条指令。</p>
+</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>为什么是这两个值？</p>
+<p>想象你要开始一天的工作：</p>
+<ul>
+<li>• <strong>栈指针（SP）</strong>：告诉你办公桌在哪里（工作空间）</li>
+<li>• <strong>复位向量（PC）</strong>：告诉你今天第一个任务是什么（从哪开始）</li>
+</ul>
+<p>有了这两个信息，CPU 就可以愉快地开始工作了！</p>
+</blockquote>
+<h2 id="启动代码">启动代码</h2>
+<p><strong>Reset_Handler：幕后英雄</strong></p>
+<p>当 CPU 跳转到 Reset_Handler 函数时，真正的&quot;准备工作&quot;才开始。这个函数通常定义在<strong>启动文件</strong>（s文件中有具体的操作步骤）中，它的任务就像搬家公司——把所有东西摆放到正确的位置。</p>
+<pre><code class="highlight mermaid">graph TD
+    A[Reset_Handler 开始] --&gt; B[第一步: 数据搬家&lt;br/&gt;复制.data段]
+    B --&gt; C[第二步: 打扫房间&lt;br/&gt;清零.bss段]
+    C --&gt; D[第三步: 调整装备&lt;br/&gt;调用SystemInit]
+    D --&gt; E[第四步: 环境准备&lt;br/&gt;C库初始化]
+    E --&gt; F[第五步: 出发!&lt;br/&gt;跳转到main函数]</code></pre>
+<ol>
+<li>
+<p>任务一：数据搬家（复制.data 段）</p>
+<p>在 C 语言中，如果你写了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> counter = <span class="number">100</span>;  <span class="comment">// 已初始化的全局变量</span></span><br></pre></td></tr></table></figure>
+<p>这个变量的<strong>初始值（100）存储在 Flash 中，但程序运行时需要在RAM</strong>中读写它。所以启动代码要做的第一件事就是：</p>
+<blockquote>
+<p>把 Flash 中的初始数据复制到 RAM 中</p>
+</blockquote>
+<p>用伪代码表示：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把初始化数据从Flash搬到RAM</span></span><br><span class="line"><span class="type">uint8_t</span>* src = &amp;_sidata;   <span class="comment">// Flash中的数据起点</span></span><br><span class="line"><span class="type">uint8_t</span>* dst = &amp;_sdata;    <span class="comment">// RAM中的数据起点</span></span><br><span class="line"><span class="keyword">while</span> (dst &lt; &amp;_edata) &#123;</span><br><span class="line">    *dst++ = *src++;       <span class="comment">// 逐字节复制</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>比喻</strong>：就像你搬家时，把储物柜里的行李搬到新家的房间里。</p>
+</li>
+<li>
+<p>任务二：打扫房间（清零.bss 段）</p>
+<p>如果你写了：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> buffer[<span class="number">100</span>];  <span class="comment">// 未初始化的全局变量</span></span><br></pre></td></tr></table></figure>
+<p>C 语言标准规定，未初始化的全局变量必须自动清零。启动代码负责把这块 RAM 区域全部填充为 0：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把未初始化变量的内存清零</span></span><br><span class="line"><span class="type">uint8_t</span>* dst = &amp;_sbss;</span><br><span class="line"><span class="keyword">while</span> (dst &lt; &amp;_ebss) &#123;</span><br><span class="line">    *dst++ = <span class="number">0</span>;            <span class="comment">// 逐字节清零</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>比喻</strong>：就像搬进新家前，先把空房间打扫干净。</p>
+</li>
+<li>
+<p>任务三：调整装备（调用 SystemInit）</p>
+<p>数据准备好后，启动代码会调用**SystemInit()**函数，这是用户可以自定义的配置函数，主要用于：</p>
+<ul>
+<li>• 配置系统时钟（稍后详细讲解）</li>
+<li>• 设置 Flash 访问参数</li>
+<li>• 配置总线分频器</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 启动代码中的调用</span></span><br><span class="line">SystemInit();     <span class="comment">// 系统初始化</span></span><br><span class="line">__main();         <span class="comment">// C库初始化，最终会跳转到main</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="配置时钟">配置时钟</h2>
+<p>还记得第一站提到的内部 8MHz 时钟吗？这个频率对于现代应用来说太慢了！这就像一辆汽车还在用起步档行驶——虽然能动，但效率低下。体现真正性能需要更高的时钟频率：</p>
+<ul>
+<li>• <strong>STM32F1 系列</strong>：最高 72MHz</li>
+<li>• <strong>STM32F4 系列</strong>：最高 168MHz</li>
+<li>• <strong>STM32H7 系列</strong>：最高 480MHz</li>
+</ul>
+<p>时钟的&quot;换挡加速&quot;过程：SystemInit 函数会执行一系列时钟配置，把系统从&quot;起步档&quot;切换到&quot;高速档&quot;：</p>
+<pre><code class="highlight mermaid">graph TD
+    subgraph 时钟源 [&quot;时钟源选择&quot;]
+        A[HSI&lt;br/&gt;&lt;small&gt;内部8MHz&lt;br/&gt;启动默认时钟&lt;/small&gt;]:::hsi
+        B[HSE&lt;br/&gt;&lt;small&gt;外部晶振&lt;br/&gt;8-25MHz 更稳定&lt;/small&gt;]:::hse
+    end
+
+    subgraph 时钟倍频 [&quot;PLL倍频&quot;]
+        C[PLL&lt;br/&gt;&lt;small&gt;锁相环倍频&lt;br/&gt;×9倍频&lt;/small&gt;]:::pll
+    end
+
+    subgraph 系统时钟与总线分配 [&quot;SYSCLK系统时钟与总线分配&quot;]
+        D[SYSCLK&lt;br/&gt;&lt;small&gt;系统时钟&lt;br/&gt;72MHz / 168MHz&lt;/small&gt;]:::sysclk
+        E[AHB总线]:::bus
+        F[APB1总线]:::bus
+        G[APB2总线]:::bus
+    end
+
+    A --&gt;|可选| C
+    B --&gt;|可选| C
+    C --&gt; D
+    D --&gt; E
+    D --&gt; F
+    D --&gt; G
+</code></pre>
+<p>SystemInit 函数的典型操作：</p>
+<ol>
+<li><strong>启用外部晶振（HSE）</strong>：切换到更稳定的外部时钟源</li>
+<li><strong>配置 PLL 倍频</strong>：比如 8MHz × 9 = 72MHz</li>
+<li><strong>选择系统时钟源</strong>：从 PLL 获取时钟</li>
+<li><strong>配置总线分频</strong>：为不同外设分配合适的时钟频率</li>
+<li><strong>设置 Flash 延迟</strong>：高速运行需要调整 Flash 读取时序</li>
+</ol>
+<p><strong>比喻</strong>：就像赛车手在起跑后，迅速从 1 档换到 5 档，释放引擎的全部性能！</p>
+<h2 id="进入主函数">进入主函数</h2>
+<p>当所有准备工作完成后，启动代码最终会调用你熟悉的<strong>main()函数</strong>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 🎉 恭喜！你的代码终于开始执行了</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// 你的应用逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从按下复位键到进入 main 函数，整个过程通常只需要<strong>5-20 毫秒</strong>——就在你眨眼的瞬间，STM32 已经完成了这场精彩的&quot;启动之旅&quot;！</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>典型耗时</th>
+<th>主要工作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上电复位（POR）</td>
+<td>1-5ms</td>
+<td>电源稳定、复位电路</td>
+</tr>
+<tr>
+<td>读取向量表</td>
+<td>&lt;1μs</td>
+<td>硬件自动完成</td>
+</tr>
+<tr>
+<td>启动代码执行</td>
+<td>1-3ms</td>
+<td>数据初始化</td>
+</tr>
+<tr>
+<td>时钟配置</td>
+<td>2-10ms</td>
+<td>HSE/PLL 稳定</td>
+</tr>
+<tr>
+<td><strong>总计</strong></td>
+<td><strong>5-20ms</strong></td>
+<td>完整启动流程</td>
+</tr>
+</tbody>
+</table>
+<h1>不同IDE的启动过程</h1>
+<h2 id="IAR">IAR</h2>
+<p>IAR使用ICF文件链接</p>
+<h3 id="启动过程">启动过程</h3>
+<p>在IAR的启动文件中会定义一个<code>__iar_program_start</code>的handler，这个handler实际上就是Reset Handler。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__vector_table</span><br><span class="line">        DCD     sfe(CSTACK)               ; Top of Stack</span><br><span class="line">        DCD     __iar_program_start       ; Reset Handler</span><br><span class="line">        DCD     NMI_Handler               ; NMI Handler</span><br><span class="line">        DCD     HardFault_Handler         ; Hard Fault Handler</span><br></pre></td></tr></table></figure>
+<p>当程序启动时，会从0x0000_0000中读取读取msp的值，向后偏移4得到PC的值，此时开始从PC值开始运行。</p>
+<p>在调试过程中<code>__iar_program_start</code>中存放了启动地址,也就是<code>0x00004725</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Disassembly</span><br><span class="line">	0x0:	0x18		DC8		24</span><br><span class="line">_vector_table:</span><br><span class="line">	0x1:	0x13		DC8		19</span><br><span class="line">	0x2:	0x2000		DC16	8192</span><br><span class="line">	0x4:	0x00004725	DC32	__iar_program_start</span><br><span class="line">	0x8:	0x00003981	DC32	NMI Handler</span><br><span class="line">	0x0c:	0x000025ff	DC32	ACMPO_IRQHandler</span><br></pre></td></tr></table></figure>
+<p>接下来跳转到<code>0x00004725</code>的位置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__iar_program_start:</span><br><span class="line">0x4724:	0xbf00			NOP</span><br><span class="line">0x4726:	0xbf00			NOP</span><br><span class="line">0x4728:	0xbf00			NOP</span><br><span class="line">0x472a:	0xbf00			NOP</span><br><span class="line">0x472c:	0xf7ff 0xffbe	BL ?main</span><br><span class="line">0x4730:	0x50			DC8	80</span><br><span class="line">0x4731:	0x30			DC8	48</span><br><span class="line">0x4732:	0x01			DC8	_vector_table</span><br><span class="line">0x4733:	0xf4			DC8	244</span><br><span class="line">0x4734:	0x01			DC8	_vector_table</span><br><span class="line">0x4735:	0xf4			DC8	244</span><br><span class="line">0x4736:	0x00			DC8	0</span><br><span class="line">0x4737:	0x00			DC8	0</span><br></pre></td></tr></table></figure>
+<h2 id="Keil">Keil</h2>
+<h3 id="MAP文件">MAP文件</h3>
+<p>MAP文件是MDK编译代码后，产生的集程序、数据及IO空间的一种映射列表文件，简单说就是包括了：各种.c文件、函数、符号等的地址、大小、引用关系等信息，分析各.c文件占用FLASH和RAM的大小，方便优化代码。</p>
+<table>
+<thead>
+<tr>
+<th><strong>文件类型</strong></th>
+<th><strong>简介</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>.o</strong></td>
+<td>可重定向对象文件，每个.c/.s文件都对应一个.o文件</td>
+</tr>
+<tr>
+<td><strong>.axf</strong></td>
+<td>可执行对象文件，由.o文件链接生成，仿真的时候需要用到此文件</td>
+</tr>
+<tr>
+<td><strong>.hex</strong></td>
+<td>INTEL Hex格式文件，用于下载到MCU运行，由.axf转换而来</td>
+</tr>
+<tr>
+<td><strong>.map</strong></td>
+<td><strong>连接器生成的列表文件，对分析程序存储占用情况非常有用</strong></td>
+</tr>
+<tr>
+<td><strong>其他</strong></td>
+<td>.crf、.d、.dep、.lnp、.lst、.htm、.build_log.htm等一般用不到</td>
+</tr>
+</tbody>
+</table>
+<h3 id="map文件的组成部分">map文件的组成部分</h3>
+<table>
+<thead>
+<tr>
+<th><strong>组成部分</strong></th>
+<th><strong>简介</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>程序段交叉引用关系</strong></td>
+<td>描述各文件之间函数调用关系</td>
+</tr>
+<tr>
+<td><strong>删除映像未使用的程序段</strong></td>
+<td>描述工程中未用到而被删除的冗余程序段(函数/数据)</td>
+</tr>
+<tr>
+<td><strong>映像符号表</strong></td>
+<td>描述各符号（程序段/数据）在存储器中的地址、类型、大小等</td>
+</tr>
+<tr>
+<td><strong>映像内存分布图</strong></td>
+<td>描述各个程序段（函数）在存储器中的地址及占用大小</td>
+</tr>
+<tr>
+<td><strong>映像组件大小</strong></td>
+<td>给出整个映像代码（*.o）占用空间汇总信息</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/">https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/">外设组件</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_15.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%97%B6%E9%92%9F/" title="时钟"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128134435579.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">时钟</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】时钟_stm32f405 定时器时钟-CSDN博客 时钟相关缩写    缩写 英文全称 中文说明     RCC Reset and Clock Control 复位与时钟控制   RTC Real-Time Clock 实时时钟   BKP Backup Regist...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/" title="中断"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">中断</div></div><div class="info-2"><div class="info-item-1">概述 打断CPU执行正常的程序，转而处理紧急程序，然后返回原暂停的程序继续运行，就叫中断。 中断的作用和意义  实时控制:在确定时间内对相应事件作出响应，如：温度监控 故障处理:检测到故障，需要第一时间处理，如：电梯门夹人了 数据传输:不确定数据何时会来，如：串口数据接收   [!IMPORT...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/" title="DAC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202085839348.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">DAC</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】DAC详解_dac12bit-CSDN博客 简述 DAC,全称：Digital-to-Analog Converter,指数字/模拟转换器。DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/" title="ADC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">ADC</div></div><div class="info-2"><div class="info-item-1">ADC简介 Analog-to-Digital Converter的缩写。指模/数转换器或者模拟/数字转换器。是指将**连续变量的模拟信号转换为离散的数字信号的器件。**典型的模拟数字转换器将模拟信号转换为表示一定比例电压值的数字信号。  [!tip] 各个芯片的外设属性均不一样，以下仅代表其...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Flash/" title="Flash"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">Flash</div></div><div class="info-2"><div class="info-item-1">概述 实际上，嵌入式系统可以类比PC，他们之间的对应关系如下：    嵌入式芯片组件 (Embedded Chip) 个人电脑组件 (PC) 作用/功能描述     Flash (e.g., NOR/NAND Flash) 硬盘 (HDD) / 固态硬盘 (SSD) 存储程序代码和长期数据。它...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/" title="GPIO"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">GPIO</div></div><div class="info-2"><div class="info-item-1">端口的基本结构   保护二极管：对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路 施密特触发器：在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量 P-MOS管和N-MOS管  简图为：  输入输出模式 概述 输入输出都...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/" title="DMA"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">DMA</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述  [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/" title="PWR"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">PWR</div></div><div class="info-2"><div class="info-item-1">概述 PWR(Power Control)电源控制，PWR负责管理芯片内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">启动流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E7%94%B5%E5%A4%8D%E4%BD%8D"><span class="toc-number">2.1.</span> <span class="toc-text">上电复位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">启动方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">中断向量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81"><span class="toc-number">2.4.</span> <span class="toc-text">启动代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%97%B6%E9%92%9F"><span class="toc-number">2.5.</span> <span class="toc-text">配置时钟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E4%B8%BB%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.</span> <span class="toc-text">进入主函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">不同IDE的启动过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IAR"><span class="toc-number">3.1.</span> <span class="toc-text">IAR</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">3.1.1.</span> <span class="toc-text">启动过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Keil"><span class="toc-number">3.2.</span> <span class="toc-text">Keil</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MAP%E6%96%87%E4%BB%B6"><span class="toc-number">3.2.1.</span> <span class="toc-text">MAP文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#map%E6%96%87%E4%BB%B6%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">3.2.2.</span> <span class="toc-text">map文件的组成部分</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_15.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

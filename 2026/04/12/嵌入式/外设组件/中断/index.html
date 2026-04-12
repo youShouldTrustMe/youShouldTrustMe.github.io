@@ -1,0 +1,1064 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>中断 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述 打断CPU执行正常的程序，转而处理紧急程序，然后返回原暂停的程序继续运行，就叫中断。 中断的作用和意义  实时控制:在确定时间内对相应事件作出响应，如：温度监控 故障处理:检测到故障，需要第一时间处理，如：电梯门夹人了 数据传输:不确定数据何时会来，如：串口数据接收   [!IMPORTANT] 中断的意义：高效处理紧急程序，不会一直占用CPU资源  执行流程  NVIC 基本概念 用于统一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中断">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述 打断CPU执行正常的程序，转而处理紧急程序，然后返回原暂停的程序继续运行，就叫中断。 中断的作用和意义  实时控制:在确定时间内对相应事件作出响应，如：温度监控 故障处理:检测到故障，需要第一时间处理，如：电梯门夹人了 数据传输:不确定数据何时会来，如：串口数据接收   [!IMPORTANT] 中断的意义：高效处理紧急程序，不会一直占用CPU资源  执行流程  NVIC 基本概念 用于统一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png">
+<meta property="article:published_time" content="2026-04-12T08:12:40.243Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.243Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "中断",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/",
+  "image": "https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png",
+  "datePublished": "2026-04-12T08:12:40.243Z",
+  "dateModified": "2026-04-12T08:12:40.243Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '中断',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">中断</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">中断</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.243Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.243Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<p>打断CPU执行正常的程序，转而处理紧急程序，然后返回原暂停的程序继续运行，就叫中断。</p>
+<h2 id="中断的作用和意义">中断的作用和意义</h2>
+<ol>
+<li>实时控制:在确定时间内对相应事件作出响应，如：温度监控</li>
+<li>故障处理:检测到故障，需要第一时间处理，如：电梯门夹人了</li>
+<li>数据传输:不确定数据何时会来，如：串口数据接收</li>
+</ol>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>中断的意义：高效处理紧急程序，不会一直占用CPU资源</p>
+</blockquote>
+<h2 id="执行流程">执行流程</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png" alt="中断的执行流程" loading='lazy'></p>
+<h1>NVIC</h1>
+<h2 id="基本概念">基本概念</h2>
+<p>用于统一分配中断优先级和管理中断的</p>
+<p>==Nested vectored interrupt controller==,嵌套向量中断控制器，属于内核(M3/4/7)</p>
+<p>NVIC支持：256个中断(16内核+240外部)，支持：256个优先级，允许裁剪！</p>
+<table>
+<thead>
+<tr>
+<th>STM32型号</th>
+<th>内核中断</th>
+<th>外部中断</th>
+<th>中断优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STM32F103xx</td>
+<td>10</td>
+<td>60</td>
+<td>16</td>
+</tr>
+<tr>
+<td>STM32F407xx</td>
+<td>10</td>
+<td>82</td>
+<td>16</td>
+</tr>
+<tr>
+<td>STM32F429xx</td>
+<td>10</td>
+<td>91</td>
+<td>16</td>
+</tr>
+<tr>
+<td>STM32F750xx</td>
+<td>10</td>
+<td>98</td>
+<td>16</td>
+</tr>
+<tr>
+<td>STM32F767xx</td>
+<td>10</td>
+<td>110</td>
+<td>16</td>
+</tr>
+<tr>
+<td>STM32H743xx</td>
+<td>10</td>
+<td>150</td>
+<td>16</td>
+</tr>
+<tr>
+<td>STM32H750xx</td>
+<td>10</td>
+<td>150</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<h2 id="中断向量表">中断向量表</h2>
+<p>定义一块固定的内存，以字节对齐，存放各个==中断服务函数程序的首地址==。</p>
+<p>中断向量表定义在==启动文件中==，当发生中断，CPU会自动执行对应的中断服务函数，以下有个中断向量表的例子：</p>
+<table>
+<thead>
+<tr>
+<th>Position</th>
+<th>Priority</th>
+<th>Priority type</th>
+<th>Acronym</th>
+<th>Description</th>
+<th>Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>-</td>
+<td>-</td>
+<td>MSP初值</td>
+<td>主栈指针初始化地址</td>
+<td>0x0000_0000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>-3</td>
+<td>fixed</td>
+<td>Reset</td>
+<td>复位向量</td>
+<td>0x0000_0004</td>
+</tr>
+<tr>
+<td>2</td>
+<td>-2</td>
+<td>fixed</td>
+<td>NMI</td>
+<td>WKUPx中断 低功耗模式错误中断</td>
+<td>0x0000_0008</td>
+</tr>
+<tr>
+<td>3</td>
+<td>-1</td>
+<td>fixed</td>
+<td>HardFault</td>
+<td>HardFault中断向量</td>
+<td>0x0000_000C</td>
+</tr>
+<tr>
+<td>4-10</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>Reserved</td>
+<td>0x0000_0010~0x0000 002B</td>
+</tr>
+<tr>
+<td>11</td>
+<td>3</td>
+<td>settable</td>
+<td>SVC</td>
+<td>SVCall系统服务请求</td>
+<td>0x0000 002C</td>
+</tr>
+<tr>
+<td>12-13</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>Reserved</td>
+<td>0x0000_0030~0x0000 0037</td>
+</tr>
+<tr>
+<td>14</td>
+<td>5</td>
+<td>settable</td>
+<td>PendSV</td>
+<td>可挂起系统服务请求</td>
+<td>0x0000_0038</td>
+</tr>
+<tr>
+<td>15</td>
+<td>6</td>
+<td>settable</td>
+<td>Systick</td>
+<td>内部定时器中断向量</td>
+<td>0x0000_003C</td>
+</tr>
+<tr>
+<td>16</td>
+<td>7</td>
+<td>settable</td>
+<td>WDT</td>
+<td>窗口看门狗或独立看门狗</td>
+<td>0x0000_0040</td>
+</tr>
+<tr>
+<td>17</td>
+<td>8</td>
+<td>settable</td>
+<td>SVD</td>
+<td>中断 电源监测报警中断</td>
+<td>0x0000_0044</td>
+</tr>
+<tr>
+<td>18</td>
+<td>9</td>
+<td>settable</td>
+<td>RTCA/RTCB</td>
+<td>实时时钟中断</td>
+<td>0x0000_0048</td>
+</tr>
+<tr>
+<td>19</td>
+<td>10</td>
+<td>settable</td>
+<td>FLASH</td>
+<td>NVMIF中断</td>
+<td>0x0000_004C</td>
+</tr>
+<tr>
+<td>20</td>
+<td>11</td>
+<td>settable</td>
+<td>FDET</td>
+<td>XTLF 或XTHF停振检测 中断 系统时钟选择错误中断</td>
+<td>0x0000_0050</td>
+</tr>
+<tr>
+<td>21</td>
+<td>12</td>
+<td>settable</td>
+<td>ADC</td>
+<td>ADC转换完成中断</td>
+<td>0x0000_0054</td>
+</tr>
+<tr>
+<td>22</td>
+<td>13</td>
+<td>settable</td>
+<td>DAC</td>
+<td>DAC中断</td>
+<td>0x0000_0058</td>
+</tr>
+<tr>
+<td>23</td>
+<td>14</td>
+<td>settable</td>
+<td>SPI0</td>
+<td>SPI中断</td>
+<td>0x0000_005C</td>
+</tr>
+<tr>
+<td>24</td>
+<td>15</td>
+<td>settable</td>
+<td>SPI1</td>
+<td>:</td>
+<td>0x0000_0060</td>
+</tr>
+<tr>
+<td>25</td>
+<td>16</td>
+<td>settable</td>
+<td>SPI2</td>
+<td>:</td>
+<td>0x0000_0064</td>
+</tr>
+<tr>
+<td>26</td>
+<td>17</td>
+<td>settable</td>
+<td>UART0</td>
+<td>UART中断</td>
+<td>0x0000_0068</td>
+</tr>
+<tr>
+<td>27</td>
+<td>18</td>
+<td>settable</td>
+<td>UART1</td>
+<td>:</td>
+<td>0x0000_006C</td>
+</tr>
+<tr>
+<td>28</td>
+<td>19</td>
+<td>settable</td>
+<td>UART3</td>
+<td>:</td>
+<td>0x0000_0070</td>
+</tr>
+<tr>
+<td>29</td>
+<td>20</td>
+<td>settable</td>
+<td>UART4</td>
+<td>:</td>
+<td>0x0000_0074</td>
+</tr>
+<tr>
+<td>30</td>
+<td>21</td>
+<td>settable</td>
+<td>UART5</td>
+<td>:</td>
+<td>0x0000_0078</td>
+</tr>
+<tr>
+<td>31</td>
+<td>22</td>
+<td>settable</td>
+<td>U7816</td>
+<td>U7816中断</td>
+<td>0x0000_007C</td>
+</tr>
+<tr>
+<td>32</td>
+<td>23</td>
+<td>settable</td>
+<td>LPUARTX</td>
+<td>LPUART0/1/2中断</td>
+<td>0x0000_0080</td>
+</tr>
+<tr>
+<td>33</td>
+<td>24</td>
+<td>settable</td>
+<td>I2C</td>
+<td>I2C中断</td>
+<td>0x0000_0084</td>
+</tr>
+<tr>
+<td>34</td>
+<td>25</td>
+<td>settable</td>
+<td>CCL</td>
+<td>时钟校准中断</td>
+<td>0x0000_0088</td>
+</tr>
+<tr>
+<td>35</td>
+<td>26</td>
+<td>settable</td>
+<td>AES</td>
+<td>AES中断</td>
+<td>0x0000_008C</td>
+</tr>
+<tr>
+<td>36</td>
+<td>27</td>
+<td>settable</td>
+<td>LPTIM</td>
+<td>LPTIM16或LPTIM32中 断</td>
+<td>0x0000_0090</td>
+</tr>
+<tr>
+<td>37</td>
+<td>28</td>
+<td>settable</td>
+<td>DMA</td>
+<td>DMA中断</td>
+<td>0x0000_0094</td>
+</tr>
+<tr>
+<td>38</td>
+<td>29</td>
+<td>settable</td>
+<td>WKUPX</td>
+<td>WKUP引脚中断</td>
+<td>0x0000_0098</td>
+</tr>
+<tr>
+<td>39</td>
+<td>30</td>
+<td>settable</td>
+<td>LUT</td>
+<td>LUT中断</td>
+<td>0x0000_009C</td>
+</tr>
+<tr>
+<td>40</td>
+<td>31</td>
+<td>settable</td>
+<td>BSTIM</td>
+<td>BSTIM16或BSTIM32中 断</td>
+<td>0x0000_00A0</td>
+</tr>
+<tr>
+<td>41</td>
+<td>32</td>
+<td>settable</td>
+<td>COMPX</td>
+<td>COMPx中断</td>
+<td>0x0000_00A4</td>
+</tr>
+<tr>
+<td>42</td>
+<td>33</td>
+<td>settable</td>
+<td>GPT0,1</td>
+<td>通用定时器0.1中断</td>
+<td>0x0000_00A8</td>
+</tr>
+<tr>
+<td>43</td>
+<td>34</td>
+<td>settable</td>
+<td>GPT2</td>
+<td>通用定时器2中断</td>
+<td>0x0000_00AC</td>
+</tr>
+<tr>
+<td>44</td>
+<td>35</td>
+<td>settable</td>
+<td>ATIM</td>
+<td>高级定时器中断</td>
+<td>0x0000_00B0</td>
+</tr>
+<tr>
+<td>45</td>
+<td>36</td>
+<td>settable</td>
+<td>VREF1p2 VREF_VREG</td>
+<td>1.2V 内部基准电压建立中断 VREF_VREG中断</td>
+<td>0x0000_00B4</td>
+</tr>
+<tr>
+<td>46</td>
+<td>37</td>
+<td>settable</td>
+<td>EXTI</td>
+<td>外部引脚中断</td>
+<td>0x0000_00B8</td>
+</tr>
+<tr>
+<td>47</td>
+<td>38</td>
+<td>settable</td>
+<td>CAN</td>
+<td>CAN2.0中断                                    x0000_0OBC</td>
+<td>0x0000_00BC</td>
+</tr>
+</tbody>
+</table>
+<h2 id="相关寄存器">相关寄存器</h2>
+<table>
+<thead>
+<tr>
+<th>NVIC相关寄存器</th>
+<th>位数</th>
+<th>寄存器个数</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中断使能寄存器（ISER)</td>
+<td>32</td>
+<td>8</td>
+<td>每个位控制一个中断</td>
+</tr>
+<tr>
+<td>中断除能寄存器（ICER)</td>
+<td>32</td>
+<td>8</td>
+<td>每个位控制一个中断</td>
+</tr>
+<tr>
+<td>应用程序中断及复位控制寄存器（AIRCR)</td>
+<td>32</td>
+<td>1</td>
+<td>位[10:8]控制优先级分组</td>
+</tr>
+<tr>
+<td>中断优先级寄存器 （IPR)</td>
+<td>8</td>
+<td>240</td>
+<td>8个位对应一个中断，而 STM32只使用高4位</td>
+</tr>
+</tbody>
+</table>
+<p>NVIC还有：中断挂起，解挂，激活标志等非常有用的功能。</p>
+<h2 id="基本结构">基本结构</h2>
+<p>NVIC是一个内核外设，是CPU的小助手</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128150030896.png" alt="NVIC的基本结构" loading='lazy'></p>
+<p>上图为外部中断，其中的n代表一个外设可能同时占用多个中断通道，所以有n条线</p>
+<p>NVIC只有一个输出口，NVIC根据每个中断的优先级分配中断的先后顺序，通过一个输出口告诉CPU应该处理哪个中断</p>
+<h2 id="中断优先级">中断优先级</h2>
+<ol>
+<li>==抢占优先级==(pre):高抢占优先级可以打断正在执行的低抢占优先级中断</li>
+<li>==响应优先级==(sub):当抢占优先级相同时，响应优先级高的先执行，但是不能互相打断</li>
+<li>抢占和响应都相同的情况下，自然优先级越高的，先执行</li>
+<li>==自然优先级==：中断向量表的优先级</li>
+<li>数值越小，表示优先级越高</li>
+</ol>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<p>抢占优先级 &gt; 响应优先级 &gt; 自然优先级</p>
+</blockquote>
+<p>NVIC的中断优先级由优先级寄存器的4位(0~15)决定，这4位可以进行切分，分为高n位的抢占优先级和低4-n位的响应优先级抢占优先级高的可以中断嵌套，响应优先级高的可以优先排队，抢占优先级和响应优先级均相同的按中断号排队</p>
+<table>
+<thead>
+<tr>
+<th>优先级分组</th>
+<th>AIRCR[10:8]</th>
+<th>IPRx bit[7:4]分 配</th>
+<th>分配结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>111</td>
+<td>None : [7:4]</td>
+<td>0位抢占优先级，4位响应优先级</td>
+</tr>
+<tr>
+<td>1</td>
+<td>110</td>
+<td>[7] : [6:4]</td>
+<td>1位抢占优先级，3位响应优先级</td>
+</tr>
+<tr>
+<td>2</td>
+<td>101</td>
+<td>[7:6]  : [5:4]</td>
+<td>2位抢占优先级，2位响应优先级</td>
+</tr>
+<tr>
+<td>3</td>
+<td>100</td>
+<td>[7:5] : [4]</td>
+<td>3位抢占优先级，1位响应优先级</td>
+</tr>
+<tr>
+<td>4</td>
+<td>011</td>
+<td>[7:4] : None</td>
+<td>4位抢占优先级，0位响应优先级</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!note]</p>
+<p>特别提示：一个工程中，一般只设置一次中断优先级分组。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>自然优先级</th>
+<th>对应外设</th>
+<th>抢占</th>
+<th>响应</th>
+<th>执行顺序</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>10</td>
+<td>RTC</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>13</td>
+<td>EXTI0</td>
+<td>3</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr>
+<td>7</td>
+<td>14</td>
+<td>EXTI1</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>-1</td>
+<td>6</td>
+<td>Systick</td>
+<td>3</td>
+<td>0</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!note]</p>
+<p>EXTI1和RTC可以打断：EXTIO和Systick的中断，获得优先执行！</p>
+</blockquote>
+<h1>EXTI</h1>
+<p>External(Extended)interrupt/event Controller,外部（扩展）中断事件控制器包含20个产生事件/中断请求的边沿检测器，即总共：20条EXTI线(F1)</p>
+<p>中断和事件的理解：</p>
+<ul>
+<li>中断：要进入NVIC,有相应的中断服务函数，需要CPU处理</li>
+<li>事件：不进入NVIC,仅用于内部硬件自动控制的，如：TIM、DMA、ADC</li>
+</ul>
+<p>产生的中断和事件都会有他们的响应函数</p>
+<ul>
+<li>中断响应申请中断，让CPU执行中断函数</li>
+<li>事件响应，外部中断信号不会通向CPU,而是通向其他外设，用来触发其他外设的操作(ADC转换、DMA等)</li>
+</ul>
+<p>EXTI(Extern Interrupt)外部中断</p>
+<ul>
+<li>EXTI可以监测指定GPIO口的电平信号，当其指定的GPIO口产生电平变化时，EXTI将立即向NVIC发出中断申请，经过NVIC裁决后即可中断CPU主程序，使CPU执行EXTI对应的中断程序</li>
+<li>支持的触发方式：上升沿/下降沿/双边沿/软件触发</li>
+<li>支持的GPIO口：所有GPIO口，但相同的Pin不能同时触发中断</li>
+<li>通道数：16个GPIO Pin,外加PVD输出、RTC闹钟、USB唤醒、以太网唤醒</li>
+<li>触发响应方式：中断响应/事件响应</li>
+</ul>
+<blockquote>
+<p>[!tip]</p>
+<p>当有多个中断引脚的时候，我们需要选择不同PIN的引脚，比如PA10和PB10就不能同时作为中断引脚</p>
+</blockquote>
+<h2 id="事件请求表">事件请求表</h2>
+<table>
+<thead>
+<tr>
+<th><strong>中断线</strong></th>
+<th><strong>F1</strong></th>
+<th><strong>F4</strong></th>
+<th><strong>F7</strong></th>
+<th><strong>H7</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EXTI线0~15：对应GPIO PIN  0~15</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+<tr>
+<td>EXTI线16：PVD输出</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>参考H7参考手册（中文版）657页</td>
+</tr>
+<tr>
+<td>EXTI线17：RTC闹钟事件</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTI线18：USB OTG FS唤醒事件</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTI线19：以太网唤醒事件</td>
+<td></td>
+<td>✔</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTI线20：USB OTG HS唤醒事件</td>
+<td></td>
+<td>✔</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTI线21：RTC 入侵和时间戳事件</td>
+<td></td>
+<td>✔</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTI线22：RTC 唤醒事件</td>
+<td></td>
+<td>✔</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>EXTI线23：LPTIM1 异步事件</td>
+<td></td>
+<td></td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="整体结构">整体结构</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128150229348.png" alt="EXTI整体结构" loading='lazy'></p>
+<p>每个GPIO端口有16个引脚，而EXTI实际上只有16个通道，所以==每个端口只能有一个中断引脚==，GPIO口加上PVD、RTC、USB、ETH等一共20个信号。</p>
+<blockquote>
+<p>[!TIP]</p>
+<p>注意，EXTI 5 ~ 9使用同一个中断函数，EXTI 10 ~ 15使用一个中断函数，所以在写中断函数的时候，我们需要根据标志位来区分是哪个中断</p>
+<p>到其他外设的20个信号是事件触发时的信号</p>
+</blockquote>
+<p>信号方向：<em>==输入线 &gt; 边沿检测电路（用于上升沿触发或者下降沿触发）&gt; 检测上升沿、下降沿、双边沿及软件触发 &gt; 出现分支==</em></p>
+<ul>
+<li>中断：<em>==如果请求挂起寄存器置1 &gt; NVIC中断控制器==</em></li>
+<li>事件：通过事件屏蔽寄存器做一个开关的作用 -&gt; 脉冲发生器，给一个电平脉冲，用来触发其他外设的动作</li>
+</ul>
+<h1>AFIO</h1>
+<p>Alternate Function IO,即复用功能lO,主要用于重映射和外部中断映射配置</p>
+<ol>
+<li>
+<p>调试I○配置：AFIO MAPR[26:24],配置JTAG/SWD的开关状态</p>
+</li>
+<li>
+<p>重映射配置：AFIO MAPR,部分外设IO重映射配置</p>
+</li>
+<li>
+<p>外部中断配置：AFIO EXTICR1 ~ 4,配置EXTI中断线0 ~ 15对应具体哪个1O口</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>特别注意：配置AFIO寄存器之前要使能AFIO时钟，方法如下：<br>
+HAL RCC AFIO CLK ENABLE(); 对应RCC APB.2ENR寄存器位0</p>
+</blockquote>
+</li>
+</ol>
+<p>AFIO主要完成两个任务：</p>
+<ol>
+<li>复用功引脚重映射</li>
+<li>中断引脚选择</li>
+</ol>
+<p>如将GPIO A PIN1引脚作为TIM1的引脚</p>
+<h1>EXTI和IO的对应关系</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128150357967.png" alt="ETIO和IO的对应关系" loading='lazy'></p>
+<p>这里可以看出来一条线只能对应一个口，如不能同时使用PA0和PB0，只能从P[A~K]0中选一个</p>
+<h1>中断配置</h1>
+<p>中断配置步骤：</p>
+<ol>
+<li>使能GPIO时钟：使能GPIO时钟</li>
+<li>设置GPIO输入模式：上/下拉/浮空输入</li>
+<li>使能AFIO/SYSCFGI时钟：设置AFIO/SYSCFGE时钟开启寄存器</li>
+<li>设置EXTI和IO对应关系</li>
+<li>设置EXTI屏蔽，上/下：设置EXTI对应通道前的屏蔽和上升沿/下降沿确发，IMR、RTSR/FTSR沿</li>
+<li>设置NVIC：分3步：设置优先级分组、设置优先级、使能中断</li>
+<li>设计中断服务函数：编写对应中断的中断服务函数！清中断标志！</li>
+</ol>
+<h1>实验</h1>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">GPIO_init</span><span class="params">()</span>&#123;	</span><br><span class="line">    <span class="comment">//配置GPIO和AFIO时钟</span></span><br><span class="line">    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);</span><br><span class="line">    RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置GPIO</span></span><br><span class="line">    GPIO_InitTypeDef GPIO_InitStructure;</span><br><span class="line">    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;</span><br><span class="line">    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;</span><br><span class="line">    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">    GPIO_Init(GPIOB,&amp;GPIO_InitStructure);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置AFIO</span></span><br><span class="line">    GPIO_EXTILineConfig(GPIO_PortSourceGPIOB,GPIO_PinSource9);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置EXTI</span></span><br><span class="line">    EXTI_InitTypeDef EXTI_InitStructure;</span><br><span class="line">    EXTI_InitStructure.EXTI_Line = EXTI_Line9;</span><br><span class="line">    EXTI_InitStructure.EXTI_LineCmd = ENABLE;</span><br><span class="line">    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;</span><br><span class="line">    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;</span><br><span class="line">    EXTI_Init(&amp;EXTI_InitStructure);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//配置NVIC</span></span><br><span class="line">    NVIC_InitTypeDef NVIC_InitStruct;</span><br><span class="line">    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);</span><br><span class="line">    NVIC_InitStruct.NVIC_IRQChannel = EXTI9_5_IRQn;</span><br><span class="line">    NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = <span class="number">3</span>;</span><br><span class="line">    NVIC_InitStruct.NVIC_IRQChannelSubPriority = <span class="number">3</span>;</span><br><span class="line">    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;</span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStruct);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">EXTI9_5_IRQHandler</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(EXTI_GetITStatus(EXTI_Line9) == SET)&#123;</span><br><span class="line">        EXTI_ClearITPendingBit(EXTI_Line9);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/">https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E4%B8%AD%E6%96%AD/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/">外设组件</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B/" title="单片机的启动过程"><img class="cover" src="/img/RandomCoverImage/random_15.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">单片机的启动过程</div></div><div class="info-2"><div class="info-item-1">参考链接 mcu 启动流程_mcu启动过程-CSDN博客 嵌入式开发系列教程（二） MCU启动过程 - 简书 (jianshu.com) STM32启动之旅：从上电到main函数的奇妙历程 (qq.com) 启动流程 启动过程如下： sequenceDiagram     participan...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/WDG/" title="WDG"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_19_57_202407091519564.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">WDG</div></div><div class="info-2"><div class="info-item-1">WDG 简介  IWDG VS WWDG     IWDG独立看门狗 WWDG窗口看门狗     复位 计数器减到0后 计数器T[5:0]减到0后、过早重装计数器   中断 无 早期唤醒中断   时钟源 LSI（40KHz） PCLK1（36MHz）   预分频系数 4、8、32、64、128...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/" title="DAC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202085839348.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">DAC</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】DAC详解_dac12bit-CSDN博客 简述 DAC,全称：Digital-to-Analog Converter,指数字/模拟转换器。DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/" title="ADC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">ADC</div></div><div class="info-2"><div class="info-item-1">ADC简介 Analog-to-Digital Converter的缩写。指模/数转换器或者模拟/数字转换器。是指将**连续变量的模拟信号转换为离散的数字信号的器件。**典型的模拟数字转换器将模拟信号转换为表示一定比例电压值的数字信号。  [!tip] 各个芯片的外设属性均不一样，以下仅代表其...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Flash/" title="Flash"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">Flash</div></div><div class="info-2"><div class="info-item-1">概述 实际上，嵌入式系统可以类比PC，他们之间的对应关系如下：    嵌入式芯片组件 (Embedded Chip) 个人电脑组件 (PC) 作用/功能描述     Flash (e.g., NOR/NAND Flash) 硬盘 (HDD) / 固态硬盘 (SSD) 存储程序代码和长期数据。它...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/" title="GPIO"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">GPIO</div></div><div class="info-2"><div class="info-item-1">端口的基本结构   保护二极管：对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路 施密特触发器：在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量 P-MOS管和N-MOS管  简图为：  输入输出模式 概述 输入输出都...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/" title="DMA"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">DMA</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述  [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/" title="PWR"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">PWR</div></div><div class="info-2"><div class="info-item-1">概述 PWR(Power Control)电源控制，PWR负责管理芯片内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E6%84%8F%E4%B9%89"><span class="toc-number">1.1.</span> <span class="toc-text">中断的作用和意义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">执行流程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">NVIC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8"><span class="toc-number">2.2.</span> <span class="toc-text">中断向量表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">2.3.</span> <span class="toc-text">相关寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">2.4.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">2.5.</span> <span class="toc-text">中断优先级</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">EXTI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%AF%B7%E6%B1%82%E8%A1%A8"><span class="toc-number">3.1.</span> <span class="toc-text">事件请求表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="toc-number">3.2.</span> <span class="toc-text">整体结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">AFIO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">EXTI和IO的对应关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">中断配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">实验</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128133542890.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

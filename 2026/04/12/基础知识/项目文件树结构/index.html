@@ -1,0 +1,537 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>项目文件树 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="缩写 该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：    缩写 全称 描述     AUTOSAR AUTomotive Open System ARchitecture 汽车开放系统架构，是汽车软件开发的标准框架。   ASW Application Software 应用软件，主要负责实现特定功能的业务逻辑。   BSW Basic Software 基础软件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目文件树">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="缩写 该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：    缩写 全称 描述     AUTOSAR AUTomotive Open System ARchitecture 汽车开放系统架构，是汽车软件开发的标准框架。   ASW Application Software 应用软件，主要负责实现特定功能的业务逻辑。   BSW Basic Software 基础软件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.241Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.241Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "项目文件树",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg",
+  "datePublished": "2026-04-12T08:12:40.241Z",
+  "dateModified": "2026-04-12T08:12:40.241Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '项目文件树',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">项目文件树</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">项目文件树</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.241Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.241Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>缩写</h1>
+<p>该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：</p>
+<table>
+<thead>
+<tr>
+<th>缩写</th>
+<th>全称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AUTOSAR</td>
+<td>AUTomotive Open System ARchitecture</td>
+<td>汽车开放系统架构，是汽车软件开发的标准框架。</td>
+</tr>
+<tr>
+<td>ASW</td>
+<td>Application Software</td>
+<td>应用软件，主要负责实现特定功能的业务逻辑。</td>
+</tr>
+<tr>
+<td>BSW</td>
+<td>Basic Software</td>
+<td>基础软件，负责底层硬件控制和通用服务的实现。</td>
+</tr>
+<tr>
+<td>BSP</td>
+<td>Board Support Package</td>
+<td>板级支持包，包含硬件初始化、驱动和相关工具。</td>
+</tr>
+<tr>
+<td>HAL</td>
+<td>Hardware Abstraction Layer</td>
+<td>硬件抽象层，提供对硬件的抽象访问接口。</td>
+</tr>
+<tr>
+<td>MCAL</td>
+<td>Microcontroller Abstraction Layer</td>
+<td>微控制器抽象层，提供对芯片外设的直接访问接口。</td>
+</tr>
+<tr>
+<td>RTE</td>
+<td>Run-Time Environment</td>
+<td>运行时环境，负责 ASW 与 BSW 的通信管理。</td>
+</tr>
+<tr>
+<td>UDS</td>
+<td>Unified Diagnostic Services</td>
+<td>统一诊断服务协议（ISO 14229），用于 ECU 的诊断通信。</td>
+</tr>
+<tr>
+<td>Dcm</td>
+<td>Diagnostic Communication Manager</td>
+<td>诊断通信管理模块，实现 UDS 服务的解析和处理。</td>
+</tr>
+<tr>
+<td>Dem</td>
+<td>Diagnostic Event Manager</td>
+<td>诊断事件管理模块，负责故障码存储和管理。</td>
+</tr>
+<tr>
+<td>PduR</td>
+<td>Protocol Data Unit Router</td>
+<td>协议数据单元路由模块，负责数据路由。</td>
+</tr>
+<tr>
+<td>CanTp</td>
+<td>CAN Transport Protocol</td>
+<td>CAN 传输协议模块，用于实现 UDS 消息的传输。</td>
+</tr>
+<tr>
+<td>NvM</td>
+<td>Non-Volatile Memory Manager</td>
+<td>非易失性内存管理模块，负责数据的持久化存储。</td>
+</tr>
+<tr>
+<td>SoAd</td>
+<td>Socket Adapter</td>
+<td>套接字适配器，用于实现基于 TCP/IP 的通信协议（如 DoIP）。</td>
+</tr>
+<tr>
+<td>ECU</td>
+<td>Electronic Control Unit</td>
+<td>电子控制单元，是汽车的嵌入式控制器。</td>
+</tr>
+<tr>
+<td>GPIO</td>
+<td>General Purpose Input/Output</td>
+<td>通用输入输出，硬件外设的一种。</td>
+</tr>
+<tr>
+<td>UART</td>
+<td>Universal Asynchronous Receiver-Transmitter</td>
+<td>通用异步收发器，用于串行通信。</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>Serial Peripheral Interface</td>
+<td>串行外设接口，用于高性能串行通信。</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>Inter-Integrated Circuit</td>
+<td>一种常用的两线串行通信协议。</td>
+</tr>
+<tr>
+<td>CAN</td>
+<td>Controller Area Network</td>
+<td>控制器局域网，是汽车通信总线的一种。</td>
+</tr>
+<tr>
+<td>FlexRay</td>
+<td>Flexible Ray</td>
+<td>一种高速汽车通信协议，用于安全关键应用。</td>
+</tr>
+<tr>
+<td>LIN</td>
+<td>Local Interconnect Network</td>
+<td>局域互连网络，低成本汽车通信协议。</td>
+</tr>
+<tr>
+<td>DoIP</td>
+<td>Diagnostics over Internet Protocol</td>
+<td>基于 IP 协议的诊断通信。</td>
+</tr>
+<tr>
+<td>OS</td>
+<td>Operating System</td>
+<td>操作系统，提供任务调度和资源管理功能。</td>
+</tr>
+<tr>
+<td>SWC</td>
+<td>Software Component</td>
+<td>软件组件，用于实现应用逻辑，是 ASW 层的核心构成模块。</td>
+</tr>
+</tbody>
+</table>
+<h1>概览</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├─.vscode</span><br><span class="line">├─ASW				此处存放与硬件平台无关代码</span><br><span class="line">├─BSW				存放与硬件相关代码，所以子文件夹需要区分不同芯片型号</span><br><span class="line">├─Documents			存放项目相关的文档，为了方便使用，最好将使用的芯片的手册放于此处</span><br><span class="line">├─OS				存放和系统相关的，如文件系统、操作系统、调度系统等等</span><br><span class="line">├─Output			存放输出文件，请在设置Keil和IAR等软件时，选用输出到此文件夹，方便管理，并且增强Project中的整洁性</span><br><span class="line">└─Project			存放和工程相关的文件树，如KEIL、IAR、SOURCEINSIGHT、TSMATSER、CANoe、JFLASH，与项目相关的工程请放置此处</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!important]</p>
+<p>不知道要将代码放在哪个文件夹中需要参考以下准则：</p>
+<ol>
+<li>与硬件无关的请存放于ASW，也就是逻辑相关</li>
+<li>与硬件有关的请存放于BSW，也就是对接硬件平台</li>
+<li>OS中存放系统相关，如文件系统、操作系统、调度系统</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>[!note]</p>
+<p>为了保持风格的一致性，高两级的文件夹请使用开头大写（ASW、OS、User、Components等），再低级的文件夹就使用小写（inc、src、cfg等）</p>
+</blockquote>
+<h1>ASW</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">├─.vscode</span><br><span class="line">├─ASW				此处存放与硬件平台无关代码</span><br><span class="line">│  ├─Include		此处存放一些类型头文件</span><br><span class="line">│  ├─Lib			此处存放一些库文件，也就是不会修改的文件</span><br><span class="line">│  ├─SWC			此处存放APP相关组件代码，如门窗控制器组件等等</span><br><span class="line">│  │  └─btdm		此级文件夹下的文件树可以按照自己的喜好存放，如可以将c和h文件放在一起，也可按照不同的文件后缀对文件树进行构建</span><br><span class="line">│  │      ├─inc		存放头文件</span><br><span class="line">│  │      └─src		存放c文件</span><br><span class="line">│  ├─User			一般用于存放main函数和相关app操作函数，一般来说main函数尽量不要有太多的内容，使用函数调用，方便在此基础上修改</span><br><span class="line">│  └─Utils			存放工具文件，如delay、RTT、coreMark等工具。</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!note]</p>
+<p>注意，ASW中存放和硬件无关的代码，所以在写其中的代码，我们应该要尽量减少和硬件有关的代码，使用抽象代码，如使用定死的函数名访问，我们并不需要知道它下面是怎么实现的，我们只需要调用。（使用定死的函数名方便进行抽象）</p>
+</blockquote>
+<blockquote>
+<p>[!important]</p>
+<p>‼‼‼在ASW中写代码，一定要有抽象的概念‼‼‼</p>
+<p>例如SWC是组件的意思，也就意味着，当你写好一个组件，那么我下次使用别的平台的时候可以直接调用你的组件，而不需要再修改很多东西，如定义一个宏开关来控制。</p>
+<p>对于一个组件来说，我只需要知道你的组件的输入和输出即可，所以其中的代码尽量写的抽象，减少重复造轮子。</p>
+</blockquote>
+<h1>BSW</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">├─BSW				存放与硬件相关代码，所以需要区分不同芯片型号</span><br><span class="line">│  ├─Bsp			存放供应商和用户的接口函数</span><br><span class="line">│  │  ├─inc</span><br><span class="line">│  │  └─src</span><br><span class="line">│  ├─Cmsis			这里存放和芯片内核文件，如core_cm3.h、cmsis_compile.h等等类似文件</span><br><span class="line">│  ├─Diagnostics	这里存放诊断相关文件，如UDS</span><br><span class="line">│  ├─Drivers		这里存放驱动文件</span><br><span class="line">│  ├─Middleware		存放BSP层和SWC层的交互函数</span><br><span class="line">│  ├─Scripts		存放脚本相关文件，如sct、icf、bat、py，和工程相关的脚本文件请都放至此处。在Keil中如果使用可视化宏文件请放置此处</span><br><span class="line">│  └─StartUp		这里存放启动文件，如startUp.s等文件</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!tip]</p>
+<p>需要考虑的是，是否要增加芯片厂商的文件夹，如ZX/FR3032D，如果要制定芯片厂商，请和plm等保持一致的缩写，如ZX代表智芯</p>
+</blockquote>
+<h1>Documents</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">├─Documents		存放和项目相关的手册、点检表、变更履历表，如果要存放过多的文件，请使用文件夹分类，便于查阅</span><br><span class="line">│  └─FR3032D	</span><br></pre></td></tr></table></figure>
+<h1>OS</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">├─OS		</span><br><span class="line">│  ├─FlashDB	文件系统</span><br><span class="line">│  │  ├─inc</span><br><span class="line">│  │  └─src</span><br><span class="line">│  └─FreeRTOS	操作系统</span><br><span class="line">│      ├─inc</span><br><span class="line">│      └─src</span><br></pre></td></tr></table></figure>
+<h1>Output</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">├─Output</span><br><span class="line">│  ├─Listings	存放链接文件和映射文件，注意该文件夹是软件生成的，在Keil或IAR中设置即可</span><br><span class="line">│  ├─Objects	存放中间文件，如o文件、obj文件，该文件夹也是软件自动生成的，需要配置</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!note]</p>
+<p>请务必在工程中设置output和listing以保证项目树的整洁性</p>
+</blockquote>
+<h1>Project</h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">└─Project</span><br><span class="line">    ├─KEIL</span><br><span class="line">    │  └─RTE</span><br><span class="line">    │      └─_blueTooth</span><br><span class="line">    ├─SOURCEINSIGHT</span><br><span class="line">    │  └─blueTooth.si4project</span><br><span class="line">    │      ├─Backup</span><br><span class="line">    │      └─cache</span><br><span class="line">    │          └─parse</span><br><span class="line">    └─VSCODE</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!important]</p>
+<p>和项目相关的工程请存放至此，我们常用的工程有：</p>
+<ol>
+<li>Keil</li>
+<li>IAR</li>
+<li>SourceInsight</li>
+<li>Vscode</li>
+<li>TSMaster</li>
+<li>Canoe</li>
+<li>ZLG</li>
+<li>JFLash</li>
+<li>QAC</li>
+<li>Tessy</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>[!note]</p>
+<p>QAC和Tessy的测试输出报告请不要放置Document中，需要存放在Project下的相关文件夹中</p>
+</blockquote>
+<h1>ReadMe</h1>
+<p>ReadMe文件中用来存放和项目相关教程，如Flash、Ram分布，如何使用函数，当使用的时候需要修改哪些等等。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/">https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_12.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E5%BA%93/" title="通用代码库"><img class="cover" src="/img/RandomCoverImage/random_14.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">通用代码库</div></div><div class="info-2"><div class="info-item-1">参考链接 通用库 按键过滤 ==KeyManager.h== 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/" title="链接文件"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">链接文件</div></div><div class="info-2"><div class="info-item-1">参考链接 DARM-30 (iar.com) 嵌入式IDE(1)：IAR中ICF链接文件详解和实例分析_icf文件-CSDN博客 概述 链接文件主要用于划分存储区域，不同芯片的存储配置不同，数据的放置需要根据芯片的存储来配置，标准段为    Section Kind Description M...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">缩写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">概览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">ASW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">BSW</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">Documents</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">OS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">Output</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">Project</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">ReadMe</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_12.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

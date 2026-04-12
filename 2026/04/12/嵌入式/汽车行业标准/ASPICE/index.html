@@ -1,0 +1,2186 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ASPICE | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 ASPICE（Automotive SPICE）入门 - 知乎 Automotive SPICE® Publications – VDA QMC AutomotiveSPICE_PAM_40_Chinese.pdf 概述 ASPICE（Automotive SPICE）是一种用于汽车行业中软件开发过程改进和能力评定的框架，其主要目的是通过规范化的流程和评估体系来提升软件质量。根据不同的证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASPICE">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 ASPICE（Automotive SPICE）入门 - 知乎 Automotive SPICE® Publications – VDA QMC AutomotiveSPICE_PAM_40_Chinese.pdf 概述 ASPICE（Automotive SPICE）是一种用于汽车行业中软件开发过程改进和能力评定的框架，其主要目的是通过规范化的流程和评估体系来提升软件质量。根据不同的证">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.244Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.244Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="汽车行业标准">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ASPICE",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg",
+  "datePublished": "2026-04-12T08:12:40.244Z",
+  "dateModified": "2026-04-12T08:12:40.244Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ASPICE',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_3.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">ASPICE</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ASPICE</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.244Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.244Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">13.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>40分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/409626233">ASPICE（Automotive SPICE）入门 - 知乎</a></p>
+<p><a target="_blank" rel="noopener" href="https://vda-qmc.de/en/automotive-spice/automotive-spice-veroeffentlichungen/">Automotive SPICE® Publications – VDA QMC</a></p>
+<p><a target="_blank" rel="noopener" href="https://vda-qmc.de/wp-content/uploads/2024/08/AutomotiveSPICE_PAM_40_Chinese.pdf">AutomotiveSPICE_PAM_40_Chinese.pdf</a></p>
+<h1>概述</h1>
+<p><code>ASPICE</code>（Automotive SPICE）是一种用于汽车行业中软件开发过程改进和能力评定的框架，其主要目的是通过规范化的流程和评估体系来提升软件质量。根据不同的证据，<code>ASPICE</code>可以分为多个部分或等级，每个部分或等级都有其特定的功能和作用。</p>
+<h2 id="ASPICE的组成部分"><code>ASPICE</code>的组成部分</h2>
+<ol>
+<li>
+<p><strong>过程参考模型（<code>PRM</code>）</strong>：</p>
+<ul>
+<li>过程参考模型是<code>ASPICE</code>的核心部分，它定义了软件开发过程中需要遵循的标准流程和实践。这些流程包括需求分析、设计、开发、测试等各个阶段，旨在确保软件开发的规范性和有效性。</li>
+</ul>
+</li>
+<li>
+<p><strong>过程评估模型（<code>PAM</code>）</strong>：</p>
+<ul>
+<li>过程评估模型用于评估企业在软件开发过程中的能力水平。它通过一系列的评估指标和度量框架，帮助企业识别改进领域，并提升其软件开发能力。</li>
+</ul>
+</li>
+<li>
+<p><strong>度量框架</strong>：</p>
+<ul>
+<li>度量框架用于量化和监控软件开发过程中的各项活动。通过统计分析和数据收集，企业可以对项目进行实时调整，以确保高质量的交付。</li>
+</ul>
+</li>
+</ol>
+<p>过程评估模型是一个二维框架，X轴是过程参考模型里的一堆过程（Process），Y轴是度量框架里的过程属性（PA）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260324082458117.png" alt="过程参考模型和过程评估模型" loading='lazy'></p>
+<p>从上面的二维图中可以看到，BP们和WP们都是和每个过程的过程成果相关的。每个过程，都有自己独有的基本实践（BP，Base practices）和工作产品（WP，Work products）。GP们和GR们则是和过程属性（PA）的达成相关。每个PA，都有自己独有的通用实践（GP，Generic Practice）和通用资源（GR，Generic Resource）。比如PA3.2自己的GP，名字就叫GP3.2.1、GP3.2.2等等。</p>
+<blockquote>
+<p>[!note]</p>
+<p>怎么来理解Work Product？软件的产品不就是最后的hex或s19文件吗？</p>
+<p>Work Product在ASPICE中代表面向结果的指标。比如SWE.2需要输出的Work Product有软件架构设计、沟通记录、评审记录、追溯记录、接口需求规范这五项，即这些文档都会作为“呈堂证供”参与评审，审核员以此为证据来打分。对于软件部分，显然hex/s19文件不再是唯一的输出物，软件需求规范、接口需求规范、软件详细设计、代码、测试规范等都是同等重要的输出物，并需要保证双向可追溯性和一致性。</p>
+</blockquote>
+<h2 id="ASPICE的能力等级"><code>ASPICE</code>的能力等级</h2>
+<p>ASPICE使用的是<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=179158391&amp;content_type=Article&amp;match_order=1&amp;q=ISO%2FIEC+33020%3A2015&amp;zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ0ODQxMDYsInEiOiJJU08vSUVDIDMzMDIwOjIwMTUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNzkxNTgzOTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.xf25nysVCmXtKETKQplci4yfi7euqNLQb_mlCYpBs1Y&amp;zhida_source=entity">ISO/IEC 33020:2015</a>中定义的度量框架。我们既然有了过程，当然需要有针对过程的评判标准，比如给你的软件架构打“90分”，但软件详细设计和代码给“60分”。ASPICE采用的不是百分制，而是等级制，即能力级别（Capability Level，简称CL）。针对一个软件项目的评级，总共分为6级。</p>
+<ul>
+<li>5级（CL5）指 <strong>创新</strong> 的过程。Innovating Process，表示企业能够基于商业目标需求反向调整过程，持续改善和优化过程，实现持续改进。</li>
+<li>4级（CL4）指 <strong>可预测</strong> 的过程。Predictable Process，表示企业能够通过过程数据的统计分析和预测结果，实时调整项目开发过程，确保高质量的项目交付。</li>
+<li>3级（CL3）指 <strong>已建立</strong> 的过程。Established Process，表示企业积累了开发与管理经验，能够根据公司过程规范裁剪和执行项目。</li>
+<li>2级（CL2）指 <strong>已管理</strong> 的过程。Managed Process，表示企业能够制定项目计划、监控和调整，确保项目有序进行。</li>
+<li>1级（CL1）指 <strong>已执行</strong> 的过程。Performed Process，表示企业能够完成产品开发，但缺乏总结经验、设计规范和管理规范。</li>
+<li>0级（CL0）指 <strong>不完整</strong> 的过程。Incomplete Process，表示企业的软件开发过程不完整，可能无法独立完成产品开发。</li>
+</ul>
+<p>这还没完，CL2-CL5还各有2个维度的“高标准视角”，用于衡量过程的完成情况。再加上CL1也需要勉强有一个“低标准要求”，我们一共有9个不同视角的“要求”。是的，过程属性（PA）可以理解为“要求”。</p>
+<p><strong>过程属性（PA）是过程能力的可度量特性。</strong></p>
+<p><strong>当然，如果你达到了CL3，那你需要无条件满足CL1和CL2的“要求”</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>能力等级 CL</th>
+<th>过程属性 PA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CL0</td>
+<td>没有PA</td>
+</tr>
+<tr>
+<td>CL1</td>
+<td>PA1.1 过程实施PA</td>
+</tr>
+<tr>
+<td>CL2</td>
+<td>PA2.1 实施管理PA</td>
+</tr>
+<tr>
+<td>CL2</td>
+<td>PA2.2 工作产品管理PA</td>
+</tr>
+<tr>
+<td>CL3</td>
+<td>PA3.1 过程定义PA</td>
+</tr>
+<tr>
+<td>CL3</td>
+<td>PA3.2 过程部署PA</td>
+</tr>
+<tr>
+<td>CL4</td>
+<td>PA4.1 定量分析PA</td>
+</tr>
+<tr>
+<td>CL4</td>
+<td>PA4.2 定量控制PA</td>
+</tr>
+<tr>
+<td>CL5</td>
+<td>PA5.1 过程创新PA</td>
+</tr>
+<tr>
+<td>CL5</td>
+<td>PA5.2 过程创新实施PA</td>
+</tr>
+</tbody>
+</table>
+<p>我们举个例子，你开了一家面包店，CL0就是面包好不好吃，要看今天上班的师傅手艺怎么样。CL2的PA2.1和PA2.2达成后，面包制作流程和最终质量得到了有效管控，作为老板再也不用担心大师傅跳槽了。</p>
+<p>ISO/IEC 33020（Information Technology — Process assessment ）里面定义的评定尺度（PA）分为4种。</p>
+<ul>
+<li>N(Not Implemented)未达成，指达成预期性能的（0%，15%]。</li>
+<li>P(Partially Implemented)部分实现，达成预期性能（15%，50%]。</li>
+<li>L(Largely Implemented)基本达成，达成预期性能（50%，85%]。</li>
+<li>F(Fully Implemented)完全达成，达成预期性能（85%，100%]。</li>
+</ul>
+<p>其中的P和L还可以二分为P-、P+、L-、L+。对应的范围请参考原版文档。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260324092239655.png" alt="过程评估模型" loading='lazy'></p>
+<h2 id="功能与作用">功能与作用</h2>
+<ul>
+<li><strong>过程规范化</strong>：<code>ASPICE</code>通过定义标准化的开发流程，帮助企业规范代码开发流程，提高代码质量。</li>
+<li><strong>能力评估</strong>：通过过程评估模型，企业可以评估自身的软件开发能力，并识别需要改进的领域。</li>
+<li><strong>项目管理</strong>：<code>ASPICE</code>强调双向追溯性和一致性，确保工作产品之间的引用和链接，支持覆盖率和影响分析。</li>
+<li><strong>持续改进</strong>：通过量测架构和统计分析，企业可以对项目进行实时调整和优化，确保高质量的交付。</li>
+</ul>
+<h2 id="执行流程">执行流程</h2>
+<p>过程，即Process。首先我们将一个完整的汽车软件开发项目切割成8个组（Group）。然后对每个组再次切分成若干个子模块，即过程（Process）。每个过程都有自己的<strong>过程ID，过程名称，过程目的和过程成果</strong>。ASPICE将汽车软件开发项目分为8组32个过程.</p>
+<blockquote>
+<p>[!tip]</p>
+<p>需要注意的是，Aspice3.0是8个组32个过程，但是在4.0增加了新的组和过程。</p>
+</blockquote>
+<p>下图所示的软件工程组是里面的6个过程。SWE.1是过程ID，<strong>软件需求分析</strong>是过程名字，其对应的过程目的是<em>将系统需求中与软件相关的部分转化为一组软件需求</em>，其过程成果在后面会进行描述。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260324093618713.png" alt="Aspice 4.0过程参考模型" loading='lazy'></p>
+<table>
+<thead>
+<tr>
+<th>域名称</th>
+<th>组名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础过程域</td>
+<td>MAN.3 项目管理<br />SUP.1质量保证<br />SUP.8 配置管理<br />SUP.9问题解决管理<br />SUP.10 变更管理</td>
+</tr>
+<tr>
+<td>工程过程域</td>
+<td>系统工程：SYS.2-SYS.5 <br />软件工程：SWE.1-SWE.6 <br />硬件工程：HWE.1-HWE.4 <br />机器学习：MLE.1-MLE.4</td>
+</tr>
+<tr>
+<td>灵活选择过程域</td>
+<td>ACQ.4供货商监控 <br />MAN.5风险管理<br /> MAN.6 度量 <br />SYS.1 需求获取 <br />VAL.1验证 <br />SUP.11 机器学习数据管理 <br />SPL.2 产品发布 <br />PIM.3 过程改进 <br />REU.2产品复用管理</td>
+</tr>
+</tbody>
+</table>
+<p>总之，过程是一件“<strong>高标准、严要求、必须要去完成的事儿</strong>”，过程与过程之间可能还存在着执行先后顺序的约束，比如你不能在软件架构设计没有冻结时，开始写代码（行话叫：单元构建）。</p>
+<p>**追溯性（Traceability）**指工作产品之间存在引用或者链接（Reference），比如某条需求与某条测试用例之间存在引用关系。</p>
+<p>**一致性（Consistency）**关注的则是内容和语义。官方文档中在一致性下有这么一句话，“<em>一致性由双向可追溯性支持</em>”。</p>
+<p><strong>双向可追溯性（Bidirectional traceability）</strong>:这里我们举个软件架构设计阶段的例子。SWE.2 BP7里面要求针对软件需求和SWC（软件组件）建立双向可追溯，也就是说，对于100条系统工程师发布的软件需求，每条软件需求都至少要有一个“孩子”——SWC；而对于10个软件架构师设计出的SWC，每个SWC都必须至少有一个“妈”——软件需求。这很容易理解，如果某条软件需求没“孩子”，那说明你漏需求了。如果某个SWC没有“妈”，那你干吗要设计它呢？这两点若都能提供覆盖率报告，即说明我们建立了双向可追溯性。</p>
+<p>对于一致性，我的理解是评审时需要检查追溯性链接的合理性、真实性。实际工作中如果我们刻意去满足双向可追溯100%覆盖的要求，可能会出现“驴唇不对马嘴”的情况。比如软件架构师将一条可随音乐律动的氛围灯需求分配给了网络管理模块。当然这种低级失误应该会在评审阶段被发现并被纠正。</p>
+<p>执行过程如图所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">|需求工程师|</span><br><span class="line">start</span><br><span class="line">:需求获取;</span><br><span class="line">:涉众需求;</span><br><span class="line"></span><br><span class="line">|系统工程师|</span><br><span class="line">:系统需求分析;</span><br><span class="line">:系统需求;</span><br><span class="line">:系统架构设计;</span><br><span class="line">:系统架构;</span><br><span class="line"></span><br><span class="line">fork</span><br><span class="line"></span><br><span class="line">|软件工程师|</span><br><span class="line">:软件需求分析;</span><br><span class="line">:软件需求;</span><br><span class="line">:软件架构设计;</span><br><span class="line">:软件架构;</span><br><span class="line">:软件详细设计;</span><br><span class="line">:软件详细设计说明;</span><br><span class="line">:软件单元构建;</span><br><span class="line">:软件单元验证;</span><br><span class="line">:软件单元验证报告;</span><br><span class="line">:软件集成验证;</span><br><span class="line">:软件集成验证报告;</span><br><span class="line">:软件验证;</span><br><span class="line">:软件验证报告;</span><br><span class="line"></span><br><span class="line">fork again</span><br><span class="line"></span><br><span class="line">|硬件工程师|</span><br><span class="line">:硬件需求分析;</span><br><span class="line">:硬件需求;</span><br><span class="line">:硬件架构设计;</span><br><span class="line">:硬件架构;</span><br><span class="line">:硬件详细设计;</span><br><span class="line">:硬件详细设计说明;</span><br><span class="line">:硬件单元构建;</span><br><span class="line">:硬件单元验证;</span><br><span class="line">:硬件单元验证报告;</span><br><span class="line">:硬件集成验证;</span><br><span class="line">:硬件集成验证报告;</span><br><span class="line">:硬件验证;</span><br><span class="line">:硬件验证报告;</span><br><span class="line"></span><br><span class="line">end fork</span><br><span class="line"></span><br><span class="line">|测试工程师|</span><br><span class="line">:系统集成&amp;集成测试;</span><br><span class="line">:系统;</span><br><span class="line">:系统验证;</span><br><span class="line">:系统验证报告;</span><br><span class="line">:用户确认;</span><br><span class="line">:用户确认报告;</span><br><span class="line"></span><br><span class="line">stop</span><br><span class="line"></span><br><span class="line">note right</span><br><span class="line">系统验证报告：</span><br><span class="line">回溯 → 系统需求 / 软件需求 / 硬件需求</span><br><span class="line"></span><br><span class="line">用户确认报告：</span><br><span class="line">回溯 → 涉众需求</span><br><span class="line">end note</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<h2 id="相关术语">相关术语</h2>
+<h3 id="BP-Basic-Practice"><code>BP</code>(Basic Practice)</h3>
+<p>在<code>ASPICE</code>（高级软件过程改进和能力评估）中，<code>BP</code>（Basic Practice，基本实践）是定义了每个过程域所需的具体活动和任务的实践。这些实践旨在确保过程的实施能够达到预期的目标，并提供明确的指导以帮助组织改进其软件开发和管理流程。</p>
+<p>例如，在<code>ASPICE</code>指南中，<code>BP</code>可以包括以下内容：</p>
+<ol>
+<li>
+<p><strong>问题解决</strong>：<code>BP1</code>至<code>BP9</code>涉及制定问题解决策略、识别和记录问题、跟踪问题状态、分析问题趋势等，以确保问题能够被有效管理和解决。</p>
+</li>
+<li>
+<p><strong>需求管理</strong>：<code>BP</code>用于获取利益相关方的需求和要求，确保需求的一致性和可追溯性。</p>
+</li>
+<li>
+<p><strong>设计与验证</strong>：<code>BP</code>用于制定详细的设计、定义软件组件的接口、描述动态行为、评估软件设计等，以确保设计的质量和一致性。</p>
+</li>
+<li>
+<p><strong>测试与验证</strong>：<code>BP</code>用于选择测试用例、执行软件集成测试、确保双向可追溯性等，以保证软件测试的全面性和有效性。</p>
+</li>
+<li>
+<p><strong>配置管理</strong>：<code>BP</code>用于定义访问权限、识别配置项、创建基线等，以确保配置管理的规范性和一致性。</p>
+</li>
+<li>
+<p><strong>项目管理</strong>：<code>BP</code>用于定义工作范围、评估项目可行性、确保项目计划的一致性等，以支持项目的顺利实施。</p>
+</li>
+</ol>
+<h1>软件过程组（<code>SWE</code>）</h1>
+<p>软件组有六个过程域：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260324082338067.png" alt="软件过程组" loading='lazy'></p>
+<h2 id="软件需求分析（SWE-1）">软件需求分析（SWE.1）</h2>
+<p>其目的是：建立一组已结构化和已分析的软件需求，与系统需求和系统架构相一致。</p>
+<h3 id="过程结果">过程结果</h3>
+<p>该过程的过程成果为：</p>
+<ol>
+<li>定义了软件需求；</li>
+<li>结构化了软件需求并行优先级排序；</li>
+<li>分析了软件需求的正确性和技术可行性；</li>
+<li>分析了软件需求对运行环境的影响；</li>
+<li>建立了软件需求与系统需求之间的一致性和双向可追溯性；</li>
+<li>建立了软件需求与系统架构之间的一致性和双向可追溯性；</li>
+<li>约定了软件需求，并与所有受影响方沟通。</li>
+</ol>
+<p>最终的输出项为，不同的输出信息项是对不同的过程成果的体现：</p>
+<table>
+<thead>
+<tr>
+<th>输出信息项</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+<th>成果6</th>
+<th>成果7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需求</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>需求属性</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>分析结果</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>—致性证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>沟通证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>过程成果通过不同的BP实现：</p>
+<table>
+<thead>
+<tr>
+<th>基本实践</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+<th>成果6</th>
+<th>成果7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP1:定义软件需求</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP2:结构化软件需求</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP3:分析软件需求</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP4:分析对运行环境的影响</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP5:确保一致性和建立双向可追溯性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>BP6:沟通约定的软件需求和对运行环境的影响</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本实践">基本实践</h3>
+<p>软件需求分析过程的目的是将系统需求中与软件相关的部分转化为一组软件需求。  基本实践为：</p>
+<ol>
+<li>
+<p>SWE.1.BP1：定义软件需求。 使用系统需求和系统架构及其变更来识别软件所需的功能和能力。在软件需求规范中定义功能性和非功能性软件需求。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>定义了软件需求；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ol>
+<li>影响功能和能力的应用参数是系统需求的一部分。</li>
+<li>如果只有软件开发，系统需求和系统架构是指给定的运行环境。在这种情况下，应将利益相关方需求作为识别软件所需功能和能力以及识别影响软件功能和能力的应用参数的基础。</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>SWE.2.BP2:结构化系统需求。 在软件需求规范中结构化软件需求，例如</p>
+<ol>
+<li>按项目相关集群进行分组；</li>
+<li>按项目中逻辑顺序排序；</li>
+<li>基于项目相关准则进行分类；</li>
+<li>根据利益相关方需要进行优先级排序</li>
+</ol>
+<p>输出的成果为：</p>
+<ol>
+<li>结构化了软件需求并行优先级排序；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>优先级排序通常包括将软件内容分配给已计划的发布。</p>
+</blockquote>
+</li>
+<li>
+<p>SWE.1.BP3:分析软件需求。 分析已定义的系统需求（包括它们的相互依赖关系），以确保正确性、技术可行性和可验证性，并且支持风险识别。分析对成本、进度和技术的影响。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>分析了软件需求的正确性和技术可行性；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>对成本和进度的影响分析有助于项目估算的调整。</p>
+</blockquote>
+<p>针对于软件，还可考虑如下风险：</p>
+<ol>
+<li>不充分的解决方案、测试方案</li>
+<li>不完整的开发及测试工具链</li>
+<li>非功能需求能否被充分满足</li>
+<li>自动生成代码导致测试工作量的负荷影响等</li>
+</ol>
+</li>
+<li>
+<p>SWE.1.BP4:分析对运行环境的影响。 分析软件需求对系统要素接口及运行环境的影响。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>分析了软件需求对运行环境的影响；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>运行环境是指软件运行所在的系统（例如：硬件、操作系统等）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Guideword</th>
+<th>Deviation</th>
+<th>Possible Cause</th>
+<th>Consequences</th>
+<th>Measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Too often</td>
+<td>High bus load</td>
+<td>Non-compliance with the bus spec, calling party sending even if no one listens</td>
+<td>Communication breakdown, messages get lost</td>
+<td>1. Ensure that bus spec is know 2. Ensure that the bus spec is understood 3. Verify through design review Implement specific bus load tests</td>
+</tr>
+<tr>
+<td>Too rarely</td>
+<td>Faulty communication</td>
+<td>Non-compliance with the bus spec, calling party not sending if someone listens</td>
+<td>Communication breakdown, messages missing</td>
+<td>4. See above</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>SWE.1.BP5:确保一致性和建立双向可追溯性。确保软件需求与系统架构之间的一致性并建立双向可追溯性。确保软件需求与系统需求之间的一致性并建立双向可追溯性。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>建立了软件需求与系统需求之间的一致性和双向可追溯性；</li>
+<li>建立了软件需求与系统架构之间的一致性和双向可追溯性；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ol>
+<li>验证准则证明了需求可以在约定的约束范围内得到验证，并且通常被用作软件测试用例开发或其他证明符合系统需求的验证措施的输入。</li>
+<li>测试不能覆盖的验证由SUP.2覆盖。</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>SWE.1.BP6:沟通约定的软件需求和对运行环境的影响。与所有受影响方沟通约定的软件需求， 以及对运行环境影响分析的结果。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>约定了软件需求，并与所有受影响方沟通。</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ol>
+<li>应通过建立同时满足项目和组织要求的方法来避免冗余。</li>
+<li>双向可追溯性有助于覆盖率、 一致性和影响分析。</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h2 id="软件架构设计（SWE-2）">软件架构设计（SWE.2）</h2>
+<p>软件架构设计过程的目的是：建立软件架构设计，识别将哪些软件需求分配给软件的哪些要素，并依照已定义的准则评估软件架构设计。</p>
+<p>SWE.2是软件架构设计，主要内容有：</p>
+<ol>
+<li>
+<p>静态架构</p>
+<p>这部分需要定义好软件模块（Component/Element）有哪些，模块间的一个交互关系的定义，主要是一些接口函数的定义，需要定义清楚函数类型（返回值，或者无返回），参数及类型。假如要做一个电压检测的功能，需要读取ADC采集到的值然后再做其他逻辑判断，那么可以定义如下的一个接口交互关系：</p>
+<p><img src="https://picx.zhimg.com/v2-42aef63c02644a01acc8eb00f2fa327d_1440w.jpg" alt="例子" loading='lazy'></p>
+<p>由上图可知，对于电压检测这个功能，我们需要一个读取电压<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=224164680&amp;content_type=Article&amp;match_order=1&amp;q=ADC%E5%80%BC&amp;zhida_source=entity">ADC值</a>的接口，所以我们可以将接口定义如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uint16 <span class="title function_">u16GetADCValue</span><span class="params">(uint8 ch_id)</span>;</span><br></pre></td></tr></table></figure>
+<p>由上述定义我们就可以明确，需要一个返回值类型为uint16（必要时可以定义返回值范围），参数为uint8（必要时可以定义入参范围，为软件集成测试定义一个明确的测试范围）的一个接口，这样可以指导软件架构的下游活动，例如<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=224164680&amp;content_type=Article&amp;match_order=1&amp;q=%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1&amp;zhida_source=entity">详细设计</a>（Detailed Design）和软件集成测试（Software Integration and Integration Test）去实施。</p>
+</li>
+<li>
+<p>动态架构</p>
+<p>这部分需要定义模块的动态合作关系，例如一些时序等，还是以上面讲到的电压检测功能为例，可以画出动态架构图如下：</p>
+<p><img src="https://pic2.zhimg.com/v2-ea464bb74f507e5cf618fd8bc7621f6d_r.jpg" alt="动态架构" loading='lazy'></p>
+<p>由上图可以看出MCAL_TASK和VOL_TASK的调用先后关系，需要ADC先处理完得到ADC值，电压检测模块才去调用u16GetADCValue这个接口获取电压值，然后再做进一步的逻辑判断。</p>
+<p>如果有一些<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=224164680&amp;content_type=Article&amp;match_order=1&amp;q=%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2&amp;zhida_source=entity">状态转换</a>的需求，需要定义一些状态及状态跳转的条件等，例如：</p>
+<p><img src="https://pic2.zhimg.com/v2-ce2cb8af525e80ddbac44fea4a5dcba9_1440w.jpg" alt="状态机转换" loading='lazy'></p>
+</li>
+</ol>
+<h3 id="过程成果">过程成果</h3>
+<ol>
+<li>设计了软件架构，包括静态和动态两个方面；</li>
+<li>根据已定义的准则分析了软件架构；</li>
+<li>建立了软件架构与软件需求之间的一致性和双向可追溯性；</li>
+<li>约定了软件架构，并与所有受影响方沟通。</li>
+</ol>
+<p>最终的输出项为，不同的输出信息项是对不同的过程成果的体现：</p>
+<table>
+<thead>
+<tr>
+<th>输出信息项</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件架构</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>分析结果</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>—致性证据</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>沟通证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>过程成果通过不同的BP实现：</p>
+<table>
+<thead>
+<tr>
+<th>基本实践</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP1: 定义软件架构的静态方面</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP2: 定义软件架构的动态方面</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP3: 分析软件架构</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP4: 确保一致性和建立双向可追溯性</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>BP5: 沟通约定的软件架构</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本实践-2">基本实践</h3>
+<p>基本实践为：</p>
+<ol>
+<li>
+<p>SWE.2.BP1:定义软件架构的静态方面。针对功能性和非功能性的软件需求，定义和文档化软件架构的静态方面，包括外部接口和一组已定义的软件组件及其接口和关系。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>设计了软件架构，包括静态和动态两个方面；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>硬件-软件-接口(HSI)定义是在硬件设计上下文中给出，因此是系统设计的一部分 (SYS.3)。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>SWE.2.BP2: 定义软件架构的动态方面。针对功能和非功能的软件需求，定义并文档化软件架构的动态方面，包括软件组件的行为及其在不同软件模式下的交互，以及并发性方面。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>设计了软件架构，包括静态和动态两个方面；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>并发性方面的示例如，应用程序相关的中断处理、抢占式处理、多线程。</li>
+<li>行为描述的示例如，自然语言或半形式化记法 (如SysML, UML)。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>SWE.2.BP3:分析软件架构。就相关技术设计方面分析软件架构，并支持项目管理的项目估算。 文档化软件架构设计决策的依据。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>根据已定义的准则分析了软件架构；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>项目可行性参见 MAN.3.BP3，项目估算参见MAN.3.BP5。</li>
+<li>分析可包括现有软件组件对既有应用的适用性。</li>
+<li>适用于分析技术方面的方法的示例如，原型、仿真、定性分析。</li>
+<li>技术方面的示例如，功能、时间和资源消耗(例如ROM、RAM、外部/内部EEPROM戒 数据Flash或CPU负载)。</li>
+<li>设计依据可以包括一些论据，如在用证明、软件框架或软件产品线的复用、自制或外购 （make-or-buy）的决策、或以演变的方式进行呈现(如集合设计)。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>SWE.2.BP4:确保一致性和建立双向可追溯性。确保软件架构与软件需求之间的一致性并建立双向可追溯性。</p>
+<p>输出的成果为：</p>
+<ol>
+<li>建立了软件架构与软件需求之间的一致性和双向可追溯性；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>可能存在软件架构设计无法追溯的非功能性软件需求。例如开发过程需求。这些需求仍然需要验证。</li>
+<li>双向可追溯性支持一致性，并有助于对变更请求的影响分析和验证覆盖率的证明。仅有可追溯性本身（如存在两者之间的链接），并不一定意味着两者之间的信息是一致的。</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<h2 id="软件详细设计与单元构建（SWE-3）">软件详细设计与单元构建（SWE.3）</h2>
+<p>其目的是：建立与软件架构相一致的软件详细设计，包括静态和动态方面，并构建与软件详细设计相一致的软件单元。</p>
+<h3 id="过程成果-2">过程成果</h3>
+<ol>
+<li>定义了详细设计，包括静态和动态两个方面；</li>
+<li>产出了软件详细设计中定义的软件单元；</li>
+<li>建立了软件详细设计与软件架构之间的一致性和双向可追溯性; 建立了源代码与软件详细设计之间的一致性和双向可追溯性; 建立了软件详细设计与软件需求之间的一致性和双向可追溯性；</li>
+<li>与所有受影响方沟通了源代码和达成一致的软件详细设计。</li>
+</ol>
+<p>最终的输出项为，不同的输出信息项是对不同的过程成果的体现：</p>
+<table>
+<thead>
+<tr>
+<th>输出信息项</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件详细设计</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>软件单元</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>—致性证据</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>沟通证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>过程成果通过不同的BP实现：</p>
+<table>
+<thead>
+<tr>
+<th>基本实践</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP1: 定义详细设计的静态方面</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP2: 定义详细设计的动态方面</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP3: 开发软件单元</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP4: 确保一致性和建立双向可追溯性</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>BP5: 沟通约定的软件详细设计和已开发的软件单元</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本实践-3">基本实践</h3>
+<p>基本实践为：</p>
+<ol>
+<li>
+<p>SWE.3.BP1:定义详细设计的静态方面。为每个软件组件定义其软件单元的行为、其静态结构和关系及其接口，包括：</p>
+<ol>
+<li>输入和输出的有效数据值域 (从应用领域的角度来看)，以及</li>
+<li>用于输入和输出的物理或计量单位 (从应用领域的角度来看)。</li>
+</ol>
+<p>输出成果为</p>
+<ol>
+<li>定义了详细设计，包括静态和动态两个方面；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>软件单元的边界分别独立于软件单元在源代码、代码文件结构或基于模型的实现中的表 示。它是由应用领域视角的语义驱动的。因此，在代码层次上，一个软件单元可以由单个子程序或一组子程序表示。</li>
+<li>硬件-软件-接口(HSI)定义是在硬件设计上下文中给出，因此是系统设计的一部分 (SYS.3)。</li>
+<li>从应用领域的角度来看，具有适用物理单位的有效数据值域的示例如，“0…200 [m/s]  '， ’ 0…3.8 [A] ‘或’ 1…100[N]”。要将这种应用领域的值域映射到编程语言级别的数据类型 (例如取值范围为0…65535的无符号整数)，请参考BP2。</li>
+<li>计量单位的示例如，“%”或“‰”。</li>
+<li>计数器是一个参数或返回值的示例，既不适用物理单位，也不适用计量单位。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>SWE.3.BP2:定义详细设计的动态方面。定义并文档化关于软件架构的详细设计的动态方面，包括相关软件单元之间的交互以实现组件的动态行为。</p>
+<p>输出成果为：</p>
+<ol>
+<li>定义了详细设计，包括静态和动态两个方面；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>行为描述的示例如，自然语言或半形式化记法 (如SysML, UML)。</li>
+</ul>
+</blockquote>
+<p>为了描述一个软件组件在运行时的动态行为, 需要进行行为描述, 例如:</p>
+<ol>
+<li>状态机</li>
+<li>时序图</li>
+<li>用例图</li>
+</ol>
+<p>另外，响应时间需要考虑定义如下:</p>
+<ol>
+<li>任务</li>
+<li>线程概念</li>
+<li>时间片</li>
+<li>中断</li>
+<li>接口</li>
+</ol>
+</li>
+<li>
+<p>SWE.3.BP3:开发软件单元。根据编码原则，开发并文档化与详细设计一致的软件单元。</p>
+<p>输出成果</p>
+<ol>
+<li>产出了软件详细设计中定义的软件单元；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>能力等级1级的编码原则示例是不使用隐式类型转换，在子程序中只有一个入口和一个出口，以及范围检查(契约式设计，防御性编程)。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>SWE.3.BP4:确保一致性和建立双向可追溯性。确保软件详细设计与软件架构之间的一致性并建立双向可追溯性。确保开发的软件单元与软件详细设计之间的一致性并建立双向可追溯性。确保软件详细设计与软件需求之间的一致性并建立双向可追溯性。</p>
+<p>输出成果为：</p>
+<ol>
+<li>建立了软件详细设计与软件架构之间的一致性和双向可追溯性; 建立了源代码与软件详细设计之间的一致性和双向可追溯性; 建立了软件详细设计与软件需求之间的一致性和双向可追溯性；</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>宜通过建立这些方法的组合来避免冗余。</li>
+<li>在详细设计中直接追溯到软件需求的软件单元的示例如，通信矩阵或基础软件方面，例如Autosar 配置中固有的诊断标识符列表。</li>
+<li>双向可追溯性支持一致性，并有助于变更请求的影响分析和验证覆盖率的证明。仅有可追溯性本身（如存在两者之间的链接），并不一定意味着两者之间的信息是一致的。</li>
+</ul>
+</blockquote>
+</li>
+<li>
+<p>SWE.3.BP5:沟通约定的软件详细设计和已开发的软件单元。与所有受影响方沟通约定的软件详细设计和已开发的软件单元。</p>
+<p>输出成果为：</p>
+<ol>
+<li>与所有受影响方沟通了源代码和达成一致的软件详细设计</li>
+</ol>
+</li>
+</ol>
+<h2 id="软件单元验证（SWE-4）">软件单元验证（SWE.4）</h2>
+<p>其目的是：验证软件单元与软件详细设计相一致。</p>
+<h3 id="过程成果-3">过程成果</h3>
+<ol>
+<li>定义了软件单元验证的验证措施；</li>
+<li>根据发布范围并考虑准则（包括回归验证准则），选择了软件单元验证措施；</li>
+<li>使用选定的验证措施验证了软件单元，并记录了验证结果；</li>
+<li>建立了验证措施与软件单元之间的一致性和双向可追溯性；建立了验证结果与验证措施之间的双向可追溯性；</li>
+<li>总结了软件单元验证结果，并与所有受影响方沟通。</li>
+</ol>
+<p>最终的输出项为，不同的输出信息项是对不同的过程成果的体现：</p>
+<table>
+<thead>
+<tr>
+<th>输出信息项</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证措施</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证措施数据</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证措施选择集</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证结果</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>一致性证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>沟通证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>过程成果通过不同的BP实现：</p>
+<table>
+<thead>
+<tr>
+<th>基本实践</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP1: 定义软件单元验证措施</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP2: 选择软件单元验证措施</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP3: 验证软件单元</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP4: 确保一致性和建立双向可追溯性</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>BP5: 总结和沟通结果</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本实践-4">基本实践</h3>
+<ol>
+<li>
+<p>SWE.4.BP1: 定义软件单元验证措施。为软件详细设计定义的每个软件单元定义验证措施，包括：</p>
+<ul>
+<li>
+<p>验证措施通过/失败准则</p>
+</li>
+<li>
+<p>验证措施准入和准出准则</p>
+</li>
+<li>
+<p>所需的验证基础设施</p>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>单元验证措施的示例包括静态分析、代码评审、单元测试。</li>
+<li>静态分析可基于MISRA规则集和其它编码标准。</li>
+</ul>
+</blockquote>
+<p>输出成果为：</p>
+<ol>
+<li>定义了软件单元验证的验证措施；</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>SWE.4.BP2: 选择软件单元验证措施。考虑选择准则（包括回归验证准则），记录验证措施选择。所记录的验证措施选择应根据发布范围具备足够的覆盖率。</p>
+<p>输出成果为：</p>
+<ol>
+<li>根据发布范围并考虑准则（包括回归验证准则），选择了软件单元验证措施；</li>
+</ol>
+</li>
+<li>
+<p>SWE.4.BP3: 验证软件单元。使用选定的验证措施执行软件单元验证。记录验证结果，包括通过/ 失败状态和相应验证措施数据。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>与预期结果不符的验证结果处理，参见SUP.9。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ol>
+<li>使用选定的验证措施验证了软件单元，并记录了验证结果；</li>
+</ol>
+</li>
+<li>
+<p>SWE.4.BP4: 确保一致性和建立双向可追溯性。确保验证措施与软件详细设计中软件单元之间的 一致性并建立双向可追溯性。建立验证结果与验证措施之间的双向可追溯性。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>双向可追溯性支持一致性，并有助于变更请求的影响分析和验证覆盖率的证明。仅有可追溯性本身（如存在两者之间的链接），并不一定意味着两者之间的信息是一致的</p>
+</blockquote>
+<p>输出成果为：</p>
+<ol>
+<li>建立了验证措施与软件单元之间的一致性和双向可追溯性；建立了验证结果与验证措施之间的双向可追溯性；</li>
+</ol>
+</li>
+<li>
+<p>SWE.4.BP5: 总结和沟通结果。总结软件单元验证结果，并与所有受影响方沟通。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>在总结中提供来自测试用例执行的所有必要信息，以便其他方可以判断结果。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ol>
+<li>总结了软件单元验证结果，并与所有受影响方沟通。</li>
+</ol>
+</li>
+</ol>
+<h2 id="软件组件验证与集成验证（SWE-5）">软件组件验证与集成验证（SWE.5）</h2>
+<p>其目的是：验证软件组件与软件架构设计相一致，集成软件要素，并验证集成的软件要素与软件 架构和软件详细设计相一致。</p>
+<h3 id="过程成果-4">过程成果</h3>
+<ol>
+<li>基于软件架构和详细设计，包括软件组件之间的接口和交互，为集成的软件要素定义了软件集成验证的验证措施；</li>
+<li>为软件组件定义验证措施，以提供软件组件符合其行为和接口的证据；</li>
+<li>将软件要素集成为完整的集成软件；</li>
+<li>根据发布范围并考虑准则（包括回归验证准则），选择了验证措施；</li>
+<li>使用选定的验证措施验证了软件组件，并记录了集成验证结果；</li>
+<li>使用选定的验证措施验证了集成的软件要素，并记录了集成验证结果；</li>
+<li>建立了验证措施与软件架构和详细设计之间的一致性和双向可追溯性；建立了验证结果与验证措施之间的双向可追溯性；</li>
+<li>总结了软件组件验证和软件要素集成验证结果，并与所有受影响方沟通。</li>
+</ol>
+<p>最终的输出项为，不同的输出信息项是对不同的过程成果的体现：</p>
+<table>
+<thead>
+<tr>
+<th>输出信息项</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+<th>成果6</th>
+<th>成果7</th>
+<th>成果8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证措施</td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>集成顺序指导</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证措施数据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证措施选择集</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证结果</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>一致性证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>沟通证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+<tr>
+<td>软件组件</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>集成软件</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>过程成果通过不同的BP实现：</p>
+<table>
+<thead>
+<tr>
+<th>基本实践</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+<th>成果6</th>
+<th>成果7</th>
+<th>成果8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP1: 定义软件单元集成验证措施</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP2: 定义验证软件组件行为的验证措施</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP3: 选择验证措施</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP4: 集成软件要素幵执行集成验证</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP5: 执行软件组件验证</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP6: 确保一致性和建立双向可追溯性</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>BP7: 总结和沟通结果</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本实践-5">基本实践</h3>
+<ol>
+<li>
+<p>SWE.5.BP1: 定义软件集成验证措施。依照软件架构已定义的静态和动态方面，基于已定义的软件要素集成顺序和前提条件，定义验证措施，包括：</p>
+<ol>
+<li>
+<p>验证措施技术</p>
+</li>
+<li>
+<p>验证措施通过/失败准则</p>
+</li>
+<li>
+<p>验证措施准入和准出准则</p>
+</li>
+<li>
+<p>所需的验证基础设施和环境设置</p>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>软件集成验证措施可关注的示例包括软件组件之间正确数据流和动态交互以及它们的时序依赖性，所有软件组件接口的数据正确解释，以及资源消耗目标的符合性。</li>
+<li>可以使用硬件调试接口或仿真环境（例如软件在环仿真）支持软件集成验证措施。</li>
+</ul>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>基于软件架构和详细设计，包括软件组件之间的接口和交互，为集成的软件要素定义了软件集成验证的验证措施；</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>SWE.5.BP2: 定义验证软件组件行为的验证措施。依照软件架构已定义的软件组件行为和接口， 定义软件组件验证的验证措施，包括：</p>
+</li>
+</ol>
+<ul>
+<li>
+<p>验证措施技术</p>
+</li>
+<li>
+<p>验证措施准入和准出准则</p>
+</li>
+<li>
+<p>验证措施通过/失败准则</p>
+</li>
+<li>
+<p>所需的验证基础设施和环境设置</p>
+<blockquote>
+<p>[!tip]</p>
+<p>验证措施与软件组件相关但不与软件单元相关，因为软件单元验证已在过程SWE.4软件单元验证中处理。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>为软件组件定义验证措施，以提供软件组件符合其行为和接口的证据；</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>
+<p>SWE.5.BP3: 选择验证措施。考虑选择准则（包括回归验证准则），记录每个集成步骤的验证措施选择。所记录的验证措施选择应根据发布范围具备足够的覆盖率。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>选择准则的示例如，持续集成/持续开发回归验证需要（如由于软件架构或详细设计变更）、或交付产品发布的预期用途（如测试台架、测试跑道、公共道路等）。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>根据发布范围并考虑准则（包括回归验证准则），选择了验证措施；</li>
+</ul>
+</li>
+<li>
+<p>SWE.5.BP4: 集成软件要素并执行集成验证。根据软件要素之间定义的接口和交互，以及定义的顺序和定义癿前提条件，将软件要素集成为完整软件。执行选定的集成验证措施。记录验证结果，包括通过/失败状态和相应验证措施数据。</p>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li>开始软件集成的提条件的示例可以是现有软件组件、现成软件组件、开源软件或自动生成代码软件的鉴定。</li>
+<li>定义的前提条件可允许所有软件组件的大爆炸集成、持续集成以及逐步集成（例如跨软件单元和/或软件组件直到完整集成软件），并伴随验证措施。</li>
+<li>与预期结果不符的验证结果处理，参见SUP.9。</li>
+</ul>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>将软件要素集成为完整的集成软件；</li>
+<li>使用选定的验证措施验证了集成的软件要素，并记录了集成验证结果；</li>
+</ul>
+</li>
+<li>
+<p>SWE.5.BP5: 执行软件组件验证。执行选定的验证软件组件行为的验证措施。记录验证结果，包括通过/失败状态和相应验证措施数据。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>与预期结果不符的验证结果处理，参见SUP.9。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>使用选定的验证措施验证了软件组件，并记录了集成验证结果；</li>
+</ul>
+</li>
+<li>
+<p>SWE.5.BP6: 确保一致性和建立双向可追溯性。确保验证措施与软件架构和详细设计的静态和动 态方面之间的一致性并建立双向可追溯性。建立验证结果与验证措施之间的双向可追溯性。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>双向可追溯性支持一致性，并有助于变更请求的影响分析和验证覆盖率的证明。仅有可追溯性本身（如存在两者之间的链接），并不一定意味着两者之间的信息是一致的。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>建立了验证措施与软件架构和详细设计之间的一致性和双向可追溯性；建立了验证结果与验证措施之间的双向可追溯性；</li>
+</ul>
+</li>
+<li>
+<p>SWE.5.BP7: 总结和沟通结果。总结软件组件验证和软件集成验证结果，并与所有受影响方沟通。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>在总结中提供来自测试用例执行的所有必要信息，以便其他方可以判断结果。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>总结了软件组件验证和软件要素集成验证结果，并与所有受影响方沟通。</li>
+</ul>
+</li>
+</ol>
+<h2 id="软件验证-（SWE-6）">软件验证 （SWE.6）</h2>
+<p>其目的是：确保集成软件得到验证，与软件需求相一致。</p>
+<h3 id="过程成果-5">过程成果</h3>
+<ol>
+<li>基于软件需求，定义了软件验证的验证措施；</li>
+<li>根据发布范围并考虑准则（包括回归验证准则），选择了验证措施；</li>
+<li>使用选定的验证措施验证了集成软件，并记录了软件验证结果；</li>
+<li>建立了验证措施与软件需求之间的一致性和双向可追溯性；建立了验证结果与验证措施之间的双向可追溯性；</li>
+<li>总结了软件验证结果，并与所有受影响方沟通。</li>
+</ol>
+<p>最终的输出项为，不同的输出信息项是对不同的过程成果的体现：</p>
+<table>
+<thead>
+<tr>
+<th>输出信息项</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证措施</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证措施数据</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证措施选择集</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>验证结果</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>一致性证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>沟通证据</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>过程成果通过不同的BP实现：</p>
+<table>
+<thead>
+<tr>
+<th>基本实践</th>
+<th>成果1</th>
+<th>成果2</th>
+<th>成果3</th>
+<th>成果4</th>
+<th>成果5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BP1: 定义软件验证措施</td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP2: 选择验证措施</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP3: 验证集成软件</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BP4: 确保一致性和建立双向可追溯性</td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>BP5: 总结和沟通结果</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基本实践-6">基本实践</h3>
+<ol>
+<li>
+<p>SWE.6.BP1:定义软件验证的验证措施。定义软件验证的验证措施，以适于提供符合软件需求中功能性和非功能性信息的证据，包括：</p>
+<ul>
+<li>
+<p>验证措施技术，</p>
+</li>
+<li>
+<p>验证措施通过/失败准则，</p>
+</li>
+<li>
+<p>验证措施准入和准出准则，</p>
+</li>
+<li>
+<p>验证措施的必要顺序，</p>
+</li>
+<li>
+<p>所需的验证基础设施和环境设置。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>适当验证措施技术的选择可取决于软件需求的内容（例如面向数据范围需求的边界值和等价类，正测试vs负测试，如故障注入），或基于需求的测试vs基于知识或经验的错误猜测。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>基于软件需求，定义了软件验证的验证措施；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>SWE.6.BP2: 选择验证措施。考虑选择准则（包括回归验证准则），记录验证措施选择。所记录的验证措施选择应根据发布范围具备足够的覆盖率。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>选择准则癿示例可以是需求优先级，持续开収，回归验证需要（例如由亍软件需求发 更），戒交付产品収布癿预期用递（例如，测试台架、测试跑道、公共道路等）。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>根据发布范围并考虑准则（包括回归验证准则），选择了验证措施；</li>
+</ul>
+</li>
+<li>
+<p>SWE.6.BP3: 验证集成软件。使用选定的验证措施执行集成软件验证。记录验证结果，包括通过/ 失败状态和相应验证措施数据。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>与预期结果不符的验证结果处理，参见SUP.9。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>使用选定的验证措施验证了集成软件，并记录了软件验证结果；</li>
+</ul>
+</li>
+<li>
+<p>SWE.6.BP4: 确保一致性和建立双向可追溯性。确保验证措施与软件需求之间的一致性并建立双向可追溯性。建立验证结果与验证措施之间的双向可追溯性。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>双向可追溯性支持一致性，并有助于变更请求的影响分析和验证覆盖率的证明。仅有可追溯性本身（如存在两者之间的链接），并不一定意味着两者之间的信息是一致的。</p>
+</blockquote>
+<p>输出成果为：</p>
+<ul>
+<li>建立了验证措施与软件需求之间的一致性和双向可追溯性；建立了验证结果与验证措施之间的双向可追溯性；</li>
+</ul>
+</li>
+<li>
+<p>SWE.6.BP5: 总结和沟通结果。总结软件验证结果，并与所有受影响方沟通。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>在总结中提供来自测试用例执行的所有必要信息，以便其他方可以判断结果。</p>
+</blockquote>
+<p>输出方为：</p>
+<ul>
+<li>总结了软件验证结果，并与所有受影响方沟通。</li>
+</ul>
+</li>
+</ol>
+<h2 id="示例">示例</h2>
+<blockquote>
+<p>问题：</p>
+<p>假设现在车身控制中外灯系统中的近光灯部分需求点为例</p>
+</blockquote>
+<ol>
+<li>
+<p><code>SWE.1</code>：在进行SWE.1之前，开发者应该接收来自SYS.2、SYS.3的输入，即系统需求和系统架构设计。当接收到系统需求和系统架构设计之后，开发者应该（必须）遵循SWE.1.BP来执行过程，执行流程为：</p>
+<ol>
+<li>定义软件需求</li>
+<li>结构化软件需求</li>
+<li>分析软件需求</li>
+<li>分析需求在操作环境中的影响</li>
+<li>确保一致性和双向可追溯性</li>
+<li>与利益相关者对系统需求及其影响沟通达成一致</li>
+</ol>
+<p>在此过程中，应该产生以下需求：</p>
+<p>SW_REQ-10001：若整车电源模式是ON，车辆应在打开近光灯开关被按下时打开近光灯；</p>
+<p>SW_REQ-10002：若整车电源模式是ON，车辆应在关闭所有灯光被按下时关闭近光灯；</p>
+<p>SW_REQ-10003：车辆应为用户提供信息（近光指示灯）以提示近光灯的工作状态。</p>
+<p>架构化需求及环境模块影响分析：</p>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/2024083042.png" alt="架构化需求及环境模块影响分析" loading='lazy'></p>
+</li>
+<li>
+<p><code>SWE.2</code>:SWE.1之后开始软件架构设计（SWE.2），所以SWE.2的输入来源于SWE.1；SWE.2目的是建立一个与软件需求一致的且分析过的软件架构，包括静态和动态方面。在此过程中需要使用以下BP来执行：</p>
+<ol>
+<li>
+<p>定义静态的软件架构</p>
+</li>
+<li>
+<p>定义动态的软件架构</p>
+</li>
+<li>
+<p>分析软件架构</p>
+</li>
+<li>
+<p>确保一致性并建立双向可追溯性</p>
+</li>
+<li>
+<p>沟通商定的系统架构</p>
+</li>
+</ol>
+<p>以上述SW_REQ-10001~ SW_REQ-10003需求为例：</p>
+<p>静态架构设计：定义软件模块的静态信息，如接口名、信号名、模块名等；</p>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/2024083043.png" alt="静态架构设计" loading='lazy'></p>
+<p>动态架构示意：重点在于模块的动态交互、时序等逻辑体现</p>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/2024083044.png" alt="动态架构设计模块" loading='lazy'></p>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/2024083045.png" alt="动态模块时序设置" loading='lazy'></p>
+</li>
+<li>
+<p><code>SWE.3</code>:软件详细设计和单元构建；目的是建立与软件体系结构一致的软件详细设计，包括静态和动态方面，并构建与软件详细设计一致的软件单元。它的输入来源为SWE.1和SWE.2。在此过程中，开发工程师应遵循以下BP实现：</p>
+<ol>
+<li>定义软件详细配置</li>
+<li>定义软件详细模块交互</li>
+<li>开发并配置模块单元</li>
+<li>确保一致性并建立双向可追溯性</li>
+<li>沟通商定的软件详细设计和开发的软件单元</li>
+</ol>
+<p>这一环节是对软件架构设计中的SW Component的进一步设计，同样的也包含了动态详细设计与静态详细设计两个方面；通常需要识别出SWE.2环节中设定的软件模块SWC中包含哪些子模块，不过，在通常的正向开发过程中，SWE.2执行过程已经完成这一步分析。</p>
+<p>如LoBeam SWC中包含了SW unit：电源判断模块与 SW unit：灯光判断模块两个软件子模块；对SW uint进行更详细的设计：定义操作函数、设定或理解交互接口；如果涉及到复杂的数据类型或者算法，也需要在这个环节完成；</p>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/2024083046.png" alt="软件详细设计和单元构建" loading='lazy'></p>
+</li>
+<li>
+<p><code>SWE.4</code>:软件单元验证；目的是验证软件单元是否与软件详细设计一致，提供证据证明软件单元符合软件详细设计和非功能软件需求；开发工程师需要遵循以下BP来实现：</p>
+<ol>
+<li>规定软件单元验证措施</li>
+<li>选择软件单元验证措施</li>
+<li>验证软件单元</li>
+<li>确保一致性，建立双向可追溯性</li>
+<li>总结并交流结果</li>
+</ol>
+<p>所要验证的对象来自于SWE.3的输出；</p>
+<p>根据BP，实际操作流程可以如下：</p>
+<ol>
+<li>
+<p>收齐输入物（被测模型/代码），即SWE.1需求，与SWE.3代码/模型</p>
+</li>
+<li>
+<p>搭建测试环境</p>
+</li>
+<li>
+<p>在代码模型里模拟输入，观测输出；如在代码simulink模型中搭建测试module；</p>
+<ol>
+<li>
+<p>导入测试用例：首先要制定测试用例，以SWE.3中的模块为例，制定测试case；</p>
+<table>
+<thead>
+<tr>
+<th>SWC</th>
+<th>Test ID</th>
+<th>测试人</th>
+<th>前置条件</th>
+<th>用户输入</th>
+<th>功能预期</th>
+<th>实际测 试结果</th>
+<th>功能通过 (Y/N)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LoBeam</td>
+<td>Unit-test-01</td>
+<td>**</td>
+<td>PowerSts =ON</td>
+<td>LightsWSts =LoBeamON</td>
+<td>LoBeamReq= Req</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LoBeam</td>
+<td>Unit-test-02</td>
+<td>**</td>
+<td>PowerSts =OFF</td>
+<td>LightsWSts =LoBeamON</td>
+<td>LoBeamReq= NoReq</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>执行测试：按照测试case执行测试代码+功能代码，记录测试结果；</p>
+</li>
+<li>
+<p>针对测试结果及覆盖度结果补充测试用例：分析测试结果，同步的检查测试用例制定的完整性</p>
+</li>
+<li>
+<p>回归测试：反馈测试NG项，待代码修改后回归测试，完整的流程过程物/输出物应该还包含详细的测试计划、测试报告分析等内容。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p><code>SWE.5</code>：软件组件验证和集成验证；这一环节目的是验证软件组件与软件架构设计一致，并集成软件元素，验证集成的软件元素与软件架构和软件详细设计一致。开发工程师应遵循以下BP进行进行验证：</p>
+<ol>
+<li>指定软件集成验证措施</li>
+<li>指定验证软件组件行为的验证措施</li>
+<li>选择验证措施</li>
+<li>集成软件元素并执行集成验证</li>
+<li>执行软件组件验证</li>
+<li>确保一致性并建立双向可追溯性</li>
+<li>总结和交流结果</li>
+</ol>
+<p>SWE.4与SWE.5均是做软件验证，区别就是范围不一样，SWE.4侧重于单个软件单元的验证，确保单元的正确性和质量；而SWE.5则关注于软件组件的集成和整体系统的测试，确保系统能够正确运行并满足需求。</p>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/2024083048.png" alt="SWE.5参考流程" loading='lazy'></p>
+<p>SWE.5的关键输入即是SWE.2中的输出物–软件架构；软件集成后，按照SWE.2中SWC模块逐步进行测试即可；测试过程与相关过程物类型与SWE.4接近。</p>
+</li>
+<li>
+<p><code>SWE.6</code>:软件验证；确保集成的软件与软件需求一致，也叫软件合格性测试。开发工程师需要遵循以下的BP来进行实现：</p>
+<ol>
+<li>规定软件验证的验证措施</li>
+<li>选择验证措施</li>
+<li>验证集成软件</li>
+<li>确保一致性并建立双向可追溯性。</li>
+<li>总结并沟通结果</li>
+</ol>
+<p>该环节的输入主要来源于上级SYS.1中的系统需求与SWE.1中的软件需求；SWE.6与SWE.4、SWE.5同属测试范畴，为了更好的区分，特意做出如下对比：</p>
+<table>
+<thead>
+<tr>
+<th>区别点</th>
+<th>SIWE.5：软件集成与集成测试</th>
+<th>SWE.6：软件合格性测试</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>验证软件组件之间的集成和交互是否满足系统需求</td>
+<td>确保集成软件整体符合软件需求</td>
+</tr>
+<tr>
+<td>关注点</td>
+<td>软件组件之间的接口、集成顺序、集成环境</td>
+<td>集成软件的整体功能和性能，以及与软件需求的符合性</td>
+</tr>
+<tr>
+<td>测试范围</td>
+<td>特定于软件组件之间的集成和交互</td>
+<td>覆盖整个集成软件</td>
+</tr>
+<tr>
+<td>测试用例 设计</td>
+<td>基于集成的功能和需求设计</td>
+<td>基于软件需求设计</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>集成测试结果、双向 可追溯性、集成测试报告</td>
+<td>软件合格性测试结果、双向可追溯性、测试报告</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/20240830410.png" alt="软件验证流程" loading='lazy'></p>
+<p>以SWE.1中软件需求SW_REQ-10001为例，验证用例和测试结果记录表格可参考如下：</p>
+<table>
+<thead>
+<tr>
+<th>软件验证规范</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+<th>=</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件需求ID</td>
+<td>标题</td>
+<td>作者</td>
+<td>子系统 Subsystem</td>
+<td>测试ID</td>
+<td>测试人</td>
+<td>优先级</td>
+<td>前置条件</td>
+<td>用户输入</td>
+<td>功能预期</td>
+<td>实际测试结果</td>
+<td>功能通过 (Y/ N)</td>
+</tr>
+<tr>
+<td>SW_RE Q-10001</td>
+<td>LoBeam</td>
+<td>**</td>
+<td>近光灯</td>
+<td>SW_REQ -10001-1</td>
+<td>**</td>
+<td>中</td>
+<td>车辆上电</td>
+<td>打开近光灯开关</td>
+<td>近光灯打开</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>SW_REQ -10001-2</td>
+<td></td>
+<td>低</td>
+<td>车辆下电</td>
+<td>打开近光灯开关</td>
+<td>近光灯未打开</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+<td>SW_REQ -10001-3</td>
+<td></td>
+<td>中</td>
+<td>**</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<blockquote>
+<p>[!important]</p>
+<p>双向追溯:</p>
+<ol>
+<li>V模型左边的需求、设计和实现之间</li>
+<li>V模型左边的需求设计实现与V模型右边的测试规范（或测试用例）之间</li>
+<li>测试用例与测试结果之间</li>
+<li>变更与变更影响的工作产品之间</li>
+</ol>
+<p><img src="http://www.uml.org.cn/SoftWareProcess/images/20240830412.png" alt="双向追溯性" loading='lazy'></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/">https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/ASPICE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/">汽车行业标准</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/AUTOASR/" title="AUTOASR"><img class="cover" src="/img/RandomCoverImage/random_6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">AUTOASR</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/%E6%9C%80%E5%B0%8F%E7%B3%BB%E7%BB%9F/" title="最小系统"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128153804695.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">最小系统</div></div><div class="info-2"><div class="info-item-1">是什么 最小系统是保障MCU正常工作的最小电路的组成单元 block-beta 	columns 3 	MCU:2 	block 		columns 1 		电源电路 		晶振电路 	end 	下载调试电路 	BOOT启动电路 	复位电路 	其他电路:3  管脚定义    类型 引脚名称 说明...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/AUTOASR/" title="AUTOASR"><img class="cover" src="/img/RandomCoverImage/random_6.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">AUTOASR</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E6%B1%BD%E8%BD%A6%E8%A1%8C%E4%B8%9A%E6%A0%87%E5%87%86/%E5%8A%9F%E8%83%BD%E5%AE%89%E5%85%A8/" title="功能安全"><img class="cover" src="/img/RandomCoverImage/random_15.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">功能安全</div></div><div class="info-2"><div class="info-item-1">参考链接 功能安全 ISO 26262  穷困潦倒的资本家 - 知乎 术语 基础概念    术语（中文） 术语（英文） 缩写 定义/描述     功能安全 Functional Safety FS 系统或设备在执行功能时避免不可接受风险的能力。   安全完整性 Safety Integrity...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ASPICE%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">ASPICE的组成部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASPICE%E7%9A%84%E8%83%BD%E5%8A%9B%E7%AD%89%E7%BA%A7"><span class="toc-number">2.2.</span> <span class="toc-text">ASPICE的能力等级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E4%B8%8E%E4%BD%9C%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">功能与作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text">执行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD"><span class="toc-number">2.5.</span> <span class="toc-text">相关术语</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BP-Basic-Practice"><span class="toc-number">2.5.1.</span> <span class="toc-text">BP(Basic Practice)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">软件过程组（SWE）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%EF%BC%88SWE-1%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">软件需求分析（SWE.1）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E7%BB%93%E6%9E%9C"><span class="toc-number">3.1.1.</span> <span class="toc-text">过程结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E8%B7%B5"><span class="toc-number">3.1.2.</span> <span class="toc-text">基本实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%EF%BC%88SWE-2%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">软件架构设计（SWE.2）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E6%88%90%E6%9E%9C"><span class="toc-number">3.2.1.</span> <span class="toc-text">过程成果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E8%B7%B5-2"><span class="toc-number">3.2.2.</span> <span class="toc-text">基本实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E8%AF%A6%E7%BB%86%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%8D%95%E5%85%83%E6%9E%84%E5%BB%BA%EF%BC%88SWE-3%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">软件详细设计与单元构建（SWE.3）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E6%88%90%E6%9E%9C-2"><span class="toc-number">3.3.1.</span> <span class="toc-text">过程成果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E8%B7%B5-3"><span class="toc-number">3.3.2.</span> <span class="toc-text">基本实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8D%95%E5%85%83%E9%AA%8C%E8%AF%81%EF%BC%88SWE-4%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">软件单元验证（SWE.4）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E6%88%90%E6%9E%9C-3"><span class="toc-number">3.4.1.</span> <span class="toc-text">过程成果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E8%B7%B5-4"><span class="toc-number">3.4.2.</span> <span class="toc-text">基本实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E7%BB%84%E4%BB%B6%E9%AA%8C%E8%AF%81%E4%B8%8E%E9%9B%86%E6%88%90%E9%AA%8C%E8%AF%81%EF%BC%88SWE-5%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">软件组件验证与集成验证（SWE.5）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E6%88%90%E6%9E%9C-4"><span class="toc-number">3.5.1.</span> <span class="toc-text">过程成果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E8%B7%B5-5"><span class="toc-number">3.5.2.</span> <span class="toc-text">基本实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E9%AA%8C%E8%AF%81-%EF%BC%88SWE-6%EF%BC%89"><span class="toc-number">3.6.</span> <span class="toc-text">软件验证 （SWE.6）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B%E6%88%90%E6%9E%9C-5"><span class="toc-number">3.6.1.</span> <span class="toc-text">过程成果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E8%B7%B5-6"><span class="toc-number">3.6.2.</span> <span class="toc-text">基本实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.7.</span> <span class="toc-text">示例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_3.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

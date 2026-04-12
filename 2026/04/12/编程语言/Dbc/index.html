@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Dbc | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 文件结构 DBC（Database CAN）文件是用于描述CAN总线网络中报文（Message）和信号（Signal）的标准格式文件，广泛应用于汽车电子等领域。其语法严格遵循固定格式。DBC文件由一系列关键字（Keyword）和定义块组成，整体结构如下： 12345678910VERSION &quot;&quot;                  &#x2F;&#x2F; 版本信息（可选）NS_ : .">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dbc">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Dbc/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 文件结构 DBC（Database CAN）文件是用于描述CAN总线网络中报文（Message）和信号（Signal）的标准格式文件，广泛应用于汽车电子等领域。其语法严格遵循固定格式。DBC文件由一系列关键字（Keyword）和定义块组成，整体结构如下： 12345678910VERSION &quot;&quot;                  &#x2F;&#x2F; 版本信息（可选）NS_ : .">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.252Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.252Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Dbc",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Dbc/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg",
+  "datePublished": "2026-04-12T08:12:40.252Z",
+  "dateModified": "2026-04-12T08:12:40.252Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Dbc/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Dbc',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_4.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Dbc</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Dbc</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.252Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.252Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<h1>文件结构</h1>
+<p>DBC（Database CAN）文件是用于描述CAN总线网络中报文（Message）和信号（Signal）的标准格式文件，广泛应用于汽车电子等领域。其语法严格遵循固定格式。DBC文件由一系列关键字（Keyword）和定义块组成，整体结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">VERSION &quot;&quot;                  // 版本信息（可选）</span><br><span class="line">NS_ : ...                   // 命名空间定义（可选，通常默认）</span><br><span class="line">BS_: ...                    // 波特率相关配置（可选）</span><br><span class="line">BU_: ...                    // 节点（ECU）定义</span><br><span class="line">BO_ ...                     // 报文（Message）定义（核心）</span><br><span class="line">CM_ ...                     // 注释（Comment）定义</span><br><span class="line">BA_DEF_ ...                 // 属性定义（Attribute Definition）</span><br><span class="line">BA_ ...                     // 属性赋值（Attribute Assignment）</span><br><span class="line">VAL_ ...                    // 信号值描述（Value Descriptions）</span><br><span class="line">...（其他可选块：VAL_TABLE_、SIG_GROUP_等）</span><br></pre></td></tr></table></figure>
+<h1>语法要素</h1>
+<h2 id="版本与命名空间">版本与命名空间</h2>
+<ul>
+<li>
+<p><strong><code>VERSION</code></strong>：文件版本描述，通常留空或填写版本号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VERSION &quot;V1.0_CANdb&quot;  // 示例</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>NS_</code></strong>：命名空间定义，指定DBC支持的对象类型（如<code>CM_</code>、<code>BA_DEF_</code>等），默认包含所有标准类型，一般无需修改。默认的命名空间如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">NS_ :</span><br><span class="line">	NS_DESC_</span><br><span class="line">	CM_</span><br><span class="line">	BA_DEF_</span><br><span class="line">	BA_</span><br><span class="line">	VAL_</span><br><span class="line">	CAT_DEF_</span><br><span class="line">	CAT_</span><br><span class="line">	FILTER</span><br><span class="line">	BA_DEF_DEF_</span><br><span class="line">	EV_DATA_</span><br><span class="line">	ENVVAR_DATA_</span><br><span class="line">	SGTYPE_</span><br><span class="line">	SGTYPE_VAL_</span><br><span class="line">	BA_DEF_SGTYPE_</span><br><span class="line">	BA_SGTYPE_</span><br><span class="line">	SIG_TYPE_REF_</span><br><span class="line">	VAL_TABLE_</span><br><span class="line">	SIG_GROUP_</span><br><span class="line">	SIG_VALTYPE_</span><br><span class="line">	SIGTYPE_VALTYPE_</span><br><span class="line">	BO_TX_BU_</span><br><span class="line">	BA_DEF_REL_</span><br><span class="line">	BA_REL_</span><br><span class="line">	BA_DEF_DEF_REL_</span><br><span class="line">	BU_SG_REL_</span><br><span class="line">	BU_EV_REL_</span><br><span class="line">	BU_BO_REL_</span><br><span class="line">	SG_MUL_VAL_</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="节点定义（BU-）">节点定义（<code>BU_</code>）</h2>
+<p><strong>作用</strong>：定义CAN网络中的节点（ECU名称），语法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BU_: &lt;节点1&gt; &lt;节点2&gt; ... &lt;节点N&gt;;</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BU_: VCU BMS MCU;  // 定义3个节点：VCU（整车控制器）、BMS（电池管理系统）、MCU（电机控制器）</span><br></pre></td></tr></table></figure>
+<h2 id="报文定义（BO-）">报文定义（<code>BO_</code>）</h2>
+<p><strong>作用</strong>：定义CAN报文中的关键信息（ID、长度、发送节点、信号列表等），是DBC的核心块。 语法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BO_ &lt;报文ID&gt; &lt;报文名称&gt;: &lt;数据长度（字节）&gt; &lt;发送节点&gt;</span><br><span class="line">  SG_ &lt;信号名称&gt; : &lt;位起始&gt;|&lt;位长度&gt;@&lt;字节顺序&gt;&lt;符号&gt; (&lt;因子&gt;,&lt;偏移量&gt;) [&lt;最小值&gt;|&lt;=最大值&gt;] &quot;&lt;单位&gt;&quot; &lt;接收节点列表&gt;;</span><br><span class="line">  ...（更多信号）</span><br></pre></td></tr></table></figure>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li><code>&lt;报文ID&gt;</code>：10进制/16进制（前缀<code>0x</code>）整数，如<code>33</code>或<code>0x21</code>。</li>
+<li><code>&lt;数据长度&gt;</code>：报文数据场长度（1~8字节）。</li>
+<li><code>&lt;发送节点&gt;</code>：该报文的发送方（必须是<code>BU_</code>中定义的节点）。</li>
+<li><strong>信号（<code>SG_</code>）参数</strong>：
+<ul>
+<li><code>&lt;位起始&gt;|&lt;位长度&gt;</code>：信号在报文中的起始位（0 ~ 63）和长度（1 ~ 64位）。</li>
+<li><code>@&lt;字节顺序&gt;</code>：<code>@0</code>（大端模式，Motorola格式）、<code>@1</code>（小端模式，Intel格式）。</li>
+<li><code>&lt;符号&gt;</code>：<code>+</code>（无符号）、<code>-</code>（有符号）。</li>
+<li><code>(&lt;因子&gt;,&lt;偏移量&gt;)</code>：物理值计算公式：<code>物理值 = 原始值 × 因子 + 偏移量</code>。</li>
+<li><code>[&lt;最小值&gt;|&lt;最大值&gt;]</code>：信号物理值的范围。</li>
+<li><code>&quot;&lt;单位&gt;&quot;</code>：信号单位（如<code>&quot;km/h&quot;</code>、<code>&quot;bit&quot;</code>，可选）。</li>
+<li><code>&lt;接收节点列表&gt;</code>：信号的接收方（多个节点用逗号分隔）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PlaintextBO_ 33 PMS_BodyControlInfo: 8 VCU  // 报文ID=33，名称=PMS_BodyControlInfo，长度=8字节，发送节点=VCU</span><br><span class="line">  SG_ PMS_VehicleSpd : 15|16@0+ (0.00390625,0) [0|250.996] &quot;km/h&quot; BMS,MCU;  // 车速信号</span><br><span class="line">  SG_ PMS_VehicleSpd_flag : 51|1@0+ (1,0) [0|1] &quot;bit&quot; BMS,MCU;  // 车速有效标志信号</span><br></pre></td></tr></table></figure>
+<h2 id="注释定义（CM-）">注释定义（<code>CM_</code>）</h2>
+<p><strong>作用</strong>：为节点、报文、信号等添加描述性注释，语法根据对象类型不同略有差异：</p>
+<ul>
+<li><strong>对报文注释</strong>：<code>CM_ BO_ &lt;报文ID&gt; &quot;&lt;注释内容&gt;&quot;;</code></li>
+<li><strong>对信号注释</strong>：<code>CM_ SG_ &lt;报文ID&gt; &lt;信号名称&gt; &quot;&lt;注释内容&gt;&quot;;</code></li>
+<li><strong>对节点注释</strong>：<code>CM_ BU_ &lt;节点名称&gt; &quot;&lt;注释内容&gt;&quot;;</code></li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CM_ BO_ 33 &quot;车身控制显示报文，包含车速及状态标志&quot;;  // 报文注释</span><br><span class="line">CM_ SG_ 33 PMS_VehicleSpd &quot;当前车辆行驶速度，精度0.00390625 km/h&quot;;  // 信号注释</span><br></pre></td></tr></table></figure>
+<h2 id="属性定义与赋值（BA-DEF-和-BA-）">属性定义与赋值（<code>BA_DEF_</code> 和 <code>BA_</code>）</h2>
+<p><strong>作用</strong>：自定义扩展属性（如周期、发送类型、SPN等），需先定义属性（<code>BA_DEF_</code>），再为对象赋值（<code>BA_</code>）。</p>
+<ul>
+<li><strong><code>BA_DEF_</code>（属性定义）</strong>： 语法：<code>BA_DEF_ [&lt;对象类型&gt;] &quot;&lt;属性名称&gt;&quot; &lt;数据类型&gt; [&lt;参数&gt;]</code>
+<ul>
+<li><code>&lt;对象类型&gt;</code>：可选，指定属性作用对象（<code>BO_</code>报文、<code>SG_</code>信号、<code>BU_</code>节点等，省略则为全局属性）。</li>
+<li><code>&lt;数据类型&gt;</code>：<code>INT</code>（整数）、<code>FLOAT</code>（浮点数）、<code>STRING</code>（字符串）、<code>ENUM</code>（枚举）。</li>
+<li><code>&lt;参数&gt;</code>：对<code>INT</code>/<code>FLOAT</code>指定范围（如<code>0 65535</code>），对<code>ENUM</code>指定枚举值（如<code>&quot;Cyclic&quot;,&quot;OnChange&quot;</code>）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BA_DEF_ BO_ &quot;GenMsgCycleTime&quot; INT 0 60000;  // 定义报文属性：周期（0~60000ms）</span><br><span class="line">BA_DEF_ SG_ &quot;SigType&quot; ENUM &quot;Default&quot;,&quot;Control&quot;,&quot;DTC&quot;;  // 定义信号属性：信号类型（枚举）</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>BA_</code>（属性赋值）</strong>： 语法：<code>BA_ &quot;&lt;属性名称&gt;&quot; &lt;对象类型&gt; &lt;对象ID&gt; &lt;值&gt;;</code></li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BA_ &quot;GenMsgCycleTime&quot; BO_ 33 100;  // 报文33的周期设为100ms</span><br><span class="line">BA_ &quot;SigType&quot; SG_ 33 PMS_VehicleSpd &quot;Default&quot;;  // 信号PMS_VehicleSpd的类型为默认</span><br></pre></td></tr></table></figure>
+<h2 id="信号值描述（VAL-）">信号值描述（<code>VAL_</code>）</h2>
+<p><strong>作用</strong>：为离散信号（如状态位）定义“值-文本”映射关系（类似枚举），语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VAL_ &lt;报文ID&gt; &lt;信号名称&gt; &lt;原始值1&gt; &quot;&lt;描述文本1&gt;&quot; &lt;原始值2&gt; &quot;&lt;描述文本2&gt;&quot; ...;</span><br></pre></td></tr></table></figure>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VAL_ 33 PMS_VehicleSpd_flag 0 &quot;Valid&quot; 1 &quot;Invalid&quot;;  // 信号值0=有效，1=无效</span><br><span class="line">VAL_ 246 PEPS_PowerMode 0 &quot;OFF&quot; 1 &quot;ACC&quot; 2 &quot;ON&quot; 4 &quot;START&quot;;  // 电源模式状态映射</span><br></pre></td></tr></table></figure>
+<h1>语法规则要点</h1>
+<ol>
+<li><strong>关键字大小写敏感</strong>：所有关键字（<code>BO_</code>、<code>SG_</code>、<code>CM_</code>等）必须大写，且后接下划线（如<code>BO_</code>不能写成<code>bo_</code>或<code>BO</code>）。</li>
+<li><strong>分号结尾</strong>：每个定义块（如<code>BO_</code>中的信号、<code>CM_</code>、<code>VAL_</code>等）必须以分号<code>;</code>结尾，否则解析报错。</li>
+<li><strong>空格分隔</strong>：关键字、参数、值之间需用空格分隔（多个空格视为一个）。</li>
+<li><strong>报文ID唯一性</strong>：同一DBC文件中，<code>BO_</code>的报文ID（数值）不可重复。</li>
+<li><strong>信号位不重叠</strong>：同一报文中的信号（<code>SG_</code>）位起始和长度不可重叠（除非明确配置复用，极少用）。</li>
+<li><strong>引号包裹字符串</strong>：注释内容、枚举值、字符串类型属性等需用双引号<code>&quot;&quot;</code>包裹。</li>
+</ol>
+<h1>使用工具</h1>
+<p>转换网站为<a target="_blank" rel="noopener" href="https://dbctool.shenyanwu.top/">Excel to DBC Tool (shenyanwu.top)</a>，它的开源地址为：<a target="_blank" rel="noopener" href="https://github.com/officialsyw/Excel-to-DBC-Conveter">officialsyw/Excel-to-DBC-Conveter: A Simple DBC Converter Tool On WEB (github.com)</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Dbc/">https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Dbc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Kconfig/" title="Kconfig"><img class="cover" src="/img/RandomCoverImage/random_2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Kconfig</div></div><div class="info-2"><div class="info-item-1">参考链接 从零到一搭建Kconfig配置系统-CSDN博客 安装 由于在window上使用Kconfig需要依赖Curses，所以要先安装window-curses，但是curses本身是应用在Linux平台上的，所以想要安装在window上，就需要使用whl包进行安装。  curses的下载...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Cmake/" title="CMake"><img class="cover" src="/img/RandomCoverImage/random_14.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">CMake</div></div><div class="info-2"><div class="info-item-1">参考链接 CMake 教程 — CMake 4.2.0 文档 - CMake 构建系统 入门  [!important] 在使用cmake之前，需要安装Cmake 可以使用以下命令验证Cmake是否安装成功，如果显示版本信息，则表示安装成功。 1cmake --version CMake 是一...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">文件结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">语法要素</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E4%B8%8E%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">3.1.</span> <span class="toc-text">版本与命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%AE%9A%E4%B9%89%EF%BC%88BU-%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">节点定义（BU_）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E5%AE%9A%E4%B9%89%EF%BC%88BO-%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">报文定义（BO_）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E5%AE%9A%E4%B9%89%EF%BC%88CM-%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">注释定义（CM_）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%B5%8B%E5%80%BC%EF%BC%88BA-DEF-%E5%92%8C-BA-%EF%BC%89"><span class="toc-number">3.5.</span> <span class="toc-text">属性定义与赋值（BA_DEF_ 和 BA_）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E5%8F%B7%E5%80%BC%E6%8F%8F%E8%BF%B0%EF%BC%88VAL-%EF%BC%89"><span class="toc-number">3.6.</span> <span class="toc-text">信号值描述（VAL_）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">语法规则要点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">使用工具</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_4.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

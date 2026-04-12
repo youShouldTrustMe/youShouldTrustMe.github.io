@@ -1,0 +1,1167 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PlantUML | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 新的活动图测试语法和功能 (plantuml.com) 活动图 行为 活动标签以: 开始，以; 结束。文本格式可以使用克里奥尔语的维基语法。它们的定义顺序是隐性链接的。 1234@startuml 	:Hello world; 	:This is defined on several **lines**; @enduml  当然，还可以使用别的符号作为开头：   - 12345@star">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PlantUML">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PlantUML/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 新的活动图测试语法和功能 (plantuml.com) 活动图 行为 活动标签以: 开始，以; 结束。文本格式可以使用克里奥尔语的维基语法。它们的定义顺序是隐性链接的。 1234@startuml 	:Hello world; 	:This is defined on several **lines**; @enduml  当然，还可以使用别的符号作为开头：   - 12345@star">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_11.png">
+<meta property="article:published_time" content="2026-04-12T08:12:40.255Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.255Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_11.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PlantUML",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PlantUML/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_11.png",
+  "datePublished": "2026-04-12T08:12:40.255Z",
+  "dateModified": "2026-04-12T08:12:40.255Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PlantUML/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PlantUML',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_11.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">PlantUML</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">PlantUML</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.255Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.255Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>16分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://plantuml.com/zh/activity-diagram-beta">新的活动图测试语法和功能 (plantuml.com)</a></p>
+<h1>活动图</h1>
+<h2 id="行为">行为</h2>
+<p>活动标签以<code>:</code> 开始，以<code>;</code> 结束。文本格式可以使用<a target="_blank" rel="noopener" href="https://plantuml.com/zh/creole">克里奥尔语的维基语法</a>。它们的定义顺序是隐性链接的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@startuml </span><br><span class="line">	:Hello world; </span><br><span class="line">	:This is defined on several **lines**; </span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-2e9cc60227f7ff7fe6ab524d97ad4962.png" alt="简单的行动" loading='lazy'></p>
+<p>当然，还可以使用别的符号作为开头：</p>
+<ol>
+<li>
+<p><code>-</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">- Action 1 </span><br><span class="line">- Action 2 </span><br><span class="line">- Action 3 </span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-4171b89a26454259b2cf4c95c2599ec6.png" alt="使用-号" loading='lazy'></p>
+</li>
+<li>
+<p><code>*</code></p>
+</li>
+<li>
+<p>一级</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">* Action 1</span><br><span class="line">* Action 2</span><br><span class="line">* Action 3</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-59e67987a6a842678eb9b17f60c16fb3.png" alt="使用*号作为单级" loading='lazy'></p>
+</li>
+<li>
+<p>多级</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">&lt;style&gt;</span><br><span class="line">element &#123;MinimumWidth 150&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">* Action 1</span><br><span class="line">** Sub-Action 1.1</span><br><span class="line">** Sub-Action 1.2</span><br><span class="line">*** Sub-Action 1.2.1</span><br><span class="line">*** Sub-Action 1.2.2</span><br><span class="line">* Action 2</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-bf5a1e82237a4d4c6777d90ff9a79dfc.png" alt="使用*号作为多级" loading='lazy'></p>
+</li>
+</ol>
+<h2 id="开始-停止-结束">开始/停止/结束</h2>
+<p>你可以使用<code>start</code> 和<code>stop</code> 关键字来表示一个图的开始和结束 。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">:Hello world;</span><br><span class="line">:This is defined on</span><br><span class="line">several **lines**;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-dff8747463fa8e321fb42784b1ec5678.png" alt="使用stop作为停止" loading='lazy'></p>
+<p>你也可以使用<code>end</code> 关键字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">:Hello world;</span><br><span class="line">:This is defined on</span><br><span class="line">several **lines**;</span><br><span class="line">end</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-950291b7d07abe5e0be71563e68ad561.png" alt="使用end作为结束" loading='lazy'></p>
+<h2 id="分支">分支</h2>
+<h3 id="if-else">if-else</h3>
+<p>你可以使用<code>if</code>,<code>then</code>, <code>break</code>和<code>else</code> 关键词来在你的图表中放入测试。 标签可以用圆括号提供。</p>
+<p>有3种语法可供选择。</p>
+<ol>
+<li>
+<p><code>if (...) then (...)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">if (Graphviz installed?) then (yes)</span><br><span class="line">  :process all\ndiagrams;</span><br><span class="line">else (no)</span><br><span class="line">  :process only</span><br><span class="line">  __sequence__ and __activity__ diagrams;</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">stop</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-4d36b80dcdb8af4226928d638a65532e.png" alt="第一种选择语法" loading='lazy'></p>
+</li>
+<li>
+<p><code>if (...) is (...) then</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">if (color?) is (&lt;color:red&gt;red) then</span><br><span class="line">:print red;</span><br><span class="line">else </span><br><span class="line">:print not red;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-fba0be2bea25084bbc794e3886d4ded5.png" alt="第二种选择语法" loading='lazy'></p>
+</li>
+<li>
+<p><code>if (...) equals (...) then</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">if (counter?) equals (5) then</span><br><span class="line">:print 5;</span><br><span class="line">else </span><br><span class="line">:print not 5;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-cb6e62a689e07b9162bd36b3b499e9fd.png" alt="第三种选择语法" loading='lazy'></p>
+</li>
+</ol>
+<p>分支可以使用不同的排布方式：</p>
+<ol>
+<li>
+<p>水平模式（默认水平模式）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">if (condition A) then (yes)</span><br><span class="line">  :Text 1;</span><br><span class="line">elseif (condition B) then (yes)</span><br><span class="line">  :Text 2;</span><br><span class="line">  stop</span><br><span class="line">(no) elseif (condition C) then (yes)</span><br><span class="line">  :Text 3;</span><br><span class="line">(no) elseif (condition D) then (yes)</span><br><span class="line">  :Text 4;</span><br><span class="line">else (nothing)</span><br><span class="line">  :Text else;</span><br><span class="line">endif</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-dd1111c7d095a3d0b1649571800c62e3.png" alt="水平模式" loading='lazy'></p>
+</li>
+<li>
+<p>垂直模式：你可以使用<code>!pragma useVerticalIf on</code> 命令，让图处于垂直模式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">if (condition A) then (yes)</span><br><span class="line">  :Text 1;</span><br><span class="line">elseif (condition B) then (yes)</span><br><span class="line">  :Text 2;</span><br><span class="line">  stop</span><br><span class="line">(no) elseif (condition C) then (yes)</span><br><span class="line">  :Text 3;</span><br><span class="line">(no) elseif (condition D) then (yes)</span><br><span class="line">  :Text 4;</span><br><span class="line">else (nothing)</span><br><span class="line">  :Text else;</span><br><span class="line">endif</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-505e7da08a89ce04dcf5974403bb08f7.png" alt="竖直模式" loading='lazy'></p>
+</li>
+</ol>
+<p>你可以使用<code>-P</code> command-line[命令行]选项来指定pragma。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar plantuml.jar -PuseVerticalIf=on</span><br></pre></td></tr></table></figure>
+<h3 id="switch">switch</h3>
+<p>Switch判断可以使用你可以使用 <code>switch</code>, <code>case</code> 和 <code>endswitch</code> 关键词在图表中绘制Switch判断.使用括号表示标注.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">switch (测试?)</span><br><span class="line">case ( 条件 A )</span><br><span class="line">  :Text 1;</span><br><span class="line">case ( 条件 B ) </span><br><span class="line">  :Text 2;</span><br><span class="line">case ( 条件 C )</span><br><span class="line">  :Text 3;</span><br><span class="line">case ( 条件 D )</span><br><span class="line">  :Text 4;</span><br><span class="line">case ( 条件 E )</span><br><span class="line">  :Text 5;</span><br><span class="line">endswitch</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-fc6ccd2b9f73883b1c25742ead174066.png" alt="switch分支语句" loading='lazy'></p>
+<h3 id="终止">终止</h3>
+<p>你可以在if判断中终止一个行为.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">if (条件?) then</span><br><span class="line">  :错误;</span><br><span class="line">  stop</span><br><span class="line">endif</span><br><span class="line">#palegreen:行为;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-5aed77232aeb001d3d82ce68603121f6.png" alt="条件语句的终止" loading='lazy'></p>
+<p>但如果你想在特定行为上停止，你可以使用<code>kill</code> 或 <code>detach</code>关键字:</p>
+<ul>
+<li>
+<p><code>kill</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">if (条件?) then</span><br><span class="line">  #pink:错误;</span><br><span class="line">  kill</span><br><span class="line">endif</span><br><span class="line">#palegreen:行为;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-9ee3f31da6754c76d5e17bbe071735d5.png" alt="kill关键字" loading='lazy'></p>
+</li>
+<li>
+<p><code>detach</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">if (条件?) then</span><br><span class="line">  #pink:错误;</span><br><span class="line">  detach</span><br><span class="line">endif</span><br><span class="line">#palegreen:行为;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-47cca20a5742492d7c69908b953d0e33.png" alt="detach关键字" loading='lazy'></p>
+</li>
+</ul>
+<h3 id="GoTo">GoTo</h3>
+<p>Goto和标签处理 [label, goto]</p>
+<p>⚠ 目前只是实验性的 🚧</p>
+<p>你可以使用<code>label</code> 和<code>goto</code> 关键词来表示Goto处理，其中：</p>
+<ul>
+<li><code>label &lt;label_name&gt;</code></li>
+<li><code>goto &lt;label_name&gt;</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">title Point two queries to same activity\nwith `goto`</span><br><span class="line">start</span><br><span class="line">if (Test Question?) then (yes)</span><br><span class="line">&#x27;space label only for alignment</span><br><span class="line">label sp_lab0</span><br><span class="line">label sp_lab1</span><br><span class="line">&#x27;real label</span><br><span class="line">label lab</span><br><span class="line">:shared;</span><br><span class="line">else (no)</span><br><span class="line">if (Second Test Question?) then (yes)</span><br><span class="line">label sp_lab2</span><br><span class="line">goto sp_lab1</span><br><span class="line">else</span><br><span class="line">:nonShared;</span><br><span class="line">endif</span><br><span class="line">endif</span><br><span class="line">:merge;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-d29d3a669e3049eb445cbbb64291fa4f.png" alt="GOTO关键字" loading='lazy'></p>
+<h2 id="循环">循环</h2>
+<h3 id="基础循环">基础循环</h3>
+<p>重复循环：你可以使用关键字<code>repeat</code>和<code>repeatwhile</code>进行重复循环。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">repeat</span><br><span class="line">  :读取数据;</span><br><span class="line">  :生成图片;</span><br><span class="line">repeat while (更多数据?)</span><br><span class="line"></span><br><span class="line">stop</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-219abd638df01361a1f4e739fb51b842.png" alt="repeat关键字" loading='lazy'></p>
+<p>你同样可以使用一个全局行为作为<code>repeat</code>目标， 在返回循环开始时使用<code>backward</code>关键字插入一个全局行为。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">repeat :foo作为开始标注;</span><br><span class="line">  :读取数据;</span><br><span class="line">  :生成图片;</span><br><span class="line">backward:这是一个后撤行为;</span><br><span class="line">repeat while (更多数据?)</span><br><span class="line"></span><br><span class="line">stop</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-5c7832ecc316a1271834ed1615b4c375.png" alt="backward关键字" loading='lazy'></p>
+<h3 id="跳出">跳出</h3>
+<p>你可以使用 <code>break</code> 关键字跟在循环中的某个行为后面打断循环.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">repeat</span><br><span class="line">  :测试某事;</span><br><span class="line">    if (发生错误?) then (没有)</span><br><span class="line">      #palegreen:好的;</span><br><span class="line">      break</span><br><span class="line">    endif</span><br><span class="line">    -&gt;not ok;</span><br><span class="line">    :弹窗 &quot;文本过长错误&quot;;</span><br><span class="line">repeat while (某事发生文本过长错误?) is (是的) not (不是)</span><br><span class="line">-&gt;//合并步骤//;</span><br><span class="line">:弹窗 &quot;成功！&quot;;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-a0207085f6c01d898e4cf9a3bce68831.png" alt="跳出循环" loading='lazy'></p>
+<h3 id="while">while</h3>
+<p>可以使用关键字<code>while</code>和<code>end while</code>进行while循环。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">while (data available?)</span><br><span class="line">  :read data;</span><br><span class="line">  :generate diagrams;</span><br><span class="line">endwhile</span><br><span class="line"></span><br><span class="line">stop</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-a597b0ccffb05ee2cc898364dcfdaff5.png" alt="while关键字" loading='lazy'></p>
+<p>还可以在关键字<code>endwhile</code>后添加标注，还有一种方式是使用关键字<code>is</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">while (check filesize ?) is (not empty)</span><br><span class="line">  :read file;</span><br><span class="line">endwhile (empty)</span><br><span class="line">:close file;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-239fba10b02265a380fabc4b3343ac3c.png" alt="while中使用is关键字" loading='lazy'></p>
+<p>如果你使用 <code>+detach+</code> 来形成一个无限循环, 那么你可能需要使用 <code>+-[hidden]-&gt;+</code> 来隐藏一些不完整的箭头。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">:Step 1;</span><br><span class="line">if (condition1) then</span><br><span class="line">  while (loop forever)</span><br><span class="line">   :Step 2;</span><br><span class="line">  endwhile</span><br><span class="line">  -[hidden]-&gt;</span><br><span class="line">  detach</span><br><span class="line">else</span><br><span class="line">  :end normally;</span><br><span class="line">  stop</span><br><span class="line">endif</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-2bfade6ecd87475c16382303d37e4b35.png" alt="无限循环中隐藏不完整箭头" loading='lazy'></p>
+<h2 id="并行">并行</h2>
+<p>你可以使用<code>fork</code>，<code>fork again</code>和<code>end fork</code> 或者 <code>end merge</code> 等关键字表示并行处理。</p>
+<h3 id="fork">fork</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">fork</span><br><span class="line">  :行为 1;</span><br><span class="line">fork again</span><br><span class="line">  :行为 2;</span><br><span class="line">end fork</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-ac94ce0c0f8ae437916fbca6d8bf2be5.png" alt="fork关键字" loading='lazy'></p>
+<h3 id="fork合并">fork合并</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">fork</span><br><span class="line">  :行为 1;</span><br><span class="line">fork again</span><br><span class="line">  :行为 2;</span><br><span class="line">end merge</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-92661817acd274b6db163bed36ce6245.png" alt="fork的合并" loading='lazy'></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">fork</span><br><span class="line">  :行为 1;</span><br><span class="line">fork again</span><br><span class="line">  :行为 2;</span><br><span class="line">fork again</span><br><span class="line">  :行为 3;</span><br><span class="line">fork again</span><br><span class="line">  :行为 4;</span><br><span class="line">end merge</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-a30bf031d6db7e02d112332757dad3b8.png" alt="多fork合并" loading='lazy'></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">fork</span><br><span class="line">  :行为 1;</span><br><span class="line">fork again</span><br><span class="line">  :行为 2;</span><br><span class="line">  end</span><br><span class="line">end merge</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-0bc4b66b5b77051c41cf882b2bdbbb79.png" alt="多分支结束" loading='lazy'></p>
+<h3 id="end-fork标注">end fork标注</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">fork</span><br><span class="line">  :行为 A;</span><br><span class="line">fork again</span><br><span class="line">  :行为 B;</span><br><span class="line">end fork &#123;或&#125;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-f2aa9799e3e7e692665647f862ac7103.png" alt="结束fork的或操作" loading='lazy'></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">fork</span><br><span class="line">  :行为 A;</span><br><span class="line">fork again</span><br><span class="line">  :行为 B;</span><br><span class="line">end fork &#123;和&#125;</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-97900fb42f7b2de113d6a79b1d166156.png" alt="结束fork的与操作" loading='lazy'></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line"></span><br><span class="line">if (多进程处理?) then (是)</span><br><span class="line">  fork</span><br><span class="line">    :进程 1;</span><br><span class="line">  fork again</span><br><span class="line">    :进程 2;</span><br><span class="line">  end fork</span><br><span class="line">else (否)</span><br><span class="line">  :逻辑 1;</span><br><span class="line">  :逻辑 2;</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-a0488910818c9b28a35bf0bdccfd0b58.png" alt="frok和串行合并" loading='lazy'></p>
+<h3 id="分割">分割</h3>
+<p>你可以使用 <code>split</code>, <code>split again</code> 和 <code>end split</code> 关键字去表达分割处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">split</span><br><span class="line">   :A;</span><br><span class="line">split again</span><br><span class="line">   :B;</span><br><span class="line">split again</span><br><span class="line">   :C;</span><br><span class="line">split again</span><br><span class="line">   :a;</span><br><span class="line">   :b;</span><br><span class="line">end split</span><br><span class="line">:D;</span><br><span class="line">end</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-df280cbd418934fb962933da4c1a2fae.png" alt="split关键字" loading='lazy'></p>
+<h3 id="输入分割">输入分割</h3>
+<p>你可以使用包含 <code>hidden</code> 指令的箭头去制造一个输入分割 (多入口):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">split</span><br><span class="line">   -[hidden]-&gt;</span><br><span class="line">   :A;</span><br><span class="line">split again</span><br><span class="line">   -[hidden]-&gt;</span><br><span class="line">   :B;</span><br><span class="line">split again</span><br><span class="line">   -[hidden]-&gt;</span><br><span class="line">   :C;</span><br><span class="line">end split</span><br><span class="line">:D;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-9707358e73083aedcfc520421f7259b3.png" alt="输入分割隐藏输入箭头" loading='lazy'></p>
+<h3 id="输出分割">输出分割</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">split</span><br><span class="line">   :A;</span><br><span class="line">   kill</span><br><span class="line">split again</span><br><span class="line">   :b;</span><br><span class="line">   :c;</span><br><span class="line">   detach</span><br><span class="line">split again</span><br><span class="line">   (Z)</span><br><span class="line">   detach</span><br><span class="line">split again</span><br><span class="line">   end</span><br><span class="line">split again</span><br><span class="line">   stop</span><br><span class="line">end split</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-881ebf4229be685fb4fb128f4ed17005.png" alt="输出分割" loading='lazy'></p>
+<h2 id="注释">注释</h2>
+<p>文本格式可以使用<a target="_blank" rel="noopener" href="https://plantuml.com/zh/creole">克里奥尔维基语法</a>。可以使用<code>floating</code> 关键字浮动注释。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line"></span><br><span class="line">start</span><br><span class="line">:foo1;</span><br><span class="line">floating note left: This is a note</span><br><span class="line">:foo2;</span><br><span class="line">note right</span><br><span class="line">  This note is on several</span><br><span class="line">  //lines// and can</span><br><span class="line">  contain &lt;b&gt;HTML&lt;/b&gt;</span><br><span class="line">  ====</span><br><span class="line">  * Calling the method &quot;&quot;foo()&quot;&quot; is prohibited</span><br><span class="line">end note</span><br><span class="line">stop</span><br><span class="line"></span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-a5d53c69421d3375752d7d49ac2f19aa.png" alt="浮动注释" loading='lazy'></p>
+<p>您可以为后向活动添加注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">repeat :Enter data;</span><br><span class="line">:Submit;</span><br><span class="line">backward :Warning;</span><br><span class="line">note right: Note</span><br><span class="line">repeat while (Valid?) is (No) not (Yes)</span><br><span class="line">stop</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-e4efb039af7791c87109e70c00b8fbdf.png" alt="普通注释" loading='lazy'></p>
+<p>可以添加分区活动注释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@startuml</span><br><span class="line">start</span><br><span class="line">partition &quot;**process** HelloWorld&quot; &#123;</span><br><span class="line">    note</span><br><span class="line">        This is my note</span><br><span class="line">        ----</span><br><span class="line">        //Creole test//</span><br><span class="line">    end note</span><br><span class="line">    :Ready;</span><br><span class="line">    :HelloWorld(i)&gt;</span><br><span class="line">    :Hello-Sent;</span><br><span class="line">&#125;</span><br><span class="line">@enduml</span><br></pre></td></tr></table></figure>
+<p><img src="https://plantuml.com/imgw/img-13fb4d0d68cdf9ed2f666333f271700d.png" alt="分区注释" loading='lazy'></p>
+<h2 id="箭头">箭头</h2>
+<p>无箭头连接线</p>
+<p>您可以使用 <code>skinparam ArrowHeadColor none</code> 参数来表示仅使用线条连接活动，而不带箭头。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam ArrowHeadColor none start :Hello world; :This is on defined on several **lines**; stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-6816f8ee24f5825fd00dd3435ea48b6d.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam ArrowHeadColor none start repeat :Enter data; :Submit; backward :Warning; repeat while (Valid?) is (No) not (Yes) stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-2f4c4f550acf16344be8105645adb02a.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h2 id=""></h2>
+<p>箭头</p>
+<p>使用<code>-&gt;</code>标记，你可以给箭头添加文字或者修改箭头<a target="_blank" rel="noopener" href="https://plantuml.com/zh/color">颜色</a>。</p>
+<p>同时，你也可以选择点状 (dotted)，条状(dashed)，加粗或者是隐式箭头</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml :foo1; -&gt; You can put text on arrows; if (test) then   -[#blue]-&gt;   :foo2;   -[#green,dashed]-&gt; The text can   also be on several lines   and **very** long...;   :foo3; else   -[#black,dotted]-&gt;   :foo4; endif -[#gray,bold]-&gt; :foo5; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-6dbfe26c10d234b18e13996e3c1c33a5.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-2"></h2>
+<p>Multiple colored arrow</p>
+<p>You can use multiple colored arrow.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam colorArrowSeparationSpace 1 start -[#red;#green;#orange;#blue]-&gt; if(a?)then(yes) -[#red]-&gt; :activity; -[#red]-&gt; if(c?)then(yes) -[#maroon,dashed]-&gt; else(no) -[#red]-&gt; if(b?)then(yes) -[#maroon,dashed]-&gt; else(no) -[#blue,dashed;dotted]-&gt; :do a; -[#red]-&gt; :do b; -[#red]-&gt; endif -[#red;#maroon,dashed]-&gt; endif -[#red;#maroon,dashed]-&gt; elseif(e?)then(yes) -[#green]-&gt; if(c?)then(yes) -[#maroon,dashed]-&gt; else(no) -[#green]-&gt; if(d?)then(yes) -[#maroon,dashed]-&gt; else(no) -[#green]-&gt; :do something; &lt;&lt;continuous&gt;&gt; -[#green]-&gt; endif -[#green;#maroon,dashed]-&gt; partition dummy &#123; :some function; &#125; -[#green;#maroon,dashed]-&gt; endif -[#green;#maroon,dashed]-&gt;  elseif(f?)then(yes) -[#orange]-&gt; :activity; &lt;&lt;continuous&gt;&gt; -[#orange]-&gt; else(no) -[#blue,dashed;dotted]-&gt; endif stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-54f38a90f64422bb8ec0dd16aae849e5.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[Ref. <a target="_blank" rel="noopener" href="https://forum.plantuml.net/4411">QA-4411</a>]</em></p>
+<h2 id="-3"></h2>
+<p>连接器(Connector)</p>
+<p>你可以使用括号定义连接器。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start :Some activity; (A) detach (A) :Other activity; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-65cebaadff8dfe23529329551729a3b4.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p>WARNING</p>
+<p><strong>This translation need to be updated.</strong></p>
+<p>WARNING</p>
+<h2 id="-4"></h2>
+<p>连接器颜色</p>
+<p>你可以在连接器上增加 <a target="_blank" rel="noopener" href="https://plantuml.com/zh/color">颜色</a></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start :下面的连接器 应该是蓝色; #blue:(B) :下一个连接器应该 看起来应该是 深绿色; #green:(G) stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-e329632e70b50cbfedb7ce70edbf0086.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[参考. <a target="_blank" rel="noopener" href="https://forum.plantuml.net/10077/assigning-color-to-connectors?show=10080#c10080">QA-10077</a>]</em></p>
+<p><em>[Ref. <a target="_blank" rel="noopener" href="https://forum.plantuml.net/19975/please-provide-change-background-connectors-activity-diagrams?show=19976#a19976">QA-19975</a>]</em></p>
+<p>WARNING</p>
+<p><strong>This translation need to be updated.</strong></p>
+<p>WARNING</p>
+<h2 id="-5"></h2>
+<p>组合(grouping)</p>
+<p>通过定义分组(group)，你可以把多个活动分组。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start group 初始化分组      :read config file;     :init internal variable; end group group 运行分组     :wait for user interaction;     :print information; end group  stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-4bdd44e0eefa25fd414d120dd3267b03.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h3 id="分区">分区</h3>
+<p>通过定义分区(partition)，你可以把多个活动组合(group)在一起:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start partition 初始化分区 &#123;     :read config file;     :init internal variable; &#125; partition 运行分区 &#123;     :wait for user interaction;     :print information; &#125;  stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-5a3f0b70b307fc40e35e162b944f2394.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p>这里同样可以改变分区颜色 <a target="_blank" rel="noopener" href="https://plantuml.com/zh/color">color</a>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start partition #lightGreen &quot;Input Interface&quot; &#123;     :read config file;     :init internal variable; &#125; partition Running &#123;     :wait for user interaction;     :print information; &#125; stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-1b4f30b8105d30e084807caf2b5c662c.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[参考: <a target="_blank" rel="noopener" href="https://forum.plantuml.net/2793/activity-beta-partition-name-more-than-one-word-does-not-work?show=2798#a2798">QA-2793</a>]</em></p>
+<p>同样可以添加一个 <a target="_blank" rel="noopener" href="https://plantuml.com/zh/link">链接</a> 到分区:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start partition &quot;[[http://plantuml.com partition_name]]&quot; &#123;     :read doc. on [[http://plantuml.com plantuml_website]];     :test diagram; &#125; end @enduml</code><br><br><img src="https://plantuml.com/imgw/img-de5be6e68ff4dd765754c29ed8bc8b51.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[参考: <a target="_blank" rel="noopener" href="https://forum.plantuml.net/542/ability-to-define-hyperlink-on-diagram-elements?show=14003#c14003">QA-542</a>]</em></p>
+<h3 id="分组-分区-包-矩形-或-卡片式">分组, 分区, 包, 矩形 或 卡片式</h3>
+<p>你可以分组活动通过定义:</p>
+<ul>
+<li>group;</li>
+<li>partition;</li>
+<li>package;</li>
+<li>rectangle;</li>
+<li>card.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start group 分组   :Activity; end group floating note: 分组备注  partition 分区 &#123;   :Activity; &#125; floating note: 分区备注  package 包 &#123;   :Activity; &#125; floating note: 包备注  rectangle 矩形 &#123;   :Activity; &#125; floating note: 矩形备注  card 卡片式 &#123;   :Activity; &#125; floating note: 卡片式备注 end @enduml</code><br><br><img src="https://plantuml.com/imgw/img-640030fb3c783456a3ee87d9c3c8ec14.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-6"></h2>
+<p>泳道(Swimlanes)</p>
+<p>你可以使用管道符<code>|</code>来定义泳道。</p>
+<p>还可以改变泳道的<a target="_blank" rel="noopener" href="https://plantuml.com/zh/color">颜色</a>。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml |Swimlane1| start :foo1; |#AntiqueWhite|Swimlane2| :foo2; :foo3; |Swimlane1| :foo4; |Swimlane2| :foo5; stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-50c4acb138d65f5b60373c2df8bed62e.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p>你可以在泳道中增加 <code>if</code> 判断或 <code>repeat</code> 或 <code>while</code> 循环.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml |#pink|Actor_For_red| start if (color?) is (red) then #pink:**action red**; :foo1; else (not red) |#lightgray|Actor_For_no_red| #lightgray:**action not red**; :foo2; endif |Next_Actor| #lightblue:foo3; :foo4; |Final_Actor| #palegreen:foo5; stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-b57ba90a0fd4090d36c626adc7cbc63f.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p>你同样可以在泳道中增加别名，使用 <code>alias</code> 语法:</p>
+<ul>
+<li><code>|[#&lt;color&gt;|]&lt;swimlane_alias&gt;| &lt;swimlane_title&gt;</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml |#palegreen|f| fisherman |c| cook |#gold|e| eater |f| start :go fish; |c| :fry fish; |e| :eat fish; stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-3c110c8ebfe505c505385904094b949c.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[参考: <a target="_blank" rel="noopener" href="https://forum.plantuml.net/2681/possible-define-alias-swimlane-place-alias-everywhere-else?show=2685#a2685">QA-2681</a>]</em></p>
+<h2 id="-7"></h2>
+<p>分离(detach)</p>
+<p>可以使用关键字<code>detach</code> 或 <code>kill</code>移除箭头。</p>
+<ul>
+<li><code>detach</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml  :start;  fork    :foo1;    :foo2;  fork again    :foo3;    detach  endfork  if (foo4) then    :foo5;    detach  endif  :foo6;  detach  :foo7;  stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-e47e32f7fdd8137aa04da64d6213b154.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>kill</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml  :start;  fork    :foo1;    :foo2;  fork again    :foo3;    kill  endfork  if (foo4) then    :foo5;    kill  endif  :foo6;  kill  :foo7;  stop @enduml</code><br><br><img src="https://plantuml.com/imgw/img-f8d0eeff06a3e20a118cd8e81ebddfe4.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-8"></h2>
+<p>SDL（规范和描述语言）</p>
+<h3 id="SDL-形状名称表">SDL 形状名称表</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>名称</strong></td>
+<td><strong>旧语法</strong></td>
+<td><strong>定型语法</strong></td>
+</tr>
+<tr>
+<td>输入</td>
+<td><code>&lt;</code></td>
+<td><code>&lt;&lt;input&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>输出</td>
+<td><code>&gt;</code></td>
+<td><code>&lt;&lt;output&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>程序</td>
+<td><code>|</code></td>
+<td><code>&lt;&lt;procedure&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>加载</td>
+<td><code>\</code></td>
+<td><code>&lt;&lt;load&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>保存</td>
+<td><code>/</code></td>
+<td><code>&lt;&lt;save&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>连续</td>
+<td><code>&#125;</code></td>
+<td><code>&lt;&lt;continuous&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>任务</td>
+<td><code>]</code></td>
+<td><code>&lt;&lt;task&gt;&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>[Ref.<a target="_blank" rel="noopener" href="https://forum.plantuml.net/11518/issues-with-final-separator-latex-math-expression-activity?show=17268#a17268">QA-11518</a>,<a target="_blank" rel="noopener" href="https://github.com/plantuml/plantuml/discussions/1270">GH-1270</a>]</em></p>
+<h3 id="SDL-using-final-separator-Deprecated-form">SDL using final separator (Deprecated form)</h3>
+<p>通过更改最终<code>;</code> separator，可以为活动设置不同的渲染：</p>
+<ul>
+<li><code>|</code></li>
+<li><code>&lt;</code></li>
+<li><code>&gt;</code></li>
+<li><code>/</code></li>
+<li><code>\\</code></li>
+<li><code>]</code></li>
+<li><code>&#125;</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml :Ready; :next(o)| :Receiving; split  :nak(i)&lt;  :ack(o)&gt; split again  :ack(i)&lt;  :next(o)  on several lines|  :i := i + 1]  :ack(o)&gt; split again  :err(i)&lt;  :nak(o)&gt; split again  :foo/ split again  :bar\\ split again  :i &gt; 5&#125; stop end split :finish; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-f1ffafb3502c99a2d25a046905f6707d.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用正态分隔符和立体原型的-SDL（当前正式形式）">使用正态分隔符和立体原型的 SDL（当前正式形式）</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start :SDL Shape; :input; &lt;&lt;input&gt;&gt; :output; &lt;&lt;output&gt;&gt; :procedure; &lt;&lt;procedure&gt;&gt; :load; &lt;&lt;load&gt;&gt; :save; &lt;&lt;save&gt;&gt; :continuous; &lt;&lt;continuous&gt;&gt; :task; &lt;&lt;task&gt;&gt; end @enduml</code><br><br><img src="https://plantuml.com/imgw/img-955cec44229bd7ee11ed35528c2303cf.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml :Ready; :next(o); &lt;&lt;procedure&gt;&gt; :Receiving; split  :nak(i); &lt;&lt;input&gt;&gt;  :ack(o); &lt;&lt;output&gt;&gt; split again  :ack(i); &lt;&lt;input&gt;&gt;  :next(o)  on several lines; &lt;&lt;procedure&gt;&gt;  :i := i + 1; &lt;&lt;task&gt;&gt;  :ack(o); &lt;&lt;output&gt;&gt; split again  :err(i); &lt;&lt;input&gt;&gt;  :nak(o); &lt;&lt;output&gt;&gt; split again  :foo; &lt;&lt;save&gt;&gt; split again  :bar; &lt;&lt;load&gt;&gt; split again  :i &gt; 5; &lt;&lt;continuous&gt;&gt; stop end split :finish; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-6358573390288b3be943ba1214761296.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p>WARNING</p>
+<p><strong>This translation need to be updated.</strong></p>
+<p>WARNING</p>
+<h2 id="-9"></h2>
+<p>UML (Unified Modeling Language) Shape</p>
+<h3 id="Table-of-UML-Shape-Name">Table of UML Shape Name</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Name</strong></td>
+<td><strong>Stereotype syntax</strong></td>
+</tr>
+<tr>
+<td>ObjectNode</td>
+<td><code>&lt;&lt;object&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>ObjectNode  <br>typed by signal</td>
+<td><code>&lt;&lt;objectSignal&gt;&gt;</code> or <code>&lt;&lt;object-signal&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>AcceptEventAction  <br>without TimeEvent trigger</td>
+<td><code>&lt;&lt;acceptEvent&gt;&gt;</code> or <code>&lt;&lt;accept-event&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>AcceptEventAction  <br>with TimeEvent trigger</td>
+<td><code>&lt;&lt;timeEvent&gt;&gt;</code> or <code>&lt;&lt;time-event&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>SendSignalAction  <br>  <br>SendObjectAction  <br>with signal type</td>
+<td><code>&lt;&lt;sendSignal&gt;&gt;</code> or <code>&lt;&lt;send-signal&gt;&gt;</code></td>
+</tr>
+<tr>
+<td>Trigger</td>
+<td><code>&lt;&lt;trigger&gt;&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>[Ref. <a target="_blank" rel="noopener" href="https://github.com/plantuml/plantuml/pull/2185">GH-2185</a>]</em></p>
+<h3 id="UML-Shape-Example-using-Stereotype">UML Shape Example using Stereotype</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml :action; :object; &lt;&lt;object&gt;&gt;  :ObjectNode typed by signal; &lt;&lt;objectSignal&gt;&gt;  :AcceptEventAction without TimeEvent trigger; &lt;&lt;acceptEvent&gt;&gt;  :SendSignalAction; &lt;&lt;sendSignal&gt;&gt;  :SendObjectAction with signal type; &lt;&lt;sendSignal&gt;&gt;  :Trigger; &lt;&lt;trigger&gt;&gt;  :\t\t\t\t\t\tAcceptEventAction \t\t\t\t\t\twith TimeEvent trigger; &lt;&lt;timeEvent&gt;&gt; :an action; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-37667ad6c98f1ae9ac6fb00c16996cee.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[Ref. <a target="_blank" rel="noopener" href="https://github.com/plantuml/plantuml/pull/2185">GH-2185</a>, <a target="_blank" rel="noopener" href="https://forum.plantuml.net/16558">QA-16558</a>, <a target="_blank" rel="noopener" href="https://github.com/plantuml/plantuml/issues/1659">GH-1659</a>]</em></p>
+<h2 id="-10"></h2>
+<p>一个完整的例子</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml  start :ClickServlet.handleRequest(); :new page; if (Page.onSecurityCheck) then (true)   :Page.onInit();   if (isForward?) then (no)     :Process controls;     if (continue processing?) then (no)       stop     endif      if (isPost?) then (yes)       :Page.onPost();     else (no)       :Page.onGet();     endif     :Page.onRender();   endif else (false) endif  if (do redirect?) then (yes)   :redirect process; else   if (do forward?) then (yes)     :Forward request;   else (no)     :Render page template;   endif endif  stop  @enduml</code><br><br><img src="https://plantuml.com/imgw/img-927abd61d77e96a154444d21ee37c9d1.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-11"></h2>
+<p>判断的样式</p>
+<h3 id="inside-样式-默认">inside 样式 (默认)</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam conditionStyle inside start repeat   :act1;   :act2; repeatwhile (&lt;b&gt;end) :act3; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-a7245eaf5126ad101bd320e8d8c8849d.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start repeat   :act1;   :act2; repeatwhile (&lt;b&gt;end) :act3; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-cfdb5c7381b468abd75863892624ce6d.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Diamond-样式">Diamond 样式</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam conditionStyle diamond start repeat   :act1;   :act2; repeatwhile (&lt;b&gt;end) :act3; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-0a69081a9833608a4c3b67438bc9bd04.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h3 id="InsideDiamond-或-Foo1-样式">InsideDiamond (或 <em>Foo1</em>) 样式</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam conditionStyle InsideDiamond start repeat   :act1;   :act2; repeatwhile (&lt;b&gt;end) :act3; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-053f6e96a78b8c23e18fed082a21d788.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam conditionStyle foo1 start repeat   :act1;   :act2; repeatwhile (&lt;b&gt;end) :act3; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-57a9af26cf31f2e56222aa0681d0b533.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[参考: <a target="_blank" rel="noopener" href="https://forum.plantuml.net/1290/plantuml-condition-rendering">QA-1290</a> and <a target="_blank" rel="noopener" href="https://github.com/plantuml/plantuml/issues/400#issuecomment-721287124">#400</a>]</em></p>
+<h2 id="-12"></h2>
+<p>判断的结束样式</p>
+<h3 id="Diamond-样式-默认">Diamond 样式 (默认)</h3>
+<ul>
+<li>With one branch</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam ConditionEndStyle diamond :A; if (decision) then (yes)     :B1; else (no) endif :C; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-9dca594e532ed723debbc0c913125f4d.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>两个分支 (<code>B1</code>, <code>B2</code>)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam ConditionEndStyle diamond :A; if (decision) then (yes)     :B1; else (no)     :B2; endif :C; @enduml @enduml</code><br><br><img src="https://plantuml.com/imgw/img-c297f819d0d71038fcdb97207de8982b.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h3 id="水平线-hline-样式">水平线 (hline) 样式</h3>
+<ul>
+<li>一个分</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam ConditionEndStyle hline :A; if (decision) then (yes)     :B1; else (no) endif :C; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-cbc29ac0dc7c32a400c6c23a6c6d4b7c.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>两个分支 (<code>B1</code>, <code>B2</code>)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml skinparam ConditionEndStyle hline :A; if (decision) then (yes)     :B1; else (no)     :B2; endif :C; @enduml @enduml</code><br><br><img src="https://plantuml.com/imgw/img-ca37f7bd9c80aef51e7890dbf68af66c.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<p><em>[Ref. <a target="_blank" rel="noopener" href="https://forum.plantuml.net/4015/its-possible-to-draw-if-else-endif-without-merge-symbol">QA-4015</a>]</em></p>
+<h2 id="-13"></h2>
+<p>使用 sytle 定义 (全局) 样式</p>
+<h3 id="无样式-默认">无样式 <em>(默认)</em></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml start :init; -&gt; test of color; if (color?) is (&lt;color:red&gt;red) then :print red; else  :print not red; note right: no color endif partition End &#123; :end; &#125; -&gt; this is the end; end @enduml</code><br><br><img src="https://plantuml.com/imgw/img-45d91f53d8274d6855ea3abbbbe7c4a1.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h3 id="有样式">有样式</h3>
+<p>你可以使用 <a target="_blank" rel="noopener" href="https://plantuml.com/zh/style-evolution">style</a> 节点去定义样式然后改变渲染。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml &lt;style&gt; activityDiagram &#123;   BackgroundColor #33668E   BorderColor #33668E   FontColor #888   FontName arial    diamond &#123;     BackgroundColor #ccf     LineColor #00FF00     FontColor green     FontName arial     FontSize 15   &#125;   arrow &#123;     FontColor gold     FontName arial     FontSize 15   &#125;   partition &#123;     LineColor red     FontColor green     RoundCorner 10     BackgroundColor PeachPuff   &#125;   note &#123;     FontColor Blue     LineColor Navy     BackgroundColor #ccf   &#125; &#125; document &#123;    BackgroundColor transparent &#125; &lt;/style&gt; start :init; -&gt; test of color; if (color?) is (&lt;color:red&gt;red) then :print red; else  :print not red; note right: no color endif partition End &#123; :end; &#125; -&gt; this is the end; end @enduml</code><br><br><img src="https://plantuml.com/imgw/img-b71393d6d49d2c3da72d33eed85268c6.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-14"></h2>
+<p>Emoji as action</p>
+<p>You can use <a target="_blank" rel="noopener" href="https://plantuml.com/creole#68305e25f5788db0">emoji</a> as action, with the stereotype <code>&lt;&lt;icon&gt;&gt;</code>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><br></td>
+<td><code>@startuml while (&lt;:cloud_with_rain:&gt;)   :&lt;:umbrella:&gt;; &lt;&lt;icon&gt;&gt; endwhile -&lt;&lt;icon&gt;&gt;&lt;:closed_umbrella:&gt; @enduml</code><br><br><img src="https://plantuml.com/imgw/img-8fae25ebe50b677023127e714083eb75.png" alt="" loading='lazy'></td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PlantUML/">https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PlantUML/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_11.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/" title="PyQT"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">PyQT</div></div><div class="info-2"><div class="info-item-1">参考链接 Python 小白从零开始 PyQt5 项目实战（8）汇总篇（完整例程）_pyqt项目实战教程-CSDN博客 免费学习编程 - Python、JavaScript、Java、Git 等 (freecodecamp.org) 白月黑羽 (byhy.net) UI fluent-widg...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/ProjectGraph/" title="Project Graph"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Project Graph</div></div><div class="info-2"><div class="info-item-1">参考链接 视野 (graphif.dev) </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">活动图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA"><span class="toc-number">2.1.</span> <span class="toc-text">行为</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B-%E5%81%9C%E6%AD%A2-%E7%BB%93%E6%9D%9F"><span class="toc-number">2.2.</span> <span class="toc-text">开始&#x2F;停止&#x2F;结束</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%94%AF"><span class="toc-number">2.3.</span> <span class="toc-text">分支</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if-else"><span class="toc-number">2.3.1.</span> <span class="toc-text">if-else</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#switch"><span class="toc-number">2.3.2.</span> <span class="toc-text">switch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%88%E6%AD%A2"><span class="toc-number">2.3.3.</span> <span class="toc-text">终止</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GoTo"><span class="toc-number">2.3.4.</span> <span class="toc-text">GoTo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.4.</span> <span class="toc-text">循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.4.1.</span> <span class="toc-text">基础循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%B3%E5%87%BA"><span class="toc-number">2.4.2.</span> <span class="toc-text">跳出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#while"><span class="toc-number">2.4.3.</span> <span class="toc-text">while</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C"><span class="toc-number">2.5.</span> <span class="toc-text">并行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#fork"><span class="toc-number">2.5.1.</span> <span class="toc-text">fork</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fork%E5%90%88%E5%B9%B6"><span class="toc-number">2.5.2.</span> <span class="toc-text">fork合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#end-fork%E6%A0%87%E6%B3%A8"><span class="toc-number">2.5.3.</span> <span class="toc-text">end fork标注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%89%B2"><span class="toc-number">2.5.4.</span> <span class="toc-text">分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%88%86%E5%89%B2"><span class="toc-number">2.5.5.</span> <span class="toc-text">输入分割</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E5%88%86%E5%89%B2"><span class="toc-number">2.5.6.</span> <span class="toc-text">输出分割</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">2.6.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%AD%E5%A4%B4"><span class="toc-number">2.7.</span> <span class="toc-text">箭头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">2.8.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-2"><span class="toc-number">2.9.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-3"><span class="toc-number">2.10.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-4"><span class="toc-number">2.11.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-5"><span class="toc-number">2.12.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA"><span class="toc-number">2.12.1.</span> <span class="toc-text">分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84-%E5%88%86%E5%8C%BA-%E5%8C%85-%E7%9F%A9%E5%BD%A2-%E6%88%96-%E5%8D%A1%E7%89%87%E5%BC%8F"><span class="toc-number">2.12.2.</span> <span class="toc-text">分组, 分区, 包, 矩形 或 卡片式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-6"><span class="toc-number">2.13.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-7"><span class="toc-number">2.14.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-8"><span class="toc-number">2.15.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SDL-%E5%BD%A2%E7%8A%B6%E5%90%8D%E7%A7%B0%E8%A1%A8"><span class="toc-number">2.15.1.</span> <span class="toc-text">SDL 形状名称表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDL-using-final-separator-Deprecated-form"><span class="toc-number">2.15.2.</span> <span class="toc-text">SDL using final separator (Deprecated form)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E6%80%81%E5%88%86%E9%9A%94%E7%AC%A6%E5%92%8C%E7%AB%8B%E4%BD%93%E5%8E%9F%E5%9E%8B%E7%9A%84-SDL%EF%BC%88%E5%BD%93%E5%89%8D%E6%AD%A3%E5%BC%8F%E5%BD%A2%E5%BC%8F%EF%BC%89"><span class="toc-number">2.15.3.</span> <span class="toc-text">使用正态分隔符和立体原型的 SDL（当前正式形式）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-9"><span class="toc-number">2.16.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Table-of-UML-Shape-Name"><span class="toc-number">2.16.1.</span> <span class="toc-text">Table of UML Shape Name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UML-Shape-Example-using-Stereotype"><span class="toc-number">2.16.2.</span> <span class="toc-text">UML Shape Example using Stereotype</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-10"><span class="toc-number">2.17.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-11"><span class="toc-number">2.18.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#inside-%E6%A0%B7%E5%BC%8F-%E9%BB%98%E8%AE%A4"><span class="toc-number">2.18.1.</span> <span class="toc-text">inside 样式 (默认)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Diamond-%E6%A0%B7%E5%BC%8F"><span class="toc-number">2.18.2.</span> <span class="toc-text">Diamond 样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InsideDiamond-%E6%88%96-Foo1-%E6%A0%B7%E5%BC%8F"><span class="toc-number">2.18.3.</span> <span class="toc-text">InsideDiamond (或 Foo1) 样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-12"><span class="toc-number">2.19.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Diamond-%E6%A0%B7%E5%BC%8F-%E9%BB%98%E8%AE%A4"><span class="toc-number">2.19.1.</span> <span class="toc-text">Diamond 样式 (默认)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B4%E5%B9%B3%E7%BA%BF-hline-%E6%A0%B7%E5%BC%8F"><span class="toc-number">2.19.2.</span> <span class="toc-text">水平线 (hline) 样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-13"><span class="toc-number">2.20.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%A0%B7%E5%BC%8F-%E9%BB%98%E8%AE%A4"><span class="toc-number">2.20.1.</span> <span class="toc-text">无样式 (默认)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E6%A0%B7%E5%BC%8F"><span class="toc-number">2.20.2.</span> <span class="toc-text">有样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#-14"><span class="toc-number">2.21.</span> <span class="toc-text"></span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_11.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

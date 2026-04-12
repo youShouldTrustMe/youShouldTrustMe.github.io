@@ -1,0 +1,1049 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LIN | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 LIN入门 (renesas.cn) 概述 LIN 具有以下特点：  网络由一个主机节点和多个从机节点构成。 使用 LIN 可以大幅度的削减成本，表现在以下方面：  开放型规范：规范可以免费从官方网站获得。 硬件成本削减：基于普通 UART&#x2F;SCI 接口的低成本硬件实现，无需单独的硬件模块支持；从机节点无需 高精度时钟就可以完成自同步；总线为一根单线电缆。 装配成本削减：LIN 采用了工">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LIN">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/LIN/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 LIN入门 (renesas.cn) 概述 LIN 具有以下特点：  网络由一个主机节点和多个从机节点构成。 使用 LIN 可以大幅度的削减成本，表现在以下方面：  开放型规范：规范可以免费从官方网站获得。 硬件成本削减：基于普通 UART&#x2F;SCI 接口的低成本硬件实现，无需单独的硬件模块支持；从机节点无需 高精度时钟就可以完成自同步；总线为一根单线电缆。 装配成本削减：LIN 采用了工">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.249Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.249Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="通信协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "LIN",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/LIN/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg",
+  "datePublished": "2026-04-12T08:12:40.249Z",
+  "dateModified": "2026-04-12T08:12:40.249Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/LIN/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LIN',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">LIN</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">LIN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.249Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.249Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://www.renesas.cn/zh/document/apn/lin?language=zh">LIN入门 (renesas.cn)</a></p>
+<h1>概述</h1>
+<p>LIN 具有以下特点：</p>
+<ol>
+<li>网络由一个主机节点和多个从机节点构成。</li>
+<li>使用 LIN 可以大幅度的削减成本，表现在以下方面：
+<ol>
+<li>开放型规范：规范可以免费从官方网站获得。</li>
+<li>硬件成本削减：基于普通 UART/SCI 接口的低成本硬件实现，无需单独的硬件模块支持；从机节点无需 高精度时钟就可以完成自同步；总线为一根单线电缆。</li>
+<li>装配成本削减：LIN 采用了工作流(Work Flow)和现成节点(Off-the-shelf Node)的概念，将网络装配标准 化，并可通过 LIN 传输层进行再配置。</li>
+<li>缩短软件开发周期：LIN 协议将 API(Application Programming Interface，应用编程接口)标准化。</li>
+</ol>
+</li>
+<li>信号传输具有确定性，传播时间可以提前计算出。</li>
+<li>LIN 具有可预测的 EMC(ElectroMagnetic Compatibility，电磁兼容性)性能，。为了限制 EMI(ElectroMagnetic Interference，电磁干扰)强度，LIN 协议规定最大位速率为 20kbps。</li>
+<li>LIN 提供信号处理、配置、识别和诊断四项功能。</li>
+</ol>
+<p>由于 LIN 网络在汽车中一般不独立存在，经常与上层网络(如 CAN)相连，因此子网的概念是相对于上层 网络而言。在不强调与上层网络相连的情况下，后面也称作 LIN 网络。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108084705765.png" alt="LIN与上层网络连接" loading='lazy'></p>
+<p>一个节点不一定对应一个 ECU(Electronic Control Unit，电子控制单元)，因为一个 ECU 可能提供多个 LIN 接口，并且这些接口可能连接到不同的 LIN 通信子网中。</p>
+<p>节点应用层向下层传输信号和消息。信号和消息位于帧中的数据段，是节点向其他节点传达的实质信息。 它们之间的区别在于信号封装于信号携带帧 (帧 ID 范围在 0x00～0x3B 之间)中，用于在运 行状态传递上层发生的事件，如温度传感器的测量结果等。消息封装于诊断帧(帧 ID 为 0x3C 或 0x3D)中，是有固定格式、最大长度不超过 4095 字节的信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108084907437.png" alt="LIN节点构成" loading='lazy'></p>
+<p>LIN 的拓扑结构为单线总线，应用了单一主机多从机的概念。总线电平为 12V，传输位速率(Bitrate)最高为 20kbps。由于物理层限制，一个 LIN 网络最多可以连接 16 个节点，典型应用一般都在 12 个节点以下，主机节 点有且只有一个，从机节点有 1 到 15 个。 主机节点(Master Node)包含主机任务(Master Task)和从机任务(Slave Task)，从机节点(Slave Node)只包含从 机任务。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108090334726.png" alt="image-20260108090334726" loading='lazy'></p>
+<p>主机任务负责：</p>
+<ol>
+<li>调度总线上帧的传输次序；</li>
+<li>监测数据，处理错误；</li>
+<li>作为标准时钟参考；</li>
+<li>接收从机节点发出的总线唤醒命令。</li>
+</ol>
+<p>从机任务不能够主动发送数据，需要接收主机发送的帧头(帧的起始部分)，根据帧头 所包含的信息(这里指帧 ID)判断：</p>
+<ol>
+<li>发送应答(帧中除帧头外剩下的部分)；</li>
+<li>接收应答；</li>
+<li>既不接收也不发送应答。</li>
+</ol>
+<h1>协议层</h1>
+<h2 id="帧结构">帧结构</h2>
+<p>帧(Frame)包含帧头(Header)和应答(Response)两部分。<strong>主机</strong>任务负责发送帧头；<strong>从机</strong>任务接收帧头并对帧头 所包含信息进行解析，然后决定是发送应答，还是接收应答，还是不作任何反应。帧在总线上的传输为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108091117140.png" alt="帧在总线上的传输" loading='lazy'></p>
+<p>帧头包括：</p>
+<ol>
+<li>同步间隔段</li>
+<li>同步段</li>
+<li>PID(Protected Identifier，受保护ID)段</li>
+</ol>
+<p>应答包括：</p>
+<ol>
+<li>数据段</li>
+<li>校验和段</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108091418511.png" alt="帧的结构" loading='lazy'></p>
+<p>其中<strong>值“0”为显性电平(Dominant)，值“1”为隐性电平(Recessive)</strong>，总线上实行“线-与”：当总线上有 大于等于一个节点发送显性电平时，总线呈显性电平；所有的节点都发送隐性电平或不发送信息(不发送任何信 息时总线默认呈隐性电平)时，总线才呈现隐性电平，即显性电平起主导作用。图中帧间隔为帧之间的间隔；应 答间隔为帧头和应答之间的间隔；字节间间隔包括同步段和受保护ID段之间的间隔、数据段各字节间之间的间 隔以及数据段最后一个字节和校验和段之间的间隔。</p>
+<h3 id="同步间隔段">同步间隔段</h3>
+<p>同步间隔段由同步间隔(Break)和同步间隔段间隔符(Break Delimiter)构成。同步间隔是至少持续 13 位(以主机节点的位速率为准)的显性电平，由于帧中的所有间隔或总线空闲时都应保持隐性电平，并 且帧中的任何其它字段都不会发出大于 9 位的显性电平，因此同步间隔可以标志一个帧的开始。同步间隔段的 间隔符是至少持续 1 位的隐性电平。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108092349987.png" alt="同步间隔段" loading='lazy'></p>
+<p>从机任务接收帧头的同步间隔段时，以该从机任务所在节点的位速率为准，当检测总线上出现持续 11 位的显性电平时，认为是帧的开始。当从机节点使用精度较高的时钟时，识别阈值可以选择 9.5 位。 协议没有规定同步间隔段的发送和检测方法。</p>
+<blockquote>
+<p>[!note]</p>
+<p>需要注意的是：</p>
+<ol>
+<li>发送显性电平的下限为 13 位，上限应保证帧的最大传输时间THeader_Maximum在规定范围之内。</li>
+<li>当从机节点选择的时钟(精度不高的时钟)在容限范围内(±14%)时，$(13 - 11.18) / 13  = 14%$，即是说当处于最差情况下(时钟相差 14%)时，从机任务按照自身时钟测量的主机节点发送的 13 位显性电平不会低于 11.18 位，若识别阈值高于 11.18 位，那么当选用 14%的时钟时，就会出现主机发 送同步间隔，而从机检测不到的情形。由于在除同步间隔段以外，帧中任何其余部分都不会发送超过 9 位的显性电平，$(10.26 - 9) / 9 = 14%，$，即是说判断阈值必须大于 10.26 位，否则可能把帧中其余部分误判作为同步间隔段。综上，识别阈值为 11 位显性电平。</li>
+<li>当从机节点选择的时钟(精度较高的时钟)在容限范围内(±1. 5%)时，识别阈值应在 9.135 位(由$(9.135 - 9) / 9 = 1.5%$计算而来)到 12.805 位(由($13 – 12.805) / 13 =  1.5%$计算而来)之间。具体设定阈值会随着所选时钟的精度，取值范围在 9.135 位到 12.805 位之间浮动。</li>
+</ol>
+</blockquote>
+<h3 id="同步段">同步段</h3>
+<p>在介绍同步段之前，首先介绍一下字节域(Byte Field)的概念，字节域包括 <strong>1 位起始位(Start Bit，显性) + 8 位数据位 + 1 位停止位(Stop Bit，隐性)</strong>，是一种标准 UART 数据传输格式。在 LIN 的一帧当中， 除了同步间隔段，后面的各段都是通过字节域的格式传输的。在 LIN 帧中，数据传输都是先发送 LSB(Least Significant Bit，最低有效位)，最后发送 MSB(Most Significant Bit，最高有效位)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108093817341.png" alt="字节域" loading='lazy'></p>
+<p>LIN 同步以下降沿为判断标志，采用字节 0x55(转换为二进制为 01010101b)。同步段的字节域如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108094032452.png" alt="同步段" loading='lazy'></p>
+<p>从机节点可以不采用精度高的时钟，而采用片上振荡器等精度和成本相对较低的时钟，由此带来的与主机节点时钟产生的偏差，需要通过同步段进行调整，调整的结果是使从机节点数据的位速率与主机节点一致。同步段用于同步的基准时钟为主机节点的时钟。从机节点通过接收主机节点发出的同步段，计算出主机节点位速率，根据计算结果对自身的位速率重新作调整。计算公式如下：<br>
+$$<br>
+1\text{位时间}=\frac{\text{第7位的下降沿时刻 }-\text{起始位的下降沿时刻}}8<br>
+$$<br>
+通过计算，可以得到主机节点实际传输 1 位所用的时间，即位速率。</p>
+<h3 id="受保护ID段">受保护ID段</h3>
+<p>受保护ID段的前6位叫作帧 ID(Frame ID)，加上两个奇偶校验位后称作受保护 ID。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108094459917.png" alt="受保护ID段" loading='lazy'></p>
+<p>帧 ID 的范围在 0x00～0x3F 之间，共 64 个。帧 ID 标识了帧的类别和目的地。从机任务对于帧头作出的反应(接收/发送/忽略应答部分)都是依据帧 ID 判断的。如果帧 ID 传输错误，将会导致信号无法正确到达目的地， 因此引入奇偶校验位。校验公式如下，其中“⊕”代表“异或”运算，“¬”代表“取非”运算。<br>
+$$<br>
+\begin{aligned}<br>
+&amp;\mathrm{<br>
+P0 = ID0\oplus ID1\oplus ID2\oplus ID4<br>
+}\<br>
+&amp;\mathrm{<br>
+P1=<br>
+}\neg\left(\mathrm{ID1}\oplus\mathrm{ID3}\oplus\mathrm{ID4}\oplus\mathrm{ID5}\right)<br>
+\end{aligned}<br>
+$$<br>
+由公式可以看出，PID 不会出现全 0 或全 1 的情况，因此，如果从机节点收到了“0xFF”或“0x00”，可判断为传输错误。 依据帧 ID 不同将帧进行分类：</p>
+<table>
+<thead>
+<tr>
+<th>帧的类型</th>
+<th>==</th>
+<th>帧ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信号携带帧</td>
+<td>无条件帧</td>
+<td>0x00～0x3B</td>
+</tr>
+<tr>
+<td>：</td>
+<td>事件触发帧</td>
+<td>：</td>
+</tr>
+<tr>
+<td>：</td>
+<td>偶发帧</td>
+<td>：</td>
+</tr>
+<tr>
+<td>诊断帧</td>
+<td>主机请求帧</td>
+<td>0x3C</td>
+</tr>
+<tr>
+<td>：</td>
+<td>从机应答帧</td>
+<td>0x3D</td>
+</tr>
+<tr>
+<td>保留帧</td>
+<td>==</td>
+<td>0x3E，0x3F</td>
+</tr>
+</tbody>
+</table>
+<p>注意：从机应答帧是一个完整的帧，与帧结构中的“应答”(帧的一部分)不同，注意区别</p>
+<h3 id="数据段">数据段</h3>
+<p>节点发送的数据位于数据段，包含 1 到 8 个字节，先发送编号最低的字节 DATA1，编号依次增加。 数据段包含了两种数据类型：</p>
+<ol>
+<li>
+<p>信号(Signal)</p>
+<p>信号(Signal)由信号携带帧传递，一个帧 ID 对应的数据段可能包含一个或多个信号。信号更新时要保证其完整性，不能只更新一部分。一个信号通常由一个固定的节点发出，此节点称为该信号的发布节点(Publisher)； 其余的一个或多个节点接收，它们称为信号的收听节点(Subscriber)。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>协议没有规定帧中的哪一部分显示数据长度码的信息，<strong>数据的内容和长度是由系统设计者根据帧 ID事先约定好的</strong>。</p>
+<p>总线上的数据是以广播形式被发送到总线上的，任何节点均能接收，但并非所有信号对每个节点都有用。 收听节点接收帧的应答是因为该节点的应用层会使用这些信号，而对于其余节点，由于用不到这些信号， 所以没有必要作接收处理，将忽略帧的应答部分。发布和收听由哪个节点进行完全根据应用层的需要由 软件或配置工具实现。一般情况下，对于一个帧中的应答，总线上只存在一个发布节点，否则就会出现 错误。事件触发帧例外，可能存在零个、一个或多个发布节点。</p>
+</blockquote>
+</li>
+<li>
+<p>诊断消息(Diagnostic messages)。</p>
+<p>诊断消息(Diagnostic message)由诊断帧传递，对消息内容的解析由数据自身和节点状态决定。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260108095807522.png" alt="数据段" loading='lazy'></p>
+<h3 id="校验和段">校验和段</h3>
+<p>校验和段是对帧中所传输的内容进行校验，如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260207134453408.png" alt="校验和段" loading='lazy'></p>
+<p>校验和分为标准型校验和(Classic Checksum)及增强型校验和(Enhanced Checksum)：</p>
+<table>
+<thead>
+<tr>
+<th>校验和类型</th>
+<th>校验对象</th>
+<th>适用场合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标准型校验和</td>
+<td>数据段各字节</td>
+<td>诊断帧，与LIN1.x从机节点通信。</td>
+</tr>
+<tr>
+<td>增强型校验和</td>
+<td>数据段各字节以及受保护ID</td>
+<td>与 LIN2.x 从机节点通信(诊断帧除外)。</td>
+</tr>
+</tbody>
+</table>
+<p>采用标准型校验和还是增强型校验和由主机节点管理，发布节点和各收听节点根据帧 ID 来判断采用哪种校验和。</p>
+<p>校验方法为将校验对象的各字节作带进位二进制加法(每当结果大于等于 256 时就减去 255)，并将所得最终的和逐位取反，以该结果作为要发送的校验和。接收方根据校验和类型，对接收数据作相同的带进位二进制加法，最终的和不取反，并将该和与接收到的校验和作加法，如果结果为 0xFF，则校验和无误，这在一定程度 上保证了数据传输的正确性。</p>
+<p>例如：采用标准型校验和，Data1 = 0x4A，Data2 = 0x55，Data3 = 0x93，Data4 = 0xE5，计算方法如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>发送方/接收方</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>和</td>
+<td>进位</td>
+<td>D7</td>
+<td>D6</td>
+<td>D5</td>
+<td>D4</td>
+<td>D3</td>
+<td>D2</td>
+<td>D1</td>
+<td>D0</td>
+</tr>
+<tr>
+<td>0x4A</td>
+<td>0x4A</td>
+<td></td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>+0x55 =<br /> 加上进位</td>
+<td>0x9F <br />0x9F</td>
+<td>0</td>
+<td>1 <br />1</td>
+<td>0<br />0</td>
+<td>0<br />0</td>
+<td>1 <br />1</td>
+<td>1 <br />1</td>
+<td>1 <br />1</td>
+<td>1<br />1</td>
+<td>1<br />1</td>
+</tr>
+<tr>
+<td>+0x93 = <br />加上进位</td>
+<td>0x132 <br />0x33</td>
+<td>1</td>
+<td>0<br />0</td>
+<td>0 <br />0</td>
+<td>1 <br />1</td>
+<td>1<br />1</td>
+<td>0 <br />0</td>
+<td>0 <br />0</td>
+<td>1 <br />1</td>
+<td>0<br />1</td>
+</tr>
+<tr>
+<td>+0xE5 = <br />加上进位</td>
+<td>0x118 <br />0x19</td>
+<td>1</td>
+<td>0 <br />0</td>
+<td>0 <br />0</td>
+<td>0 <br />0</td>
+<td>1 <br />1</td>
+<td>1 <br />1</td>
+<td>0 <br />0</td>
+<td>0 <br />0</td>
+<td>0<br />1</td>
+</tr>
+<tr>
+<td>取反</td>
+<td>0xE6</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>接收方</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+</tr>
+<tr>
+<td>0x19(重新计算的校验和，不取反)+ 0x E6(接收到的校验和)=</td>
+<td>0xFF</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="帧传输时间的计算">帧传输时间的计算</h3>
+<p>帧在总线上传输的时间计算如下表所示。其中，</p>
+<ul>
+<li>
+<p>$T_{Frame_Maximum}$为帧在总线上传输的最大时间；</p>
+</li>
+<li>
+<p>$T_{Header_Maximum}$为帧头在总线上传输的最大时间；</p>
+</li>
+<li>
+<p>$T_{Response_Maximum}$为应答在总线上传输的最大时间；</p>
+</li>
+<li>
+<p>$T_{Header_Nominal}$为帧头额定传输时间：<br>
+$$<br>
+同步间隔段(包含同步间隔和同步间隔段间隔符)的最小传输时间 +  同步段传输时间 + 受保护ID段传输时间<br>
+$$</p>
+</li>
+<li>
+<p>帧头的余量$T_{Header_Rest}$包含字节间间隔，规定为帧头额定传输时间的 0.4 倍；</p>
+</li>
+<li>
+<p>$T_{Response_Nominal}$为应答额定传输时间：数据段传输时间 + 校验和段传输时间；</p>
+</li>
+<li>
+<p>应答的余量$T_{Response_Rest}$包含 应答间隔以及字节间间隔，规定为应答额定传输时间的 0.4 倍；</p>
+</li>
+<li>
+<p>$N_{data}$表示数据段包含N个字节。</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>$T_{Frame_Maximum}$</th>
+<th>$T_{Header_Maximum}$</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>$T_{Response_Maximum}$</th>
+<th>==</th>
+<th>==</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:</td>
+<td>$T_{Header_Nominal}$</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>$T_{Header_ Rest }$</td>
+<td>$T_{Response_Nominal}$</td>
+<td>==</td>
+<td>$T_{Response_Rest}$</td>
+</tr>
+<tr>
+<td>:</td>
+<td>同步间隔(最小 值)</td>
+<td>同步间隔段间隔符(最小值)</td>
+<td>同步段</td>
+<td>受保 护ID段</td>
+<td>$40% \times T_{Header_Nominal}$</td>
+<td>数据段</td>
+<td>校验和</td>
+<td>$40% \times T_{Response_Nominal}$</td>
+</tr>
+<tr>
+<td>时间($T_{bit}$)</td>
+<td>13</td>
+<td>1</td>
+<td>10</td>
+<td>10</td>
+<td>:</td>
+<td>$10 \times N_{Data}$</td>
+<td>10</td>
+<td>:</td>
+</tr>
+</tbody>
+</table>
+<h3 id="帧在总线上的传输波形">帧在总线上的传输波形</h3>
+<p>帧在总线上的传输波形示例如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260207152240870.png" alt="帧在总线上的传输波形" loading='lazy'></p>
+<h2 id="帧类型">帧类型</h2>
+<h3 id="无条件帧">无条件帧</h3>
+<p>无条件帧是具有单一发布节点，无论信号是否发生变化，帧头都被无条件应答的帧。 无条件帧在主机任务分配给它的固定的帧时隙中传输。总线上一旦有帧头发送出去，必须有从机任务作应答(即无条件发送应答)，以下列出的帧 ID 的值只是为了举例说明，协议并未强制规定。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260207152815288.png" alt="无条件帧" loading='lazy'></p>
+<ul>
+<li>帧 ID = 0x30 应答部分的发布节点为从机节点 1，收听节点为主机节点。典型应用如从机节点 1 向主机节点报告自身某信号的状态。</li>
+<li>帧 ID = 0x31 应答部分的发布节点为主机节点，收听节点为从机节点 1 和从机节点 2。典型应用如主机节点向从机节点发布信息。</li>
+<li>帧 ID = 0x32 应答部分的发布节点为从机节点 2，收听节点为从机节点 1。典型应用如从机节点之间彼此通信。</li>
+</ul>
+<h3 id="事件触发帧">事件触发帧</h3>
+<p>事件触发帧是主机节点在一个帧时隙中查询各从机节点的信号是否发生变化时使用的帧，当存在多个发布节点时，通过冲突解决进度表来解决冲突。</p>
+<p>当从机节点信号发生变化的频率较低时，主机任务一次次地轮询各个信号会占用一定的带宽。为了减小带宽的占用，引入了事件触发帧的概念。</p>
+<p>事件触发帧的典型应用就是轮询四个车门的开关情况。与其利用无条件帧每个车门轮询一遍，不如同时对 四个车门进行询问，如果其中一个车门打开了(事件发生)，该车门要对询问作应答，即事件触发的含义。这样 做可以减小带宽，但同时会导致两种现象：</p>
+<ol>
+<li>其一就是没有车门被打开，即无节点应答——事件触发帧允许一帧中只有帧头无应答；</li>
+<li>另外一种情况就是冲突，即同时有大于等于两个车门被打开，对该问题同时作答——事件 触发帧允许两个以上的节点对帧头作应答而不视为错误。当发生冲突时，主机节点需要重新作轮询，这样会增 加一些响应时间，但由于事件触发帧本身就用来处理低概率事件，总的来说还是节省了带宽。</li>
+</ol>
+<p>原先用作轮询的无条件帧，称为与该事件触发帧关联的无条件帧，即事件触发帧的应答部分是与其关联的无条件帧所提供的应答。当发生冲突时，需要立刻中断当前的进度表，启动冲突解决进度表(Collision  Resolving Schedule)，重新调用这些关联的无条件帧。其中，冲突解决进度表要求包含所有的关联的无条件帧。 下图描述了事件触发帧的传输状况。事件触发帧的帧 ID 为 0x10，与其关联的两个无条件帧的帧 ID 分 别是 0x11 和 0x12，这些帧 ID 的值只是为了举例说明，协议并未强制规定。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260224083323114.png" alt="事件触发帧" loading='lazy'></p>
+<p>与事件触发帧关联的多个无条件帧需要满足以下 5 个条件：</p>
+<ol>
+<li>数据段包含的数据字节数等长；</li>
+<li>使用相同的校验和类型；</li>
+<li>数据段的第一个字节为该无条件帧的受保护 ID，这样才能够知道应答是哪个关联的无条件帧发送出来的；</li>
+<li>由不同的从机节点发布；</li>
+<li>不能与事件触发帧处于同一个进度表中。</li>
+</ol>
+<h3 id="偶发帧">偶发帧</h3>
+<p>偶发帧是主机节点在同一帧时隙中当自身信号发生变化时向总线启动发送的帧。当存在多个关联的应答信号变化时，通过事先设定的优先级来仲裁。</p>
+<p>与事件触发帧一样，偶发帧的应答也关联了一组无条件帧。规定偶发帧只能由主机节点作为发布节点。偶发帧的传输可能出现三种状况：</p>
+<ol>
+<li>当关联的无条件帧没有信号发生变化时，该时隙保持沉默，如下图第一个帧时隙所示，主机节点连帧头都不需要发送；</li>
+<li>当其中一个关联的无条件帧包含的信号发生了变化， 则发送该关联的无条件帧的应答部分；</li>
+<li>如果有两个或两个关联的无条件帧包含的信号发生了变化，则按照事 先规定好的优先级，优先级较高的关联的无条件帧获得发送权，优先级较低的要等到下一个偶发帧的帧头到来 时才能发送应答。由于主机节点是唯一的发布节点，所以主机节点事先就知道各个关联信号的优先级别，这样 在传输时就不会产生冲突。</li>
+</ol>
+<p>引入偶发帧的目的在于为进度表增加一些动态特性——当主机节点的信号发生变化时才有通信发生。事件触发帧和偶发帧反映了帧在不同时机(信号变化或未发生变化)的传输状况，引入它们的目的是为 了增加通信的灵活性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260224085605203.png" alt="偶发帧" loading='lazy'></p>
+<h3 id="诊断帧">诊断帧</h3>
+<p>诊断帧包括主机请求帧和从机应答帧，主要用于配置、识别和诊断用。主机请求帧(Master Request Frame， MRF)，帧 ID = 0x3C，应答部分的发布节点为主机节点；从机应答帧(Slave Response Frame，SRF)，帧 ID = 0x3D， 应答部分的发布节点为从机节点。数据段规定为 8 个字节，一律采用标准型校验和。</p>
+<h3 id="保留帧">保留帧</h3>
+<p>保留帧的帧 ID 为 0x3E 和 0x3F，为将来扩展用</p>
+<h2 id="进度表">进度表</h2>
+<p>进度表是帧的调度表，规定总线上帧的传输次序以及各帧在总线上的传输时间。进度表位于主机节点，主机任务根据应用层需要进行调度。进度表可以有多个，一般情况下，轮到某个进度表执行的时候，从该进度表规定的入口处开始顺序执行，到进度表的最后一个帧时，如果没有新的进度表启动，则返回到当前的进度表第 一个帧循环执行；也有可能在执行某个进度表当中发生中断，执行另一个进度表后再返回，如事件触发帧的冲 突解决过程就是一个典型的例子，如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303084145791.png" alt="进度表" loading='lazy'></p>
+<p>【注】1. 进度表的调入点称为进度表的一个入口(Entry)，对应进度表的某个帧。</p>
+<p>进度表除规定了帧 ID 的传输次序外，还规定了帧时隙(Frame Slot)的大小。帧时隙是进度表规定的一个帧的帧头起始到下一个的帧的帧头起始的时间。每个帧的帧时隙都可以不同，一个帧时隙对应了进度表的一个入 口，如下图所示，其中 i = 1～8。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303084913127.png" alt="帧时隙" loading='lazy'></p>
+<p>其中$T_{Frame_Maximum}$为帧在总线上传输的最大时间。抖动(Jitter)为帧的同步间隔段的下 降沿与帧时隙起始时刻相差的时间。时基(Time Base)为LIN子网的最小计时单位，通常设定为 5ms或 10ms。帧时隙必须为时基的整数倍，并且起始于时基的开始时刻(称为时基的节拍(Tick))，切换到另外一个进度表时一定要等到当前帧时隙的结束。</p>
+<h2 id="状态机的实现">状态机的实现</h2>
+<h3 id="主机任务的状态机">主机任务的状态机</h3>
+<p>当进度表启动后，主机任务依次发送同步间隔段、同步段和受保护 ID 段。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303085458771.png" alt="主机任务的状态机" loading='lazy'></p>
+<h3 id="从机任务的状态机">从机任务的状态机</h3>
+<p>从机任务负责发布或者接听帧的应答。包括两个状态机：</p>
+<ol>
+<li>同步间隔段和同步段检查器</li>
+<li>帧处理器</li>
+</ol>
+<p>从机任务状态机如表所示，其中帧处理的状态机如图所示。</p>
+<table>
+<thead>
+<tr>
+<th>从机任务状态机</th>
+<th>==</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>检测同步间隔段/同步段序列</td>
+<td>==</td>
+<td>要求节点处于任何状态下都能识别出该序列，包括已经检测到序列或进入帧处理的状态。</td>
+</tr>
+<tr>
+<td>帧处理</td>
+<td>接收并分析 PID</td>
+<td>对接收到的受保护ID 进行分析，按照事先的设计，选择是接收应答部分， 还是发送应答部分，或者不接收也不发送。<br> 在这五个子状态中，如果收到同步间隔段/同步段序列，将重新跳到&quot;接收并 分析PID&quot;的子状态，通信不停止，根据需要置位相应的错误标志。</td>
+</tr>
+<tr>
+<td>：</td>
+<td>接收数据</td>
+<td>：</td>
+</tr>
+<tr>
+<td>：</td>
+<td>接收校验和</td>
+<td>：</td>
+</tr>
+<tr>
+<td>：</td>
+<td>发送数据</td>
+<td>：</td>
+</tr>
+<tr>
+<td>：</td>
+<td>发送校验和</td>
+<td>：</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303085902159.png" alt="帧处理的状态机" loading='lazy'></p>
+<h2 id="网络管理">网络管理</h2>
+<p>网络管理主要指的是网络的休眠和唤醒管理：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303090955527.png" alt="网络管理" loading='lazy'></p>
+<h3 id="唤醒">唤醒</h3>
+<p>当总线处于休眠状态时：</p>
+<ul>
+<li>主/从机节点都可以向总线上发送唤醒信号，唤醒信号持续 250μs～5ms。其余节点(除发送唤醒信号以外的节点)以大于 150μs 为阈值判定唤醒信号。</li>
+<li>每个从机节点必须在唤醒信号显性脉冲的结束处算起 100ms 以内准备接收来自主机的命令(帧头)；</li>
+<li>主机节点也必须被唤醒，100ms 之内主机节点发送帧头开始通信。</li>
+<li>主机节点的同步间隔段也可以充当唤醒信号，由于从机节点需要作初始化处理，因此主机节点所 发的这个帧有可能不会被正常接收。</li>
+</ul>
+<p>如果节点发送出唤醒信号后，在 150ms～250ms 之内没有接收到总线上的任何命令(帧头)，则可以重新发送 一次唤醒信号。唤醒信号最多可以发送 3 次，3 次之后，必须等待至少 1.5s 之后才可以再次发送唤醒信号，如图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303091556735.png" alt="唤醒" loading='lazy'></p>
+<h3 id="休眠">休眠</h3>
+<p>总线可以在两种情况下进入休眠：</p>
+<ol>
+<li>
+<p>利用诊断帧中的主机请求帧 0x3C 作休眠命令，要求数据段的第一个字节为 0x00，其余字节为 0xFF。 休眠命令由主机节点发出，总线上的从机节点只判断数据段的第一个字节，其余字节忽略。从机节点在接 收到休眠命令后，不一定要进入低功耗模式，根据应用层需要设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260303092911867.png" alt="休眠命令" loading='lazy'></p>
+</li>
+<li>
+<p>当总线静默(没有显性和隐性电平之间的切换)4s～10s 时，节点自动进入休眠状态。</p>
+</li>
+</ol>
+<h2 id="状态管理">状态管理</h2>
+<p>状态管理是为了检测运行中的错误。错误一旦被发现，根据设计需要采取不同的措施进行排除，一种方法 是简单替换掉错误节点，另一种方法是让发生问题的节点进入到自我保护/安全模式(Limp Home Mode)。</p>
+<h3 id="网络报告">网络报告</h3>
+<p>协议强制规定，每个从机节点都要在它发布的某个无条件帧中包含一个长度为一位的标量信号 response_error，向主机节点报告自身状态。主机节点负责接收这个信号并且执行分析，如下表所示。事件触 发帧由于允许总线冲突，需特殊处理。</p>
+<table>
+<thead>
+<tr>
+<th>response_error</th>
+<th>主机节点对信号的解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FALSE</td>
+<td>从机节点操作正确。</td>
+</tr>
+<tr>
+<td>TRUE</td>
+<td>从机节点有偶发错误。</td>
+</tr>
+<tr>
+<td>从机节点无应答</td>
+<td>从机节点、总线或主机存在严重错误。</td>
+</tr>
+</tbody>
+</table>
+<p>LIN 协议并没有标准化错误类型，用户可根据需要自行制定。下表列出了可能出现的一些错误类型供参 考。</p>
+<table>
+<thead>
+<tr>
+<th>错误类型</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位错误</td>
+<td>通常，在一个时刻，LIN 总线上只有一个节点在向外发送信息，发送的同时回读总线上的数据，当发送节点发送电平与回读电平不一致时，视为位错误。</td>
+</tr>
+<tr>
+<td>同步段错误</td>
+<td>根据接收的同步段重新计算的位速率超出了规定的容限，认为是同步段错误。</td>
+</tr>
+<tr>
+<td>PID 错误</td>
+<td>接收节点对帧 ID(PID 的前六位)按照校验规则重新计算校验位(P0 和 P1)，若与接收到的校验位不符，则接收节点认为是 PID 传输错误。</td>
+</tr>
+<tr>
+<td>无应答错误</td>
+<td>发送完帧头后，如果总线上没有节点应答，视为无应答错误(事件触发帧除外)。</td>
+</tr>
+<tr>
+<td>应答不完整错误</td>
+<td>收听节点接收的数据段不完整或没有接收到校验和段。</td>
+</tr>
+<tr>
+<td>校验和错误</td>
+<td>收听节点接收到的校验和与重新计算的校验和(不取反)加起来不等于 0xFF。</td>
+</tr>
+<tr>
+<td>帧错误</td>
+<td>字节域的停止位上出现了显性电平。</td>
+</tr>
+<tr>
+<td>物理总线错误</td>
+<td>总线短路或直接连到电源上导致总线无法通信，该错误由主机节点负责检测。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="节点内部报告">节点内部报告</h3>
+<p>节点自身需要设定两个状态位：Error_in_response 和 Successful_transfer。当发送或接收应答的时候发现错误，将置位 Error_in_response；成功传输则置位 Successful_transfer。节点需要将这两个状态位报告给应用层。</p>
+<h1>传输层</h1>
+<p>传输层的任务单一，就是充当一个“翻译官”，把来自诊断服务的消息(Message)“翻译”成协议层可以处理的 PDU (Packet Data Unit，分组数据单元)，或者反过来，把协议层收到的 PDU“翻译”成诊断服务需要的消息。消 息到 PDU 的转换过程称为拆分(Packing)，PDU 到消息的转换过程称为重组(Unpacking)。PDU 对应着帧结构的数据段，并通过诊断帧发送或接收。</p>
+<h2 id="PDU结构">PDU结构</h2>
+<p>为满足汽车行业的要求，LIN 传输层 PDU 的格式与 ISO 制定的基于 CAN 网络的诊断标准 非常相似(是 ISO 标准的子集)。这种兼容性大大减少了在 CAN 和 LIN 之间转换数据格式的工作量，降低了对节点计算能力的要求。</p>
+<p>从发送格式上，PDU 单元可分为：</p>
+<ul>
+<li>单帧(Single Frame，SF)</li>
+<li>首帧(First Frame，FF)</li>
+<li>续帧(Consecutive Frames， CF)</li>
+</ul>
+<p>从发送源上，主机发送请求 PDU，从机发送应答 PDU。 如下图所示，为 PDU 格式，包括：</p>
+<ul>
+<li>节点地址(NAD)</li>
+<li>协议控制信息(PCI)</li>
+<li>LEN</li>
+<li>服务 ID(SID)</li>
+<li>应答服务 ID(RSID)</li>
+<li>消息字节段(D1~D6)</li>
+</ul>
+<p>首字节 NAD 首先发送，末字节 D4,D5,D6 最后发送。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260304082722112.png" alt="LIN传输层支持的PDU格式" loading='lazy'></p>
+<h3 id="NAD">NAD</h3>
+<p>PDU 单元的第一个字节是 NAD（node address），用于区分不同从机节点的地址。 如下表所示，列出了 NAD 的取值范围：</p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x00</td>
+<td>用于休眠命令</td>
+</tr>
+<tr>
+<td>0x01～0x7D</td>
+<td>从机节点地址，即NAD</td>
+</tr>
+<tr>
+<td>0x7E</td>
+<td>功能节点地址 （功能NAD)</td>
+</tr>
+<tr>
+<td>0x7F</td>
+<td>广播节点地址 （广播NAD)</td>
+</tr>
+<tr>
+<td>0x80～0xFF</td>
+<td>用户自定义</td>
+</tr>
+</tbody>
+</table>
+<h3 id="PCI">PCI</h3>
+<p>PDU 单元的第二个字节是 PCI（Protocol Control Information）信息，包含了 PDU 单元类型和消息字节长度 的信息。如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>PCI 类型</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>附加信息</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>B7</td>
+<td>B6</td>
+<td>B5</td>
+<td>B4</td>
+<td>B3</td>
+<td>B2</td>
+<td>B1</td>
+<td>B0</td>
+</tr>
+<tr>
+<td>SF(单帧)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>Length</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+</tr>
+<tr>
+<td>FF（首帧)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>Length 高 4 位</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+</tr>
+<tr>
+<td>CF（续帧）</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>帧计数器</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+</tr>
+</tbody>
+</table>
+<p>单帧中，附加信息 Length 表示消息字节数加 1。（<strong>Length就是PCI之后的长度</strong>）</p>
+<p>首帧中，附加信息只表示 Length 的高 4 位，低 8 位在 LEN 中表示。因此在消息长度为 12 位数据，最大长度为 4095（0xFFF）。</p>
+<p>续帧中的附加信息表示首帧后，跟随的续帧的编号，第一个续帧编号为 1，之后累加 1。如果续帧数多于 15 个，那么帧计数器在第 16 个续帧时从 0 重新计数。</p>
+<h3 id="SID-与-RSID">SID 与 RSID</h3>
+<p>SID（Service Identifier）表示了从机节点应完成的服务请求。节点配置服务的 SID 区间为 0xB0~0xB7,诊断 服务的 SID 区间为 0x00 ~ 0xAF,0xB8~0xFE。 RSID（Response Service Identifier）表示从机节点应答的内容，它的值是 SID+0x40。</p>
+<h3 id="消息字节段">消息字节段</h3>
+<p>消息字节段的内容取决于服务的种类。在单帧中，消息字段最多 6 个字节。在首帧和续帧中，所有 PDU 的 消息字段，经过“重组”组成一个完成的消息。</p>
+<h2 id="传输层通信">传输层通信</h2>
+<ul>
+<li>应用层发出的消息如果长度不超过单帧的容量，传输层会按单帧的格式交给协议层发送。传输层收到的单帧也会直接作为消息送往应用层；</li>
+<li>如果消息长度超过单帧的容量，传输层先要把消息拆分成首帧和续帧并排好次序，然后再交给协议层依次发送。反过来，协议层收到的首帧和续帧，传输层先要按照接收次序将其重组为 消息，最后交给应用层处理。</li>
+<li>LIN 传输层只能按顺序接收续帧。</li>
+<li>LIN 传输层具备出错重传功能。</li>
+</ul>
+<h1>应用层</h1>
+<p>LIN 应用层提供信号处理、配置、识别和诊断四项功能。配置、识别和诊断功能又包含若干项目，称为服 务(Service)。为了区别，每项服务都有固定、唯一的服务代号(Service ID，SID)。图 5.2 描述了 LIN 应用层及其 关联。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/LIN/">https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/LIN/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">通信协议</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/IIC/" title="IIC"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">IIC</div></div><div class="info-2"><div class="info-item-1">参考链接 STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客 I2C-bus specification and user manual (nxp.com) 概述 IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/Bluetooth/" title="Bluetooth"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_8_59_202412091408388.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Bluetooth</div></div><div class="info-2"><div class="info-item-1">参考链接 深入浅出低功耗蓝牙(BLE)协议栈及蓝牙连接过程_蓝牙芯片的寄存器组为什么需要分为两块-CSDN博客 蓝牙核心技术概述（一）:蓝牙概述_蓝牙技术-CSDN博客 蓝牙核心技术概述（三）： 蓝牙协议规范（射频、基带链路控制、链路管理）_蓝牙3.0技术规范-CSDN博客 蓝牙核心技术概述（...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/CAN/" title="CAN"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125132704192.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">CAN</div></div><div class="info-2"><div class="info-item-1">            参考链接 CAN入门书 (eet-china.com) 简介   CAN总线（Controller Area Network Bus）控制器局域网总线   CAN总线是由BOSCH公司开发的一种简洁易用、传输速度快、易扩展、可靠性高的串行通信总线，广泛应用于汽车、嵌入式...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/IIC/" title="IIC"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">IIC</div></div><div class="info-2"><div class="info-item-1">参考链接 STM32 IIC通讯协议详解—小白入门_stm32 iic速率修改-CSDN博客 I2C-bus specification and user manual (nxp.com) 概述 IIC:Inter Integrated Circuit,集成电路总线，是一种同步串行半双工通信总...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/SPI/" title="SPI"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">SPI</div></div><div class="info-2"><div class="info-item-1">参考链接 SPI协议详解（图文并茂+超详细） - 知乎 (zhihu.com) 串口 因为UART没有时钟信号，无法控制何时发送数据，也无法保证双方按照完全相同的速度接收数据。因此，双方以不同的速度进行数据接收和发送，就会出现问题。 如果要解决这个问题，UART为每个字节添加额外的起始位和停止...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/TCP%E5%92%8CUDP/" title="TCP和UDP"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">TCP和UDP</div></div><div class="info-2"><div class="info-item-1">参考链接 OSI七层模型、TCP/IP四层模型（超详细！！！！！）-CSDN博客 OSI 七层模型，亦称==OSI==（Open System Interconnection）。参考模型是国际标准化组织（ISO）制定的一个用于计算机或通信系统间互联的标准体系，一般称为OSI参考模型或七层模型。...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/Bluetooth/" title="Bluetooth"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_8_59_202412091408388.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">Bluetooth</div></div><div class="info-2"><div class="info-item-1">参考链接 深入浅出低功耗蓝牙(BLE)协议栈及蓝牙连接过程_蓝牙芯片的寄存器组为什么需要分为两块-CSDN博客 蓝牙核心技术概述（一）:蓝牙概述_蓝牙技术-CSDN博客 蓝牙核心技术概述（三）： 蓝牙协议规范（射频、基带链路控制、链路管理）_蓝牙3.0技术规范-CSDN博客 蓝牙核心技术概述（...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/UDS/" title="UDS"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125085207933.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">UDS</div></div><div class="info-2"><div class="info-item-1">参考链接 《UDS协议从入门到精通（UDS速查手册）》（完结撒花版）_obdonuds-CSDN博客 ISO 14229-1 UDS中文译版 (diag123.com) ISO 14229-1:2020(en), Road vehicles — Unified diagnostic servi...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">协议层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%A7%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">帧结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E9%97%B4%E9%9A%94%E6%AE%B5"><span class="toc-number">3.1.1.</span> <span class="toc-text">同步间隔段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%AE%B5"><span class="toc-number">3.1.2.</span> <span class="toc-text">同步段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%97%E4%BF%9D%E6%8A%A4ID%E6%AE%B5"><span class="toc-number">3.1.3.</span> <span class="toc-text">受保护ID段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%AE%B5"><span class="toc-number">3.1.4.</span> <span class="toc-text">数据段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C%E6%AE%B5"><span class="toc-number">3.1.5.</span> <span class="toc-text">校验和段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E4%BC%A0%E8%BE%93%E6%97%B6%E9%97%B4%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">3.1.6.</span> <span class="toc-text">帧传输时间的计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E5%9C%A8%E6%80%BB%E7%BA%BF%E4%B8%8A%E7%9A%84%E4%BC%A0%E8%BE%93%E6%B3%A2%E5%BD%A2"><span class="toc-number">3.1.7.</span> <span class="toc-text">帧在总线上的传输波形</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%A7%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">帧类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%9D%A1%E4%BB%B6%E5%B8%A7"><span class="toc-number">3.2.1.</span> <span class="toc-text">无条件帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E5%B8%A7"><span class="toc-number">3.2.2.</span> <span class="toc-text">事件触发帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%B6%E5%8F%91%E5%B8%A7"><span class="toc-number">3.2.3.</span> <span class="toc-text">偶发帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%8A%E6%96%AD%E5%B8%A7"><span class="toc-number">3.2.4.</span> <span class="toc-text">诊断帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E7%95%99%E5%B8%A7"><span class="toc-number">3.2.5.</span> <span class="toc-text">保留帧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%BA%A6%E8%A1%A8"><span class="toc-number">3.3.</span> <span class="toc-text">进度表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.4.</span> <span class="toc-text">状态机的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E6%9C%BA%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">3.4.1.</span> <span class="toc-text">主机任务的状态机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E6%9C%BA%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">3.4.2.</span> <span class="toc-text">从机任务的状态机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86"><span class="toc-number">3.5.</span> <span class="toc-text">网络管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%94%A4%E9%86%92"><span class="toc-number">3.5.1.</span> <span class="toc-text">唤醒</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%91%E7%9C%A0"><span class="toc-number">3.5.2.</span> <span class="toc-text">休眠</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86"><span class="toc-number">3.6.</span> <span class="toc-text">状态管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%8A%A5%E5%91%8A"><span class="toc-number">3.6.1.</span> <span class="toc-text">网络报告</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%86%85%E9%83%A8%E6%8A%A5%E5%91%8A"><span class="toc-number">3.6.2.</span> <span class="toc-text">节点内部报告</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">传输层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PDU%E7%BB%93%E6%9E%84"><span class="toc-number">4.1.</span> <span class="toc-text">PDU结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NAD"><span class="toc-number">4.1.1.</span> <span class="toc-text">NAD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCI"><span class="toc-number">4.1.2.</span> <span class="toc-text">PCI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SID-%E4%B8%8E-RSID"><span class="toc-number">4.1.3.</span> <span class="toc-text">SID 与 RSID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%AD%97%E8%8A%82%E6%AE%B5"><span class="toc-number">4.1.4.</span> <span class="toc-text">消息字节段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E9%80%9A%E4%BF%A1"><span class="toc-number">4.2.</span> <span class="toc-text">传输层通信</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">应用层</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,761 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ADC | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ADC简介 Analog-to-Digital Converter的缩写。指模&#x2F;数转换器或者模拟&#x2F;数字转换器。是指将**连续变量的模拟信号转换为离散的数字信号的器件。**典型的模拟数字转换器将模拟信号转换为表示一定比例电压值的数字信号。  [!tip] 各个芯片的外设属性均不一样，以下仅代表其中一个芯片型号的ADC功能，但各家的功能都大差不差。  原理 常见ADC类型    ADC电路类型 优点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ADC">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="ADC简介 Analog-to-Digital Converter的缩写。指模&#x2F;数转换器或者模拟&#x2F;数字转换器。是指将**连续变量的模拟信号转换为离散的数字信号的器件。**典型的模拟数字转换器将模拟信号转换为表示一定比例电压值的数字信号。  [!tip] 各个芯片的外设属性均不一样，以下仅代表其中一个芯片型号的ADC功能，但各家的功能都大差不差。  原理 常见ADC类型    ADC电路类型 优点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png">
+<meta property="article:published_time" content="2026-04-12T08:12:40.242Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.242Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="外设组件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ADC",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/",
+  "image": "https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png",
+  "datePublished": "2026-04-12T08:12:40.242Z",
+  "dateModified": "2026-04-12T08:12:40.242Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ADC',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">ADC</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ADC</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.242Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.242Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>ADC简介</h1>
+<p>Analog-to-Digital Converter的缩写。指模/数转换器或者模拟/数字转换器。是指将**连续变量的模拟信号转换为离散的数字信号的器件。**典型的模拟数字转换器将模拟信号转换为表示一定比例电压值的数字信号。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>各个芯片的外设属性均不一样，以下仅代表其中一个芯片型号的ADC功能，但各家的功能都大差不差。</p>
+</blockquote>
+<h1>原理</h1>
+<h2 id="常见ADC类型">常见ADC类型</h2>
+<table>
+<thead>
+<tr>
+<th><strong>ADC电路类型</strong></th>
+<th><strong>优点</strong></th>
+<th><strong>缺点</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>并联比较型</strong></td>
+<td>转换速度最快</td>
+<td>成本高、功耗高，分辨率低</td>
+</tr>
+<tr>
+<td><strong>逐次逼近型</strong></td>
+<td>结构简单，功耗低</td>
+<td>转换速度较慢</td>
+</tr>
+</tbody>
+</table>
+<h2 id="并联比较型">并联比较型</h2>
+<p>将输入的参考电压和模拟电压输入进行比较，比较器会输出0或1从而获得二进制的数字量</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128155931854.png" alt="并联比较型" loading='lazy'></p>
+<h2 id="逐次逼近型">逐次逼近型</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128160110838.png" alt="逐次逼近型" loading='lazy'></p>
+<h1>外设详解</h1>
+<h2 id="结构框图">结构框图</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png" alt="ADC原理框图" loading='lazy'></p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251128162249955.png" alt="结构框图" loading='lazy'></p>
+<h2 id="输入通道">输入通道</h2>
+<p>ADC的信号输入通过通道来实现的，信号通过通道输入到单片机中，单片机经过转换后，将模拟信号转换为数字信号。以上框图中的输入通道为：</p>
+<table>
+<thead>
+<tr>
+<th>通道</th>
+<th>10</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC_IN0</td>
+<td>PD11</td>
+<td>外部快速通道，单端或差分输入 其中差分对组合关系如下：<br>ADC_IN0-ADC_IN7<br>ADC_IN1-ADC_IN8 <br>ADC_IN2-ADC_IN9<br>ADC_IN3-ADC_IN10<br>ADC_IN4-ADC_IN11<br>ADC_IN5-ADC_IN12<br>ADC_IN6-ADC_IN13</td>
+</tr>
+<tr>
+<td>ADC_IN1</td>
+<td>PD1</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN2</td>
+<td>PD3</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC IN3</td>
+<td>PD5</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC IN4</td>
+<td>PA13</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC IN5</td>
+<td>PA0</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC IN6</td>
+<td>PC7</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC IN7</td>
+<td>PD0</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC IN8</td>
+<td>PD2</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC _IN9</td>
+<td>PD4</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN10</td>
+<td>PD6</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC C_IN11</td>
+<td>PA14</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_ C_IN12</td>
+<td>PA1</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_ C_IN13</td>
+<td>PC8</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN14</td>
+<td>PC9</td>
+<td>外部慢速通道，单端输入</td>
+</tr>
+<tr>
+<td>ADC_IN15</td>
+<td>PC10</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN16</td>
+<td>PC11</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN17</td>
+<td>PC12</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN18</td>
+<td>PD10</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ADC_IN19</td>
+<td>PE9</td>
+<td></td>
+</tr>
+<tr>
+<td>VBAT/3</td>
+<td>N/A</td>
+<td>VBAT采样通道</td>
+</tr>
+<tr>
+<td>VDD/3</td>
+<td>:</td>
+<td>VDD采样通道</td>
+</tr>
+<tr>
+<td>VREF1P2</td>
+<td>:</td>
+<td>内部1.2V基准源采样通道</td>
+</tr>
+<tr>
+<td>TS</td>
+<td>:</td>
+<td>温度传感器采样通道</td>
+</tr>
+<tr>
+<td>AVREF</td>
+<td>:</td>
+<td>内部1.0V基准源采样通道</td>
+</tr>
+<tr>
+<td>DAC</td>
+<td>:</td>
+<td>DAC输出采样通道</td>
+</tr>
+<tr>
+<td>OPA</td>
+<td>:</td>
+<td>运放输出采样通道</td>
+</tr>
+</tbody>
+</table>
+<p>有些芯片是支持两种不同的输入的：</p>
+<ol>
+<li>单端输入</li>
+<li>差分输入</li>
+</ol>
+<h3 id="单端输入">单端输入</h3>
+<p>单端模式下 ADC 转换的是单个输入引脚对地的电压值，输入幅度范围是 0~+VREF+。为了避免可能的波形削顶风险导致输入失真，一般建议输入信号最大幅值不超过 0.95*VREF+。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201091756528.png" alt="ADC单端输入" loading='lazy'></p>
+<h3 id="差分输入">差分输入</h3>
+<p>差分输入模式下，ADC 转换的是差分输入引脚对 VIN+和 VIN-之间的差值，输入信号为(VIN+) –(VIN-)，输入范围是-VREF~+VREF。使用差分输入方式，可以获得更好的共模噪声抑制效果，因此当被采样信号源远离 ADC 输入引脚时，推荐使用差分对方式提高信噪比。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201092054502.png" alt="ADC差分输入" loading='lazy'></p>
+<p>其中差分模式码字与输入信号电平的对应关系：<br>
+$$<br>
+（ADC 转换值-2048）<em>LSB</em>2 = (VIN+)–(VIN-)<br>
+$$<br>
+转换之后差分输入信号与码字的关系为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201092500644.png" alt="差分输入信号与码字的关系" loading='lazy'></p>
+<h2 id="参考电压">参考电压</h2>
+<p>ADC可以使用VDDA或VREFP作为参考电压。</p>
+<h3 id="使用VDDA">使用VDDA</h3>
+<p>ADC 一般使用电源电压作为基准电压，在电源电压发生变化时，特定输入信号电平对应的转换值也会发生变化。为了能够得到准确的绝对电压，可以由两种解决方案。</p>
+<ol>
+<li>
+<p>使用高精度内部基准作为参考信号</p>
+<ol>
+<li>
+<p>首先芯片 Flash 中保存了 30℃ 环境温度下 VDDA=3.0V 条件下测量 VREF1P2 电压得到的转换值</p>
+</li>
+<li>
+<p>芯片实际应用中，由于不知道当前VDDA 电压，ADC 先测量VREF1P2 得到转换值VREFINT_DATA；通过以下公式可以得到当前实际的 VDDA：<br>
+$$<br>
+VDDA=\frac{VREFINT_CAL}{VREFINT_DATA}\times3V<br>
+$$</p>
+</li>
+<li>
+<p>假设 ADC 对某个输入通道的采样值为 ADC_DATA，通过以下公式可以得到当前某个输入通道的实际电压（12bit 输出）:<br>
+$$<br>
+V_{CHANNEL}=\frac{VREFINT_CAL\times ADC_{-}DATA}{VREFINT_{-}DATA\times4095}\times3V<br>
+$$</p>
+</li>
+<li>
+<p>采用这个方式，不需要知道每颗芯片 VREF 的实际电压值，仅需计算当前 VREF1P2 采样值和出厂测试值的比例；但是需要保证测试时 VDDA 的电压精度和温度精度，以尽可能减小误差</p>
+</li>
+<li>
+<p>注意到 VREFIN_CAL 是 3V 参考电压下 1.22V 的转换值，那么这个值应该在 1665 附近，即 11bit无符号有效值，ADC_DATA 是 12bit 无符号数，VREFINT_CAL<em>ADC_DATA</em>3 最大为 25bit；VREFINT_DATA 最大转换值为 1.8V 下的 1.22V 即 2775 左右，相当于 12bit 无符号数，所以VREFINT_DATA*4095 最大为 24bit，通过 32bit 除法可以实现计算。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>使用快速内部基准作为参考信号<br>
+芯片内部还有一个快速建立的内部基准源，其输出电压是 1.0V，并且每颗芯片出厂时都经过校准，常温下精度为 1.0V+/-0.5%。相对 VREF1P2，快速基准源的启动速度很快，典型条件下可以在 5us内完成启动和输出电压建立，而 VREF1P2 需要 1ms 以上。但是快速基准源的精度受温度影响相对较大，全温区变化可以达到+/-4%，因此适用于对绝对精度要求不高的场合。</p>
+<ol>
+<li>
+<p>ADC 采样并转换快速基准输出，并通过以下公式换算 VDDA 电压（假设 ADC 采样快速基准源的 12 位转换结果是 BGQS_DATA）：<br>
+$$<br>
+VDDA=\frac{4095}{BGQS_DATA}\times1.0V<br>
+$$</p>
+</li>
+<li>
+<p>假设 ADC 对某个输入通道的采样值为 ADC_DATA，通过以下公式可以得到当前某个输入通道的实际电压（12bit 输出）<br>
+$$<br>
+V_{CHANNEL}=\frac{ADC_{-}DATA}{BGQS_{-}DATA}\times1.0V<br>
+$$</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="使用VREFP">使用VREFP</h3>
+<p>要知道，转换后的数据是一个12位的二进制数，我们需要把这个二进制数代表的模拟量（电压）用数字表示出来。比如测量的电压范围是0~VREFP ，转换后的二进制数是<code>ADC_DATA</code>，因为12位ADC在转换时将电压的范围大小（也就是VREFP ）分为4096（$2^{12}$）份，所以转换后的二进制数和真实电压之间的关系就是：<br>
+$$<br>
+V_{CHANNEL}=\frac{ADC_DATA}{4095}\times VREFP<br>
+$$</p>
+<h2 id="工作时序">工作时序</h2>
+<p>ADC 有 offset 校准和正常工作两种时序。</p>
+<h3 id="校准时序">校准时序</h3>
+<p>上电后建议先进行一次校准，以获得更好的性能。校准后无需重新校准，除非芯片发生全局复位，或者电源电压、温度发生较大变化。</p>
+<ul>
+<li>Offset 校准通过软件置位 CALEN 启动。</li>
+<li>校准过程包含多个采样转换周期，周期数由 OSCAL_CYCLE 寄存器配置，一般推荐使用默认配置，即完成校准需要 64个 ADCCLK 周期。</li>
+<li>校准完成后置位 EOCAL 标志寄存器。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201093022033.png" alt="ADC校准时序" loading='lazy'></p>
+<h3 id="采样转换时序">采样转换时序</h3>
+<ul>
+<li>采样转换时，通过 SOC 信号启动 ADC 采样。</li>
+<li>SOC 高电平宽度控制了 ADC 采样时间，SOC 变低后启动转换，转换周期为 14 个 ADC_CLK 周期，采样时间可配置，最短 2 个 ADC_CLK，最长 512个 ADC_CLK。</li>
+<li>ADC 采样转换完成后产生 EOC（End of Conversion）信号，ADC 控制器在采样 EOC后置位 EOC 标志寄存器，并且可以根据配置产生中断事件或 DMA 请求。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201093619441.png" alt="ADC转换时序" loading='lazy'></p>
+<h3 id="采样时序">采样时序</h3>
+<p>多通道转换序列的时序如下。</p>
+<ul>
+<li>ADC 对所有使能的输入通道依次完成一轮采样转换，成为一个转换序列。</li>
+<li>当所有使能的输入通道都被依次采样转换过后，ADC 控制器置位 EOS（End of Sequence）标志寄存器，并可以根据配置产生中断事件。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201093432296.png" alt="ADC采样时序" loading='lazy'></p>
+<h2 id="转换模式">转换模式</h2>
+<p>ADC 支持以下转换模式：</p>
+<ol>
+<li>单次转换
+<ol>
+<li>半自动触发（SEMI-AUTOMATIC）</li>
+<li>全自动触发（AUTOMATIC）</li>
+</ol>
+</li>
+<li>连续转换</li>
+</ol>
+<p>转换启动可以由软件或事件触发，通过寄存器选择多个事件触发源。</p>
+<h3 id="单次转换">单次转换</h3>
+<p>单次转换是指 ADC 完成一个转换序列后自动停止采样（但是 ADC 仍然是保持使能的），等待新的触发事件到来。单次转换支持半自动触发和全自动触发两种方式。</p>
+<ol>
+<li>
+<p>全自动触发模式：软件或硬件触发事件启动 ADC 转换后，ADC 会顺序采样所有被使能的通道，单个通道采样完成后，EOC（End of Conversion）标志置位，所有通道采样完成后，EOS（End ofSequence）标志置位，本次转换结束。</p>
+<ol>
+<li>
+<p>假设通道 0、3、5 被使能</p>
+</li>
+<li>
+<p>触发事件：通道 0、3、5 被顺序采样，过程中产生三次 EOC，最终产生 EOS</p>
+</li>
+<li>
+<p>触发事件：重复上述过程</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202083710278.png" alt="ADC单次转换全自动触发模式" loading='lazy'></p>
+</li>
+</ol>
+</li>
+<li>
+<p>半自动触发模式：软件或硬件触发事件只会让 ADC 启动一次，转换一个使能通道。比如通道 0、3、5 被使能</p>
+<ol>
+<li>
+<p>触发事件：通道 0 被采样，产生 EOC</p>
+</li>
+<li>
+<p>触发事件：通道 3 被采样，产生 EOC</p>
+</li>
+<li>
+<p>触发事件：通道 5 被采样，产生 EOC 和 EOS</p>
+</li>
+<li>
+<p>触发事件：通道 0 被采样，产生 EOC</p>
+</li>
+<li>
+<p>触发事件：通道 3 被采样，产生 EOC</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202083945396.png" alt="ADC单次转换的半自动触发模式" loading='lazy'></p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="连续转换">连续转换</h3>
+<p>触发事件到来后，所有使能通道被采样，并且 ADC 不会自动停止，而是循环采样，直到软件停止ADC。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202084137636.png" alt="连续转换" loading='lazy'></p>
+<p>每个通道被采样后，数据保存在 ADC_DATA 寄存器中，软件要在下次转换前及时读走数据，或者通过 DMA 进行数据搬移。如果不能及时取走数据，将引起 Overrun，置位 overrun 标志，并可以发出中断。</p>
+<h2 id="触发源">触发源</h2>
+<p>ADC转换的输入、通道、转换顺序都已经说明了，但ADC转换是怎么触发的呢？就像通信协议一样，都要规定一个起始信号才能传输信息，ADC也需要一个触发信号来实行模/数转换。</p>
+<ol>
+<li>
+<p>软件触发，可以通过设置特定的寄存器来触发转换，具体配置请参考芯片的数据手册</p>
+</li>
+<li>
+<p>硬件触发</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202084853070.png" alt="ADC转换硬件触发源" loading='lazy'></p>
+<blockquote>
+<p>[!note]</p>
+<p>注意：硬件触发源输入后经过APBCLK 同步采样，因此使用硬件触发功能时必须使能ADC总线时钟（置位CMU 模块中的ADC_PCE 寄存器）。如果 ADC正处于转换过程中，此时到来的触发信号会被忽略。</p>
+<table>
+<thead>
+<tr>
+<th>触发源</th>
+<th>时钟域</th>
+<th>当ADC工作时钟选择为 APBCLK时的触发延迟 (TAPBCLK)</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件触发</td>
+<td>APBCLK</td>
+<td>3.5</td>
+<td>可实现同步触发， 确定延迟</td>
+</tr>
+<tr>
+<td>LUTX_TRGO</td>
+<td>:</td>
+<td>4.5</td>
+<td>:</td>
+</tr>
+<tr>
+<td>GPTIMX_TRGO</td>
+<td>:</td>
+<td>4.5</td>
+<td>:</td>
+</tr>
+<tr>
+<td>COMPX_TRGO</td>
+<td>:</td>
+<td>4.5</td>
+<td>:</td>
+</tr>
+<tr>
+<td>ATIM TRGO</td>
+<td>其他</td>
+<td>2~3</td>
+<td>异步时钟触发</td>
+</tr>
+<tr>
+<td>BSTIM16_TRGO</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+</tr>
+<tr>
+<td>LPTIM16_TRGO</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+</tr>
+<tr>
+<td>RTCA TRGO</td>
+<td>:</td>
+<td>:</td>
+<td>:</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</li>
+</ol>
+<h2 id="数据寄存器">数据寄存器</h2>
+<p>当使用ADC独立模式（也就是只使用一个ADC，可以使用多个通道）时，数据存放在低16位中，当使用ADC多模式时高16位存放ADC2的数据。需要注意的是ADC转换的精度是12位，而寄存器中有16个位来存放数据，所以要规定数据存放是左对齐还是右对齐。</p>
+<p>当使用多个通道转换数据时，会产生多个转换数据，然鹅数据寄存器只有一个，多个数据存放在一个寄存器中会覆盖数据导致ADC转换错误，所以我们经常在一个通道转换完成之后就立刻将数据取出来，方便下一个数据存放。一般开启DMA模式将转换的数据，传输在一个数组中，程序对数组读操作就可以得到转换的结果。</p>
+<h1>实验</h1>
+<p>使用ADC的步骤</p>
+<p>电位器作为ADC输入</p>
+<ol>
+<li>确定ADC挂载在哪个总线上，并开启ADC的时钟</li>
+<li>配置与ADC通道相对应的GPIO引脚为模拟输入模式</li>
+<li>配置规则组通道，包括通道号、顺序和采样时间</li>
+<li>设置ADC的工作模式、数据对齐方式 、外部触发源、通道数量等参数</li>
+<li>使能ADC</li>
+<li>校准ADC</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">adc_init</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3,ENABLE);</span><br><span class="line">	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF,ENABLE);</span><br><span class="line">	RCC_ADCCLKConfig(RCC_PCLK2_Div6);</span><br><span class="line">	</span><br><span class="line">	GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">	GPIO_InitStruct.GPIO_Pin = ADC_PIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AIN;</span><br><span class="line">	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line">	</span><br><span class="line">	GPIO_Init(ADC_PORT,&amp;GPIO_InitStruct);</span><br><span class="line"></span><br><span class="line">	ADC_RegularChannelConfig(ADC3,ADC_Channel_4,<span class="number">1</span>,ADC_SampleTime_55Cycles5);	<span class="comment">//配置规则通道组，填充菜单列表</span></span><br><span class="line">	</span><br><span class="line">	ADC_InitTypeDef ADC_InitStruct;</span><br><span class="line">	ADC_InitStruct.ADC_ContinuousConvMode = DISABLE;</span><br><span class="line">	ADC_InitStruct.ADC_DataAlign = ADC_DataAlign_Right;</span><br><span class="line">	ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;	<span class="comment">//软件触发</span></span><br><span class="line">	ADC_InitStruct.ADC_Mode = ADC_Mode_Independent;</span><br><span class="line">	ADC_InitStruct.ADC_NbrOfChannel = <span class="number">1</span>;</span><br><span class="line">	ADC_InitStruct.ADC_ScanConvMode = DISABLE;</span><br><span class="line">	ADC_Init(ADC3,&amp;ADC_InitStruct);</span><br><span class="line">	</span><br><span class="line">	ADC_Cmd(ADC3,ENABLE);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//开始校准</span></span><br><span class="line">	ADC_ResetCalibration(ADC3);	<span class="comment">//复位校准</span></span><br><span class="line">	<span class="keyword">while</span>(ADC_GetResetCalibrationStatus(ADC3) != RESET);	<span class="comment">//等待复位校准完成</span></span><br><span class="line">	ADC_StartCalibration(ADC3);	<span class="comment">//开始校准</span></span><br><span class="line">	<span class="keyword">while</span>(ADC_GetCalibrationStatus(ADC3) == SET);<span class="comment">//等待校准完成</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">u16 <span class="title function_">ad_getValue</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	ADC_SoftwareStartConvCmd(ADC3,ENABLE);</span><br><span class="line">	<span class="keyword">while</span>(ADC_GetFlagStatus(ADC3,ADC_FLAG_EOC) == RESET);	<span class="comment">//等待转换完成，也就是EOC信号</span></span><br><span class="line">	<span class="keyword">return</span> ADC_GetConversionValue(ADC3);	<span class="comment">//读取完数据将会自动清除数据位</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="type">char</span> str[<span class="number">50</span>];</span><br><span class="line">    </span><br><span class="line">	serial_init(); </span><br><span class="line">	adc_init();	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">		<span class="built_in">sprintf</span>(str,<span class="string">&quot;read: %u\n &quot;</span>,ad_getValue());</span><br><span class="line">		send_string(str);</span><br><span class="line">		Delay_ms(<span class="number">1000</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/">https://youshouldtrustme.github.io/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/ADC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/">外设组件</a></div><div class="post-share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/RTOS/FreeRTOS/" title="FreeRTOS"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">FreeRTOS</div></div><div class="info-2"><div class="info-item-1">入门 用人来类比单片机程序和RTOS  妈妈要一边给小孩喂饭，一边加班跟同事微信交流，怎么办？   我无法一心多用 对于单线条的人，不能分心、不能同时做事，她只能这样做：  给小孩喂一口饭 瞄一眼电脑，有信息就去回复 再回来给小孩喂一口饭 如果小孩吃这口饭太慢，她回复同事的信息也就慢了，被同事...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/" title="DAC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202085839348.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">DAC</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】DAC详解_dac12bit-CSDN博客 简述 DAC,全称：Digital-to-Analog Converter,指数字/模拟转换器。DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DAC/" title="DAC"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251202085839348.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">DAC</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】DAC详解_dac12bit-CSDN博客 简述 DAC,全称：Digital-to-Analog Converter,指数字/模拟转换器。DAC 模块是 12 位电压输出数模转换器。  DAC 可以按 8 位或 12 位模式进行配置，并且可与DMA 控制器配合使用。 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/Flash/" title="Flash"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_19_15_51_202410151915559.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">Flash</div></div><div class="info-2"><div class="info-item-1">概述 实际上，嵌入式系统可以类比PC，他们之间的对应关系如下：    嵌入式芯片组件 (Embedded Chip) 个人电脑组件 (PC) 作用/功能描述     Flash (e.g., NOR/NAND Flash) 硬盘 (HDD) / 固态硬盘 (SSD) 存储程序代码和长期数据。它...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/GPIO/" title="GPIO"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/5_8_55_52_202407050855539.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">GPIO</div></div><div class="info-2"><div class="info-item-1">端口的基本结构   保护二极管：对输入电压进行限幅，当电压比3.3v高，那么上方的保护二极管将会导通，电流就直接流到VDD，不会进入内部电路 施密特触发器：在施密特触发器的箭头前面是数字量，在施密特触发器的后面的是模拟量 P-MOS管和N-MOS管  简图为：  输入输出模式 概述 输入输出都...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/DMA/" title="DMA"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">DMA</div></div><div class="info-2"><div class="info-item-1">参考链接 【STM32】 DMA原理，步骤超细详解，一文看懂DMA-CSDN博客 概述  [!IMPORTANT] DMA传输无需CPU直接控制传输，也没有中断处理方式那样保留现场和恢复现过程 通过硬件为RAM和IO设备开辟一条直接传输数据的通道，使得CPU的效率大大提高 作用：为CPU减负 ...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/PWR/" title="PWR"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">PWR</div></div><div class="info-2"><div class="info-item-1">概述 PWR(Power Control)电源控制，PWR负责管理芯片内部的电源供电部分，可以实现可编程电压监测器和低功耗模式的功能 可编程电压监测器(PVD)可以监控VDD电源电压，当VDD下降到PVD阀值以下或上升到PVD阀值之上时，PVD会触发中断，用于执行紧急关闭任务 低功耗模式包括：...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%A4%96%E8%AE%BE%E7%BB%84%E4%BB%B6/RTC/" title="RTC"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/7_17_9_13_202409071709780.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-12</div><div class="info-item-2">RTC</div></div><div class="info-2"><div class="info-item-1">时间戳 概述 Unix时间戳(Unix Timestamp)定义为从UTC/GMT的1970年1月1日0时0分0秒开始所经过的秒数，不考虑闰秒 时间戳存储在一个秒计数器中，秒计数器为32位/64位的整型变量 世界上所有时区的秒计数器相同，不同时区通过添加偏移来得到当地时间  GMT和UTC G...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">ADC简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81ADC%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">常见ADC类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E8%81%94%E6%AF%94%E8%BE%83%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">并联比较型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%90%E6%AC%A1%E9%80%BC%E8%BF%91%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">逐次逼近型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">外设详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E6%A1%86%E5%9B%BE"><span class="toc-number">3.1.</span> <span class="toc-text">结构框图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E9%80%9A%E9%81%93"><span class="toc-number">3.2.</span> <span class="toc-text">输入通道</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%AB%AF%E8%BE%93%E5%85%A5"><span class="toc-number">3.2.1.</span> <span class="toc-text">单端输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%AE%E5%88%86%E8%BE%93%E5%85%A5"><span class="toc-number">3.2.2.</span> <span class="toc-text">差分输入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E7%94%B5%E5%8E%8B"><span class="toc-number">3.3.</span> <span class="toc-text">参考电压</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8VDDA"><span class="toc-number">3.3.1.</span> <span class="toc-text">使用VDDA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8VREFP"><span class="toc-number">3.3.2.</span> <span class="toc-text">使用VREFP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%97%B6%E5%BA%8F"><span class="toc-number">3.4.</span> <span class="toc-text">工作时序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%A1%E5%87%86%E6%97%B6%E5%BA%8F"><span class="toc-number">3.4.1.</span> <span class="toc-text">校准时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E6%A0%B7%E8%BD%AC%E6%8D%A2%E6%97%B6%E5%BA%8F"><span class="toc-number">3.4.2.</span> <span class="toc-text">采样转换时序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%87%E6%A0%B7%E6%97%B6%E5%BA%8F"><span class="toc-number">3.4.3.</span> <span class="toc-text">采样时序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.5.</span> <span class="toc-text">转换模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E6%AC%A1%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.5.1.</span> <span class="toc-text">单次转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E8%BD%AC%E6%8D%A2"><span class="toc-number">3.5.2.</span> <span class="toc-text">连续转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E6%BA%90"><span class="toc-number">3.6.</span> <span class="toc-text">触发源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-number">3.7.</span> <span class="toc-text">数据寄存器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">实验</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

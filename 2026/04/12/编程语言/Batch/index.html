@@ -1,0 +1,679 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Batch | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="批处理基础 注释   REM 或 :: 用于添加注释。注释不会被执行。 12REM 这是一个注释:: 这也是一个注释   显示文本   echo 显示文本。@echo off 可以关闭回显（即关闭命令本身的显示），但保留输出。 123echo Hello, World!@echo offecho 这行代码只显示输出，不显示命令本身   变量   set 用于定义变量，%variable% 用于访问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Batch">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Batch/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="批处理基础 注释   REM 或 :: 用于添加注释。注释不会被执行。 12REM 这是一个注释:: 这也是一个注释   显示文本   echo 显示文本。@echo off 可以关闭回显（即关闭命令本身的显示），但保留输出。 123echo Hello, World!@echo offecho 这行代码只显示输出，不显示命令本身   变量   set 用于定义变量，%variable% 用于访问">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_16.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.251Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.251Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_16.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Batch",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Batch/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_16.jpg",
+  "datePublished": "2026-04-12T08:12:40.251Z",
+  "dateModified": "2026-04-12T08:12:40.251Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Batch/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Batch',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_16.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Batch</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Batch</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.251Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.251Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>批处理基础</h1>
+<h2 id="注释">注释</h2>
+<ul>
+<li>
+<p><strong><code>REM</code></strong> 或 <strong><code>::</code></strong> 用于添加注释。注释不会被执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REM 这是一个注释</span><br><span class="line">:: 这也是一个注释</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="显示文本">显示文本</h2>
+<ul>
+<li>
+<p><strong><code>echo</code></strong> 显示文本。<code>@echo off</code> 可以关闭回显（即关闭命令本身的显示），但保留输出。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo Hello, World!</span><br><span class="line">@echo off</span><br><span class="line">echo 这行代码只显示输出，不显示命令本身</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="变量">变量</h2>
+<ul>
+<li>
+<p><strong><code>set</code></strong> 用于定义变量，<strong><code>%variable%</code></strong> 用于访问变量值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set myVar=Hello</span><br><span class="line">echo %myVar% World!</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>set /p</code></strong> 从用户输入中获取变量值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set /p userInput=Please enter your name: </span><br><span class="line">echo Hello, %userInput%!</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="条件语句">条件语句</h2>
+<ul>
+<li>
+<p><strong><code>if</code></strong> 用于执行条件检查，可以用于字符串比较、数值比较和文件存在性检查。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if &quot;%myVar%&quot;==&quot;Hello&quot; echo It is Hello!</span><br><span class="line">if exist &quot;file.txt&quot; echo File exists!</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>/i</code>：忽略大小写。</li>
+</ul>
+</li>
+<li>
+<p>比较操作符：</p>
+<ul>
+<li>字符串比较：<code>==</code></li>
+<li>数值比较：<code>equ（equal，等于）</code>、<code>neq（not equal，不等于）</code>、<code>lss（less than，小于）</code>、<code>leq（less than or equal to，小于等于）</code>、<code>gtr（greater than，大于）</code>、<code>geq（greater than or equal to)，大于等于</code></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set /a num1=5</span><br><span class="line">set /a num2=10</span><br><span class="line">if %num1% leq %num2% echo num1 is less than or equal to num2</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>[!TIP]</p>
+<p>当一个判断（循环或其他）语句之后的操作有多行时，可以用圆括号括起来表示一个作用域</p>
+</blockquote>
+<h2 id="循环">循环</h2>
+<ul>
+<li>
+<p><strong><code>for</code></strong> 用于创建循环，用于遍历文件、字符串、命令输出等。<code>%%</code>表示的是脚本内部的变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for %%i in (1 2 3) do echo Loop number %%i</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>/L</code></strong> 参数用于创建计数循环。从<code>start</code>开始，一次增加<code>step</code>，到<code>end</code>结束</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for /L %%variable in (start,step,end) do command</span><br><span class="line">for /L %%i in (1,1,5) do echo %%i</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>遍历目录中的文件名：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">::打印文件名</span><br><span class="line">for %%f in (*.txt) do echo Found file: %%f</span><br><span class="line">::打印文件完整路径</span><br><span class="line">for %%f in (*.txt) do echo Found file: %%~f</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">%%~ 修饰符</span><br><span class="line">在 for 循环中，%%~ 后面的字符可以用来获取文件的不同信息：</span><br><span class="line"></span><br><span class="line">假设现在循环的内部变量是f</span><br><span class="line">%%~f: 获取文件的完整路径。</span><br><span class="line">%%~dpf: 获取文件的驱动器和路径。</span><br><span class="line">%%~nxf: 获取文件的名称和扩展名。</span><br><span class="line">%%~dpnxf: 获取文件的完整路径、名称和扩展名。</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>遍历命令输出：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">::</span><br><span class="line">for /f [&quot;options&quot;] %%variable in (file) do command</span><br><span class="line">for /f [&quot;options&quot;] %%variable in (&#x27;command&#x27;) do command</span><br><span class="line">for /f &quot;tokens=*&quot; %%i in (&#x27;dir /b *.txt&#x27;) do echo %%i</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="跳转与标签">跳转与标签</h2>
+<ul>
+<li>
+<p><strong><code>goto</code></strong> 和 <strong><code>:</code></strong> 用于跳转到脚本中的指定位置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">goto myLabel</span><br><span class="line">echo This won&#x27;t be displayed.</span><br><span class="line">:myLabel</span><br><span class="line">echo Jumped to myLabel</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="调用其他脚本">调用其他脚本</h2>
+<ul>
+<li>
+<p><strong><code>call</code></strong> 用于从一个批处理文件中调用另一个批处理文件或子例程。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call otherScript.bat</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="暂停执行">暂停执行</h2>
+<ul>
+<li>
+<p><strong><code>pause</code></strong> 用于暂停脚本执行，并提示用户按任意键继续。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pause</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="退出脚本">退出脚本</h2>
+<ul>
+<li>
+<p><strong><code>exit</code></strong> 用于退出批处理文件，并返回到命令提示符。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1>常用命令</h1>
+<h2 id="文件操作">文件操作</h2>
+<ol>
+<li>
+<p><strong><code>type</code></strong>：创建文件。</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> non &gt; file.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>copy</code></strong>: 复制文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy source_file destination_path</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><code>/v</code>：验证文件是否正确写入。</p>
+</li>
+<li>
+<p><code>/y</code>：覆盖现有目标文件时不提示。</p>
+</li>
+<li>
+<p><code>/a</code>：将文件标记为 ASCII 文本模式。</p>
+</li>
+<li>
+<p><code>/b</code>：将文件标记为二进制模式。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>del</code></strong>: 删除文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">del file_path</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><code>/f</code>：强制删除只读文件。</p>
+</li>
+<li>
+<p><code>/q</code>：安静模式，删除时不提示确认。</p>
+</li>
+<li>
+<p><code>/s</code>：删除指定目录及所有子目录中的文件。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>move</code></strong>: 移动（重命）文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">move source_file destination_path</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>xcopy</code></strong>: 复制文件和目录，包括子目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcopy source_path destination_path /e /i</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>/i</code>: 如果目标不存在，假设目标是一个目录。</li>
+<li><code>/s</code>：复制所有非空子目录。</li>
+<li><code>/e</code>：复制所有子目录，包括空的子目录。</li>
+<li><code>/v</code>：验证文件是否正确写入目标位置。</li>
+<li><code>/y</code>：覆盖现有目标文件时不提示。</li>
+</ul>
+</li>
+</ol>
+<h2 id="目录操作">目录操作</h2>
+<ol>
+<li>
+<p><strong><code>dir</code></strong>:显示目录内容</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dir</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong><code>/p</code></strong>：分页显示结果。</li>
+<li><strong><code>/w</code></strong>：以宽列表格式显示结果。</li>
+<li><strong><code>/s</code></strong>：递归显示目录及其所有子目录中的文件。</li>
+<li><strong><code>/b</code></strong>：使用简洁格式显示结果，仅显示文件和目录名。</li>
+<li><strong><code>/o</code></strong>：按指定顺序排序显示文件和目录。
+<ul>
+<li><code>N</code>：按名称排序。</li>
+<li><code>S</code>：按大小排序。</li>
+<li><code>E</code>：按扩展名排序。</li>
+<li><code>D</code>：按日期/时间排序。</li>
+<li><code>G</code>：首先列出目录，然后是文件。</li>
+<li><code>-</code>：逆序排序。</li>
+</ul>
+</li>
+<li><strong><code>/q</code></strong>：显示文件的所有者。</li>
+<li><strong><code>/a</code></strong>：显示具有特定属性的文件。
+<ul>
+<li><code>R</code>：只读文件。</li>
+<li><code>H</code>：隐藏文件。</li>
+<li><code>S</code>：系统文件。</li>
+<li><code>D</code>：目录。</li>
+<li><code>A</code>：准备归档的文件。</li>
+<li><code>L</code>：符号链接。</li>
+</ul>
+</li>
+<li><strong><code>/c</code></strong>：显示文件大小时包含千位分隔符（默认行为）。</li>
+<li><strong><code>/n</code></strong>：以默认格式显示文件名（与 <code>/o</code> 结合使用）。</li>
+<li><strong><code>/x</code></strong>：显示 8.3 短文件名。</li>
+<li><strong><code>/t</code></strong>：指定用于排序或显示的时间字段。
+<ul>
+<li><code>C</code>：创建时间。</li>
+<li><code>A</code>：上次访问时间。</li>
+<li><code>W</code>：上次写入时间。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>mkdir</code></strong>: 创建目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir directory_name</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>rmdir</code></strong>: 删除目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rmdir directory_name /S /Q</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>/S</code>: 删除目录及其所有子目录和文件。</li>
+<li><code>/Q</code>: 安静模式，不提示确认。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>cd</code></strong>: 更改当前目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd directory_path</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>cd ..</code> 返回上一级目录。</li>
+</ul>
+</li>
+<li>
+<p>获取文件路径</p>
+<ul>
+<li>
+<p><code>%~f1</code>：获取文件的完整路径。</p>
+</li>
+<li>
+<p><code>%~d1</code>：获取文件的驱动器号。</p>
+</li>
+<li>
+<p><code>%~p1</code>：获取文件的路径（不包括文件名）。</p>
+</li>
+<li>
+<p><code>%~n1</code>：获取文件名（不包括扩展名）。</p>
+</li>
+<li>
+<p><code>%~x1</code>：获取文件扩展名。</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> filepath=%~f1</span><br><span class="line"><span class="built_in">echo</span> File <span class="built_in">path</span>: <span class="variable">%filepath%</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="流程控制">流程控制</h2>
+<ol>
+<li>
+<p><strong><code>if</code></strong>: 条件判断。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if condition (command1) else (command2)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if exist file.txt (</span><br><span class="line">    echo File exists.</span><br><span class="line">) else (</span><br><span class="line">    echo File does not exist.</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>for</code></strong>: 循环执行命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for %%variable in (set) do command</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for %%f in (*.txt) do (</span><br><span class="line">    echo %%f</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>goto</code></strong>: 跳转到指定标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">goto label_name</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Example:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">goto end</span><br><span class="line"></span><br><span class="line">:end</span><br><span class="line">echo Script finished.</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>call</code></strong>: 调用另一个批处理文件或标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call script.bat</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>exit</code></strong>: 退出批处理脚本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>exit /b</code>: 退出子批处理文件并返回父脚本。</li>
+</ul>
+</li>
+</ol>
+<h2 id="输入-输出">输入/输出</h2>
+<ol>
+<li>
+<p><strong><code>echo</code></strong>: 输出文本。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo Hello, World!</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>echo.</code> 输出空行。</li>
+</ul>
+</li>
+<li>
+<p><strong><code>pause</code></strong>: 暂停执行并等待用户按键。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pause</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>set /p</code></strong>: 获取用户输入并赋值给变量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set /p variable_name=Enter value: </span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="字符串处理">字符串处理</h2>
+<ul>
+<li>
+<p><strong>获取子字符串：</strong> <code>:~</code> 用于从变量中提取子字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set string=HelloWorld</span><br><span class="line">echo %string:~0,5%  REM 输出 &quot;Hello&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>字符串替换：</strong> <code>:&lt;old&gt;=&lt;new&gt;</code> 用于替换字符串中的子串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set string=HelloWorld</span><br><span class="line">echo %string:World=Universe%  REM 输出 &quot;HelloUniverse&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="处理错误">处理错误</h2>
+<ul>
+<li>
+<p><strong>检查错误代码：</strong> 通过 <code>if errorlevel</code> 检查上一个命令的退出代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">some_command</span><br><span class="line">if errorlevel 1 echo Error occurred</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>设置退出代码：</strong> 使用 <code>exit /b</code> 设置批处理脚本的退出代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit /b 0</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1>特殊符号</h1>
+<ul>
+<li>
+<p><strong><code>%</code></strong>：用于引用变量（如 <code>%variable%</code>）。</p>
+</li>
+<li>
+<p><strong><code>&amp;</code></strong>：用于将多条命令放在同一行上执行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo First command &amp; echo Second command</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>|</code></strong>：管道符号，用于将前一命令的输出作为下一命令的输入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir /b | find &quot;keyword&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>&gt;</code></strong> 和 <strong><code>&gt;&gt;</code></strong>：重定向符号，用于将输出写入文件（覆盖或追加）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo Hello &gt; output.txt ::覆盖</span><br><span class="line">echo World &gt;&gt; output.txt ::追加</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>&lt;</code></strong>：输入重定向，用于将文件内容作为命令的输入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">findstr &quot;keyword&quot; &lt; input.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>^</code></strong>：转义符号，用于转义特殊字符。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo This is a caret ^ symbol</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong><code>&amp;&amp;</code></strong> 和 <strong><code>||</code></strong>：条件执行符号，分别表示“如果成功则执行”和“如果失败则执行”。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">some_command &amp;&amp; echo Success || echo Failure</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1>综合示例</h1>
+<p>以下是一个更复杂的 Batch 脚本示例，它演示了各种操作：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">setlocal</span><br><span class="line"></span><br><span class="line">REM 获取当前日期和时间</span><br><span class="line">set currentDate=%date%</span><br><span class="line">set currentTime=%time:~0,8%</span><br><span class="line"></span><br><span class="line">echo Starting backup process at %currentDate% %currentTime%</span><br><span class="line"></span><br><span class="line">REM 创建备份目录</span><br><span class="line">set backupDir=C:\Backup\%date:~-4,4%-%date:~-10,2%-%date:~-7,2%</span><br><span class="line">if not exist &quot;%backupDir%&quot; mkdir &quot;%backupDir%&quot;</span><br><span class="line"></span><br><span class="line">REM 复制重要文件</span><br><span class="line">xcopy C:\ImportantFiles\* &quot;%backupDir%&quot; /s /e /y</span><br><span class="line">if errorlevel 1 (</span><br><span class="line">    echo Failed to copy files. Exiting.</span><br><span class="line">    exit /b 1</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">REM 删除旧备份（超过7天）</span><br><span class="line">forfiles /p &quot;C:\Backup&quot; /d -7 /c &quot;cmd /c rmdir /s /q @path&quot;</span><br><span class="line"></span><br><span class="line">REM 结束备份</span><br><span class="line">echo Backup completed successfully.</span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Batch/">https://youshouldtrustme.github.io/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Batch/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_16.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/C++/" title="C++"><img class="cover" src="/img/RandomCoverImage/random_5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">C++</div></div><div class="info-2"><div class="info-item-1">参考链接 C++学习网 – 世界上最好的中文C++学习网站 (studycpp.cn) C++ 语言 - cppreference.cn - C++参考手册 数据类型 vector 增加数据 在C++中，可以使用std::vector来动态管理数据。要向std::vector中增加数据，有几种...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/Asm/" title="Asm"><img class="cover" src="https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012206.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Asm</div></div><div class="info-2"><div class="info-item-1">参考链接 汇编语言入门教程 - 阮一峰的网络日志 汇编语言 教程 | 参考手册 (cankaoshouce.com) Guide to x86 Assembly GCC-Inline-Assembly-HOWTO — GCC-Inline-Assembly-HOWTO 译：GCC内联汇编入门 ...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">批处理基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">1.1.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E6%96%87%E6%9C%AC"><span class="toc-number">1.2.</span> <span class="toc-text">显示文本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">1.3.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.4.</span> <span class="toc-text">条件语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-number">1.5.</span> <span class="toc-text">循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B7%B3%E8%BD%AC%E4%B8%8E%E6%A0%87%E7%AD%BE"><span class="toc-number">1.6.</span> <span class="toc-text">跳转与标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96%E8%84%9A%E6%9C%AC"><span class="toc-number">1.7.</span> <span class="toc-text">调用其他脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9A%82%E5%81%9C%E6%89%A7%E8%A1%8C"><span class="toc-number">1.8.</span> <span class="toc-text">暂停执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%80%E5%87%BA%E8%84%9A%E6%9C%AC"><span class="toc-number">1.9.</span> <span class="toc-text">退出脚本</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">2.1.</span> <span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.</span> <span class="toc-text">目录操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">2.3.</span> <span class="toc-text">流程控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA"><span class="toc-number">2.4.</span> <span class="toc-text">输入&#x2F;输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86"><span class="toc-number">2.5.</span> <span class="toc-text">字符串处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E9%94%99%E8%AF%AF"><span class="toc-number">2.6.</span> <span class="toc-text">处理错误</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">特殊符号</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">综合示例</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_16.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

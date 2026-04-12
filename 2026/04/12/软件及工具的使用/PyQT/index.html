@@ -1,0 +1,841 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PyQT | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 Python 小白从零开始 PyQt5 项目实战（8）汇总篇（完整例程）_pyqt项目实战教程-CSDN博客 免费学习编程 - Python、JavaScript、Java、Git 等 (freecodecamp.org) 白月黑羽 (byhy.net) UI fluent-widgets 参考链接：快速上手 - PyQt-Fluent-Widgets silicon 参考链接：Chin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyQT">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 Python 小白从零开始 PyQt5 项目实战（8）汇总篇（完整例程）_pyqt项目实战教程-CSDN博客 免费学习编程 - Python、JavaScript、Java、Git 等 (freecodecamp.org) 白月黑羽 (byhy.net) UI fluent-widgets 参考链接：快速上手 - PyQt-Fluent-Widgets silicon 参考链接：Chin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.255Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.256Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PyQT",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg",
+  "datePublished": "2026-04-12T08:12:40.255Z",
+  "dateModified": "2026-04-12T08:12:40.256Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PyQT',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">PyQT</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">PyQT</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.255Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.256Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">8.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>29分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/youcans/article/details/120925109">Python 小白从零开始 PyQt5 项目实战（8）汇总篇（完整例程）_pyqt项目实战教程-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freecodecamp.org/chinese/learn">免费学习编程 - Python、JavaScript、Java、Git 等 (freecodecamp.org)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.byhy.net/">白月黑羽 (byhy.net)</a></p>
+<h1>UI</h1>
+<h2 id="fluent-widgets">fluent-widgets</h2>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://pyqt-fluent-widgets.readthedocs.io/zh-cn/latest/quick-start.html">快速上手 - PyQt-Fluent-Widgets</a></p>
+<h2 id="silicon">silicon</h2>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://github.com/ChinaIceF/PyQt-SiliconUI">ChinaIceF/PyQt-SiliconUI: A powerful and artistic UI library based on PyQt5，基于 PyQt5 的UI框架，灵动、优雅而轻便 (github.com)</a></p>
+<h1>安装</h1>
+<p><em><code>安装</code>python</em></p>
+<p>从官网下载：<a target="_blank" rel="noopener" href="https://www.python.org/">Welcome to Python.org</a></p>
+<p><em><code>IDE</code>的选择</em></p>
+<ul>
+<li>==VSCODE==（❤❤❤）：<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">Visual Studio Code - Code Editing. Redefined</a></li>
+<li>==Cursor==(AI级选手，面向自然语言编程，amazing❗❗❗)：<a target="_blank" rel="noopener" href="https://www.cursor.com/">Cursor</a></li>
+<li>==Pycharm==（python专用工具）：<a target="_blank" rel="noopener" href="https://www.jetbrains.com/pycharm/">PyCharm: the Python IDE for data science and web development (jetbrains.com)</a></li>
+</ul>
+<p><em><code>python包管理工具</code>PIP</em></p>
+<p><code>pip</code> 是 Python 包管理工具，用于安装和管理 Python 库和依赖。通过 <code>pip</code>，你可以方便地从 Python Package Index (PyPI) 下载和安装第三方库，并自动解决依赖问题。</p>
+<p>常见的 <code>pip</code> 使用命令：</p>
+<ol>
+<li><strong>安装包</strong>：<code>pip install 包名</code></li>
+<li><strong>卸载包</strong>：<code>pip uninstall 包名</code></li>
+<li><strong>查看已安装的包</strong>：<code>pip list</code></li>
+<li><strong>升级包</strong>：<code>pip install --upgrade 包名</code></li>
+<li><strong>查看包信息</strong>：<code>pip show 包名</code></li>
+</ol>
+<p>例如，安装 NumPy 库的命令是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install numpy</span><br></pre></td></tr></table></figure>
+<p><em><code>安装</code>Pyqt5（Pyside6）</em></p>
+<p>使用PIP来安装pyqt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyqt5 -i https://mirrors.aliuyun.com/pypi/simple</span><br></pre></td></tr></table></figure>
+<p>或者安装<code>pyside2</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyside6</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!tip]</p>
+<p>建议先不换源下载试试，如果不可以在使用-i参数换源，国内源可以选择</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#清华源</span></span><br><span class="line">pip install markdown -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br><span class="line"><span class="comment"># 阿里源</span></span><br><span class="line">pip install markdown -i https://mirrors.aliyun.com/pypi/simple/</span><br><span class="line"><span class="comment"># 腾讯源</span></span><br><span class="line">pip install markdown -i http://mirrors.cloud.tencent.com/pypi/simple</span><br><span class="line"><span class="comment"># 豆瓣源</span></span><br><span class="line">pip install markdown -i http://pypi.douban.com/simple/</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><em><code>安装</code>QtTool</em></p>
+<p>Qt Tools 包含：</p>
+<ul>
+<li>图形界面设计工具 Qt Designer，用于设计图形界面，生成 .ui文件，以 xml 格式存储界面和控件的属性；</li>
+<li>UI 文件转换工具 PyUic，用于将 .ui 文件解析为 .py 文件的工具。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pyqt5-tools  -i https://mirrors.aliuyun.com/pypi/simple</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!TIP]</p>
+<p>注意：这里使用的是python版本需要低于3.10，如果高于3.10，那么请分步安装软件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install PyQt5Designer</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h1>基础</h1>
+<blockquote>
+<p>假设我们现在我们要开发一个程序，让用户输入一段文本包含：员工姓名、薪资、年龄。</p>
+<p>格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">薛蟠     4560 25</span><br><span class="line">薛蝌     4460 25</span><br><span class="line">薛宝钗   35776 23</span><br><span class="line">薛宝琴   14346 18</span><br><span class="line">王夫人   43360 45</span><br><span class="line">王熙凤   24460 25</span><br><span class="line">王子腾   55660 45</span><br><span class="line">王仁     15034 65</span><br><span class="line">尤二姐   5324 24</span><br><span class="line">贾芹     5663 25</span><br><span class="line">贾兰     13443 35</span><br><span class="line">贾芸     4522 25</span><br><span class="line">尤三姐   5905 22</span><br><span class="line">贾珍     54603 35</span><br></pre></td></tr></table></figure>
+<p>该程序可以把薪资在 2万 以上、以下的人员名单分别打印出来。当然我们可以像以前一样，开发命令行程序（准确的说应该叫字符终端程序，因为UI是字符终端），让用户在字符终端输入。但是如果我们能开发下面这样的图形界面程序，就更酷了</p>
+<p><img src="https://www.byhy.net/cdn2/imgs/gh/36257654_69149498-99bef680-0b11-11ea-8c0d-20ed8f08846e.png" alt="目标" loading='lazy'></p>
+</blockquote>
+<h2 id="最小代码">最小代码</h2>
+<p>那么我们可以使用以下代码来实现这个界面：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow, QPushButton,  QPlainTextEdit</span><br><span class="line"></span><br><span class="line">app = QApplication()</span><br><span class="line"></span><br><span class="line">window = QMainWindow()</span><br><span class="line">window.resize(<span class="number">500</span>, <span class="number">400</span>)</span><br><span class="line">window.move(<span class="number">300</span>, <span class="number">310</span>)</span><br><span class="line">window.setWindowTitle(<span class="string">&#x27;薪资统计&#x27;</span>)</span><br><span class="line"></span><br><span class="line">textEdit = QPlainTextEdit(window)</span><br><span class="line">textEdit.setPlaceholderText(<span class="string">&quot;请输入薪资表&quot;</span>)</span><br><span class="line">textEdit.move(<span class="number">10</span>,<span class="number">25</span>)</span><br><span class="line">textEdit.resize(<span class="number">300</span>,<span class="number">350</span>)</span><br><span class="line"></span><br><span class="line">button = QPushButton(<span class="string">&#x27;统计&#x27;</span>, window)</span><br><span class="line">button.move(<span class="number">380</span>,<span class="number">80</span>)</span><br><span class="line"></span><br><span class="line">window.show()</span><br><span class="line"></span><br><span class="line">app.<span class="built_in">exec</span>() <span class="comment"># PySide6 是 exec 而不是 exec_</span></span><br></pre></td></tr></table></figure>
+<p>接下来会逐步分析每行代码的作用：</p>
+<ol>
+<li>
+<p><code>QApplication</code> 提供了整个图形界面程序的底层管理功能，比如：初始化、程序入口参数的处理，用户事件（对界面的点击、输入、拖拽）分发给各个对应的控件，等等…对 QApplication 细节比较感兴趣的话，可以<a target="_blank" rel="noopener" href="https://doc.qt.io/qt-6/qapplication.html#details">点击这里参考官方网站</a>，既然QApplication要做如此重要的初始化操作，所以，我们必须在任何界面控件对象创建前，先创建它。</p>
+</li>
+<li>
+<p>QMainWindow、QPlainTextEdit、QPushButton 是3个控件类，分别对应界面的主窗口、文本框、按钮。他们都是控件基类对象QWidget的子类。要在界面上 <code>创建一个控件</code> ，就需要在程序代码中 <code>创建</code> 这个 <code>控件对应类</code> 的一个 <code>实例对象</code>。在 Qt 系统中，控件（widget）是 <code>层层嵌套</code> 的，除了最顶层的控件，其他的控件都有父控件。QPlainTextEdit、QPushButton 实例化时，都有一个参数window，如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QPlainTextEdit(window)</span><br><span class="line">QPushButton(<span class="string">&#x27;统计&#x27;</span>, window)</span><br></pre></td></tr></table></figure>
+<p>就是指定它的父控件对象 是 window 对应的QMainWindow 主窗口。而实例化 QMainWindow 主窗口时，却没有指定父控件， 因为它就是最上层的控件了。</p>
+</li>
+<li>
+<p>控件对象的 move 方法决定了这个控件显示的位置，比如：</p>
+<p><code>window.move(300, 310)</code> 就决定了 主窗口的 左上角坐标在 <code>相对屏幕的左上角</code> 的X横坐标300像素, Y纵坐标310像素这个位置。</p>
+<p><code>textEdit.move(10,25)</code> 就决定了文本框的 左上角坐标在 <code>相对父窗口的左上角</code> 的X横坐标10像素, Y纵坐标25像素这个位置。</p>
+<p>控件对象的 resize 方法决定了这个控件显示的大小，比如：</p>
+<p><code>window.resize(500, 400)</code> 就决定了 主窗口的 宽度为500像素，高度为400像素。</p>
+<p><code>textEdit.resize(300,350)</code> 就决定了文本框的 宽度为300像素，高度为350像素。</p>
+</li>
+<li>
+<p>放在主窗口的控件，要能全部显示在界面上， 必须加上下面这行代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window.show()</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>最后 ，通过下面这行代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.<span class="built_in">exec</span>() <span class="comment"># 这是pyside6的代码； pyside2 是 app.exec_()</span></span><br></pre></td></tr></table></figure>
+<p>进入QApplication的事件处理循环，接收用户的输入事件（），并且分配给相应的对象去处理。</p>
+</li>
+</ol>
+<h2 id="界面动作处理-signal-和-slot">界面动作处理 (signal 和 slot)</h2>
+<blockquote>
+<p>接下来，我们要实现具体的统计功能：当用户点击 <strong>统计</strong> 按钮时， 从界面控件 QPlainTextEdit 里面获取 用户输入的字符串内容，进行处理。</p>
+</blockquote>
+<p>首先第一个问题： 用户点击了 <strong>统计</strong> 按钮，怎么通知程序？ 因为只有程序被通知了这个点击，才能做出相应的处理。</p>
+<p>在 Qt 系统中， 当界面上一个控件被操作时，比如 被点击、被输入文本、被鼠标拖拽等， 就会发出 <code>信号</code> ，英文叫 <code>signal</code> 。就是表明一个事件（比如被点击、被输入文本）发生了。</p>
+<p>我们可以预先在代码中指定 处理这个 signal 的函数，这个处理 signal 的函数 叫做 <code>slot</code> 。</p>
+<p>比如，我们可以像下面这样定义一个函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">handleCalc</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;统计按钮被点击了&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>然后， 指定 如果 发生了button 按钮被点击 的事情，需要让 <code>handleCalc</code> 来处理，像这样</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button.clicked.connect(handleCalc)</span><br></pre></td></tr></table></figure>
+<p>用QT的术语来解释上面这行代码，就是：把 button 被 点击（clicked） 的信号（signal）， 连接（connect）到了 handleCalc 这样的一个 slot上</p>
+<p>大白话就是：让 handleCalc 来 处理 button 被 点击的操作。</p>
+<p>但是上面这行代码运行后，只能在字符窗口 打印出 <code>统计按钮被点击了</code> ， 还不能处理分析任务。</p>
+<p>要处理分析任务，我们还得从 textEdit 对应的 文本框中 获取用户输入的文本，并且分析薪资范围，最终弹出对话框显示统计结果。</p>
+<p>我们修改后，代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow, QPushButton,  QPlainTextEdit,QMessageBox</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">handleCalc</span>():</span><br><span class="line">    info = textEdit.toPlainText()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 薪资20000 以上 和 以下 的人员名单</span></span><br><span class="line">    salary_above_20k = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    salary_below_20k = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> info.splitlines():</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> line.strip():</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        parts = line.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">        <span class="comment"># 去掉列表中的空字符串内容</span></span><br><span class="line">        parts = [p <span class="keyword">for</span> p <span class="keyword">in</span> parts <span class="keyword">if</span> p]</span><br><span class="line">        name,salary,age = parts</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">int</span>(salary) &gt;= <span class="number">20000</span>:</span><br><span class="line">            salary_above_20k += name + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            salary_below_20k += name + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">    QMessageBox.about(window,</span><br><span class="line">                <span class="string">&#x27;统计结果&#x27;</span>,</span><br><span class="line">                <span class="string">f&#x27;&#x27;&#x27;薪资20000 以上的有：\n<span class="subst">&#123;salary_above_20k&#125;</span></span></span><br><span class="line"><span class="string">                \n薪资20000 以下的有：\n<span class="subst">&#123;salary_below_20k&#125;</span>&#x27;&#x27;&#x27;</span></span><br><span class="line">                )</span><br><span class="line"></span><br><span class="line">app = QApplication()</span><br><span class="line"></span><br><span class="line">window = QMainWindow()</span><br><span class="line">window.resize(<span class="number">500</span>, <span class="number">400</span>)</span><br><span class="line">window.move(<span class="number">300</span>, <span class="number">300</span>)</span><br><span class="line">window.setWindowTitle(<span class="string">&#x27;薪资统计&#x27;</span>)</span><br><span class="line"></span><br><span class="line">textEdit = QPlainTextEdit(window)</span><br><span class="line">textEdit.setPlaceholderText(<span class="string">&quot;请输入薪资表&quot;</span>)</span><br><span class="line">textEdit.move(<span class="number">10</span>,<span class="number">25</span>)</span><br><span class="line">textEdit.resize(<span class="number">300</span>,<span class="number">350</span>)</span><br><span class="line"></span><br><span class="line">button = QPushButton(<span class="string">&#x27;统计&#x27;</span>, window)</span><br><span class="line">button.move(<span class="number">380</span>,<span class="number">80</span>)</span><br><span class="line">button.clicked.connect(handleCalc)</span><br><span class="line"></span><br><span class="line">window.show()</span><br><span class="line"></span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<p>运行后，你会发现结果如下</p>
+<p><img src="https://www.byhy.net/cdn2/imgs/gh/36257654_69224199-1526b380-0bb7-11ea-99a2-c2bf15f9dd83.png" alt="image" loading='lazy'></p>
+<h2 id="封装到类">封装到类</h2>
+<p>上面的代码把控件对应的变量名全部作为全局变量。</p>
+<p>如果要设计稍微复杂一些的程序，就会出现太多的控件对应的变量名。</p>
+<p>而且这样也不利于 代码的模块化。</p>
+<p>所以，我们通常应该把 一个窗口和其包含的控件，对应的代码 全部封装到类中，如下所示</p>
+<p><a target="_blank" rel="noopener" href="https://www.byhy.net/py/qt/qt_02/#__tabbed_3_1">PySide6 代码</a><a target="_blank" rel="noopener" href="https://www.byhy.net/py/qt/qt_02/#__tabbed_3_2">PySide2 代码</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow, QPushButton,  QPlainTextEdit,QMessageBox</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stats</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.window = QMainWindow()</span><br><span class="line">        <span class="variable language_">self</span>.window.resize(<span class="number">500</span>, <span class="number">400</span>)</span><br><span class="line">        <span class="variable language_">self</span>.window.move(<span class="number">300</span>, <span class="number">300</span>)</span><br><span class="line">        <span class="variable language_">self</span>.window.setWindowTitle(<span class="string">&#x27;薪资统计&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.textEdit = QPlainTextEdit(<span class="variable language_">self</span>.window)</span><br><span class="line">        <span class="variable language_">self</span>.textEdit.setPlaceholderText(<span class="string">&quot;请输入薪资表&quot;</span>)</span><br><span class="line">        <span class="variable language_">self</span>.textEdit.move(<span class="number">10</span>, <span class="number">25</span>)</span><br><span class="line">        <span class="variable language_">self</span>.textEdit.resize(<span class="number">300</span>, <span class="number">350</span>)</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.button = QPushButton(<span class="string">&#x27;统计&#x27;</span>, <span class="variable language_">self</span>.window)</span><br><span class="line">        <span class="variable language_">self</span>.button.move(<span class="number">380</span>, <span class="number">80</span>)</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.button.clicked.connect(<span class="variable language_">self</span>.handleCalc)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">handleCalc</span>(<span class="params">self</span>):</span><br><span class="line">        info = <span class="variable language_">self</span>.textEdit.toPlainText()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 薪资20000 以上 和 以下 的人员名单</span></span><br><span class="line">        salary_above_20k = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        salary_below_20k = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> info.splitlines():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> line.strip():</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            parts = line.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">            <span class="comment"># 去掉列表中的空字符串内容</span></span><br><span class="line">            parts = [p <span class="keyword">for</span> p <span class="keyword">in</span> parts <span class="keyword">if</span> p]</span><br><span class="line">            name,salary,age = parts</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">int</span>(salary) &gt;= <span class="number">20000</span>:</span><br><span class="line">                salary_above_20k += name + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                salary_below_20k += name + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">        QMessageBox.about(<span class="variable language_">self</span>.window,</span><br><span class="line">                    <span class="string">&#x27;统计结果&#x27;</span>,</span><br><span class="line">                    <span class="string">f&#x27;&#x27;&#x27;薪资20000 以上的有：\n<span class="subst">&#123;salary_above_20k&#125;</span></span></span><br><span class="line"><span class="string">                    \n薪资20000 以下的有：\n<span class="subst">&#123;salary_below_20k&#125;</span>&#x27;&#x27;&#x27;</span></span><br><span class="line">                    )</span><br><span class="line"></span><br><span class="line">app = QApplication()</span><br><span class="line">stats = Stats()</span><br><span class="line">stats.window.show()</span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<h1>布局</h1>
+<p>QT程序界面的 一个个窗口、控件，就是像上面那样用相应的代码创建出来的。但是，把你的脑海里的界面，用代码直接写出来，是有些困难的。</p>
+<p>很多时候，运行时呈现的样子，不是我们要的。我们经常还要修改代码调整界面上控件的位置，再运行预览。反复多次这样操作。可是这样，真的…太麻烦了。</p>
+<p>其实，我们可以用QT界面生成器 <code>Qt Designer</code> ，拖拖拽拽就可以直观的创建出程序大体的界面。</p>
+<p>Windows下，运行 Python安装目录下 <code>Scripts\pyside6-designer.exe</code> 这个可执行文件</p>
+<p>如果你安装的是pyqt5， 运行 Python安装目录下 <code>Scripts\pyqt5designer.exe</code> 这个可执行文件</p>
+<blockquote>
+<p>[!tip]</p>
+<p>通过 Qt Designer 设计的界面，最终是保存在一个ui文件中的。可以打开这个ui文件看看，就是一个XML格式的界面定义。</p>
+</blockquote>
+<h2 id="动态加载UI文件">动态加载UI文件</h2>
+<p>有了界面定义文件，我们的Python程序就可以从文件中加载UI定义，并且动态 创建一个相应的窗口对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMessageBox</span><br><span class="line"><span class="keyword">from</span> PySide6.QtUiTools <span class="keyword">import</span> QUiLoader</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stats</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 从文件中加载UI定义</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 从 UI 定义中动态 创建一个相应的窗口对象</span></span><br><span class="line">        <span class="comment"># 注意：里面的控件对象也成为窗口对象的属性了</span></span><br><span class="line">        <span class="comment"># 比如 self.ui.button , self.ui.textEdit</span></span><br><span class="line">        <span class="variable language_">self</span>.ui = QUiLoader().load(<span class="string">&quot;main.ui&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.ui.button.clicked.connect(<span class="variable language_">self</span>.handleCalc)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">handleCalc</span>(<span class="params">self</span>):</span><br><span class="line">        info = <span class="variable language_">self</span>.ui.textEdit.toPlainText()</span><br><span class="line"></span><br><span class="line">        salary_above_20k = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        salary_below_20k = <span class="string">&#x27;&#x27;</span></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> info.splitlines():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> line.strip():</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            parts = line.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line"></span><br><span class="line">            parts = [p <span class="keyword">for</span> p <span class="keyword">in</span> parts <span class="keyword">if</span> p]</span><br><span class="line">            name,salary,age = parts</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">int</span>(salary) &gt;= <span class="number">20000</span>:</span><br><span class="line">                salary_above_20k += name + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                salary_below_20k += name + <span class="string">&#x27;\n&#x27;</span></span><br><span class="line"></span><br><span class="line">        QMessageBox.about(<span class="variable language_">self</span>.ui,</span><br><span class="line">                    <span class="string">&#x27;统计结果&#x27;</span>,</span><br><span class="line">                    <span class="string">f&#x27;&#x27;&#x27;薪资20000 以上的有：\n<span class="subst">&#123;salary_above_20k&#125;</span></span></span><br><span class="line"><span class="string">                    \n薪资20000 以下的有：\n<span class="subst">&#123;salary_below_20k&#125;</span>&#x27;&#x27;&#x27;</span></span><br><span class="line">                    )</span><br><span class="line"></span><br><span class="line">app = QApplication()</span><br><span class="line">stats = Stats()</span><br><span class="line">stats.ui.show()</span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<p>如果你使用的是 <code>PyQt</code> ， 比如 <code>PyQt6</code> ，加载UI文件的代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PyQt6 <span class="keyword">import</span> uic</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Stats</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 从文件中加载UI定义</span></span><br><span class="line">        <span class="variable language_">self</span>.ui = uic.loadUi(<span class="string">&quot;main.ui&quot;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!note]</p>
+<p>注意，运行的时候请注意路径，以上代码是基于运行路径来说的，并不是相对于<code>py</code>文件</p>
+</blockquote>
+<h2 id="转化UI文件">转化UI文件</h2>
+<p>还有一种使用UI文件的方式：先把UI文件直接转化为包含界面定义的Python代码文件，然后在你的程序中使用定义界面的类。</p>
+<p>执行如下的命令 把UI文件直接转化为包含界面定义的Python代码文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果你用的是 PySide2</span></span><br><span class="line">pyside2-uic main.ui &gt; ui_main.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果你用的是 PySide6</span></span><br><span class="line">pyside6-uic main.ui &gt; ui_main.py</span><br></pre></td></tr></table></figure>
+<p>如果你安装的是 PyQt5 或者 PyQt6，执行如下格式的命令转化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果你用的是 PyQt5</span></span><br><span class="line">pyuic5 main.ui &gt; ui_main.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果你用的是 PyQt6</span></span><br><span class="line">pyuic6 main.ui &gt; ui_main.py</span><br></pre></td></tr></table></figure>
+<p>然后在你的代码文件中这样使用定义界面的类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication,QMainWindow</span><br><span class="line"><span class="keyword">from</span> ui_main <span class="keyword">import</span> Ui_MainWindow</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意 这里选择的父类 要和你UI文件窗体一样的类型</span></span><br><span class="line"><span class="comment"># 主窗口是 QMainWindow， 表单是 QWidget， 对话框是 QDialog</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span>(<span class="title class_ inherited__">QMainWindow</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="comment"># 使用ui文件导入定义界面类</span></span><br><span class="line">        <span class="variable language_">self</span>.ui = Ui_MainWindow()</span><br><span class="line">        <span class="comment"># 初始化界面</span></span><br><span class="line">        <span class="variable language_">self</span>.ui.setupUi(<span class="variable language_">self</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用界面定义的控件，也是从ui里面访问</span></span><br><span class="line">        <span class="variable language_">self</span>.ui.webview.load(<span class="string">&#x27;http://www.baidu.com&#x27;</span>)</span><br><span class="line"></span><br><span class="line">app = QApplication([])</span><br><span class="line">mainw = MainWindow()</span><br><span class="line">mainw.show()</span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!tip]</p>
+<p>那么我们该使用哪种方式比较好呢？动态加载还是转化为Python代码？</p>
+<p>建议是：通常采用动态加载比较方便，因为改动界面后，不需要转化，直接运行，特别方便。</p>
+<p>但是，如果 你的程序里面有非qt designer提供的控件， 这时候，需要在代码里面加上一些额外的声明，而且 可能还会有奇怪的问题。往往就 要采用 转化Python代码的方法。</p>
+</blockquote>
+<h2 id="Layout">Layout</h2>
+<p>我们前面写的界面程序有个问题，如果你用鼠标拖拽主窗口边框右下角，进行缩放，就会发现里面的控件一直保持原有大小不变。这样会很难看。</p>
+<p>我们通常希望，随着主窗口的缩放， 界面里面的控件、控件之间的距离也相应的进行缩放。Qt是通过界面布局Layout类来实现这种功能的。</p>
+<p>我们最常用的 Layout布局 有4种，分别是：</p>
+<ol>
+<li>
+<p>QHBoxLayout 水平布局：QHBoxLayout 把控件从左到右 水平横着摆放，如下所示：</p>
+<p><img src="https://doc.qt.io/qt-5/images/qhboxlayout-with-5-children.png" alt="水平布局" loading='lazy'></p>
+</li>
+<li>
+<p>QVBoxLayout 垂直布局：QHBoxLayout 把控件从上到下竖着摆放，如下所示：</p>
+<p><img src="https://doc.qt.io/qt-5/images/qvboxlayout-with-5-children.png" alt="垂直布局" loading='lazy'></p>
+</li>
+<li>
+<p>QGridLayout 表格布局：QGridLayout 把多个控件 格子状摆放，有的控件可以 占据多个格子，如下所示：</p>
+<p><img src="https://doc.qt.io/qt-5/images/qgridlayout-with-5-children.png" alt="网格布局" loading='lazy'></p>
+</li>
+<li>
+<p>QFormLayout 表单布局：QFormLayout 表单就像一个只有两列的表格，非常适合填写注册表单这种类型的界面，如下所示</p>
+<p><img src="https://doc.qt.io/qt-5/images/qformlayout-with-6-children.png" alt="表单布局" loading='lazy'></p>
+</li>
+</ol>
+<h3 id="MainWindow-的Layout">MainWindow 的Layout</h3>
+<p>如果我们选择的主窗口是MainWindow类型，要给MainWindow整体设定Layout，必须 <code>先添加一个控件到 centralwidget 下面</code> ，如下</p>
+<p><img src="https://www.byhy.net/cdn2/imgs/api/tut_20200415101630_85.png" alt="main窗口的layout" loading='lazy'></p>
+<p>然后才能右键点击 MainWindow，选择布局，如下</p>
+<p><img src="https://www.byhy.net/cdn2/imgs/api/tut_20200415102007_21.png" alt="调整main的布局" loading='lazy'></p>
+<h2 id="调整控件位置和大小">调整控件位置和大小</h2>
+<h3 id="调整layout中控件的大小比例">调整layout中控件的大小比例</h3>
+<p>可以通过设定控件的sizePolicy来调整</p>
+<h3 id="调整控件间距">调整控件间距</h3>
+<p>要调整控件上下间距，可以给控件添加layout，然后通过设定layout的上下的padding 和 margin 来调整间距，具体操作请看视频讲解。</p>
+<p>要调整控件的左右间距，可以通过添加 horizontal spacer 进行控制，也可以通过layout的左右margin</p>
+<h2 id="Qt-Designer界面布局建议">Qt Designer界面布局建议</h2>
+<p>使用 <code>Qt Designer</code> 对界面控件进行布局，请按照如下步骤操作</p>
+<ul>
+<li>先不使用任何Layout，把所有控件 按位置 摆放在界面上</li>
+<li>然后先从 最内层开始 进行控件的 Layout 设定</li>
+<li>逐步拓展到外层 进行控件的 Layout设定</li>
+<li>最后调整 layout中控件的大小比例， 优先使用 Layout的 layoutStrentch 属性来控制</li>
+</ul>
+<h1>常用控件</h1>
+<h2 id="按钮">按钮</h2>
+<p><code>QPushButton</code> 就是常见的按钮，更加详细的使用请去<a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QPushButton.html">官网介绍</a>查看</p>
+<h3 id="被点击">被点击</h3>
+<p>当按钮被点击就会发出 <code>clicked</code> 信号，可以这样指定处理该信号的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button.clicked.connect(handleCalc)</span><br></pre></td></tr></table></figure>
+<h3 id="改变文本">改变文本</h3>
+<p>代码中可以使用 <code>setText</code> 方法来改变按钮文本，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button.setText(text)</span><br></pre></td></tr></table></figure>
+<h3 id="禁用、启用">禁用、启用</h3>
+<p>所有控件（继承自QWidget类）都支持 禁用和启用方法。禁用后，该控件不再处理用户操作</p>
+<ul>
+<li>
+<p>禁用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button.setEnabled(<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>启用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button.setEnabled(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="设置图标">设置图标</h3>
+<p>可以通过如下方法给按钮设置图标</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtCore <span class="keyword">import</span> Qt,QSize</span><br><span class="line"><span class="keyword">from</span> PySide6.QtGui <span class="keyword">import</span> QIcon</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置图标</span></span><br><span class="line">button.setIcon(QIcon(<span class="string">&#x27;logo.png&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置图标大小</span></span><br><span class="line">button.setIconSize(QSize(<span class="number">30</span>, <span class="number">30</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="单行文本框">单行文本框</h2>
+<p><code>QLineEdit</code> 是只能单行编辑的文本框。更为详细的使用方法请见<a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QLineEdit.html">官网介绍</a></p>
+<h3 id="文本被修改">文本被修改</h3>
+<p>对于文本的监控有以下几种信号</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QLineEdit.html#PySide6.QtWidgets.QLineEdit.textChanged">textChanged</a> ：当文本框中的内容被键盘编辑，或者程序改变文本框的内容， 就会发出该信号。Qt在调用这个信号处理函数时，传入的参数就是文本框目前的内容字符串。</li>
+<li><a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QLineEdit.html#PySide6.QtWidgets.QLineEdit.textEdited">textEdited</a>：这个信号是和 <code>textChanged</code> 类似， 但是如果是程序改变了文本框内容， 不会触发。 适用于 手工修改后触发一段代码 的场景。</li>
+<li><a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QLineEdit.html#PySide6.QtWidgets.QLineEdit.editingFinished">editingFinished</a>：</li>
+<li>这个信号是：当文本内容有改变， 并且 按下回车键 或者 编辑框失去输入焦点 时 触发。适用于当内容被用户手动修改后， 希望执行一段代码的场景。</li>
+</ol>
+<p>可以这样指定处理该信号的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.textChanged.connect(handleTextChange)</span><br></pre></td></tr></table></figure>
+<h3 id="按下回车键">按下回车键</h3>
+<p>当用户在文本框中任何时候按下回车键，就会发出 <code>returnPressed</code> 信号。有时我们需要处理这种情况，比如登录界面，用户输完密码直接按回车键就进行登录处理，比再用鼠标点击登录按钮快捷的多。可以指定处理 returnPressed 信号，如下所示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwordEdit.returnPressed.connect(onLogin)</span><br></pre></td></tr></table></figure>
+<h3 id="获取文本">获取文本</h3>
+<p>通过 <code>text</code> 方法获取编辑框内的文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text = edit.text()</span><br></pre></td></tr></table></figure>
+<h3 id="设置提示">设置提示</h3>
+<p>通过 <code>setPlaceholderText</code> 方法可以设置提示文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.setPlaceholderText(<span class="string">&#x27;请在这里输入URL&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="设置文本">设置文本</h3>
+<p>通过 <code>setText</code> 方法设置编辑框内的文本内容为参数里面的文本字符串，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.setText(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!note]</p>
+<p>注意：原来的所有内容会被清除</p>
+</blockquote>
+<h3 id="清除所有文本">清除所有文本</h3>
+<p><code>clear</code> 方法可以清除编辑框内所有的文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.clear()</span><br></pre></td></tr></table></figure>
+<h3 id="只允许输入数字">只允许输入数字</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6 <span class="keyword">import</span> QtGui</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只允许输入数字</span></span><br><span class="line">edit.setValidator(QtGui.QIntValidator()) </span><br></pre></td></tr></table></figure>
+<h3 id="拷贝文本到剪贴板">拷贝文本到剪贴板</h3>
+<p><code>copy</code> 方法可以拷贝当前选中文本到剪贴板，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.copy()</span><br></pre></td></tr></table></figure>
+<h3 id="粘贴剪贴板文本">粘贴剪贴板文本</h3>
+<p><code>paste</code> 方法可以把剪贴板内容，拷贝到编辑框当前光标所在处，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.paste()</span><br></pre></td></tr></table></figure>
+<h3 id="添加图标Action">添加图标Action</h3>
+<p>可以在单行输入框内 添加 图标Action，如下所示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6 <span class="keyword">import</span> QtGui</span><br><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QLineEdit</span><br><span class="line"></span><br><span class="line"><span class="comment"># TrailingPosition - 图标在行尾 ；LeadingPosition - 图标在行头</span></span><br><span class="line">action = edit.addAction(QtGui.QIcon(<span class="string">&#x27;icon.png&#x27;</span>), QLineEdit.TrailingPosition) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义点击图标行为</span></span><br><span class="line">action.triggered.connect(actionFunc)</span><br></pre></td></tr></table></figure>
+<h2 id="多行纯文本框">多行纯文本框</h2>
+<p><code>QPlainTextEdit</code> 是可以 <code>多行</code> 的纯文本编辑框。更为详细的使用请见<a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QPlainTextEdit.html">官网介绍</a></p>
+<p><img src="https://www.byhy.net/cdn2/imgs/gh/36257654_69479266-4b259b00-0e36-11ea-9167-29bfbc8b8826.png" alt="多行纯文本框" loading='lazy'></p>
+<p>文本浏览框 内置了一个 <a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtGui/QTextDocument.html">QTextDocument</a> 类型的对象 ，存放文档。</p>
+<h3 id="文本被修改-2">文本被修改</h3>
+<p>当文本框中的内容被键盘编辑，被点击就会发出 <code>textChanged</code> 信号，可以这样指定处理该信号的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.textChanged.connect(handleTextChange)</span><br></pre></td></tr></table></figure>
+<p>注意： Qt在调用这个信号处理函数时，<strong>不会传入</strong>文本框目前的内容字符串，作为参数。这个行为和单行文本框不同。</p>
+<h3 id="光标位置改变">光标位置改变</h3>
+<p>当文本框中的光标位置变动，就会发出 <code>cursorPositionChanged</code> 信号，可以这样指定处理该信号的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.cursorPositionChanged.connect(handleChanged)</span><br></pre></td></tr></table></figure>
+<h3 id="获取文本-2">获取文本</h3>
+<p>通过 <code>toPlainText</code> 方法获取编辑框内的文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text = edit.toPlainText()</span><br></pre></td></tr></table></figure>
+<h3 id="获取选中文本">获取选中文本</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取 QTextCursor 对象</span></span><br><span class="line">textCursor = edit.textCursor()</span><br><span class="line">selection = textCursor.selectedText()</span><br></pre></td></tr></table></figure>
+<h3 id="设置提示-2">设置提示</h3>
+<p>通过 <code>setPlaceholderText</code> 方法可以设置提示文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.setPlaceholderText(<span class="string">&#x27;请在这里输入薪资表&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="设置文本-2">设置文本</h3>
+<p>通过 <code>setPlainText</code> 方法设置编辑框内的文本内容 为参数里面的文本字符串，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">edit.setPlainText(<span class="string">&#x27;&#x27;&#x27;你好，白月黑羽</span></span><br><span class="line"><span class="string">hello byhy&#x27;&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>原来的所有内容会被清除</p>
+<h3 id="在末尾添加文本">在末尾添加文本</h3>
+<p>通过 <code>appendPlainText</code> 方法在编辑框末尾添加文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.appendPlainText(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>注意：这种方法会在添加文本后 <code>自动换行</code></p>
+<h3 id="在光标处插入文本">在光标处插入文本</h3>
+<p>通过 <code>insertPlainText</code> 方法在编辑框末尾添加文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.insertPlainText(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>注意：这种方法 <code>不会</code> 在添加文本后自动换行</p>
+<h3 id="清除所有文本-2">清除所有文本</h3>
+<p><code>clear</code> 方法可以清除编辑框内所有的文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.clear()</span><br></pre></td></tr></table></figure>
+<h3 id="拷贝文本到剪贴板-2">拷贝文本到剪贴板</h3>
+<p><code>copy</code> 方法可以拷贝当前选中文本到剪贴板，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.copy()</span><br></pre></td></tr></table></figure>
+<h3 id="粘贴剪贴板文本-2">粘贴剪贴板文本</h3>
+<p><code>paste</code> 方法可以把剪贴板内容，拷贝到编辑框当前光标所在处，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.paste()</span><br></pre></td></tr></table></figure>
+<h3 id="设置最大行数">设置最大行数</h3>
+<p>有时候，代码会不断往文本框添加内容，为了防止占用过多资源，可以设置文本框最大行数。</p>
+<p>像这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.document().setMaximumBlockCount(<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p>就设置最大为 1000行</p>
+<h2 id="文本浏览框">文本浏览框</h2>
+<p><code>QTextBrowser</code> 是 <code>只能查看文本</code> 控件。</p>
+<p>通常用来显示一些操作日志信息、或者不需要用户编辑的大段文本内容。</p>
+<p><a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QTextBrowser.html">官网介绍</a></p>
+<p>该控件 获取文本、设置文本、清除文本、剪贴板复制粘贴 等等， 都和上面介绍的 多行纯文本框是一样的。</p>
+<p>下面我们主要讲解不同点</p>
+<h3 id="在末尾添加文本-2">在末尾添加文本</h3>
+<p>通过 <code>append</code> 方法在编辑框末尾添加文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textBrowser.append(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>有时，浏览框里面的内容长度超出了可见范围，我们在末尾添加了内容，往往希望控件自动翻滚到当前添加的这行，</p>
+<p>可以通过 <code>ensureCursorVisible</code> 方法来实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">textBrowser.append(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br><span class="line">textBrowser.ensureCursorVisible()</span><br></pre></td></tr></table></figure>
+<p>注意：这种方法会在添加文本后 <code>自动换行</code>。</p>
+<p>如果不想要换行，使用 <code>insertPlainText</code> ，如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">textBrowser.insertPlainText(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br><span class="line">textBrowser.ensureCursorVisible()</span><br></pre></td></tr></table></figure>
+<p>如果你发现还是不能自动显示控件最下面的内容，可以把 <code>textBrowser.ensureCursorVisible()</code> 改为如下写法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QtCore.QTimer.singleShot(<span class="number">0</span>, info.ensureCursorVisible)</span><br></pre></td></tr></table></figure>
+<h3 id="在光标处插入文本-2">在光标处插入文本</h3>
+<p>通过 <code>insertPlainText</code> 方法在编辑框末尾添加文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit.insertPlainText(<span class="string">&#x27;你好，白月黑羽&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>注意：这种方法 <code>不会</code> 在添加文本后自动换行</p>
+<h2 id="标签">标签</h2>
+<p><code>QLabel</code> 就是常见的标签，可以用来显示文字（包括纯文本和富文本）、图片 甚至动画。更详细的使用请参见<a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QLabel.html">官网介绍</a>。</p>
+<p><img src="https://www.byhy.net/cdn2/imgs/gh/36257654_69479746-df463100-0e3b-11ea-96e8-eacee44ae22d.png" alt="标签" loading='lazy'></p>
+<h3 id="创建对象">创建对象</h3>
+<p>可以这样用代码创建一个 QLabel对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow, QLabel</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span>(<span class="title class_ inherited__">QMainWindow</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">        label = QLabel(<span class="string">&#x27;初始内容&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.setCentralWidget(label)</span><br><span class="line"></span><br><span class="line">app = QApplication()</span><br><span class="line">mw = MainWindow()</span><br><span class="line">mw.show()</span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<p>文本内容可以是HTML富文本，支持的是一种 HTML4 规范的子集， <a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/overviews/richtext-html-subset.html">具体参考这里</a>，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow, QLabel</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span>(<span class="title class_ inherited__">QMainWindow</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line"></span><br><span class="line">        label = QLabel(</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&lt;span style=&#x27;</span></span><br><span class="line"><span class="string">    font-family: &quot;Microsoft Yahei&quot;;</span></span><br><span class="line"><span class="string">    font-size:18px;</span></span><br><span class="line"><span class="string">    background: green;</span></span><br><span class="line"><span class="string">    color: white &#x27;&gt;</span></span><br><span class="line"><span class="string">  白月黑羽</span></span><br><span class="line"><span class="string">  &lt;b&gt;SMS&lt;/b&gt;</span></span><br><span class="line"><span class="string">&lt;/span&gt;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">self</span>.setCentralWidget(label)</span><br><span class="line"></span><br><span class="line">app = QApplication()</span><br><span class="line">mw = MainWindow()</span><br><span class="line">mw.show()</span><br><span class="line">app.<span class="built_in">exec</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="设置文本-3">设置文本</h3>
+<p>代码中可以使用 <code>setText</code> 方法来改变 标签文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">label.setText(text)</span><br></pre></td></tr></table></figure>
+<p>当然 setText 设置的内容也可以是HTML富文本</p>
+<h3 id="获取文本-3">获取文本</h3>
+<p>代码中可以使用 <code>text</code> 方法来获取 标签文本内容，比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">label.text()</span><br></pre></td></tr></table></figure>
+<h3 id="显示图片">显示图片</h3>
+<p>QLabel可以用来显示图片，有时一个图片可以让界面好看很多：</p>
+<p>可以在 Qt Designer上 属性编辑器 QLabel 栏 的 pixmap 属性设置中选择图片文件指定。</p>
+<h3 id="用代码显示图片">用代码显示图片</h3>
+<p>如果要显示的图片是动态变化的，就需要用代码来显示。</p>
+<p>我们通过 <a target="_blank" rel="noopener" href="https://doc.qt.io/qtforpython-6/PySide6/QtGui/QPixmap.html">QPixmap</a> 加载图片</p>
+<p>支持 bmp、jpg、 png 等常用图片格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6 <span class="keyword">import</span> QtWidgets, QtGui, QtCore</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始参数就是图片路径名</span></span><br><span class="line">pixmap = QtGui.QPixmap(<span class="string">&#x27;image.png&#x27;</span>)</span><br><span class="line"><span class="comment"># 设定图片缩放大小，这里是50个像素的宽度，高度也会等比例缩放</span></span><br><span class="line">pixmap = pixmap.scaledToWidth(<span class="number">50</span>, QtCore.Qt.SmoothTransformation)</span><br><span class="line"></span><br><span class="line">label = QtWidgets.QLabel()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置label显示的pixmap</span></span><br><span class="line">label.setPixmap(pixmap)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置label大小和图片一致</span></span><br><span class="line">label.resize(</span><br><span class="line">  pixmap.width(),</span><br><span class="line">  pixmap.height())</span><br></pre></td></tr></table></figure>
+<p>如果你要显示的图片数据不是来自磁盘文件， 而是直接从网络、数据库 读取的图片字节数据，</p>
+<p>可以使用 QPixmap 的 <code>loadFromData</code> 方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PySide6 <span class="keyword">import</span> QtWidgets, QtGui, QtCore</span><br><span class="line"></span><br><span class="line">pixmap = QtGui.QPixmap()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接设置Data， 同样支持各种格式的图片数据</span></span><br><span class="line">pixmap.loadFromData(my_bytes) </span><br><span class="line"></span><br><span class="line">label = QtWidgets.QLabel()</span><br><span class="line">label.setPixmap(pixmap)</span><br></pre></td></tr></table></figure>
+<h1>小栗子</h1>
+<h2 id="新建">新建</h2>
+<p>打开designer，依次点击*==新建窗口&gt;Main window==*创建一个软件页面</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_19_35_15_202410231935990.gif" alt="动画" loading='lazy'></p>
+<p>软件页面</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_19_34_58_202410231934330.png" alt="软件页面" loading='lazy'></p>
+<h2 id="操作步骤">操作步骤</h2>
+<p>==信号与槽的原理==：</p>
+<p>简单地说，将信号与槽函数连接后，当信号被触发时，槽函数将被自动调用。</p>
+<p>分析这个过程，涉及到几个基本概念和关系：</p>
+<ul>
+<li>
+<p>信号：信号可以是一个动作，也可以是对象的一种状态，用于触发所连接的槽。</p>
+</li>
+<li>
+<p>槽：槽就是一个函数，可以由连接的信号触发。</p>
+</li>
+<li>
+<p>发射信号：信号被发射时，自动调用信号连接的槽函数。通常，在对象的状态改变时发射信号。</p>
+</li>
+<li>
+<p>信号可以带有参数，但必须与槽函数的参数相对应。</p>
+</li>
+<li>
+<p>一个信号可以连接多个槽函数，多个信号也可以连接到一个槽函数。</p>
+</li>
+<li>
+<p>一个信号可以连接到另一个信号上。</p>
+</li>
+<li>
+<p>很多窗口部件（控件）内置了一下信号和槽，可以直接调用。也可以按需求自定义信号和槽。</p>
+</li>
+</ul>
+<p>==信号发送者与槽的接收者==：</p>
+<ul>
+<li>信号的发送者通常是一个控件对象，在控件对象的状态发生变化时发送信号。常见的发送者是图形窗口中的各种控件对象，但也可以是动作对象。</li>
+<li>槽的接收者通常也是控件对象。槽函数是一个自定义的槽函数，或控件内置的槽函数。一般地，槽函数也有一个对象作为主体，即对于接受者这个控件对象执行函数定义的操作。例如槽函数执行的功能是关闭，哪么究竟是关闭那个控件呢？关闭对象就是接受者。</li>
+</ul>
+<blockquote>
+<p>[!NOTE]</p>
+<p>举个例子，在一个十字路口，信号灯变成了绿色，对面的汽车看到后就启动了。</p>
+<ul>
+<li>信号灯就是发送信号的对象，绿灯亮是它发送的信号 (signal)。</li>
+<li>汽车是接收对象，汽车行驶是汽车对信号的响应，也叫槽 (slot)。</li>
+</ul>
+</blockquote>
+<h3 id="需求">需求</h3>
+<blockquote>
+<ol>
+<li>点击一下按钮，输入框中的文字就消失</li>
+<li>点击一下按钮，输入框中就显示“不要再点啦”</li>
+</ol>
+</blockquote>
+<h3 id="实现">实现</h3>
+<p>需求1：</p>
+<blockquote>
+<p>首先解析需求：</p>
+<blockquote>
+<p>==按钮是信号的发送者，输入框是接收者。按钮按下是信号，清空输入框中的文字是槽。==</p>
+</blockquote>
+<p>首先从左侧的Widget Box中拉取一个push button，双击该push button即可修改button的文字。</p>
+<p>之后从左侧的Widget Box中拉取一个Line Edit。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_19_58_30_202410231958540.gif" alt="拉去控件" loading='lazy'></p>
+<p>将发送者和接收者连在一起：</p>
+<blockquote>
+<p>方法1：</p>
+<ol>
+<li>
+<p>点击菜单栏的*==Edit》编辑信号\槽（F4）==*</p>
+</li>
+<li>
+<p>首先选中信号发送者，鼠标左键按住拖动会发现出现一个箭头，当拖动箭头到另外一个组件的时候，会将两个组件连接在一起，同时会出现配置连接界面，用于控制信号和槽</p>
+</li>
+<li>
+<p>此时需要选择信号和槽，左边是信号（按压动作，也就是clicked），右边栏是槽（清空函数，也就是clear）</p>
+</li>
+<li>
+<p>完成之后点击ok即可</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_20_9_21_202410232009568.gif" alt="连接信号和槽" loading='lazy'></p>
+</li>
+</ol>
+<p>方法2：</p>
+<ol>
+<li>
+<p>点击右侧的信号槽，点击左上角加号增加一个连接</p>
+</li>
+<li>
+<p>依次选择发送者、信号、接收者、槽即可</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_20_11_36_202410232011449.png" alt="选择式" loading='lazy'></p>
+</li>
+</ol>
+</blockquote>
+<p>完成UI设计之后保存。将保存的ui文件转换为python文件，使用以下指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m PyQt5.uic.pyuic .\mainWindow.ui -o mainWindow.py</span><br></pre></td></tr></table></figure>
+<p>使用完命令之后就会发现在同级目录下生成了py文件。</p>
+<p>新建一个python文件，用来运行，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets</span><br><span class="line"><span class="keyword">from</span> mainWindow <span class="keyword">import</span> Ui_MainWindow  <span class="comment"># 导入你的UI类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span>(QtWidgets.QMainWindow):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()	<span class="comment">#调用父类的构造函数</span></span><br><span class="line">        <span class="variable language_">self</span>.ui = Ui_MainWindow()</span><br><span class="line">        <span class="variable language_">self</span>.ui.setupUi(<span class="variable language_">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">    mainWin = MainWindow()</span><br><span class="line">    mainWin.show()</span><br><span class="line">    sys.exit(app.exec_())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!TIP]</p>
+<p>super用于调用父类的函数，这里的<code>super().__init__()</code>就是调用父类的<code>__init__（）</code></p>
+<p>当然，也可以调用父类的函数。现考虑以下程序会输出什么？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello from A&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>(<span class="title class_ inherited__">A</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello from B&quot;</span>)</span><br><span class="line">        <span class="built_in">super</span>().greet()  <span class="comment"># 调用父类 A 的 greet 方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span>(<span class="title class_ inherited__">A</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello from C&quot;</span>)</span><br><span class="line">        <span class="built_in">super</span>().greet()  <span class="comment"># 调用父类 A 的 greet 方法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">D</span>(B, C):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;Hello from D&quot;</span>)</span><br><span class="line">        <span class="built_in">super</span>().greet()  <span class="comment"># 这样会依照方法解析顺序调用 B 和 C 的 greet 方法</span></span><br><span class="line"></span><br><span class="line">d = D()</span><br><span class="line">d.greet()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Hello from D</span><br><span class="line">Hello from B</span><br><span class="line">Hello from C</span><br><span class="line">Hello from A</span><br></pre></td></tr></table></figure>
+<p>在函数调用时，遵从C3线性算法：</p>
+<ol>
+<li><strong>保证优先级</strong>：C3线性化确保了子类在调用方法时，父类的顺序是可信的，子类总是在父类之前得到调用。</li>
+<li><strong>无歧义性</strong>：如果一个类有多个父类，C3算法会生成一个唯一的线性顺序，从而消除方法解析过程中的歧义。</li>
+<li><strong>遵循先父后子的原则</strong>：在确定顺序时，确保父类在子类之前，且继承树的任何变化都会反映在新的线性化顺序中。</li>
+</ol>
+<p>C3算法的基本思想是为每个类维护一个序列，这个序列从当前类开始，依次添加类的父名单，并遵循以下原则：</p>
+<ol>
+<li>如果类A继承类B和类C，则在确定类A的MRO（Method Resolution Order）时，类B和类C的优先级要遵循它们的MRO，可以使用<code>D.mro()</code>来查看类的调用顺序。</li>
+<li>类B的所有父类在类A的MRO中必须在类B之后出现。</li>
+<li>类C的所有父类在类A的MRO中必须在类C之后出现。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>[!TIP]</p>
+<p>构造函数是用于初始化对象的一种特殊方法。在Python中，构造函数是<code>__init__</code>方法。当一个对象被创建时，Python会自动调用这个方法，以便为对象的属性赋初始值并进行必要的设置。</p>
+<p>构造函数的特点:</p>
+<ol>
+<li><strong>名称</strong>：构造函数在Python中总是被命名为<code>__init__</code>，这是一个特殊的方法名。</li>
+<li><strong>参数</strong>：构造函数可以接受参数，用于传递需要初始化的值。第一个参数通常是<code>self</code>，它代表实例本身，后面的参数则可以根据需要自定义。</li>
+<li><strong>自动调用</strong>：当创建对象时，例如<code>obj = ClassName()</code>, Python会自动调用相应的构造函数。</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Car</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, make, model, year</span>):</span><br><span class="line">        <span class="variable language_">self</span>.make = make   <span class="comment"># 品牌</span></span><br><span class="line">        <span class="variable language_">self</span>.model = model <span class="comment"># 型号</span></span><br><span class="line">        <span class="variable language_">self</span>.year = year   <span class="comment"># 年份</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">display_info</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Car: <span class="subst">&#123;self.year&#125;</span> <span class="subst">&#123;self.make&#125;</span> <span class="subst">&#123;self.model&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建对象时将调用构造函数</span></span><br><span class="line">my_car = Car(<span class="string">&quot;Toyota&quot;</span>, <span class="string">&quot;Camry&quot;</span>, <span class="number">2020</span>)</span><br><span class="line">my_car.display_info()</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Car: 2020 Toyota Camry</span><br></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+<p>需求2：</p>
+<blockquote>
+<p>由于显示特定文字，接收者（Line edit）就是Main window，所以我们的指向应该指向“地”。</p>
+<p>在建立连接之前，需要先申明一个我们自定义的函数，在<code>对象查看器</code>中选中QMainWindow，右键，选择<code>改变信号\槽</code>，在槽中新建一个自己的函数</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_20_39_8_202410232039010.gif" alt="新建槽函数" loading='lazy'></p>
+<p>然后从按钮出发接地即可</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/23_20_41_27_202410232041717.gif" alt="动画" loading='lazy'></p>
+<p>和上面一样，先将文件转化为python文件，之后再新建一个python文件，此时我们需要实现刚刚定义的函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets</span><br><span class="line"><span class="keyword">from</span> mainWindow <span class="keyword">import</span> Ui_MainWindow  <span class="comment"># 导入你的UI类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span>(QtWidgets.QMainWindow):</span><br><span class="line"> <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">     <span class="built_in">super</span>().__init__()</span><br><span class="line">     <span class="variable language_">self</span>.ui = Ui_MainWindow()</span><br><span class="line">     <span class="variable language_">self</span>.ui.setupUi(<span class="variable language_">self</span>)</span><br><span class="line"></span><br><span class="line"> <span class="keyword">def</span> <span class="title function_">showing</span>(<span class="params">self</span>):</span><br><span class="line">     <span class="built_in">print</span>(<span class="string">&quot;showing&quot;</span>)</span><br><span class="line">     <span class="variable language_">self</span>.ui.lineEdit.setText(<span class="string">&quot;不要再点啦&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"> app = QtWidgets.QApplication(sys.argv)</span><br><span class="line"> mainWin = MainWindow()</span><br><span class="line"> mainWin.show()</span><br><span class="line"> sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!NOTE]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5 <span class="keyword">import</span> QtWidgets</span><br><span class="line"><span class="keyword">from</span> mainWindow <span class="keyword">import</span> Ui_MainWindow  <span class="comment"># 导入你的UI类</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MainWindow</span>(Ui_MainWindow,QtWidgets.QMainWindow):</span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">           <span class="built_in">super</span>().__init__()</span><br><span class="line">           <span class="variable language_">self</span>.setupUi(<span class="variable language_">self</span>)</span><br><span class="line">    </span><br><span class="line">     <span class="keyword">def</span> <span class="title function_">showing</span>(<span class="params">self</span>):</span><br><span class="line">           <span class="built_in">print</span>(<span class="string">&quot;showing&quot;</span>)</span><br><span class="line">           <span class="variable language_">self</span>.lineEdit.setText(<span class="string">&quot;不要再点啦&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">     app = QtWidgets.QApplication(sys.argv)</span><br><span class="line">     mainWin = MainWindow()</span><br><span class="line">     mainWin.show()</span><br><span class="line">     sys.exit(app.exec_())</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+<p>最后打包软件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -D --noconsole  main.py  </span><br></pre></td></tr></table></figure>
+<h1>技巧</h1>
+<p>将ui文件转换为python文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m PyQt5.uic.pyuic .\mainWindow.ui -o mainWindow.py</span><br></pre></td></tr></table></figure>
+<p>打包软件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pyinstaller -D -i .\resource\windowIcon.ico --noconsole  main.py </span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!tip]</p>
+<p>注意：有时候可能需要打包多个文件，所以可以使用<a target="_blank" rel="noopener" href="https://www.gndown.com/534.html">Enigma Virtual Box(虚拟打包器) v11.30.20250428 汉化去广告版-绿软小站 (gndown.com)</a>来打包</p>
+</blockquote>
+<p>设置字体能跟随分辨率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, <span class="literal">True</span>)</span><br><span class="line">QtGui.QGuiApplication.setHighDpiScaleFactorRoundingPolicy(QtCore.Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)   </span><br></pre></td></tr></table></figure>
+<p>设置下拉框中选项的距离</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># m_sectionShape是组件名称</span></span><br><span class="line"><span class="variable language_">self</span>.m_sectionShape.setStyleSheet(<span class="string">&quot;QAbstractItemView::item &#123; height: 20px&#125;&quot;</span>)</span><br><span class="line"><span class="variable language_">self</span>.m_sectionShape.setView(QListView())</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/">https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PyQT/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt"><img class="cover" src="/img/RandomCoverImage/random_10.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Qt</div></div><div class="info-2"><div class="info-item-1">参考链接 【Qt】Qt6系列教程汇总_qt6教程-CSDN博客 </div></div></div></a><a class="pagination-related" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/PlantUML/" title="PlantUML"><img class="cover" src="/img/RandomCoverImage/random_11.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">PlantUML</div></div><div class="info-2"><div class="info-item-1">参考链接 新的活动图测试语法和功能 (plantuml.com) 活动图 行为 活动标签以: 开始，以; 结束。文本格式可以使用克里奥尔语的维基语法。它们的定义顺序是隐性链接的。 1234@startuml 	:Hello world; 	:This is defined on several...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">UI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#fluent-widgets"><span class="toc-number">2.1.</span> <span class="toc-text">fluent-widgets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#silicon"><span class="toc-number">2.2.</span> <span class="toc-text">silicon</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E4%BB%A3%E7%A0%81"><span class="toc-number">4.1.</span> <span class="toc-text">最小代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%8C%E9%9D%A2%E5%8A%A8%E4%BD%9C%E5%A4%84%E7%90%86-signal-%E5%92%8C-slot"><span class="toc-number">4.2.</span> <span class="toc-text">界面动作处理 (signal 和 slot)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E5%88%B0%E7%B1%BB"><span class="toc-number">4.3.</span> <span class="toc-text">封装到类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">布局</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDUI%E6%96%87%E4%BB%B6"><span class="toc-number">5.1.</span> <span class="toc-text">动态加载UI文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E5%8C%96UI%E6%96%87%E4%BB%B6"><span class="toc-number">5.2.</span> <span class="toc-text">转化UI文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Layout"><span class="toc-number">5.3.</span> <span class="toc-text">Layout</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MainWindow-%E7%9A%84Layout"><span class="toc-number">5.3.1.</span> <span class="toc-text">MainWindow 的Layout</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E6%8E%A7%E4%BB%B6%E4%BD%8D%E7%BD%AE%E5%92%8C%E5%A4%A7%E5%B0%8F"><span class="toc-number">5.4.</span> <span class="toc-text">调整控件位置和大小</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E6%95%B4layout%E4%B8%AD%E6%8E%A7%E4%BB%B6%E7%9A%84%E5%A4%A7%E5%B0%8F%E6%AF%94%E4%BE%8B"><span class="toc-number">5.4.1.</span> <span class="toc-text">调整layout中控件的大小比例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E6%95%B4%E6%8E%A7%E4%BB%B6%E9%97%B4%E8%B7%9D"><span class="toc-number">5.4.2.</span> <span class="toc-text">调整控件间距</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Qt-Designer%E7%95%8C%E9%9D%A2%E5%B8%83%E5%B1%80%E5%BB%BA%E8%AE%AE"><span class="toc-number">5.5.</span> <span class="toc-text">Qt Designer界面布局建议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">常用控件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%89%E9%92%AE"><span class="toc-number">6.1.</span> <span class="toc-text">按钮</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A2%AB%E7%82%B9%E5%87%BB"><span class="toc-number">6.1.1.</span> <span class="toc-text">被点击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E6%96%87%E6%9C%AC"><span class="toc-number">6.1.2.</span> <span class="toc-text">改变文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%81%E7%94%A8%E3%80%81%E5%90%AF%E7%94%A8"><span class="toc-number">6.1.3.</span> <span class="toc-text">禁用、启用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%9B%BE%E6%A0%87"><span class="toc-number">6.1.4.</span> <span class="toc-text">设置图标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E8%A1%8C%E6%96%87%E6%9C%AC%E6%A1%86"><span class="toc-number">6.2.</span> <span class="toc-text">单行文本框</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%A2%AB%E4%BF%AE%E6%94%B9"><span class="toc-number">6.2.1.</span> <span class="toc-text">文本被修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E9%94%AE"><span class="toc-number">6.2.2.</span> <span class="toc-text">按下回车键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E6%9C%AC"><span class="toc-number">6.2.3.</span> <span class="toc-text">获取文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%8F%90%E7%A4%BA"><span class="toc-number">6.2.4.</span> <span class="toc-text">设置提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%96%87%E6%9C%AC"><span class="toc-number">6.2.5.</span> <span class="toc-text">设置文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%89%80%E6%9C%89%E6%96%87%E6%9C%AC"><span class="toc-number">6.2.6.</span> <span class="toc-text">清除所有文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AA%E5%85%81%E8%AE%B8%E8%BE%93%E5%85%A5%E6%95%B0%E5%AD%97"><span class="toc-number">6.2.7.</span> <span class="toc-text">只允许输入数字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%B7%E8%B4%9D%E6%96%87%E6%9C%AC%E5%88%B0%E5%89%AA%E8%B4%B4%E6%9D%BF"><span class="toc-number">6.2.8.</span> <span class="toc-text">拷贝文本到剪贴板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%98%E8%B4%B4%E5%89%AA%E8%B4%B4%E6%9D%BF%E6%96%87%E6%9C%AC"><span class="toc-number">6.2.9.</span> <span class="toc-text">粘贴剪贴板文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%9B%BE%E6%A0%87Action"><span class="toc-number">6.2.10.</span> <span class="toc-text">添加图标Action</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E8%A1%8C%E7%BA%AF%E6%96%87%E6%9C%AC%E6%A1%86"><span class="toc-number">6.3.</span> <span class="toc-text">多行纯文本框</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%A2%AB%E4%BF%AE%E6%94%B9-2"><span class="toc-number">6.3.1.</span> <span class="toc-text">文本被修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%89%E6%A0%87%E4%BD%8D%E7%BD%AE%E6%94%B9%E5%8F%98"><span class="toc-number">6.3.2.</span> <span class="toc-text">光标位置改变</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E6%9C%AC-2"><span class="toc-number">6.3.3.</span> <span class="toc-text">获取文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%80%89%E4%B8%AD%E6%96%87%E6%9C%AC"><span class="toc-number">6.3.4.</span> <span class="toc-text">获取选中文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%8F%90%E7%A4%BA-2"><span class="toc-number">6.3.5.</span> <span class="toc-text">设置提示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%96%87%E6%9C%AC-2"><span class="toc-number">6.3.6.</span> <span class="toc-text">设置文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AB%E5%B0%BE%E6%B7%BB%E5%8A%A0%E6%96%87%E6%9C%AC"><span class="toc-number">6.3.7.</span> <span class="toc-text">在末尾添加文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%85%89%E6%A0%87%E5%A4%84%E6%8F%92%E5%85%A5%E6%96%87%E6%9C%AC"><span class="toc-number">6.3.8.</span> <span class="toc-text">在光标处插入文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E6%89%80%E6%9C%89%E6%96%87%E6%9C%AC-2"><span class="toc-number">6.3.9.</span> <span class="toc-text">清除所有文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%B7%E8%B4%9D%E6%96%87%E6%9C%AC%E5%88%B0%E5%89%AA%E8%B4%B4%E6%9D%BF-2"><span class="toc-number">6.3.10.</span> <span class="toc-text">拷贝文本到剪贴板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%98%E8%B4%B4%E5%89%AA%E8%B4%B4%E6%9D%BF%E6%96%87%E6%9C%AC-2"><span class="toc-number">6.3.11.</span> <span class="toc-text">粘贴剪贴板文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%9C%80%E5%A4%A7%E8%A1%8C%E6%95%B0"><span class="toc-number">6.3.12.</span> <span class="toc-text">设置最大行数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%B5%8F%E8%A7%88%E6%A1%86"><span class="toc-number">6.4.</span> <span class="toc-text">文本浏览框</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AB%E5%B0%BE%E6%B7%BB%E5%8A%A0%E6%96%87%E6%9C%AC-2"><span class="toc-number">6.4.1.</span> <span class="toc-text">在末尾添加文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%85%89%E6%A0%87%E5%A4%84%E6%8F%92%E5%85%A5%E6%96%87%E6%9C%AC-2"><span class="toc-number">6.4.2.</span> <span class="toc-text">在光标处插入文本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE"><span class="toc-number">6.5.</span> <span class="toc-text">标签</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="toc-number">6.5.1.</span> <span class="toc-text">创建对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%96%87%E6%9C%AC-3"><span class="toc-number">6.5.2.</span> <span class="toc-text">设置文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E6%9C%AC-3"><span class="toc-number">6.5.3.</span> <span class="toc-text">获取文本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87"><span class="toc-number">6.5.4.</span> <span class="toc-text">显示图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BB%A3%E7%A0%81%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87"><span class="toc-number">6.5.5.</span> <span class="toc-text">用代码显示图片</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">小栗子</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA"><span class="toc-number">7.1.</span> <span class="toc-text">新建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="toc-number">7.2.</span> <span class="toc-text">操作步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82"><span class="toc-number">7.2.1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">7.2.2.</span> <span class="toc-text">实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">技巧</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

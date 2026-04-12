@@ -1,0 +1,614 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>嵌入式编程软件 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 CubeMX+VSCode+Ozone的STM32开发工作流（三）利用Ozone进行可视化调试和代码分析_ozone jlink-CSDN博客 一、搭建Eclipse gcc mcu开发环境_ecplice 配置mcu-CSDN博客 深入理解工具链-基于Eclipse的嵌入式IDE快速入门_eclipse ide-CSDN博客 Ozone使用介绍-基础功能 - 开发环境 - 硬汉嵌入式论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式编程软件">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 CubeMX+VSCode+Ozone的STM32开发工作流（三）利用Ozone进行可视化调试和代码分析_ozone jlink-CSDN博客 一、搭建Eclipse gcc mcu开发环境_ecplice 配置mcu-CSDN博客 深入理解工具链-基于Eclipse的嵌入式IDE快速入门_eclipse ide-CSDN博客 Ozone使用介绍-基础功能 - 开发环境 - 硬汉嵌入式论">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.257Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.257Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "嵌入式编程软件",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_12.jpg",
+  "datePublished": "2026-04-12T08:12:40.257Z",
+  "dateModified": "2026-04-12T08:12:40.257Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '嵌入式编程软件',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_12.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">嵌入式编程软件</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">嵌入式编程软件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.257Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/NeoZng/article/details/127980949">CubeMX+VSCode+Ozone的STM32开发工作流（三）利用Ozone进行可视化调试和代码分析_ozone jlink-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cuzhao_1798/article/details/126044552">一、搭建Eclipse gcc mcu开发环境_ecplice 配置mcu-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lone5moon/article/details/120093848">深入理解工具链-基于Eclipse的嵌入式IDE快速入门_eclipse ide-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.armbbs.cn/forum.php?mod=viewthread&amp;tid=95855&amp;highlight=Ozone">Ozone使用介绍-基础功能 - 开发环境 - 硬汉嵌入式论坛 - Powered by Discuz!</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43736451/article/details/116240449">Eclipse汉化教程（官方汉化包，傻瓜式操作，附带中英文快捷切换方式以及常见问题解决方案）-CSDN博客</a></p>
+<h1>Eclipse</h1>
+<p>更为详细的使用教程可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/lone5moon/article/details/120093848">深入理解工具链-基于Eclipse的嵌入式IDE快速入门_eclipse ide-CSDN博客</a></p>
+<h2 id="所需文件">所需文件</h2>
+<ol>
+<li>首先安装eclipse，从<a target="_blank" rel="noopener" href="https://www.eclipse.org/downloads/packages/release/2025-03/r/eclipse-ide-embedded-cc-developers">Eclipse IDE for Embedded C/C++ Developers Eclipse Packages</a>下载压缩包，解压即可，找到Eclipse双击即可打开。</li>
+<li>使用eclipse就需要使用交叉编译器，从<a target="_blank" rel="noopener" href="https://developer.arm.com/downloads/-/gnu-rm">Downloads | GNU Arm Embedded Toolchain Downloads – Arm Developer</a>上下载gcc-arm-none-eabi编译器，该编译器用于嵌入式gcc编译。</li>
+<li>需要下载厂商的Pack文件</li>
+<li>最后要从<a target="_blank" rel="noopener" href="https://xpack-dev-tools.github.io/windows-build-tools-xpack/docs/releases/">Releases | xPack Windows Build Tools</a>上下载build工具包。</li>
+</ol>
+<p>以上是全部工具包。</p>
+<blockquote>
+<p>[!note]</p>
+<p>还需要厂商的芯片包，需要结合自己的工程去下载。</p>
+</blockquote>
+<h2 id="环境配置">环境配置</h2>
+<p>在搭建Eclipse之前需要先了解工程架构：</p>
+<ul>
+<li>工作空间
+<ul>
+<li>.metadata文件夹：用于eclipse识别是否是eclipse的文件夹</li>
+<li>项目文件夹
+<ul>
+<li>.setting文件夹：用于保存项目的相关配置</li>
+<li>项目架构文件夹：ASW、BSW等自己的工程架构</li>
+<li>.cproject</li>
+<li>.project</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>为了减少工作量，我们可以給eclipse配置<strong>全局环境变量</strong>。打开<code>Tool Bar</code>中的<code>Window &gt; Preference</code>，配置全局变量：</p>
+<ol>
+<li>
+<p>配置编译器的地址(arm-none-eabi)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224140611400.png" alt="配置编译器地址" loading='lazy'></p>
+</li>
+<li>
+<p>配置build工具地址：在之前下载的build工具就用在这</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224140724001.png" alt="配置build工具地址" loading='lazy'></p>
+</li>
+<li>
+<p>配置JLink或其他调试工具地址（可选）：如果使用Ozone，就不需要配置这个选项</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224141134632.png" alt="配置JLink工具地址" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>需要注意的是，这里的JLink地址使用的CL的地址，即<code>JLinkGDBServerCL.exe</code></p>
+</blockquote>
+</li>
+<li>
+<p>配置MCU芯片包地址：这一步需要下载芯片厂商的相关的Pack文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224141613565.png" alt="配置芯片包地址" loading='lazy'></p>
+<p>可以点击Repositories页面，如果展示了包的内容，说明导入成功，否则为导入失败</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224141717668.png" alt="导入的Pack包" loading='lazy'></p>
+<p>该包是以下的文件结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">├─.cache</span><br><span class="line">└─Keil</span><br><span class="line">    ├─FM33A0XXEV_DFP</span><br><span class="line">    │  └─0.0.4</span><br><span class="line">    │      ├─Device</span><br><span class="line">    │      │  ├─Include</span><br><span class="line">    │      │  ├─IncludeIAR</span><br><span class="line">    │      │  └─Source</span><br><span class="line">    │      │      ├─ARM</span><br><span class="line">    │      │      ├─GCC</span><br><span class="line">    │      │      └─IAR</span><br><span class="line">    │      ├─Flash</span><br><span class="line">    │      └─SVD</span><br><span class="line">    ├─FM33L0XX_DFP</span><br><span class="line">    │  └─0.1.4</span><br><span class="line">    │      ├─Device</span><br><span class="line">    │      │  ├─Include</span><br><span class="line">    │      │  └─Source</span><br><span class="line">    │      │      └─GCC</span><br><span class="line">    │      │          └─linker</span><br><span class="line">    │      ├─Drivers</span><br><span class="line">    │      ├─Flash</span><br><span class="line">    │      └─SVD</span><br><span class="line">    ├─FM33LC0XX_DFP</span><br><span class="line">    │  └─3.0.1</span><br><span class="line">    │      ├─Device</span><br><span class="line">    │      │  ├─Include</span><br><span class="line">    │      │  └─Source</span><br><span class="line">    │      │      └─GCC</span><br><span class="line">    │      │          └─linker</span><br><span class="line">    │      ├─Flash</span><br><span class="line">    │      │  └─备份</span><br><span class="line">    │      └─SVD</span><br><span class="line">    └─FM33LG0XX_DFP</span><br><span class="line">        └─2.0.0</span><br><span class="line">            ├─Device</span><br><span class="line">            │  ├─Include</span><br><span class="line">            │  └─Source</span><br><span class="line">            │      └─GCC</span><br><span class="line">            │          └─linker</span><br><span class="line">            ├─Flash</span><br><span class="line">            └─SVD</span><br><span class="line">            </span><br><span class="line">            </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!tip]</p>
+<p>注意，该目录下有.repos.xml文件，如果有这个文件，说明你的路径选择的是对的</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="新建工程">新建工程</h2>
+<p>双击打开eclipse时，需要选择一个路径作为工作空间。工作空间是你要建的项目的根路径，之后的引入头文件路径或者链接脚本等等需要路径的地方都是使用的该路径。</p>
+<p>进入之后新建一个工程，依次点击*==file&gt;new&gt;C/C++ project==*</p>
+<ol>
+<li>
+<p>选择构建系统：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224142155138.png" alt="Eclipse工程类型" loading='lazy'></p>
+<p>从上图可以看出共有以下几种工程管理方式：</p>
+<ol>
+<li><strong>CDT Managed Build（C/C++ Managed Build）</strong>：依赖Eclipse CDT（C/C++ Development Tools）自带的<strong>托管构建系统</strong>，自动生成Makefile或构建脚本，无需手动编写。</li>
+<li><strong>CMake相关</strong>
+<ol>
+<li><strong><code>CMake Project</code></strong>：生成带<strong>Hello World可执行程序</strong>的CMake项目，自动创建基础的<code>CMakeLists.txt</code>（CMake配置文件）和示例代码，开箱即用。</li>
+<li><strong><code>Empty or Existing CMake Project</code></strong>:创建<strong>空的CMake项目</strong>（无初始文件），或用于<strong>导入已有代码</strong>并生成CMake配置。</li>
+</ol>
+</li>
+<li><strong>Meson相关</strong>
+<ol>
+<li><strong><code>Meson Project</code></strong>:类似<code>CMake Project</code>，生成带<strong>Hello World可执行程序</strong>的Meson项目，自动创建<code>meson.build</code>（Meson配置文件）和示例代码。</li>
+<li><strong><code>Empty or Existing Meson Project</code></strong>:创建<strong>空的Meson项目</strong>，或用于导入已有代码生成Meson配置。</li>
+</ol>
+</li>
+<li><strong>Makefile Project</strong>:基于CDT的<strong>新Core Build System</strong>，支持创建带可选Hello World示例的Makefile项目，需手动维护Makefile（或自动生成基础版本）。</li>
+</ol>
+</li>
+<li>
+<p>配置项目类型、工具链及工程名，可以通过<code>Location</code>来选择将该项目建在哪，但是需要注意的是你将项目建在哪，你的项目文件应该在这个项目文件夹下，</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224143216807.png" alt="项目类型及工具链" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>注意，这里的工具链需要选择<code>Arm-CC</code>，也就是嵌入式的GCC</p>
+</blockquote>
+</li>
+<li>
+<p>配置需要部署的模式，debug是调试模式，release是发布模式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224143344021.png" alt="部署模式" loading='lazy'></p>
+</li>
+<li>
+<p>配置工具链的位置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224143405071.png" alt="配置工具链" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>一般来说，在安装好gcc之后会自动设置为环境变量，在安装的时候可以注意一下是否勾选了增加环境变量的选项。</p>
+</blockquote>
+</li>
+</ol>
+<p>此时workspace文件夹的结构为：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line">├─.metadata</span><br><span class="line">│  ├─.mylyn</span><br><span class="line">│  │  └─contexts</span><br><span class="line">│  └─.plugins</span><br><span class="line">│      ├─org.eclipse.cdt.core</span><br><span class="line">│      ├─org.eclipse.cdt.flatpak.launcher</span><br><span class="line">│      ├─org.eclipse.cdt.make.core</span><br><span class="line">│      ├─org.eclipse.cdt.managedbuilder.core</span><br><span class="line">│      ├─org.eclipse.cdt.ui</span><br><span class="line">│      ├─org.eclipse.core.resources</span><br><span class="line">│      │  ├─.projects</span><br><span class="line">│      │  │  ├─.org.eclipse.egit.core.cmp</span><br><span class="line">│      │  │  └─Application_ForEclipse</span><br><span class="line">│      │  │      └─.indexes</span><br><span class="line">│      │  ├─.root</span><br><span class="line">│      │  │  └─.indexes</span><br><span class="line">│      │  └─.safetable</span><br><span class="line">│      ├─org.eclipse.core.runtime</span><br><span class="line">│      │  └─.settings</span><br><span class="line">│      ├─org.eclipse.debug.core</span><br><span class="line">│      ├─org.eclipse.debug.ui</span><br><span class="line">│      ├─org.eclipse.e4.workbench</span><br><span class="line">│      ├─org.eclipse.egit.core</span><br><span class="line">│      │  └─.org.eclipse.egit.core.cmp</span><br><span class="line">│      │      └─.settings</span><br><span class="line">│      ├─org.eclipse.mylyn.context.core</span><br><span class="line">│      │  └─contexts</span><br><span class="line">│      ├─org.eclipse.mylyn.github.ui</span><br><span class="line">│      ├─org.eclipse.mylyn.tasks.ui</span><br><span class="line">│      ├─org.eclipse.oomph.setup</span><br><span class="line">│      ├─org.eclipse.oomph.setup.ui</span><br><span class="line">│      ├─org.eclipse.swt</span><br><span class="line">│      │  └─EBWebView</span><br><span class="line">│      │      ├─AutoLaunchProtocolsComponent</span><br><span class="line">│      │      │  └─1.0.0.10</span><br><span class="line">│      │      ├─BrowserMetrics</span><br><span class="line">│      │      ├─CertificateRevocation</span><br><span class="line">│      │      │  └─6498.2025.9.4</span><br><span class="line">│      │      ├─component_crx_cache</span><br><span class="line">│      │      ├─Crashpad</span><br><span class="line">│      │      │  ├─attachments</span><br><span class="line">│      │      │  └─reports</span><br><span class="line">│      │      ├─Default</span><br><span class="line">│      │      │  ├─AutofillStrikeDatabase</span><br><span class="line">│      │      │  ├─blob_storage</span><br><span class="line">│      │      │  │  └─49282d65-b219-4fde-8d70-fed122800af6</span><br><span class="line">│      │      │  ├─BudgetDatabase</span><br><span class="line">│      │      │  ├─Cache</span><br><span class="line">│      │      │  │  └─Cache_Data</span><br><span class="line">│      │      │  ├─ClientCertificates</span><br><span class="line">│      │      │  ├─Code Cache</span><br><span class="line">│      │      │  │  ├─js</span><br><span class="line">│      │      │  │  │  └─index-dir</span><br><span class="line">│      │      │  │  └─wasm</span><br><span class="line">│      │      │  │      └─index-dir</span><br><span class="line">│      │      │  ├─commerce_subscription_db</span><br><span class="line">│      │      │  ├─DawnGraphiteCache</span><br><span class="line">│      │      │  ├─DawnWebGPUCache</span><br><span class="line">│      │      │  ├─discounts_db</span><br><span class="line">│      │      │  ├─Download Service</span><br><span class="line">│      │      │  │  ├─EntryDB</span><br><span class="line">│      │      │  │  └─Files</span><br><span class="line">│      │      │  ├─EdgeEDrop</span><br><span class="line">│      │      │  ├─EdgeHubAppUsage</span><br><span class="line">│      │      │  ├─Extension Rules</span><br><span class="line">│      │      │  ├─Extension Scripts</span><br><span class="line">│      │      │  ├─Extension State</span><br><span class="line">│      │      │  ├─Feature Engagement Tracker</span><br><span class="line">│      │      │  │  ├─AvailabilityDB</span><br><span class="line">│      │      │  │  └─EventDB</span><br><span class="line">│      │      │  ├─GPUCache</span><br><span class="line">│      │      │  ├─Local Storage</span><br><span class="line">│      │      │  │  └─leveldb</span><br><span class="line">│      │      │  ├─Network</span><br><span class="line">│      │      │  ├─optimization_guide_hint_cache_store</span><br><span class="line">│      │      │  ├─parcel_tracking_db</span><br><span class="line">│      │      │  ├─PersistentOriginTrials</span><br><span class="line">│      │      │  ├─Safe Browsing Network</span><br><span class="line">│      │      │  ├─Session Storage</span><br><span class="line">│      │      │  ├─Sessions</span><br><span class="line">│      │      │  ├─Shared Dictionary</span><br><span class="line">│      │      │  │  └─cache</span><br><span class="line">│      │      │  │      └─index-dir</span><br><span class="line">│      │      │  ├─shared_proto_db</span><br><span class="line">│      │      │  │  └─metadata</span><br><span class="line">│      │      │  ├─Site Characteristics Database</span><br><span class="line">│      │      │  └─Sync Data</span><br><span class="line">│      │      │      └─LevelDB</span><br><span class="line">│      │      ├─GraphiteDawnCache</span><br><span class="line">│      │      ├─GrShaderCache</span><br><span class="line">│      │      ├─hyphen-data</span><br><span class="line">│      │      │  └─120.0.6050.0</span><br><span class="line">│      │      │      └─_metadata</span><br><span class="line">│      │      ├─OriginTrials</span><br><span class="line">│      │      ├─PKIMetadata</span><br><span class="line">│      │      ├─ShaderCache</span><br><span class="line">│      │      ├─SmartScreen</span><br><span class="line">│      │      │  ├─local</span><br><span class="line">│      │      │  └─RemoteData</span><br><span class="line">│      │      ├─Speech Recognition</span><br><span class="line">│      │      ├─Subresource Filter</span><br><span class="line">│      │      │  └─Unindexed Rules</span><br><span class="line">│      │      ├─Trust Protection Lists</span><br><span class="line">│      │      ├─TrustTokenKeyCommitments</span><br><span class="line">│      │      ├─WidevineCdm</span><br><span class="line">│      │      └─ZxcvbnData</span><br><span class="line">│      ├─org.eclipse.tm.terminal.view.ui</span><br><span class="line">│      ├─org.eclipse.tracecompass.tmf.analysis.xml.core</span><br><span class="line">│      │  └─xml_files</span><br><span class="line">│      ├─org.eclipse.tracecompass.tmf.core</span><br><span class="line">│      ├─org.eclipse.ui.intro</span><br><span class="line">│      └─org.eclipse.ui.workbench</span><br><span class="line">└─Application_ForEclipse</span><br><span class="line">    └─.settings</span><br></pre></td></tr></table></figure>
+<p>在Eclipse种左侧栏已经可以看到相关文件了，如下图。如果想要往工程里加文件，只需要直接在<strong>文件系统中工程</strong>下增加文件，然后按<code>F5</code>刷新即可更新，Eclipse是直接读取文件系统中的文件，和IAR和Keil不一样，不需要增加源文件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224144133163.png" alt="Eclipse视角下文件夹结构" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>由于Eclipse种文件夹结构是和系统的文件夹强相关的，所以不需要的文件不能放在系统文件夹中，如放置不同平台（IAR、KEIL）的汇编文件、链接文件等。</p>
+</blockquote>
+<h2 id="工程配置">工程配置</h2>
+<p>接下来需要按照自己的项目进行配置，在你的项目上右键，依次点击*==Properties&gt;C/C++ Build&gt;Settings==*</p>
+<ol>
+<li>
+<p>配置目标处理器、指令集、大小端等。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224144551031.png" alt="配置处理器" loading='lazy'></p>
+<p>这里需要根据芯片本身的属性来配，一般芯片手册会给出相关信息</p>
+</li>
+<li>
+<p>配置优化等级</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224144648544.png" alt="配置优化等级" loading='lazy'></p>
+</li>
+<li>
+<p>配置调试等级</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224145044027.png" alt="配置调试等级" loading='lazy'></p>
+</li>
+<li>
+<p>下面就要开始配置工程所需要的文件了，在配置这些之前如果了解Makefile会能更快的配置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224145604291.png" alt="配置工程文件" loading='lazy'></p>
+<p>上图配置项依次是</p>
+<ul>
+<li>汇编参数配置项</li>
+<li>编译参数配置项</li>
+<li>链接参数配置项</li>
+<li>映像参数配置项</li>
+<li>打印参数配置项</li>
+</ul>
+<p>当然，你可以点击最上层的标签页查看最终的编译指令</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224150432916.png" alt="编译指令" loading='lazy'></p>
+</li>
+<li>
+<p>增加宏定义，使用<code>-D</code>命令，在右侧添加需要使用的宏</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224144919355.png" alt="增加宏定义" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>实际上是使用了Make file来组织的，所以感兴趣可以看看makefile的语法。</p>
+</blockquote>
+</li>
+<li>
+<p>增加头文件路径</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224145824994.png" alt="增加头文件路径" loading='lazy'></p>
+<blockquote>
+<p>[!note]</p>
+<p>注意：在涉及选择文件路径的时候都要使用WorkSpace，也就是相对路径，这样才能方便移植。</p>
+</blockquote>
+</li>
+<li>
+<p>增加链接脚本</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224150228489.png" alt="增加链接脚本" loading='lazy'></p>
+</li>
+<li>
+<p>增加库</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224150524722.png" alt="增加库" loading='lazy'></p>
+<blockquote>
+<p>[!note]</p>
+<p>注意：使用gcc时，库文件是以a结尾的，上面的图片中的库文件名为<code>libfr800x_stack.a</code>，在<code>-l</code>后只能输入文字，输入的文字需要将前缀<code>lib</code>和后缀<code>a</code>给去掉，在下面的<code>-L</code>中需要加上库文件的搜索目录</p>
+</blockquote>
+</li>
+<li>
+<p>改变工具链，在这里可以改变命令，如Archive、C compile、Build Command等</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224150558829.png" alt="改变工具链" loading='lazy'></p>
+<p>这里的前缀、后缀等，可以在命令行中能看见，这样你就可以知道前缀和后缀的作用了，当然，你也可以改变构建工具、反汇编工具等等。</p>
+</li>
+<li>
+<p>选择芯片(这里的选择的芯片不会用于构建，是用于调试的，所以如果不适用Eclipse的调试就可以不用管)</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224153118090.png" alt="选择芯片" loading='lazy'></p>
+<blockquote>
+<p>[!important]</p>
+<p>如果这里不显示芯片，需要按照以下步骤检查：</p>
+<ol>
+<li>检查设置全局环境变量的CMSIS路径设置是否正确
+<ol>
+<li>如果确定包是正确的，则重启Eclipse</li>
+<li>如果重启还是没有，那么可以使用：
+<ol>
+<li>关闭eclipse，然后找到eclipse的安装路径</li>
+<li>在该路径下打开cmd</li>
+<li>执行<code>eclipse.exe -clean</code>即可找到</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>当然，也可以即生成hex文件和bin文件，在Build step中写入以下命令，两条指令之间用<code>；</code>分开（下图中我忘了加了）。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arm-none-eabi-objcopy -O binary <span class="string">&quot;<span class="variable">$&#123;ProjName&#125;</span>.elf&quot;</span> <span class="string">&quot;<span class="variable">$&#123;ProjName&#125;</span>.bin&quot;</span></span><br><span class="line">arm-none-eabi-objcopy -O ihex <span class="string">&quot;<span class="variable">$&#123;ProjName&#125;</span>.elf&quot;</span> <span class="string">&quot;<span class="variable">$&#123;ProjName&#125;</span>.hex&quot;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224152254757.png" alt="构建hex和bin文件" loading='lazy'></p>
+<p>当然，你可以自己选择在build之前或之后执行什么命令。</p>
+</li>
+</ol>
+<blockquote>
+<p>[!warning]</p>
+<p>注意：以上步骤均需要按照需求来配，请不要参照图片配置‼‼‼‼‼‼‼‼</p>
+</blockquote>
+<h2 id="调试">调试</h2>
+<blockquote>
+<p>[!Tip]</p>
+<p>注意，在调试之前需要先编译，确保编译通过才可以进行调试。</p>
+</blockquote>
+<ol>
+<li>
+<p>在调试之前需要先进行调试配置：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224160307849.png" alt="调试配置路径" loading='lazy'></p>
+</li>
+<li>
+<p>根据调试工具选择使用哪个进行调试，我这里使用的是JLink，双击会新增一个配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224162332519.png" alt="调试配置" loading='lazy'></p>
+</li>
+<li>
+<p>配置需要调试的文件：注意，这里需要使用elf文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224163120793.png" alt="选择调试的文件" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>💥可以点击search project按钮来直接找到该项目活动的elf文件</p>
+</blockquote>
+</li>
+<li>
+<p>配置JLink，以下页面用来配置连接方式等等</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224163259495.png" alt="配置JLink" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>注意：这里需要选择jlink的CL软件，不能是Jlink.exe</p>
+</blockquote>
+</li>
+<li>
+<p>增加调试用的SVD文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224163628151.png" alt="增加SVD文件" loading='lazy'></p>
+<p>这个SVD文件在Pack包中，该文件是调试描述文件，如Can寄存器的地址等等，在IAR中是ddf文件。</p>
+</li>
+</ol>
+<h2 id="插件配置">插件配置</h2>
+<p>Eclipse也提供了丰富的插件，依次点击*==Help&gt;Eclipse Marketplace==*</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251224163756381.png" alt="插件配置页面" loading='lazy'></p>
+<h1>Ozone</h1>
+<p>从<a target="_blank" rel="noopener" href="https://www.segger.com/products/development-tools/ozone-j-link-debugger/">Ozone – The Performance Analyzer</a>上下载Ozone。下载完成之后安装（正常安装，没有需要注意的地方，所以这里不再赘述）。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>一定要注意jlink和Ozone的版本要匹配，不然会报错，可以使用jlink7.22b和Ozone3.24‼‼‼‼‼‼‼</p>
+</blockquote>
+<h2 id="新建工程-2">新建工程</h2>
+<p>依次点击*==File&gt;New&gt;New Project Wizard==*</p>
+<ol>
+<li>
+<p>在Device中选择芯片类型，这里调用的是JLink的，所以需要安装JFlash</p>
+<blockquote>
+<p>[!important]</p>
+<p>如果要新增一个芯片，首先按照芯片的手册来配置JFlash即可。配置好之后，OZone不会自动更新，需要找到JFLash的安装路径，双击<code>JLinkDLLUpdater.exe</code>的软件，然后会弹出页面，选中Ozone设备，然后更新。注意，这里如果Ozone和JLink的版本不匹配的话，OZone就打不开了，所以一定要注意版本是否兼容。当你运行<code>JLinkDLLUpdater.exe</code>软件的时候，可以看见框内的OZone的版本，在上面的一行字是JFlash的版本，如果一致就可以更新，要是不一致就不能更新。</p>
+</blockquote>
+</li>
+<li>
+<p>Register Set选择内核版本。</p>
+</li>
+<li>
+<p>外设文件是由单片机的DFP文件生成，到芯片的文件包里找到SVD文件。</p>
+</li>
+</ol>
+<h2 id="详细使用">详细使用</h2>
+<p>请参考<a target="_blank" rel="noopener" href="https://www.armbbs.cn/forum.php?mod=viewthread&amp;tid=95855&amp;highlight=Ozone">Ozone使用介绍-基础功能 - 开发环境 - 硬汉嵌入式论坛 - Powered by Discuz!</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/">https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_12.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具"><img class="cover" src="/img/RandomCoverImage/random_10.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">便捷工具</div></div><div class="info-2"><div class="info-item-1">系统类工具 windows软件 美化工具    软件名称 软件功能 相关链接     oh-my- posh cmd终端美化神器 oh-my-posh - 终端个性化工具 - 美化PowerShell / cmd - 好物分享，真香~-CSDN博客   TranslucentTB Dock栏透...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">Eclipse</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E9%9C%80%E6%96%87%E4%BB%B6"><span class="toc-number">2.1.</span> <span class="toc-text">所需文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B"><span class="toc-number">2.3.</span> <span class="toc-text">新建工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="toc-number">2.4.</span> <span class="toc-text">工程配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95"><span class="toc-number">2.5.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="toc-number">2.6.</span> <span class="toc-text">插件配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">Ozone</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B-2"><span class="toc-number">3.1.</span> <span class="toc-text">新建工程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%A6%E7%BB%86%E4%BD%BF%E7%94%A8"><span class="toc-number">3.2.</span> <span class="toc-text">详细使用</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_12.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

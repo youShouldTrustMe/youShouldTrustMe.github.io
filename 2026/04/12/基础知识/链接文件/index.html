@@ -1,0 +1,879 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>链接文件 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 DARM-30 (iar.com) 嵌入式IDE(1)：IAR中ICF链接文件详解和实例分析_icf文件-CSDN博客 概述 链接文件主要用于划分存储区域，不同芯片的存储配置不同，数据的放置需要根据芯片的存储来配置，标准段为    Section Kind Description Memory Location Example     .text ro code Holds the pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="链接文件">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 DARM-30 (iar.com) 嵌入式IDE(1)：IAR中ICF链接文件详解和实例分析_icf文件-CSDN博客 概述 链接文件主要用于划分存储区域，不同芯片的存储配置不同，数据的放置需要根据芯片的存储来配置，标准段为    Section Kind Description Memory Location Example     .text ro code Holds the pr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.241Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.241Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "链接文件",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg",
+  "datePublished": "2026-04-12T08:12:40.241Z",
+  "dateModified": "2026-04-12T08:12:40.241Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '链接文件',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_3.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">链接文件</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">链接文件</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.241Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.241Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">5.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://wwwfiles.iar.com/arm/webic/doc/ewarm_developmentguide.enu.pdf?utm_source=chatgpt.com">DARM-30 (iar.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/tilblackout/article/details/132362556">嵌入式IDE(1)：IAR中ICF链接文件详解和实例分析_icf文件-CSDN博客</a></p>
+<h1>概述</h1>
+<p>链接文件主要用于划分存储区域，不同芯片的存储配置不同，数据的放置需要根据芯片的存储来配置，标准段为</p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Kind</th>
+<th>Description</th>
+<th>Memory Location</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.text</td>
+<td>ro code</td>
+<td>Holds the program code</td>
+<td>ROM</td>
+<td>void Function(void)</td>
+</tr>
+<tr>
+<td>.rodata</td>
+<td>const</td>
+<td>Holds constant data</td>
+<td>ROM</td>
+<td>const uint32 variable = 0</td>
+</tr>
+<tr>
+<td>.textrw</td>
+<td>inited</td>
+<td>Holds _ramfunc declared program code</td>
+<td>RAM</td>
+<td>_ramfunc void Function(void)</td>
+</tr>
+<tr>
+<td>.textrw_int</td>
+<td></td>
+<td>Holds initializers for the .textrw declared section</td>
+<td>ROM</td>
+<td></td>
+</tr>
+<tr>
+<td>.intvec</td>
+<td>ro code</td>
+<td>Holds the reset vector table and exception vectors</td>
+<td>ROM</td>
+<td></td>
+</tr>
+<tr>
+<td>.noinit</td>
+<td>uninit</td>
+<td>Holds _no_init static and global variables.</td>
+<td>RAM</td>
+<td>__no_init uint32 variable</td>
+</tr>
+<tr>
+<td>.bss</td>
+<td>zero</td>
+<td>Holds zero-initilialized static and global variables</td>
+<td>RAM</td>
+<td>uint32 variable = 0</td>
+</tr>
+<tr>
+<td>.data</td>
+<td>inited</td>
+<td>Holds static and global initialized variables</td>
+<td>RAM</td>
+<td>uint32 variable = 1</td>
+</tr>
+<tr>
+<td>.data_init</td>
+<td></td>
+<td>Holds initial values for data sections</td>
+<td>ROM</td>
+<td></td>
+</tr>
+<tr>
+<td>CSTACK</td>
+<td>uninit</td>
+<td>Holds the stack</td>
+<td>RAM</td>
+<td>auto variables and parameters</td>
+</tr>
+<tr>
+<td>HEAP</td>
+<td></td>
+<td>Holds the heap used for dynamically allocated data</td>
+<td>RAM</td>
+<td>standard libry function malloc</td>
+</tr>
+</tbody>
+</table>
+<p>而芯片存储区域可能如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251114090527695.png" alt="存储分区" loading='lazy'></p>
+<blockquote>
+<p>[!tip]</p>
+<p>如果在代码中想要将某些变量或者某个函数放置到指定的位置，那么首先需要先确定变量类型，变量类型将决定这个变量可以放在哪些位置，比如普通的变量就要放在可读可写的位置（SRAM），而一些常量则要放在只读位置（.text）中，如果变量类型的操作权限和存储地址支持的操作权限一致，则可以放置，否则就放不了。</p>
+</blockquote>
+<h1>LD</h1>
+<p><code>LD</code> 文件是 GNU 工具链（如 GCC）使用的链接器脚本，用于指定如何将程序的各个部分（如代码段、数据段等）放置到目标设备的内存中。LD 脚本的语法非常灵活，支持详细的内存区域分配、段定义以及符号管理。</p>
+<h2 id="基本结构">基本结构</h2>
+<p>LD 链接脚本主要由以下几部分组成：</p>
+<ol>
+<li><strong>全局声明和变量</strong>：设置内存区域和段的分配。</li>
+<li><strong>段定义（SECTIONS）</strong>：定义程序的各个段（如 <code>.text</code>, <code>.data</code>, <code>.bss</code> 等）在内存中的位置。</li>
+<li><strong>符号管理</strong>：可以设置一些符号（如 <code>__start</code>、<code>__end</code>）的地址。</li>
+</ol>
+<h3 id="内存区域定义">内存区域定义</h3>
+<p>使用 <code>MEMORY</code> 关键字来定义目标设备的内存区域。每个内存区域指定起始地址（<code>ORIGIN</code>）和长度（<code>LENGTH</code>）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1M</span><br><span class="line">    RAM (rw) : ORIGIN = 0x20000000, LENGTH = 128K</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>FLASH</code> 区域指定为可读 (<code>r</code>) 和可执行 (<code>x</code>)。</li>
+<li><code>RAM</code> 区域指定为可读 (<code>r</code>) 和可写 (<code>w</code>)。</li>
+</ul>
+<h3 id="段定义">段定义</h3>
+<p><code>SECTIONS</code> 用来定义程序的各个段及其如何映射到内存中。每个段由其名称（如 <code>.text</code>、<code>.data</code> 等）定义，并可以指定要放置的内存区域。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    .text :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.text)         // 所有 .text 段的内容</span><br><span class="line">    &#125; &gt; FLASH              // 放置到 FLASH 区域</span><br><span class="line"></span><br><span class="line">    .data :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.data)         // 所有 .data 段的内容</span><br><span class="line">    &#125; &gt; RAM               // 放置到 RAM 区域</span><br><span class="line"></span><br><span class="line">    .bss :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.bss)          // 所有 .bss 段的内容</span><br><span class="line">    &#125; &gt; RAM               // 放置到 RAM 区域</span><br><span class="line"></span><br><span class="line">    .stack :</span><br><span class="line">    &#123;</span><br><span class="line">        *(.stack)        // 堆栈区域</span><br><span class="line">    &#125; &gt; RAM               // 放置到 RAM 区域</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>*()</code> 用于包含所有具有相应段名的输入部分。例如，<code>*(.text)</code> 包含所有 <code>.text</code> 段的内容。</li>
+<li><code>&gt; MEMORY_REGION</code> 用于将段放置到指定的内存区域。</li>
+</ul>
+<h3 id="特殊符号定义">特殊符号定义</h3>
+<p>可以在链接器脚本中定义特殊符号，来标记某些特定的位置（如段的开始和结束）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    .text :</span><br><span class="line">    &#123;</span><br><span class="line">        __text_start = .;  // 定义一个符号，表示 .text 段的开始</span><br><span class="line">        *(.text)</span><br><span class="line">        __text_end = .;    // 定义一个符号，表示 .text 段的结束</span><br><span class="line">    &#125; &gt; FLASH</span><br><span class="line"></span><br><span class="line">    .data :</span><br><span class="line">    &#123;</span><br><span class="line">        __data_start = .;  // 定义一个符号，表示 .data 段的开始</span><br><span class="line">        *(.data)</span><br><span class="line">        __data_end = .;    // 定义一个符号，表示 .data 段的结束</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>.</code> 是当前地址指针，它会随着段内容的放置而移动。</li>
+</ul>
+<h3 id="栈和堆定义">栈和堆定义</h3>
+<p>通常会为栈和堆分配特殊的内存区域。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    .stack :</span><br><span class="line">    &#123;</span><br><span class="line">        __stack_start = .;</span><br><span class="line">        *(.stack)</span><br><span class="line">        __stack_end = .;</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line"></span><br><span class="line">    .heap :</span><br><span class="line">    &#123;</span><br><span class="line">        __heap_start = .;</span><br><span class="line">        *(.heap)</span><br><span class="line">        __heap_end = .;</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输入文件与输出文件">输入文件与输出文件</h3>
+<p>可以指定输入的目标文件和输出文件的格式。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OUTPUT_FORMAT(&quot;elf32-littlearm&quot;)</span><br><span class="line">INPUT(&quot;main.o&quot;, &quot;startup.o&quot;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>OUTPUT_FORMAT</code> 用于指定生成的输出文件格式。</li>
+<li><code>INPUT</code> 用于指定链接器输入的目标文件。</li>
+</ul>
+<h2 id="常用符号">常用符号</h2>
+<p>LD 链接器脚本中常用的符号通常用于标记程序段的位置、内存地址或控制程序的执行。以下是常见的符号及其用途：</p>
+<h3 id=""><code>.</code></h3>
+<p><code>.</code>表示当前的内存地址。在脚本中使用来指示段的起始或结束位置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__text_start = .;  // 当前地址是 .text 段开始</span><br><span class="line">__text_end = .;    // 当前地址是 .text 段结束</span><br></pre></td></tr></table></figure>
+<h3 id="start-和-end"><code>__start_</code> 和 <code>__end_</code></h3>
+<p>标记段的起始和结束地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__start_text = .;  // .text 段开始</span><br><span class="line">__end_text = .;    // .text 段结束</span><br></pre></td></tr></table></figure>
+<h3 id="start"><code>_start</code></h3>
+<p>程序的入口地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_start = 0x08000000;  // 程序入口</span><br></pre></td></tr></table></figure>
+<h3 id="heap-start-和-heap-end"><code>__heap_start</code> 和 <code>__heap_end</code></h3>
+<p>标记堆内存的起始和结束地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__heap_start = .;   // 堆开始</span><br><span class="line">__heap_end = .;     // 堆结束</span><br></pre></td></tr></table></figure>
+<h3 id="stack-start-和-stack-end"><code>__stack_start</code> 和 <code>__stack_end</code></h3>
+<p>标记栈的起始和结束地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__stack_start = .;  // 栈开始</span><br><span class="line">__stack_end = .;    // 栈结束</span><br></pre></td></tr></table></figure>
+<h3 id="ENTRY"><code>ENTRY</code></h3>
+<p>指定程序的入口点。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENTRY(_start)</span><br></pre></td></tr></table></figure>
+<h3 id="etext、-edata、-end"><code>_etext</code>、<code>_edata</code>、<code>_end</code></h3>
+<p>标记</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.text</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.data</span><br></pre></td></tr></table></figure>
+<p>和程序结束位置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_etext = .;  // .text 段结束</span><br><span class="line">_edata = .;  // .data 段结束</span><br><span class="line">_end = .;    // 程序结束</span><br></pre></td></tr></table></figure>
+<h3 id="stack"><code>_stack</code></h3>
+<p>指定栈的起始地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_stack = 0x20020000;  // 栈起始地址</span><br></pre></td></tr></table></figure>
+<h3 id="heap-size"><code>_heap_size</code></h3>
+<p>设置堆的大小。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_heap_size = 0x1000;  // 堆大小为 4KB</span><br></pre></td></tr></table></figure>
+<h2 id="示例">示例</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/* 定义内存区域 */</span><br><span class="line">MEMORY</span><br><span class="line">&#123;</span><br><span class="line">    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1M</span><br><span class="line">    RAM (rw) : ORIGIN = 0x20000000, LENGTH = 128K</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 定义各个段的放置 */</span><br><span class="line">SECTIONS</span><br><span class="line">&#123;</span><br><span class="line">    /* 代码段 */</span><br><span class="line">    .text :</span><br><span class="line">    &#123;</span><br><span class="line">        __text_start = .;     /* .text 段开始位置 */</span><br><span class="line">        *(.text)              /* 所有 .text 段内容 */</span><br><span class="line">        __text_end = .;       /* .text 段结束位置 */</span><br><span class="line">    &#125; &gt; FLASH</span><br><span class="line"></span><br><span class="line">    /* 已初始化数据段 */</span><br><span class="line">    .data :</span><br><span class="line">    &#123;</span><br><span class="line">        __data_start = .;     /* .data 段开始位置 */</span><br><span class="line">        *(.data)              /* 所有 .data 段内容 */</span><br><span class="line">        __data_end = .;       /* .data 段结束位置 */</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line"></span><br><span class="line">    /* 未初始化数据段 */</span><br><span class="line">    .bss :</span><br><span class="line">    &#123;</span><br><span class="line">        __bss_start = .;      /* .bss 段开始位置 */</span><br><span class="line">        *(.bss)               /* 所有 .bss 段内容 */</span><br><span class="line">        __bss_end = .;        /* .bss 段结束位置 */</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line"></span><br><span class="line">    /* 堆栈段 */</span><br><span class="line">    .stack :</span><br><span class="line">    &#123;</span><br><span class="line">        __stack_start = .;</span><br><span class="line">        *(.stack)</span><br><span class="line">        __stack_end = .;</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line"></span><br><span class="line">    /* 堆段 */</span><br><span class="line">    .heap :</span><br><span class="line">    &#123;</span><br><span class="line">        __heap_start = .;</span><br><span class="line">        *(.heap)</span><br><span class="line">        __heap_end = .;</span><br><span class="line">    &#125; &gt; RAM</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>SCT</h1>
+<p>在Keil中，<code>.sct</code> 文件是一个链接控制文件，用于定义如何链接目标文件、库和其他资源，以及如何分配内存空间。它主要用于Keil MDK（Microcontroller Development Kit）中的ARM编译器（<code>armcc</code>）和链接器（<code>armlink</code>）。</p>
+<h2 id="基本结构-2">基本结构</h2>
+<p><code>.sct</code> 文件通常包含以下几个部分：</p>
+<ol>
+<li><strong>内存区域定义</strong>：定义程序使用的内存区域（例如 Flash、RAM）。</li>
+<li><strong>输入文件</strong>：列出输入文件（例如目标文件、库文件等）。</li>
+<li><strong>分配符号</strong>：定义全局变量或函数的符号分配。</li>
+<li><strong>段定义</strong>：定义如何将各个代码段（例如 <code>.text</code>、<code>.data</code>）映射到内存区域。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// Keil .sct 文件示例</span><br><span class="line"></span><br><span class="line">// 内存区域定义</span><br><span class="line">define memory</span><br><span class="line">&#123;</span><br><span class="line">    ROM (rx) : ORIGIN = 0x00000000, LENGTH = 128K</span><br><span class="line">    RAM (rw) : ORIGIN = 0x20000000, LENGTH = 20K</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 输入文件</span><br><span class="line">entry Reset_Handler</span><br><span class="line">include &quot;startup.s&quot;</span><br><span class="line"></span><br><span class="line">select</span><br><span class="line">&#123;</span><br><span class="line">    // 确定哪些文件需要链接</span><br><span class="line">    input &quot;main.o&quot;</span><br><span class="line">    input &quot;startup.o&quot;</span><br><span class="line">    input &quot;myLib.a&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 定义段的分配</span><br><span class="line">define symbol __StackTop = 0x20005000</span><br><span class="line">define symbol __HeapLimit = 0x20006000</span><br><span class="line"></span><br><span class="line">// 段映射到内存区域</span><br><span class="line">place in ROM</span><br><span class="line">&#123;</span><br><span class="line">    sections .text, .rodata</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">place in RAM</span><br><span class="line">&#123;</span><br><span class="line">    sections .data, .bss</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 保留内存区域（例如栈和堆）</span><br><span class="line">reserve RAM (0x20000000, 0x20005000)</span><br></pre></td></tr></table></figure>
+<p>常见命令为：</p>
+<ul>
+<li><strong><code>define memory</code></strong>：定义内存区域及其大小和属性。</li>
+<li><strong><code>place in</code></strong>：将段放置到指定的内存区域中。</li>
+<li><strong><code>input</code></strong>：指定要链接的输入文件（目标文件或库文件）。</li>
+<li><strong><code>define symbol</code></strong>：定义符号（如栈顶、堆限制等）。</li>
+<li><strong><code>reserve</code></strong>：保留特定的内存区域，用于栈、堆等。</li>
+</ul>
+<ol>
+<li>
+<p><strong>内存区域定义</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define memory</span><br><span class="line">&#123;</span><br><span class="line">    ROM (rx) : ORIGIN = 0x00000000, LENGTH = 128K</span><br><span class="line">    RAM (rw) : ORIGIN = 0x20000000, LENGTH = 20K</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这部分定义了两个内存区域：<code>ROM</code> 和 <code>RAM</code>。<code>ROM</code> 区域具有读取和执行权限（<code>rx</code>），<code>RAM</code> 区域具有读取和写入权限（<code>rw</code>）。同时，<code>ORIGIN</code> 表示该区域的起始地址，<code>LENGTH</code> 表示该区域的大小。</p>
+</li>
+<li>
+<p><strong>输入文件</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">entry Reset_Handler</span><br><span class="line">include &quot;startup.s&quot;</span><br><span class="line"></span><br><span class="line">select</span><br><span class="line">&#123;</span><br><span class="line">    input &quot;main.o&quot;</span><br><span class="line">    input &quot;startup.o&quot;</span><br><span class="line">    input &quot;myLib.a&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这部分定义了要链接的输入文件，<code>entry Reset_Handler</code> 表示程序的入口点，通常是复位处理程序。<code>include</code> 和 <code>select</code> 用于引入文件或库。</p>
+</li>
+<li>
+<p><strong>符号定义</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define symbol __StackTop = 0x20005000</span><br><span class="line">define symbol __HeapLimit = 0x20006000</span><br></pre></td></tr></table></figure>
+<p>这部分定义了栈顶（<code>__StackTop</code>）和堆的边界（<code>__HeapLimit</code>）符号，通常用来标记栈和堆在内存中的位置。</p>
+</li>
+<li>
+<p><strong>段映射到内存</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">place in ROM</span><br><span class="line">&#123;</span><br><span class="line">    sections .text, .rodata</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">place in RAM</span><br><span class="line">&#123;</span><br><span class="line">    sections .data, .bss</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里，<code>.text</code> 和 <code>.rodata</code>（只读数据段）被放置在 <code>ROM</code> 中，<code>.data</code> 和 <code>.bss</code>（未初始化数据段）被放置在 <code>RAM</code> 中。</p>
+</li>
+<li>
+<p><strong>内存保留</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reserve RAM (0x20000000, 0x20005000)</span><br></pre></td></tr></table></figure>
+<p>这部分保留了 <code>RAM</code> 区域中的特定内存区域，通常用于栈和堆。</p>
+</li>
+</ol>
+<h2 id="常用符号-2">常用符号</h2>
+<p>在Keil的<code>.sct</code>链接控制文件中，使用了一些字母和符号来表示不同的内存区域、段、属性等。这些符号通常用于描述内存布局和链接器如何处理各个段。</p>
+<h3 id="内存区域和段的标识符">内存区域和段的标识符</h3>
+<ul>
+<li><strong>ROM</strong>：通常表示“只读存储器”（Read-Only Memory）。在嵌入式系统中，ROM区域通常存放程序代码和常量数据（如常量字符串、初始化数据等）。
+<ul>
+<li><strong>ROM 区域的权限</strong>：通常是 <code>rx</code>（读取和执行权限），即代码被加载到ROM中后会被执行。</li>
+</ul>
+</li>
+<li><strong>RAM</strong>：表示“随机访问存储器”（Random Access Memory）。在嵌入式系统中，RAM区域用于存储程序的运行时数据、栈、堆等。
+<ul>
+<li><strong>RAM 区域的权限</strong>：通常是 <code>rw</code>（读取和写入权限），即数据可以被读取和修改。</li>
+</ul>
+</li>
+<li><strong>ER_RO</strong>：指只读区域（Read-Only）。通常用于存放不需要修改的代码和数据（如程序代码、只读常量等）。在该区域中的数据是不可更改的。</li>
+<li><strong>ER_RW</strong>：指读写区域（Read/Write）。用于存放程序中需要修改的数据（如全局变量、静态变量等）。</li>
+<li><strong>ER_RW_1</strong>：可能是特定应用中的第二个读写区域，特别用于某些特殊用途的数据（如未初始化的全局变量）。</li>
+<li><strong>PATCH_TABLE</strong>：指补丁表区域，通常用于存放运行时需要的补丁或配置数据。</li>
+<li><strong>HOST_DATA</strong>：指主机数据区域，通常用于存放一些动态链接的库文件中的数据（如 <code>.lib</code> 文件）。</li>
+</ul>
+<h3 id="属性标识符">属性标识符</h3>
+<ul>
+<li><strong><code>+FIRST</code></strong>：表示该文件或符号被放置在指定段的开头。这个标识符通常用于指定入口点（如 <code>RESET</code> 处理程序）所在的位置，确保它是该段的第一个元素。</li>
+<li><strong><code>+RO</code></strong>：表示只读数据。用于指定该段中的数据是只读的，例如代码段或常量数据段。</li>
+<li><strong><code>+ZI</code></strong>：表示“零初始化”数据（Zero Initialized）。这些变量在程序启动时会被初始化为零。它们通常存放在 <code>.bss</code> 段（未初始化数据段）。</li>
+<li><strong><code>+RW</code></strong>：表示“读写”数据。这些变量会在程序运行时被读写，通常存放在 <code>.data</code> 段中。</li>
+<li><strong><code>NOINIT</code></strong>：表示“不初始化”的数据，通常是未初始化的数据，如某些保留内存。它们不会被链接器初始化，因此在启动时会保持未定义的值。</li>
+<li><strong><code>UNINIT</code></strong>：表示未初始化数据的区域，这些数据不会在程序启动时进行初始化。通常与 <code>NOINIT</code> 类似，但也可能指定特定的内存区域用于存放这类数据。</li>
+</ul>
+<h3 id="其他关键字和函数">其他关键字和函数</h3>
+<ul>
+<li><strong><code>ImageLength</code></strong>：这是一个用于计算内存区域大小的宏或函数。它返回指定段的字节长度。比如，<code>ImageLength(PATCH_TABLE)</code> 会返回 <code>PATCH_TABLE</code> 区域的大小。</li>
+<li><strong><code>ScatterAssert</code></strong>：这是一个用于断言内存布局是否符合要求的命令。如果通过 <code>ImageLength</code> 计算得出的内存区域总大小超过了某个限制，<code>ScatterAssert</code> 会抛出一个错误。这有助于确保程序的内存使用不会超出目标设备的内存限制。</li>
+</ul>
+<h3 id="常见的符号解释">常见的符号解释</h3>
+<ul>
+<li><strong><code>*</code></strong>：表示“匹配所有”。例如，<code>*(+RO)</code> 表示匹配所有只读数据，<code>*(ram_code)</code> 表示匹配所有名为 <code>ram_code</code> 的段或符号。</li>
+<li><strong><code>+</code></strong>：表示包含特定属性的数据或段。例如，<code>+RW</code> 表示数据段包含读写权限。</li>
+</ul>
+<h3 id="文件参数">文件参数</h3>
+<p>在 Keil <code>.sct</code> 链接控制文件中，文件后面的括号部分（如 <code>startup.o (RESET, +FIRST)</code> 或 <code>input &quot;main.o&quot; (symbol)</code>）用于指定额外的属性、符号和链接器行为。这些括号内的内容通常有特定的含义，用来控制文件、段或符号在内存中的位置、优先级或其他特性。</p>
+<h4 id="符号标识符（Symbols）">符号标识符（Symbols）</h4>
+<p>这类参数指定特定的符号在文件中的处理方式。最常见的符号标识符是 <code>RESET</code>，它用于标记程序的复位入口点。</p>
+<ul>
+<li>
+<p><strong><code>RESET</code></strong>：指定该文件包含复位处理程序，并将其作为程序启动时的入口点。这个符号通常指向复位处理代码的起始位置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startup.o (RESET)</span><br></pre></td></tr></table></figure>
+<p>这表示 <code>startup.o</code> 文件包含复位处理程序，并且该符号会作为程序的入口点。</p>
+</li>
+</ul>
+<h4 id="段位置控制符（Position-Control）">段位置控制符（Position Control）</h4>
+<p>这些参数用于控制段在内存中的位置，影响文件的排列顺序，通常用于控制文件或段的顺序。</p>
+<ul>
+<li>
+<p><strong><code>+FIRST</code></strong>：指示将该文件或符号放在当前段的最前面，通常用于复位程序或初始化代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startup.o (RESET, +FIRST)</span><br></pre></td></tr></table></figure>
+<p>这表示将 <code>startup.o</code> 文件中的 <code>RESET</code> 符号放置在段的开头位置。</p>
+</li>
+<li>
+<p><strong><code>+LAST</code></strong>：指示将该文件或符号放在当前段的末尾位置。这个符号较少使用，但有时可以用来将特定文件或符号放置到段的末尾。</p>
+</li>
+</ul>
+<h4 id="段类型属性（Section-Attributes）">段类型属性（Section Attributes）</h4>
+<p>这些属性指定段的访问权限或其他属性。常见的段属性有：</p>
+<ul>
+<li>
+<p><strong><code>+RO</code></strong>：表示该段是只读的，通常用于放置代码或只读数据（如 <code>.text</code>, <code>.rodata</code>）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main.o (+RO)</span><br></pre></td></tr></table></figure>
+<p>这表示将 <code>main.o</code> 中的段标记为只读，并放置在只读内存区域。</p>
+</li>
+<li>
+<p><strong><code>+RW</code></strong>：表示该段是可读写的，通常用于放置变量、堆栈等数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main.o (+RW)</span><br></pre></td></tr></table></figure>
+<p>这表示将 <code>main.o</code> 中的段标记为读写数据，并放置在读写内存区域。</p>
+</li>
+<li>
+<p><strong><code>+ZI</code></strong>：表示零初始化数据，这些数据会在程序启动时被初始化为零，通常用于 <code>.bss</code> 段。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.o (+ZI)</span><br></pre></td></tr></table></figure>
+<p>这表示将 <code>data.o</code> 中的段标记为零初始化数据。</p>
+</li>
+</ul>
+<h4 id="自定义符号与特性">自定义符号与特性</h4>
+<ul>
+<li>
+<p><strong><code>NOINIT</code></strong>：指示该段的数据不会被初始化，通常用于 <code>.bss</code> 段之外的特殊区域。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.o (NOINIT)</span><br></pre></td></tr></table></figure>
+<p>这表示 <code>data.o</code> 中的数据不会进行初始化。</p>
+</li>
+<li>
+<p><strong><code>UNINIT</code></strong>：类似于 <code>NOINIT</code>，表示数据未初始化。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main.o (UNINIT)</span><br></pre></td></tr></table></figure>
+<p>这表示 <code>main.o</code> 中的数据段未初始化。</p>
+</li>
+</ul>
+<h4 id="内存区域标识符（Memory-Region-Identifiers）">内存区域标识符（Memory Region Identifiers）</h4>
+<p>这些参数用于将符号或段与特定的内存区域关联，例如 <code>ROM</code>、<code>RAM</code> 等。</p>
+<ul>
+<li>
+<p><strong><code>ROM</code></strong> 或 <strong><code>RAM</code></strong>：指示文件或符号属于某个内存区域。通常在 <code>.sct</code> 文件的定义部分会定义这些内存区域。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main.o (ROM)</span><br></pre></td></tr></table></figure>
+<p>这表示将 <code>main.o</code> 中的段放置在 <code>ROM</code> 区域。</p>
+</li>
+</ul>
+<h2 id="示例-2">示例</h2>
+<p>以以下段落为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ER_RO 0x10002000</span><br><span class="line">&#123;</span><br><span class="line">    startup_fr1010.o (RESET, +FIRST)</span><br><span class="line">    *(+RO)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>ER_RO</strong>：表示一个只读区域（Read-Only Region），将数据放置在该区域。</li>
+<li><strong>0x10002000</strong>：该区域的起始地址。</li>
+<li><strong>startup_fr1010.o (RESET, +FIRST)</strong>：将 <code>startup_fr1010.o</code> 文件中的 <code>RESET</code> 启动代码放置在该段的开头，并指定它为程序的第一个代码段。</li>
+<li><strong><code>*(+RO)</code></strong>：将所有的只读数据（如 <code>.rodata</code> 段）放置在这个段中。</li>
+</ul>
+<blockquote>
+<p>[!important]</p>
+<p>文件的排列顺序并不是简单地“文件顺序”，而是由 <strong>段</strong>（sections）和 <strong>内存区域</strong>（memory regions）决定的。链接器会根据每个文件中的段类型来决定它们在内存中的布局。</p>
+<ol>
+<li><strong>文件内部的段排序</strong>：每个文件（如 <code>main.o</code>、<code>startup.o</code> 和 <code>myLib.a</code>）都会包含若干段（如 <code>.text</code>、<code>.data</code>、<code>.rodata</code>、<code>.bss</code> 等）。链接器会根据这些段的类型，将每个段放置在合适的内存区域（如 ROM、RAM 等）中。</li>
+<li><strong>文件的顺序</strong>：如果两个文件包含相同类型的段（如 <code>.text</code> 或 <code>.data</code>），则它们在内存中的顺序==会遵循 <code>.sct</code> 文件中 <code>input</code> 或 <code>select</code> 语句中文件的顺序==。这意味着，链接器会按照文件在 <code>select</code> 块中的顺序处理这些文件，但文件内部的段仍然会按照它们的类型和目标区域被放置。</li>
+<li><strong>静态库 <code>myLib.a</code> 的处理</strong>：静态库（如 <code>myLib.a</code>）包含了多个目标文件。链接器会按照静态库中的文件顺序，将其中的段与其他输入文件的段合并，通常按照静态库中的顺序依次处理。</li>
+<li><strong>段的合并</strong>：如果多个文件的相同类型段（如多个文件的 <code>.text</code> 段）被加载到同一个内存区域（如 ROM 区域），则这些段的内容会被合并在一起。在这种情况下，文件的顺序会影响段的最终顺序。</li>
+</ol>
+</blockquote>
+<h1>ICF</h1>
+<p>ICF（IAR Configurable File）是IAR专有的配置文件格式，主要用来描述内存布局、段的分配、堆栈的定义等内容。ICF文件通过对内存的精确控制来优化应用程序的内存使用。</p>
+<h2 id="基本结构-3">基本结构</h2>
+<p>ICF文件通常由几个主要部分组成：</p>
+<ol>
+<li><strong>内存定义</strong>（Memory）</li>
+<li><strong>区域划分</strong>（Region）</li>
+<li><strong>数据分配</strong>（Placement）</li>
+</ol>
+<h3 id="内存定义">内存定义</h3>
+<p>可以使用<code>define memory</code>声明芯片的物理内存范围。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define memory &lt;名称&gt; with size = &lt;大小&gt;;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define memory mem with size = 4G;  // 定义4GB地址空间（覆盖所有可能地址）</span><br></pre></td></tr></table></figure>
+<p>可以使用<code>define block</code>定义特殊内存块（如堆、栈）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define block &lt;名称&gt; with alignment = &lt;对齐&gt;, size = &lt;大小&gt; &#123; &lt;段或符号&gt; &#125;;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define block CSTACK with alignment = 8, size = 0x1000 &#123; &#125;; // 栈（8字节对齐，4KB）</span><br><span class="line">define block HEAP with size = 0x800 &#123; &#125;;                   // 堆（2KB）</span><br></pre></td></tr></table></figure>
+<h3 id="区域划分">区域划分</h3>
+<p>可以使用<code>define region</code>定义一个具体的物理存储区域（如 FLASH、RAM）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define region &lt;名称&gt; = mem:[from &lt;起始地址&gt; to &lt;结束地址&gt;] [attrs = &lt;属性&gt;];</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>属性（attrs）</strong>：
+<ul>
+<li><code>readonly</code>：只读（代码、常量）</li>
+<li><code>readwrite</code>：可读写（变量）</li>
+<li><code>execute</code>：可执行（代码）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define region ROM_region = mem:[from 0x10000 to 0x3FFFF] attrs = readonly;</span><br><span class="line">define region CUSTOM_region = mem:[from 0x2F000 to 0x2F100]; // 自定义区域</span><br></pre></td></tr></table></figure>
+<p>说明：</p>
+<ul>
+<li><code>mem:</code> 表示在 <code>define memory</code> 中定义的空间；</li>
+<li><code>from</code> 和 <code>to</code> 指明区域的起止地址；</li>
+<li>也可使用 <code>size</code>： <code>define region RAM = mem:[from 0x20000000 size 0x4000];</code></li>
+</ul>
+<p>在定义内存之前，可以使用<code>define symbol</code>定义一个符号常量（仅链接器使用）来使代码通俗易懂。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define symbol Start = 0x400;</span><br><span class="line">define symbol Size = 0x200</span><br></pre></td></tr></table></figure>
+<p>使用 <code>define exported symbol</code>定义并导出符号（可在 C 中 <code>extern</code> 使用）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define exported symbol __ICFEDIT_region_RAM_start__ = 0x20000000;</span><br><span class="line">define exported symbol __ICFEDIT_region_RAM_end__   = 0x20003FFF;</span><br></pre></td></tr></table></figure>
+<p>导出的符号常用于：</p>
+<ul>
+<li>启动文件；</li>
+<li>堆栈初始化；</li>
+<li>应用与 bootloader 通信。</li>
+</ul>
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">define region FLASH = mem:[from Start size Size];</span><br></pre></td></tr></table></figure>
+<h3 id="数据分配">数据分配</h3>
+<p>使用<code>place</code>可以将代码/数据分配到指定区域。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">place at address mem:&lt;绝对地址&gt; &#123; &lt;段或块&gt; &#125;;  // 固定地址</span><br><span class="line">place in &lt;region名称&gt; &#123; &lt;段或块&gt; &#125;;          // 放入某区域</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><strong>标准段（section）</strong>（由编译器自动生成）：</p>
+<table>
+<thead>
+<tr>
+<th>段名</th>
+<th>用途</th>
+<th>典型内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.text</code></td>
+<td>代码段（可执行指令）</td>
+<td>函数代码、中断向量表</td>
+</tr>
+<tr>
+<td><code>.rodata</code></td>
+<td>只读数据（常量）</td>
+<td><code>const</code> 全局变量、字符串常量</td>
+</tr>
+<tr>
+<td><code>.data</code></td>
+<td>已初始化的全局/静态变量（需从Flash加载到RAM）</td>
+<td>非 <code>const</code> 的初始化变量</td>
+</tr>
+<tr>
+<td><code>.bss</code></td>
+<td>未初始化的全局/静态变量（RAM清零）</td>
+<td><code>static int x;</code>（未显式初始化）</td>
+</tr>
+<tr>
+<td><code>.noinit</code></td>
+<td>不初始化的变量（RAM保留原始值）</td>
+<td><code>__no_init</code> 修饰的变量</td>
+</tr>
+<tr>
+<td><code>.stack</code></td>
+<td>栈空间（由链接器分配）</td>
+<td>局部变量、函数调用帧</td>
+</tr>
+<tr>
+<td><code>.heap</code></td>
+<td>堆空间（动态内存）</td>
+<td><code>malloc()</code> 分配的变量</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>自定义段（如 <code>.my_section</code>）</p>
+</li>
+</ul>
+<p>常见语法形式：</p>
+<table>
+<thead>
+<tr>
+<th>语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>place in &lt;region&gt;</code></td>
+<td>将段放入指定区域（位置由链接器决定）</td>
+</tr>
+<tr>
+<td><code>place at start of &lt;region&gt;</code></td>
+<td>放在区域起始处</td>
+</tr>
+<tr>
+<td><code>place at end of &lt;region&gt;</code></td>
+<td>放在区域末尾</td>
+</tr>
+<tr>
+<td><code>place at address mem:&lt;addr&gt;</code></td>
+<td>放在绝对地址</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">place in ROM_region &#123; readonly &#125;;          // 所有只读数据放入ROM</span><br><span class="line">place at address mem:0x2F000 &#123; section .my_array &#125;; // 固定地址</span><br></pre></td></tr></table></figure>
+<p>段类型与匹配方式为：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>readonly</code></td>
+<td>只读段（代码、常量）</td>
+</tr>
+<tr>
+<td><code>readwrite</code></td>
+<td>可读写段（全局变量）</td>
+</tr>
+<tr>
+<td><code>section .name</code></td>
+<td>指定具体段名</td>
+</tr>
+<tr>
+<td><code>section .ANY (+RO, +RW, +ZI)</code></td>
+<td>按属性匹配所有符合条件的段</td>
+</tr>
+<tr>
+<td><code>UNINIT</code> / <code>noinit</code></td>
+<td>未初始化的段（不会在启动时清零或复制）</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">readwrite section .bss, section .noinit;</span><br><span class="line">readonly  section .text, section .rodata;</span><br></pre></td></tr></table></figure>
+<p>有时候避免不了初始化控制：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">initialize by copy &#123; readwrite &#125;;  // 初始化变量（从Flash拷贝到RAM）</span><br><span class="line">do not initialize &#123; section .noinit &#125;; // 不初始化（如.noinit段）</span><br></pre></td></tr></table></figure>
+<h4 id="示例：">示例：</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/* 将代码段放入 Flash */</span><br><span class="line">&quot;CODE&quot;: place at start of FLASH &#123;</span><br><span class="line">    readonly section .intvec,</span><br><span class="line">             section .text,</span><br><span class="line">             section .rodata;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 将可写数据放入 RAM */</span><br><span class="line">&quot;DATA&quot;: place in RAM &#123;</span><br><span class="line">    readwrite section .data,</span><br><span class="line">              section .bss,</span><br><span class="line">              section .my_ram_section;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 将特定段放到固定地址 */</span><br><span class="line">&quot;.boot_info&quot;: place at address mem:0x20001000 &#123;</span><br><span class="line">    section .boot_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="示例-3">示例</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/*###ICF### Section handled by ICF editor, don&#x27;t touch! ****/</span><br><span class="line">/*-Editor annotation file-*/</span><br><span class="line">/* IcfEditorFile=&quot;$TOOLKIT_DIR$\config\ide\IcfEditor\cortex_v1_0.xml&quot; */</span><br><span class="line">/*-Specials-*/</span><br><span class="line">define symbol __ICFEDIT_intvec_start__ = 0x10000;</span><br><span class="line">/*-Memory Regions-*/</span><br><span class="line">define symbol __ICFEDIT_region_ROM_start__ = 0x10000;</span><br><span class="line">define symbol __ICFEDIT_region_ROM_end__   = 0x0002EFFF;</span><br><span class="line">define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;</span><br><span class="line">define symbol __ICFEDIT_region_RAM_end__   = 0x20007FFF;</span><br><span class="line"></span><br><span class="line">/*-Sizes-*/</span><br><span class="line">define symbol __ICFEDIT_size_cstack__ = 0x1000;</span><br><span class="line">define symbol __ICFEDIT_size_heap__   = 0x0;</span><br><span class="line">/**** End of ICF editor section. ###ICF###*/</span><br><span class="line"></span><br><span class="line">define memory mem with size = 4G;</span><br><span class="line">define region ROM_region   = mem:[from __ICFEDIT_region_ROM_start__   to __ICFEDIT_region_ROM_end__];							</span><br><span class="line">define region RAM_region   = mem:[from __ICFEDIT_region_RAM_start__   to __ICFEDIT_region_RAM_end__];								</span><br><span class="line">								</span><br><span class="line">define block CSTACK    with alignment = 8, size = __ICFEDIT_size_cstack__   &#123; &#125;;</span><br><span class="line">define block HEAP      with alignment = 8, size = __ICFEDIT_size_heap__     &#123; &#125;;</span><br><span class="line"></span><br><span class="line">initialize by copy &#123; readwrite &#125;;</span><br><span class="line">do not initialize  &#123; section .noinit &#125;;</span><br><span class="line"></span><br><span class="line">place at address mem:__ICFEDIT_intvec_start__ &#123; readonly section .intvec &#125;;</span><br><span class="line"></span><br><span class="line">place in ROM_region   &#123; readonly &#125;;</span><br><span class="line">place in RAM_region   &#123; readwrite,</span><br><span class="line">                        block CSTACK, block HEAP &#125;;</span><br><span class="line"></span><br><span class="line">export symbol __ICFEDIT_region_RAM_start__;</span><br><span class="line">export symbol __ICFEDIT_region_RAM_end__;</span><br></pre></td></tr></table></figure>
+<h2 id="常见错误">常见错误</h2>
+<table>
+<thead>
+<tr>
+<th>错误信息</th>
+<th>原因</th>
+<th>解决办法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>section placement failed</code></td>
+<td>区域太小或重叠</td>
+<td>调整 <code>region</code> 大小或顺序</td>
+</tr>
+<tr>
+<td><code>undefined symbol</code></td>
+<td>未定义导出符号</td>
+<td>添加 <code>define exported symbol</code></td>
+</tr>
+<tr>
+<td>数据未初始化</td>
+<td>段属性错误</td>
+<td>检查是否应为 <code>readwrite</code> 段</td>
+</tr>
+<tr>
+<td>拷贝错误</td>
+<td><code>.data</code> 的 load 区未定义</td>
+<td>确认 Flash 与 RAM 之间的复制关系</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/">https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E6%A0%91%E7%BB%93%E6%9E%84/" title="项目文件树"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">项目文件树</div></div><div class="info-2"><div class="info-item-1">缩写 该项目文件树参考AUTOSAR结构，所以为了便于理解，此处展示部分缩写的全称：    缩写 全称 描述     AUTOSAR AUTomotive Open System ARchitecture 汽车开放系统架构，是汽车软件开发的标准框架。   ASW Application Sof...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%BD%AF%E4%BB%B6%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="软件基础"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">软件基础</div></div><div class="info-2"><div class="info-item-1">参考链接 这些嵌入式知识助 你秋招，也助你进阶 (qq.com) ASSIC码表    Bin(二进制) Oct(八进制) Dec(十进制) Hex(十六进制) 缩写/字符 解释     0000 0000 00 0 0x00 NUL(null) 空字符   0000 0001 01 1 0x...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">LD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.1.</span> <span class="toc-text">内存区域定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AE%B5%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.2.</span> <span class="toc-text">段定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.3.</span> <span class="toc-text">特殊符号定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E5%92%8C%E5%A0%86%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.4.</span> <span class="toc-text">栈和堆定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%96%87%E4%BB%B6%E4%B8%8E%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6"><span class="toc-number">3.1.5.</span> <span class="toc-text">输入文件与输出文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%AC%A6%E5%8F%B7"><span class="toc-number">3.2.</span> <span class="toc-text">常用符号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">3.2.1.</span> <span class="toc-text">.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#start-%E5%92%8C-end"><span class="toc-number">3.2.2.</span> <span class="toc-text">__start_ 和 __end_</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#start"><span class="toc-number">3.2.3.</span> <span class="toc-text">_start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#heap-start-%E5%92%8C-heap-end"><span class="toc-number">3.2.4.</span> <span class="toc-text">__heap_start 和 __heap_end</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stack-start-%E5%92%8C-stack-end"><span class="toc-number">3.2.5.</span> <span class="toc-text">__stack_start 和 __stack_end</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENTRY"><span class="toc-number">3.2.6.</span> <span class="toc-text">ENTRY</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#etext%E3%80%81-edata%E3%80%81-end"><span class="toc-number">3.2.7.</span> <span class="toc-text">_etext、_edata、_end</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stack"><span class="toc-number">3.2.8.</span> <span class="toc-text">_stack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#heap-size"><span class="toc-number">3.2.9.</span> <span class="toc-text">_heap_size</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.3.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">SCT</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84-2"><span class="toc-number">4.1.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%AC%A6%E5%8F%B7-2"><span class="toc-number">4.2.</span> <span class="toc-text">常用符号</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E5%92%8C%E6%AE%B5%E7%9A%84%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">4.2.1.</span> <span class="toc-text">内存区域和段的标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">4.2.2.</span> <span class="toc-text">属性标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.3.</span> <span class="toc-text">其他关键字和函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%AC%A6%E5%8F%B7%E8%A7%A3%E9%87%8A"><span class="toc-number">4.2.4.</span> <span class="toc-text">常见的符号解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8F%82%E6%95%B0"><span class="toc-number">4.2.5.</span> <span class="toc-text">文件参数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E6%A0%87%E8%AF%86%E7%AC%A6%EF%BC%88Symbols%EF%BC%89"><span class="toc-number">4.2.5.1.</span> <span class="toc-text">符号标识符（Symbols）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AE%B5%E4%BD%8D%E7%BD%AE%E6%8E%A7%E5%88%B6%E7%AC%A6%EF%BC%88Position-Control%EF%BC%89"><span class="toc-number">4.2.5.2.</span> <span class="toc-text">段位置控制符（Position Control）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AE%B5%E7%B1%BB%E5%9E%8B%E5%B1%9E%E6%80%A7%EF%BC%88Section-Attributes%EF%BC%89"><span class="toc-number">4.2.5.3.</span> <span class="toc-text">段类型属性（Section Attributes）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AC%A6%E5%8F%B7%E4%B8%8E%E7%89%B9%E6%80%A7"><span class="toc-number">4.2.5.4.</span> <span class="toc-text">自定义符号与特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F%E6%A0%87%E8%AF%86%E7%AC%A6%EF%BC%88Memory-Region-Identifiers%EF%BC%89"><span class="toc-number">4.2.5.5.</span> <span class="toc-text">内存区域标识符（Memory Region Identifiers）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-2"><span class="toc-number">4.3.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">ICF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84-3"><span class="toc-number">5.1.</span> <span class="toc-text">基本结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%AE%9A%E4%B9%89"><span class="toc-number">5.1.1.</span> <span class="toc-text">内存定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BA%E5%9F%9F%E5%88%92%E5%88%86"><span class="toc-number">5.1.2.</span> <span class="toc-text">区域划分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E9%85%8D"><span class="toc-number">5.1.3.</span> <span class="toc-text">数据分配</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-number">5.1.3.1.</span> <span class="toc-text">示例：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B-3"><span class="toc-number">5.2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF"><span class="toc-number">5.3.</span> <span class="toc-text">常见错误</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_3.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

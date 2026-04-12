@@ -1,0 +1,917 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CAPL | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述 CAPL全称为Communication Access Programming Language，即通信访问编程语言。它是Vector公司专门为CANoe开发环境设计的编程语言，在语法和概念上与C语言类似。借助CAPL，用户可以编写程序并应用到网络的各个节点上，也可以利用CAPL编程加强测量分析功能，以及搭建高效的自动化测试模块。 开发环境 数据类型 全局变量和局部变量 在CAPL中，全局变">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAPL">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述 CAPL全称为Communication Access Programming Language，即通信访问编程语言。它是Vector公司专门为CANoe开发环境设计的编程语言，在语法和概念上与C语言类似。借助CAPL，用户可以编写程序并应用到网络的各个节点上，也可以利用CAPL编程加强测量分析功能，以及搭建高效的自动化测试模块。 开发环境 数据类型 全局变量和局部变量 在CAPL中，全局变">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png">
+<meta property="article:published_time" content="2025-03-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.251Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="汽车电子">
+<meta property="article:tag" content="Canoe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CAPL",
+  "url": "https://youshouldtrustme.github.io/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/",
+  "image": "https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png",
+  "datePublished": "2025-03-01T00:00:00.000Z",
+  "dateModified": "2026-04-12T08:12:40.251Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CAPL',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">CAPL</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">CAPL</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-01T00:00:00.000Z" title="发表于 2025-03-01 00:00:00">2025-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.251Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">编程语言</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<p>CAPL全称为Communication Access Programming Language，即通信访问编程语言。它是Vector公司专门为CANoe开发环境设计的编程语言，在语法和概念上与C语言类似。借助CAPL，用户可以编写程序并应用到网络的各个节点上，也可以利用CAPL编程加强测量分析功能，以及搭建高效的自动化测试模块。</p>
+<h1>开发环境</h1>
+<h1>数据类型</h1>
+<h2 id="全局变量和局部变量">全局变量和局部变量</h2>
+<p>在CAPL中，全局变量需要被声明在variables部分，同时可以使用直接赋值方法进行初始化。如果没有初始化，编译器会执行自动初始化，默认值为0。全局变量的作用域包括整个CAPL文件以及与此文件有链接的其他CAPL文件。</p>
+<p>与C语言不同，局部变量在CAPL中总是被静态地创建。这意味着初始化只在程序体启动时执行，当再次进入程序时，局部变量被假定是上一次跳出程序时的值。局部变量的作用域，仅限于当前函数体范围内，即该函数的大括号范围内。</p>
+<h2 id="简单变量">简单变量</h2>
+<h3 id="整型">整型</h3>
+<p>整数就是没有小数部分的数字，如3、201、-3412和0。根据数值的大小不同，CAPL提供了以下几种整型。</p>
+<table>
+<thead>
+<tr>
+<th>整型</th>
+<th>有/无符号</th>
+<th>长度</th>
+<th>范围</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>unsigned</td>
+<td>1B</td>
+<td>0~255</td>
+<td>字节，8位，无符号</td>
+</tr>
+<tr>
+<td>word</td>
+<td>unsigned</td>
+<td>2B</td>
+<td>0~65535</td>
+<td>字，16位，无符号</td>
+</tr>
+<tr>
+<td>dword</td>
+<td>unsigned</td>
+<td>4B</td>
+<td>0~4294967295</td>
+<td>双字，32位，无符号</td>
+</tr>
+<tr>
+<td>gword</td>
+<td>unsigned</td>
+<td>8B</td>
+<td>0~18446 744 073 709551 615</td>
+<td>整型，64位，无符号</td>
+</tr>
+<tr>
+<td>int</td>
+<td>signed</td>
+<td>2B</td>
+<td>-32 768~32767</td>
+<td>短整型，16位</td>
+</tr>
+<tr>
+<td>long</td>
+<td>signed</td>
+<td>4B</td>
+<td>-2 147483648~2147483647</td>
+<td>长整型，32位</td>
+</tr>
+<tr>
+<td>int64</td>
+<td>signed</td>
+<td>8B</td>
+<td>-9223 372 036854 775 808 ~9223372 036854 775807</td>
+<td>整型，64位</td>
+</tr>
+</tbody>
+</table>
+<h3 id="字符">字符</h3>
+<p>区别于C语言，CAPL未将char类型（长度1B）归类至整型中，这是因为在CANoe中提供了byte类型。如果数据是具体数值则应使用byte，而对于字符，则应用char（字符串使用char数组）。char类型和byte类型之间可以直接转换。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte data1 = <span class="number">100</span>;</span><br><span class="line"><span class="type">char</span> ch1 = <span class="string">&#x27;d&#x27;</span>;</span><br><span class="line">ch1 = <span class="number">0x62</span>;</span><br><span class="line">data1 = <span class="string">&#x27;s&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="浮点型">浮点型</h3>
+<p>CAPL提供两种浮点型变量：float和double。</p>
+<table>
+<thead>
+<tr>
+<th>浮点型</th>
+<th>长度</th>
+<th>范围</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float</td>
+<td>8B</td>
+<td>1.7×10-308~1.7×10+308</td>
+<td>单精度</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8B</td>
+<td>1.7×10-308~1.7×10+308</td>
+<td>双精度</td>
+</tr>
+</tbody>
+</table>
+<h2 id="复合类型">复合类型</h2>
+<h3 id="结构体">结构体</h3>
+<p>CAPL中可以简单地按照C语言的方法来声明结构（struct），但结构名在程序中必须是唯一的。简单类型、枚举类型或者其他的结构都可以作为结构的成员。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">b</span>&#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">a</span> <span class="title">a1</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">clolrs</span> <span class="title">c1</span>;</span></span><br><span class="line">    <span class="type">int</span> p;</span><br><span class="line">    <span class="type">long</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结构b中包含：一个结构成员a，变量名为a1；一个枚举成员colors，变量名为c1；一个整型变量p；最后还有一个长整型变量l。<br>
+用户可以在类型定义时直接声明结构类型的变量，在这种情况下，类型的名称可以省略，也可以直接使用结构的名字来引用类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cost</span> <span class="title">mycost</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> chinese;</span><br><span class="line">    <span class="type">int</span> math;</span><br><span class="line">    <span class="type">int</span> english;</span><br><span class="line">&#125;scores;</span><br></pre></td></tr></table></figure>
+<p>关于结构初始化，可以在变量声明期间直接初始化结构成员，不需要单独命名单个成员，编译器将按照结构定义的顺序默认初始化它们。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Scores</span> <span class="title">myScores</span> =</span> &#123;</span><br><span class="line">    Chinese = <span class="number">79</span>,</span><br><span class="line">    Math = <span class="number">99</span>,</span><br><span class="line">    English = <span class="number">88</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Scores</span> <span class="title">myScores</span> =</span> &#123;<span class="number">79</span>,<span class="number">99</span>,<span class="number">88</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>使 用 “.” 操 作 符 可 以 访 问 结 构 中 的 成 员 ， 例 如 ， myScores.Chinese ＝ 100。另外，结构体可以作为参数传给函数，但不能作为函数的返回值。</p>
+<h3 id="枚举">枚举</h3>
+<p>枚举（enum）类型的声明也与C语言中的语法完全一致，但需要注意的是，枚举的成员名必须唯一，否则将有可能代替隐藏数据库中同名的报文和信号。如果没有在声明枚举的同时对成员进行赋值，编译器将按照成员声明的顺序对成员进行初始化。即第一个成员被初始化为0，往后依次加1。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>Apple, Pear, Banana&#125; Fruit = Apple;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Colors</span> &#123;</span>Red = <span class="number">1</span>, Green = <span class="number">3</span>, Blue = <span class="number">9</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="数组">数组</h3>
+<p>数组（Array）作为一种基本的数据结构，也同样被CAPL支持，就像在C语言中一样。但为了方便使用，CAPL支持直接用字符串初始化字符数组的行为。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">3</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="type">char</span> b[<span class="number">13</span>] = <span class="string">&quot;Hello World!&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>同 样 ， CAPL 也 支 持 多 维 数 组 ， 并 且 可 以 通 过 内 建 函 数elCount（数组名）来获得数组成员的个数。如果数组的索引超出范围，即小于零或大于等于数组长度，CAPL将会在数组下标前提示错误。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> v[<span class="number">3</span>][<span class="number">3</span>] = &#123;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;,&#123;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;,&#123;<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;&#125;;</span><br><span class="line"><span class="type">int</span> a[<span class="number">3</span>] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="type">int</span> b = elCount(a);</span><br></pre></td></tr></table></figure>
+<h3 id="特殊类型">特殊类型</h3>
+<h4 id="报文">报文</h4>
+<p>报文（CAN/LIN messages）是车载网络最基本的构成部分， CAPL提供了各种网络相对应的报文类。这里主要介绍CAN报文和LIN报文。</p>
+<p>使用关键字message来声明一个报文变量，当使用message声明报文变量时，默认变量为CAN报文变量。当有数据库支撑的时候，一个 完 整 的 声 明 应 该 包 括 message ID 或 者 message name 。 结 合database的例子，使用ID 0xA或者报文名来声明一条数据库中的EngineData报文。例如</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">message <span class="number">0xA</span> ml;</span><br><span class="line">message <span class="number">100</span> m2;</span><br><span class="line">message EngineData m3;</span><br></pre></td></tr></table></figure>
+<p>以标识符“x”结尾的ID表示这是一个扩展帧ID，例如，100x。而“*”则表明这条报文在声明时还不含有CAN ID。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">on message CAN1.*</span><br><span class="line">&#123;</span><br><span class="line">    message *msg;</span><br><span class="line">    <span class="keyword">if</span>(this.dir!= rx)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    msg = this;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>切记，使用这种方式声明报文时，一定要指定ID后才能将msg发送出去。</p>
+<p>CAPL提供了一系列的选择器（Selector）以保证用户能够按照自己的意图去修改CAN message的属性。</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>描述</th>
+<th>数据类型</th>
+<th>访问权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAN</td>
+<td>CAN报文传输的逻辑通道，有效值范围：1～32</td>
+<td>word</td>
+<td></td>
+</tr>
+<tr>
+<td>MsgChannel</td>
+<td>CAN报文传输的逻辑通道，有效值范围：1～32</td>
+<td>word</td>
+<td></td>
+</tr>
+<tr>
+<td>ID</td>
+<td>CAN报文标识符</td>
+<td>dword</td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td>报文在dbc文件中的名称</td>
+<td>char[]</td>
+<td>readonly</td>
+</tr>
+<tr>
+<td>DIR</td>
+<td>报文的传输方向</td>
+<td>byte</td>
+<td></td>
+</tr>
+<tr>
+<td>RTR</td>
+<td>远程帧标志位</td>
+<td>byte</td>
+<td></td>
+</tr>
+<tr>
+<td>DLC</td>
+<td>报文的数据长度，有效值范围：0～15</td>
+<td>byte</td>
+<td></td>
+</tr>
+<tr>
+<td>Byte(x)</td>
+<td>数据字节位有效值范围：0～63（8～63字节仅适用 于CAN-FD)</td>
+<td>byte</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>例如，如果需要在CAN1网络上发送一条指定的报文，报文名： magicMessage；报文ID：0x252；包含8个字节0x03 3B 40 00 00 00 00 00；可以定义如下。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">magicMessage.CAN = <span class="number">1</span>;</span><br><span class="line">magicMessage.ID = <span class="number">0x252</span>;</span><br><span class="line">magicMessage.DLC = <span class="number">8</span>;</span><br><span class="line">magicMessage.Byte(<span class="number">0</span>)=<span class="number">0x03</span>;</span><br><span class="line">magicMessage.Byte(<span class="number">1</span>)=<span class="number">0x3B</span>;</span><br><span class="line">magicMessage.Byte(<span class="number">2</span>)=<span class="number">0x40</span>:</span><br><span class="line">magicMessage.Byte(<span class="number">3</span>)=<span class="number">0x00</span>:</span><br><span class="line">magicMessage.Byte(<span class="number">4</span>)=<span class="number">0x00</span>;</span><br><span class="line">magicMessage.Byte(<span class="number">5</span>)=<span class="number">0x00</span>;</span><br><span class="line">magicMessage.Byte(<span class="number">6</span>)=<span class="number">0x00</span>;</span><br><span class="line">magicMessage.Byte(<span class="number">7</span>)=<span class="number">0x00</span>;</span><br><span class="line">output (magicMessage);</span><br></pre></td></tr></table></figure>
+<p>相应地，CAPL也根据LIN总线的特点提供了LIN报文的选择器，LIN报文属性及相关信息如表所示。</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>描述</th>
+<th>数据类型</th>
+<th>访问权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MsgChannel</td>
+<td>LIN报文传输逻辑通道，有效值范围：1～32</td>
+<td>word</td>
+<td></td>
+</tr>
+<tr>
+<td>ID</td>
+<td>LIN报文标识符</td>
+<td>dword</td>
+<td></td>
+</tr>
+<tr>
+<td>DIR</td>
+<td>LIN报文传输方向</td>
+<td>byte</td>
+<td>readonly</td>
+</tr>
+<tr>
+<td>DLC</td>
+<td>报文的数据长度，有效值范围：0～8；</td>
+<td>byte</td>
+<td></td>
+</tr>
+<tr>
+<td>Byte(x)</td>
+<td>数据字节位，有效值范围：0～7</td>
+<td>byte</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="诊断报文">诊断报文</h4>
+<p>CAPL 通 过 诊 断 请 求 （ DiagRequest ） 和 诊 断 响 应（DiagResponse）这两种对象来实现跟ECU之间的诊断服务交互。通常情况下，诊断服务需要首先对Diagnostic对象声明和初始化。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DiagRequest ServiceQualifier request;</span><br><span class="line">DiagResponse ServiceQualifier response;</span><br></pre></td></tr></table></figure>
+<p>上述声明语句分别声明了诊断请求对象“request”和诊断响应对象“response”；并通过给出的诊断服务“ServiceQualifier”进行初始化。这种初始化将在节点仿真开始时被执行一次，并在每次诊断目标（DiagTarget）改变时被执行一次。</p>
+<p>如果使用<code>*</code>来代替“ServiceQualifier”，诊断对象将被初始化为未添加诊断描述的空对象，但对象的数据必须在发送之前完成设置。</p>
+<h4 id="系统变量">系统变量</h4>
+<p>系统变量是一种特殊的变量，用来描述某种特殊状态（例如某种事件触发）或者记录测量数据。一般有系统定义和用户自定义两种，它们的作用域都是在各自的命令空间内。</p>
+<table>
+<thead>
+<tr>
+<th>整型</th>
+<th>有/无符号</th>
+<th>长度</th>
+<th>范围</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td>signed</td>
+<td>32b</td>
+<td>-2147483648~+2147483647</td>
+<td>32位，有符号</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>unsigned</td>
+<td>32b</td>
+<td>0~+4294 967 296</td>
+<td>32位，无符号</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>signed</td>
+<td>64b</td>
+<td>-9 223372036 854 775 808~ +9 223372 036854 775 807</td>
+<td>64位，有符号</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>unsigned</td>
+<td>64b</td>
+<td>0~+18446744073 709551 616</td>
+<td>64位，无符号</td>
+</tr>
+<tr>
+<td>Double</td>
+<td></td>
+<td>64b</td>
+<td></td>
+<td>64位，IEEE双精度</td>
+</tr>
+<tr>
+<td>String</td>
+<td></td>
+<td></td>
+<td></td>
+<td>字符型</td>
+</tr>
+<tr>
+<td>Data</td>
+<td></td>
+<td></td>
+<td></td>
+<td>字节数据</td>
+</tr>
+<tr>
+<td>Integer Array</td>
+<td></td>
+<td></td>
+<td></td>
+<td>有符号32位数据数组</td>
+</tr>
+<tr>
+<td>Double Array</td>
+<td></td>
+<td></td>
+<td></td>
+<td>64位IEEE双精度数组</td>
+</tr>
+</tbody>
+</table>
+<h4 id="定时器">定时器</h4>
+<p>CAPL 提 供 了 两 种 定 时 器 变 量 ： timer 基 于 秒 的 时 间 单 位 ； msTimer基于毫秒的时间单位，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msTimer myTimer;<span class="comment">//声明一个毫秒定时器</span></span><br><span class="line">Timer myTimer1;<span class="comment">//声明一个秒定时器myTimer1</span></span><br></pre></td></tr></table></figure>
+<h1>常见运算</h1>
+<p>与C语言一样，CAPL也提供了算术、逻辑和位运算的运算符，其用法也与C语言保持一致。</p>
+<ol>
+<li>
+<p>数学/关系运算符</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>符号类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>+，-，*，/，%</td>
+<td>加，减，乘，除，余数（取模）</td>
+<td>双目运算符</td>
+</tr>
+<tr>
+<td>==, !=</td>
+<td>等于，不等于</td>
+<td>双目运算符</td>
+</tr>
+<tr>
+<td>&gt;,&gt;=，&lt;，&lt;=</td>
+<td>大于，大于等于，小于，小于等于</td>
+<td>双目运算符</td>
+</tr>
+<tr>
+<td>++，–</td>
+<td>自增运算符，自减运算符</td>
+<td>单目运算符</td>
+</tr>
+<tr>
+<td>=</td>
+<td>赋值运算符</td>
+<td></td>
+</tr>
+<tr>
+<td>+=，-=，*=，/=，%=</td>
+<td>加后赋值，减后赋值，乘后赋值，除后赋 值，取模后赋值</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>逻辑运算符</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>符号类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;&amp;，||</td>
+<td>逻辑与，逻辑或</td>
+<td>双目运算符</td>
+</tr>
+<tr>
+<td>？：</td>
+<td>条件运算符</td>
+<td>三目运算符</td>
+</tr>
+<tr>
+<td>！</td>
+<td>逻辑非运算符</td>
+<td>单目运算符</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>位运算</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>描述</th>
+<th>符号类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>~</td>
+<td>按位取反运算符</td>
+<td>单目运算符</td>
+</tr>
+<tr>
+<td>&amp;，^，|</td>
+<td>按位与，按位异或，按位或</td>
+<td>:</td>
+</tr>
+<tr>
+<td>&lt;&lt;,&gt;&gt;</td>
+<td>左移，右移</td>
+<td>:</td>
+</tr>
+<tr>
+<td>&lt;&lt;=，&gt;&gt;=</td>
+<td>左移后赋值，右移后赋值</td>
+<td>:</td>
+</tr>
+<tr>
+<td>&amp;=，^=，｜=</td>
+<td>按位与后赋值，按位异或后赋值，按位或 后赋值</td>
+<td>:</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1>流程控制</h1>
+<h2 id="if">if</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(表达式)</span><br><span class="line">    语句;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(表达式)</span><br><span class="line">    语句<span class="number">1</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    语句<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="switch">switch</h2>
+<p>在编写程序时，经常会碰到按不同情况分转的多路问题，这时可用嵌套if-else-if语句来实现，但if-else-if语句使用不方便，而且容易出错。对于这种情况，switch语句成了最便捷的方式。switch语句格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span>(表达式)&#123;</span><br><span class="line">    <span class="keyword">case</span>常量表达式<span class="number">1</span>：</span><br><span class="line">        语句<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">case</span>常量表达式<span class="number">2</span>：</span><br><span class="line">        语句<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">case</span>常量表达式n:</span><br><span class="line">        语句n;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        语句n+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="循环">循环</h2>
+<h3 id="while">while</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">whi1e(表达式)</span><br><span class="line">    语句;</span><br></pre></td></tr></table></figure>
+<p>while循环表示当条件为真时，便执行语句，直到条件为假才结束循环，并继续执行循环程序外的后续语句。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(pos &lt; msg.DLC)</span><br><span class="line">&#123; </span><br><span class="line">    sum_even +=msg.byte(pos++);</span><br><span class="line">    sum_odd +=msg.byte(pos++);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="do-while">do-while</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">    循环体语句;</span><br><span class="line">&#125;<span class="keyword">while</span>(表达式);</span><br></pre></td></tr></table></figure>
+<p>do-while 循 环 与 while 循 环 的 区 别 在 于 ： 它 先 执 行 循 环 中 的 语句，然后再判断条件是否为真，如果为真则继续循环；如果为假，则终止循环。因此，do-while循环至少要执行一次循环语句。当有许多语句参加循环时，要用“｛”和“｝”将这些语句括起来。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span></span><br><span class="line">&#123;</span><br><span class="line">    sum = sum + <span class="built_in">array</span>[i];</span><br><span class="line">&#125;whi1e(i&lt;<span class="number">100</span> &amp;&amp; sum&lt;=<span class="number">1000</span>); </span><br></pre></td></tr></table></figure>
+<h3 id="for">for</h3>
+<p>for循环语句使用最为灵活，不仅可以用于循环次数确定的情况，而且可以用于循环次数不确定而只给出循环结束条件的情况，它可以完全取代while语句，它的一般形式为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for(&lt;初始化&gt;；&lt;条件表过式&gt;；&lt;增量&gt;)语句；</span><br></pre></td></tr></table></figure>
+<p>下面简单说明一下。</p>
+<ol>
+<li>初始化：总是一个赋值语句，它用来给循环控制变量赋初值。</li>
+<li>条件表达式：是一个关系表达式，它决定什么时候退出循环。</li>
+<li>增量：定义循环控制变量，每循环一次后按什么方式变化。</li>
+</ol>
+<p>这三个部分之间用“；”分开，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)</span><br><span class="line">    sum += <span class="built_in">array</span>[i];</span><br></pre></td></tr></table></figure>
+<p>上例中先给i赋初值0，判断i是否小于100，若是则执行语句，然后值增加1。再重新判断，直到条件为假，即i大于等于100时，结束循环。</p>
+<p>这里需要读者注意以下几点:</p>
+<ol>
+<li>for循环中语句可以为语句体，但要用“｛”和“｝”将参加循环的语句括起来。</li>
+<li>for循环中的“初始化”“条件表达式”和“增量”都是选择项，即可以省略，但“；”不能省略。省略了初始化，表示不对循环控制变量赋初值。省略了条件表达式，则不做其他处理时便成为死循环。省略了增量，则不对循环控制变量进行操作，这时可在语句体中加入修改循环控制变量的语句。</li>
+</ol>
+<h3 id="break">break</h3>
+<p>break语句通常用在循环语句和switch语句中使用。当break用于开关语句switch中的时候，可使程序跳出switch而执行switch以后的语句，如果没有break语句，则将成为一个死循环而无法退出。</p>
+<p>当break语句用于do-while、for、while循环语句中时，可使程序终止循环而执行循环后面的语句，通常break语句总是与if语句连在一起，即满足条件时便跳出循环。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>；i&lt;<span class="number">100</span>；i++)</span><br><span class="line">&#123; </span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">array</span>[i] == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    <span class="built_in">array</span>[i] = <span class="number">1</span>/<span class="built_in">array</span>[i];</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">all_valid = <span class="number">1</span>;</span><br><span class="line">len = elCount(is_valid);</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;len;i++)</span><br><span class="line">&#123; </span><br><span class="line">    <span class="keyword">if</span> (is_valid[i] == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        all_valid = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要强调的是，在多层循环中，一个break语句只向外跳一层。另外，goto语句在CAPL中不被支持，用户需要特别注意。</p>
+<h3 id="return">return</h3>
+<p>CAPL函数的返回值是由函数体中的return语句实现返回的。return语句的一般格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> 表达式;</span><br></pre></td></tr></table></figure>
+<p>return语句一般放在函数体的最后，用于结束函数的执行，返回调用函数。若它带有表达式（此表达式可以用一对小括号括起来），系统会将它转换为在函数头中定义的类型，因而要求表达式的类型与定义中的函数值类型一致。若一个不带表达式的return语句放在函数的最后，则可省略。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="title function_">sqr</span><span class="params">(<span class="type">double</span> x)</span></span><br><span class="line">&#123; </span><br><span class="line">    <span class="keyword">return</span> (x * x);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一 个 函 数 中可 以 有 多 个return 语句 ， 但 实 际 运 行 时 只 能有 一 个return语句起作用。</p>
+<h1>程序结构</h1>
+<h2 id="6-1-头文件">6.1 头文件</h2>
+<p>CAPL提供了*.cin文件（callback interface file），用户可以通过该文件搭建自定义的测试框架。比如，将基本的函数接口按照不同类型分别定义在各自的*.cin文件中，然后再在不同的*.can文件中包含所需要的*.cin文件，从而形成二层引用结构。同时也可以在*.cin中包含其他的*.cin文件，然后在*.can文件中包含上层*.cin文件，进而形成多层的引用结构，从而达到提高代码复用效率的目的。</p>
+<p>例如，基本诊断服务定义在BaseServices.cin中，基本函数定义在CommonFunctions.cin中，测试用例函数定义在TestFunctions.cin中，将相关的测试用例定义在测试模块文件ECU_01.can中，那么在各个文件中的头文件结构如下。</p>
+<p>在TestFunctions.cin中：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">includes</span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;CommonFunctions.cin&quot;</span></span></span><br><span class="line">    <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Baseservices.cin&quot;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在ECU_01.can中：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">includes</span><br><span class="line">&#123;</span><br><span class="line">    <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;TestFunctions.cin&quot;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，在ECU_01.can中可以调用三个*.cin文件中的所有函数。如果需要编写另一个测试模块ECU_02，只需要在ECU_02.can中包含TestFunctions.cin即可。</p>
+<h2 id="6-2-全局变量声明">6.2 全局变量声明</h2>
+<p>CAPL跟C语言一样，变量的作用域和生命周期仅限于变量声明的函数体（即大括号范围）内。CAPL在每个程序的开始部分提供了variables区域给用户声明全局变量。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">variables&#123;</span><br><span class="line">    <span class="type">int</span> i <span class="number">0</span>;</span><br><span class="line">    message <span class="number">100</span> msg;</span><br><span class="line">    msTimer myTimer;</span><br><span class="line">    byte ECU_SERIAL_NUMBER[<span class="number">3</span>]=&#123;<span class="number">0x31</span>,<span class="number">0x32</span>,<span class="number">0x33</span>&#125;:</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在此部分声明的全局变量的生命周期从仿真开始持续到仿真结束，其作用域为整个CAPL文件。而在*.cin文件中声明的全局变量在包含它的*.can或*.cin中视为可见。</p>
+<h2 id="6-3-事件处理">6.3 事件处理</h2>
+<p>在什么条件下，在什么时间节点，发生了什么样的报文传递，得到了什么样的报文反馈。而这种面向事件的机制是通过event handler来实现的。</p>
+<h3 id="6-3-1-事件起始关键字on">6.3.1 事件起始关键字on</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">on *</span><br><span class="line">&#123;</span><br><span class="line">	语句;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>on后面加某种条件，一旦条件满足则执行下面函数体内的语句。函数体内的语句是实现接下来需要完成的操作。</p>
+<h3 id="6-3-2-关键字this">6.3.2 关键字this</h3>
+<p>在can的报文事件或变量事件中，可以使用关键字this访问数据内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">on message 100</span><br><span class="line">&#123;</span><br><span class="line">	byte byte0;</span><br><span class="line">	byte0 = this.byte(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的this就代表的是message这个报文</p>
+<h3 id="6-3-3-系统事件">6.3.3 系统事件</h3>
+<p>系统事件主要用于处理CANoe测量系统的控制功能，主要有on start、on preStart、on stopMeasurement、on preStop、on key＜ newKey＞以及on timer。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/17_17_18_22_202407171718726.png" alt="image-20240717171822648" loading='lazy'></p>
+<p>栗子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">on prestart&#123;</span><br><span class="line">	write(&quot;Measurement started!&quot;);</span><br><span class="line">	msg_Count = 0;</span><br><span class="line">&#125;</span><br><span class="line">on start&#123;</span><br><span class="line">	write(&quot;start Node A&quot;);</span><br><span class="line">	setTimer(cycTimer,20);</span><br><span class="line">	CallAll0nEnwar();</span><br><span class="line">&#125;</span><br><span class="line">on prestop&#123;</span><br><span class="line">	message ShutdownReg m;</span><br><span class="line">	output (m);</span><br><span class="line">	Deferstop(1000);</span><br><span class="line">&#125;</span><br><span class="line">on stopMeasurement&#123;</span><br><span class="line">	write(&quot;Message 0xx received:&amp;d&quot;,msg.id,msg_Count);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-4-CAN控制器事件">6.3.4 CAN控制器事件</h3>
+<p>CAN控制器事件是对硬件接口设备中CAN控制器状态变化事件的响应  。</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/17_17_18_6_202407171718189.png" alt="image-20240717171806097" loading='lazy'></p>
+<p>栗子：下面的代码在侦测到Bus Off状态时，系统会输出信息到Write窗口，并复位ECU。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">on busoff&#123;</span><br><span class="line">	//在Bus off状态下复位CAN控制器</span><br><span class="line">	Write(&quot;The CAN controller is in Bus off state&quot;);</span><br><span class="line">	resetCanEx(Channel);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-5-CAN报文事件">6.3.5 CAN报文事件</h3>
+<p>CAN报文事件在CAN总线上有指定的或任意报文出现时被调用。关键字为：on message xxx。例如，下面列出了不同的on message事件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">on message 123	//对报文123(dec)反应</span><br><span class="line">on message 0x123	//对报文123(hex)反应</span><br><span class="line">on message MotorData	//对报文MotorData反应</span><br><span class="line">on message CAN1.123	//对CAN通道1收到报文123反应</span><br><span class="line">on message *	//对所有报文反应</span><br><span class="line">on message 100-200	//对CAN ID在100~200间报文反应</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-6-CAN信号事件">6.3.6 CAN信号事件</h3>
+<p>CAN信号事件是在CAN总线上出现指定的信号时被调用（需要配合DBC文件使用）。关键字为：on signal xxx或on signal_update xxx。需要注意的是，前者只在指定信号的值发生变化时被调用，后者在每次接收到指定信号时均被调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">on signal Lightswitch:：Onoff&#123;</span><br><span class="line">	STAT1=this;</span><br><span class="line">&#125;</span><br><span class="line">on signal_update Lightswitch::Onoff&#123;</span><br><span class="line">	STAT2=this;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-7-定时事件">6.3.7 定时事件</h3>
+<p>定时器变量可以用来创建一个定时事件，SetTimer函数用来设定时间间隔。当定时器运行到达设定的时间间隔时，将触发该事件，这时on timer函数中的程序块将被执行。需要提醒的是，周期性触发需要在每次触发结束后使用SetTimer复位。若在定时器运行中需要停止计时，可以使用cancelTimer函数来取消计时。</p>
+<p>定时器事件关键字为on timer xxx。以下代码通过定时器事件实现每100ms发送一次报文0x555。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">variables&#123;</span><br><span class="line">	message 0x555 msgl &#123;dlc=1&#125;;</span><br><span class="line">	msTimer myTimer;	//将myTimer声明ms为单位的定时器变量</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">on start&#123;</span><br><span class="line">	setTimer (myTimer,100);	//将定时值设定为100ms,并启动</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">on timer myTimer</span><br><span class="line">&#123;</span><br><span class="line">	setTimer (myTimer,100);	//不能遗漏，复位定时器</span><br><span class="line">	msg1.byte(0) = msg1.byte(0) + 1;	//更新报文byte(0)数据</span><br><span class="line">	output (msg1);	//输出报文</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-8-键盘事件">6.3.8 键盘事件</h3>
+<p>在测量的过程中，通常需要由用户来触发某些事件来模拟实际测试环境的人工操作，例如，开始记录log、改变信号或变量的值、停止测量等。利用CAPL提供的键盘事件可以方便地完成这些操作。键盘事件的关键字为on key xxx。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">on key <span class="string">&#x27;a&#x27;</span>	<span class="comment">//按a键反应</span></span><br><span class="line">on key <span class="string">&#x27; &#x27;</span>	<span class="comment">//按空格键反应</span></span><br><span class="line">on key <span class="number">0x20</span>	<span class="comment">//按空格键反应</span></span><br><span class="line">on key F1	<span class="comment">//按F1键反应</span></span><br><span class="line">on key Ctrl-F12	<span class="comment">//按Ctr1+F12组合键反应</span></span><br><span class="line">on key PageUp	<span class="comment">//按Page Up键反应</span></span><br><span class="line">on key Home	<span class="comment">//按Home键反应</span></span><br><span class="line">on key	*	<span class="comment">//按所有键反应</span></span><br><span class="line">on key <span class="string">&#x27;s&#x27;</span></span><br><span class="line">&#123;</span><br><span class="line">	Write(<span class="string">&quot;Logging starts&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-9-错误帧事件">6.3.9 错误帧事件</h3>
+<p>当总线上出现错误帧或者过载帧时，错误帧处理机制将被调用。下面的代码将输出总线错误码，同时将错误帧的信息输出到Write窗口中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">on errorFrame</span><br><span class="line">&#123;</span><br><span class="line">	const int buffersize 256;</span><br><span class="line">	char buffer[buffersize];</span><br><span class="line">	char cdirection[2][3]&#123;&quot;RX&quot;,&quot;TX&quot;&#125;;</span><br><span class="line">	int ndir;</span><br><span class="line">	word ecc;</span><br><span class="line">	word extInfo;</span><br><span class="line">	int isProtocolException;</span><br><span class="line">	</span><br><span class="line">	ecc = (this.ErrorCode &gt;&gt; 6)&amp;0x3f;</span><br><span class="line">	extInfo = (this.ErrorCode &gt;&gt;12)&amp;0x3;</span><br><span class="line">	isProtocolException (this.ErrorCode &amp;(1 &lt;15))!=0;</span><br><span class="line">	ndir extInfo ==0 extInfo ==2 0:1;</span><br><span class="line">	//根据extInfo来判断错误帧传输方向：接收或发送</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="6-3-10-环境变量事件">6.3.10 环境变量事件</h3>
+<p>环境变量事件是对环境变量发生变化的响应，关键字为on enVar xxx</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">on envVar Switch</span><br><span class="line">&#123;</span><br><span class="line">	//声明一个CAN报文变量，用于传输</span><br><span class="line">	message Controller msg;</span><br><span class="line">	//读取环境变量Switch的数值，并赋值给信号Stop</span><br><span class="line">	msg.Stop = getvalue(this);</span><br><span class="line">	//发送报文到总线上</span><br><span class="line">	output(msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以使用getValue（）和putValue（）读写环境变量的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//读取环境变量Switch的数值，并赋值给变量val</span><br><span class="line">val = getvalue (Switch);</span><br><span class="line">//将数值0赋值给环境变量Switch</span><br><span class="line">putvalue(Switch,0);</span><br></pre></td></tr></table></figure>
+<h4 id="6-3-10-1-环境变量事件">6.3.10.1 环境变量事件</h4>
+<p>与环境变量事件类似，系统变量事件是对系统变量发生变化的响应，关键字为==on sysVar xxx或on sysVar_update xxx==</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">on sysvar IO::DI_0</span><br><span class="line">&#123;</span><br><span class="line">	$Gateway:IOValuel = @this;</span><br><span class="line">&#125;</span><br><span class="line">on sysvar update IO::DI_0</span><br><span class="line">&#123;</span><br><span class="line">	SGateway::IOValue2 = @this;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-3-10-2-诊断事件">6.3.10.2 诊断事件</h4>
+<p>诊断事件是在诊断请求或诊断响应发生时产生</p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/31_17_27_6_202407311727576.png" alt="image-20240731172706361" loading='lazy'></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">on diagRequest ECU.DefaultSession_start</span><br><span class="line">&#123;</span><br><span class="line">	//发生诊断请求事件</span><br><span class="line">	Write(&quot;Default Session Switch request received&quot;)</span><br><span class="line">&#125;</span><br><span class="line">on diagRequestSent ECU.HardReset</span><br><span class="line">&#123;</span><br><span class="line">	//诊断请求发送完成</span><br><span class="line">	Write(&quot;HardReset service sent completely,ECU should reset&quot;)</span><br><span class="line">&#125;</span><br><span class="line">on diagResponse ECU.VehicleIdentification_Number_Read</span><br><span class="line">&#123;</span><br><span class="line">	//收到相应的诊断请求的响应</span><br><span class="line">	Write(&quot;VehicleIdentification Number Read response received successfully&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-3-10-3-自定义函数">6.3.10.3 自定义函数</h4>
+<ol>
+<li>当返回值类型省略时，被默认解释为void类型。</li>
+<li>正如C＋＋一样，允许函数包含一个空的形参列表。</li>
+<li>允许重载函数（即同一个函数名，但每个函数的形参列表必须不同，例如，不同的形参类型或者在形参列表中的不同次序）。</li>
+<li>函数会对实参进行类型检查，如果类型不同则检查是否能够通过隐式类型转换，如不能，则无法通过编译。</li>
+<li>任意维度或大小的数组都可被作为函数参数传递。</li>
+<li>大部分CAPL支持的数据类型都可以直接声明为函数参数，例如，整型、浮点型、枚举、结构、定时器以及它们的引用。 但是有一些类型不能被直接声明，而需要加上<em>号（注意该符号并不是C语言中指针的意思）。例 如 ， signal * s 、 envvarInt * ev 、 sysvarFloat * sv 、diagRequest * dr、diagResponse * dr、int matrix［］［］，以及所有来自于database的变量，均需要加上 * 号声明。需要注意的是message类型比较特殊，如果该变量是用户自定义的，那么在函数参数声明时，message和message</em>均可以，但如果该变 量 来 自 database ， 那 么 只 有 message * 可 用 。</li>
+</ol>
+<h1>7 常用库函数</h1>
+<h2 id="7-1-通用函数">7.1 通用函数</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/1_16_50_1_202408011650093.png" alt="image-20240801165000502" loading='lazy'></p>
+<h2 id="7-2-计算函数">7.2 计算函数</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/1_16_52_40_202408011652823.png" alt="image-20240801165240597" loading='lazy'></p>
+<h2 id="7-3-字符串函数">7.3 字符串函数</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/1_16_53_20_202408011653611.png" alt="image-20240801165320289" loading='lazy'></p>
+<h2 id="7-4-CAN总线函数">7.4 CAN总线函数</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/1_16_53_54_202408011653031.png" alt="image-20240801165353798" loading='lazy'></p>
+<h2 id="7-5-LIN总线函数">7.5 LIN总线函数</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/1_16_53_54_202408011653031.png" alt="" loading='lazy'></p>
+<h2 id="7-6-诊断函数">7.6 诊断函数</h2>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/08/1_16_56_32_202408011656257.png" alt="image-20240801165632020" loading='lazy'></p>
+<h1>8 变量和信号的访问</h1>
+<h2 id="8-1-访问信号">8.1 访问信号</h2>
+<p>signal在CAPL中代表的是总线信号交互层的表示，它不同于message。message是CAPL的数据类型，而signal不是。因此，不能在CAPL中定义一个类型为signal的变量。</p>
+<p>当用户需要访问信号缓冲区并期望读到最后接收到的信号值时，可以使用$符号。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">value = $EngineSpeed;	//读取信号EngineSpeed的值</span><br><span class="line">value = $EngineSpeed.raw;	//读取信号EngineSpeed的raw数据</span><br><span class="line">$EngineSpeed = 500.0;	//将信号Enginespeed的值设为500</span><br><span class="line">if ($Enginespeed !=500.0)write(&quot;Unequal!&quot;);</span><br></pre></td></tr></table></figure>
+<p>一个工程中可能包含多个相同名称的信号名。所以CAPL中需要增加通道（Channel）、网络（Network）、节点（Node）和报文（Message）的信息。完整的语法格式如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(channel | network)::</span><br><span class="line">					 [dbNode::]node::</span><br><span class="line">					 					[dbMsg::]message::</span><br><span class="line">					 										[dbsig::]</span><br><span class="line">					 													signal</span><br></pre></td></tr></table></figure>
+<p>栗子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$Lightswitch::Onoff	//Node + signal</span><br><span class="line">$Lightswitch::Lightstate::Onoff	//Node + Message + Signal</span><br><span class="line">$CAN1:Gateway:Status	//Channel + Node + signal</span><br><span class="line">$PowerTrain::Gateway::Status	//Network + Node + Signal</span><br><span class="line">$CAN1::Status	//Channel + Signal</span><br></pre></td></tr></table></figure>
+<h2 id="8-2-访问系统变量">8.2 访问系统变量</h2>
+<p>可以在CAPL中直接访问系统变量而不需要通过函数调用（例如使用SysGetVariableInt 、SysGetVariableFloat等获取变量值，使用SysSetVariableInt 、SysSetVariableFloat等函数修改变量值），以下是需要采取的语法格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Namespace:Variable</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!CAUTION]</p>
+<p>需要注意的是，对于array或struct类的变量，直接访问方式只能访问单个元素，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">intValue = @Namespacel::Parameter2;</span><br><span class="line">@Debug::MotorValues::EngineSpeed = $Enginespeed;</span><br><span class="line">intvalue=@Namespacel::ParameterArray[2];	//访问数组变量的单个成员</span><br><span class="line">@XCP::EcU_2::KL2.Curve2[0]=1.3;	//访问结构体中的数组变量的单个成员</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>比 较 通 用 的 访 问 操 作 方 式 是 使 用 以 sysGetVariable 开 头 和sysSetVariable开头的访问函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//字符串修改操作</span><br><span class="line">char demo[20] = &#123;&#x27;M&#x27;,&#x27;u&#x27;,&#x27;s&#x27;,&#x27;i&#x27;,&#x27;c&#x27;,&#x27;&#x27;,&#x27;t&#x27;,&#x27;a&#x27;,&#x27;g&#x27;&#125;:</span><br><span class="line">sysSetvariablestring(sysvar::IPC::Music_tag,demo);</span><br><span class="line"></span><br><span class="line">//long数组类的系统变量读取操作</span><br><span class="line">long 1VarArr[10];</span><br><span class="line">sysGetvariableLongArray(sysvar::MyNamespace::LongArrayvar,lVarArr,elcount(1VarArr));</span><br></pre></td></tr></table></figure>
+<h2 id="8-3-访问环境变量">8.3 访问环境变量</h2>
+<p>访问环境变量和系统变量的语法一样，都使用<code>@</code>符号进行访问。比较常用的访问函数为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//getValue相关操作</span><br><span class="line">int val;</span><br><span class="line">float fval;</span><br><span class="line">char cBuf [25];</span><br><span class="line">byte bBuf[64];</span><br><span class="line">long copiedBytes;</span><br><span class="line"></span><br><span class="line">//获取环境变量Switch(整型)的数值并赋值给整数val变量</span><br><span class="line">val = getvalue(Switch);</span><br><span class="line">//获取环境变量Temperature(浮点型)的数值并赋值给浮点数fval变量</span><br><span class="line">fval = getvalue(Temperature);</span><br><span class="line">//读取环境变量NodeName(字符串型)的数值，赋值给字符串cBuf,返回复制的字符长度</span><br><span class="line">copiedBytes = getvalue(NodeName,cBuf);</span><br><span class="line">//读取环境变量DiagData(字符串型)的数值，从32位置赋值给字符串bBuf,返回复制的字符长度</span><br><span class="line">copiedBytes = getvalue(DiagData,bBuf,32);</span><br><span class="line"></span><br><span class="line">//putValue相关操作</span><br><span class="line">byte dataBuf [64];</span><br><span class="line"></span><br><span class="line">//将0赋值给环境变量Switch</span><br><span class="line">putvalue(Switch,0);</span><br><span class="line">//将22.5赋值给环境变量Temperature</span><br><span class="line">putvalue(Temperature,22.5);</span><br><span class="line">//将&quot;Master&quot;赋值给环境变量NodeName</span><br><span class="line">putvalue (NodeName,&quot;Master&quot;);</span><br><span class="line">//复制dataBuf字符串变量中的64个字节给环境变量DiagData</span><br><span class="line">putvalue(DiagData,dataBuf,64);</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/">https://youshouldtrustme.github.io/2025/03/01/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/CAPL/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/">汽车电子</a><a class="post-meta__tags" href="/tags/Canoe/">Canoe</a></div><div class="post-share"><div class="social-share" data-image="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Arm%E6%9E%B6%E6%9E%84/" title="Arm架构"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Arm架构</div></div><div class="info-2"><div class="info-item-1">参考链接 Documentation for binutils 2.40 (sourceware.org) GDB Documentation (sourceware.org) Using as (sourceware.org) [Documentation – Arm Developer](...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">全局变量和局部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%8F%98%E9%87%8F"><span class="toc-number">3.2.</span> <span class="toc-text">简单变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%9E%8B"><span class="toc-number">3.2.1.</span> <span class="toc-text">整型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6"><span class="toc-number">3.2.2.</span> <span class="toc-text">字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-number">3.2.3.</span> <span class="toc-text">浮点型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.3.</span> <span class="toc-text">复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-number">3.3.1.</span> <span class="toc-text">结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE"><span class="toc-number">3.3.2.</span> <span class="toc-text">枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-number">3.3.3.</span> <span class="toc-text">数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.3.4.</span> <span class="toc-text">特殊类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E6%96%87"><span class="toc-number">3.3.4.1.</span> <span class="toc-text">报文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%8A%E6%96%AD%E6%8A%A5%E6%96%87"><span class="toc-number">3.3.4.2.</span> <span class="toc-text">诊断报文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="toc-number">3.3.4.3.</span> <span class="toc-text">系统变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8"><span class="toc-number">3.3.4.4.</span> <span class="toc-text">定时器</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">常见运算</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#if"><span class="toc-number">5.1.</span> <span class="toc-text">if</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#switch"><span class="toc-number">5.2.</span> <span class="toc-text">switch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF"><span class="toc-number">5.3.</span> <span class="toc-text">循环</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#while"><span class="toc-number">5.3.1.</span> <span class="toc-text">while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#do-while"><span class="toc-number">5.3.2.</span> <span class="toc-text">do-while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for"><span class="toc-number">5.3.3.</span> <span class="toc-text">for</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#break"><span class="toc-number">5.3.4.</span> <span class="toc-text">break</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#return"><span class="toc-number">5.3.5.</span> <span class="toc-text">return</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">程序结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 全局变量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-number">6.3.</span> <span class="toc-text">6.3 事件处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-1-%E4%BA%8B%E4%BB%B6%E8%B5%B7%E5%A7%8B%E5%85%B3%E9%94%AE%E5%AD%97on"><span class="toc-number">6.3.1.</span> <span class="toc-text">6.3.1 事件起始关键字on</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-2-%E5%85%B3%E9%94%AE%E5%AD%97this"><span class="toc-number">6.3.2.</span> <span class="toc-text">6.3.2 关键字this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-3-%E7%B3%BB%E7%BB%9F%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.3.</span> <span class="toc-text">6.3.3 系统事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-4-CAN%E6%8E%A7%E5%88%B6%E5%99%A8%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.4.</span> <span class="toc-text">6.3.4 CAN控制器事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-5-CAN%E6%8A%A5%E6%96%87%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.5.</span> <span class="toc-text">6.3.5 CAN报文事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-6-CAN%E4%BF%A1%E5%8F%B7%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.6.</span> <span class="toc-text">6.3.6 CAN信号事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-7-%E5%AE%9A%E6%97%B6%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.7.</span> <span class="toc-text">6.3.7 定时事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-8-%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.8.</span> <span class="toc-text">6.3.8 键盘事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-9-%E9%94%99%E8%AF%AF%E5%B8%A7%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.9.</span> <span class="toc-text">6.3.9 错误帧事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-10-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.10.</span> <span class="toc-text">6.3.10 环境变量事件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-10-1-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.10.1.</span> <span class="toc-text">6.3.10.1 环境变量事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-10-2-%E8%AF%8A%E6%96%AD%E4%BA%8B%E4%BB%B6"><span class="toc-number">6.3.10.2.</span> <span class="toc-text">6.3.10.2 诊断事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-10-3-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="toc-number">6.3.10.3.</span> <span class="toc-text">6.3.10.3 自定义函数</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">7 常用库函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E9%80%9A%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">7.1.</span> <span class="toc-text">7.1 通用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E8%AE%A1%E7%AE%97%E5%87%BD%E6%95%B0"><span class="toc-number">7.2.</span> <span class="toc-text">7.2 计算函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="toc-number">7.3.</span> <span class="toc-text">7.3 字符串函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-4-CAN%E6%80%BB%E7%BA%BF%E5%87%BD%E6%95%B0"><span class="toc-number">7.4.</span> <span class="toc-text">7.4 CAN总线函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-5-LIN%E6%80%BB%E7%BA%BF%E5%87%BD%E6%95%B0"><span class="toc-number">7.5.</span> <span class="toc-text">7.5 LIN总线函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-6-%E8%AF%8A%E6%96%AD%E5%87%BD%E6%95%B0"><span class="toc-number">7.6.</span> <span class="toc-text">7.6 诊断函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">8 变量和信号的访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8-1-%E8%AE%BF%E9%97%AE%E4%BF%A1%E5%8F%B7"><span class="toc-number">8.1.</span> <span class="toc-text">8.1 访问信号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-2-%E8%AE%BF%E9%97%AE%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="toc-number">8.2.</span> <span class="toc-text">8.2 访问系统变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-3-%E8%AE%BF%E9%97%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">8.3.</span> <span class="toc-text">8.3 访问环境变量</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/8_17_2_56_202407081702770.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

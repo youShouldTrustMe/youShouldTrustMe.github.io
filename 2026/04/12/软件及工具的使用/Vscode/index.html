@@ -1,0 +1,961 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Vscode | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="快捷键 常用快捷键    快捷键 功能 备注     Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表     编辑快捷键    快捷键 功能 备注     Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vscode">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="快捷键 常用快捷键    快捷键 功能 备注     Ctrlp 搜索文件    Ctrl， 打开设置         CtrlShiftp 打开命令面板         Ctrlk之后Ctrls 弹出所有键盘快捷键的列表     编辑快捷键    快捷键 功能 备注     Ctrlx 剪切 将光标放在一行中，使用快捷键可以剪切一行（删除）   Ctrlc 复制 将光标放在一行中，使用快捷键可以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_7.jpg">
+<meta property="article:published_time" content="2026-04-12T08:12:40.256Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.256Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_7.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Vscode",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_7.jpg",
+  "datePublished": "2026-04-12T08:12:40.256Z",
+  "dateModified": "2026-04-12T08:12:40.256Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vscode',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_7.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Vscode</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Vscode</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.256Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>快捷键</h1>
+<h2 id="常用快捷键">常用快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>p</kbd></td>
+<td>搜索文件</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>，</kbd></td>
+<td>打开设置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>p</kbd></td>
+<td>打开命令面板</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>k</kbd>之后<kbd>Ctrl</kbd><kbd>s</kbd></td>
+<td>弹出所有键盘快捷键的列表</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="编辑快捷键">编辑快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>x</kbd></td>
+<td>剪切</td>
+<td>将光标放在一行中，使用快捷键可以剪切一行（删除）</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>c</kbd></td>
+<td>复制</td>
+<td>将光标放在一行中，使用快捷键可以复制一行</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>z</kbd></td>
+<td>撤销</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>y</kbd></td>
+<td>重做</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>F</kbd></td>
+<td>查找</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>h</kbd></td>
+<td>替换</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>a</kbd></td>
+<td>全选</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>/</kbd></td>
+<td>注释</td>
+<td>注释一行代码</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>space</kbd></td>
+<td>引导</td>
+<td>可以查看当前布局等</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>.</kbd></td>
+<td>快速修复</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>d</kbd></td>
+<td>选中单词</td>
+<td>如果当前已经选中了一个单词，那么再次按下快捷键将会选中下一个同样的单词，以此类推</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>]</kbd></td>
+<td>将制表符往右推</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>[</kbd></td>
+<td>将制表符往左推</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Enter</kbd></td>
+<td>向下插入一行</td>
+<td>在一行中的任意位置按下快捷键都可以向下插入一行，并且光标移动到此行</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>方向</kbd></td>
+<td>可以跳过单词</td>
+<td>将光标跳过单词</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>u</kbd></td>
+<td>恢复光标位置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>方向键</kbd></td>
+<td>将此行上下移动</td>
+<td>需要按住<kbd>Alt</kbd>键后按方向键</td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>Click</kbd></td>
+<td>插入光标</td>
+<td>当需要在多个位置修改同样的代码时，可以使用此快捷键</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Tab</kbd></td>
+<td>使代码进行缩进</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>方向</kbd></td>
+<td>左右选择字母</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>]</kbd></td>
+<td>展开代码</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>[</kbd></td>
+<td>折叠代码</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>k</kbd></td>
+<td>删除当前行</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>f</kbd></td>
+<td>全局搜索</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Enter</kbd></td>
+<td>向上插入一行</td>
+<td>在一行中的任意位置按下快捷键都可以向上插入一行，并且光标移动到此行</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>方向</kbd></td>
+<td>选择一个完整的单词</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>a</kbd></td>
+<td>多行注释</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>左右方向</kbd></td>
+<td>选中对象实体</td>
+<td>可以选用一个if语句块等等</td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>鼠标拖动</kbd></td>
+<td>选中多行文字</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>上下方向</kbd></td>
+<td>在垂直列添加光标</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="导航快捷键">导航快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>F12</kbd></td>
+<td>跳转定义位置</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>F12</kbd></td>
+<td>快速查看函数定义</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>F12</kbd></td>
+<td>查找所有引用</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>Alt</kbd><kbd>F12</kbd></td>
+<td>打开查找器窗口，查找所有引用</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>o</kbd></td>
+<td>查找当前文件中的所有符号</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>t</kbd></td>
+<td>全局搜索符号</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>g</kbd></td>
+<td>跳转行</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="调试快捷键">调试快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>F5</kbd></td>
+<td>开始调试</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>F10</kbd></td>
+<td>单步跳过</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>F11</kbd></td>
+<td>单步跳入</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>F5</kbd></td>
+<td>停止调试</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd><kbd>F11</kbd></td>
+<td>单步跳出</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="标签管理快捷键">标签管理快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>t</kbd></td>
+<td>打开最后一个关闭的标签</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>Tab</kbd></td>
+<td>切换最早打开的标签页</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Tab</kbd></td>
+<td>切换最近打开的标签页</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>w</kbd></td>
+<td>关闭当前的标签</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>k</kbd>之后<kbd>Ctrl</kbd><kbd>w</kbd></td>
+<td>关闭所有的标签</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="窗口管理快捷键">窗口管理快捷键</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>n</kbd></td>
+<td>新建窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>w</kbd></td>
+<td>关闭窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>`</kbd></td>
+<td>新建终端</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>e</kbd></td>
+<td>从插件或其他导航切换到文件导航栏</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>m</kbd></td>
+<td>打开问题面板</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>u</kbd></td>
+<td>打开输出面板</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>\ </kbd></td>
+<td>拆分窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>`</kbd></td>
+<td>打开终端窗口</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>数字</kbd></td>
+<td>切换编辑器组</td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>b</kbd></td>
+<td>打开关闭左侧导航栏</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Alt</kbd><kbd>方向</kbd></td>
+<td>左右导航</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>方向键</kbd></td>
+<td>将标签按照方向移动到不同的窗口</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1>插件</h1>
+<table>
+<thead>
+<tr>
+<th>插件名称</th>
+<th>功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Better Align</td>
+<td>用于对齐变量名和参数</td>
+</tr>
+<tr>
+<td>Better Comments</td>
+<td>实时显示错误</td>
+</tr>
+<tr>
+<td>Code Spell Checker</td>
+<td>用于检查代码的拼写错误</td>
+</tr>
+<tr>
+<td>Code Translate</td>
+<td>鼠标悬停可以查看相关翻译</td>
+</tr>
+<tr>
+<td>Error Lens</td>
+<td>高亮显示错误</td>
+</tr>
+<tr>
+<td>Fitten Code</td>
+<td>超强AI编程</td>
+</tr>
+<tr>
+<td>Git Graph</td>
+<td>用于Git的可视化</td>
+</tr>
+<tr>
+<td>GitLens</td>
+<td>Git的拓展</td>
+</tr>
+<tr>
+<td>Hex Editor</td>
+<td>十六进制文件查看器</td>
+</tr>
+<tr>
+<td>LeetCode</td>
+<td>力扣的练习</td>
+</tr>
+<tr>
+<td>MarkMap</td>
+<td>用于将markdown文件转化为思维导图</td>
+</tr>
+<tr>
+<td>offic viewer</td>
+<td>用于实时渲染markdown文件</td>
+</tr>
+<tr>
+<td>Project Manager</td>
+<td>用于保存常用项目</td>
+</tr>
+<tr>
+<td>Todo Tree</td>
+<td>可用于标记代码中的代办项</td>
+</tr>
+<tr>
+<td>Vim</td>
+<td>vscode中的vim插件</td>
+</tr>
+<tr>
+<td>VSCode Animations</td>
+<td>实现丝滑动画效果</td>
+</tr>
+<tr>
+<td>Apc Customize UI++</td>
+<td>配合VSCode Animations使用实现丝滑动画</td>
+</tr>
+<tr>
+<td>C/C++ snippets</td>
+<td>用于生成代码分割符</td>
+</tr>
+<tr>
+<td>IAR linker Configuration File Syntax</td>
+<td>用于显示IAR的icf文件</td>
+</tr>
+<tr>
+<td>Arm Assembly</td>
+<td>汇编代码</td>
+</tr>
+<tr>
+<td>iar build</td>
+<td>iar官方插件</td>
+</tr>
+<tr>
+<td>iar</td>
+<td>：</td>
+</tr>
+<tr>
+<td>Platform IO</td>
+<td>嵌入式替代开发插件</td>
+</tr>
+<tr>
+<td>wakatime</td>
+<td>编程时间及行为跟踪统计</td>
+</tr>
+<tr>
+<td>codeTour</td>
+<td>回放代码演示思路</td>
+</tr>
+<tr>
+<td>koroFileHeader</td>
+<td>生成文件头注释</td>
+</tr>
+<tr>
+<td>image comment</td>
+<td>在代码中插入图片注释</td>
+</tr>
+<tr>
+<td>Peacock</td>
+<td>可以将vscode的颜色跟着不同的项目进行改变</td>
+</tr>
+<tr>
+<td>file-tree-generator</td>
+<td>将文件树转换为txt</td>
+</tr>
+<tr>
+<td>Blockman - Highlight Nested Code Blocks</td>
+<td>可以将块代码框起来</td>
+</tr>
+<tr>
+<td>Maple Theme</td>
+<td>代码文字的美化，<a target="_blank" rel="noopener" href="https://github.com/subframe7536/maple-font/releases">Releases · subframe7536/maple-font (github.com)</a></td>
+</tr>
+<tr>
+<td>Cursor免费续杯</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/yeongpin/cursor-free-vip">yeongpin/cursor-free-vip: Support 0.49.x</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="配置">配置</h2>
+<h3 id="C-C-snippets">C/C++ snippets</h3>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;MainPage Table&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.table&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/**@mainpage&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;table&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;tr&gt;&lt;th&gt;项目名称 &lt;td&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;tr&gt;&lt;th&gt;设计负责人 &lt;td&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  *&lt;tr&gt;&lt;th&gt;版权 &lt;td&gt;xxxx科技有限公司&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  &lt;/table&gt;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  @section &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  * &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  @section &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  * &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  @section &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  * &quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;  */&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MainPage Table&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;resource files&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.chinit&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;/*******************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;**                          Revision Control History                          **&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;Version   Date         User                Comment&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;    0.1   2024-10-01   ryf                 - xxx xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;*******************************************************************************/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                             Includes                             =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======               Defines &amp; Macros for General Purpose               =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Constants &amp; Types                         =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Global variables                          =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Local variables                           =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Global Function                           =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        Local Function                            =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                    Function Implement List                       =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;use to c files&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;header files&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.hhinit&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;#ifndef $&#123;1:$&#123;TM_FILENAME/(.*)\\.h$/$&#123;1:/upcase&#125;_H/i&#125;&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#define $1&quot;</span><span class="punctuation">,</span> </span><br><span class="line">			<span class="string">&quot;\n$&#123;2:#ifdef __cplusplus&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;extern \&quot;C\&quot;&#123;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#endif&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*******************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;**                          Revision Control History                          **&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;Version   Date         User                Comment&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;********************************************************************************&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;    0.1   2024-10-01   ryf                 - xxx xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;*******************************************************************************/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                             INCLUDES                             =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======               DEFINES &amp; MACROS FOR GENERAL PURPOSE               =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                        CONSTANTS &amp; TYPES                         =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                             EXPORTS                              =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;/*==============================================================================&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;=======                  PROTOTYPES OF PUBLIC FUNCTIONS                  =======&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;==============================================================================*/&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#ifdef __cplusplus&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#endif&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">			<span class="string">&quot;#endif\t/* $1 */\n&quot;</span></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Avoid Repetition&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">	<span class="attr">&quot;line&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;.line&quot;</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;body&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">			<span class="string">&quot;/***************************************    ****************************************/&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">		<span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">		<span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Avoid Repetition&quot;</span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="iar工程配置">iar工程配置</h3>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45844792/article/details/134929929">IAR 9.32.1版本 用自安装版本的jlink驱动替代IAR下自带版本下载驱动_iar安装jlink驱动-CSDN博客</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.iar.com/zh/product/visual-studio-code-extension">IAR VScode 扩展_插件_官方版 | IAR</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/luobeihai/article/details/127044565">https://blog.csdn.net/luobeihai/article/details/127044565</a></p>
+<p><img src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_13_32_48_202412171332982.png" alt="iar安装教程" loading='lazy'></p>
+<h1>使用技巧</h1>
+<h2 id="忽略搜索文件">忽略搜索文件</h2>
+<p>在<code>settings.json</code>文件中增加以下代码：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;search.exclude&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;**/Output&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;**/.git&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;**/.vscode&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;**/Project&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/">https://youshouldtrustme.github.io/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vscode/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Tessy/" title="Tessy"><img class="cover" src="/img/RandomCoverImage/random_14.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Tessy</div></div><div class="info-2"><div class="info-item-1">如何评判   代码覆盖率：  语句覆盖率（Statement Coverage）：检查是否每个代码语句都被执行过。 分支覆盖率（Branch Coverage）：测试代码中每个条件的所有分支是否都被执行。 路径覆盖率（Path Coverage）：所有可能的执行路径是否都被测试。    边界值...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/WireShark/" title="WireShark"><img class="cover" src="/img/RandomCoverImage/random_1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">WireShark</div></div><div class="info-2"><div class="info-item-1">蓝牙抓包 参考链接 实测对比Wireshark利用nRF52832 Sniffer和Packet Sniffer 利用CC2540 Dongle 抓包使用体验_usb nrf sniffer 指定 mac-CSDN博客 蓝牙----wireshark抓包查看蓝牙通信过程_蓝牙抓包-CSDN博客...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">快捷键</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.1.</span> <span class="toc-text">常用快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.2.</span> <span class="toc-text">编辑快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E8%88%AA%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.3.</span> <span class="toc-text">导航快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.4.</span> <span class="toc-text">调试快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E7%AE%A1%E7%90%86%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.5.</span> <span class="toc-text">标签管理快捷键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AA%97%E5%8F%A3%E7%AE%A1%E7%90%86%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="toc-number">1.6.</span> <span class="toc-text">窗口管理快捷键</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">插件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C-C-snippets"><span class="toc-number">2.1.1.</span> <span class="toc-text">C&#x2F;C++ snippets</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iar%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.2.</span> <span class="toc-text">iar工程配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">使用技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%BD%E7%95%A5%E6%90%9C%E7%B4%A2%E6%96%87%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">忽略搜索文件</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_7.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

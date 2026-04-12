@@ -1,0 +1,698 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>操作系统基础 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 操作系统：设计与实现 (2024 春季学期) (jyywiki.cn) 应用视角下的操作系统 构造一个最小程序 要理解操作系统首先要理解程序,下面是一个最简单的程序： 1234int main()&#123;	printf(&quot;Hello world!&quot;);&#125; 当生成输出文件之后，可以使用以下的命令来查看生成的可执行文件 1234objdump 工具可以查看对">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统基础">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 操作系统：设计与实现 (2024 春季学期) (jyywiki.cn) 应用视角下的操作系统 构造一个最小程序 要理解操作系统首先要理解程序,下面是一个最简单的程序： 1234int main()&#123;	printf(&quot;Hello world!&quot;);&#125; 当生成输出文件之后，可以使用以下的命令来查看生成的可执行文件 1234objdump 工具可以查看对">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_14.png">
+<meta property="article:published_time" content="2026-04-12T08:12:40.239Z">
+<meta property="article:modified_time" content="2026-04-12T08:12:40.239Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_14.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "操作系统基础",
+  "url": "https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_14.png",
+  "datePublished": "2026-04-12T08:12:40.239Z",
+  "dateModified": "2026-04-12T08:12:40.239Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '操作系统基础',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_14.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">操作系统基础</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">操作系统基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-12T08:12:40.239Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T08:12:40.239Z" title="更新于 2026-04-12 08:12:40">2026-04-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://jyywiki.cn/OS/2024/">操作系统：设计与实现 (2024 春季学期) (jyywiki.cn)</a></p>
+<h1>应用视角下的操作系统</h1>
+<h2 id="构造一个最小程序">构造一个最小程序</h2>
+<p>要理解操作系统首先要理解程序,下面是一个最简单的程序：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello world!&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当生成输出文件之后，可以使用以下的命令来查看生成的可执行文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">objdump 工具可以查看对应的汇编代码</span><br><span class="line">gcc --verbose 可以查看所有编译选项 (真不少)<span class="built_in">printf</span> 变成了 puts@plt</span><br><span class="line">gcc -Wl,--verbose 可以查看所有链接选项 (真不少)原来链接了那么多东西还解释了 end 符号的由来</span><br><span class="line">gcc -static 会链接 libc (大量的代码)</span><br></pre></td></tr></table></figure>
+<p>当使用以上工具查看生成的main的可执行文件时，发现可执行文件内容较多。编译链接的过程会链接库文件导致可执行文件变大。</p>
+<p>那么我们可以尝试着手动的去链接可定位文件，可以先生成一个main.o文件，然后将这个mian.o试着手动链接编译的文件</p>
+<ol>
+<li>
+<p>直接用 ld 链接失败：因为ld 不知道怎么链接 printf</p>
+</li>
+<li>
+<p>所以只能不调用 printf ，将程序改为以下内容</p>
+<blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行时出现 Segmentation Fault ，调试时发现在return时出现错误</p>
+</blockquote>
+</li>
+<li>
+<p>如果改成以下代码</p>
+<blockquote>
+  <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">       <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">  &gt;&#125;</span><br></pre></td></tr></table></figure>
+<p>运行时会卡在死循环中，说明我们的程序时可以运行的</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>[!NOTE]</p>
+<p>为什么会出现<code>Segmention falut</code>？</p>
+<ol>
+<li>
+<p>当函数在<code>renturn</code>时，程序会从内存的<code>rsp</code>寄存器中取出地址给<code>PC</code>，作为下一条执行指令的地址，然后<code>rsp</code>+8,栈（<code>rsp</code>存在栈中）是向下生长的</p>
+</li>
+<li>
+<p>当执行完错误的<code>return</code>语句之后，PC<code>的地址变为了</code>1</p>
+<blockquote>
+<p>这意味着在执行<code>return</code>之前，内存中的<code>rsp</code>指向运行代码的地址，也就是上面的1，所以出现了问题</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<h2 id="程序">程序</h2>
+<p>程序实际上是一个状态机：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">CPUState</span> &#123;</span></span><br><span class="line">    <span class="type">uint32_t</span> regs[<span class="number">32</span>], csrs[CSR_COUNT];</span><br><span class="line">    <span class="type">uint8_t</span> *mem;</span><br><span class="line">    <span class="type">uint32_t</span> mem_offset, mem_size;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>处理器：无情的、执行指令的<strong>状态机</strong></p>
+<ul>
+<li>从 𝑀[𝑃𝐶]中取出一条指令</li>
+<li>执行它</li>
+<li>循环往复</li>
+</ul>
+<h3 id="程度的退出">程度的退出</h3>
+<p>程序自己是不能 “停下来” 的!</p>
+<ul>
+<li>指令集里==没有一条关闭计算机的指令==，那么操作系统是如何在关闭所有软件后，切断计算机的电源的？</li>
+</ul>
+<p>只能借助操作系统</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">movq $SYS_exit,  %rax   # exit( </span><br><span class="line">movq $1,         %rdi   #   status=1 </span><br><span class="line">syscall                 # ); </span><br></pre></td></tr></table></figure>
+<ul>
+<li>把 “系统调用” 的参数放到寄存器中</li>
+<li>执行==syscall==，操作系统接管程序
+<ul>
+<li>操作系统可以任意改变程序状态 (甚至终止程序)</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!TIP]</p>
+<p><code>syscall</code>是一条特殊指令，由操作系统提供。</p>
+<p>当<code>main</code>函数退出时，可以使用<code>syscall</code>指令告诉操作系统，程序即将退出，然后等待<code>syscall</code>的回应，此时一个系统调用就完成了。</p>
+</blockquote>
+<blockquote>
+<p>[!TIP]</p>
+<p>在操作系统之下是电路，实际上在下面的电路也可以看成有一个小型的操作系统，当上层操作系统向底层的操作系统发送指令之后（通过ACPI（高级配置和电源接口）进行交互），底层的操作系统会向它所管理的元器件发送高低电平，从而达到关机的效果</p>
+</blockquote>
+<p>此时就可以构造最小的程序</p>
+<p><em>==mininal.S==</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#include // The x86-64 system call Application Binary Interface (ABI): </span><br><span class="line">// System call number: RAX</span><br><span class="line">// Arguments: RDI, RSI, RDX, RCX, R8, R9 </span><br><span class="line">// Return value: RAX </span><br><span class="line">// See also: syscall(2) syscalls(2) </span><br><span class="line">#define syscall3(id, a1, a2, a3) \</span><br><span class="line">	movq $SYS_##id, %rax; \</span><br><span class="line">	movq $a1, %rdi; \ </span><br><span class="line">	movq $a2, %rsi; \ </span><br><span class="line">	movq $a3, %rdx; \ </span><br><span class="line">	syscall </span><br><span class="line">#define syscall2(id, a1, a2) syscall3(id, a1, a2, 0) </span><br><span class="line">#define syscall1(id, a1) syscall2(id, a1, 0) </span><br><span class="line">.globl _start </span><br><span class="line">_start:</span><br><span class="line">	syscall3(write, 1, addr1, addr2 - addr1) </span><br><span class="line">	syscall1(exit, 1) </span><br><span class="line">addr1: </span><br><span class="line">	.ascii &quot;\033[01;31mHello, OS World\033[0m\n&quot; </span><br><span class="line">addr2:</span><br></pre></td></tr></table></figure>
+<p>使用以下指令运行上面的汇编程序</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -S minimal.S minimal.s</span><br><span class="line">as minimal.s -o minimal.o</span><br><span class="line">ld -o minimal minimal.o</span><br><span class="line">./minimal</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$status</span> <span class="comment">#使用该行指令打印出RAX中的值</span></span><br></pre></td></tr></table></figure>
+<h3 id="程序-状态机">程序 = 状态机</h3>
+<p>==Everything（二进制文件）=  状态机==</p>
+<p>状态</p>
+<ul>
+<li>gdb 内可见的内存和寄存器</li>
+</ul>
+<p>初始状态</p>
+<ul>
+<li>由 ABI 规定 (例如有一个合法的 %rsp)</li>
+</ul>
+<p>状态迁移</p>
+<ul>
+<li>执行一条指令
+<ul>
+<li>gdb 可以单步观察状态机的执行</li>
+</ul>
+</li>
+<li><strong>syscall 指令</strong>: 将状态机 “完全交给” 操作系统</li>
+</ul>
+<blockquote>
+<p>[!IMPORTANT]</p>
+<ul>
+<li>状态 = 变量数值 + 栈</li>
+<li>初始状态 = main 的第一条语句</li>
+<li>状态迁移 = 执行一条语句中的一小步</li>
+</ul>
+</blockquote>
+<h2 id="拆解程序">拆解程序</h2>
+<blockquote>
+<p><strong>操作系统上有很多不同种类的程序</strong></p>
+<ol>
+<li>
+<p>Core Utilities (coreutils)</p>
+<ul>
+<li>
+<p><em>Standard</em> programs for text and file manipulation</p>
+</li>
+<li>
+<p>系统中默认安装的是 <a target="_blank" rel="noopener" href="https://www.gnu.org/software/coreutils/">GNU Coreutils</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>系统/工具程序</p>
+<ul>
+<li>
+<p>bash,binutils, apt, ip, ssh, vim, tmux, gcc, python, ffmpeg, …</p>
+<ul>
+<li>原理不复杂 (例如 apt 是 dpkg 的套壳)，但琐碎</li>
+</ul>
+</li>
+<li>
+<p>All-in-one 工具合集：<a target="_blank" rel="noopener" href="https://www.busybox.net/">busybox</a>, <a target="_blank" rel="noopener" href="https://landley.net/toybox/">toybox</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>其他各种应用程序</p>
+<ul>
+<li>Vscode、OBS-Studio、浏览器、音乐播放器：它们在各种工具程序基础上建立起来 (例：ffmpeg)</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p><strong>追踪一个程序</strong></p>
+<p>工具程序代表：编译器 (gcc):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strace -f gcc a.c  <span class="comment">#(gcc 会启动其他进程)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>可以管道给编辑器 <code>vim -</code></p>
+</li>
+<li>
+<p>编辑器里还可以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%!grep</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于开发者来说，工具的组合是非常重要的</li>
+</ul>
+</li>
+</ul>
+<p>图形界面程序代表：编辑器 (xedit):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strace xedit</span><br></pre></td></tr></table></figure>
+<ul>
+<li>图形界面程序和 X-Window 服务器按照 X11 协议通信</li>
+<li>虚拟机中的 xedit 将 X11 命令通过 ssh (X11 forwarding) 转发到 Host</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>任何程序 = minimal.S = 状态机</strong></p>
+<p>程序在操作系统上的执行过程：</p>
+<ol>
+<li>总是从被操作系统加载开始</li>
+</ol>
+<ul>
+<li>通过另一个进程执行 execve 设置为初始状态</li>
+</ul>
+<ol start="2">
+<li>经历状态机执行 (计算 + syscalls)</li>
+</ol>
+<ul>
+<li>进程管理：fork, execve, exit, …</li>
+<li>文件/设备管理：open, close, read, write, …</li>
+<li>存储管理：mmap, brk, …</li>
+</ul>
+<ol start="3">
+<li>最终调用 _exit (exit_group) 退出</li>
+</ol>
+<p>==应用程序 = 计算 + 操作系统 API==</p>
+<ol>
+<li>窗口管理器</li>
+</ol>
+<ul>
+<li>
+<p>能直接管理屏幕设备 (read/write/mmap)</p>
+<ul>
+<li>能画一个点，理论上就能画任何东西</li>
+</ul>
+</li>
+<li>
+<p>能够和其他进程通信 (send, recv)</p>
+</li>
+</ul>
+<ol start="2">
+<li>任务管理器</li>
+</ol>
+<ul>
+<li>能访问操作系统提供的进程对象 (<a target="_blank" rel="noopener" href="https://jyywiki.cn/OS/2024/labs/M1.md">M1 - pstree</a>)</li>
+</ul>
+<ol start="3">
+<li>杀毒软件</li>
+</ol>
+<ul>
+<li>文件静态扫描 (read)、主动防御 (ptrace)</li>
+</ul>
+<p>==操作系统的职责：提供令应用程序<strong>舒适</strong>的抽象 (对象 + API)==</p>
+</blockquote>
+<h2 id="编译器">编译器</h2>
+<p>既然说 “任何程序” 都和 minimal.S 是一样的</p>
+<ul>
+<li>为什么我们没有在 C 代码里看到系统调用？</li>
+<li>C 代码是如何变成二进制文件的？</li>
+<li>到底编译器什么优化能做、什么优化不能做？</li>
+</ul>
+<blockquote>
+<p><strong>如果说程序就是一个状态机，那么如何写一个C语言代码的解释器？</strong></p>
+<p>在写C语言的解释器的时候，我们首先需要将C代码简化，将C 代码改写成 SimpleC，将C转化为SimpleC需要遵循以下规则：</p>
+<ul>
+<li>成每条语句至多一次运算 (函数调用也是运算)</li>
+<li>条件语句中不包含运算
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cil-project.github.io/cil/">真的有这种工具</a> (C Intermediate Language) 和<a target="_blank" rel="noopener" href="https://gitlab.com/zsaleeba/picoc">解释器</a></li>
+</ul>
+</li>
+<li>(暂时假设没有指针和内存分配)</li>
+</ul>
+<p>Everything (C 程序) = 状态机</p>
+<ul>
+<li>状态 = 变量数值 + 栈</li>
+<li>初始状态 = main 的第一条语句</li>
+<li>状态迁移 = 执行一条语句中的一小步</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>状态机</strong></p>
+<p>“状态机” 是拥有<strong>严格数学定义</strong>的对象。这意味着你可以把定义写出来，并且用<strong>数学严格</strong>的方法理解它 —— 形式化方法</p>
+<p>状态：</p>
+<ul>
+<li>
+<p>[StackFrame, StackFrame, …] + 全局变量</p>
+<blockquote>
+<p>实际上一个状态就是一个栈帧</p>
+</blockquote>
+</li>
+</ul>
+<p>初始状态：</p>
+<ul>
+<li>仅有一个 StackFrame(main, argc, argv, <strong>PC=0</strong>)</li>
+<li>全局变量全部为初始值</li>
+<li>每个栈帧中都有一个PC值，用来保存当前的执行指针</li>
+</ul>
+<p>状态迁移：</p>
+<ul>
+<li>执行 frames[-1].PC 处的简单语句</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>什么是编译器</strong></p>
+<p>编译器的输入</p>
+<ul>
+<li>高级语言 © 代码 = 状态机</li>
+</ul>
+<p>编译器的输出</p>
+<ul>
+<li>汇编代码 (指令序列) = 状态机</li>
+</ul>
+<p>编译器 = <strong>状态机之间的翻译器</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>SimpleC的直接翻译</strong></p>
+<p>运算：</p>
+<ul>
+<li>把操作数 load 到寄存器、执行运算、store 写回结果</li>
+</ul>
+<p>分支/循环：</p>
+<ul>
+<li>使用条件跳转分别执行代码</li>
+</ul>
+<p>函数调用：</p>
+<ul>
+<li><strong>专门留一个寄存器给栈</strong> (SP, Stack Pointer)</li>
+<li>将 Stack frame 的信息保存在内存里
+<ul>
+<li>通过 SP 可以访问当前栈帧的变量、返回地址等</li>
+</ul>
+</li>
+</ul>
+<p>所以，==C 被称为<strong>高级汇编语言</strong>==</p>
+<ul>
+<li>存在 C 代码到指令集的直接对应关系
+<ul>
+<li>状态机和迁移都可以 “直译”</li>
+<li>于是计算机系统里多了一个抽象层 (“一生二、二生三、三生万物”)</li>
+</ul>
+</li>
+<li>更 “高级” 的语言就很难了
+<ul>
+<li>C++ <code>virtual void foo();</code></li>
+<li>Python <code>[1, 2, 3, *rest]</code></li>
+<li>Javascript <code>await fetch(...)</code></li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>编译优化</strong></p>
+<blockquote>
+<p>C 语言编译器在进行代码优化时，遵循的基本准则是在不改变程序的==语义== (即程序的行为和输出结果) 的前提下，提高程序的执行效率和/或减少程序的资源消耗</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">foo</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;  </span><br><span class="line">    <span class="type">int</span> y = x + <span class="number">1</span>; </span><br><span class="line">    <span class="keyword">return</span> y - <span class="number">1</span>; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>一些 “不改变语义” 的例子 (编译优化中最重要的 “三板斧”)：</p>
+<ul>
+<li><strong>函数内联</strong>：将函数调用替换为函数体本身的内容</li>
+<li><strong>常量传播</strong>：在编译时计算常量表达式的值并替换</li>
+<li><strong>死代码消除</strong>：删除永远不会被执行到的代码</li>
+</ul>
+<p>例子</p>
+<hr>
+<blockquote>
+<p><em>==编译优化前==</em></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">compute</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> y = x + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> y - <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>==编译优化前==</em></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">compute</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        x = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p><em>==编译优化后==</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">int compute(int x)</span><br><span class="line">&#123;</span><br><span class="line">	return x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>==编译优化后==</em></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">compute</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//if(true) 死代码消除</span></span><br><span class="line">    <span class="comment">//&#123;</span></span><br><span class="line">   	<span class="comment">//    x = 1; 常量传播</span></span><br><span class="line">    <span class="comment">//&#125;</span></span><br><span class="line">    <span class="comment">//else 死代码消除</span></span><br><span class="line">    <span class="comment">//&#123;</span></span><br><span class="line">    <span class="comment">//&#125;</span></span><br><span class="line">    <span class="comment">//return x;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">//常量传播</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong>编译的正确性</strong></p>
+<p>系统调用是使程序计算结果<strong>可见</strong>的唯一方法</p>
+<ul>
+<li>不改变语义 = 不改变可见结果</li>
+<li>状态机的视角：满足<strong>C/汇编状态机生成的所有 syscall 序列完全一致</strong>，任何优化都是允许的</li>
+</ul>
+<p>C 代码中的<strong>不可优化部分</strong></p>
+<ul>
+<li>External function calls (链接时才能确定到底是什么代码)
+<ul>
+<li>未知的代码可能包含<strong>系统调用</strong></li>
+<li>因此不可删除、移出循环等，且要保证参数传递完全一致</li>
+</ul>
+</li>
+<li>编译器提供的 “不可优化” 标注
+<ul>
+<li><code>volatile</code> [load | store | inline assembly]</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h1>硬件视角下的操作系统</h1>
+<p>reset之后执行firmware</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">https://youshouldtrustme.github.io/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_14.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%A0%A1%E9%AA%8C/" title="校验"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/20_15_29_28_202411201529004.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">校验</div></div><div class="info-2"><div class="info-item-1">校验和 (Checksum) 参考链接 CheckSum算法–又名累加和校验算法 - 皮卡成球 - 博客园 原理及步骤 **校验和（Checksum）**是网络协议使用的数据错误检测方法，并且被认为比LRC（纵向冗余校验，Longitudinal Redundancy Check，LRC），V...</div></div></div></a><a class="pagination-related" href="/2026/04/12/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6/" title="二进制文件"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/02/14_9_27_30_202502140927183.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">二进制文件</div></div><div class="info-2"><div class="info-item-1">Bin BIN文件是纯二进制文件，没有固定的结构或元数据。==当想要将二进制文件烧录进单片机时，不需要再对数据进行处理==，也就是说，我们使用ImHex打开的原始数据是什么样的，那么我们查看Flash中的内容就是什么样的。 Hex Hex 全称 (Intel HEX)文件是由一行行符合Inte...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">82</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">应用视角下的操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E4%B8%80%E4%B8%AA%E6%9C%80%E5%B0%8F%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">构造一个最小程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.2.</span> <span class="toc-text">程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%A6%E7%9A%84%E9%80%80%E5%87%BA"><span class="toc-number">2.2.1.</span> <span class="toc-text">程度的退出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F-%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">2.2.2.</span> <span class="toc-text">程序 &#x3D; 状态机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%86%E8%A7%A3%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.3.</span> <span class="toc-text">拆解程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8"><span class="toc-number">2.4.</span> <span class="toc-text">编译器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">硬件视角下的操作系统</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E4%BE%BF%E6%8D%B7%E5%B7%A5%E5%85%B7/" title="便捷工具">便捷工具</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%BC%96%E7%A8%8B%E8%BD%AF%E4%BB%B6/" title="嵌入式编程软件">嵌入式编程软件</a><time datetime="2026-04-12T08:12:40.257Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Qt/" title="Qt">Qt</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/QAC/" title="QAC">QAC</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Vim/" title="Vim">Vim</a><time datetime="2026-04-12T08:12:40.256Z" title="发表于 2026-04-12 08:12:40">2026-04-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_14.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
