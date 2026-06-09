@@ -570,7 +570,67 @@ DTC状态跟在DTC后面，DTC状态为1个字节，其8个bit位含义各不相
 | 6     | testNotCompletedThisOperationCycle | 本次操作周期测试未完成 | 这个位与bit4：testNotCompletedSinceLastClear类似，后者标识自从上次调用了 清理DTC的服务之后，是否成功地执行了对某个DTC的测试。而该参数则标识==在当前 operationcycle中是否成功地执行了对某个DTC的测试==。 <br>testNotCompletedThisOperationCycle=1：未成功完成过测试。<br>testNotCompletedThisOperationCycle=0：成功完成过测试。 |
 | 7     | warningIndicatorRequested          | 警告指示灯请求         | ==某些比较严重的DTC会与用户可见的警告指示相关联==，比如仪表上的报警灯，或者 是文字，或者是声音。这个warningIndicatorRequested就用于此类DTC。<br>warningIndicatorRequested=1：ECU请求激活警告指示。<br>warningIndicatorRequested=0：ECU不请求激活警告指示。 <br>注意，如果这个DTC不支持警告指示，则这个位永远置0。 |
 
-> [!tip]
+> [!important]
+>
+> 我们可以把DTC status想象成一个**故障的“生命周期存折”**。
+>
+> 在 AUTOSAR 和 UDS (ISO 14229) 标准中，这一个字节（8个位）记录了一个故障从“刚露头”到“被确认”，再到“最后消失”的全过程。
+>
+> 1. 当前“案发现场”（Bit 0 & Bit 1）
+>
+>    这两位反映的是**现在**或者**最近这几分钟**的情况。
+>
+>    - **Bit 0: TestFailed (TF)**
+>      - **直白解释**：此时此刻，故障还在吗？
+>      - 只要传感器数值超标，这一位就变成 1；一旦数值回到正常范围，它就变回 0。
+>    - **Bit 1: TestFailedThisOperationCycle (TFTOC)**
+>      - **直白解释**：这次开车（当前周期），它坏过吗？
+>      - 只要本次上电期间故障发生过一次，它就是 1。哪怕现在故障消失了（Bit 0 清零了），这一位在关车前也会一直保持为 1。
+>
+> 2. **身份确认**（Bit 2 & Bit 3）
+>
+>    这两位决定了故障是否要被“记入档案”。
+>
+>    - **Bit 2: PendingDTC (PDTC)**
+>      - **直白解释**：疑似故障。
+>      - 故障发生了一会儿，但还没达到“确认”的门槛（比如需要持续 5 秒，现在才 3 秒）。它处于观察期。
+>    - **Bit 3: ConfirmedDTC (CDTC)**
+>      - **直白解释**：正式确诊。
+>      - 故障已经板上钉钉了，会存入非易失性内存（NVRAM）。**只有这一位是 1 时，修理厂的诊断仪才能读出这个 DTC。**
+>
+> 3. 历史记录（Bit 4 & Bit 5）
+>
+>    这两位告诉你，自从上次你手动“清除故障码”以来发生过什么。
+>
+>    - **Bit 4: TestNotCompletedSinceLastClear (TNCSLC)**
+>      - **直白解释**：从上次清码到现在，这个功能测过了吗？
+>      - 如果清完码后，还没运行到自检代码，它是 1；一旦自检跑完（无论结果好坏），它变 0。
+>    - **Bit 5: TestFailedSinceLastClear (TFSLC)**
+>      - **直白解释**：从上次清码到现在，坏过没有？
+>      - 只要清码后发生过故障，它就是 1，直到你下次手动清码。
+>
+> 4. 自检完成情况与报警（Bit 6 & Bit 7）
+>
+>    - **Bit 6: TestNotCompletedThisOperationCycle (TNCTOC)**
+>      - **直白解释**：这次开车，自检跑完了吗？
+>      - 这对于判定“老化”非常重要。如果你这次开车还没来得及运行自检，这一位就是 1。
+>    - **Bit 7: WarningIndicatorRequested (WIR)**
+>      - **直白解释**：要不要点亮仪表盘的故障灯？
+>      - 并不是所有故障都要亮灯。只有严重的故障会把这一位置 1，通知仪表点灯。
+>
+> 这里的周期指的是KL15上下电的过程
+>
+> 举个例子：灯泡坏了
+>
+> 1. **刚坏的一瞬间**：Bit 0=1, Bit 1=1 (TF, TFTOC 同时亮起)。
+> 2. **坏了一分钟，电脑确诊了**：Bit 3=1 (Confirmed)。这时候你拿电脑读，能读到“灯泡电路断路”。
+> 3. **你换了个好灯泡**：Bit 0 变回 0 (TF 消失)，但 Bit 1, 3, 5 依然是 1。
+> 4. **仪表灯熄灭**：经过几个周期测试正常，Bit 7 (WIR) 变 0。
+> 5. **彻底老化**：连续 40 个周期都没坏，Bit 3 (Confirmed) 终于变回 0，故障记录彻底从内存消失。
+
+
+
+> [!tip] 
 >
 > 是不是testfailed一被置1，pendingdtc也会马上被置1?
 >

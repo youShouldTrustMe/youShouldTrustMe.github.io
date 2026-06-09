@@ -1,11 +1,8 @@
 ---
 title: AUTOASR
-
 draft: true
-
-categories: 
+categories:
   - 嵌入式
-
 tags:
   - 汽车行业标准
 ---
@@ -5581,6 +5578,48 @@ AUTOSAR COM 模块集成的 **信号网关 (Signal Gateway)** 是实现跨通信
    - **符号扩展**：在接收端处理过滤和通知之前，先完成字节序转换和符号扩展。
    - **过滤评估**：过滤结果决定了 `old_value` 的更新以及是否触发传输模式的切换。
 
+##### I-PDU传输
+
+###### 信号传输
+
+AUTOSAR COM 模块中**信号传输属性 (Transfer Property)** 与 **I-PDU 传输模式 (Transmission Mode)** 之间的协作。它们共同决定了当你调用 `Com_SendSignal` 时，总线上是否会立即出现报文。
+
+1. 信号传输属性 (Transfer Properties)
+
+   传输属性决定了信号的“更新”行为是否具有触发 I-PDU 发送的效力。
+
+   | **传输属性**                               | **触发条件**                         | **发送次数**                   |
+   | ------------------------------------------ | ------------------------------------ | ------------------------------ |
+   | **TRIGGERED**                              | 只要调用 `Com_SendSignal`。          | $NumberOfRepetitions + 1$ 次。 |
+   | **TRIGGERED_WITHOUT_REPETITION**           | 只要调用 `Com_SendSignal`。          | 仅 1 次。                      |
+   | **TRIGGERED_ON_CHANGE**                    | 调用 API 且信号值/长度发生**变化**。 | $NumberOfRepetitions + 1$ 次。 |
+   | **TRIGGERED_ON_CHANGE_WITHOUT_REPETITION** | 调用 API 且信号值/长度发生**变化**。 | 仅 1 次。                      |
+
+   > **注意**：`ON_CHANGE` 类型的属性不仅适用于数值（如 `uint32`），也适用于**字节数组**（如 `UINT8_N`）。COM 模块会将当前值与本地存储的“旧值”或“初始值”进行对比。
+
+2. 与传输模式的配合逻辑
+
+   这些触发行为主要作用于配置为 **DIRECT** 或 **MIXED** 模式的 I-PDU。
+
+   - **立即性**：一旦满足触发条件，COM 模块必须立即启动发送流程，最迟不得晚于下一个 `Com_MainFunction` 周期。
+   - **重复发送机制**：配置了 `NumberOfRepetitions` 的信号在触发时会启动多次发送（通常用于增加关键信号的抗干扰性），这也是为什么规范里写的是 $N+1$。
+   - **NONE 模式**：如果 I-PDU 的模式设为 `NONE`，COM 模块**绝不会**主动发起发送请求。它只能由底层驱动（如 LIN/FlexRay 调度表）通过 `Com_TriggerTransmit` 动。
+
+3. PDU 级触发：Com_TriggerTransmit
+
+   这是一种“被动”发送机制，常用于 LIN 或 FlexRay 总线：
+
+   - **跨总线兼容**：无论 I-PDU 配置为何种模式（DIRECT, PERIODIC 等），底层模块（如 PduR）都可以调用 `Com_TriggerTransmit` 来拉取当前 PDU 的最新数据。
+   - **信号“搭便车”**：如果一个 I-PDU 中包含多个信号，只要其中一个信号（带有 `TRIGGERED` 属性）触发了发送，或者周期到了，PDU 中的**所有**挂起（Pending）信号都会被一同发出。
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5735,56 +5774,953 @@ Com模式提供的滤波方式包括：
 
 > [!tip]
 >
-> 标准文件请参见https://www.autosar.org/fileadmin/standards/R24-11/CP/AUTOSAR_CP_SWS_DiagnosticCommunicationManager.pdf
+> 标准文件请参见[Specification of Diagnostic Communication Manager](https://www.autosar.org/fileadmin/standards/R24-11/CP/AUTOSAR_CP_SWS_DiagnosticCommunicationManager.pdf) 
 
-Dcm 模块为诊断服务提供标准的函数接口，在控制器产品开发、制造和售后服务期间，用户可以通过外部诊断工具访问 Dcm 模块实现对控制器进行刷新、故障诊断等操作。说白就是Dcm是AUTOSAR架构对UDS协议的具体实现，Dcm模块是PduR模块的上层模块，当PduR接收到下层传输模块的UDS PDU后，就会将其路由发送到Dcm模块，同理，PduR模块也会将Dcm模块下发的PDU路由到对应的传输层模块。
-
-为实现 Dcm 功能，AUTOSAR 规范根据诊断服务执行的过程，将 Dcm 模块分为 3个子模块，分别是：
-
-1. DSL(Diagnostic Session Layer)实现诊断数据的接收和发送、管理诊断时间参数、管理诊断会话状态和安全等级；
-2. DSD(Diagnostic Service Dispatcher)检查诊断服务是否支持、管理从 DSP 子模块得到的诊断响应；
-3. DSP(Diagnostic Service Processing)执行诊断服务处理。
-
-![Dcm子功能](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2025/07/30_9_37_13_%E6%9A%82%E5%AD%98.png)
+AUTOSAR **Dcm (Diagnostic Communication Manager)** 模块被划分为三个核心子模块：**DSL**、**DSD** 和 **DSP**。这种分层架构类似于 OSI 模型，将网络传输管理、请求分发和具体业务逻辑解耦。
 
 
 
-### DSL：诊断服务层
+1. DSL (Diagnostic Session Layer) —— “看门人”与“计时员”
 
+   DSL 是 Dcm 的最底层，直接与 PduR（PDU Router）交互。它的职责不是理解诊断命令是什么，而是确保通信管道的合规性。
 
+   - **数据流监控**：负责接收来自底层的原始诊断数据，并处理物理寻址（Physical）和功能寻址（Functional）的逻辑。
+   - **会话与安全管理**：管理当前处于哪个诊断会话（如 Default, Extended）以及安全解锁状态（Security Level）。
+   - **协议计时（Timing）**：这是 DSL 最关键的任务。它负责监控 $P2_{Server}$ 和 $P2^*_{Server}$ 等时间参数，确保 ECU 在规定时间内给出响应，或者在必要时发送“等候（Pending）”响应。
 
-DSL(Diagnostic Service Layer)做了下面几件事：
+2. DSD (Diagnostic Service Dispatcher) —— “调度员”
 
-1. 确定诊断数据请求和响应的数据流；
-2. 监控和确保诊断请求和响应的时序
-3. 管理诊断状态（特别是诊断会话和安全状态）
+   DSD 位于中间层，起到承上启下的作用。
 
-#### 请求处理
+   - **有效性检查**：当 DSL 把一串原始字节传给 DSD 时，DSD 会根据当前会话和安全等级，检查这个服务 ID（SID）是否被允许执行。
+   - **分发请求**：如果检查通过，DSD 会识别 SID（例如 `0x22` 读数据），并将其转发给 DSP 中对应的处理函数。
+   - **响应触发**：当 DSP 处理完逻辑后，DSD 会封装响应报文并通知 DSL 发送出去。
 
-1. 当DcmDslProtocolRxPduId 开始接收新的诊断请求内容时，PduR模块通过调用Dcm_StartOfReception()指示DCM模块。它通知DCM模块要接收的数据大小，并提供第一帧或单个帧的数据，并允许DCM在数据大小超出其缓冲区大小或请求的服务不可用时拒绝接收。
-2. 使用Dcm_CopyRxData函数将数据从提供的缓冲区复制到DCM缓冲区。
-3. 如果诊断请求的接收完成(当Dcm_StartOfReception成功时)，PduR模块将调用Dcm_TpRxIndication()给DCM模块一个接收指示。
-4. 当地址信息由Dcm_StartofReception()通过DcmRxPdu提供给DCM时，DCM应该能够使用通用连接。这个地址必须要存储并且用于响应和检测来自同tester的请求。
-5. DSL子模块在调用Dcm_TpRxIndication函数后，如果返回Result = E_OK，才会将接收到的数据转发给DSD子模块。
-6. 一旦收到请求消息(当Dcm_TpRxIndication函数返回E_OK之后，直到调用Dcm_TpTxConfirmation()来获取相关的TxDcmPduld)， DSL子模块将阻塞相应的DcmPduld。在处理此请求期间，不能接收相同DcmDslConnection的其他请求(例如，可以通过OBD会话结束增强会话)，直到发送相应的响应消息并再次释放dcmPduld(并发的testpresent请求除外)。
+3. DSP (Diagnostic Service Processing) —— “业务员”
 
-对于不同的诊断通信应用程序，允许有不同的dcmPduld。例如:
+   DSP 是处理具体诊断业务的地方，它真正“读懂”诊断命令。
 
-- OBD DcmRxPduld:用于接收OBD请求
-
-  OBD DcmTxPduld:用于传输OBD响应;
-
-- UDS phys DcmRxPduld:用于接收UDS物理地址请求;
-
-  UDS功能DcmRxPduld:用于接收UDS功能寻址请求;
-
-  UDS DcmTxPduld:用于传输UDS响应。
-
-每个DcmRxPduld配置地址类型(物理/功能寻址)。每个DcmRxPduld的配置是可能的，因为对于功能和物理接收，总是有不同的DcmRxPduld值，独立于传输层的寻址格式(扩展寻址，正常寻址)。
+   - **子服务处理**：例如诊断命令 `0x31 01 AA BB`（启动例程），DSP 会解析出 `01` 是启动，`AA BB` 是具体的 Routine ID。
+   - **应用层交互**：DSP 通过接口调用 RTE 中的 SW-C（软件组件）或者直接访问其他 BSW 模块（如 Dem, NvM）来获取数据或执行动作。
 
 > [!tip]
 >
-> 当ECU接收到会话保持请求（SID： 0x3E Sub： 0x80），不会发到DSP。
+> 为了让你更直观地理解它们的关系，我们可以模拟一次 **0x22（读取 DID）** 的过程：
+>
+> 1. **物理层 -> DSL**：PduR 收到总线数据，交给 DSL。DSL 启动 $P2$ 定时器，并确认当前的会话允许诊断。
+> 2. **DSL -> DSD**：DSL 把数据包传给 DSD。DSD 发现 SID 是 `0x22`，查询配置表发现当前安全等级允许读数据，于是把请求传给 DSP。
+> 3. **DSD -> DSP**：DSP 解析出具体的 DID（例如 `0xF190` VIN 码），发现这个数据存在 NvM 里，于是调用相应接口读取。
+> 4. **DSP -> DSD**：DSP 把 VIN 码的数据给 DSD。
+> 5. **DSD -> DSL**：DSD 加上肯定响应标识（`0x62`），打包好给 DSL。
+> 6. **DSL -> 物理层**：DSL 停止 $P2$ 定时器，通过 PduR 发送响应。
+
+![DCM子模块](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511084808923.png)
+
+
+
+### 一般设计
+
+#### NRC
+
+在诊断协议中，**NRC（Negative Response Code，否定响应码）** 是 ECU 与诊断仪之间沟通的“错误语言”。在诊断开发中极易被忽略但又极其重要的原则：**NRC 的优先级排序**。
+
+1. 为什么 NRC 的顺序很重要？
+
+   根据 ISO 14229-1 (UDS标准)，当一个诊断请求同时触发多个错误时，ECU 不能随机返回一个 NRC，必须按照协议规定的**优先级**进行判定。
+
+   例如，如果你发送了一个长度错误且安全状态未解锁的请求：
+
+   - 如果先判定安全（返回 `0x33`），再判定长度（返回 `0x13`），这在某些 OEM 看来是不合规的。
+   - 要求 Dcm 的实现必须严格遵循 ISO 14229-1 附录中的流程图顺序。
+
+2. Dcm 内部典型的 NRC 判定顺序
+
+   通常情况下，Dcm 子模块（DSL -> DSD -> DSP）会按照以下逻辑链条依次检查：
+
+   1. **SID 检查**：ECU 是否支持该服务？（不支持返回 `0x11 ServiceNotSupported`）
+   2. **格式检查**：请求长度是否正确？（不正确返回 `0x13 IncorrectMessageLengthOrInvalidFormat`）
+   3. **会话检查**：当前会话（Session）是否允许此操作？（不允许返回 `0x7F ServiceNotSupportedInActiveSession`）
+   4. **安全检查**：是否解锁？（未解锁返回 `0x33 SecurityAccessDenied`）
+   5. **条件检查**：当前车辆状态（如车速、转速）是否允许？（返回 `0x22 ConditionsNotCorrect`）
+   6. **业务逻辑检查**：具体的参数是否超出范围？（返回 `0x31 RequestOutOfRange`）
+
+3. 数据类型：Dcm_NegativeResponseCodeType
+
+   在代码实现中，你会经常在接口中看到这个类型。它本质上是一个 `uint8`。
+
+   - 如果你在开发一个 **SW-C（软件组件）** 来处理某个特定的 DID（0x22 服务），当你的代码逻辑发现数据异常时，你会通过 RTE 接口返回一个 `Dcm_NegativeResponseCodeType` 给 Dcm。
+   - **注意**：你不需要在代码里手动加上 `0x7F` 前缀，你只需要返回类似 `0x31` 这样的代码，Dcm 的 **DSD 子模块** 会自动帮你封装成 `7F 22 31` 这样的标准报文格式。
+
+> [!tip]
+>
+> 在看 Dcm 规范时，可以尝试把 NRC 分为两类：
+>
+> - **Dcm 自动处理的 NRC**：如 `0x11`（服务不支持）、`0x13`（长度错误）、`0x7E`（子服务不支持）。这些通常在 DSD 层就直接判定并拦截了，请求甚至传不到应用层。
+> - **应用层（SW-C）触发的 NRC**：如 `0x31`（数值不合法）、`0x22`（条件不满足）。这些需要你在 DSP 处理函数中，通过逻辑判定后主动传给 Dcm。
+
+#### 与Nvm之间的交互
+
+在诊断系统中，许多信息必须在掉电后保持，比如**诊断会话状态（Session）**、**安全解锁状态（Security Level）**、**DTC 老化计数器**或某些**特定的 DID 数据**。
+
+1. 非易失性信息的初始化与依赖
+
+   - **实现特定性**：AUTOSAR 并没有强制规定 Dcm 必须通过哪种具体 API 去“拿”这些数据，或者这些数据是否必须在 `Dcm_Init` 之前就准备好。这属于系统集成的范畴，通常在配置 BswM 状态机时，会确保 NvM 先执行 `NvM_ReadAll`，待数据加载完成后再初始化 Dcm。
+   - **读取校验**：Dcm 必须具备“容错逻辑”。如果 NvM 数据读取失败（比如 CRC 校验错误），Dcm 不能直接崩溃，而必须执行 **Default Reaction（默认反应）**。
+     - *典型场景*：如果安全访问（Security Access）的尝试次数存储在 NvM 中但读取失败，默认反应通常是：强制锁定一段时间，防止暴力破解。
+
+2. 服务取消与任务清理
+
+   这是一个关于“收尾”的重要规定。诊断服务有时会因为异常情况被中止：
+
+   - **RCRRP 超限**：当 ECU 发送了过多的 `0x78`（ResponsePending）报文，达到了配置的上限（$P2_{Server}$ 超时限制）。
+   - **协议抢占（Protocol Preemption）**：例如，一个低优先级的 OBD 请求正在执行（涉及 NvM 读写），此时突然来了一个高优先级的 UDS 物理请求。
+
+   **核心操作**：如果此时 Dcm 正在访问 NvM，它必须显式调用 `NvM_CancelJobs()`。
+
+   - **原因**：NvM 是一个异步处理模块。如果不取消，NvM 可能会在 Dcm 已经跳转到新协议后，继续修改之前的缓冲区数据，导致内存冲突或逻辑错误。
+
+> [!tip]
+>
+> 当你深入研究 Dcm 配置时，可以留意以下几个典型的 NvM 应用场景：
+>
+> 1. **Programming Counter / Attempt Counter**：记录刷写次数或解锁失败次数，防止非法篡改。
+> 2. **Diagnostic Session Persistence**：某些 OEM 要求在非预期复位（如看门狗复位）后，ECU 能够恢复到之前的诊断会话（如仍保持在 Programming Session）。
+> 3. **Active Protocol**：记录当前正在运行的诊断协议栈状态。
+
+#### 数据类型
+
+1. 非整型与不透明数据处理
+
+   在诊断中，数据并不总是简单的数字（如 `uint16` 的电压值），有时是序列号、指纹信息或复杂的结构体。
+
+   - **匹配解释**：对于 `uint8[n]` 类型的数组，Dcm 可以将其视为与其总大小匹配的整型进行处理（例如，`uint8[2]` 可能会被当做 `uint16` 进行字节序转换）。
+   - **OPAQUE（不透明）模式**：
+     - **定义**：如果 `DcmDspDataEndianness` 配置为 `OPAQUE`，Dcm **不会尝试解释**其中的内容。
+     - **处理逻辑**：数据被视为原始的字节流（`uint8[n]`），并直接映射到对应长度的信号中。
+     - **应用场景**：当你需要处理 VIN 码（字符串）、加密密钥或由应用层 SW-C 自行解析的自定义协议数据时，必须配置为 `OPAQUE`，以防止 Dcm 错误地调换字节顺序。
+
+2. 字节序转换的扩展
+
+   传统的诊断标准（如早期的一些定义）有时只明确了无符号整型的字节序转换。AUTOSAR Dcm 对此进行了明确扩展：
+
+   - **支持有符号类型**：Dcm 必须支持对有符号整型（如 `sint8`, `sint16`, `sint32`）执行大端（Big-endian/MSB first）或小端（Little-endian/LSB first）转换。
+   - **配置项**：具体的转换规则由 `DcmDspData` 中的 `DcmDspDataEndianness` 参数决定。在 UDS 协议中，通常默认使用 **大端模式（Big-endian）**。
+
+> [!tip]
+>
+> 在进行 Dcm 配置（例如配置一个用于读取车速的 DID）时，这几个需求对应的实战意义如下：
+>
+> 1. **高低字节反了？**
+>
+>    如果你在诊断仪上看到的十六进制值是 `01 02`，但应用层收到的值是 `0x0201`，这通常是因为 `DcmDspDataEndianness` 配置成了小端，而诊断协议通常期望大端。
+>
+> 2. **字符串乱码？**
+>
+>    处理像 VIN 码这样的 ASCII 字符串时，**千万不要使能字节序转换**。必须将该 Data 配置为 `OPAQUE`，否则 Dcm 可能会为了“转换字节序”而把你的字符串顺序前后颠倒。
+>
+> 3. **对齐问题**：
+>
+>    必须映射到 $n$ 字节信号。这意味着 Dcm 不会对 `OPAQUE` 数据进行位偏移（Bit-shifting）或压缩，它必须是整字节对齐的。
+
+##### 原子类型数据
+
+|                      | ATOMIC           | ==    | ==     | ==     | ==    | ==     | ==     |
+| -------------------- | ---------------- | ----- | ------ | ------ | ----- | ------ | ------ |
+| Data bit size        | 1 (Byte aligned) | 8     | 16     | 32     | 8     | 16     | 32     |
+| DcmDspDidDataType    | BOOLEAN          | UINT8 | UINT16 | UINT32 | SINT8 | SINT16 | SINT32 |
+| DcmDspDataEndianness | N/A              | N/A   | LE,BE  | LE,BE  | N/A   | LE,BE  | LE,BE  |
+| DcmDspDataUSe Port   | S/R, C/S and I/O | ==    | ==     | ==     | ==    | ==     | ==     |
+| resulting ImplType   | BOOLEAN          | UINT8 | UINT16 | UINT32 | SINT8 | SINT16 | SINT32 |
+
+1. 字节序（Endianness）的适用范围
+
+   - **N/A (不适用)**：可以看到 `BOOLEAN`、`UINT8` 和 `SINT8` 的字节序配置都是 **N/A**。
+     - **原理**：因为它们只占用 1 个字节（或更少），不存在多字节排列顺序的问题。
+   - **LE, BE (支持切换)**：只有位宽 $\ge 16$ 位的类型（`UINT16/32`, `SINT16/32`）才需要配置 `DcmDspDataEndianness`。
+
+2. 布尔型的特殊对齐
+
+   **1 (Byte aligned)**：虽然 `BOOLEAN` 逻辑上只有 1 位，但在 Dcm 处理诊断数据（DID）时，它被定义为 **字节对齐**。
+
+   - **实战意义**：在 UDS 报文中，如果你定义一个 DID 包含一个布尔值，它通常会占用 1 个完整的 Byte，而不是和其他位挤在一起（除非使用了特殊的位偏移配置）。
+
+3. 端口接口（Use Port）
+
+   表格中提到 `S/R (Sender/Receiver)`、`C/S (Client/Server)` 和 `I/O`。
+
+   - 这说明这些原子类型在 Dcm 与应用层 SW-C 交互时，可以通过多种 RTE 接口实现。
+   - 例如：你读取一个 VIN 码（UINT8 数组），Dcm 可能会通过 **Client/Server** 接口调用你的 `Data_Read` 函数。
+
+4. 最终实现类型（resulting ImplType）
+
+   这一行告诉你编译器（如你的 IAR）最终看到的变量类型：
+
+   - 在 Dcm 配置工具（如 DaVinci Configurator）中选定 `DcmDspDidDataType` 后，生成的代码会自动使用 `uint16`、`sint32` 等标准类型。
+
+> [!tip]
+>
+> - **Atomic vs OPAQUE**：这张表里都是 **Atomic（原子）** 类型，意味着 Dcm “认识”这些数据，并能帮你做字节序转换和符号扩展。
+> - **如果你配置为 OPAQUE**：它就不会出现在这个原子类型表里。对于 Dcm 来说，OPAQUE 就是一串 `uint8` 数组，它不关心里面是 `float` 还是几个 `uint16` 的组合。
+
+
+
+##### 数组数据类型
+
+|                      | Field (Static)            | ==                        | ==                          | ==                         | ==                    | ==                         | Field (Dynamic)          |
+| -------------------- | ------------------------- | ------------------------- | --------------------------- | -------------------------- | --------------------- | -------------------------- | ------------------------ |
+| Data bit size        | 8-8*N                     | ==                        | 16-16*N                     | ==                         | 32-32*N               | ==                         | 8-8*N                    |
+| DcmDspDataByteSize   | Any                       | ==                        | (size MOD 2)==0             | ==                         | (size MOD 4)==0       | ==                         | Any                      |
+| DcmDspDidDataType    | UINT8_N                   | SINT8_N                   | UINT16_N                    | SINT16_N                   | UINT32_N              | SINT32_N                   | UINT8_DYN                |
+| DcmDspDataEndianness | N/A                       | ==                        | LE,BE                       | ==                         | ==                    | ==                         | N/A                      |
+| DcmDspDataUSe Port   | S/R, C/S, FNC, NVM        | S/R,C/S                   | ==                          | ==                         | ==                    | ==                         | C/S,FNC                  |
+| resulting ImplType   | DataArrayTypeUint8_(Data) | DataArrayTypeSint8_(Data) | DataArrayTypeUint16_(Data） | DataArrayTypeSint16_(Data) | taArrayTypeUint32_(Da | DataArrayTypeSint32_(Data) | DataArrayTypeUint8_(Data |
+
+1. 静态数组 vs. 动态数组 (Field Static vs. Dynamic)
+
+   这是最关键的区别，决定了内存分配和数据交换的方式。
+
+   - **静态数组 (Field Static)**：
+     - 长度在配置阶段就是**固定**的（如 $8 \cdot N$）。
+     - 适用于 VIN 码、硬件版本号等长度永远不变的数据。
+   - **动态数组 (Field Dynamic - `UINT8_DYN`)**：
+     - 报文长度在运行时可以变化。
+     - **限制**：你会发现动态数组只支持 `UINT8_DYN`。这意味着如果你要传输动态长度的数据，Dcm 默认将其视为原始字节流（类似 OPAQUE 处理）。
+     - **接口限制**：动态数据仅支持 `C/S` (Client/Server) 和 `FNC` (Function调用)，不支持 `S/R` (Sender/Receiver)，因为标准的 S/R 接口通常要求固定长度。
+
+2. 字节对齐与对齐约束 (`size MOD X == 0`)
+
+   这是在集成开发中最容易出错的地方。为了确保 Dcm 能够正确执行字节序转换（LE/BE），数组的总字节数必须符合其基本类型的倍数：
+
+   - **`UINT16_N` / `SINT16_N`**：总字节数必须是 2 的倍数 (`size MOD 2 == 0`)。
+   - **`UINT32_N` / `SINT32_N`**：总字节数必须是 4 的倍数 (`size MOD 4 == 0`)。
+   - **原理**：如果一个 `UINT32_N` 的数组总长度是 7 个字节，Dcm 就无法完整地将最后一个元素按 4 字节进行大端或小端反转。
+
+3. 数据使用端口 (DcmDspDataUse Port)
+
+   这张表增加了一个重要的选项：**`NVM`**。
+
+   - 对于 `UINT8_N` 或 `SINT8_N`（静态数组），Dcm 可以直接与 NvM 模块交互。
+   - **应用场景**：比如某些写入后需要永久保存的配置参数。你可以直接在配置工具里把这个 DID 映射到 NvM 的一个 Block，而**不需要写任何应用层 C 代码**（通过 `NvM_ReadBlock` / `NvM_WriteBlock` 自动完成）。
+
+4. 最终生成的 ImplType
+
+   注意到底部的类型定义变成了 `DataArrayType...`。在 IAR 编译环境中，这通常会被定义为一个结构体或数组别名。例如：
+
+   ```c
+   typedef uint8 DataArrayTypeUint8_17[17]; // 假设 N=17
+   ```
+
+- **原子类型** 关注的是“这一个数怎么解析”。
+- **数组类型** 关注的是“这一堆数怎么排布，以及内存够不够分”。
+
+##### 嵌套数据类型
+
+AUTOSAR Dcm 处理复杂数据结构的核心哲学：**通过“池化引用”实现无限嵌套**。
+
+在传统的诊断开发中，DID 通常是扁平的（一串信号排开）。但现代汽车电子需要处理如“传感器序列”或“配置快照”这类具有逻辑层次的数据。为了在配置（ARXML）中描述这种层级，Dcm 引入了 **CompositePool（复合池）** 机制。
+
+1. 嵌套机制的“三位一体”结构
+
+   嵌套配置由三个关键组件构成：
+
+   - **Anchor Object（锚点对象）**：这是嵌套结构的**根（Root）**。
+     - 如果它是一个简单的 `uint8`，它就是终点。
+     - 如果它代表一个结构体，它就变成了一个“容器”，指向池中的元素。
+   - **Composite Pool（复合池）**：这是一个**备选零件库**。它存储了所有可能被嵌套引用的子元素（信号、数组或子结构体）。
+   - **Composite Reference（复合引用）**：这是**连接线**。它定义了父结构体具体包含了池中的哪些元素。
+
+2. 核心逻辑：从配置到内存的映射，这种设计解决了两个棘手问题：
+
+   1. 递归嵌套
+
+      由于池中的元素（Pool Element）本身又可以作为新的“锚点”并引用更深层的池元素，这允许你定义极其复杂的 C 语言结构，例如：
+
+      > `Structure A` -> 包含 `Array B` -> `Array B` 的每个元素是 `Structure C` -> `Structure C` 包含 `Primitive D`。
+
+   2. 位置解耦与绝对偏移
+
+      无论嵌套多深，子元素的 `ByteOffset` 必须是**相对于整个 DID 开头的绝对偏移量**。
+
+      - **好处**：Dcm 在运行时解析数据时，不需要进行复杂的递归地址计算，直接根据绝对偏移量从缓存区取数即可，极大地提高了诊断响应的实时性。
+
+3. 约束与边界保护（防止配置冲突）
+
+   规范中提到的几个 [SWS] 编号实际上是在为这种灵活性划定“红线”：
+
+   - **独占性 [SWS_Dcm_01633]**：如果一个信号变成了嵌套容器，它就不能再拥有自己的 `DataRef`（因为它的数据是由子元素构成的）。
+   - **空间包含 [SWS_Dcm_01635]**：父结构体定义的 `ByteSize` 必须像一个信封，把所有子元素严丝合缝地包裹在内，不允许子元素“溢出”到父节点定义的空间之外。
+   - **唯一性 [SWS_Dcm_01637]**：池里的每个元素只能被引用一次，防止在同一个结构体里出现两个完全重叠的物理定义。
+
+> [!note]
+>
+> 你可能会觉得这比在 IAR 里写一个 `struct` 麻烦得多。但 AUTOSAR 这样设计的目的是为了**工具链的自动化**：
+>
+> 1. **诊断调查问卷（CDD/ODX）对接**：这种嵌套定义可以自动导出为 ODX 文件，让诊断仪知道如何拆解这个复杂的 DID。
+> 2. **RTE 自动生成**：基于这些引用关系，RTE 会自动生成复杂的 C 结构体定义和映射代码，确保应用层 SW-C 拿到的数据结构与总线上的原始字节流完全一致。
+
+![DcmDspDid的嵌套数据](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511113904868.png)
+
+由上图可知，存在三个逻辑岛：
+
+1. 核心容器岛：DcmDspDid 与 DcmDspDidSignal
+
+   - **DcmDspDid**: 这是最外层的容器。它包含多个 `DcmDspDidSignal`。
+   - **DcmDspDidSignal**: 这是最核心的配置项，代表 DID 中的一个“数据段”。它有两个基础参数：
+     - **`DcmDspDidByteOffset`**: 决定该信号在报文中的绝对位置（起始字节）。
+     - **`DcmDspDataByteSize`**: 决定该信号占用的总长度。
+
+2. 传统/简单模式：DcmDspDidDataRef
+
+   这是你最开始接触的那种扁平定义：
+
+   - **路径**：`DcmDspDidSignal` -> `DcmDspDidDataRef` -> `DcmDspData`。
+   - **逻辑**：它直接引用一个具体的数据类型定义（如 `UINT16`、`UINT8_N`）。
+   - **互斥规则**：注意图中 `DcmDspDidDataRef` 的 `upperMultiplicity = 1`。根据规范 [SWS_Dcm_01633]，如果一个信号使用了这种直接引用，它通常就不再使用嵌套引用。
+
+3. 嵌套/复合模式：CompositePool 与 CompositeRef
+
+   - **DcmDspDidSignalCompositePool**: 它是 `DcmDspDid` 下属的一个子容器，类似于一个“零件箱”。
+   - **DcmDspDidSignalCompositeRef**: 这是一个引用（Reference）。
+   - **嵌套实现**：
+     - 一个 `DcmDspDidSignal`（作为父结构体）可以通过 `CompositeRef` 指向 `CompositePool` 里的元素。
+     - 关键点在于递归：你会发现 `DcmDspDidSignalCompositePool` 下面又可以包含 `DcmDspDidSignal`。
+     - **这正是实现“无限嵌套”的 UML 表达：信号包含引用，引用指向池，池里又是信号。**
+
+> [!tip]
+>
+> 假设我们要定义一个读取“动力电池组状态”的 DID。
+>
+> 1. 核心容器 (DcmDspDid)
+>
+>    这是最外层的结构，代表整个诊断数据包。
+>
+>    ```c
+>    /* 对应 DcmDspDid：地基/大箱子 */
+>    typedef struct {
+>        /* 这里的每一个成员，在配置里都是一个 DcmDspDidSignal */
+>        
+>        // 方案 A：传统简单模式
+>        uint16 BatteryVoltage; 
+>        
+>        // 方案 B：嵌套复合模式（结构体 A）
+>        BatteryPack_t PackStatus; 
+>        
+>    } Dcm_Did_BatteryInfo_t;
+>    ```
+>
+> 2. 传统简单模式 (Simple Mode)
+>
+>    这种模式下，`DcmDspDidSignal` 直接通过 `DataRef` 指向一个基础类型。
+>
+>    ```c
+>    /* 这就是【传统简单模式】
+>       在配置中：Signal_BatteryVoltage -> DataRef -> UINT16
+>       它直接就是一个物理值，没有内部结构。
+>    */
+>    uint16 BatteryVoltage; // 占 2 个字节，Offset = 0
+>    ```
+>
+> 3. 嵌套复合模式 (Nested/Composite Mode)
+>
+>    这就是“零件池”与“引用”发挥作用的地方。它对应 C 语言中的嵌套结构体。
+>
+>    ```c
+>    /* 这就是【DcmDspDidSignalCompositePool】：零件池
+>       这里定义了“电池组”这个大零件内部包含哪些小零件。
+>    */
+>    typedef struct {
+>        uint16 Temp_Sensor1; // 零件 X (池元素)
+>        uint16 Temp_Sensor2; // 零件 Y (池元素)
+>        uint8  FanStatus;    // 零件 Z (池元素)
+>    } BatteryPack_t;
+>             
+>    /* 这就是【嵌套复合模式】的锚点信号
+>       在配置中：Signal_PackStatus -> CompositeRef -> 引用了上面的池元素
+>    */
+>    BatteryPack_t PackStatus; // 占 5 个字节，Offset = 2
+>    ```
+>
+> 我们可以把整个报文的内存布局写出来，你会看得更清楚：
+>
+> | **字节偏移** | **变量名**              | **模式类别**     | **逻辑岛关系**             |
+> | ------------ | ----------------------- | ---------------- | -------------------------- |
+> | **0**        | `BatteryVoltage` (High) | **传统简单模式** | 信号直接映射到 `uint16`    |
+> | **1**        | `BatteryVoltage` (Low)  | **传统简单模式** | 直接引用基础类型           |
+> | ---          | ---                     | ---              | ---                        |
+> | **2**        | `PackStatus.Temp1` (H)  | **嵌套复合模式** | `Signal_PackStatus` (锚点) |
+> | **3**        | `PackStatus.Temp1` (L)  | **嵌套复合模式** | 通过 `CompositeRef`        |
+> | **4**        | `PackStatus.Temp2` (H)  | **嵌套复合模式** | 引用 `CompositePool`       |
+> | **5**        | `PackStatus.Temp2` (L)  | **嵌套复合模式** | 中的子信号                 |
+> | **6**        | `PackStatus.FanStatus`  | **嵌套复合模式** | 最终构成一个 `struct`      |
+
+实际上，规范中还划定了原子信号（Leaf Signal）**与**复合信号（Nested/Composite Signal）之间的严格界限。
+
+1. “容器信号”的身份转变 [SWS_Dcm_01633]
+
+   当你决定让一个 `DcmDspDidSignal` 包含子元素时（即引用了 `CompositeRef`），它的角色就从“数据载体”变成了“空间描述符”。
+
+   - **参数剥离**：它被禁止拥有 `DcmDspDidDataRef`。这意味着这个父信号本身不再具备 `UINT8` 或 `UINT16` 等具体的数据类型属性。
+   - **唯一职责**：它只负责声明自己在整个 DID 报文里**占多大坑**（Size）以及**从哪开始**（Offset）。具体的数据解析交由它包含的子信号完成。
+
+2. 绝对坐标系的强制要求 [SWS_Dcm_01636]
+
+   这是 Dcm 配置中最容易产生逻辑偏差的地方。通常我们在 C 语言中处理结构体偏移是相对父节点的，但 AUTOSAR Dcm 坚持使用**绝对偏移（Absolute Offset）**。
+
+   > **举例说明：**
+   >
+   > 假设一个 DID 报文。
+   >
+   > - **根结构体 A**：Offset = 10, Size = 4。
+   > - **子信号 B**（位于 A 内部）：它的 Offset 必须写成 **10**（如果它是第一个字节），而**不能**写成 0。
+   > - **子信号 C**（位于 A 内部）：它的 Offset 必须写成 **12**（如果是第三个字节），而**不能**写成 2。
+
+   **这种设计的好处**：Dcm 的内部引擎（DSP 子模块）在提取数据时，可以实现“扁平化搜索”。它不需要递归计算地址，只需要遍历当前 DID 下的所有叶子信号，直接根据绝对地址去缓冲区拿数即可。
+
+3. 池化元素的唯一性与闭环 [SWS_Dcm_01637] & [SWS_Dcm_01638]
+
+   - **禁止重叠引用**：`CompositePool` 里的元素就像物理存在的零件，一个零件不能同时装在两个支架上。这保证了 DID 报文内存布局的唯一性，防止出现“一个内存字节被两个不同信号定义”的配置逻辑冲突。
+   - **作用域闭环**：引用不能跨越 DID。你不能在读取 DID `0xF190` 时，去引用定义在 `0xF180` 池子里的信号。
+
+4.  逻辑映射表 [SWS_Dcm_01639]
+
+   规范中提到的这一段非常有价值，它告诉我们这套嵌套逻辑是**高度复用**的。你可以直接把这套理解平移到其他服务中：
+
+   | **DID 配置项**    | **Routine (0x31) 对应项**             | **含义**             |
+   | ----------------- | ------------------------------------- | -------------------- |
+   | `DcmDspDidSignal` | `DcmDsp<Action>Routine<In/Out>Signal` | 结构体/信号锚点      |
+   | `CompositePool`   | `...SignalCompositePool`              | 零件池（子元素仓库） |
+   | `CompositeRef`    | `...SignalCompositeSignalRef`         | 嵌套连接线           |
+
+并且在规范中明确告诉我们：你在 DID（0x22/0x2E 服务）中学会的那套复杂的嵌套逻辑，可以无缝平移到 **Routine Control（0x31 服务）** 的所有输入输出场景中。
+
+1. 为什么 Routine 需要这种复杂的嵌套？
+
+   在简单的 ECU 中，启动一个例程（Routine）可能只需要一个简单的 ID。但在复杂的控制器（如网关、智驾域控）中，`0x31` 服务往往承载着极重的任务：
+
+   - **输入 (In)**：比如“请求指纹校验”，输入参数可能包含：`{算法ID, 公钥长度, 公钥数据[], 随机数}`。
+   - **输出 (Out)**：例程完成后返回的数据，可能包含：`{校验结果, 错误代码, 剩余尝试次数}`。
+
+   如果不用嵌套结构，开发者只能将这些参数定义为一串扁平的、难以维护的字节数组。使用嵌套结构后，Dcm 可以自动根据配置完成**字节序转换**和**数据对齐**。
+
+2. 映射关系深度拆解
+
+   我们可以将这种对应关系看作是“换汤不换药”的逻辑映射：
+
+   | **逻辑角色** | **DID 领域 (Data Identifier)** | **Routine 领域 (Service 0x31)**                |
+   | ------------ | ------------------------------ | ---------------------------------------------- |
+   | **容器主体** | `DcmDspDid`                    | `DcmDspStartRoutineIn` (及其 Out/Stop 等)      |
+   | **信号锚点** | `DcmDspDidSignal`              | `DcmDspStartRoutineInSignal`                   |
+   | **零件池**   | `DcmDspDidSignalCompositePool` | `DcmDspStartRoutineInSignalCompositePool`      |
+   | **连接引用** | `DcmDspDidSignalCompositeRef`  | `DcmDspStartRoutineInSignalCompositeSignalRef` |
+
+3. 以 `StartRoutineIn` 为例
+
+   当你配置一个 Routine 的输入参数时，遵循这套映射逻辑会带来以下好处：
+
+   1. **一致的偏移量算法**：
+
+      根据 **[SWS_Dcm_01636]**，即使是 `StartRoutineInSignal` 的嵌套子元素，其 `ByteOffset` 也是相对于整个诊断请求报文（即 `SID + SubFunction + RoutineID` 之后的部分）的**绝对位置**。
+
+   2. **自动接口生成**：
+
+      RTE 会根据这些嵌套定义，为应用层的 Routine 处理函数（如 `Rte_Call_RoutineServices_..._Start`）生成结构化良好的 C 语言参数类型。
+
+   3. **支持 RCRRP (0x78) 响应**：
+
+      由于 Routine 往往耗时较长，如果参数配置为结构化数据，Dcm 在发送 `Pending` 响应及最终结果回复（RequestResults）时，能更精确地管理内存缓冲区。
+
+具体的对应关系为：
+
+1. DcmDspDid 对应
+   1.  DcmDspStartRoutineIn
+   2. DcmDspStartRoutineOut
+   3. DcmDspStopRoutineIn
+   4. DcmDspStopRoutineOut
+   5. DcmDspRequestRoutineResultsIn
+   6. DcmDspRequestRoutineResultsOut
+2. DcmDspDidSignal 对应
+   1. DcmDspStartRoutineInSignal
+   2. DcmDspStartRoutineOutSignal
+   3. DcmDspStopRoutineInSignal
+   4. DcmDspStopRoutineOutSignal
+   5. DcmDspRequestRoutineResultsInSignal
+   6. DcmDspRequestRoutineResultsOutSignal
+3. DcmDspDidSignalCompositePool对应
+   1. DcmDspStartRoutineInSignalCompositePool
+   2. DcmDspStartRoutineOutSignalCompositePool
+   3. DcmDspStopRoutineInSignalCompositePool
+   4. DcmDspStopRoutineOutSignalCompositePool
+   5. DcmDspRequestRoutineResultsInSignalCompositePool
+   6. DcmDspRequestRoutineResultsOutSignalCompositePool
+4. DcmDspDidSignalCompositeRef 对应
+   1. DcmDspStartRoutineInSignalCompositeSignalRef
+   2. DcmDspStartRoutineOutSignalCompositeSignalRef
+   3. DcmDspStopRoutineInSignalCompositeSignalRef
+   4. DcmDspStopRoutineOutSignalCompositeSignalRef
+   5. DcmDspRequestRoutineResultsInSignalCompositeSignalRef
+   6. DcmDspRequestRoutineResultsOutSignalCompositeSignalRef
+
+我们可以看以下例子：
+
+![DcmDspStartRoutineIn的复合类型 ](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511152541313.png)
+
+在图中，整个诊断请求报文就像一把尺子。
+
+- **结构体 A (锚点)**：
+  - `Pos = 2`：从尺子的刻度 2 开始。
+  - `Size = 4`：一直占到刻度 6 之前。
+- **信号 X (叶子节点)**：
+  - 注意！它的 `Pos` 也是 **2**（绝对位置），而不是相对于 A 的 0。
+  - `Size = 1`，类型是 `UINT8`。
+- **信号 Y (叶子节点)**：
+  - `Pos = 4`（绝对位置）。
+  - `Size = 2`，类型是 `UINT16`。
+- **Gap (间隙)**：刻度 3 的位置被空出来了，这在诊断协议里很常见，比如保留位。
+
+这张图展示了在配置工具里，把这个结构描述给 Dcm 听。
+
+![DcmDspStartRoutineIn结构体的预览图](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511153311363.png)
+
+1. 第一岛：核心容器 (The Root)
+
+   左上角的 **DcmDspStartRoutineIn** 就是大箱子。它是 `Signal_A` 和 `Pool_X/Y` 的共同父节点。
+
+2. 第二岛：锚点信号 (The Anchor) —— 绿色的 Signal_A
+
+   它是入口。它不直接连数据类型，而是干了两件事：
+
+   1. **占位**：告诉 Dcm 它在 `Pos=2`，大小为 `4`。
+   2. **引用**：通过两个蓝色的 **CompositeSignalRef**，像磁铁一样把池子里的零件 X 和 Y 吸过来。
+
+3. 第三岛：零件池 (The Pool) —— 橙色的 ContainedPool
+
+   这就是你之前不太理解的“零件池”。
+
+   - **Pool_X** 和 **Pool_Y** 住在池子里。
+   - 每个池子元素下面都挂着一个真正的叶子信号（底部的绿色方块）。这些叶子信号才真正定义了 `Pos`、`Size` 和具体的 `DataType` (如 `UINT16`)。
+
+如果 Dcm 根据这两张图生成代码，你会得到类似这样的定义：
+
+```
+/* 对应 Figure 7.5 的内存布局 */
+typedef struct {
+    /* Offset 0, 1: 可能是其他信号或 Routine ID */
+    uint8 _reserved_0_1[2]; 
+
+    /* 下面是结构体 A 的内容 (Offset 2 到 5) */
+    struct {
+        uint8  Signal_X;     /* Pos: 2, Size: 1 (UINT8)  */
+        uint8  _gap;         /* Pos: 3, 这是一个空隙 */
+        uint16 Signal_Y;     /* Pos: 4, Size: 2 (UINT16) */
+    } Signal_A;
+
+    /* Offset 6 之后是其他内容 */
+} StartRoutineIn_t;
+```
+
+> [!tip]
+>
+> 你可能会问：“我直接定义一个结构体 A 不就行了吗？为什么要搞出 Pool 和 Ref 这种弯弯绕？”
+>
+> 1. **绝对位置的强制性**：通过 `Pool` 和 `Ref`，配置工具可以强制校验 `Signal_X` 的位置（2）是否真的在 `Signal_A` 的范围（2~6）内。
+> 2. **跨服务的统一性**：正如 [SWS_Dcm_01639] 所说，这套逻辑可以原封不动地搬到 `StopRoutine` 或 `RequestResults` 里。只要你学会了这一套，所有的复杂诊断数据你都能配出来。
+
+##### 数据类型限制
+
+
+
+1. 数组必须声明“总体大小”
+
+   - **规则 [SWS_Dcm_CONSTR_06002/06012]**：
+
+     如果你用的是 `_N` 结尾的数组类型（如 `UINT16_N`），你必须明确填写 `DcmDspDataByteSize`。
+
+   - **逻辑解释**：
+
+     对于单体（Primitive）类型（如 `UINT16`），Dcm 知道它肯定是 2 字节。但对于数组，Dcm 必须知道这个数组到底包含多少个元素，才能分配内存。
+
+2. 对齐铁律：不许“切断”基本单元
+
+   - **规则 [SWS_Dcm_CONSTR_06035/06036]**：
+
+     - 如果是 `UINT16_N` 数组，总字节数必须是 **2 的倍数**。
+     - 如果是 `UINT32_N` 数组，总字节数必须是 **4 的倍数**。
+
+   - **逻辑解释**：
+
+     Dcm 需要对数组里的每个元素做字节序转换（Endianness Conversion）。如果一个 `UINT32_N` 数组你只给 7 个字节，最后一个元素就只剩 3 个字节了，Dcm 没法对这个“残缺”的 32 位数进行大端转小端的翻转。
+
+3. 动态长度的“排队”原则
+
+   - **规则 [SWS_Dcm_CONSTR_06011]**：
+
+     在 Routine（0x31 服务）的参数列表中，`VARIABLE_LENGTH`（变长参数）只能出现在**最后一个**。
+
+   - **逻辑解释**：
+
+     这和 C 语言的变参函数（如 `printf`）逻辑一致。如果变长参数放在中间，Dcm 就无法通过偏移量（Offset）定位到它后面的参数了。
+
+4. 通信接口的“死板”要求
+
+   - **规则 [SWS_Dcm_CONSTR_06026]**：
+
+     如果你配置 DID 的方式是通过 **Sender/Receiver (S/R)** 接口、**NvM** 访问或者直接访问 **ECU 信号**，那么**严禁使用变长数据**。
+
+   - **逻辑解释**：
+
+     RTE 的 S/R 接口和 NvM 的 Block 都是基于**静态内存分配**的。它们在编译时就需要确定固定的大小。如果你想传动态长度的数据，只能使用 **Client/Server (C/S)** 接口，因为 C/S 接口允许在调用时传递一个长度参数（Length）。
+
+如果你违反了这些约束，通常会发生以下两种情况：
+
+1. **配置工具报错**：在你生成代码（Generate）之前，工具会弹出一堆 Error，告诉你“Size must be a multiple of 4”。
+2. **代码运行异常**：如果你强行绕过检查，生成的 `Rte_Type.h` 里的数组长度可能与你预想的不符，导致诊断仪读取时出现 `0x13` (NRC IncorrectMessageLength)。
+
+| **约束场景** | **关键参数**   | **强制要求摘要**     |
+| ------------ | -------------- | -------------------- |
+| **16位数组** | `UINT16_N`     | `ByteSize % 2 == 0`  |
+| **32位数组** | `UINT32_N`     | `ByteSize % 4 == 0`  |
+| **变长信号** | `UINT8_DYN`    | 必须放在参数列表最后 |
+| **S/R 接口** | `USE_DATA_S/R` | 必须是固定长度       |
+
+##### Dcm操作状态类型
+
+
+
+作为嵌入式软件开发人员，你可以把 `Dcm_OpStatusType` 理解为 Dcm 与应用层（SW-C）之间的一种“握手协议”。它主要解决一个矛盾：诊断服务（如刷写、复杂的 Routine 运算）可能需要几秒钟，但 `Dcm_MainFunction` 必须毫秒级循环，不能死等。
+
+1. DCM_INITIAL：第一次亲密接触 [SWS_Dcm_00527]
+   - **场景**：当 Dcm 刚收到一个诊断请求（如 `0x31` 启动 Routine），第一次调用你的回调函数时。
+   - **逻辑**：此时 `OpStatus` 必定为 `DCM_INITIAL`。
+   - **你的任务**：在这个状态下进行初始化，比如检查参数合法性、开启定时器或触发底层驱动。
+2. DCM_E_PENDING：让 Dcm “等一下” [SWS_Dcm_00530]
+   - **场景**：你的任务还没做完（比如正在擦除 Flash），无法立刻给诊断仪回复。
+   - **逻辑**：你向 Dcm 返回 `DCM_E_PENDING`。
+   - **后续调用**：Dcm 会在下一个 `Dcm_MainFunction` 循环中再次调用你，此时 `OpStatus` 变为 `DCM_PENDING`。
+   - **注意**：只要你一直返回 `PENDING`，Dcm 就会一直用这个状态“骚扰”你，直到你返回 `E_OK` 或错误 NRC。
+3. DCM_E_FORCE_RCRRP：主动申请“缓期执行” [SWS_Dcm_00528]
+   - **场景**：你预感到这次操作时间很长（超过了 $P2_{Server}$ 时间），为了防止诊断仪超时报错误，你需要给诊断仪发一个 **NRC 0x78 (Response Pending)**。
+   - **逻辑**：你返回 `DCM_E_FORCE_RCRRP`。
+   - **Dcm 动作**：Dcm 收到后会立刻向总线发送一帧 `7F XX 78`。在这个过程中，它**不会**再调用你的函数，避免重入冲突。
+4. DCM_FORCE_RCRRP_OK：你可以继续了 [SWS_Dcm_00529]
+   - **场景**：上一步提到的 NRC 0x78 已经成功发到了总线上。
+   - **逻辑**：Dcm 确认发送成功后，会再次调用你的函数，此时 `OpStatus` 变为 `DCM_FORCE_RCRRP_OK`。
+   - **你的任务**：看到这个状态，说明你已经成功“续命”了，可以接着上次中断的地方继续干活。
+
+假设你在编写一个 Routine 的处理函数：
+
+```c
+Std_ReturnType MyRoutine_Start(Dcm_OpStatusType OpStatus, ...) {
+    switch (OpStatus) {
+        case DCM_INITIAL:
+            // 步骤 1: 启动异步硬件操作
+            Start_Async_Hardware_Job();
+            return DCM_E_PENDING; // 告诉 Dcm：我刚开始，还要等
+
+        case DCM_PENDING:
+            // 步骤 2: 轮询硬件状态
+            if (Check_Hardware_Job_Done()) {
+                return E_OK; // 任务完成！
+            } else if (Is_Almost_Timeout()) {
+                return DCM_E_FORCE_RCRRP; // 快超时了，赶紧申请发 0x78
+            }
+            return DCM_E_PENDING; // 还没完，继续等
+
+        case DCM_FORCE_RCRRP_OK:
+            // 步骤 3: 0x78 发完了，重置内部计时器，继续轮询
+            Reset_Internal_Timer();
+            return DCM_E_PENDING;
+
+        default:
+            return E_NOT_OK;
+    }
+}
+```
+
+- **INITIAL** 是开始。
+- **PENDING** 是中间循环。
+- **FORCE_RCRRP** 是“发救命信号”。
+- **FORCE_RCRRP_OK** 是“救命信号发完了，继续工作”。
+
+这种设计确保了嵌入式系统不会因为诊断操作而导致主循环卡死，同时也保证了诊断协议的时间合规性。
+
+##### 生成符号
+
+Dcm 模块通过生成符号名（Symbolic Names）来简化应用层（SWC）对 **CEMR（Control Enable Mask Record）** 的操作。
+
+在 UDS 协议的 **0x2F (InputOutputControlByIdentifier)** 服务中，CEMR 是一个非常关键的掩码，用于告知 ECU 哪些信号应该受诊断仪控制，哪些应该维持原样。
+
+1. 为什么要生成符号名？
+
+   手动处理 CEMR 位掩码在嵌入式开发中非常容易出错，原因有三：
+
+   - **大端序与位顺序的矛盾**：规范提到，网络上发送的第一个位控制 DID 的第一个参数，但在多字节内存布局中，这个位可能是最高有效位（MSB）。开发者很容易在进行 `(1 << n)` 操作时算错位置。
+   - **配置变更的鲁棒性**：如果 DID 的参数长度发生变化，对应的位偏移（Bit Offset）也会随之改变。使用符号名可以确保代码在配置更新后只需重新编译，而不需要手动修改位掩码数值。
+   - **代码可读性**：相比于 `Mask = 0x80`，使用 `Dcm_Cemr_MyDid_SignalA` 显然更直观。
+
+2. Dcm_Cemr_{DID}Type 的实现逻辑
+
+   根据 **[SWS_Dcm_91087]**，Dcm 会为具有 IO Control 功能的 DID 的每个数据元素生成一个文本表（Text Table）或枚举。
+
+   - **生成规则**：对于每一个受控信号，Dcm 都会计算其在 CEMR 字节流中的准确位置。
+   - **使用方式**：SWC（应用层软件组件）通过这些生成的符号名作为掩码（Mask），对接收到的控制请求进行位运算，从而提取出具体的控制许可。
+
+假设你有一个名为 `CoolingFan` 的 DID，包含两个控制位：`FanSpeed` 和 `FanRelay`。
+
+**不使用符号名（危险且难读）：**
+
+```c
+/* 开发者必须自己根据规范计算掩码 */
+if (ControlMask & 0x80) { // 假设第一个位对应 FanSpeed
+    // 执行控制
+}
+```
+
+**使用 Dcm 生成的符号名（安全且标准）：**
+
+```c
+/* Dcm 会在 Dcm_Cfg.h 或 Rte_Dcm_Type.h 中生成类似定义 */
+#define Dcm_Cemr_CoolingFan_FanSpeed  ((uint8)0x80)
+#define Dcm_Cemr_CoolingFan_FanRelay  ((uint8)0x40)
+
+/* 应用层代码 */
+if (ControlMask & Dcm_Cemr_CoolingFan_FanSpeed) {
+    // 自动映射到正确的网络位，无需担心字节序问题
+}
+```
+
+### DSL：诊断服务层
+
+**DSL (Diagnostic Session Layer)** 是 Dcm 模块的门卫，它不关心 DID 里具体是什么数，它只关心诊断仪和 ECU 之间的**状态、时间和权限**。
+
+根据你提供的规范描述，我们可以将 DSL 的核心职责拆解为以下四个关键领域：
+
+1. 会话管理 (Session Handling) [SWS_Dcm_00030]
+
+   这是 DSL 最基础的功能，完全遵循 ISO 14229-1 和 ISO 15765-3 标准。
+
+   - **状态维护**：DSL 负责管理 ECU 当前处于哪种会话模式（如 `Default`、`Programming` 或 `Extended`）。
+   - **会话超时 (S3 Timer)**：如果诊断仪在一段时间内没有发送任何请求，DSL 会负责将 ECU 自动切回 `Default Session` 以确保安全。
+
+2. 应用层时间处理 (Timing Handling)
+
+   时间是诊断协议的灵魂。DSL 负责监控和执行所有的 $P2$ 时间参数：
+
+   - **$P2_{Server}$**：ECU 接收到请求后，必须在此时间内给出响应（或者发 0x78 续命）。
+   - **$P2^{*}_{Server}$**：发送 0x78 响应后的扩展等待时间。
+   - **职责分工**：DSL 负责计秒表，如果应用层（SWC）处理太慢，DSL 就会根据时间戳触发 NRC 0x78 或 0x10（响应超时）。
+
+3. 特定响应行为 (Response Behavior)
+
+   DSL 决定了在某些特殊情况下如何回复诊断仪：
+
+   - **多路请求处理**：当多个诊断请求同时到达（例如物理寻址和功能寻址冲突）时，DSL 负责仲裁优先级。
+   - **响应抑制 (Suppress Pos Response)**：如果请求中设置了 `SuppressPosResponseBit`，DSL 会拦截掉本该发出的肯定响应。
+
+4. 认证状态管理 (Authentication State)
+
+   这是 ISO 14229-1:2018 引入的新特性，比传统的 0x27 安全访问更先进：
+
+   - **连接绑定**：DSL 为每个诊断连接（Connection）独立维护认证状态。
+   - **状态转换**：DSL 管理从“未认证”到“已认证”的转换过程，并为 DSP（诊断服务处理）提供权限检查的依据。
+
+我们可以把 Dcm 的三个子模块想象成一个**餐厅**：
+
+1. **DSL (门卫/前台)**：检查你有没有预约（Session），看你进店多久了（Timing），确保一次只进一个客人（Connection Handling）。
+2. **DSD (服务员)**：看你的菜单（SID），判断这个菜能不能做（NRC 检查），然后把单子传给后厨。
+3. **DSP (后厨)**：真正切菜、炒菜（解析数据、读取 NvM、执行 Routine）。
+
+DSL 的核心意义在于它**屏蔽了底层网络的差异性**（Network-independent）。无论你是走 CAN、LIN 还是 Ethernet (DoIP)，对于 DSL 来说，它看到的都是一套标准的 ISO 时间参数和状态迁移规则。
+
+#### 与其他模块的交互
+
+DSL（诊断会话层）在 AUTOSAR Dcm 架构中扮演着“通信枢纽”的角色。它负责协调底层网络、上层应用以及 Dcm 内部其他子模块之间的交互。 
+
+1. 与 PduR 模块的交互
+
+   - **输入流**：PduR 模块负责接收来自总线（如 CAN, LIN, Ethernet）的原始诊断请求数据，并将其提供给 DSL 子模块。
+   - **输出流**：DSL 子模块负责触发诊断响应的发送过程。
+
+2. 与 DSD (诊断服务调度器) 子模块的交互
+
+   - **请求分发**：DSL 子模块在接收到请求后，会通知 DSD 子模块有新请求到达，并负责传输相关数据。
+   - **响应触发**：当 DSD 完成服务识别后，会触发 DSL 执行最终诊断响应的输出操作。
+
+3. 与 SW-Cs / DSP 子模块的交互
+
+   **权限与状态共享**：DSL 子模块为应用层软件组件（SW-Cs）以及 DSP（诊断服务处理）子模块提供访问当前安全状态（Security State）**和**会话状态（Session State）的接口。这确保了只有在正确的会话或安全级别下，特定的诊断操作（如写入 DID 或执行 Routine）才会被允许。
+
+4. 与 ComM (通信管理) 模块的交互
+
+   **通信一致性**：DSL 子模块负责保证符合 ComM 模块所要求的通信行为。例如，当 ComM 要求进入低功耗状态时，DSL 需确保诊断通信能够正确挂起或关闭。
+
+为什么 DSL 位于 DSD 之前？
+
+这种设计的核心目的是为了实现**协议无关性**。
+
+- **DSL 处理的是“通道”**：它关心的是数据包是否完整、时间是否超时、当前的 Session 是否允许建立连接。
+- **DSD 处理的是“语义”**：它只在 DSL 确认连接有效后，才开始解析请求里的 `SID` 是 `0x22` 还是 `0x31`。
+
+#### 从PduR到DSD
+
+**DSL 子模块**作为 PduR（协议数据单元路由）与 Dcm 内部 **DSD 子模块**之间的桥梁。它不仅涉及数据的搬运，还包含了关键的**缓冲区保护**和**多路访问限制**逻辑。
+
+1. 接收阶段：握手与拷贝
+
+   当底层网络（如 CAN TP）收到诊断数据时，PduR 会通过以下 API 与 Dcm 交互：
+
+   - **`Dcm_StartOfReception`**：
+     - **触发时机**：收到首帧（FF）或单帧（SF）时。
+     - **功能**：告知 Dcm 数据的总大小。Dcm 会在此处检查缓冲区是否足够，或判断服务是否可用，从而决定是接受还是拒绝（Reject）这次接收。
+     - **元数据处理**：对于通用连接（Generic Connections），寻址信息（MetaData）会在此处传递给 Dcm，DSL 必须存储这些信息以便后续响应或识别同一测试仪。
+   - **`Dcm_CopyRxData`**：
+     - **功能**：Dcm 被要求将数据从 PduR 提供的缓冲区拷贝到自己的内部缓冲区中。
+
+2. 验证与转发：隔离机制
+
+   这是 DSL 履行“交通警察”职责的核心：
+
+   - **转发时机 [SWS_Dcm_00111]**：DSL **只有**在收到 `Dcm_TpRxIndication` 且结果为 `E_OK`（表示整包诊断数据已完整、正确接收）之后，才会将数据转发给 DSD 子模块。
+   - **资源锁定 [SWS_Dcm_00241]**：
+     - 一旦 `Dcm_TpRxIndication` 成功返回，DSL 会阻塞（Block）对应的 `DcmPduId`。
+     - 这种锁定状态会一直持续，直到响应报文发送完毕（即收到 `Dcm_TpTxConfirmation`）为止。
+     - **排他性**：在处理当前请求期间，同一连接（Connection）不允许接收其他请求（例如 OBD 抢占 UDS 会话），除非是并发的 `TesterPresent` 请求。
+
+3. PduId 与寻址配置
+
+   DSL 支持为不同的诊断应用配置独立的 PduId，这决定了数据的流向和处理方式：
+
+   - **多应用隔离**：可以分别为 OBD（接收/发送）、UDS 物理寻址和 UDS 功能寻址配置不同的 `DcmPduId`。
+   - **寻址类型固定**：寻址类型（物理或功能）是直接配置在 `DcmDslProtocolRxPduId` 上的。
+   - **配置灵活性**：无论传输层使用何种寻址格式（扩展寻址或正常寻址），物理和功能接收总是对应不同的 `RxPduId`，这使得 Dcm 能够从入口处就区分请求的属性。
+
+在嵌入式开发中，这一层逻辑主要体现在生成的 `Dcm_Lcfg.c` 或 `Dcm_PBcfg.c` 中：
+
+1. **缓冲区溢出**：如果你的 `Dcm_StartOfReception` 返回了错误，通常是因为你在配置工具中给 `DcmDslBufferSize` 分配的空间小于诊断仪发送的 `FF_DL`。
+2. **多路处理失败**：如果你发现诊断仪在发送 0x2E（写数据）后立刻发送 0x22（读数据）导致 ECU 无响应，通常是因为第一个请求还没收到 `TxConfirmation`，DSL 还在执行 [SWS_Dcm_00241] 规定的阻塞逻辑。
+3. **TesterPresent 的特殊性**：只有 $0x3E 80$ (Concurrent TesterPresent) 能够穿透这种阻塞机制，这也是为了维持非默认会话（Non-default session）而设计的“绿色通道”。
+
+##### Dcm_StartOfReception
+
+1. 缓冲区与基础协议映射 (Buffer & ISO Mapping)
+
+   DSL 必须严格遵守 ISO 14229-2 的会话层定义，确保与底层传输层（TP）的握手逻辑一致：
+
+   - **溢出处理 [SWS_Dcm_00444]**：如果诊断仪请求的数据长度（TpSduLength）超过了 Dcm 预留的缓冲区大小，`Dcm_StartOfReception` 必须返回 `BUFREQ_E_OVFL`。
+   - **非法长度 [SWS_Dcm_00642]**：如果收到的长度为 0，则返回 `BUFREQ_E_NOT_OK`。
+   - **标准映射 [SWS_Dcm_01671, 01672, 01673]**：Dcm 的 API 与 ISO 14229-2 有明确的映射关系。`Dcm_StartOfReception` 对应 **T_DataSOM.ind**（消息开始接收），而 `Dcm_TpRxIndication` 对应 **T_Data.ind**（消息接收完成）。
+
+2. 多客户端并发处理 (Multi-client Handling)
+
+   这是 Dcm 最复杂的逻辑之一，遵循 ISO 14229-1 附录 J 的流程图。它允许 ECU 同时面对多个诊断客户端（例如：OBD 扫描仪 + 售后诊断仪）：
+
+   - **资源分配 [SWS_Dcm_01675]**：Dcm 会为每个配置的协议行（`DcmDslProtocolRow`）分配独立的协议资源和缓冲区，从而实现在默认会话（Default Session）下的并行处理。
+   - **第二请求的处理 (NRC 0x21) [SWS_Dcm_01676, 01677]**：当 Dcm 已经忙于处理一个请求，又收到来自**另一个连接**的请求时，其行为取决于配置参数 `DcmDslDiagRespOnSecondDeclinedRequest`：
+     - **TRUE**：回复 **NRC 0x21** (Busy Repeat Request)，告知客户端稍后再试。
+     - **FALSE**：直接忽略该请求，不发回任何响应。
+
+3. 同一连接的“防重入”限制 [SWS_Dcm_01678]
+
+   对于来自**同一个连接**（Same Connection）的并行请求，Dcm 采取了更严格的限制策略：
+
+   - **拒绝逻辑**：如果 Dcm 正在处理某个连接上的请求，而该连接又发来了新的请求，Dcm 必须拒绝这个新请求。
+   - **静默拒绝**：与多客户端不同，在这种情况下，Dcm 不会发送任何响应，甚至不发 NRC 0x21。这弥补了 ISO 标准在同一连接并发请求定义上的空白。
+
+在进行嵌入式开发和测试时，这些规范对应以下常见场景：
+
+| **现象**                 | **规范依据**    | **原因分析**                                                 |
+| ------------------------ | --------------- | ------------------------------------------------------------ |
+| **刷写时缓冲区报错**     | [SWS_Dcm_00444] | 传输层分段数据总长超过了 `DcmDslBuffer` 的配置值。           |
+| **两个诊断仪冲突**       | [SWS_Dcm_01676] | 若配置为 TRUE，第二个诊断仪会看到 `7F XX 21`；若为 FALSE，它会表现为超时。 |
+| **同一工具连发两条指令** | [SWS_Dcm_01678] | 诊断工具在收到上一条指令的确认响应前发出了新指令，ECU 会直接丢弃新指令。 |
+
+##### Dcm_CopyRxData
+
+1. 数据拷贝与缓冲区更新 [SWS_Dcm_00443]
+
+   当底层传输层（TP）分段发送诊断请求时，它会多次调用 `Dcm_CopyRxData`：
+
+   - **任务**：Dcm 必须将 `info` 参数指向的原始数据拷贝到其内部预留的接收缓冲区（Rx Buffer）中。
+   - **反馈机制**：每次拷贝完成后，Dcm 必须更新 `bufferSizePtr`。这个值告诉 TP 层：**“我这儿还剩下多少空位”**。这决定了 TP 层后续发送流控制帧（Flow Control）时的行为。
+
+2. 零长度请求的处理 [SWS_Dcm_00996]
+
+   如果 TP 层调用 `Dcm_CopyRxData` 且 `SduLength` 为 **0**：
+
+   - **响应**：Dcm 必须返回 `BUFREQ_OK`。
+   - **信息查询**：此时不发生拷贝，但 Dcm 仍需在 `bufferSizePtr` 中填入当前缓冲区剩余的可用空间。这通常被传输层用来探测接收端的实时负载。
+
+3. “只读/锁定”安全协议 [SWS_Dcm_00342]
+
+   这是保证诊断数据完整性的关键锁机制：
+
+   - **锁定状态**：一旦 Dcm 开始通过 `Dcm_CopyRxData` 填充数据，整个接收缓冲区就进入了“不可触碰”状态。
+   - **禁止访问**：在收到 `Dcm_TpRxIndication` 明确告知接收成功或失败之前，Dcm 模块的任何其他部分（如 DSD 或 DSP）都**严禁**访问该缓冲区。
+   - **逻辑前提**：只有在 `Dcm_StartOfReception` 成功返回后，系统才会期待并处理 `Dcm_TpRxIndication`。
+
+如果你在调试 0x36（分段传输）或长 DID 写入时遇到问题，可以参考以下场景：
+
+- **数据被截断**：检查 `Dcm_StartOfReception` 返回的 `RxBufferSizePtr`。如果这个初始容量给小了，后续的 `Dcm_CopyRxData` 就会因为剩余空间不足（`bufferSizePtr` 变小）导致接收失败。
+- **竞态条件（Race Condition）**：[SWS_Dcm_00342] 保证了 Dcm 不会去解析一个“还没收全”的数据包。如果你发现代码在 `Dcm_TpRxIndication` 之前就开始尝试解析 SID，说明你的 DSL 层状态机实现违背了这条规范。
+- **性能优化**：由于 `Dcm_CopyRxData` 会在 `MainFunction` 之外被频繁调用（通常在中断上下文中），拷贝逻辑的执行效率直接影响了总线上的响应间隔时间（STmin）。
+
+##### Dcm_TpRxIndication
+
+1. 核心逻辑：失败即丢弃 [SWS_Dcm_00344]
+
+   当底层传输层（TP）完成一个数据包的接收（无论是单帧还是多帧）并调用 `Dcm_TpRxIndication` 时：
+
+   - **触发条件**：如果参数 `Result` **不等于 `E_OK`**（例如发生了 `NTFRSLT_E_TIMEOUT_CR` 接收超时或 `NTFRSLT_E_WRONG_SN` 序列号错误）。
+   - **Dcm 动作**：Dcm 必须**严禁评估或解析**该 `DcmRxPduId` 对应的接收缓冲区。
+   - **后果**：该请求会被直接忽略，不会转发给 DSD 子模块进行处理，也不会发送任何响应。
+
+2.  设计原理（Rationale）
+
+   - **数据不确定性**：在接收失败的情况下，缓冲区中哪些部分是正确的数据、哪些是残余的旧数据或乱码是无法确定的。
+   - **安全性**：如果 Dcm 尝试解析一个损坏的数据包，可能会导致错误的诊断操作（如误写 DID 或执行了错误的 Routine）。
+
+💡 针对嵌入式开发的实战意义
+
+- **诊断仪显示“Timeout”但 ECU 没回 NRC**：
+
+  通常是因为总线干扰导致 CAN-TP 接收失败（如丢帧）。此时 TP 会给 DSL 发送 `Result != E_OK`。根据 [SWS_Dcm_00344]，Dcm 会直接装死（不解析缓冲区），因此你不会在后续的 DSD 处理中看到任何记录。
+
+- **缓冲区重用**：
+
+  由于 Dcm 在此时不会清理缓冲区，如果下一条成功的指令较短，缓冲区后半部分可能还留着上次失败的数据。但只要你遵循规范不跨界访问，这不会产生问题。
+
+##### 会话保持
+
+在 UDS 诊断中，如果 ECU 处于非默认会话（如扩展会话或编程会话），且在一段时间（$S3$ 时间）内没有收到任何请求，它会自动跳回默认会话。
+
+为了防止这种情况，测试仪会周期性发送 `TesterPresent` ($0x3E 80$)。而 **Concurrent TesterPresent**（并发 TesterPresent）特指在 ECU 正在处理一个耗时请求（比如正在擦除 Flash 或执行复杂的 Routine）时，依然能够并行处理的保活指令。
+
+1. 核心定义与目的
+
+   - **别名**：在规范中也被称为“旁路逻辑 (Bypass Logic)”。
+   - **主要功能**：其唯一目的是重置 ISO 14229-2 定义的 **$S3$ 定时器**，从而保持非默认会话的激活状态。
+   - **触发方式**：通常通过**功能寻址 (Functional Addressing)** 发送。
+
+2. “并发”处理的独立性
+
+   - **并行性**：这种请求的处理与当前正在进行的物理寻址请求或服务处理（比如正在进行的 $0x2E$ 或 $0x31$ 服务）是完全**相互独立**的。
+   - **不阻塞**：即使 DSL 模块因为 [SWS_Dcm_00241] 锁定了某个 PduId 来处理长任务，`TesterPresent` 依然可以被处理。
+
+3. 安全限制：连接绑定 [SWS_Dcm_01666, 01667]
+
+   AUTOSAR 对 ISO 标准进行了增强，增加了严格的连接限制：
+
+   - **同连接原则**：Dcm 只处理来自**开启了非默认会话的同一个连接**的 `Concurrent TesterPresent`。
+   - **设计目的**：这是为了防止其他测试仪（未开启会话的第三方设备）干扰当前正在进行的诊断协议和时间行为。
+
+在配置和调试时注意：
+
+1. **功能寻址配置**：确保你的 `UDS_func_DcmDslProtocolRxPduId` 能够正确接收并触发 DSL 内部的保活逻辑。
+2. **$S3_{Server}$ 超时**：如果在 IAR 调试时发现单步执行时间太长导致 ECU 自动退出了扩展会话，通常是因为主循环（`Dcm_MainFunction`）停止运行，导致 $S3$ 定时器溢出且无法处理 `TesterPresent`。
+3. **多客户端干扰**：如果你同时接入了两个诊断工具，A 工具开启了会话，B 工具发送的 `0x3E` 会被 Dcm 忽略（根据 [SWS_Dcm_01667]），不会重置 A 工具开启的 $S3$ 计数器。
+
+
+
+
 
 #### 响应处理
 
