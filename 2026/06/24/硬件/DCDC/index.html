@@ -1,0 +1,556 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>DCDC | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 伏秒平衡 - 知乎 概述 DCDC即直流-直流转换器(DC-to-DC Converter)的英文缩写，开关电源是一种高频电能转换装置，主要利用开关器件（MOSFET&#x2F;晶体管），通过周期性控制开关器件的开关，实现对输入电压的脉冲调制，实现电压变换、自动稳压功能。 DCDC转换器是输入、输出电压类型均为直流的一种开关电源；是一种在直流电路中将一个电压值的电能转换成另一个电压值的电能转换装置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DCDC">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E7%A1%AC%E4%BB%B6/DCDC/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 伏秒平衡 - 知乎 概述 DCDC即直流-直流转换器(DC-to-DC Converter)的英文缩写，开关电源是一种高频电能转换装置，主要利用开关器件（MOSFET&#x2F;晶体管），通过周期性控制开关器件的开关，实现对输入电压的脉冲调制，实现电压变换、自动稳压功能。 DCDC转换器是输入、输出电压类型均为直流的一种开关电源；是一种在直流电路中将一个电压值的电能转换成另一个电压值的电能转换装置">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.611Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.611Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "DCDC",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E7%A1%AC%E4%BB%B6/DCDC/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg",
+  "datePublished": "2026-06-24T01:22:05.611Z",
+  "dateModified": "2026-06-24T01:22:05.611Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E7%A1%AC%E4%BB%B6/DCDC/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DCDC',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">DCDC</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">DCDC</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.611Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.611Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A1%AC%E4%BB%B6/">硬件</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/30094474063">伏秒平衡 - 知乎</a></p>
+<h1>概述</h1>
+<p>DCDC即直流-直流转换器(DC-to-DC Converter)的英文缩写，开关电源是一种高频电能转换装置，主要<strong>利用开关器件（MOSFET/晶体管），通过周期性控制开关器件的开关，实现对输入电压的脉冲调制，实现电压变换、自动稳压功能。</strong></p>
+<p>DCDC转换器是输入、输出电压类型均为直流的一种开关电源；是一种在直流电路中将一个电压值的电能转换成另一个电压值的电能转换装置。<strong>DCDC转换器类型分为：</strong></p>
+<ol>
+<li>Buck降压型</li>
+<li>Boost升压型</li>
+<li>Buck-boost降压升压型</li>
+</ol>
+<h1>BUCK降压型</h1>
+<h2 id="基本工作原理">基本工作原理</h2>
+<p>降压式（Buck）变换器是一种<strong>输出电压≤输入电压</strong>的非隔离直流变换器，Buck变换器的主电路<strong>核心元件为</strong>：</p>
+<ol>
+<li>
+<p><strong>功率开关S1</strong>：通常使用MOSFET作为功率开关，用于<strong>控制电路的开关状态</strong>。MOSFET可以快速开关和关闭，以实现高效的能量转换。</p>
+</li>
+<li>
+<p><strong>电感元件L</strong>：电感是实现电压降低的关键，通常采用线圈或者电感器。</p>
+<ul>
+<li>
+<p>当MOSFET导通时，电感充电；</p>
+</li>
+<li>
+<p>当MOSFET关闭时，电感放电，通过二极管向负载供电。</p>
+<p>这个过程中，<strong>电感能够平滑电流的变化，减少电压波动</strong>。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>电容元件C</strong>：电容器用于<strong>进一步平滑输出电压，减小电压波动</strong>。它<strong>能够吸收能量、并在需要时释放能量，帮助维持输出电压的稳定性和连续性</strong>。选择合适的电容值对于保证电路性能至关重要。</p>
+</li>
+<li>
+<p><strong>二极管D</strong>：通常是一个肖特基二极管（正向电压降低），用于保护MOSFET免受反向电压的损害。它的主要作用是在<strong>MOSFET关闭期间提供一条电流路径，防止反向电压损坏MOSFET和其他电路元件。</strong></p>
+</li>
+<li>
+<p><strong>控制电路</strong>：控制电路用于<strong>监测和调整BUCK电路的输出电压</strong>。它<strong>根据反馈信号来控制功率开关的开关频率和占空比</strong>，以确保输出电压稳定。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260329163040113.png" alt="控制电路控制后的电压" loading='lazy'></p>
+</li>
+</ol>
+<p>当开关进行开关时，表现不同：</p>
+<ol>
+<li>
+<p>当开关管S1闭合时，<strong>电感L被充磁储能，流经电感的电流线性增加，同时给电容C充电，给负载RL提供能量</strong>，此时Vout电压缓慢上升，若S1一直闭合则最终Vout会近似等于Vin电压（S1有耗损压降）；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260329161530724.png" alt="S1闭合时" loading='lazy'></p>
+</li>
+<li>
+<p>当开关管S1关断时，<strong>储能电感L通过续流二极管D放电，电感电流$I_L$线性减少，输出电压Vout靠输出电容C放电$I_c$以及减小的电感电流$I_L$维持缓慢下降</strong>，若S1一直保持关断，则Vout会最终降至0V；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260329161649311.png" alt="S1关断时" loading='lazy'></p>
+</li>
+</ol>
+<p>按上述描述,通过不停的开关<strong>S1</strong>，Buck输出电压$V_{out}$曲线近似如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260329161731417.png" alt="Buck输出电压曲线" loading='lazy'></p>
+<h2 id="BUCK伏秒平衡法则">BUCK伏秒平衡法则</h2>
+<p>伏秒平衡是指==电感==在开关电源稳态工作时，一个周期内正向和反向电压作用时间的积分相等，从而保证电感电流周期性稳定和磁通守恒。</p>
+<p>伏秒（V·s）定义为电压与时间的乘积，即<strong>电压对时间的积分</strong>，表示电感中能量的变化量：$V_L \times \Delta t$。电感的电流变化率与两端电压成正比，因此伏秒直接决定电感电流的变化幅度。</p>
+<p>在开关电源中，电感经历两个阶段：</p>
+<ul>
+<li><strong>导通阶段（$T_{ON}$）</strong>：开关导通，电源向电感供能，电流上升，电感储存能量。</li>
+<li><strong>关断阶段（$T_{OFF}$）</strong>：开关断开，电感释放能量维持负载电流，电流下降。</li>
+</ul>
+<p>伏秒平衡要求在<strong>一个完整开关周期内</strong>，导通阶段的伏秒积与关断阶段的伏秒积相等（符号相反），即电感的净磁通变化为零。如果不平衡，电感电流会持续增加或减少，可能导致磁芯饱和甚至损坏电感。</p>
+<p>稳态条件下，电感电流周期性重复：<br>
+$$<br>
+I((n+1) \times T)=I(n \times T)<br>
+$$<br>
+电感两端电压积分为零：<br>
+$$<br>
+\int_{0}^{T} V_L(t) dt = 0<br>
+$$<br>
+或等效表示为：<br>
+$$<br>
+V_{on} \times T_{on} + V_{off} \times T_{off} = 0<br>
+$$<br>
+其中 $V_{on}$和$V_{off}$分别为导通和关断阶段电感两端电压，$T_{on}$和 $T_{off}$为对应时间段。</p>
+<p>伏秒平衡体现了电感的<strong>能量守恒和磁通守恒</strong>：</p>
+<ul>
+<li>电感电流不能突变，因此正向和反向伏秒必须平衡。</li>
+<li>类比水池：导通阶段注入水（电流上升），关断阶段排水（电流下降），稳态时注入量等于排出量，水位保持稳定。</li>
+</ul>
+<p>伏秒平衡一般应用于：</p>
+<ol>
+<li><strong>开关电源设计</strong>：确保BUCK、BOOST、反激等拓扑稳态工作，防止电感饱和。</li>
+<li><strong>磁性元件设计</strong>：电感和变压器磁芯参数需满足伏秒积限制，避免磁饱和。</li>
+<li><strong>电容类比</strong>：电容有类似的“安秒平衡”，用于输出电压纹波计算和电容选型。</li>
+<li><strong>磁学扩展</strong>：变压器励磁电流周期性复位，确保原副边绕组伏秒积相等。</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>伏秒平衡成立的前提条件：</p>
+<ul>
+<li>电路工作在稳态，电流电压波形周期重复。</li>
+<li>电感工作在线性区，未进入饱和。</li>
+<li>开关频率足够高以满足小纹波近似。</li>
+</ul>
+</blockquote>
+<p>那么在Buck电路中伏秒法则为：<br>
+$$<br>
+开通时电感电压 \times 开通时间 = 关断时电感电压 \times 关断时间 \newline<br>
+V_i-V_o \times T_{on} = (V_o + V_d) \times T_{off}<br>
+$$<br>
+通过以上的公式可以推导出：<br>
+$$<br>
+\left.<br>
+\begin{aligned}<br>
+V_i-V_o \times T_{on} = (V_o + V_d) \times T_{off} \newline<br>
+T = T_{on} + T_{off} = \frac{1}{f}<br>
+\end{aligned}<br>
+\right}<br>
+\newline<br>
+\implies 开通时间:T_{on} = \frac{V_o + V_d}{V_i + V_d} \times \frac{1}{f}<br>
+\newline<br>
+\implies 关断时间:T_{off} = \frac{V_i - V_o}{V_i + V_d} \times \frac{1}{f}<br>
+\newline<br>
+\implies 占空比:D = \frac{V_o + V_d}{V_i + V_d} = \frac{T_{on}}{T}<br>
+$$</p>
+<h2 id="占空比调节Vout">占空比调节Vout</h2>
+<p>通过控制开关管S1开启关断的占空比，可以控制输出电压$V_{out}$的大小；</p>
+<blockquote>
+<p>[!note]</p>
+<p>$V_{out}$的调整不是只有开关断开的时候，而是作用在工作的全周期，比如由于**$V_{out}$的增大，$V_{in}-V_{out}$会变小**，即开关闭合期间的伏秒积就会减小，实际上充电时能量并没有那么多，放电时能量也不会很多，只是充电持续的时间长。）</p>
+</blockquote>
+<h3 id="占空比D突然增加的瞬时冲击">占空比D突然增加的瞬时冲击</h3>
+<ul>
+<li>
+<p><strong>动作：</strong> 控制环路突然将占空比 <code>D</code> 提高到一个新值（例如，目标输出电压提高了）</p>
+</li>
+<li>
+<p><strong>瞬时响应：</strong></p>
+<ul>
+<li>$T_{on}$立即延长： 开关导通时间变长。</li>
+<li>$V_{out}$尚未升高：输出电压由于电容和负载惯性，还维持在原来的较低值。</li>
+<li><strong>瞬时充电伏秒积 $(V_{in} - V_{out})  \times T_{on_new}$ 显著增大（$V_{in}-V_{out}$与D增大前基本保持一致，$T_{on}$增大，瞬时伏秒积增大，即瞬时注入电感和输出的能量剧增）</strong></li>
+<li><strong>能量去向：</strong>
+<ul>
+<li><strong>大部分额外能量被输出电容吸收 → $V_{out}$开始快速上升 ($V_{out}$)</strong>。</li>
+<li>部分能量使电感电流峰值升高。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>过渡到新稳态 ($V_{out_new}$升高)</p>
+<ul>
+<li><strong><code>Vout</code> 升高：由于瞬时注入的巨大能量，<code>Vout</code> 被推高</strong>，逐渐接近新的目标值 (<code>Vout_new</code>)。</li>
+<li><strong>负反馈调节： 误差放大器感知到 <code>Vout</code> 接近目标，会略微微调占空比 <code>D</code></strong>（使其稳定在略高于原值、但低于初始冲击值的一个新稳态值 <code>D_steady</code>）。核心是 <code>D_steady &gt; D_old</code>。</li>
+</ul>
+</li>
+<li>
+<p>在新稳态下的充电伏秒积分析</p>
+<ul>
+<li>新稳态条件：<code>Vout = Vout_new (更高), D = D_steady, TON = TON_steady = D_steady *_T</code>.</li>
+<li><strong>充电伏秒积 = <code>(Vin - Vout_new) *_TON_steady</code></strong><br>
+<strong><code>(Vin - Vout_new)</code>：</strong> 因为 <code>Vout_new &gt; Vout_old</code>，所以 <strong><code>(Vin - Vout_new)</code> &lt; <code>(Vin - Vout_old)</code></strong>。<strong>电压差变小</strong><br>
+<strong><code>TON_steady</code>：</strong> 因为 <code>D_steady &gt; D_old</code>，所以 <strong><code>TON_steady &gt; TON_old</code></strong>。<strong>充电时间变长</strong></li>
+<li>综合效果：<br>
+1、<strong>伏秒积的变化</strong>：根据理想BUCK公式 <code>Vout = D*_Vin，稳态时有 (Vin - Vout)_*TON = Vout*_**TOFF。既然 Vout 和 D (即 TON) 都增大了，那么新的稳态导通伏秒积 (Vin - Vout**new)_*_TON_steady 必然等于新的稳态关断伏秒积 Vout_new_*_TOFF_steady，并且：**它大于原来的稳态导通伏秒积 (**Vin - Vout_old)_*_ _TON_old</code>。<br>
+2、<strong>原因： 虽然 <code>(Vin - Vout)</code> 减小了，但 <code>TON</code> 增加的幅度超过了 <code>(Vin - Vout)</code> 减小的幅度</strong>。<br>
+3、<strong>能量角度：</strong> <strong>更高的输出电压 <code>Vout_new</code> 通常意味着输出功率更高</strong>（如果负载电阻不变，<code>P = Vout² / R</code>），或者需要应对相同的负载功率但输入效率变化。<strong>系统需要注入更多的总能量来维持这个更高的输出电压</strong>（或功率）。这<strong>更多的能量正是通过这个更大的导通伏秒积注入的</strong>。</li>
+<li><u><strong>逻辑链</strong></u>：<br>
+<strong>提高占空比 (<code>D↑</code>) → 延长导通时间 (<code>TON↑</code>) → 初始 <code>(Vin - Vout)</code> 较大 → 电感储存的能量 (<code>(1/2) LI²</code>) 比提高前更多 → TOFF期电感必须释放的能量也更多 → 释放的能量超过当前负载功率消耗 → 多余能量迫使输出电容 <code>Cout</code> 电压升高 (<code>Vout↑</code>) → 最终在新的更高电压 <code>Vout_new</code> 下达到能量注入（TON）与释放（TOFF）的稳态平衡，且释放的能量（大部分）被更高的负载功率 (<code>Vout_new² / Rload</code>) 所消耗。</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="（4）能量如何被“消耗完毕”">（4）能量如何被“消耗完毕”</h3>
+<p><img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C1e797bf0861109c1bcbf10531e6e977c.png" alt="" loading='lazy'></p>
+<h2 id="4、同步整流Buck和异步整流Buck"><strong>4、同步整流Buck和异步整流Buck</strong></h2>
+<p><img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C18ae334b80e84c1b8790aa2014deb847.png" alt="" loading='lazy'><br>
+以上是异步整流Buck，<strong>续流回路中采用的是二极管</strong>，具有单向导电性，不需要外加电路控制其通断，因此它只有一个mos管（或者说开关管）需要用电路控制，也就<strong>不用去强调同步控制二极管，即可以理解为非同步</strong>。<br>
+因为二极管需要一定导通压降才能导通，如果输出电流比较大，那么就会有比较大的额外消耗，另一方面，如果输出电压是比较低的时候，比如说是1.2V，那么二极管导通压降就占了很大的比例。所以<strong>在大电流，小电压输出时候效率偏低</strong>。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C9c41030cd0cf45e2793849f35a10ab14.png" alt="" loading='lazy'><br>
+另外还有一种就是同步整流型Buck。同步Buck在电路中<strong>续流回路中使用的是MOS管（Q2）</strong>，即上下管都是MOS管，因为MOS管本身是需要外部控制的元器件，<strong>整流过程中必须根据电源的开关时序同步控制Q1与Q2，所以该电路理解为同步</strong>。<br>
+同步Buck的控制较为复杂，需要额外的驱动电路和控制电路保证电路正常工作，如果死区时间处理不当，有可能上下管直通，造成MOS管损坏(这是指的是电源控制器外接同步整流MOSFET的情况)。对于内部集成了控制器，上下管的电源管理芯片，由于MOSFET的特性已知，控制和MOSFET集成，可以很好的解决上面提到的控制问题，不需要过多担心。<br>
+同步和异步的区别从外部来看是同步的没有续流二极管。<strong>BUCK的输出电流是分成两个部分的，一个部分是来自电源，</strong>，同步电路把这个二极管用一个内置的MOSFET给替代了，但是这个MOSFET的开和关需要芯片内部额外的控制电路来保持和开关MOSFET的相位关系。<br>
+<strong>。</strong></p>
+<h1>三、BOOST升压型</h1>
+<h2 id="1、BOOST升压型的基本工作原理">1、BOOST升压型的基本工作原理</h2>
+<p>Boost电路是一种DC-DC升压转换器，通过控制开关管的通断，将输入电压升高至更高的输出电压。其<strong>核心原理为电感储能与释放，结合二极管和电容的续流滤波功能</strong>。<br>
+详解–电压之所以能在Boost电路中升高，是因为<strong>电感在开关断开期间产生的感应电动势与输入电压叠加</strong>，从而导致输出电压高于输入电压。通过调节开关的占空比，可以控制输出电压的大小。这种电压升高的机制是基于电感的能量存储和释放特性，以及开关器件对电流路径的精确控制。<br>
+工作过程：<br>
+<strong>电感储能, 电容供电</strong>：当开关导通时，电流从输入电源流经电感到达开关，并最终回到电源负极。此时，电感开始储存能量，而由于二极管反向偏置，电流不会流向负载。同时，输出滤波电容为负载提供所需的电流。<br>
+<strong>开关导通的时候，电感L接地，二极管截止，Vi对电感L进行充电，电感两端电压是Vi。</strong><br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Ccea1e74043a64d869cf346558f6f73f9.png" alt="" loading='lazy'><br>
+<strong>断开阶段（放电过程）电感释能 + 电源供电, 电容充电</strong>：当开关断开时，电感中的电流不能瞬间停止，根据楞次定律，电感会产生一个与原电流方向相同的感应电动势以抵抗电流的变化。这个感应电动势会使二极管正向偏置，允许电感中的电流继续流动，通过二极管给输出滤波电容充电并为负载供电。<br>
+输出电压Vo恒定，二极管导通压降为Vd，所以电感右端电压为Vo+Vd，电感左端电压是电源输入Vi。这是升压BOOST电路， 所以Vo+Vd&gt;Vi，电感此时放电，给负载供电，以及给输出滤波电容充电。<br>
+此时电感的两端电压是右边电压Vo+Vd减去左边电压Vi，即：<strong>Vo+Vd-Vi</strong><br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Ce751910efd5aae324c64e0cdb5cc9ff7.png" alt="" loading='lazy'><br>
+<strong>核心元件：</strong><br>
+<strong>电感</strong>：储能元件，<strong>开关导通时储存能量，关断时释放能量</strong>。<br>
+<strong>开关管（MOSFET）</strong>：控制电流通断，<strong>调节占空比</strong>。<br>
+<strong>二极管</strong>：防止反向电流，<strong>开关关断时形成续流回路</strong>。<br>
+<strong>输出电容</strong>：滤波，<strong>减小输出电压纹波</strong>。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Cfc57866e38ceaf80b4b0e4e71dd54817.png" alt="" loading='lazy'><br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Cfb06f847716356f82ee29d6fab560266.png" alt="" loading='lazy'></p>
+<h2 id="2、BOOST伏秒平衡法则">2、BOOST伏秒平衡法则</h2>
+<p><img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Ca67e503967aebe7ed1c04d88a28a5552.png" alt="" loading='lazy'><br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Cdebd46ae6970bf462e83d73cf391322e.png" alt="" loading='lazy'></p>
+<h1>四、BUCK-BOOST升降压型</h1>
+<h2 id="1、反极性Buck-Boost升降压电路">1、反极性Buck-Boost升降压电路</h2>
+<p>这种电路设计广泛应用于电源管理领域，特别是在需要灵活电压调节的应用场景中。Buck-Boost电路的基本结构包含开关（通常为MOSFET或晶体管）、电感、电容以及必要的二极管等元件。它的独特之处在于能够<strong>通过控制开关的通断时间比（占空比），来实现电压的升压（Boost）或降压（Buck）效果，从而达到所需的输出电压</strong>。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C0333cf543d245dcc1539f09955a5d2db.png" alt="" loading='lazy'><br>
+开关管导通时，S相当于短路，电感L直接接到电源两端，由于电感电流不能突变（变大），电感会产生反向电动势阻止电流变大，电感电压极性为上正下负，此时，二极管D处于截止状态，相当于断路，如图所示。此时<strong>电感在充电，电感两端电压VL=Vin，电流随着时间不断变大</strong>；<strong>负载由输出电容供电，电容放电，其两端电压即输出电压随着时间不断减小</strong>。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C0cd8c3f7969e740f31f78f9712ecc63d.png" alt="" loading='lazy'><br>
+开关管关闭时，相当于断路，电感L两端电流变小，但电感电流不能突变，电感会产生反向电电动势，电感电压极性为上负下正，电感放电，此时二极管导通，<strong>电感为负载供电，给输出电容充电</strong>，<strong>电感两端电压为VL=Vout</strong>。当开关管关闭时，电路示意图见下图。由图可知，<strong>负载两端电压即输出电压极性与输入电压极性相反</strong>。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C2a0c14ea1cb2bdf9be2d75c97795a97a.png" alt="" loading='lazy'><br>
+根据伏秒平衡定律：<br>
+Vin _Ton = Vout_Toff<br>
+Vin Ton = Vout (TS-Ton)<br>
+*<em>Vout = D/（1-D）<em>Vin</em></em></p>
+<h2 id="2、同极性Buck-Boost升降压电路">2、同极性Buck-Boost升降压电路</h2>
+<p>与反极性电路相比，这是真正意义上的Buck电路加Boost电路。<strong>通过控制开关管S1、S2来实现电路工作在BUCK模式和BOOST模式从而实现升降压</strong>。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Ccd5551e9d6a437121877a4352e2918ee.png" alt="" loading='lazy'><br>
+电路存在两个二极管，对于高效率需求并不友好，因此现在通常选用同步Buck-Boost电路，将两个二极管使用两个开关管来代替，即四开关管Buck-Boost电路。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C58ed3a07c3eb16fb07a416cdbf79f3dd.png" alt="" loading='lazy'><br>
+四开关同步Buck-Boost电源内部电路控制开关管周期性导通或断开，通过调节开关管状态（如占空比等），控制输出电压的大小。其<strong>基本原理是通过严格控制开关电路的导通和截止时间，实现对输出电压的有效调节，从而达到降压和升压的目的</strong>。</p>
+<h3 id="（1）BUCK模式">（1）BUCK模式</h3>
+<p>当<strong>输入电压远大于输出电压时</strong>，电源IC工作在降压模式。即<strong>S4处于常闭、S3处于常开</strong>，通过驱动S1和S2周期性地导通关闭，如下图所示，此时电路为同步Buck电路结构，即和Buck电路工作方式相同。当S1 闭合、S2断开时，电流流向示意图如红色虚线所示，当S1断开、S2闭合时，电流流向示意图如蓝色虚线所示。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5Cc57288384fb28309e5d378ef2e7618e4.png" alt="" loading='lazy'></p>
+<h3 id="（2）BOOST模式">（2）BOOST模式</h3>
+<p>当<strong>输入电压远小于输出电压时</strong>，电源IC工作在升压模式。即<strong>S1处于常闭、S2处于常开状态</strong>，通过驱动S3和S4周期性地导通关闭，如下图所示，此时电路为同步Boost电路结构，即和Boost电路工作方式相同。当S4 闭合、S3断开时，电流流向示意图如红色虚线所示，当S4断开、S3闭合时，电流流向示意图如蓝色虚线所示。<br>
+<img src="C:%5CUsers%5CAdministrator%5CDocuments%5CNeatifyDB%5CpublicUser%5Cassets%5Cac1fb3a8d23c775858554c224b0cd68d%5C693189e13b50bb0db12e62352242cd2f.png" alt="" loading='lazy'></p>
+<h3 id="（3）BUCK-BOOST模式">（3）BUCK-BOOST模式</h3>
+<p>当<strong>输入电压和输出电压相近时</strong>，电源IC工作在Buck- Boost模式。假设工作在Buck模式时，当Vin下降接近Vout，达到Buck模式最大占空比时，电路会自动将开关管工作状态切换到Buck- Boost 模式。假设工作在Boost模式时，Vin增大接近Vout，达到Boost最小占空比时，电路会自动将开关管工作状态切换到Buck- Boost 模式。在Buck- Boost 模式下，四个开关管会同时进行导通/关闭操作。此模式是一种过度和自适应模式，工作状态切换主要是由占空比决定。</p>
+<hr>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E7%A1%AC%E4%BB%B6/DCDC/">https://youshouldtrustme.github.io/2026/06/24/%E7%A1%AC%E4%BB%B6/DCDC/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E7%A1%AC%E4%BB%B6/%E6%A8%A1%E7%94%B5/" title="模电"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">模电</div></div><div class="info-2"><div class="info-item-1">参考链接 02-PN结的形成_4K_哔哩哔哩_bilibili 绪论 模拟信号 电子电路中信号的分类   数字信号：离散性   数字信号不仅仅在时间上是离散的，在数值上也是离散的。信号必须是整数值 如果出现了夹在两个整数中间的小数（k’）,那么k’就需要根据阈值确定为k还是k+1    模拟信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/UDS/" title="UDS"><img class="cover" src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125085207933.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">UDS</div></div><div class="info-2"><div class="info-item-1">参考链接 《UDS协议从入门到精通（UDS速查手册）》（完结撒花版）_obdonuds-CSDN博客 ISO 14229-1 UDS中文译版 (diag123.com) ISO 14229-1:2020(en), Road vehicles — Unified diagnostic servi...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">BUCK降压型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">基本工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BUCK%E4%BC%8F%E7%A7%92%E5%B9%B3%E8%A1%A1%E6%B3%95%E5%88%99"><span class="toc-number">3.2.</span> <span class="toc-text">BUCK伏秒平衡法则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%A0%E7%A9%BA%E6%AF%94%E8%B0%83%E8%8A%82Vout"><span class="toc-number">3.3.</span> <span class="toc-text">占空比调节Vout</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%A0%E7%A9%BA%E6%AF%94D%E7%AA%81%E7%84%B6%E5%A2%9E%E5%8A%A0%E7%9A%84%E7%9E%AC%E6%97%B6%E5%86%B2%E5%87%BB"><span class="toc-number">3.3.1.</span> <span class="toc-text">占空比D突然增加的瞬时冲击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%884%EF%BC%89%E8%83%BD%E9%87%8F%E5%A6%82%E4%BD%95%E8%A2%AB%E2%80%9C%E6%B6%88%E8%80%97%E5%AE%8C%E6%AF%95%E2%80%9D"><span class="toc-number">3.3.2.</span> <span class="toc-text">（4）能量如何被“消耗完毕”</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%90%8C%E6%AD%A5%E6%95%B4%E6%B5%81Buck%E5%92%8C%E5%BC%82%E6%AD%A5%E6%95%B4%E6%B5%81Buck"><span class="toc-number">3.4.</span> <span class="toc-text">4、同步整流Buck和异步整流Buck</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">三、BOOST升压型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81BOOST%E5%8D%87%E5%8E%8B%E5%9E%8B%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">4.1.</span> <span class="toc-text">1、BOOST升压型的基本工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81BOOST%E4%BC%8F%E7%A7%92%E5%B9%B3%E8%A1%A1%E6%B3%95%E5%88%99"><span class="toc-number">4.2.</span> <span class="toc-text">2、BOOST伏秒平衡法则</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">四、BUCK-BOOST升降压型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%8F%8D%E6%9E%81%E6%80%A7Buck-Boost%E5%8D%87%E9%99%8D%E5%8E%8B%E7%94%B5%E8%B7%AF"><span class="toc-number">5.1.</span> <span class="toc-text">1、反极性Buck-Boost升降压电路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%90%8C%E6%9E%81%E6%80%A7Buck-Boost%E5%8D%87%E9%99%8D%E5%8E%8B%E7%94%B5%E8%B7%AF"><span class="toc-number">5.2.</span> <span class="toc-text">2、同极性Buck-Boost升降压电路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89BUCK%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.1.</span> <span class="toc-text">（1）BUCK模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89BOOST%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.2.</span> <span class="toc-text">（2）BOOST模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89BUCK-BOOST%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.3.</span> <span class="toc-text">（3）BUCK-BOOST模式</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,5334 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Nvm | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件请参见Specification of NVRAM Manager (autosar.org)   NVRAM Manager (NvM) 是 AUTOSAR 基础软件中的非易失性存储管理模块。它为上层的应用和组件提供了统一的接口，用于管理非易失性数据（如校准参数、配置信息、故障码等），同时屏蔽了底层存储介质（EEPROM、Flash 模拟 EEPROM）的差异。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nvm">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/Nvm/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件请参见Specification of NVRAM Manager (autosar.org)   NVRAM Manager (NvM) 是 AUTOSAR 基础软件中的非易失性存储管理模块。它为上层的应用和组件提供了统一的接口，用于管理非易失性数据（如校准参数、配置信息、故障码等），同时屏蔽了底层存储介质（EEPROM、Flash 模拟 EEPROM）的差异。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_13.png">
+<meta property="article:published_time" content="2026-06-24T01:22:05.605Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.605Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_13.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Nvm",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/Nvm/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_13.png",
+  "datePublished": "2026-06-24T01:22:05.605Z",
+  "dateModified": "2026-06-24T01:22:05.605Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/Nvm/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Nvm',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_13.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Nvm</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Nvm</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.605Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.605Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">19.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>75分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件请参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R21-11/CP/AUTOSAR_SWS_NVRAMManager.pdf">Specification of NVRAM Manager (autosar.org)</a></p>
+</blockquote>
+<blockquote>
+<p><strong>NVRAM Manager (NvM)</strong> 是 AUTOSAR 基础软件中的非易失性存储管理模块。它为上层的应用和组件提供了统一的接口，用于管理非易失性数据（如校准参数、配置信息、故障码等），同时屏蔽了底层存储介质（EEPROM、Flash 模拟 EEPROM）的差异。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心目的与职责</p>
+<p>NVRAM 管理器的主要目标是：根据各个非易失性数据的<strong>个体需求</strong>，在汽车环境中确保数据的存储和维护。</p>
+<p><strong>核心职责清单</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>职责</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据存储</strong></td>
+<td>将数据写入非易失性存储介质</td>
+</tr>
+<tr>
+<td><strong>数据维护</strong></td>
+<td>确保数据的完整性、一致性和可靠性</td>
+</tr>
+<tr>
+<td><strong>介质管理</strong></td>
+<td>同时管理 EEPROM 和 Flash 模拟 EEPROM 设备</td>
+</tr>
+<tr>
+<td><strong>请求服务</strong></td>
+<td>提供同步/异步的读写和控制接口</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>支持的服务类型</p>
+<p>NVRAM 管理器为上层提供以下四类服务：</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Services [NvM 服务]
+        Init[初始化&lt;br/&gt;Init]
+        Read[读取&lt;br/&gt;Read]
+        Write[写入&lt;br/&gt;Write]
+        Control[控制&lt;br/&gt;Control]
+    end
+    
+    subgraph Modes [执行模式]
+        Sync[同步&lt;br/&gt;Synchronous]
+        Async[异步&lt;br/&gt;Asynchronous]
+    end
+    
+    Init --&gt; Sync
+    Read --&gt; Sync
+    Read --&gt; Async
+    Write --&gt; Sync
+    Write --&gt; Async
+    Control --&gt; Sync
+    Control --&gt; Async</code></pre>
+<table>
+<thead>
+<tr>
+<th>服务类型</th>
+<th>说明</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>初始化</strong></td>
+<td>模块启动时的初始化和配置加载</td>
+<td>系统启动时</td>
+</tr>
+<tr>
+<td><strong>读取</strong></td>
+<td>从非易失性存储器读取数据</td>
+<td>读取校准参数、配置信息</td>
+</tr>
+<tr>
+<td><strong>写入</strong></td>
+<td>将数据写入非易失性存储器</td>
+<td>存储诊断结果、学习值、配置变更</td>
+</tr>
+<tr>
+<td><strong>控制</strong></td>
+<td>控制 NVRAM 的行为（如写立即执行、刷新等）</td>
+<td>强制写入、块管理操作</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>执行模式</p>
+<p>NVRAM 管理器支持两种执行模式：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>说明</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>同步</strong></td>
+<td>请求发出后，等待操作完成才返回</td>
+<td>调用方阻塞，简单但可能影响实时性</td>
+</tr>
+<tr>
+<td><strong>异步</strong></td>
+<td>请求发出后立即返回，操作完成后通过回调通知</td>
+<td>调用方非阻塞，适合长耗时操作</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>设计原则</strong>：同一个接口通常同时提供同步和异步两种版本，让上层根据场景选择。</p>
+</blockquote>
+</li>
+<li>
+<p>NVRAM 管理器在 BSW 中的位置</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph APP [应用层 ASW]
+        SWC1[软件组件 1]
+        SWC2[软件组件 2]
+        SWC3[软件组件 3]
+    end
+    
+    subgraph RTE [运行时环境 RTE]
+        RTE_Box[RTE]
+    end
+    
+    subgraph BSW [基础软件层 BSW]
+        subgraph Services [服务层]
+            NvM[NVRAM Manager&lt;br/&gt;NvM]
+            MemInt[Memory Interface&lt;br/&gt;MemIf]
+        end
+        
+        subgraph ECU [ECU 抽象层]
+            EEP[EEPROM 抽象&lt;br/&gt;EEP]
+            Fls[Flash 抽象&lt;br/&gt;Fls]
+        end
+        
+        subgraph MCAL [微控制器抽象层]
+            EEP_Drv[EEPROM 驱动]
+            Fls_Drv[Flash 驱动]
+        end
+    end
+    
+    SWC1 &amp; SWC2 &amp; SWC3 --&gt; RTE
+    RTE --&gt; NvM
+    NvM --&gt; MemInt
+    MemInt --&gt; EEP
+    MemInt --&gt; Fls
+    EEP --&gt; EEP_Drv
+    Fls --&gt; Fls_Drv</code></pre>
+<p><strong>层次关系说明</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>模块</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>应用层</strong></td>
+<td>SWC</td>
+<td>通过 RTE 调用 NvM 服务</td>
+</tr>
+<tr>
+<td><strong>服务层</strong></td>
+<td>NvM</td>
+<td>提供存储服务抽象、块管理、数据保护</td>
+</tr>
+<tr>
+<td><strong>服务层</strong></td>
+<td>MemIf</td>
+<td>抽象不同存储介质的差异</td>
+</tr>
+<tr>
+<td><strong>ECU 抽象层</strong></td>
+<td>EEP / Fls</td>
+<td>具体存储介质的抽象接口</td>
+</tr>
+<tr>
+<td><strong>MCAL</strong></td>
+<td>EEPROM 驱动 / Flash 驱动</td>
+<td>硬件直接访问</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>NvM 在不同 AUTOSAR 分层中的角色定位</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Layers [AUTOSAR 分层架构]
+        direction TB
+        APP[应用层 ASW&lt;br/&gt;业务逻辑、应用数据]
+        RTE[运行时环境 RTE&lt;br/&gt;应用与 BSW 的桥梁]
+        NvM[NVRAM 管理器 NvM&lt;br/&gt;☑️ 数据存储服务&lt;br/&gt;☑️ 块管理&lt;br/&gt;☑️ 数据完整性保护]
+        LL[下层驱动&lt;br/&gt;MemIf / EEP / Fls]
+    end
+    
+    APP &lt;--&gt; RTE
+    RTE &lt;--&gt; NvM
+    NvM --&gt; LL</code></pre>
+<p><strong>NvM 在分层中的定位</strong>：</p>
+<ul>
+<li><strong>向上</strong>：通过 RTE 为应用层提供存储服务</li>
+<li><strong>向下</strong>：通过 MemIf 调用具体的存储驱动</li>
+<li><strong>同级</strong>：与其他服务层模块（如 DCM、COM）协作，提供诊断存储、配置存储等功能</li>
+</ul>
+</li>
+<li>
+<p>NvM 核心功能概览</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NvM [NVRAM Manager]
+        direction TB
+        
+        subgraph Management [块管理]
+            InitBlock[初始化块]
+            ReadBlock[读块]
+            WriteBlock[写块]
+            EraseBlock[擦除块]
+        end
+        
+        subgraph Protection [数据保护]
+            CRC[CRC 校验]
+            Redundancy[冗余存储]
+            InvalidBlock[无效块处理]
+        end
+        
+        subgraph Policy [存储策略]
+            Immediate[立即写入]
+            Background[后台写入]
+            Polling[轮询模式]
+            Priority[优先级管理]
+        end
+        
+        subgraph DatasetMgt [数据集管理]
+            DatasetConfig[数据集配置]
+            Index[数据集索引]
+        end
+    end</code></pre>
+</li>
+<li>
+<p>典型使用场景</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>数据示例</th>
+<th>NvM 作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>系统启动</strong></td>
+<td>配置参数、校准值</td>
+<td>读取初始配置</td>
+</tr>
+<tr>
+<td><strong>诊断服务</strong></td>
+<td>故障码存储 ($0x19$/$0x14$)</td>
+<td>写入/读取/清除 DTC</td>
+</tr>
+<tr>
+<td><strong>学习功能</strong></td>
+<td>自适应学习值、传感器漂移补偿</td>
+<td>运行时写入，下次启动读取</td>
+</tr>
+<tr>
+<td><strong>标定</strong></td>
+<td>校准参数</td>
+<td>通过标定工具写入，ECU 读取</td>
+</tr>
+<tr>
+<td><strong>配置管理</strong></td>
+<td>车辆配置、功能开关</td>
+<td>存储用户配置</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>NvM 与相关模块的关系</p>
+<table>
+<thead>
+<tr>
+<th>关联模块</th>
+<th>关系说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MemIf</strong></td>
+<td>NvM 通过 MemIf 统一访问不同存储介质</td>
+</tr>
+<tr>
+<td><strong>EEPROM 驱动</strong></td>
+<td>直接操作 EEPROM 硬件</td>
+</tr>
+<tr>
+<td><strong>Flash 驱动</strong></td>
+<td>操作 Flash 硬件，用于模拟 EEPROM</td>
+</tr>
+<tr>
+<td><strong>DCM</strong></td>
+<td>NvM 为诊断服务（如 $0x22$ 读取 DID、$0x2E$ 写入 DID）提供数据存储</td>
+</tr>
+<tr>
+<td><strong>COM</strong></td>
+<td>NvM 可存储通信相关的配置或网关路由信息</td>
+</tr>
+</tbody>
+</table>
+<h1>基础架构</h1>
+<h2 id="内存硬件抽象的寻址方案">内存硬件抽象的寻址方案</h2>
+<blockquote>
+<p>NvM 模块通过<strong>内存抽象接口</strong>（MemIf）与底层存储交互，底层向 NvM 提供一个<strong>虚拟的线性 32 位地址空间</strong>。该地址空间由 <strong>16 位块编号</strong>和 <strong>16 位块内偏移</strong>组成，实现了逻辑块到物理存储的映射。</p>
+</blockquote>
+<ol>
+<li>
+<p>虚拟地址空间结构 [SWS_NvM_00051]</p>
+<p>底层模块（内存抽象接口、Flash EEPROM 仿真层、EEPROM 抽象层）向 NvM 提供统一的虚拟地址空间：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>位宽</th>
+<th>范围</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>块编号</strong> (Block Number)</td>
+<td>16 位</td>
+<td>0 - 65535</td>
+<td>标识一个逻辑块</td>
+</tr>
+<tr>
+<td><strong>块内偏移</strong> (Block Address Offset)</td>
+<td>16 位</td>
+<td>0 - 65535</td>
+<td>块内的字节偏移</td>
+</tr>
+</tbody>
+</table>
+<p><strong>理论最大值</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>最大值</th>
+<th>计算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>逻辑块数量</strong></td>
+<td>65536 个</td>
+<td>$2^{16}$= 65536</td>
+</tr>
+<tr>
+<td><strong>单个逻辑块最大尺寸</strong></td>
+<td>64 KB</td>
+<td>$2^{16}$ = 65536 字节</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph VirtualAddress [32位虚拟地址]
+        BlockNum[16位块编号&lt;br/&gt;Block Number]
+        Offset[16位偏移&lt;br/&gt;Offset]
+    end
+    
+    BlockNum --&gt; |索引| Block[逻辑块&lt;br/&gt;最大 64KB]
+    Offset --&gt; |定位| Byte[块内字节]</code></pre>
+</li>
+<li>
+<p>块编号的进一步细分 [SWS_NvM_00122]</p>
+<p>NvM 将 16 位的 <code>Fee/Ea</code> 块编号进一步细分为两个部分：</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph FeeBlockNum [16位 Fee/Ea 块编号]
+        BaseBits[高位&lt;br/&gt;NV块基编号&lt;br/&gt;NVM_NV_BLOCK_BASE_NUMBER]
+        IndexBits[低位&lt;br/&gt;数据索引&lt;br/&gt;Data Index]
+    end
+    
+    BaseBits --&gt; |位宽 = 16 - N| BaseNum[确定基础块]
+    IndexBits --&gt; |位宽 = N| DataSet[选择数据集]
+    
+    Note[N = NVM_DATASET_SELECTION_BITS]</code></pre>
+<p><strong>字段说明</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>位宽</th>
+<th>配置参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块基编号</strong></td>
+<td>16 - <code>NVM_DATASET_SELECTION_BITS</code></td>
+<td><code>NVM_NV_BLOCK_BASE_NUMBER</code></td>
+<td>标识一组相关的块</td>
+</tr>
+<tr>
+<td><strong>数据索引</strong></td>
+<td><code>NVM_DATASET_SELECTION_BITS</code></td>
+<td><code>NVM_DATASET_SELECTION_BITS</code></td>
+<td>在一组块中选择具体的数据集</td>
+</tr>
+</tbody>
+</table>
+<p><strong>示例</strong>：假设 <code>NVM_DATASET_SELECTION_BITS = 2</code></p>
+<table>
+<thead>
+<tr>
+<th>位域</th>
+<th>位宽</th>
+<th>取值范围</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基编号</td>
+<td>14 位</td>
+<td>0 - 16383</td>
+<td>块组标识</td>
+</tr>
+<tr>
+<td>数据索引</td>
+<td>2 位</td>
+<td>0 - 3</td>
+<td>选择组内第几个数据集</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>基编号的位位置 [SWS_NvM_00123]</p>
+<blockquote>
+<p>NV 块基编号位于 <code>Fee/Ea</code> 块编号的<strong>最高有效位</strong>（Most Significant Bits）。</p>
+</blockquote>
+<p><strong>16 位块编号的位分配</strong>：</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph BitLayout [16位块编号]
+        MSB[高位&lt;br/&gt;MSB] 
+        direction LR
+        BaseBits[NV块基编号&lt;br/&gt;NVM_NV_BLOCK_BASE_NUMBER&lt;br/&gt;高位]
+        IndexBits[数据索引&lt;br/&gt;Data Index&lt;br/&gt;低位]
+        LSB[低位&lt;br/&gt;LSB]
+    end
+    
+    MSB --&gt; BaseBits
+    BaseBits --&gt; IndexBits
+    IndexBits --&gt; LSB</code></pre>
+<table>
+<thead>
+<tr>
+<th>位位置</th>
+<th>内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>高位</strong></td>
+<td><code>NVM_NV_BLOCK_BASE_NUMBER</code></td>
+<td>确定基础块</td>
+</tr>
+<tr>
+<td><strong>低位</strong></td>
+<td>数据索引</td>
+<td>选择具体数据集</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>数据集和冗余块的处理 [SWS_NvM_00343]</p>
+<blockquote>
+<p>冗余 NVRAM 块的寻址方式与数据集 NVRAM 块<strong>相同</strong>，都通过配置参数 <code>NvMDatasetSelectionBits</code> 进行管理。</p>
+</blockquote>
+<p><strong>统一寻址模型</strong>：</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NvMBlock [NvM 逻辑块]
+        BaseNumber[块基编号&lt;br/&gt;Base Number]
+    end
+    
+    BaseNumber --&gt; |+ DataSetIndex| DataSetBlock[数据集块]
+    BaseNumber --&gt; |+ RedundancyIndex| RedundantBlock[冗余块]
+    
+    Note1[数据集块：同一基编号下&lt;br/&gt;不同索引对应不同数据集]
+    Note2[冗余块：同一基编号下&lt;br/&gt;不同索引对应冗余副本]</code></pre>
+<table>
+<thead>
+<tr>
+<th>块类型</th>
+<th>寻址方式</th>
+<th>索引含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据集块</strong></td>
+<td>基编号 + 数据集索引</td>
+<td>选择组内的不同数据集</td>
+</tr>
+<tr>
+<td><strong>冗余块</strong></td>
+<td>基编号 + 冗余索引</td>
+<td>选择同一数据的冗余副本</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>块标识符的配置 [SWS_NvM_00442, SWS_NvM_00443]</p>
+<ol>
+<li>配置工具职责 [SWS_NvM_00442]</li>
+</ol>
+<blockquote>
+<p>配置工具负责配置<strong>块标识符</strong>。</p>
+</blockquote>
+<p><strong>典型配置流程</strong>：</p>
+   <pre><code class="highlight mermaid">flowchart LR
+    Tool[配置工具] --&gt; |计算/分配| BlockID[块标识符&lt;br/&gt;Block Identifiers]
+    BlockID --&gt; |生成| Config[配置文件&lt;br/&gt;.arxml / .c / .h]
+    Config --&gt; |编译时固定| NvM[NvM 模块]</code></pre>
+<ol start="2">
+<li>
+<p>运行时不变性 [SWS_NvM_00443]</p>
+<blockquote>
+<p>NvM 模块<strong>不得修改</strong>已配置的块标识符。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>允许的操作</th>
+<th>禁止的操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读取配置的块标识符</td>
+<td>❌ 修改块标识符的值</td>
+</tr>
+<tr>
+<td>使用块标识符进行寻址</td>
+<td>❌ 动态重新分配块编号</td>
+</tr>
+<tr>
+<td>将块标识符传递给下层</td>
+<td>❌ 覆盖配置的标识符</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>设计原则</strong>：块标识符在配置时确定，编译后即固化。NvM 运行时只读使用，保证存储布局的<strong>确定性</strong>和<strong>可预测性</strong>。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>完整寻址层次图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph AppLayer [应用层]
+        SWC[软件组件&lt;br/&gt;请求读写特定数据]
+    end
+    
+    subgraph NvMLayer [NvM 层]
+        LogicalBlock[逻辑块&lt;br/&gt;如：校准数据块]
+        BlockID[块标识符&lt;br/&gt;配置时分配]
+    end
+    
+    subgraph AddressTranslation [地址转换]
+        BaseNum[提取基编号&lt;br/&gt;NVM_NV_BLOCK_BASE_NUMBER]
+        DataIndex[提取数据索引&lt;br/&gt;NVM_DATASET_SELECTION_BITS]
+    end
+    
+    subgraph MemIfLayer [内存抽象层]
+        FeeBlockNum[16位 Fee/Ea 块编号&lt;br/&gt;= 基编号 + 索引]
+        Offset[16位偏移]
+    end
+    
+    subgraph PhysLayer [物理层]
+        EEPROM[EEPROM]
+        Flash[Flash 模拟 EEPROM]
+    end
+    
+    SWC --&gt; LogicalBlock
+    LogicalBlock --&gt; BlockID
+    BlockID --&gt; BaseNum
+    BlockID --&gt; DataIndex
+    BaseNum --&gt; FeeBlockNum
+    DataIndex --&gt; FeeBlockNum
+    FeeBlockNum --&gt; MemIfLayer
+    Offset --&gt; MemIfLayer
+    MemIfLayer --&gt; EEPROM
+    MemIfLayer --&gt; Flash</code></pre>
+</li>
+<li>
+<p>完整寻址转换流程图</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Input [输入]
+        BlockBase[&quot;块基编号&lt;br/&gt;如: 0x100&quot;]
+        DatasetIdx[&quot;数据集索引&lt;br/&gt;如: 0x2&quot;]
+        Offset[&quot;块内偏移&lt;br/&gt;如: 0x50&quot;]
+    end
+    
+    subgraph Combine [组合]
+        Combined[&quot;组合: (BlockBase &lt;&lt; DatasetBits) + DatasetIdx&quot;]
+    end
+    
+    subgraph Output [输出到下层]
+        FeeBlock[&quot;16位 Fee/Ea 块编号&lt;br/&gt;如: 0x402&quot;]
+        Final[&quot;32位虚拟地址&lt;br/&gt;= (FeeBlock &lt;&lt; 16) + Offset&quot;]
+    end
+    
+    BlockBase --&gt; Combined
+    DatasetIdx --&gt; Combined
+    Combined --&gt; FeeBlock
+    FeeBlock --&gt; Final
+    Offset --&gt; Final</code></pre>
+</li>
+<li>
+<p>设计意图</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>设计点</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>32 位虚拟地址空间</strong></td>
+<td>统一 EEPROM 和 Flash 的访问方式</td>
+</tr>
+<tr>
+<td><strong>16 位块编号 + 16 位偏移</strong></td>
+<td>支持最多 64K 个块，每块最大 64KB</td>
+</tr>
+<tr>
+<td><strong>块编号进一步细分</strong></td>
+<td>原生支持数据集和冗余块，无需额外配置</td>
+</tr>
+<tr>
+<td><strong>基编号位于高位</strong></td>
+<td>物理相邻的块共享高位，便于存储布局优化</td>
+</tr>
+<tr>
+<td><strong>配置工具分配标识符</strong></td>
+<td>避免运行时计算开销和不确定性</td>
+</tr>
+<tr>
+<td><strong>块标识符运行时不变</strong></td>
+<td>确保存储布局稳定，支持断电恢复</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<blockquote>
+<p>例子</p>
+</blockquote>
+<p>核心计算公式：<br>
+$$<br>
+FEE / EA 块编号 = (NvM 块基编号 &lt;&lt; NvM 数据集选择位宽) + 数据索引<br>
+$$</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMNvBlockBaseNumber</code></td>
+<td>NvM 侧的块基编号</td>
+</tr>
+<tr>
+<td><code>NvMDatasetSelectionBits</code></td>
+<td>数据集选择位宽，用于寻址不同数据集或冗余副本</td>
+</tr>
+<tr>
+<td><code>数据索引</code> (DataIndex)</td>
+<td>0 到 (2^位宽 - 1) 范围内的索引值</td>
+</tr>
+<tr>
+<td><code>FEE/EA_BLOCK_NUMBER</code></td>
+<td>传递给下层（Fee/Ea）的实际块编号</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>示例 A：位宽 = 2</p>
+<ol>
+<li>
+<p>配置参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMDatasetSelectionBits</code></td>
+<td>2</td>
+<td>数据集选择位宽为 2 位</td>
+</tr>
+<tr>
+<td>可用于基编号的位数</td>
+<td>14 位</td>
+<td>16 位总宽度 - 2 位 = 14 位</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>取值范围</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>范围</th>
+<th>计算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMNvBlockBaseNumber</code></td>
+<td><code>0x1</code> ~ <code>0x3FFE</code></td>
+<td>14 位有效范围（最大值 2^14 - 2）</td>
+</tr>
+<tr>
+<td>数据索引</td>
+<td><code>0x0</code> ~ <code>0x3</code></td>
+<td>2 位范围：0, 1, 2, 3</td>
+</tr>
+<tr>
+<td><code>FEE/EA_BLOCK_NUMBER</code></td>
+<td><code>0x4</code> ~ <code>0xFFFB</code></td>
+<td>基编号最小值 1 对应 4，最大值 0x3FFE 对应 0xFFFB</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>具体计算示例</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Formula [计算公式]
+        Step1[&quot;(NvMNvBlockBaseNumber &lt;&lt; NvMDatasetSelectionBits)&quot;]
+        Step2[&quot;+ DataIndex&quot;]
+        Result[&quot;= FEE/EA_BLOCK_NUMBER&quot;]
+    end</code></pre>
+<p><strong>示例 1：原生 NVRAM 块</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMNvBlockBaseNumber</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>NvMDatasetSelectionBits</code></td>
+<td>2</td>
+</tr>
+<tr>
+<td>左移结果</td>
+<td>2 &lt;&lt; 2 = 8</td>
+</tr>
+<tr>
+<td>数据索引（原生块固定为 0）</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>计算结果</strong></td>
+<td><strong>FEE/EA 块编号 = 8</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>示例 2：冗余 NVRAM 块（基编号 = 3）</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据索引</th>
+<th>计算过程</th>
+<th>FEE/EA 块编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>索引 0</td>
+<td>(3 &lt;&lt; 2) + 0 = 12 + 0</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td>索引 1</td>
+<td>(3 &lt;&lt; 2) + 1 = 12 + 1</td>
+<td><strong>13</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>示例 3：数据集 NVRAM 块（基编号 = 4，共 3 个数据集）</strong></p>
+<table>
+<thead>
+<tr>
+<th>数据集编号</th>
+<th>数据索引</th>
+<th>计算过程</th>
+<th>FEE/EA 块编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>块 #0</td>
+<td>0</td>
+<td>(4 &lt;&lt; 2) + 0 = 16 + 0</td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>块 #1</td>
+<td>1</td>
+<td>(4 &lt;&lt; 2) + 1 = 16 + 1</td>
+<td><strong>17</strong></td>
+</tr>
+<tr>
+<td>块 #2</td>
+<td>2</td>
+<td>(4 &lt;&lt; 2) + 2 = 16 + 2</td>
+<td><strong>18</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</li>
+<li>
+<p>示例 B：位宽 = 4</p>
+<ol>
+<li>
+<p>配置参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMDatasetSelectionBits</code></td>
+<td>4</td>
+<td>数据集选择位宽为 4 位</td>
+</tr>
+<tr>
+<td>可用于基编号的位数</td>
+<td>12 位</td>
+<td>16 位总宽度 - 4 位 = 12 位</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>取值范围</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>范围</th>
+<th>计算</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMNvBlockBaseNumber</code></td>
+<td><code>0x1</code> ~ <code>0xFFE</code></td>
+<td>12 位有效范围</td>
+</tr>
+<tr>
+<td>数据索引</td>
+<td><code>0x0</code> ~ <code>0xF</code></td>
+<td>4 位范围：0 ~ 15</td>
+</tr>
+<tr>
+<td><code>FEE/EA_BLOCK_NUMBER</code></td>
+<td><code>0x10</code> ~ <code>0xFFEF</code></td>
+<td>基编号最小值 1 对应 0x10，最大值 0xFFE 对应 0xFFEF</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>计算公式验证</strong>：基编号最小值 1 → (1 &lt;&lt; 4) + 0 = 0x10；基编号最大值 0xFFE → (0xFFE &lt;&lt; 4) + 15 = 0xFFE0 + 15 = 0xFFEF</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>参数关系图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NvMConfig [NvM 配置参数]
+        BaseNum[NvMNvBlockBaseNumber&lt;br/&gt;块基编号]
+        SelBits[NvMDatasetSelectionBits&lt;br/&gt;数据集选择位宽]
+    end
+    
+    subgraph Derivation [派生参数]
+        IndexBits[数据索引位宽 = SelBits]
+        BaseBits[基编号位宽 = 16 - SelBits]
+        MaxIndex[最大索引 = 2^SelBits - 1]
+    end
+    
+    subgraph Mapping [映射到下层]
+        FeeBlock[FEE/EA_BLOCK_NUMBER&lt;br/&gt;= BaseNum &lt;&lt; SelBits + DataIndex]
+    end
+    
+    subgraph Example [示例 A 取值]
+        ExSel[SelBits = 2]
+        ExBase[BaseNum 范围: 0x1 ~ 0x3FFE]
+        ExFee[Fee 块编号: 0x4 ~ 0xFFFB]
+    end
+    
+    BaseNum --&gt; Mapping
+    SelBits --&gt; Mapping
+    Mapping --&gt; FeeBlock</code></pre>
+</li>
+<li>
+<p>块类型与索引对应关系</p>
+<table>
+<thead>
+<tr>
+<th>块类型</th>
+<th>数据索引使用方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>原生块</strong></td>
+<td>固定为 0</td>
+<td>单个逻辑块，无需区分数据集或冗余</td>
+</tr>
+<tr>
+<td><strong>冗余块</strong></td>
+<td>0, 1, 2…</td>
+<td>每个索引对应一个冗余副本</td>
+</tr>
+<tr>
+<td><strong>数据集块</strong></td>
+<td>0, 1, 2…</td>
+<td>每个索引对应一个独立的数据集</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Base [块基编号 = X]
+        direction LR
+        N0[&quot;索引 0&lt;br/&gt;原生块&quot;]
+    end
+                
+    subgraph Redundant [块基编号 = Y]
+        direction LR
+        R0[&quot;索引 0&lt;br/&gt;冗余副本 0&quot;]
+        R1[&quot;索引 1&lt;br/&gt;冗余副本 1&quot;]
+    end
+                
+    subgraph Dataset [块基编号 = Z]
+        direction LR
+        D0[&quot;索引 0&lt;br/&gt;数据集 0&quot;]
+        D1[&quot;索引 1&lt;br/&gt;数据集 1&quot;]
+        D2[&quot;索引 2&lt;br/&gt;数据集 2&quot;]
+    end
+                
+    Note[&quot;同一基编号下的不同索引&lt;br/&gt;映射到连续的 Fee/Ea 块编号&quot;]</code></pre>
+</li>
+<li>
+<p>数值验证表</p>
+<ol>
+<li>
+<p>示例A</p>
+<table>
+<thead>
+<tr>
+<th>块类型</th>
+<th>基编号</th>
+<th>数据索引</th>
+<th>左移结果</th>
+<th>+索引</th>
+<th>Fee 块编号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原生块</td>
+<td>2</td>
+<td>0</td>
+<td>8</td>
+<td>8</td>
+<td><strong>8</strong></td>
+</tr>
+<tr>
+<td>冗余块 (第1副本)</td>
+<td>3</td>
+<td>0</td>
+<td>12</td>
+<td>12</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td>冗余块 (第2副本)</td>
+<td>3</td>
+<td>1</td>
+<td>12</td>
+<td>13</td>
+<td><strong>13</strong></td>
+</tr>
+<tr>
+<td>数据集块0</td>
+<td>4</td>
+<td>0</td>
+<td>16</td>
+<td>16</td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>数据集块1</td>
+<td>4</td>
+<td>1</td>
+<td>16</td>
+<td>17</td>
+<td><strong>17</strong></td>
+</tr>
+<tr>
+<td>数据集块2</td>
+<td>4</td>
+<td>2</td>
+<td>16</td>
+<td>18</td>
+<td><strong>18</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>示例 B</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>示例 A</th>
+<th>示例 B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMDatasetSelectionBits</code></td>
+<td>2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>基编号位宽</td>
+<td>14 位</td>
+<td>12 位</td>
+</tr>
+<tr>
+<td>基编号范围</td>
+<td>0x1 ~ 0x3FFE</td>
+<td>0x1 ~ 0xFFE</td>
+</tr>
+<tr>
+<td>索引范围</td>
+<td>0 ~ 3</td>
+<td>0 ~ 15</td>
+</tr>
+<tr>
+<td>Fee 块编号范围</td>
+<td>0x4 ~ 0xFFFB</td>
+<td>0x10 ~ 0xFFEF</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</li>
+</ol>
+</blockquote>
+<h2 id="基础存储对象">基础存储对象</h2>
+<h3 id="NV-block">NV block</h3>
+<blockquote>
+<p><strong>NV 块</strong>是 NVRAM 管理器中的基本存储对象，代表一个由<strong>用户数据</strong>、<strong>可选 CRC 校验值</strong>和<strong>可选块头</strong>组成的内存区域。它是 NvM 管理数据的最小逻辑单元。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00125]</p>
+<p>NV 块是 NvM 模块中的<strong>基本存储对象</strong>，包含以下组成部分：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>是否必选</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 用户数据</strong></td>
+<td>✅ 必选</td>
+<td>实际存储的应用数据</td>
+</tr>
+<tr>
+<td><strong>CRC 校验值</strong></td>
+<td>可选</td>
+<td>用于数据完整性校验</td>
+</tr>
+<tr>
+<td><strong>NV 块头</strong></td>
+<td>可选</td>
+<td>包含块的元信息（如状态、版本等）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>NV 块的逻辑结构</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NVBlock [NV 块]
+        direction TB
+        
+        subgraph Optional [可选部分]
+            Header[NV 块头&lt;br/&gt;可选]
+            CRC[CRC 校验值&lt;br/&gt;可选]
+        end
+        
+        UserData[NV 用户数据&lt;br/&gt;必选]
+    end
+    
+    Header --&gt; UserData
+    UserData --&gt; CRC
+    
+    Note1[&quot;逻辑顺序示意&lt;br/&gt;实际物理布局可能因配置而异&quot;]</code></pre>
+</li>
+<li>
+<p>组成部分详解</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>说明</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>块头</strong></td>
+<td>存储块的元信息，如数据状态（有效/无效/待写入）、版本号、长度等</td>
+<td>支持数据完整性检查和恢复机制</td>
+</tr>
+<tr>
+<td><strong>用户数据</strong></td>
+<td>应用层实际需要存储的数据内容</td>
+<td>校准参数、配置信息、学习值、DTC 等</td>
+</tr>
+<tr>
+<td><strong>CRC 校验</strong></td>
+<td>对用户数据（可能包含块头）计算的循环冗余校验值</td>
+<td>检测数据损坏，支持错误恢复</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>逻辑布局示意图</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph LogicalView [逻辑视图]
+        direction LR
+        A[块头&lt;br/&gt;可选] --&gt; B[用户数据&lt;br/&gt;必选] --&gt; C[CRC&lt;br/&gt;可选]
+    end
+    
+    subgraph Examples [配置示例]
+        Ex1[&quot;配置1: 仅用户数据&quot;]
+        Ex2[&quot;配置2: 用户数据 + CRC&quot;]
+        Ex3[&quot;配置3: 块头 + 用户数据&quot;]
+        Ex4[&quot;配置4: 块头 + 用户数据 + CRC&quot;]
+    end</code></pre>
+</li>
+</ol>
+<h3 id="RAM-block">RAM block</h3>
+<blockquote>
+<p><strong>RAM 块</strong>是 NVRAM 管理器中的基本存储对象，代表 RAM 中由<strong>用户数据</strong>、<strong>可选 CRC 校验值</strong>和<strong>可选块头</strong>组成的内存区域。它是 NvM 管理数据在 RAM 中的缓存副本。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00126]</p>
+<p>RAM 块是 NvM 模块中的<strong>基本存储对象</strong>，包含以下组成部分：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>是否必选</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>用户数据</strong></td>
+<td>✅ 必选</td>
+<td>应用层访问的数据，与 NV 块中的用户数据对应</td>
+</tr>
+<tr>
+<td><strong>CRC 校验值</strong></td>
+<td>可选</td>
+<td>用于数据完整性校验，与对应 NV 块的 CRC 配置关联</td>
+</tr>
+<tr>
+<td><strong>块头</strong></td>
+<td>可选</td>
+<td>包含块的元信息，与对应 NV 块的块头配置关联</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>RAM 块的逻辑结构</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph RAMBlock [RAM 块]
+        direction TB
+        
+        subgraph Optional [可选部分]
+            Header[块头&lt;br/&gt;可选]
+            CRC[CRC 校验值&lt;br/&gt;可选]
+        end
+        
+        UserData[用户数据&lt;br/&gt;必选]
+    end
+    
+    Header --&gt; UserData
+    UserData --&gt; CRC
+    
+    Note1[&quot;逻辑结构与 NV 块保持一致&lt;br/&gt;便于数据交换&quot;]</code></pre>
+</li>
+<li>
+<p>CRC 使用限制 [SWS_NvM_00127]</p>
+</li>
+</ol>
+<p>RAM 块的 CRC 使用受到以下限制：</p>
+<table>
+<thead>
+<tr>
+<th>限制条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>前提条件</strong></td>
+<td>仅当对应的 NV 块也配置了 CRC 时，RAM 块才能使用 CRC</td>
+</tr>
+<tr>
+<td><strong>类型一致</strong></td>
+<td>RAM 块的 CRC 类型必须与对应 NV 块的 CRC 类型相同</td>
+</tr>
+</tbody>
+</table>
+   <pre><code class="highlight mermaid">flowchart LR
+    subgraph NVBlock [NV 块]
+        NV_Data[用户数据]
+        NV_CRC[CRC&lt;br/&gt;可选]
+    end
+    
+    subgraph RAMBlock [RAM 块]
+        RAM_Data[用户数据]
+        RAM_CRC[CRC&lt;br/&gt;可选]
+    end
+    
+    NV_Data &lt;-.-&gt; RAM_Data
+    NV_CRC -.-&gt;|类型必须一致| RAM_CRC
+    
+    Note[&quot;如果 NV 块有 CRC&lt;br/&gt;则 RAM 块也必须有 CRC&lt;br/&gt;且类型相同&quot;]</code></pre>
+<ol start="4">
+<li>
+<p>用户数据区的独立性 [SWS_NvM_00129]</p>
+<blockquote>
+<p>RAM 块的<strong>用户数据区</strong>可以与 RAM 块的<strong>状态区</strong>位于不同的 RAM 地址位置（不同的全局数据段）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>说明</th>
+<th>位置独立性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>用户数据区</strong></td>
+<td>存储实际的应用数据</td>
+<td>可独立配置地址</td>
+</tr>
+<tr>
+<td><strong>状态区</strong></td>
+<td>存储 RAM 块的状态信息（如是否已修改）</td>
+<td>可独立配置地址</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>数据访问的可见性 [SWS_NvM_00130]</p>
+<blockquote>
+<p>RAM 块的数据区应<strong>同时可被</strong> NVRAM 管理器和<strong>应用层</strong>访问。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Access [数据访问]
+        RAM[RAM 块&lt;br/&gt;数据区]
+    end
+    
+    NvM[NVRAM 管理器] --&gt; RAM
+    App[应用层&lt;br/&gt;SWC] --&gt; RAM</code></pre>
+<p><strong>双向访问的含义</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>访问方向</th>
+<th>操作</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>应用层 → RAM 块</strong></td>
+<td>写入/修改数据</td>
+<td>应用更新校准参数或学习值</td>
+</tr>
+<tr>
+<td><strong>RAM 块 → 应用层</strong></td>
+<td>读取数据</td>
+<td>应用读取配置参数</td>
+</tr>
+<tr>
+<td><strong>NvM → RAM 块</strong></td>
+<td>从 NV 加载数据</td>
+<td>启动时恢复存储的数据</td>
+</tr>
+<tr>
+<td><strong>RAM 块 → NvM</strong></td>
+<td>写回 NV</td>
+<td>数据变化后持久化存储</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>用户数据的类型 [SWS_NvM_00373]</p>
+<blockquote>
+<p>RAM 块的数据应包含<strong>永久分配</strong>或<strong>临时分配</strong>的用户数据。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    UserData[RAM 块用户数据] --&gt; Permanent[永久分配&lt;br/&gt;Permanently Assigned]
+    UserData --&gt; Temporary[临时分配&lt;br/&gt;Temporarily Assigned]
+    
+    Permanent --&gt; KnownAddr[配置时地址已知&lt;br/&gt;SWS_NvM_00370]
+    Temporary --&gt; UnknownAddr[配置时地址未知&lt;br/&gt;运行时传递&lt;br/&gt;SWS_NvM_00372]</code></pre>
+</li>
+<li>
+<p>永久分配 [SWS_NvM_00370]</p>
+<blockquote>
+<p>对于永久分配的用户数据，RAM 块数据的地址在<strong>配置时已知</strong>。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>地址确定时机</strong></td>
+<td>配置阶段（编译时/链接时）</td>
+</tr>
+<tr>
+<td><strong>地址传递方式</strong></td>
+<td>通过配置参数静态指定</td>
+</tr>
+<tr>
+<td><strong>典型场景</strong></td>
+<td>全局变量、静态分配的数据缓冲区</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>临时分配 [SWS_NvM_00372]</p>
+<blockquote>
+<p>对于临时分配的用户数据，RAM 块数据的地址在<strong>配置时未知</strong>，需要在<strong>运行时</strong>传递给 NvM 模块。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>地址确定时机</strong></td>
+<td>运行时动态确定</td>
+</tr>
+<tr>
+<td><strong>地址传递方式</strong></td>
+<td>通过 API 参数传递</td>
+</tr>
+<tr>
+<td><strong>典型场景</strong></td>
+<td>动态分配的数据块、栈上分配的临时缓冲区</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 应用层
+    participant NvM as NvM 模块
+    participant RAM as RAM 块数据区
+
+    App-&gt;&gt;App: 运行时分配/获取数据缓冲区地址
+    App-&gt;&gt;NvM: 调用 NvM_WriteBlock(地址参数)
+    NvM-&gt;&gt;RAM: 使用传入的地址访问数据
+    NvM--&gt;&gt;App: 操作完成</code></pre>
+</li>
+<li>
+<p>RAM 块地址分配约束 [SWS_NvM_00088]</p>
+<blockquote>
+<p>每个 RAM 块可以在全局 RAM 区域中<strong>无地址约束</strong>地分配。所有配置的 RAM 块<strong>不需要</strong>位于连续的地址空间中。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>地址约束</strong></td>
+<td>无约束，可在任意地址分配</td>
+</tr>
+<tr>
+<td><strong>地址连续性</strong></td>
+<td>不需要连续，可分散在 RAM 的不同区域</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>编译器/链接器可自由优化内存布局</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph RAM [全局 RAM 区域]
+        direction TB
+        Block1[RAM 块 1&lt;br/&gt;地址 A]
+        Block2[RAM 块 2&lt;br/&gt;地址 C]
+        Block3[RAM 块 3&lt;br/&gt;地址 X]
+        Other[其他数据]
+    end
+    
+    Note[&quot;块之间可以不连续&lt;br/&gt;任意顺序排列&quot;]</code></pre>
+</li>
+<li>
+<p>对齐说明</p>
+<blockquote>
+<p>NvM 模块不支持对齐，可通过<strong>配置管理</strong>实现对齐需求，即通过添加填充（Padding）来扩大块长度以满足对齐要求。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NvM 对齐支持</strong></td>
+<td>不支持自动对齐</td>
+</tr>
+<tr>
+<td><strong>解决方案</strong></td>
+<td>配置时手动添加填充字节</td>
+</tr>
+<tr>
+<td><strong>操作方法</strong></td>
+<td>将块长度扩大到对齐边界</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>RAM 块与 NV 块的对比</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>RAM 块</th>
+<th>NV 块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>存储介质</strong></td>
+<td>RAM（易失性）</td>
+<td>EEPROM/Flash（非易失性）</td>
+</tr>
+<tr>
+<td><strong>访问速度</strong></td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td><strong>数据持久性</strong></td>
+<td>掉电丢失</td>
+<td>掉电保留</td>
+</tr>
+<tr>
+<td><strong>CRC 限制</strong></td>
+<td>必须与 NV 块一致</td>
+<td>独立配置</td>
+</tr>
+<tr>
+<td><strong>地址分配</strong></td>
+<td>运行时确定或配置时确定</td>
+<td>由下层模块管理</td>
+</tr>
+<tr>
+<td><strong>主要用途</strong></td>
+<td>运行时数据缓存</td>
+<td>数据持久化存储</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>逻辑结构图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph RAMBlock [RAM 块]
+        direction TB
+        
+        UserData[用户数据&lt;br/&gt;必选&lt;br/&gt;可被 NvM 和应用访问]
+        
+        subgraph OptionalRAM [可选部分]
+            Header[块头&lt;br/&gt;可选&lt;br/&gt;需与 NV 块对应]
+            CRC[CRC 校验值&lt;br/&gt;可选&lt;br/&gt;必须与 NV 块类型一致]
+        end
+    end
+    
+    subgraph Location [地址特性]
+        Perm[永久分配&lt;br/&gt;配置时地址已知]
+        Temp[临时分配&lt;br/&gt;运行时地址传递]
+        NoConstraint[无地址约束&lt;br/&gt;可不连续]
+    end
+    
+    UserData --&gt; Location</code></pre>
+</li>
+</ol>
+<p>RAM 块的典型生命周期</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 应用层
+    participant NvM as NvM 模块
+    participant RAM as RAM 块
+    participant NV as NV 块
+
+    Note over App,NV: 启动时：从 NV 加载到 RAM
+    NvM-&gt;&gt;NV: 读取数据
+    NV--&gt;&gt;NvM: 返回数据
+    NvM-&gt;&gt;RAM: 写入 RAM 块
+
+    Note over App,NV: 运行时：应用读写 RAM
+    App-&gt;&gt;RAM: 读取/修改数据
+
+    Note over App,NV: 写回：将 RAM 数据写回 NV
+    NvM-&gt;&gt;RAM: 读取 RAM 数据
+    NvM-&gt;&gt;NV: 写入 NV 块</code></pre>
+<h3 id="ROM-Block">ROM Block</h3>
+<blockquote>
+<p><strong>ROM 块</strong>是 NVRAM 管理器中的基本存储对象，位于 ROM（通常指代码所在的 Flash）中，用于在 NV 块<strong>为空</strong>或<strong>损坏</strong>时提供<strong>默认数据</strong>，作为数据恢复的兜底机制。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00020]</p>
+<p>ROM 块是 NvM 模块中的<strong>基本存储对象</strong>，具有以下特征：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>存储位置</strong></td>
+<td>ROM（通常为代码 Flash）</td>
+</tr>
+<tr>
+<td><strong>数据特性</strong></td>
+<td>只读，运行时不可修改</td>
+</tr>
+<tr>
+<td><strong>核心用途</strong></td>
+<td>为空的或损坏的 NV 块提供默认数据</td>
+</tr>
+<tr>
+<td><strong>角色定位</strong></td>
+<td>数据恢复的最后一道防线</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>ROM 块在数据恢复流程中的位置</p>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[读取 NV 块] --&gt; Check1&#123;NV 块&lt;br/&gt;有效？&#125;
+    
+    Check1 --&gt;|有效| ReadNV[使用 NV 块数据]
+    Check1 --&gt;|无效/损坏| Check2&#123;ROM 块&lt;br/&gt;存在？&#125;
+    
+    Check2 --&gt;|存在| UseROM[使用 ROM 块数据&lt;br/&gt;作为默认值]
+    Check2 --&gt;|不存在| Error[返回错误/使用零值]
+    
+    UseROM --&gt; Optional[可选：将默认数据&lt;br/&gt;写入 NV 块进行恢复]
+    
+    ReadNV --&gt; Done[完成]
+    Optional --&gt; Done
+    Error --&gt; Done</code></pre>
+</li>
+<li>
+<p>典型使用场景</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>首次上电</strong></td>
+<td>NV 块从未被写入过，ROM 块提供出厂默认配置</td>
+</tr>
+<tr>
+<td><strong>数据损坏</strong></td>
+<td>NV 块 CRC 校验失败，ROM 块提供备用数据</td>
+</tr>
+<tr>
+<td><strong>存储介质故障</strong></td>
+<td>EEPROM/Flash 物理损坏，ROM 块确保 ECU 仍可工作</td>
+</tr>
+<tr>
+<td><strong>版本回退</strong></td>
+<td>当 NV 块数据版本不兼容时，使用 ROM 块中的默认值</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>ROM 块与 NV 块、RAM 块的关系</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Storage [存储层次]
+        ROM[ROM 块&lt;br/&gt;默认数据&lt;br/&gt;只读]
+        NV[NV 块&lt;br/&gt;运行时数据&lt;br/&gt;可读写]
+        RAM[RAM 块&lt;br/&gt;运行时的数据副本&lt;br/&gt;可读写]
+    end
+    
+    ROM --&gt;|提供默认数据&lt;br/&gt;用于恢复| NV
+    NV --&gt;|加载到| RAM
+    RAM --&gt;|写回| NV
+    
+    Note1[&quot;ROM 块只作为数据来源&lt;br/&gt;不会被 NvM 修改&quot;]</code></pre>
+<table>
+<thead>
+<tr>
+<th>关系</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ROM → NV</strong></td>
+<td>当 NV 块无效时，NvM 将 ROM 数据复制到 NV 块</td>
+</tr>
+<tr>
+<td><strong>NV → RAM</strong></td>
+<td>正常启动时，NV 数据加载到 RAM 供应用使用</td>
+</tr>
+<tr>
+<td><strong>ROM 不可修改</strong></td>
+<td>NvM 不会向 ROM 块写入任何数据</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>典型配置示例</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Config [配置关系]
+        ROMBlock[ROM 块&lt;br/&gt;默认数据]
+        NVBlock[NV 块&lt;br/&gt;运行时数据]
+    end
+    
+    ROMBlock --&gt;|块 ID 关联| NVBlock
+    NVBlock --&gt;|数据长度一致| ROMBlock
+    NVBlock --&gt;|数据结构相同| ROMBlock</code></pre>
+</li>
+</ol>
+<h3 id="Administrative-Block">Administrative Block</h3>
+<blockquote>
+<p><strong>管理块</strong>是位于 RAM 中的一个特殊存储对象，用于管理数据集 NV 块的<strong>块索引</strong>，以及存储对应 NVRAM 块的<strong>属性/错误/状态信息</strong>。它对应用层不可见，专供 NvM 内部使用。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00134]</p>
+<p>管理块是 NvM 模块内部使用的 RAM 数据结构，包含以下内容：</p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>块索引</strong></td>
+<td>与数据集 NV 块关联使用，用于定位具体的数据集</td>
+</tr>
+<tr>
+<td><strong>属性信息</strong></td>
+<td>如写保护状态等</td>
+</tr>
+<tr>
+<td><strong>错误信息</strong></td>
+<td>最近一次操作产生的错误码</td>
+</tr>
+<tr>
+<td><strong>状态信息</strong></td>
+<td>RAM 块的有效/无效状态</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>管理块的位置与可见性 [SWS_NvM_00135]</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>存储位置</strong></td>
+<td>RAM</td>
+</tr>
+<tr>
+<td><strong>对应用层可见性</strong></td>
+<td>❌ <strong>不可见</strong>，仅供 NvM 内部使用</td>
+</tr>
+<tr>
+<td><strong>用途</strong></td>
+<td>安全和内部管理目的</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>应用层（SWC）无法直接访问管理块，这是 NvM 模块的<strong>私有数据结构</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>状态信息：RAM 块的有效性 [SWS_NvM_00128]</p>
+<p>NvM 使用<strong>永久 RAM 块</strong>或 <strong>RAM 镜像</strong>的状态信息来确定 RAM 块用户数据的有效性。</p>
+<table>
+<thead>
+<tr>
+<th>状态值</th>
+<th>含义</th>
+<th>[SWS_NvM_00132]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>有效 (Valid)</strong></td>
+<td>RAM 块的数据区数据有效，可被应用读取/使用</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>无效 (Invalid)</strong></td>
+<td>RAM 块的数据区数据无效，不可使用</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>有效值的判断规则 [SWS_NvM_00133]</strong> ：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>表示方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>有效</strong></td>
+<td>使用一个特定的预定义值表示</td>
+</tr>
+<tr>
+<td><strong>无效</strong></td>
+<td>除&quot;有效&quot;值以外的所有其他值</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>这样的设计保证了一个比特位的误翻转不会意外导致状态从&quot;无效&quot;变为&quot;有效&quot;（只有精确匹配特定值才被识别为有效）。</p>
+</blockquote>
+</li>
+<li>
+<p>属性信息：写保护管理 [SWS_NvM_00054]</p>
+<p>NvM 使用<strong>属性字段</strong>来管理 NV 块的写保护，用于保护/解除保护 NV 块的数据区。</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph NVBlock [NV 块]
+        Data[数据区]
+        Protection[写保护状态]
+    end
+    
+    Protection --&gt;|受保护| ReadOnly[❌ 不可写入]
+    Protection --&gt;|未保护| Writable[✅ 可写入]</code></pre>
+<p><strong>写保护的应用场景</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>关键参数保护</strong></td>
+<td>防止运行时意外修改关键校准数据</td>
+</tr>
+<tr>
+<td><strong>启动阶段锁定</strong></td>
+<td>特定阶段完成后锁定配置数据</td>
+</tr>
+<tr>
+<td><strong>安全策略</strong></td>
+<td>与功能安全相关的数据保护</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>错误/状态字段 [SWS_NvM_00136]</p>
+<p>NvM 使用<strong>错误/状态字段</strong>来管理最近一次请求的执行结果。</p>
+<table>
+<thead>
+<tr>
+<th>信息类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>错误码</strong></td>
+<td>记录最近一次操作失败的原因（如写入失败、CRC 错误等）</td>
+</tr>
+<tr>
+<td><strong>状态值</strong></td>
+<td>记录最近一次操作的执行状态（如进行中、已完成、超时等）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>管理块的逻辑结构</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph AdminBlock [管理块]
+        direction TB
+        
+        subgraph Index [块索引]
+            DatasetIndex[数据集索引&lt;br/&gt;用于关联 Dataset NV 块]
+        end
+        
+        subgraph Status [状态信息]
+            RamValid[RAM 块有效/无效标志]
+        end
+        
+        subgraph Attribute [属性信息]
+            WriteProtect[写保护状态]
+        end
+        
+        subgraph Error [错误/状态]
+            LastError[最近错误码]
+            LastStatus[最近操作状态]
+        end
+    end</code></pre>
+</li>
+<li>
+<p>管理块与 NVRAM 块的关系</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph NVRAMBlock [NVRAM 块]
+        NV[NV 块]
+        RAM[RAM 块]
+        Admin[管理块]
+    end
+    
+    subgraph Management [管理关系]
+        Admin --&gt;|管理| NV
+        Admin --&gt;|管理| RAM
+        Admin --&gt;|包含| Index[数据集索引]
+        Admin --&gt;|记录| Error[错误状态]
+        Admin --&gt;|记录| Status[有效性状态]
+    end</code></pre>
+</li>
+<li>
+<p>管理块的状态机</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; 初始化: 系统启动
+    
+    初始化 --&gt; 检查RAM状态
+    
+    检查RAM状态 --&gt; RAM有效: 状态 = 有效
+    检查RAM状态 --&gt; RAM无效: 状态 ≠ 有效
+    
+    RAM有效 --&gt; 正常运行: 应用可访问数据
+    
+    RAM无效 --&gt; 从NV加载: 触发读取
+    
+    从NV加载 --&gt; 加载成功: NV 数据有效
+    从NV加载 --&gt; 加载失败: NV 数据无效
+    
+    加载成功 --&gt; RAM有效: 更新状态为有效
+    加载失败 --&gt; 使用ROM默认值: 回退机制
+    
+    使用ROM默认值 --&gt; RAM有效: 加载默认值
+    
+    正常运行 --&gt; 写入操作: 应用修改数据
+    写入操作 --&gt; 写回NV: 触发同步
+    写回NV --&gt; 更新状态: 记录错误/状态</code></pre>
+</li>
+</ol>
+<h3 id="NV-Block-Header">NV Block Header</h3>
+<blockquote>
+<p><strong>NV 块头</strong>是 NV 块开头的可选元数据区域。当<strong>静态块标识符</strong>机制启用时，NV 块头必须位于 NV 块的<strong>最前面</strong>。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00522]</p>
+<p>当启用静态块标识符机制时，NV 块头必须作为 NV 块的<strong>第一个字段</strong>出现。</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph NVBlock [NV 块布局]
+        direction LR
+        Header[NV 块头&lt;br/&gt;必须位于最前面]
+        UserData[用户数据]
+        CRC[CRC 校验值&lt;br/&gt;可选]
+    end
+    
+    Header --&gt; UserData
+    UserData --&gt; CRC</code></pre>
+</li>
+<li>
+<p>功能目的</p>
+<p><strong>静态块标识符</strong>的核心价值在于：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>块 ID 固化</strong></td>
+<td>将块标识符存储在 NV 块内部（而非仅由上层配置管理）</td>
+</tr>
+<tr>
+<td><strong>健壮性增强</strong></td>
+<td>即使配置丢失或更新，仍可通过块头中的 ID 识别数据</td>
+</tr>
+<tr>
+<td><strong>调试友好</strong></td>
+<td>直接从存储内容即可识别块身份</td>
+</tr>
+</tbody>
+</table>
+<p><strong>启用静态块标识符时，块头通常包含</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>块 ID</strong></td>
+<td>唯一标识该 NV 块的编号</td>
+</tr>
+<tr>
+<td><strong>版本号</strong></td>
+<td>数据格式版本，用于兼容性检查</td>
+</tr>
+<tr>
+<td><strong>长度</strong></td>
+<td>块数据长度信息</td>
+</tr>
+<tr>
+<td><strong>状态标记</strong></td>
+<td>写入状态、有效性标记等</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>NV 块的整体布局</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NVBlock [NV 块完整布局]
+        direction TB
+        
+        subgraph Optional [可选部分]
+            Header[&quot;块头&lt;br/&gt;(静态块 ID 启用时必选)&quot;]
+            CRC[&quot;CRC 校验值&lt;br/&gt;(可选)&quot;]
+        end
+        
+        UserData[&quot;用户数据&lt;br/&gt;(必选)&quot;]
+    end
+    
+    Header --&gt; UserData
+    UserData --&gt; CRC
+    
+    Note[&quot;注意：图中为逻辑布局，&lt;br/&gt;实际物理布局可能受对齐影响&quot;]</code></pre>
+</li>
+<li>
+<p>静态块 ID 机制启用时的完整数据流</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Write [写入流程]
+        W1[应用请求写入] --&gt; W2[NvM 构建 NV 块数据]
+        W2 --&gt; W3[&quot;包含块头&lt;br/&gt;(含静态块 ID)&quot;]
+        W3 --&gt; W4[写入底层存储]
+    end
+    
+    subgraph Read [读取流程]
+        R1[应用请求读取] --&gt; R2[NvM 从底层读取 NV 块]
+        R2 --&gt; R3[解析块头&lt;br/&gt;验证静态块 ID]
+        R3 --&gt; R4&#123;ID 匹配?&#125;
+        R4 --&gt;|匹配| R5[返回有效数据]
+        R4 --&gt;|不匹配| R6[数据无效/使用默认值]
+    end</code></pre>
+</li>
+</ol>
+<h2 id="块管理类型">块管理类型</h2>
+<blockquote>
+<p>NvM 模块支持三种 NVRAM 存储块类型：<strong>原生块</strong>、<strong>冗余块</strong>和<strong>数据集块</strong>。每种类型由不同的基本存储对象组合而成，以满足不同的可靠性、灵活性和存储需求。</p>
+</blockquote>
+<ol>
+<li>
+<p>支持的块类型总览 [SWS_NvM_00137]</p>
+<table>
+<thead>
+<tr>
+<th>块类型</th>
+<th>宏定义</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>原生块</strong></td>
+<td><code>NVM_BLOCK_NATIVE</code></td>
+<td>标准数据存储，单份拷贝</td>
+</tr>
+<tr>
+<td><strong>冗余块</strong></td>
+<td><code>NVM_BLOCK_REDUNDANT</code></td>
+<td>高可靠性数据，双份拷贝</td>
+</tr>
+<tr>
+<td><strong>数据集块</strong></td>
+<td><code>NVM_BLOCK_DATASET</code></td>
+<td>多版本/多配置数据，通过索引选择</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>各类型的存储对象组成</p>
+<ol>
+<li>
+<p>原生块 (Native Block) [SWS_NvM_00557]</p>
+<blockquote>
+<p>最基础的块类型，一份 NV 数据对应一个 RAM 副本。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>基本存储对象</th>
+<th>数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td>1</td>
+<td>一份非易失性存储副本</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>1</td>
+<td>一个 RAM 缓存副本</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td>0 ~ 1</td>
+<td>可选默认数据</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>1</td>
+<td>内部状态管理</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Native [原生块 NVM_BLOCK_NATIVE]
+        NV1[NV 块&lt;br/&gt;1个]
+        RAM1[RAM 块&lt;br/&gt;1个]
+        ROM1[ROM 块&lt;br/&gt;0~1个]
+        Admin1[管理块&lt;br/&gt;1个]
+    end</code></pre>
+</li>
+<li>
+<p>冗余块 (Redundant Block) [SWS_NvM_00558]</p>
+<blockquote>
+<p>为高可靠性场景设计，NV 层保存<strong>两份独立副本</strong>，提供数据冗余保护。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>基本存储对象</th>
+<th>数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td><strong>2</strong></td>
+<td><strong>两份</strong>非易失性存储副本</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>1</td>
+<td>一个 RAM 缓存副本</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td>0 ~ 1</td>
+<td>可选默认数据</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>1</td>
+<td>内部状态管理</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Redundant [冗余块 NVM_BLOCK_REDUNDANT]
+        NV2a[NV 块 副本0&lt;br/&gt;1个]
+        NV2b[NV 块 副本1&lt;br/&gt;1个]
+        RAM2[RAM 块&lt;br/&gt;1个]
+        ROM2[ROM 块&lt;br/&gt;0~1个]
+        Admin2[管理块&lt;br/&gt;1个]
+    end
+    
+    NV2a &lt;-.-&gt;|冗余| NV2b</code></pre>
+</li>
+<li>
+<p>数据集块 (Dataset Block) [SWS_NvM_00559]</p>
+<blockquote>
+<p>为多配置/多版本场景设计，一个 RAM 块可以对应<strong>多个 NV 块</strong>，通过索引动态切换。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>基本存储对象</th>
+<th>数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td><strong>1 ~ (m &lt; 256)</strong></td>
+<td>多个数据集副本，数量由配置决定</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>1</td>
+<td>一个 RAM 缓存副本（当前选中的数据集）</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td>0 ~ n</td>
+<td>可选默认数据</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>1</td>
+<td>包含数据集索引，用于选择当前活跃的数据集</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>数据集数量上限</strong>：由配置参数 <code>NvMDatasetSelectionBits</code> 决定，最多不超过 255 个（m &lt; 256）。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Dataset [数据集块 NVM_BLOCK_DATASET]
+        NV3a[NV 块 数据集0]
+        NV3b[NV 块 数据集1]
+        NV3c[NV 块 数据集2]
+        NV3d[...]
+        RAM3[RAM 块&lt;br/&gt;1个&lt;br/&gt;当前选中]
+        ROM3[ROM 块&lt;br/&gt;0~n个]
+        Admin3[管理块&lt;br/&gt;包含数据集索引]
+    end
+    
+    Admin3 --&gt;|索引选择| RAM3
+    RAM3 &lt;--&gt; NV3a
+    RAM3 &lt;--&gt; NV3b
+    RAM3 &lt;--&gt; NV3c</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>三种块类型对比总览</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>原生块</th>
+<th>冗余块</th>
+<th>数据集块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块数量</strong></td>
+<td>1</td>
+<td>2</td>
+<td>1 ~ 255</td>
+</tr>
+<tr>
+<td><strong>RAM 块数量</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>ROM 块数量</strong></td>
+<td>0 ~ 1</td>
+<td>0 ~ 1</td>
+<td>0 ~ n</td>
+</tr>
+<tr>
+<td><strong>管理块数量</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1（含数据集索引）</td>
+</tr>
+<tr>
+<td><strong>数据可靠性</strong></td>
+<td>标准</td>
+<td><strong>高（双备份）</strong></td>
+<td>标准</td>
+</tr>
+<tr>
+<td><strong>存储开销</strong></td>
+<td>低</td>
+<td><strong>高（2倍）</strong></td>
+<td>中至高</td>
+</tr>
+<tr>
+<td><strong>典型场景</strong></td>
+<td>常规配置数据</td>
+<td>安全关键数据</td>
+<td>多模式/多标定数据</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>块类型选择决策流程图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[选择 NVRAM 块类型] --&gt; Q1&#123;是否需要&lt;br/&gt;多份数据副本?&#125;
+    
+    Q1 --&gt;|是，需要冗余备份| Redundant[冗余块]
+    Q1 --&gt;|否| Q2&#123;是否需要存储&lt;br/&gt;多套不同数据?&#125;
+    
+    Q2 --&gt;|是，不同配置/版本| Dataset[数据集块]
+    Q2 --&gt;|否，单份数据即可| Native[原生块]
+    
+    Native --&gt; NativeDesc[基础存储&lt;br/&gt;1 NV + 1 RAM]
+    Redundant --&gt; RedundantDesc[高可靠性&lt;br/&gt;2 NV + 1 RAM]
+    Dataset --&gt; DatasetDesc[多配置支持&lt;br/&gt;多 NV + 1 RAM]</code></pre>
+</li>
+<li>
+<p>配置参数速查</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>适用类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMDatasetSelectionBits</code></td>
+<td>数据集块</td>
+<td>决定数据集数量上限 = 2^N - 1</td>
+</tr>
+<tr>
+<td><code>NvMNvBlockNum</code></td>
+<td>所有类型</td>
+<td>NVRAM 块编号</td>
+</tr>
+<tr>
+<td><code>NvMNvBlockBaseNumber</code></td>
+<td>数据集块</td>
+<td>块基编号</td>
+</tr>
+<tr>
+<td><code>NvMBlockManagementType</code></td>
+<td>所有类型</td>
+<td>选择块管理类型</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>性能影响</p>
+<table>
+<thead>
+<tr>
+<th>块类型</th>
+<th>写入性能</th>
+<th>读取性能</th>
+<th>存储开销</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>原生块</td>
+<td>快</td>
+<td>快</td>
+<td>低</td>
+</tr>
+<tr>
+<td>冗余块</td>
+<td><strong>慢（2次写入）</strong></td>
+<td>快（但有校验）</td>
+<td><strong>高</strong></td>
+</tr>
+<tr>
+<td>数据集块</td>
+<td>与原生相同</td>
+<td>与原生相同</td>
+<td>中~高</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>三种块类型与存储对象的关系总结</p>
+<table>
+<thead>
+<tr>
+<th>存储对象</th>
+<th>原生块</th>
+<th>冗余块</th>
+<th>数据集块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NV 块</td>
+<td>1</td>
+<td>2</td>
+<td>1~255</td>
+</tr>
+<tr>
+<td>RAM 块</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ROM 块</td>
+<td>0~1</td>
+<td>0~1</td>
+<td>0~n</td>
+</tr>
+<tr>
+<td>管理块</td>
+<td>1</td>
+<td>1</td>
+<td>1（含索引）</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="NVRAM-块结构">NVRAM 块结构</h3>
+<blockquote>
+<p><strong>NVRAM 块</strong>是 NvM 模块管理的最高层级存储对象，由<strong>必选</strong>的基本存储对象（NV 块、RAM 块、管理块）和<strong>可选</strong>的 ROM 块组合而成。其组成在配置时通过 <strong>NVRAM 块描述符</strong>固定。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义</p>
+<ol>
+<li>
+<p>NVRAM 块的组成 [SWS_NvM_00138]</p>
+<p>NVRAM 块由以下基本存储对象组成：</p>
+<table>
+<thead>
+<tr>
+<th>组成对象</th>
+<th>必选/可选</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td>✅ 必选</td>
+<td>非易失性存储（EEPROM/Flash）</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>✅ 必选</td>
+<td>RAM 中的运行时数据副本</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>✅ 必选</td>
+<td>内部状态管理（索引、状态、错误码等）</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td>可选 [SWS_NvM_00139]</td>
+<td>默认数据（用于恢复空/损坏的 NV 块）</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NVRAMBlock [NVRAM 块]
+        direction TB
+        
+        subgraph Mandatory [必选部分]
+            NV[NV 块]
+            RAM[RAM 块]
+            Admin[管理块]
+        end
+        
+        subgraph Optional [可选部分]
+            ROM[ROM 块&lt;br/&gt;SWS_NvM_00139]
+        end
+    end
+    
+    NV &lt;--&gt; RAM
+    Admin --&gt;|管理| NV
+    Admin --&gt;|管理| RAM
+    ROM --&gt;|提供默认值| NV</code></pre>
+</li>
+<li>
+<p>组成固定性 [SWS_NvM_00140]</p>
+<blockquote>
+<p>任何 NVRAM 块的组合在<strong>配置时</strong>通过对应的 <strong>NVRAM 块描述符</strong>固定，<strong>运行时不可更改</strong>。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>固定时机</strong></td>
+<td>配置阶段（编译/生成时）</td>
+</tr>
+<tr>
+<td><strong>定义方式</strong></td>
+<td>NVRAM 块描述符</td>
+</tr>
+<tr>
+<td><strong>运行时</strong></td>
+<td>组合固定，不可动态变更</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</li>
+<li>
+<p>地址偏移规则 [SWS_NvM_00141]</p>
+<blockquote>
+<p>所有地址偏移都是相对于 NVRAM 块描述符中 RAM 或 ROM 的<strong>起始地址</strong>给出的，起始地址被假定为 <strong>0</strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Descriptor [NVRAM 块描述符]
+        Start[起始地址 = 0]
+        RAM_Offset[RAM 偏移量]
+        ROM_Offset[ROM 偏移量]
+    end
+    
+    RAM_Offset --&gt; RAM_Base[RAM 基地址]
+    ROM_Offset --&gt; ROM_Base[ROM 基地址]
+    
+    Note[&quot;设备特定的基地址或偏移&lt;br/&gt;由相应的设备驱动程序在需要时添加&quot;]</code></pre>
+<p><strong>关键点</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>相对地址</strong></td>
+<td>描述符中的地址是相对于块起始地址的偏移量</td>
+</tr>
+<tr>
+<td><strong>起始地址假定</strong></td>
+<td>块起始地址视为 0</td>
+</tr>
+<tr>
+<td><strong>物理地址计算</strong></td>
+<td>设备驱动会根据需要加上设备特定的基地址或偏移</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>完整结构示意图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NVRAM_Block [NVRAM 块]
+        direction TB
+        
+        subgraph Mandatory2 [必选基本存储对象]
+            NV2[NV 块&lt;br/&gt;用户数据 + 可选 CRC + 可选块头]
+            RAM2[RAM 块&lt;br/&gt;用户数据 + 可选 CRC + 可选块头]
+            Admin2[管理块&lt;br/&gt;数据集索引 + 状态/错误/属性]
+        end
+        
+        subgraph Optional2 [可选基本存储对象]
+            ROM2[ROM 块&lt;br/&gt;默认数据]
+        end
+        
+        NV2 &lt;--&gt;|数据同步| RAM2
+        Admin2 --&gt;|管理| NV2
+        Admin2 --&gt;|管理| RAM2
+        ROM2 --&gt;|恢复/初始化| NV2
+    end</code></pre>
+</li>
+<li>
+<p>三种块管理类型的实例化对比</p>
+<table>
+<thead>
+<tr>
+<th>块管理类型</th>
+<th>NV 块</th>
+<th>RAM 块</th>
+<th>管理块</th>
+<th>ROM 块</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>原生块</strong></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0~1</td>
+</tr>
+<tr>
+<td><strong>冗余块</strong></td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>0~1</td>
+</tr>
+<tr>
+<td><strong>数据集块</strong></td>
+<td>1~255</td>
+<td>1</td>
+<td>1（含数据集索引）</td>
+<td>0~n</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Native [原生块]
+        NV1[NV]
+        RAM1[RAM]
+        Admin1[管理]
+        ROM1[ROM&lt;br/&gt;可选]
+    end
+    
+    subgraph Redundant [冗余块]
+        NV2a[NV 0]
+        NV2b[NV 1]
+        RAM2[RAM]
+        Admin2[管理]
+        ROM2[ROM&lt;br/&gt;可选]
+    end
+    
+    subgraph Dataset [数据集块]
+        NV3a[NV 数据集0]
+        NV3b[NV 数据集1]
+        NV3c[NV ...]
+        RAM3[RAM]
+        Admin3[管理&lt;br/&gt;含索引]
+        ROM3[ROM&lt;br/&gt;可选]
+    end</code></pre>
+</li>
+<li>
+<p>数据流示意</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph App [应用层]
+        SWC[软件组件]
+    end
+    
+    subgraph NvM [NvM 模块]
+        NVRAM[NVRAM 块]
+        RAM[RAM 块]
+        Admin[管理块]
+        NV[NV 块]
+        ROM[ROM 块]
+    end
+    
+    subgraph HW [硬件层]
+        EEPROM[EEPROM/Flash]
+    end
+    
+    SWC --&gt;|读写| RAM
+    RAM --&gt;|同步| NV
+    NV &lt;--&gt; EEPROM
+    Admin --&gt;|管理| RAM
+    Admin --&gt;|管理| NV
+    ROM --&gt;|初始化/恢复| NV</code></pre>
+</li>
+<li>
+<p>与基本存储对象的关系总结</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>对象</th>
+<th>角色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>最高层</strong></td>
+<td>NVRAM 块</td>
+<td>完整存储单元，由基本对象组成</td>
+</tr>
+<tr>
+<td><strong>中间层</strong></td>
+<td>NV/RAM/ROM/管理块</td>
+<td>基本存储对象，各自承担不同职责</td>
+</tr>
+<tr>
+<td><strong>底层</strong></td>
+<td>物理存储介质</td>
+<td>EEPROM/Flash/RAM</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="NVRAM-块描述符表">NVRAM 块描述符表</h3>
+<blockquote>
+<p><strong>NVRAM 块描述符表</strong>是 NvM 模块内部的核心数据结构，在配置阶段生成并存放于 ROM（Flash）中。应用层通过 <strong>块 ID</strong> 在 API 中指定要操作的 NVRAM 块，NvM 通过该表查找对应块的描述符信息。</p>
+</blockquote>
+<ol>
+<li>
+<p>块 ID 选择机制 [SWS_NvM_00069]</p>
+<blockquote>
+<p>通过 NvM 模块 API 操作单个 NVRAM 块时，通过提供一个<strong>后续分配的块 ID</strong> 来选择目标块。</p>
+</blockquote>
+<p><strong>关键点</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>块 ID</strong></td>
+<td>每个 NVRAM 块在配置时被分配的唯一标识符</td>
+</tr>
+<tr>
+<td><strong>传递方式</strong></td>
+<td>作为 API 参数传入（如 <code>NvM_ReadBlock(BlockID, ...)</code>）</td>
+</tr>
+<tr>
+<td><strong>用途</strong></td>
+<td>在运行时唯一标识一个 NVRAM 块</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 示例：通过块 ID 调用 NvM API</span></span><br><span class="line">NvM_ReadBlock(NVM_BLOCK_ID_CALIBRATION, &amp;data_buffer);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>描述符表的生成 [SWS_NvM_00143]</p>
+<blockquote>
+<p>所有与 NVRAM 块描述符表相关的结构及其在 ROM（Flash）中的地址，都必须在 NvM 模块<strong>配置时生成</strong>。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>生成时机</strong></td>
+<td>配置阶段（编译/代码生成时）</td>
+</tr>
+<tr>
+<td><strong>存放位置</strong></td>
+<td>ROM（Flash）</td>
+</tr>
+<tr>
+<td><strong>内容</strong></td>
+<td>所有 NVRAM 块的描述符信息</td>
+</tr>
+<tr>
+<td><strong>运行时</strong></td>
+<td>只读访问，不可修改</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Config [配置阶段]
+        Tool[配置工具] --&gt; |生成| Table[NVRAM 块描述符表]
+        Table --&gt; |存放于| ROM[ROM / Flash]
+    end
+    
+    subgraph Runtime [运行时]
+        App[应用层] --&gt;|传入 Block ID| API[NvM API]
+        API --&gt;|查表| ROM
+        ROM --&gt;|返回描述符| API
+    end</code></pre>
+</li>
+<li>
+<p>NVRAM 块描述符的典型内容</p>
+<p>每个 NVRAM 块描述符通常包含以下信息：</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Descriptor [NVRAM 块描述符]
+        BlockID[块 ID&lt;br/&gt;唯一标识]
+        BlockType[块管理类型&lt;br/&gt;原生/冗余/数据集]
+        NV_Info[NV 块信息&lt;br/&gt;地址/大小/CRC配置]
+        RAM_Info[RAM 块信息&lt;br/&gt;地址/大小]
+        ROM_Info[ROM 块信息&lt;br/&gt;地址/大小/是否存在]
+        Admin_Info[管理块信息&lt;br/&gt;数据集索引位宽/状态]
+        Protection[保护属性&lt;br/&gt;写保护等]
+    end</code></pre>
+</li>
+<li>
+<p>块 ID 与描述符表的映射关系</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph API [NvM API 调用]
+        Input[块 ID]
+    end
+    
+    subgraph DescriptorTable [NVRAM 块描述符表]
+        Entry1[块 ID = 0&lt;br/&gt;描述符 0]
+        Entry2[块 ID = 1&lt;br/&gt;描述符 1]
+        Entry3[块 ID = 2&lt;br/&gt;描述符 2]
+        EntryN[...]
+    end
+    
+    subgraph Result [查找结果]
+        Descriptor[对应块的描述符]
+        RAM[RAM 地址]
+        NV[NV 地址]
+        Type[块类型]
+        CRC[CRC 配置]
+    end
+    
+    Input --&gt;|索引| Entry2
+    Entry2 --&gt; Descriptor
+    Descriptor --&gt; RAM
+    Descriptor --&gt; NV
+    Descriptor --&gt; Type
+    Descriptor --&gt; CRC</code></pre>
+</li>
+<li>
+<p>描述符表的作用</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Roles [描述符表的作用]
+        Mapping[块 ID → 块属性映射]
+        Config[集中管理所有块配置]
+        Dispatch[运行时 API 路由]
+    end</code></pre>
+</li>
+</ol>
+<h3 id="原生-NVRAM-块">原生 NVRAM 块</h3>
+<blockquote>
+<p><strong>原生 NVRAM 块</strong>是最简单的块管理类型。它允许以最小的开销进行 NV 存储的写入和读取。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00000]</p>
+<p>原生 NVRAM 块由以下基本存储对象组成：</p>
+<table>
+<thead>
+<tr>
+<th>组成对象</th>
+<th>数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td>1</td>
+<td>非易失性存储副本</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>1</td>
+<td>RAM 中的运行时数据副本</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>1</td>
+<td>内部状态管理</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td>0~1（可选）</td>
+<td>默认数据（用于恢复）</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph NativeBlock [原生 NVRAM 块]
+        direction LR
+        NV[NV 块&lt;br/&gt;1个]
+        RAM[RAM 块&lt;br/&gt;1个]
+        Admin[管理块&lt;br/&gt;1个]
+        ROM[ROM 块&lt;br/&gt;0~1个&lt;br/&gt;可选]
+    end
+    
+    NV &lt;--&gt;|同步| RAM
+    Admin --&gt;|管理| NV
+    Admin --&gt;|管理| RAM
+    ROM --&gt;|初始化/恢复| NV</code></pre>
+</li>
+<li>
+<p>结构图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph NativeNVRAM [原生 NVRAM 块]
+        direction TB
+        
+        subgraph Mandatory [必选部分]
+            NV_Block[NV 块&lt;br/&gt;用户数据 + 可选 CRC]
+            RAM_Block[RAM 块&lt;br/&gt;用户数据 + 可选 CRC]
+            Admin_Block[管理块&lt;br/&gt;状态/错误/属性]
+        end
+        
+        subgraph Optional [可选部分]
+            ROM_Block[ROM 块&lt;br/&gt;默认数据]
+        end
+    end
+    
+    ROM_Block -.-&gt;|可选| NV_Block</code></pre>
+</li>
+<li>
+<p>数据流</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph App [应用层]
+        SWC[软件组件]
+    end
+    
+    subgraph Native [原生 NVRAM 块]
+        RAM[RAM 块]
+        Admin[管理块]
+        NV[NV 块]
+        ROM[ROM 块&lt;br/&gt;可选]
+    end
+    
+    subgraph HW [硬件]
+        Storage[EEPROM/Flash]
+    end
+    
+    SWC --&gt;|读取/写入| RAM
+    RAM --&gt;|同步| NV
+    Admin --&gt;|管理| RAM
+    Admin --&gt;|管理| NV
+    NV &lt;--&gt; Storage
+    ROM --&gt;|初始化/恢复| NV</code></pre>
+</li>
+<li>
+<p>操作流程</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Read [读取流程]
+        R1[应用调用 NvM_ReadBlock] --&gt; R2&#123;RAM 块&lt;br/&gt;有效?&#125;
+        R2 --&gt;|有效| R3[直接返回 RAM 数据]
+        R2 --&gt;|无效| R4[从 NV 块加载数据到 RAM]
+        R4 --&gt; R5[标记 RAM 块为有效]
+        R5 --&gt; R3
+    end
+    
+    subgraph Write [写入流程]
+        W1[应用调用 NvM_WriteBlock] --&gt; W2[更新 RAM 块数据]
+        W2 --&gt; W3[标记 RAM 块为已修改]
+        W3 --&gt; W4[NvM_MainFunction 中&lt;br/&gt;写回 NV 块]
+        W4 --&gt; W5[标记 RAM 块为未修改]
+    end</code></pre>
+</li>
+</ol>
+<h3 id="冗余-NVRAM-块">冗余 NVRAM 块</h3>
+<blockquote>
+<p>在原生 NVRAM 块的基础上，<strong>冗余 NVRAM 块</strong>提供了增强的<strong>容错能力</strong>、<strong>可靠性</strong>和<strong>可用性</strong>。它通过维护两份 NV 副本，提高了对数据损坏的抵抗能力。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00001]</p>
+<p>冗余 NVRAM 块由以下基本存储对象组成：</p>
+<table>
+<thead>
+<tr>
+<th>组成对象</th>
+<th>数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td><strong>2</strong></td>
+<td>两份独立的非易失性存储副本</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>1</td>
+<td>RAM 中的运行时数据副本</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>1</td>
+<td>内部状态管理</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td>0~1（可选）</td>
+<td>默认数据（用于恢复）</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph RedundantBlock [冗余 NVRAM 块]
+        direction LR
+        NV0[NV 块&lt;br/&gt;副本 0]
+        NV1[NV 块&lt;br/&gt;副本 1]
+        RAM[RAM 块&lt;br/&gt;1个]
+        Admin[管理块&lt;br/&gt;1个]
+        ROM[ROM 块&lt;br/&gt;0~1个&lt;br/&gt;可选]
+    end
+    
+    NV0 &lt;--&gt;|冗余| NV1
+    NV0 &lt;--&gt; RAM
+    NV1 &lt;--&gt; RAM
+    Admin --&gt;|管理| NV0
+    Admin --&gt;|管理| NV1
+    Admin --&gt;|管理| RAM
+    ROM --&gt;|初始化/恢复| NV0
+    ROM --&gt;|初始化/恢复| NV1</code></pre>
+</li>
+<li>
+<p>逻辑结构图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph RedundantNVRAM [冗余 NVRAM 块]
+        direction TB
+        
+        subgraph NV_Blocks [两份 NV 块]
+            NV0[NV 块 副本 0&lt;br/&gt;用户数据 + 可选 CRC]
+            NV1[NV 块 副本 1&lt;br/&gt;用户数据 + 可选 CRC]
+        end
+        
+        subgraph RAM_Block [RAM 块]
+            RAM[RAM 块&lt;br/&gt;用户数据 + 可选 CRC]
+        end
+        
+        subgraph Admin_Block [管理块]
+            Admin[管理块&lt;br/&gt;状态/错误/属性]
+        end
+        
+        subgraph ROM_Block [可选 ROM 块]
+            ROM[ROM 块&lt;br/&gt;默认数据]
+        end
+    end
+    
+    NV0 &lt;--&gt; NV1
+    NV0 &lt;--&gt; RAM
+    NV1 &lt;--&gt; RAM
+    Admin --&gt;|管理| NV0
+    Admin --&gt;|管理| NV1
+    Admin --&gt;|管理| RAM
+    ROM -.-&gt;|可选| NV0
+    ROM -.-&gt;|可选| NV1</code></pre>
+</li>
+<li>
+<p>冗余恢复机制 [SWS_NvM_00531]</p>
+<blockquote>
+<p>当与冗余 NVRAM 块关联的某一个 NV 块被判定为<strong>无效</strong>时（如在读取期间），NvM 应尝试使用<strong>未损坏的 NV 块</strong>中的数据来恢复无效的 NV 块。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Read[读取请求] --&gt; Check0&#123;副本 0&lt;br/&gt;有效?&#125;
+    
+    Check0 --&gt;|有效| Check1&#123;副本 1&lt;br/&gt;有效?&#125;
+    Check0 --&gt;|无效| Check1
+    
+    Check1 --&gt;|有效| BothValid[两份副本均有效&lt;br/&gt;正常使用]
+    Check1 --&gt;|无效| OneValid[只有一份副本有效]
+    
+    OneValid --&gt; Recover[尝试恢复]
+    Recover --&gt; Recovery&#123;恢复&lt;br/&gt;成功?&#125;
+    
+    Recovery --&gt;|成功| Recovered[恢复成功&lt;br/&gt;冗余重新建立]
+    Recovery --&gt;|失败| ReportDEM[报告 DEM&lt;br/&gt;NVM_E_LOSS_OF_REDUNDANCY]
+    
+    BothValid --&gt; Done[完成]
+    Recovered --&gt; Done
+    ReportDEM --&gt; Done</code></pre>
+</li>
+<li>
+<p>错误报告 [SWS_NwM_00546]</p>
+<blockquote>
+<p>如果恢复失败，应使用错误码 <strong><code>NVM_E_LOSS_OF_REDUNDANCY</code></strong> 向 <strong>DEM</strong>（诊断事件管理器）报告。</p>
+</blockquote>
+<p><strong>错误码说明</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>错误码</th>
+<th>含义</th>
+<th>触发条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NVM_E_LOSS_OF_REDUNDANCY</code></td>
+<td>冗余丢失</td>
+<td>两份 NV 副本中有一份损坏，且无法用另一份恢复</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意</strong>：&quot;恢复&quot;指的是<strong>重新建立冗余</strong>，通常意味着将恢复后的数据<strong>写回到无效的 NV 块</strong>中。</p>
+</blockquote>
+</li>
+<li>
+<p>正常读写场景</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Read [读取场景]
+        R1[应用请求读取] --&gt; R2[读取 NV 副本 0]
+        R2 --&gt; R3[读取 NV 副本 1]
+        R3 --&gt; R4&#123;两者一致?&#125;
+        R4 --&gt;|是| R5[返回数据到 RAM]
+        R4 --&gt;|否| R6[触发恢复机制]
+        R6 --&gt; R5
+    end
+    
+    subgraph Write [写入场景]
+        W1[应用请求写入] --&gt; W2[更新 RAM 块]
+        W2 --&gt; W3[写入 NV 副本 0]
+        W3 --&gt; W4[写入 NV 副本 1]
+        W4 --&gt; W5[更新完成]
+    end</code></pre>
+</li>
+<li>
+<p>时序图</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 应用层
+    participant NvM as NvM 模块
+    participant NV0 as NV 块 副本0
+    participant NV1 as NV 块 副本1
+    participant DEM as DEM
+
+    App-&gt;&gt;NvM: 读取请求
+    
+    par 并行读取
+        NvM-&gt;&gt;NV0: 读取副本 0
+        NvM-&gt;&gt;NV1: 读取副本 1
+    end
+    
+    NV0--&gt;&gt;NvM: 数据 (有效)
+    NV1--&gt;&gt;NvM: ❌ 数据损坏 (无效)
+    
+    NvM-&gt;&gt;NvM: 检测到副本1无效
+    NvM-&gt;&gt;NvM: 尝试使用副本0恢复副本1
+    
+    alt 恢复成功
+        NvM-&gt;&gt;NV1: 写入恢复的数据
+        NV1--&gt;&gt;NvM: 写入成功
+        NvM-&gt;&gt;App: 返回有效数据
+        Note over NvM,DEM: 冗余重新建立
+    else 恢复失败
+        NvM-&gt;&gt;DEM: 报告 NVM_E_LOSS_OF_REDUNDANCY
+        NvM-&gt;&gt;App: 返回有效数据 (仅来自副本0)
+        Note over NvM,DEM: 冗余丢失，需要上层处理
+    end</code></pre>
+</li>
+</ol>
+<h3 id="数据集-NVRAM-块">数据集 NVRAM 块</h3>
+<blockquote>
+<p><strong>数据集 NVRAM 块</strong>是由多个等大小的数据块（NV/ROM）组成的<strong>数组</strong>。应用在任意时刻只能访问其中的<strong>一个</strong>元素。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00006]</p>
+<p>数据集 NVRAM 块由以下基本存储对象组成：</p>
+<table>
+<thead>
+<tr>
+<th>组成对象</th>
+<th>数量</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块（含用户数据）</strong></td>
+<td>多个</td>
+<td>每个数据集一个 NV 块</td>
+</tr>
+<tr>
+<td><strong>CRC 区域</strong></td>
+<td>可选（每个 NV 块）</td>
+<td>数据完整性校验</td>
+</tr>
+<tr>
+<td><strong>NV 块头</strong></td>
+<td>可选（每个 NV 块）</td>
+<td>静态块标识符等元信息</td>
+</tr>
+<tr>
+<td><strong>RAM 块</strong></td>
+<td>1</td>
+<td>当前选中的数据集的运行时副本</td>
+</tr>
+<tr>
+<td><strong>管理块</strong></td>
+<td>1</td>
+<td>包含数据集索引，指向当前选中的数据集</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph DatasetBlock [数据集 NVRAM 块]
+        direction LR
+        subgraph NVBlocks [NV 块数组]
+            NV0[NV 块 数据集0]
+            NV1[NV 块 数据集1]
+            NV2[NV 块 数据集2]
+            NVN[NV 块 ...]
+        end
+        
+        RAM[RAM 块&lt;br/&gt;当前选中]
+        Admin[管理块&lt;br/&gt;数据集索引]
+        ROM[ROM 块&lt;br/&gt;可选默认数据集]
+    end
+    
+    Admin --&gt;|索引选择| RAM
+    RAM &lt;--&gt; NV0
+    RAM &lt;--&gt; NV1
+    RAM &lt;--&gt; NV2
+    ROM -.-&gt;|只读| RAM</code></pre>
+</li>
+<li>
+<p>数据集索引 [SWS_NvM_00144]</p>
+<blockquote>
+<p>数据集的索引位置通过对应的管理块中的<strong>独立字段</strong>来记录。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph AdminBlock [管理块]
+        Index[数据集索引&lt;br/&gt;当前选中]
+        Status[状态/错误/属性]
+    end
+    
+    Index --&gt;|指向| Dataset[选中的数据集]</code></pre>
+</li>
+<li>
+<p>读写操作限制</p>
+<ol>
+<li>
+<p>读取 [SWS_NvM_00374]</p>
+<p>NvM 模块应能够<strong>读取所有已分配的 NV 块</strong>。</p>
+</li>
+<li>
+<p>写入 [SWS_NvM_00375]</p>
+<blockquote>
+<p>NvM 模块<strong>仅当写保护被禁用时</strong>，才能写入所有已分配的 NV 块。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Write[写入请求] --&gt; Check&#123;写保护&lt;br/&gt;禁用?&#125;
+    Check --&gt;|是| Allow[允许写入所有 NV 块]
+    Check --&gt;|否| Deny[❌ 禁止写入]</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>ROM 块作为数据集 [SWS_NvM_00146]</p>
+<blockquote>
+<p>如果 ROM 块被选为可选部分，用于选择数据集的<strong>索引范围会扩展到 ROM</strong>，使得选择 ROM 块而非 NV 块成为可能。索引覆盖所有构成 NVRAM 数据集块的 NV/ROM 块。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph IndexSpace [索引空间]
+        direction LR
+        NV_Index[NV 索引区]
+        ROM_Index[ROM 索引区&lt;br/&gt;扩展]
+    end
+    
+    NV_Index --&gt; NV_Blocks[NV 块&lt;br/&gt;可读写]
+    ROM_Index --&gt; ROM_Blocks[ROM 块&lt;br/&gt;只读]</code></pre>
+<table>
+<thead>
+<tr>
+<th>块类型</th>
+<th>访问权限</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NV 块</strong></td>
+<td>可读写</td>
+<td>需写保护禁用</td>
+</tr>
+<tr>
+<td><strong>ROM 块</strong></td>
+<td><strong>只读</strong> [SWS_NvM_00376]</td>
+<td>默认数据集</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>ROM 块的写入行为 [SWS_NvM_00377]</p>
+<blockquote>
+<p>NvM 模块对 ROM 块的写入应如同对<strong>受保护的 NV 块</strong>的写入一样处理——即<strong>写入被拒绝</strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Write[写入请求] --&gt; Target&#123;目标块类型?&#125;
+    Target --&gt;|NV 块| NVWrite[写入 NV 块]
+    Target --&gt;|ROM 块| ROMWrite[❌ 视为受保护块&lt;br/&gt;写入被拒绝]</code></pre>
+</li>
+<li>
+<p>数据集数量限制 [SWS_NvM_00444]</p>
+<blockquote>
+<p>配置的数据集总数（<strong>NV 块 + ROM 块</strong>）应在 <strong>1 ~ 255</strong> 范围内。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>约束</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>最小值</strong></td>
+<td>1（至少一个数据集）</td>
+</tr>
+<tr>
+<td><strong>最大值</strong></td>
+<td>255（8 位索引限制）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>NV 块与 ROM 块的索引分配 [SWS_NvM_00445]</p>
+<blockquote>
+<p>当配置了可选的 ROM 块时，索引分配如下：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>索引范围</th>
+<th>块类型</th>
+<th>访问权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0 ~ (NvMNvBlockNum - 1)</strong></td>
+<td>NV 块（含 CRC）</td>
+<td>可读写</td>
+</tr>
+<tr>
+<td><strong>NvMNvBlockNum ~ (NvMNvBlockNum + NvMRomBlockNum - 1)</strong></td>
+<td>ROM 块</td>
+<td><strong>只读</strong></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph IndexMap [索引映射]
+        direction LR
+        I0[索引 0]
+        I1[索引 1]
+        I2[索引 ...]
+        IN[NvMNvBlockNum - 1]
+        IR0[NvMNvBlockNum]
+        IR1[NvMNvBlockNum + 1]
+        IRN[NvMNvBlockNum + NvMRomBlockNum - 1]
+    end
+    
+    I0 --&gt; NV0[NV 块 0]
+    I1 --&gt; NV1[NV 块 1]
+    I2 --&gt; NVN[NV 块 ...]
+    IN --&gt; NVLast[NV 块 N-1]
+    
+    IR0 --&gt; ROM0[ROM 块 0&lt;br/&gt;只读]
+    IR1 --&gt; ROM1[ROM 块 1&lt;br/&gt;只读]
+    IRN --&gt; ROMLast[ROM 块 N-1&lt;br/&gt;只读]</code></pre>
+</li>
+<li>
+<p>逻辑结构图</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph DatasetNVRAM [数据集 NVRAM 块]
+        direction TB
+        
+        subgraph NVArray [NV 块数组]
+            NV0[NV 块 数据集 0&lt;br/&gt;用户数据 + 可选 CRC]
+            NV1[NV 块 数据集 1&lt;br/&gt;用户数据 + 可选 CRC]
+            NV2[NV 块 数据集 2&lt;br/&gt;用户数据 + 可选 CRC]
+        end
+        
+        subgraph ROMArray [ROM 块数组&lt;br/&gt;可选]
+            ROM0[ROM 块 数据集 N&lt;br/&gt;只读默认值]
+            ROM1[ROM 块 数据集 N+1&lt;br/&gt;只读默认值]
+        end
+        
+        RAM[RAM 块&lt;br/&gt;当前选中的数据]
+        Admin[管理块&lt;br/&gt;数据集索引]
+    end
+    
+    Admin --&gt;|索引选择| RAM
+    RAM &lt;--&gt; NV0
+    RAM &lt;--&gt; NV1
+    RAM &lt;--&gt; NV2
+    ROM0 -.-&gt;|只读| RAM
+    ROM1 -.-&gt;|只读| RAM</code></pre>
+</li>
+<li>
+<p>数据集切换流程</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 应用层
+    participant Admin as 管理块
+    participant RAM as RAM 块
+    participant NV as NV 块
+
+    App-&gt;&gt;Admin: 设置数据集索引 = 1
+    Admin-&gt;&gt;RAM: 通知切换
+    
+    RAM-&gt;&gt;NV: 从 NV 块 1 加载数据
+    NV--&gt;&gt;RAM: 返回数据
+    
+    RAM--&gt;&gt;App: 数据就绪
+    App-&gt;&gt;RAM: 读写数据
+    
+    Note over RAM: 后续操作针对&lt;br/&gt;当前选中的数据集</code></pre>
+</li>
+</ol>
+<h3 id="API-配置类别">API 配置类别</h3>
+<blockquote>
+<p>为了将 NvM 模块适配到不同硬件资源限制的系统，定义了<strong>三个 API 配置类别</strong>。每个类别提供不同数量的 API 调用，从功能最全到最小集，以适应从高配到低配的各类 MCU 平台。</p>
+</blockquote>
+<ol>
+<li>
+<p>设计目的 [SWS_NvM_00149]</p>
+<table>
+<thead>
+<tr>
+<th>配置类别</th>
+<th>设计目标</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>类别 3</strong></td>
+<td>支持所有 API 调用，功能最全</td>
+<td>资源充足的系统</td>
+</tr>
+<tr>
+<td><strong>类别 2</strong></td>
+<td>提供中等数量的 API 调用</td>
+<td>资源适中的系统</td>
+</tr>
+<tr>
+<td><strong>类别 1</strong></td>
+<td>仅提供最小必需的 API 集</td>
+<td>硬件资源极度受限的系统</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    Class3[类别 3&lt;br/&gt;功能最全] --&gt;|裁剪| Class2[类别 2&lt;br/&gt;功能适中] --&gt;|裁剪| Class1[类别 1&lt;br/&gt;功能最小]
+    
+    Class3 --&gt;|适用| High[高配 MCU&lt;br/&gt;大 RAM/Flash]
+    Class2 --&gt;|适用| Mid[中配 MCU&lt;br/&gt;资源适中]
+    Class1 --&gt;|适用| Low[低配 MCU&lt;br/&gt;资源极度受限]</code></pre>
+</li>
+<li>
+<p>API 分类说明</p>
+<p>规范将 API 分为四种类型（Type 1~4），各类别按需组合：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type 1</strong></td>
+<td>块管理和控制 API（索引、保护、状态）</td>
+</tr>
+<tr>
+<td><strong>Type 2</strong></td>
+<td>单块读写操作 API</td>
+</tr>
+<tr>
+<td><strong>Type 3</strong></td>
+<td>批量操作 API（所有块）</td>
+</tr>
+<tr>
+<td><strong>Type 4</strong></td>
+<td>模块初始化 API</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>各类别的 API 列表</p>
+<ol>
+<li>
+<p>类别 3（功能最全）[SWS_NvM_00560]</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>API</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type 1</strong></td>
+<td><code>NvM_SetDataIndex()</code></td>
+<td>设置数据集索引</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_GetDataIndex()</code></td>
+<td>获取当前数据集索引</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetBlockProtection()</code></td>
+<td>设置块写保护</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_GetErrorStatus()</code></td>
+<td>获取错误状态</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetRamBlockStatus()</code></td>
+<td>设置 RAM 块有效状态</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetBlockLockStatus()</code></td>
+<td>设置块锁定状态</td>
+</tr>
+<tr>
+<td><strong>Type 2</strong></td>
+<td><code>NvM_ReadBlock()</code></td>
+<td>读取单个块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WriteBlock()</code></td>
+<td>写入单个块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_RestoreBlockDefaults()</code></td>
+<td>恢复块默认值</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_EraseNvBlock()</code></td>
+<td>擦除 NV 块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_InvalidateNvBlock()</code></td>
+<td>将 NV 块标记为无效</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_CancelJobs()</code></td>
+<td>取消所有待处理作业</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_ReadPRAMBlock()</code></td>
+<td>读取永久 RAM 块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WritePRAMBlock()</code></td>
+<td>写入永久 RAM 块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_RestorePRAMBlockDefaults()</code></td>
+<td>恢复永久 RAM 块默认值</td>
+</tr>
+<tr>
+<td><strong>Type 3</strong></td>
+<td><code>NvM_ReadAll()</code></td>
+<td>读取所有块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WriteAll()</code></td>
+<td>写入所有块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_CancelWriteAll()</code></td>
+<td>取消写所有操作</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_ValidateAll()</code></td>
+<td>验证所有块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_FirstInitAll()</code></td>
+<td>所有块首次初始化</td>
+</tr>
+<tr>
+<td><strong>Type 4</strong></td>
+<td><code>NvM_Init()</code></td>
+<td>模块初始化</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>类别 2（功能适中）[SWS_NvM_00561]</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>API</th>
+<th>与类别 3 的差异</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type 1</strong></td>
+<td><code>NvM_SetDataIndex()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_GetDataIndex()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_GetErrorStatus()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetRamBlockStatus()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetBlockLockStatus()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><s><code>NvM_SetBlockProtection()</code></s></td>
+<td>❌ <strong>移除</strong></td>
+</tr>
+<tr>
+<td><strong>Type 2</strong></td>
+<td><code>NvM_ReadBlock()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WriteBlock()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_RestoreBlockDefaults()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_CancelJobs()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_ReadPRAMBlock()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WritePRAMBlock()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_RestorePRAMBlockDefaults()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><s><code>NvM_EraseNvBlock()</code></s></td>
+<td>❌ <strong>移除</strong></td>
+</tr>
+<tr>
+<td></td>
+<td><s><code>NvM_InvalidateNvBlock()</code></s></td>
+<td>❌ <strong>移除</strong></td>
+</tr>
+<tr>
+<td><strong>Type 3</strong></td>
+<td><code>NvM_ReadAll()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WriteAll()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_CancelWriteAll()</code></td>
+<td>✅ 保留</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_ValidatedAll()</code></td>
+<td>✅ 保留（拼写略有不同）</td>
+</tr>
+<tr>
+<td></td>
+<td><s><code>NvM_FirstInitAll()</code></s></td>
+<td>❌ <strong>移除</strong></td>
+</tr>
+<tr>
+<td><strong>Type 4</strong></td>
+<td><code>NvM_Init()</code></td>
+<td>✅ 保留</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>类别 1（功能最小）[SWS_NvM_00562]</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>API</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type 1</strong></td>
+<td><code>NvM_GetErrorStatus()</code></td>
+<td>获取错误状态</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetRamBlockStatus()</code></td>
+<td>设置 RAM 块状态（仅当 <code>NvMSetRamBlockStatusApi</code> 启用时可用）</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_SetBlockLockStatus()</code></td>
+<td>设置块锁定状态</td>
+</tr>
+<tr>
+<td></td>
+<td><s><code>NvM_SetDataIndex()</code></s></td>
+<td>❌ 移除</td>
+</tr>
+<tr>
+<td></td>
+<td><s><code>NvM_GetDataIndex()</code></s></td>
+<td>❌ 移除</td>
+</tr>
+<tr>
+<td><strong>Type 2</strong></td>
+<td>—</td>
+<td><strong>完全移除</strong></td>
+</tr>
+<tr>
+<td><strong>Type 3</strong></td>
+<td><code>NvM_ReadAll()</code></td>
+<td>读取所有块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_WriteAll()</code></td>
+<td>写入所有块</td>
+</tr>
+<tr>
+<td></td>
+<td><code>NvM_CancelWriteAll()</code></td>
+<td>取消写所有操作</td>
+</tr>
+<tr>
+<td><strong>Type 4</strong></td>
+<td><code>NvM_Init()</code></td>
+<td>模块初始化</td>
+</tr>
+</tbody>
+</table>
+<p><strong>类别 1 特殊限制</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>限制</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>无队列</strong></td>
+<td>不支持作业队列，所有操作必须等待完成</td>
+</tr>
+<tr>
+<td><strong>无立即写入</strong></td>
+<td>不支持立即数据写入</td>
+</tr>
+<tr>
+<td><strong>不支持数据集块</strong></td>
+<td><code>NVM_BLOCK_DATASET</code> 类型不被支持 [SWS_NvM_00365]</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</li>
+<li>
+<p>三类 API 配置对比总览</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Class3 [类别 3 功能最全]
+        T1_3[Type 1: 6 个 API]
+        T2_3[Type 2: 9 个 API]
+        T3_3[Type 3: 5 个 API]
+        T4_3[Type 4: 1 个 API]
+    end
+    
+    subgraph Class2 [类别 2 功能适中]
+        T1_2[Type 1: 5 个 API]
+        T2_2[Type 2: 7 个 API]
+        T3_2[Type 3: 4 个 API]
+        T4_2[Type 4: 1 个 API]
+    end
+    
+    subgraph Class1 [类别 1 功能最小]
+        T1_1[Type 1: 2~3 个 API]
+        T2_1[Type 2: 无]
+        T3_1[Type 3: 3 个 API]
+        T4_1[Type 4: 1 个 API]
+    end</code></pre>
+</li>
+<li>
+<p>代码裁剪 [SWS_NvM_00150]</p>
+<blockquote>
+<p>NvM 模块应<strong>仅包含处理已配置块类型所需的代码</strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Config[配置阶段] --&gt; Type&#123;配置的&lt;br/&gt;块类型?&#125;
+    
+    Type --&gt;|原生块| GenNative[生成原生块代码]
+    Type --&gt;|冗余块| GenRedundant[生成冗余块代码]
+    Type --&gt;|数据集块| GenDataset[生成数据集块代码]
+    
+    GenNative --&gt; Build[链接最终可执行文件]
+    GenRedundant --&gt; Build
+    GenDataset --&gt; Build
+    
+    Build --&gt; Result[仅包含必要代码&lt;br/&gt;最小化资源占用]</code></pre>
+</li>
+<li>
+<p>选择指南</p>
+<table>
+<thead>
+<tr>
+<th>考虑因素</th>
+<th>推荐类别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>功能完整性要求高</strong></td>
+<td>类别 3</td>
+</tr>
+<tr>
+<td><strong>需要单块读写 + 批量操作</strong></td>
+<td>类别 2</td>
+</tr>
+<tr>
+<td><strong>仅需批量操作 + 最小代码量</strong></td>
+<td>类别 1</td>
+</tr>
+<tr>
+<td><strong>RAM/Flash 资源极度受限</strong></td>
+<td>类别 1</td>
+</tr>
+<tr>
+<td><strong>需要使用数据集块</strong></td>
+<td>类别 2 或 3</td>
+</tr>
+<tr>
+<td><strong>需要写保护和擦除功能</strong></td>
+<td>类别 3</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="扫描顺序-优先级方案">扫描顺序/优先级方案</h2>
+<blockquote>
+<p>NvM 模块支持<strong>基于优先级的作业处理</strong>机制。通过配置参数启用后，系统使用两个独立队列分别处理<strong>紧急写入作业</strong>和<strong>其他作业</strong>；禁用时则回退为<strong>先来先服务</strong>顺序。</p>
+</blockquote>
+<ol>
+<li>
+<p>优先级支持 [SWS_NvM_00032]</p>
+<blockquote>
+<p>NvM 模块应支持<strong>基于优先级的作业处理</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>优先级启用/禁用 [SWS_NvM_00564]</p>
+<blockquote>
+<p>通过配置参数 <code>NvMJobPrioritization</code> 启用或禁用基于优先级的作业处理。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Config&#123;配置参数&lt;br/&gt;NvMJobPrioritization&#125;
+    
+    Config --&gt;|启用| Priority[优先模式]
+    Config --&gt;|禁用| FCFS[先来先服务模式]
+    
+    Priority --&gt; Queue[双队列机制]
+    FCFS --&gt; Single[单队列&lt;br/&gt;无紧急写入支持]</code></pre>
+</li>
+<li>
+<p>双队列机制（优先级模式）[SWS_NvM_00378]</p>
+<blockquote>
+<p>启用优先级模式时，NvM 使用<strong>两个队列</strong>：</p>
+<ul>
+<li><strong>队列 1</strong>：紧急写入作业（崩溃数据/即时写入）</li>
+<li><strong>队列 2</strong>：所有其他作业（包括即时读取、擦除等）</li>
+</ul>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph PriorityMode [优先级模式 - 双队列]
+        direction TB
+        Q1[队列 1: 紧急写入作业&lt;br/&gt;Immediate Write Jobs&lt;br/&gt;最高优先级]
+        Q2[队列 2: 其他作业&lt;br/&gt;读取/擦除/普通写入]
+    end
+    
+    Q1 --&gt;|优先处理| CPU[作业处理]
+    Q2 --&gt;|排队等待| CPU</code></pre>
+<table>
+<thead>
+<tr>
+<th>队列</th>
+<th>包含作业类型</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>紧急写入队列</strong></td>
+<td>崩溃数据、强制立即持久化的数据</td>
+<td><strong>高</strong></td>
+</tr>
+<tr>
+<td><strong>普通队列</strong></td>
+<td>常规读取、写入、擦除作业</td>
+<td>低</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>先来先服务模式（优先级禁用）[SWS_NvM_00379]</p>
+<blockquote>
+<p>如果通过配置禁用基于优先级的作业处理：</p>
+<ul>
+<li>NvM <strong>不支持紧急写入作业</strong></li>
+<li>所有作业按 <strong>先来先服务</strong> 顺序处理</li>
+</ul>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    Job1[作业 A&lt;br/&gt;先到达] --&gt; Process1[先处理]
+    Job2[作业 B&lt;br/&gt;后到达] --&gt; Process2[后处理]
+    Job3[作业 C&lt;br/&gt;最后到达] --&gt; Process3[最后处理]</code></pre>
+</li>
+<li>
+<p>批量操作的队列长度 [SWS_NvM_00380]</p>
+<blockquote>
+<p>来自 <code>NvM_ReadAll</code>、<code>NvM_ValidateAll</code>、<code>NvM_FirstInitAll</code> 和 <code>NvM_WriteAll</code> 的<strong>多块请求</strong>，其队列长度固定为 <strong>1</strong>（即同一时刻只有一个多块作业在队列中）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>批量 API</th>
+<th>队列长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvM_ReadAll()</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>NvM_ValidateAll()</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>NvM_FirstInitAll()</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>NvM_WriteAll()</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>批量操作的不可中断性</p>
+<ol>
+<li>
+<p>ReadAll 不可中断 [SWS_NvM_00381]</p>
+<blockquote>
+<p>NvM 模块<strong>不应被其他请求中断</strong>来自 <code>NvM_ReadAll</code> 的作业。</p>
+</blockquote>
+</li>
+<li>
+<p>WriteAll 不可中断 [SWS_NvM_00567]</p>
+<blockquote>
+<p>NvM 模块<strong>不应被其他请求中断</strong>来自 <code>NvM_WriteAll</code> 的作业。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    ReadAll[ReadAll 作业执行中] --&gt; Other[其他请求到来]
+    Other --&gt; Queue[排队等待]
+    ReadAll --&gt; Complete[完成后执行队列中的请求]</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>唯一例外：紧急写入可抢占 [SWS_NvM_00381 注释]</p>
+<blockquote>
+<p><strong>唯一例外</strong>：具有<strong>紧急优先级</strong>的写入作业可以抢占正在运行的读/写作业。被抢占的作业随后会被 NvM 恢复/重新启动 [SWS_NvM_00182]。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Running[正在执行的作业&lt;br/&gt;ReadAll/WriteAll/单块] --&gt; Emerg[紧急写入请求到达]
+    Emerg --&gt; Preempt[抢占当前作业]
+    Preempt --&gt; Execute[执行紧急写入]
+    Execute --&gt; Resume[恢复/重新启动&lt;br/&gt;被抢占的作业]</code></pre>
+</li>
+<li>
+<p>排队行为（非抢占）</p>
+<ol>
+<li>
+<p>ReadAll 期间的其他请求</p>
+<table>
+<thead>
+<tr>
+<th>请求类型</th>
+<th>行为</th>
+<th>规范</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>读取请求</strong></td>
+<td>排队，ReadAll 完成后执行</td>
+<td>[SWS_NvM_00568]</td>
+</tr>
+<tr>
+<td><strong>写入请求</strong></td>
+<td>排队，ReadAll 完成后执行</td>
+<td>[SWS_NvM_00725]</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>WriteAll 期间的其他请求</p>
+<table>
+<thead>
+<tr>
+<th>请求类型</th>
+<th>行为</th>
+<th>规范</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>写入请求</strong></td>
+<td>排队，WriteAll 完成后执行</td>
+<td>[SWS_NvM_00569]</td>
+</tr>
+<tr>
+<td><strong>读取请求</strong></td>
+<td>排队，WriteAll 完成后执行</td>
+<td>[SWS_NvM_00726]</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph ReadAll [ReadAll 执行中]
+        R1[读取请求到达] --&gt; Queue1[排队]
+        W1[写入请求到达] --&gt; Queue1
+    end
+    
+    subgraph After [ReadAll 完成后]
+        Queue1 --&gt; Process[依次执行队列中的请求]
+    end</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>WriteAll 取消 [SWS_NvM_00238]</p>
+<blockquote>
+<p><code>NvM_WriteAll</code> 请求可通过调用 <code>NvM_CancelWriteAll</code> 中止。此时，<strong>当前块会被完整处理</strong>，但不再写入后续块。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    WriteAll[WriteAll 执行中] --&gt; Cancel[调用 CancelWriteAll]
+    Cancel --&gt; Current[当前块继续处理完毕]
+    Current --&gt; Stop[停止后续块写入]</code></pre>
+</li>
+<li>
+<p>请求出队 [SWS_NvM_00378 注释]</p>
+<blockquote>
+<p>如果请求因对应的 NVRAM 块操作完成而变得<strong>过时</strong>，允许将其<strong>从队列中移除</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>抢占后恢复 [SWS_NvM_00570]</p>
+<blockquote>
+<p>被抢占的作业应由 NvM 模块随后<strong>恢复或重新启动</strong>。此行为适用于<strong>单块请求</strong>和<strong>多块请求</strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Running[正在执行作业 A] --&gt; Preempted[被紧急写入抢占]
+    Preempted --&gt; Store[保存作业 A 的上下文]
+    Store --&gt; Emerg[执行紧急写入]
+    Emerg --&gt; Resume[恢复/重新启动作业 A]</code></pre>
+</li>
+<li>
+<p>优先级模式 vs 非优先级模式</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>优先级模式（启用）</th>
+<th>非优先级模式（禁用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>队列数量</strong></td>
+<td>2（紧急写入 + 其他）</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>紧急写入支持</strong></td>
+<td>✅ 支持</td>
+<td>❌ 不支持</td>
+</tr>
+<tr>
+<td><strong>调度方式</strong></td>
+<td>紧急写入优先</td>
+<td>先来先服务</td>
+</tr>
+<tr>
+<td><strong>抢占</strong></td>
+<td>✅ 支持</td>
+<td>❌ 不支持</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1>一般行为</h1>
+<h2 id="功能需求">功能需求</h2>
+<ol>
+<li>
+<p>异步通知 [SWS_NvM_00383]</p>
+<blockquote>
+<p>对于每个异步请求，是否在作业完成后调用通知回调应是<strong>可配置</strong>的选项。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>配置选项</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>启用通知</strong></td>
+<td>作业完成后回调调用者</td>
+</tr>
+<tr>
+<td><strong>禁用通知</strong></td>
+<td>作业完成后无回调，调用者需主动查询状态</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>回调接口 [SWS_NvM_00384]</p>
+<blockquote>
+<p>NvM 模块应提供<strong>回调接口</strong> [SWS_NvM_00113]。</p>
+</blockquote>
+</li>
+<li>
+<p>环境访问限制</p>
+<blockquote>
+<p>NvM 模块的环境应<strong>仅通过 NvM 模块访问非易失性存储器</strong>。除 NvM 模块外，<strong>不允许任何模块</strong>直接访问非易失性存储器。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Allowed [✅ 允许]
+        App[应用层] --&gt; NvM[NvM 模块]
+        NvM --&gt; HW[非易失性存储器]
+    end
+    
+    subgraph Forbidden [❌ 禁止]
+        App2[应用层] -.-&gt;|直接访问| HW2[非易失性存储器]
+        Other[其他模块] -.-&gt;|直接访问| HW2
+    end</code></pre>
+</li>
+<li>
+<p>隐式访问方式 [SWS_NvM_00038]</p>
+<blockquote>
+<p>NvM 模块仅提供一种<strong>隐式</strong>访问 NVRAM 和共享内存（RAM）中块的方式。即 NvM 模块在 NVRAM 和 RAM 之间进行<strong>整块拷贝</strong>（一个或多个块）。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph ImplicitAccess [隐式访问]
+        NVRAM[NVRAM] --&gt;|拷贝| RAM[RAM]
+        RAM --&gt;|拷贝| NVRAM
+    end</code></pre>
+</li>
+<li>
+<p>应用直接访问 [SWS_NvM_00692]</p>
+<blockquote>
+<p>应用在遵守给定限制（如同步机制）的前提下，<strong>直接访问 RAM 数据</strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    App[应用层] --&gt;|直接读写| RAM[RAM 块数据]
+    RAM -.-&gt;|后台同步| NVRAM[NVRAM]</code></pre>
+</li>
+<li>
+<p>队列管理</p>
+<ol>
+<li>
+<p>去重排队 [SWS_NvM_00385]</p>
+<blockquote>
+<p>如果具有特定 ID 的块尚未在队列中或正在处理中，NvM 模块应将所有异步的&quot;单块&quot;读取/写入/控制请求<strong>加入队列</strong>（考虑多任务限制）。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Request[单块请求到达] --&gt; Check&#123;该块ID&lt;br/&gt;已在队列中?&#125;
+    Check --&gt;|是| Reject[拒绝/忽略]
+    Check --&gt;|否| Check2&#123;该块ID&lt;br/&gt;正在处理中?&#125;
+    Check2 --&gt;|是| Reject
+    Check2 --&gt;|否| Queue[加入队列]</code></pre>
+</li>
+<li>
+<p>多请求接受 [SWS_NvM_00386]</p>
+<blockquote>
+<p>只要不发生<strong>队列溢出</strong>，NvM 模块应接受多个异步&quot;单块&quot;请求。</p>
+</blockquote>
+</li>
+<li>
+<p>串行化处理 [SWS_NvM_00155]</p>
+<blockquote>
+<p>最高优先级的请求由 NvM 模块从队列中取出，并按<strong>串行顺序</strong>处理。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Queue [队列]
+        Q1[请求 A&lt;br/&gt;高优先级]
+        Q2[请求 B]
+        Q3[请求 C]
+    end
+    
+    Q1 --&gt;|取出| Process[串行处理]
+    Process --&gt;|完成| Q2
+    Process --&gt;|完成| Q3</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>一致性/完整性检查 [SWS_NvM_00040]</p>
+<blockquote>
+<p>NvM 模块应实现用于检查 NV 内存中保存数据的<strong>一致性/完整性</strong>的隐式机制 [SWS_NvM_00165]。</p>
+</blockquote>
+</li>
+<li>
+<p>中断上下文</p>
+<blockquote>
+<p>根据内存堆栈的实现，NvM 模块提供和/或调用的回调例程可能在<strong>中断上下文</strong>中被调用。因此，NvM 模块必须确保其运行时间<strong>合理短暂</strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    ISR[中断服务例程] --&gt; Callback[NvM 回调]
+    Callback --&gt; Requirement[要求: 执行时间尽可能短]</code></pre>
+</li>
+<li>
+<p>默认数据与首次初始化 [SWS_NvM_00085]</p>
+<blockquote>
+<p>如果配置时<strong>没有可用的默认 ROM 数据</strong>或<strong>未定义 NvMInitBlockCallback 回调</strong>，则应由<strong>应用层负责提供默认初始化数据</strong>。此时，应用必须使用 <code>NvM_GetErrorStatus()</code> 来区分<strong>首次初始化</strong>和<strong>数据损坏</strong>两种场景。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Init[初始化请求] --&gt; Check&#123;ROM 默认数据&lt;br/&gt;或回调可用?&#125;
+    
+    Check --&gt;|是| Auto[由 NvM 自动加载默认数据]
+    Check --&gt;|否| AppResponsible[应用层负责提供默认值]
+    
+    AppResponsible --&gt; GetStatus[使用 NvM_GetErrorStatus（）]
+    GetStatus --&gt; FirstInit[首次初始化: 提供默认值]
+    GetStatus --&gt; Corrupted[数据损坏: 使用默认值并记录错误]</code></pre>
+</li>
+<li>
+<p>ReadAll 中的检测机制</p>
+<ol>
+<li>
+<p>校验和检测 [SWS_NvM_00387]</p>
+<blockquote>
+<p>在处理 <code>NvM_ReadAll</code> 期间，NvM 模块应能够通过执行<strong>校验和计算</strong>来检测损坏的 RAM 数据 [ECUC_NvM_00476]。</p>
+</blockquote>
+</li>
+<li>
+<p>无效数据检测 [SWS_NvM_00226]</p>
+<blockquote>
+<p>在处理 <code>NvM_ReadAll</code> 期间，NvM 模块应能够通过测试管理块中数据的有效性来检测无效的 RAM 数据 [ECUC_NvM_00476]。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>ReadAll 中的错误恢复 [SWS_NvM_00388]</p>
+<blockquote>
+<p>在启动阶段和 <code>NvM_ReadAll</code> 正常运行期间，如果 NvM 模块检测到 NV 块中存在<strong>不可恢复错误</strong>，NvM 模块应将<strong>默认数据</strong>（如果已配置）复制到对应的 RAM 块中。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    ReadAll[NvM_ReadAll 处理] --&gt; Check&#123;检测到&lt;br/&gt;不可恢复错误?&#125;
+    Check --&gt;|否| Normal[正常完成]
+    Check --&gt;|是| HasDefault&#123;配置了&lt;br/&gt;ROM 默认数据?&#125;
+    
+    HasDefault --&gt;|是| Copy[将默认数据复制到 RAM 块]
+    Copy --&gt; Continue[继续处理]
+    HasDefault --&gt;|否| Error[返回错误状态]</code></pre>
+</li>
+<li>
+<p>OS 服务使用 [SWS_NvM_00332]</p>
+<blockquote>
+<p>为了使用 OS 服务，NvM 模块应<strong>仅使用 BSW 调度器</strong>，而不直接使用 OS 对象和/或相关 OS 服务。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    NvM[NvM 模块] --&gt;|✅ 使用| Scheduler[BSW 调度器]
+    Scheduler --&gt;|访问| OS[操作系统]
+    
+    NvM -.-&gt;|❌ 禁止| Direct[直接调用 OS API/对象]
+    Direct -.-&gt; OS</code></pre>
+</li>
+<li>
+<p>未对齐处理 [SWS_NvM_00985]</p>
+<blockquote>
+<p>NvM 模块应将<strong>内部镜像</strong>作为缓冲区，用于所有读取和写入已配置<strong>永久 RAM</strong>（或通过 API 参数传入的 RAM）的 NVRAM 块的 RAM 块的操作，且这些 RAM（起始地址）<strong>未对齐到 <code>NvMBufferAlignmentValue</code></strong>。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    Op[NvM 读写操作] --&gt; Check&#123;RAM 起始地址&lt;br/&gt;对齐到 NvMBufferAlignmentValue?&#125;
+    
+    Check --&gt;|对齐| Direct[直接操作 RAM 块]
+    Check --&gt;|未对齐| Mirror[使用内部镜像作为缓冲区]
+    
+    Mirror --&gt; Copy[在镜像和实际 RAM 之间拷贝数据]</code></pre>
+</li>
+</ol>
+<h2 id="NVRAM-管理器启动">NVRAM 管理器启动</h2>
+<blockquote>
+<p>NvM 模块的启动分为两个阶段：<strong>初始化</strong>（<code>NvM_Init</code>）和 <strong>数据加载</strong>（<code>NvM_ReadAll</code>）。<code>NvM_Init</code> 仅完成模块内部数据结构初始化，不涉及具体 NVRAM 块的数据加载；数据加载由后续的 <code>NvM_ReadAll</code> 请求触发。<strong>所有启动相关请求均由 BSW 模式管理器专用</strong>。</p>
+</blockquote>
+<ol>
+<li>
+<p>NvM_Init 调用者 [SWS_NvM_00693]</p>
+<blockquote>
+<p><code>NvM_Init</code> 应<strong>专由 BSW 模式管理器</strong>调用。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    BswM[BSW 模式管理器] --&gt;|专有调用| NvM_Init[NvM_Init]
+    Other[其他模块] -.-&gt;|❌ 禁止调用| NvM_Init</code></pre>
+</li>
+<li>
+<p>初始化与数据加载分离 [SWS_NvM_00091] [SWS_NvM_00158]</p>
+<blockquote>
+<p>由于 ECU 启动时间存在严格限制，<code>NvM_Init</code> 请求<strong>不应包含</strong>已配置 NVRAM 块的初始化。RAM 数据块的初始化由另一请求 <code>NvM_ReadAll</code> 完成。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Startup [NvM 启动流程]
+        Phase1[NvM_Init&lt;br/&gt;初始化内部数据结构&lt;br/&gt;不加载块数据]
+        Phase2[NvM_ReadAll&lt;br/&gt;加载所有 RAM 数据块]
+    end</code></pre>
+</li>
+<li>
+<p>底层驱动初始化 [SWS_NvM_00157]</p>
+<blockquote>
+<p><code>NvM_Init</code> 请求<strong>不负责</strong>触发底层驱动和内存硬件抽象的初始化。这也由 <strong>BSW 模式管理器</strong>处理。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    BswM[BSW 模式管理器] --&gt;|触发| Driver[底层驱动初始化]
+    BswM --&gt;|触发| NvM_Init[NvM_Init]
+    NvM_Init -.-&gt;|不负责| Driver</code></pre>
+</li>
+<li>
+<p>NvM_ReadAll 调用者 [SWS_NvM_00158]</p>
+<p><code>NvM_ReadAll</code> 应<strong>专由 BSW 模式管理器</strong>调用。</p>
+</li>
+<li>
+<p>启动状态监控 [SWS_NvM_00694]</p>
+<blockquote>
+<p>使用 NvM 模块的软件组件负责检查 NvM 模块启动产生的全局错误/状态信息。BSW 模式管理器通过以下方式获取启动结果：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>轮询</strong></td>
+<td>使用 <code>NvM_GetErrorStatus(块 ID = 0)</code> 查询</td>
+</tr>
+<tr>
+<td><strong>回调通知</strong></td>
+<td>配置 <code>NvM_MultiBlockCallback</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>启动状态值</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>状态值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NVM_REQ_PENDING</code></td>
+<td>启动进行中</td>
+</tr>
+<tr>
+<td><code>NVM_REQ_OK</code></td>
+<td>启动成功</td>
+</tr>
+<tr>
+<td><code>NVM_REQ_NOT_OK</code></td>
+<td>启动失败</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[NvM_ReadAll 执行中] --&gt; Poll&#123;轮询状态&#125;
+    
+    Poll --&gt; Pending[状态: NVM_REQ_PENDING&lt;br/&gt;继续等待]
+    Poll --&gt; OK[状态: NVM_REQ_OK&lt;br/&gt;启动成功]
+    Poll --&gt; NotOK[状态: NVM_REQ_NOT_OK&lt;br/&gt;启动失败]
+    
+    Pending --&gt;|周期性查询| Poll</code></pre>
+</li>
+<li>
+<p>提前启动 SWC（通过回调）</p>
+<blockquote>
+<p>如果为 <code>NvM_ReadAll</code> 中处理的每个 NVRAM 块配置了回调，RTE 可利用这些回调<strong>提前启动</strong>软件组件（如 SWC）。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    NvM_ReadAll --&gt;|处理块 A| CallbackA[块 A 回调] --&gt; StartSWC_A[启动 SWC A]
+    NvM_ReadAll --&gt;|处理块 B| CallbackB[块 B 回调] --&gt; StartSWC_B[启动 SWC B]
+    NvM_ReadAll --&gt;|处理块 C| CallbackC[块 C 回调] --&gt; StartSWC_C[启动 SWC C]</code></pre>
+</li>
+<li>
+<p>DEM 早期就绪（通过块 ID 顺序）</p>
+<blockquote>
+<p>为确保 DEM 在早期完全就绪（即其 NV 数据恢复到 RAM），<strong>与 DEM 相关的 NVRAM 块应配置为低 ID</strong>，以便在 <code>NvM_ReadAll</code> 中被优先处理。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph PriorityOrder [块处理顺序]
+        LowID[&quot;低 ID 块&lt;br/&gt;(DEM 相关)&quot;]
+        MidID[&quot;中 ID 块&quot;]
+        HighID[&quot;高 ID 块&quot;]
+    end
+    
+    LowID --&gt;|优先| Early[早期完成]
+    MidID --&gt;|其次| Normal
+    HighID --&gt;|最后| Late</code></pre>
+</li>
+<li>
+<p>数据集索引的持久化 [SWS_NvM_00160]</p>
+<blockquote>
+<p>NvM 模块<strong>不会自动以持久化方式</strong>存储当前使用的数据集索引。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>责任方</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>软件组件</strong></td>
+<td>负责使用 <code>NvM_SetDataIndex()</code> 设置正确的索引位置</td>
+</tr>
+<tr>
+<td><strong>软件组件</strong></td>
+<td>负责使用 <code>NvM_GetDataIndex()</code> 获取当前索引位置</td>
+</tr>
+<tr>
+<td><strong>软件组件</strong></td>
+<td>可将当前索引位置存储在一个独立的 NVRAM 块中</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    SWC[软件组件] --&gt;|启动时| GetIndex[NvM_GetDataIndex&lt;br/&gt;获取当前索引]
+    SWC --&gt;|切换数据集| SetIndex[NvM_SetDataIndex&lt;br/&gt;设置新索引]
+    SWC --&gt;|持久化| Store[将索引存储到&lt;br/&gt;独立的 NVRAM 块]</code></pre>
+</li>
+<li>
+<p>块有效性检查 [SWS_NvM_00160]</p>
+<blockquote>
+<p>软件组件应使用 <code>NvM_GetErrorStatus(特定块 ID)</code> 检查其负责的所有块的特定错误/状态，以确定对应 RAM 块的有效性。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    SWC[软件组件] --&gt;|检查块 ID = X| NvM_GetErrorStatus
+    NvM_GetErrorStatus --&gt;|返回状态| SWC
+    SWC --&gt; Valid&#123;状态判断&#125;
+    Valid --&gt;|有效| Use[使用 RAM 数据]
+    Valid --&gt;|无效| Recover[执行恢复/默认值处理]</code></pre>
+</li>
+<li>
+<p>数据集块的索引管理 [SWS_NvM_00695]</p>
+<blockquote>
+<p>对于 <code>NVM_BLOCK_DATASET</code> 类型的块，软件组件负责管理数据集索引：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>用途</th>
+<th>调用方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvM_SetDataIndex()</code></td>
+<td>设置当前数据集索引</td>
+<td>软件组件</td>
+</tr>
+<tr>
+<td><code>NvM_GetDataIndex()</code></td>
+<td>获取当前数据集索引</td>
+<td>软件组件</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>例如：当前索引位置可由软件组件存储在<strong>一个独立的 NVRAM 块</strong>中以便持久化。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph DatasetBlock [数据集块]
+        DS0[数据集 0]
+        DS1[数据集 1]
+        DS2[数据集 2]
+    end
+    
+    SWC[软件组件] --&gt;|NvM_SetDataIndex（1）| Index[索引 = 1]
+    Index --&gt;|选择| DS1
+    
+    SWC --&gt;|持久化| Storage[独立 NVRAM 块&lt;br/&gt;存储当前索引]
+    Storage --&gt;|启动时读取| SWC</code></pre>
+</li>
+<li>
+<p>启动阶段控制流程</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant BswM as BSW 模式管理器
+    participant Driver as 底层驱动
+    participant NvM as NvM 模块
+    participant DEM as DEM
+    participant App as 应用层 SWC
+
+    Note over BswM,App: 阶段 1：驱动初始化
+    BswM-&gt;&gt;Driver: 初始化底层驱动和硬件抽象
+    
+    Note over BswM,App: 阶段 2：NvM 内部初始化
+    BswM-&gt;&gt;NvM: NvM_Init()
+    Note over NvM: 仅初始化内部数据结构&lt;br/&gt;不加载任何块数据
+
+    Note over BswM,App: 阶段 3：数据加载启动
+    BswM-&gt;&gt;NvM: NvM_ReadAll() 启动
+    Note over NvM: 按 ID 顺序处理所有块&lt;br/&gt;（低 ID 优先，支持 DEM 早期就绪）
+
+    loop 每个块
+        NvM-&gt;&gt;NvM: 加载块数据到 RAM
+        alt 配置了回调
+            NvM-&gt;&gt;App: 调用块回调
+            App-&gt;&gt;App: 提前启动（如适用）
+        end
+    end
+
+    loop 轮询模式
+        BswM-&gt;&gt;NvM: NvM_GetErrorStatus(块ID=0)
+        NvM--&gt;&gt;BswM: NVM_REQ_OK / NOT_OK / PENDING
+    end
+
+    alt 启动完成
+        BswM-&gt;&gt;App: 通知应用层可以访问数据
+    end</code></pre>
+</li>
+</ol>
+<h2 id="NVRAM-管理器关闭">NVRAM 管理器关闭</h2>
+<blockquote>
+<p>NvM 模块的关闭过程通过 <code>NvM_WriteAll</code> 请求执行，该请求将<strong>所有已修改的 RAM 块数据写回非易失性存储器</strong>，确保数据持久化。<code>NvM_WriteAll</code> 由 <strong>BSW 模式管理器</strong>调用。</p>
+</blockquote>
+<ol>
+<li>
+<p>关闭流程 [SWS_NvM_00092]</p>
+<blockquote>
+<p>基本的关闭流程通过请求 <code>NvM_WriteAll</code> 完成。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    BswM[BSW 模式管理器] --&gt;|调用| WriteAll[NvM_WriteAll]
+    WriteAll --&gt;|写回所有脏块| NVM[非易失性存储器]</code></pre>
+<p><strong><code>NvM_WriteAll</code> 的行为</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>遍历所有 NVRAM 块</strong></td>
+<td>检查每个块的 RAM 数据是否已被修改（&quot;脏&quot;状态）</td>
+</tr>
+<tr>
+<td><strong>写回脏块</strong></td>
+<td>将所有已修改的数据写回 NV 存储</td>
+</tr>
+<tr>
+<td><strong>完成通知</strong></td>
+<td>所有块写入完成后，通过回调或轮询通知完成</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>调用者 [SWS_NvM_00092 注释]</p>
+<blockquote>
+<p><code>NvM_WriteAll</code> 由 <strong>BSW 模式管理器</strong>调用。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    BswM[BSW 模式管理器] --&gt;|专有调用| NvM_WriteAll
+    Other[其他模块] -.-&gt;|❌ 禁止调用| NvM_WriteAll</code></pre>
+</li>
+<li>
+<p>关闭时序图</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant BswM as BSW 模式管理器
+    participant NvM as NvM 模块
+    participant RAM as RAM 块
+    participant NV as 非易失性存储器
+
+    Note over BswM,NV: 关闭阶段开始
+
+    BswM-&gt;&gt;NvM: NvM_WriteAll()
+
+    loop 遍历所有 NVRAM 块
+        NvM-&gt;&gt;RAM: 检查块是否已修改（脏）
+        alt 块已修改（脏）
+            NvM-&gt;&gt;RAM: 读取 RAM 数据
+            NvM-&gt;&gt;NV: 写入 NV 存储
+            NV--&gt;&gt;NvM: 写入完成确认
+        else 块未修改（干净）
+            NvM-&gt;&gt;NvM: 跳过该块
+        end
+    end
+
+    NvM--&gt;&gt;BswM: 所有块写入完成（回调或轮询）
+
+    Note over BswM,NV: 数据已持久化，可安全断电</code></pre>
+</li>
+</ol>
+<h2 id="（准）并行写入访问">（准）并行写入访问</h2>
+<blockquote>
+<p>NvM 模块通过<strong>异步接口</strong>接收请求，并使用<strong>队列机制</strong>管理这些请求。所有请求根据其<strong>优先级</strong>以<strong>串行方式</strong>依次处理，从而实现“准并行”的多请求并发提交能力。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义 [SWS_NvM_00162]</p>
+<blockquote>
+<p>NvM 模块通过使用队列机制的<strong>异步接口</strong>接收请求。NvM 模块根据请求的优先级<strong>串行处理</strong>所有请求。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Clients [调用方]
+        App1[应用层 1]
+        App2[应用层 2]
+        App3[应用层 3]
+    end
+    
+    subgraph NvM [NvM 模块]
+        Queue[请求队列]
+        Scheduler[串行调度器]
+    end
+    
+    App1 --&gt;|异步提交| Queue
+    App2 --&gt;|异步提交| Queue
+    App3 --&gt;|异步提交| Queue
+    
+    Queue --&gt;|按优先级取出| Scheduler
+    Scheduler --&gt;|串行处理| Exec[执行作业]</code></pre>
+</li>
+<li>
+<p>关键特性</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>异步接口</strong></td>
+<td>调用方提交请求后立即返回，不阻塞等待完成</td>
+</tr>
+<tr>
+<td><strong>队列机制</strong></td>
+<td>多个请求在队列中暂存，防止丢失</td>
+</tr>
+<tr>
+<td><strong>优先级调度</strong></td>
+<td>高优先级请求优先被处理（参见扫描顺序/优先级方案）</td>
+</tr>
+<tr>
+<td><strong>串行处理</strong></td>
+<td>同一时刻只有一个作业在执行，保证数据一致性</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>请求生命周期</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 应用层
+    participant NvM as NvM 模块
+    participant Queue as 请求队列
+    participant Exec as 执行引擎
+
+    App-&gt;&gt;NvM: 提交请求 (异步)
+    NvM-&gt;&gt;Queue: 加入队列
+    NvM--&gt;&gt;App: 立即返回 (请求已接受)
+
+    Note over Queue,Exec: 队列调度循环
+
+    Queue-&gt;&gt;Exec: 取出最高优先级请求
+    Exec-&gt;&gt;Exec: 串行处理作业
+    Exec--&gt;&gt;App: (可选) 完成回调通知</code></pre>
+</li>
+</ol>
+<h2 id="NVRAM-块一致性检查">NVRAM 块一致性检查</h2>
+<blockquote>
+<p>NvM 模块通过<strong>隐式技术</strong>检查 NVRAM 块的数据一致性，主要方式是<strong>重新计算对应 NV 块的 CRC 值</strong>。CRC 的使用按块独立配置，NvM 会为所用 CRC 中最大的类型分配内存，且 CRC 内存对用户透明。</p>
+</blockquote>
+<ol>
+<li>
+<p>隐式检查 [SWS_NvM_00164]</p>
+<blockquote>
+<p>NvM 模块应提供用于检查 NVRAM 块数据一致性的<strong>隐式技术</strong>。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>检查方式</strong></td>
+<td>隐式（自动执行，无需应用层干预）</td>
+</tr>
+<tr>
+<td><strong>触发时机</strong></td>
+<td>读取 NV 块时自动进行</td>
+</tr>
+<tr>
+<td><strong>校验方法</strong></td>
+<td>通过 CRC 重新计算（详见下文）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>CRC 校验方式 [SWS_NvM_00571]</p>
+<blockquote>
+<p>NVRAM 块的数据一致性检查通过对其对应的 NV 块进行 <strong>CRC 重新计算</strong>来完成。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph ReadProcess [读取流程]
+        Start[读取 NV 块] --&gt; GetData[获取用户数据]
+        GetData --&gt; Calc[重新计算 CRC]
+        GetData --&gt; StoredCRC[读取存储的 CRC]
+        Calc --&gt; Compare&#123;比较&#125;
+        StoredCRC --&gt; Compare
+        Compare --&gt;|匹配| Valid[✅ 数据有效]
+        Compare --&gt;|不匹配| Invalid[❌ 数据损坏]
+    end</code></pre>
+</li>
+<li>
+<p>CRC 配置 [SWS_NvM_00165]</p>
+</li>
+</ol>
+<h3 id="2">2.</h3>
+<blockquote></blockquote>
+<h3 id="3">3.</h3>
+<blockquote>
+<p>隐式数据一致性检查通过内部函数的<strong>可配置选项</strong>提供。一致性检查可按每个 NVRAM 块独立配置，取决于以下参数：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMBlockUseCrc</code></td>
+<td>是否对该块使用 CRC 校验</td>
+</tr>
+<tr>
+<td><code>NvMCalcRamBlockCrc</code></td>
+<td>是否对 RAM 块计算 CRC</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    Config&#123;配置参数&#125;
+    
+    Config --&gt; UseCrc[NvMBlockUseCrc&lt;br/&gt;启用 CRC]
+    Config --&gt; CalcCrc[NvMCalcRamBlockCrc&lt;br/&gt;RAM CRC 计算]
+    
+    UseCrc --&gt;|启用| Check[读取时校验 NV 块 CRC]
+    UseCrc --&gt;|禁用| NoCheck[不进行 CRC 校验]
+    
+    CalcCrc --&gt;|启用| RAMCRC[RAM 块也计算 CRC]
+    CalcCrc --&gt;|禁用| RAMNoCRC[RAM 块无 CRC]</code></pre>
+<hr>
+<h3 id="4-一次性写入块的-CRC-建议-SWS-NvM-00724">4. 一次性写入块的 CRC 建议 [SWS_NvM_00724]</h3>
+<blockquote>
+<p>对于 <code>NvMWriteBlockOnce = TRUE</code> 的 NVRAM 块，<strong>应启用</strong> <code>NvMBlockUseCrc</code>。同时，<strong>应禁用</strong> <code>NvMBlockWriteProt</code>，以便在 CRC 校验失败时用户仍能写入数据到该块。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>一次性写入块推荐配置</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NvMBlockUseCrc</code></td>
+<td><strong>启用</strong></td>
+<td>确保写入后数据完整性可验证</td>
+</tr>
+<tr>
+<td><code>NvMBlockWriteProt</code></td>
+<td><strong>禁用</strong></td>
+<td>CRC 失败时允许重新写入恢复</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    OneShot[一次性写入块&lt;br/&gt;NvMWriteBlockOnce = TRUE] --&gt; UseCrc[NvMBlockUseCrc = 启用]
+    OneShot --&gt; DisableProt[NvMBlockWriteProt = 禁用]
+    
+    DisableProt --&gt; Reason[原因: CRC 失败时&lt;br/&gt;允许用户重新写入]</code></pre>
+<hr>
+<h3 id="5-CRC-内存分配-SWS-NvM-00544">5. CRC 内存分配 [SWS_NvM_00544]</h3>
+<blockquote>
+<p>根据 <code>NvMBlockUseCrc</code> 和 <code>NvMCalcRamBlockCrc</code> 的配置，NvM 模块应为<strong>所用 CRC 中最大的类型</strong>分配内存。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>配置场景</th>
+<th>内存分配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多个块使用不同大小 CRC</td>
+<td>分配<strong>最大</strong> CRC 所需的内存</td>
+</tr>
+<tr>
+<td>所有块 CRC 大小相同</td>
+<td>分配该大小所需的内存</td>
+</tr>
+<tr>
+<td>未启用 CRC</td>
+<td>不分配 CRC 内存</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="6-CRC-内存对用户透明">6. CRC 内存对用户透明</h3>
+<blockquote>
+<p>NvM 用户不应知道其 RAM 块中数据的 CRC 内存的任何信息（如大小、位置）。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph NvM [NvM 模块]
+        RAM[RAM 块&lt;br/&gt;用户数据]
+        CRC_MEM[CRC 内存&lt;br/&gt;对用户不可见]
+    end
+    
+    User[应用层] --&gt;|可见| RAM
+    User -.-&gt;|不可见| CRC_MEM</code></pre>
+<hr>
+<h3 id="7-一致性检查流程">7. 一致性检查流程</h3>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Write [写入流程]
+        W1[应用写入数据] --&gt; W2[NvM 更新 RAM 块]
+        W2 --&gt; W3&#123;CalcRamBlockCrc&lt;br/&gt;启用?&#125;
+        W3 --&gt;|是| W4[重新计算并存储 RAM CRC]
+        W3 --&gt;|否| W5[不存储 RAM CRC]
+    end
+    
+    subgraph Read [读取/同步流程]
+        R1[从 NV 加载数据到 RAM] --&gt; R2&#123;UseCrc&lt;br/&gt;启用?&#125;
+        R2 --&gt;|是| R3[重新计算 NV 数据 CRC]
+        R3 --&gt; R4&#123;CRC 匹配?&#125;
+        R4 --&gt;|是| R5[✅ 数据有效]
+        R4 --&gt;|否| R6[❌ 数据损坏&lt;br/&gt;触发恢复机制]
+        R2 --&gt;|否| R5
+    end</code></pre>
+<hr>
+<h3 id="8-配置与调试注意">8. 配置与调试注意</h3>
+<h4 id="8-1-CRC-开销">8.1 CRC 开销</h4>
+<ul>
+<li>CRC 增加存储空间和计算时间开销</li>
+<li>关键数据建议启用，非关键数据可禁用以优化性能</li>
+</ul>
+<h4 id="8-2-一次性写入块">8.2 一次性写入块</h4>
+<ul>
+<li><code>NvMWriteBlockOnce = TRUE</code> 的块建议启用 CRC</li>
+<li>禁用写保护以便在 CRC 失败时进行恢复写入</li>
+</ul>
+<h4 id="8-3-CRC-内存大小">8.3 CRC 内存大小</h4>
+<ul>
+<li>NvM 为所有块分配统一的 CRC 内存（最大尺寸）</li>
+<li>调试时需确认内存分配足够容纳所有配置的 CRC</li>
+</ul>
+<h4 id="8-4-CRC-类型一致性">8.4 CRC 类型一致性</h4>
+<ul>
+<li>RAM 块和 NV 块的 CRC 类型必须一致</li>
+<li>参见 RAM 块规范中的 CRC 限制 [SWS_NvM_00127]</li>
+</ul>
+<hr>
+<h3 id="9-我的补充">9. 我的补充</h3>
+<h4 id="隐式-vs-显式检查">隐式 vs 显式检查</h4>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+<th>调用方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>隐式检查</strong></td>
+<td>NvM 自动执行 CRC 校验</td>
+<td>NvM 内部</td>
+</tr>
+<tr>
+<td><strong>显式检查</strong></td>
+<td>应用主动调用检查 API</td>
+<td>应用层</td>
+</tr>
+</tbody>
+</table>
+<h4 id="相关规范">相关规范</h4>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ECUC_NvM_00476</code></td>
+<td>CRC 配置参数</td>
+</tr>
+<tr>
+<td><code>SWS_NvM_00040</code></td>
+<td>一致性/完整性检查</td>
+</tr>
+<tr>
+<td><code>SWS_NvM_00127</code></td>
+<td>RAM 块 CRC 限制</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>以上内容可直接复制到 Typora 中使用。继续贴下一段规范！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/Nvm/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/Nvm/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_13.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/FS/FlashDB/" title="FlashDB"><img class="cover" src="https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/25_10_24_50_202412251024824.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">FlashDB</div></div><div class="info-2"><div class="info-item-1">参考链接 FlashDB/README_zh.md at master · armink/FlashDB (github.com) 基本概念  键值数据库（KVDB）：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。 时...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/System%20Service/EcuM/" title="EcuM"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">EcuM</div></div><div class="info-2"><div class="info-item-1">概述 EcuM（ECU State Manager）模块它所管理的ECU状态特指ECU的上下电状态，因为在汽车电子中对ECU的上下电时序要求非常严格，AUTOSAR则特地为此整了一个EcuM模块来系列化这个过程。EcuM 模块位于 AUTOSAR 的系统服务层，透过 RTE 与用户直接交互，在...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">基础架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%A1%AC%E4%BB%B6%E6%8A%BD%E8%B1%A1%E7%9A%84%E5%AF%BB%E5%9D%80%E6%96%B9%E6%A1%88"><span class="toc-number">2.1.</span> <span class="toc-text">内存硬件抽象的寻址方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%AD%98%E5%82%A8%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.2.</span> <span class="toc-text">基础存储对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NV-block"><span class="toc-number">2.2.1.</span> <span class="toc-text">NV block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RAM-block"><span class="toc-number">2.2.2.</span> <span class="toc-text">RAM block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ROM-Block"><span class="toc-number">2.2.3.</span> <span class="toc-text">ROM Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Administrative-Block"><span class="toc-number">2.2.4.</span> <span class="toc-text">Administrative Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NV-Block-Header"><span class="toc-number">2.2.5.</span> <span class="toc-text">NV Block Header</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9D%97%E7%AE%A1%E7%90%86%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">块管理类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NVRAM-%E5%9D%97%E7%BB%93%E6%9E%84"><span class="toc-number">2.3.1.</span> <span class="toc-text">NVRAM 块结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NVRAM-%E5%9D%97%E6%8F%8F%E8%BF%B0%E7%AC%A6%E8%A1%A8"><span class="toc-number">2.3.2.</span> <span class="toc-text">NVRAM 块描述符表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F-NVRAM-%E5%9D%97"><span class="toc-number">2.3.3.</span> <span class="toc-text">原生 NVRAM 块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%97%E4%BD%99-NVRAM-%E5%9D%97"><span class="toc-number">2.3.4.</span> <span class="toc-text">冗余 NVRAM 块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86-NVRAM-%E5%9D%97"><span class="toc-number">2.3.5.</span> <span class="toc-text">数据集 NVRAM 块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#API-%E9%85%8D%E7%BD%AE%E7%B1%BB%E5%88%AB"><span class="toc-number">2.3.6.</span> <span class="toc-text">API 配置类别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%AB%E6%8F%8F%E9%A1%BA%E5%BA%8F-%E4%BC%98%E5%85%88%E7%BA%A7%E6%96%B9%E6%A1%88"><span class="toc-number">2.4.</span> <span class="toc-text">扫描顺序&#x2F;优先级方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">一般行为</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-number">3.1.</span> <span class="toc-text">功能需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVRAM-%E7%AE%A1%E7%90%86%E5%99%A8%E5%90%AF%E5%8A%A8"><span class="toc-number">3.2.</span> <span class="toc-text">NVRAM 管理器启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVRAM-%E7%AE%A1%E7%90%86%E5%99%A8%E5%85%B3%E9%97%AD"><span class="toc-number">3.3.</span> <span class="toc-text">NVRAM 管理器关闭</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%88%E5%87%86%EF%BC%89%E5%B9%B6%E8%A1%8C%E5%86%99%E5%85%A5%E8%AE%BF%E9%97%AE"><span class="toc-number">3.4.</span> <span class="toc-text">（准）并行写入访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NVRAM-%E5%9D%97%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="toc-number">3.5.</span> <span class="toc-text">NVRAM 块一致性检查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2"><span class="toc-number">3.5.1.</span> <span class="toc-text">2.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3"><span class="toc-number">3.5.2.</span> <span class="toc-text">3.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%B8%80%E6%AC%A1%E6%80%A7%E5%86%99%E5%85%A5%E5%9D%97%E7%9A%84-CRC-%E5%BB%BA%E8%AE%AE-SWS-NvM-00724"><span class="toc-number">3.5.3.</span> <span class="toc-text">4. 一次性写入块的 CRC 建议 [SWS_NvM_00724]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-CRC-%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D-SWS-NvM-00544"><span class="toc-number">3.5.4.</span> <span class="toc-text">5. CRC 内存分配 [SWS_NvM_00544]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-CRC-%E5%86%85%E5%AD%98%E5%AF%B9%E7%94%A8%E6%88%B7%E9%80%8F%E6%98%8E"><span class="toc-number">3.5.5.</span> <span class="toc-text">6. CRC 内存对用户透明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%B8%80%E8%87%B4%E6%80%A7%E6%A3%80%E6%9F%A5%E6%B5%81%E7%A8%8B"><span class="toc-number">3.5.6.</span> <span class="toc-text">7. 一致性检查流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E9%85%8D%E7%BD%AE%E4%B8%8E%E8%B0%83%E8%AF%95%E6%B3%A8%E6%84%8F"><span class="toc-number">3.5.7.</span> <span class="toc-text">8. 配置与调试注意</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-CRC-%E5%BC%80%E9%94%80"><span class="toc-number">3.5.7.1.</span> <span class="toc-text">8.1 CRC 开销</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-2-%E4%B8%80%E6%AC%A1%E6%80%A7%E5%86%99%E5%85%A5%E5%9D%97"><span class="toc-number">3.5.7.2.</span> <span class="toc-text">8.2 一次性写入块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-CRC-%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.5.7.3.</span> <span class="toc-text">8.3 CRC 内存大小</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-4-CRC-%E7%B1%BB%E5%9E%8B%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">3.5.7.4.</span> <span class="toc-text">8.4 CRC 类型一致性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E6%88%91%E7%9A%84%E8%A1%A5%E5%85%85"><span class="toc-number">3.5.8.</span> <span class="toc-text">9. 我的补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%BC%8F-vs-%E6%98%BE%E5%BC%8F%E6%A3%80%E6%9F%A5"><span class="toc-number">3.5.8.1.</span> <span class="toc-text">隐式 vs 显式检查</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%A7%84%E8%8C%83"><span class="toc-number">3.5.8.2.</span> <span class="toc-text">相关规范</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_13.png);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

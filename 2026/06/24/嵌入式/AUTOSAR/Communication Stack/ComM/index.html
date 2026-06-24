@@ -1,0 +1,2005 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ComM | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是ComM模块。 前面已经分别介绍了干活两兄弟NM模块和SM模块，NM模块主要负责的是基于总线报文管理ECU">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ComM">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是ComM模块。 前面已经分别介绍了干活两兄弟NM模块和SM模块，NM模块主要负责的是基于总线报文管理ECU">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_7.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_7.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ComM",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_7.jpg",
+  "datePublished": "2026-06-24T01:22:05.603Z",
+  "dateModified": "2026-06-24T01:22:05.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ComM',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_7.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">ComM</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ComM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.603Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.603Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">15k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>48分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件请参考<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_SWS_COMManager.pdf">Specification of Communication Manager (autosar.org)</a></p>
+</blockquote>
+<p>前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是ComM模块。</p>
+<p>前面已经分别介绍了干活两兄弟NM模块和SM模块，NM模块主要负责的是基于总线报文管理ECU休眠，SM模块则是控制总线通信状态，这两兄弟其实都是实际执行者，ComM模块则是真正的总线管理者，用户只要对ComM模块告知自己想要的通信模式，ComM模块则会直接协调NM和SM两兄弟直接干活以达到用户想要的通信模式。</p>
+<p>ComM 模块位于 AUTOSAR 的系统服务层，透过 RTE 与用户（这里的用户指的是可以对ComM模块下达请求的模块，可以是BswM，SWC, Runables等）直接交互。向下控制各总线状态管理器和网络管理器（SM 和 Nm），为用户提供统一的通信管理功能，同时协调SM 和 Nm 之间的状态关系。</p>
+<pre><code class="highlight mermaid">graph TD
+    %% 节点定义
+    subgraph Upper_Layer [应用层]
+        App1[App]
+        App2[App]
+        App3[App]
+    end
+
+    ComM[AUTOSAR ComM]
+
+    subgraph Mid_Layer [网络管理与状态管理层]
+        BSM1[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;State Manager&quot;]
+        BSM2[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;State Manager&quot;]
+        
+        subgraph NM_Group [NM 接口层]
+            NmInt[Generic NM Interface&lt;br/&gt;Nm]
+            BSNM1[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;NM&quot;]
+            BSNM2[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;NM&quot;]
+        end
+    end
+
+    BSIf[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;Interface&quot;]
+
+    %% 连接关系
+    Upper_Layer --- ComM
+    ComM --- BSM1
+    ComM --- BSM2
+    ComM --- NmInt
+    NmInt --- BSNM1
+    NmInt --- BSNM2
+    BSM1 --- BSIf
+    BSM2 --- BSIf
+    BSNM1 --- BSIf
+    BSNM2 --- BSIf
+
+    %% 样式美化
+    style Upper_Layer fill:none,stroke:none
+    style App1 fill:#A9A9A9,stroke:#333,stroke-width:1px
+    style App2 fill:#A9A9A9,stroke:#333,stroke-width:1px
+    style App3 fill:#A9A9A9,stroke:#333,stroke-width:1px
+    
+    style ComM fill:#4FC3F7,stroke:#039BE5,stroke-width:1px,color:#000
+    
+    style BSM1 fill:#81C784,stroke:#388E3C,stroke-width:1px,color:#000
+    style BSM2 fill:#81C784,stroke:#388E3C,stroke-width:1px,color:#000
+    
+    style NM_Group fill:none,stroke:none
+    style NmInt fill:#E1BEE7,stroke:#8E24AA,stroke-width:1px,color:#000
+    style BSNM1 fill:#E1BEE7,stroke:#8E24AA,stroke-width:1px,color:#000
+    style BSNM2 fill:#E1BEE7,stroke:#8E24AA,stroke-width:1px,color:#000
+    
+    style BSIf fill:#FFCC80,stroke:#F57C00,stroke-width:1px,color:#000</code></pre>
+<p>ComM 定义了三种基本的通信状态，但对外部用户（如应用软件组件 SW-C 或诊断 DCM）的请求权限做了严格区分：</p>
+<ul>
+<li><strong>COMM_FULL_COMMUNICATION (全通信)</strong>：最高模式，允许物理通道进行数据的发送和接收。</li>
+<li><strong>COMM_NO_COMMUNICATION (无通信)</strong>：最低模式，强制停止物理通道的所有发送和接收活动。</li>
+<li><strong>COMM_SILENT_COMMUNICATION (静默通信)</strong>：中间模式。<strong>用户不能直接请求此模式</strong>，它仅由系统内部用于与网络管理（NM）进行同步。</li>
+</ul>
+<p>ComM 作为一个协调者，需要处理来自多个独立用户的请求：</p>
+<ul>
+<li><strong>仲裁原则</strong>：如果多个用户对同一个通道提出了不同的请求，ComM 遵循“最高者胜”策略。例如，只要有一个用户请求“全通信”，那么该通道的最终目标状态就是“全通信”，即使其他用户请求的是“无通信”。</li>
+<li><strong>覆盖机制</strong>：ComM 不会给用户请求排队。如果同一个用户连续发送了两次请求，后一次请求会立即覆盖前一次，无论前一次请求是否已经处理完成。</li>
+<li><strong>诊断特权</strong>：当诊断模块（DCM）发出诊断激活指示时，ComM 会将其自动视为一个“全通信”请求。</li>
+</ul>
+<p>目标模式与实际模式的分离：强调了“想变”和“变完”之间的区别：</p>
+<ul>
+<li><strong>目标状态</strong>：ComM 根据用户请求计算出一个“目标模式”。</li>
+<li><strong>实际状态</strong>：真正的物理总线状态由各个总线状态管理器（如 CanSM）控制。由于硬件切换需要时间，或者可能存在模式禁止（Inhibition），目标模式与实际模式在时间上可能不一致。</li>
+<li><strong>查询机制</strong>：
+<ul>
+<li>用户可以查询自己请求过什么模式。</li>
+<li>用户也可以查询通道当前的真实模式。当调用查询接口时，ComM 会向底层的总线状态管理器获取最新状态并反馈。</li>
+</ul>
+</li>
+</ul>
+<p>除了用户请求外，ComM 还有一个底层的权限开关：</p>
+<ul>
+<li><strong>初始化保护</strong>：ComM 初始化后，默认所有通道的“通信许可”标志位均为 <code>FALSE</code>（不允许通信）。</li>
+<li><strong>动态控制</strong>：系统必须通过专门的 API 指示（通常来自 EcuM 或 BswM）将该标志位显式设为 <code>TRUE</code>，该通道才具备开启通信的前提条件。</li>
+</ul>
+<p>ComM 模块主要功能如下：</p>
+<ol>
+<li>初始化</li>
+<li>用户或 DCM 请求通信模式</li>
+<li>通知应用通信模式切换</li>
+<li>限制通道或 ECU 的通信功能</li>
+<li>与 EcuM 的唤醒功能协同、与 BswM 控制通信协同</li>
+<li>控制各通道的总线状态</li>
+<li>请求或释放网络管理服务</li>
+</ol>
+<h1>模块交互</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260130130317566.png" alt="Com模块与其他模块的交互" loading='lazy'></p>
+<ol>
+<li>
+<p>模式请求的传递路径 (RTE &amp; ComM)</p>
+<ul>
+<li>**RTE **: 充当“中转站”，将上层应用（User）的通信模式请求传达给 <code>ComM</code> 模块，并将 <code>ComM</code> 的状态反馈给用户。</li>
+<li>**ComM **: 它是核心决策者，负责收集所有用户（包括应用、DCM、总线网络管理等）的请求，并仲裁出当前网络应处于的状态（如 <code>FULL</code>、<code>SILENT</code> 或 <code>NO</code> 通信）。</li>
+</ul>
+</li>
+<li>
+<p>状态控制与仲裁 (BswM &amp; EcuM)</p>
+<ul>
+<li>**BswM **: 负责“模式仲裁”和“模式控制”。
+<ul>
+<li>它可以根据配置转发请求给 <code>ComM</code>。</li>
+<li><strong>核心权力</strong>：它通过调用 <code>Com_IpduGroupControl</code> 来实际控制 PDU 组的开启或关闭。</li>
+<li><strong>状态接收</strong>：<code>ComM</code> 必须向 <code>BswM</code> 指示所有通道主状态和 PNC（部分网络簇）状态的变化。</li>
+</ul>
+</li>
+<li>**EcuM **: 负责基础的唤醒验证，并将验证后的指示发给 <code>ComM</code>。它与 <code>BswM</code> 协同处理 ECU 的停机和允许通信的逻辑。</li>
+</ul>
+</li>
+<li>
+<p>总线状态管理器 (Bus State Managers)</p>
+<p>各类总线管理器（LIN, CAN, FlexRay, Ethernet SM）的共同职责：</p>
+<ul>
+<li>它们负责将 <code>ComM</code> 的抽象请求（通信模式）映射为具体的总线物理状态。</li>
+<li>例如，<code>CanSM</code> 负责控制 CAN 控制器和收发器的实际模式。</li>
+</ul>
+</li>
+<li>
+<p>特殊模块的交互逻辑</p>
+<ul>
+<li>**DCM **: 诊断模块被视为一个特殊的“用户”。当需要执行诊断时，它会请求 <code>COMM_FULL_COMMUNICATION</code> 以确保通信链路处于激活状态。</li>
+<li>**NVRAM Manager **: 负责存储和读取非易失性配置数据。
+<ul>
+<li><strong>初始化顺序</strong>：<code>NVRAM</code> 必须在 <code>ComM</code> 之前完成初始化，否则 <code>ComM</code> 无法读取配置。</li>
+<li><strong>去初始化</strong>：当 <code>ComM</code> 停止工作时，会将当前数据写入 <code>NVRAM</code>。</li>
+</ul>
+</li>
+<li><strong>NM</strong>: 用于网络协同，确保网络中的多个节点能够同步启动和关闭。</li>
+<li>**COM **: 主要用于通过信号分发 PNC（部分网络簇）的状态信息。</li>
+</ul>
+</li>
+</ol>
+<p>交互图勾勒出了一个 <strong>“三层架构”</strong>：</p>
+<ol>
+<li><strong>需求层 (App/DCM/NM)</strong>: 发出通信需求。</li>
+<li><strong>管理层 (ComM/BswM/EcuM)</strong>: 接收并仲裁需求，决定“该不该通”以及“什么时候通”。</li>
+<li><strong>执行层 (CanSM/LinSM等)</strong>: 将决策转化为具体的硬件驱动调用，实现总线的实际开启或关闭。</li>
+</ol>
+<h1>PNC状态管理</h1>
+<p><strong>部分网络簇管理（Partial Network Cluster Management, PNC）</strong> 是 AUTOSAR 通信管理器（ComM）的一项核心功能，旨在通过仅激活必要的网络节点来降低功耗。</p>
+<ul>
+<li><strong>状态机管理</strong>：ComM 为每个 PNC 实现了一个独立的状态机，用以代表该簇的通信模式。</li>
+<li><strong>用户交互</strong>：ComM 用户通过“请求（Request）”和“释放（Release）”操作来控制 PNC 的激活状态。</li>
+<li><strong>状态映射</strong>：每个 PNC 的状态定义与 ComM 的整体状态相关联，以便进行简单的逻辑映射。</li>
+</ul>
+<p>状态交换机制（比特向量）：</p>
+<p>PNC 的状态信息通过网络管理（NM）用户数据在系统节点间交换：</p>
+<ul>
+<li><strong>专用比特位</strong>：每个 PNC 在 NM 用户数据的比特向量中拥有一个固定的位置。
+<ul>
+<li><strong>激活</strong>：当本地用户请求某 PNC 时，节点将对应比特位置为 <strong>1</strong>。</li>
+<li><strong>释放</strong>：当不再有用户请求该 PNC 时，对应比特位被置为 <strong>0</strong>。</li>
+</ul>
+</li>
+<li><strong>数据聚合</strong>：总线网络管理模块（BusNms）收集并汇总这些数据，通过 <strong>COM 信号</strong> 将比特向量提供给 ComM。</li>
+<li><strong>向量类型</strong>：ComM 使用两种比特向量来交换状态：
+<ul>
+<li><strong>EIRA (External Internal Request Aggregate)</strong>：外部/内部请求聚合。</li>
+<li><strong>ERA (External Request Aggregate)</strong>：外部请求聚合。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!note]</p>
+<p>总线支持与物理执行:</p>
+<ul>
+<li><strong>支持的总线类型</strong>：部分网络管理目前仅支持 <strong>CAN</strong> 和 <strong>FlexRay</strong> 总线。</li>
+<li><strong>通道控制</strong>：ComM 根据 PNC 的需求，请求或释放节点所需的系统通信总线通道。</li>
+<li><strong>PDU 组管理</strong>：
+<ul>
+<li>在 FlexRay 节点上，必须激活或停用 PNC 相关的 <strong>I-PDU 组</strong>，以避免产生错误的超时错误。</li>
+<li><strong>BswM</strong> 负责实际执行 COM 模块中 I-PDU 组的启动与停止。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="功能细节">功能细节</h2>
+<p><strong>部分网络簇管理（PNC）的功能细节</strong>主要集中在配置、信号交换以及如何在比特向量中定位特定 PNC 的逻辑上。</p>
+<ol>
+<li>
+<p>开启与配置要求</p>
+<ul>
+<li><strong>启用开关</strong>：只有当 <code>ComMPncSupport</code> 参数设置为 <code>TRUE</code> 时，PNC 功能才存在。</li>
+<li><strong>后构建配置</strong>：PNC 功能的启用或禁用必须支持 <strong>Post-build</strong>（后构建）阶段配置。</li>
+<li><strong>状态通知</strong>：ComM 状态机每当发生状态变化时，都会通过调用 <code>BswM_ComM_CurrentPncMode()</code> 来通知 <strong>BswM</strong>。</li>
+</ul>
+</li>
+<li>
+<p>比特向量（Bit Vector）交换逻辑</p>
+<p>为了在各节点间交换 PNC 状态，ComM 使用了紧凑的比特向量：</p>
+<ul>
+<li>
+<p><strong>容量限制</strong>：比特向量被定义为单一信号，最多包含 <strong>56 个 PNC 状态位</strong>。</p>
+</li>
+<li>
+<p><strong>数据类型</strong>：ComM 要求该比特向量被配置为 <code>uint8_t</code> 类型的数组。</p>
+</li>
+<li>
+<p><strong>位置计算 (byteIndex &amp; bitIndex)</strong>：</p>
+<p>对于一个特定的 <code>ComMPncId</code>，其在数组中的位置通过以下公式计算：</p>
+<ul>
+<li>
+<p><strong>字节索引</strong>：</p>
+<p>$$byteIndex = ComMPncId ÷ 8 - \text{Offset}$$</p>
+</li>
+<li>
+<p><strong>位索引</strong>：</p>
+<p>$$bitIndex = ComMPncId \mod 8$$</p>
+</li>
+</ul>
+<blockquote>
+<p><em>注：Offset 值可从网络管理（NM）模块的配置中获得。</em></p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p>信号接收与分发</p>
+<ul>
+<li><strong>信号接收</strong>：ComM 通过 <code>Com_ReceiveSignal()</code> 接收比特向量信号，这些信号可以是 <strong>EIRA</strong>（外部/内部请求聚合）或 <strong>ERA</strong>（外部请求聚合）类型。</li>
+<li><strong>变化回调</strong>：ComM 提供 <code>ComM_COMCbk_&lt;SignalName&gt;()</code> 回调 API，用于在模块通信中指示信号发生变化。</li>
+<li><strong>状态分发</strong>：ComM 能够通过一个或多个通信总线分发 PNC 状态（即 PNC 状态机运行的结果）。它是通过配置为 <code>TX</code> 方向的比特向量信号（COM Signal）来完成的。</li>
+</ul>
+</li>
+</ol>
+<p>PNC 信号处理流向为：</p>
+<ol>
+<li><strong>输入</strong>：通过 <code>Com_ReceiveSignal</code> 获取 EIRA/ERA 信号。</li>
+<li><strong>处理</strong>：根据 <code>byteIndex</code> 和 <code>bitIndex</code> 提取对应 <code>ComMPncId</code> 的状态。</li>
+<li><strong>反馈</strong>：状态机变化后通知 BswM。</li>
+<li><strong>输出</strong>：将本地请求状态通过 <code>TX</code> 方向的比特向量发送至总线。</li>
+</ol>
+<h2 id="PNC状态机">PNC状态机</h2>
+<ol>
+<li>
+<p>状态机结构与容量</p>
+<ul>
+<li><strong>数量限制</strong>：ComM 模块最多支持 <strong>56 个</strong> PNC 状态机。</li>
+<li><strong>实现原则</strong>：每个 Partial Network 仅实现一个 PNC 状态机，无论它关联了多少个通信通道（ComMChannels）。</li>
+<li><strong>状态层次</strong>：
+<ul>
+<li><strong>两大主状态</strong>：<code>COMM_PNC_FULL_COMMUNICATION</code> 和 <code>COMM_PNC_NO_COMMUNICATION</code>。</li>
+<li><strong>子状态</strong>：在全通信主状态下，包含 <code>COMM_PNC_REQUESTED</code>（已请求）、<code>COMM_PNC_READY_SLEEP</code>（准备睡眠）和 <code>COMM_PNC_PREPARE_SLEEP</code>（预备睡眠）三个子状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>状态切换与通知机制</p>
+<ul>
+<li><strong>执行时机</strong>：由 <code>ComM_RequestComMode()</code> 触发的状态切换必须仅在 <code>ComM_MainFunction</code> 中执行。</li>
+<li><strong>优先级顺序</strong>：如果 PNC 功能开启，PNC 相关的动作必须在通道（Channel）相关动作之前执行。</li>
+<li><strong>外部通知</strong>：除了从 PowerOff 进入 <code>COMM_PNC_NO_COMMUNICATION</code> 外，所有的状态变更都必须通过 <code>BswM_ComM_CurrentPncMode()</code> 通知 BswM。</li>
+</ul>
+</li>
+<li>
+<p>请求处理优先级 (Handling Order)<br>
+在处理映射到一个或多个 PNC 的通道时，<code>ComM_MainFunction</code> 必须按照以下严格顺序处理请求状态：</p>
+<ul>
+<li><strong>映射到 PNC 的用户请求</strong>：本地 SW-C 等用户对 PNC 的请求。</li>
+<li><strong>直接映射到通道的用户请求</strong>：不通过 PNC 直接请求通道的用户。</li>
+<li><strong>ERA (External Request Aggregate)</strong>：外部请求聚合信号（需开启网关功能）。</li>
+<li><strong>EIRA (External Internal Request Aggregate)</strong>：外部/内部请求聚合信号。</li>
+</ul>
+</li>
+<li>
+<p>信号聚合与触发源</p>
+<ul>
+<li><strong>EIRA/ERA 逻辑</strong>：
+<ul>
+<li>如果 Rx 比特向量中对应 PNC 的任何位为 ‘1’，则 ComM 中该 PNC 的 EIRA 位设为 ‘1’。</li>
+<li>只有在开启 <code>ComMPncGatewayEnabled</code> 且配置了网关类型的通道上，Rx 比特向量中的 ERA 位才会被处理并映射到 ComM 的 ERA 位。</li>
+</ul>
+</li>
+<li><strong>触发定义</strong>：
+<ul>
+<li><strong>ComM_COMCbk</strong>：代表来自 COM 模块的通知，指示收到了包含 ERA 或 EIRA 信息的信号。</li>
+<li><strong>ComMUser</strong>：代表来自应用层的通信请求（通过 <code>ComM_RequestComMode</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>特殊规则</p>
+<ul>
+<li><strong>多信号分配</strong>：允许将多个包含 PNC 位的 COM 信号分配给同一个 PNC（例如一个 EIRA 和多个 ERA），这支持跨多个物理通道（如 FlexRay、多个 CAN 链路）的 ID 配置。</li>
+<li><strong>等效性</strong>：在处理“通信允许（Communication allowed）”和模式抑制（mode inhibitions）时，来自 PNC 状态机的请求被视为等同于对应通道的用户请求。</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260326170720707.png" alt="PNC状态机" loading='lazy'></p>
+<h3 id="COMM-NO-COMMUNICATION">COMM_NO_COMMUNICATION</h3>
+<ol>
+<li>
+<p>默认与初始状态</p>
+<ul>
+<li><strong>上电默认值</strong>：在 ECU 上电或切换电源供应后，<code>COMM_PNC_NO_COMMUNICATION</code> 是默认的初始状态。</li>
+<li><strong>维持条件</strong>：只要该 PNC 既没有被 ECU 内部请求，也没有被外部请求，它就会保持在这个目标状态。</li>
+</ul>
+</li>
+<li>
+<p>唤醒指示引发的跳转 (Wake-up)</p>
+<p>当系统处于无通信状态时，不同的唤醒指示决定了状态机的去向：</p>
+<ul>
+<li><strong>同步唤醒 (Synchronous Wake-up)</strong>：
+<ul>
+<li>如果调用了 <code>ComM_EcuM_WakeUpIndication()</code> 且配置参数 <code>ComMSynchronousWakeUp</code> 为 <strong>TRUE</strong>，状态机会离开无通信状态并进入 <code>COMM_PNC_PREPARE_SLEEP</code>。</li>
+</ul>
+</li>
+<li><strong>异步唤醒 (Asynchronous Wake-up)</strong>：
+<ul>
+<li>如果 <code>ComMSynchronousWakeUp</code> 为 <strong>FALSE</strong>，调用上述 API 后状态将保持在 <code>COMM_PNC_NO_COMMUNICATION</code>，直到收到明确的 PNC 请求（即 EIRA 位变为 ‘1’）。</li>
+</ul>
+</li>
+<li><strong>特定 PNC 唤醒</strong>：
+<ul>
+<li>如果调用了专门的 <code>ComM_EcuM_PNCWakeUpIndication()</code>，状态机将直接进入 <code>COMM_PNC_PREPARE_SLEEP</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>用户请求与信号触发的跳转</p>
+<p>除了唤醒事件，主动请求和网络信号也会触发状态机的升级：</p>
+<ul>
+<li><strong>本地用户请求</strong>：
+<ul>
+<li>当至少一个分配给该 PNC 的 <code>ComMUser</code> 请求“全通信”模式时，状态机进入 <code>COMM_PNC_REQUESTED</code> 子状态。</li>
+</ul>
+</li>
+<li><strong>外部 EIRA 信号</strong>：
+<ul>
+<li>当 EIRA 比特向量中代表该 PNC 的位变为 ‘1’ 时，状态机进入 <code>COMM_PNC_READY_SLEEP</code>。</li>
+</ul>
+</li>
+<li><strong>外部 ERA 信号（网关模式）</strong>：
+<ul>
+<li>如果开启了 <code>ComMPncGatewayEnabled</code> 且对应的通道配置了网关类型，当 ERA 比特向量中对应位变为 ‘1’ 时，状态机进入 <code>COMM_PNC_REQUESTED</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>下表总结了从 <code>COMM_PNC_NO_COMMUNICATION</code> 出发的不同跳转路径：</p>
+<table>
+<thead>
+<tr>
+<th><strong>触发源</strong></th>
+<th><strong>条件/配置</strong></th>
+<th><strong>目标子状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ComMUser 请求</strong></td>
+<td>至少一人请求 FULL_COM</td>
+<td><strong>COMM_PNC_REQUESTED</strong></td>
+</tr>
+<tr>
+<td><strong>ERA 信号</strong></td>
+<td>开启网关功能</td>
+<td><strong>COMM_PNC_REQUESTED</strong></td>
+</tr>
+<tr>
+<td><strong>EIRA 信号</strong></td>
+<td>对应位变为 ‘1’</td>
+<td><strong>COMM_PNC_READY_SLEEP</strong></td>
+</tr>
+<tr>
+<td><strong>通用唤醒指示</strong></td>
+<td>同步唤醒 = TRUE</td>
+<td><strong>COMM_PNC_PREPARE_SLEEP</strong></td>
+</tr>
+<tr>
+<td><strong>PNC 唤醒指示</strong></td>
+<td>调用 <code>PNCWakeUpIndication</code></td>
+<td><strong>COMM_PNC_PREPARE_SLEEP</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="COMM-PNC-REQUESTED">COMM_PNC_REQUESTED</h3>
+<ol>
+<li>
+<p>进入状态时的动作 (On Entry)</p>
+<p>当 PNC 状态机进入 <code>COMM_PNC_REQUESTED</code> 时，ComM 会立即执行以下操作：</p>
+<ul>
+<li><strong>物理通道请求</strong>：无论通道当前处于什么状态，ComM 必须为该 PNC 关联的所有配置通道请求 <code>COMM_FULL_COMMUNICATION</code>。</li>
+<li><strong>发送激活信号 (TX Bit = 1)</strong>：
+<ul>
+<li><strong>非网关模式</strong>：如果未开启网关功能，直接通过 <code>Com_SendSignal</code> 将该 PNC 对应的 TX 位设为 <strong>‘1’</strong>。</li>
+<li><strong>网关模式</strong>：如果开启了网关（<code>ComMPncGatewayEnabled = TRUE</code>），则仅在 <code>COMM_GATEWAY_TYPE_ACTIVE</code>（主动网关）类型的通道上将 TX 位设为 <strong>‘1’</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>网关模式下的行为 (Gateway Behavior)</p>
+<p>在 <code>COMM_PNC_REQUESTED</code> 状态中，针对 <code>PASSIVE</code>（被动）类型的网关通道，信号的发送逻辑由动态条件决定：</p>
+<ul>
+<li><strong>转发/激活 (TX = 1)</strong>：在被动网关通道上发送 ‘1’ 的前提是：至少有一个本地用户请求全通信，<strong>或者</strong>从主动网关通道（<code>ACTIVE</code>）收到了该 PNC 的 <code>ERA</code> 信号（RX = 1）。</li>
+<li><strong>停止/去激活 (TX = 0)</strong>：如果在被动网关通道上，既没有本地用户请求，也没有来自主动网关通道的外部 <code>ERA</code> 信号，则通过 <code>Com_SendSignal</code> 将 TX 位设为 <strong>‘0’</strong>。</li>
+<li><strong>向量规避 (Vector Avoidance)</strong>：如果开启了 <code>ComM0PncVectorAvoidance</code> 且上述 TX 信号变为 ‘0’，ComM 会释放该物理通道以节省资源；一旦信号恢复为 ‘1’，则重新请求该通道。</li>
+</ul>
+</li>
+<li>
+<p>状态维持与退出条件</p>
+<p><code>COMM_PNC_REQUESTED</code> 状态的维持取决于本地和远程的请求聚合：</p>
+<ul>
+<li><strong>维持条件</strong>：
+<ol>
+<li>只要有至少一个本地 <code>ComMUser</code> 请求 <code>FULL_COM</code>。</li>
+<li>或者开启了网关功能且远程 <code>ERA</code> 信号指示该 PNC 仍被请求。</li>
+</ol>
+</li>
+<li><strong>退出到 READY_SLEEP</strong>：
+<ul>
+<li><strong>非网关环境</strong>：当<strong>所有</strong>本地用户都释放了请求（请求 <code>NO_COM</code>）时，进入 <code>COMM_PNC_READY_SLEEP</code>。</li>
+<li><strong>网关环境</strong>：必须满足<strong>所有</strong>本地用户释放请求 <strong>且</strong> 所有关联通道的 <code>ERA</code> 信号位均为 <strong>0</strong> 时，才能进入 <code>COMM_PNC_READY_SLEEP</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>网关类型对信号的影响：</p>
+<table>
+<thead>
+<tr>
+<th><strong>网关类型 (GatewayType)</strong></th>
+<th><strong>进入时的动作 (TX)</strong></th>
+<th><strong>运行时的逻辑</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NONE (非网关)</strong></td>
+<td>立即设为 ‘1’</td>
+<td>仅随本地用户请求状态维持</td>
+</tr>
+<tr>
+<td><strong>ACTIVE (主动)</strong></td>
+<td>立即设为 ‘1’</td>
+<td>作为源头，将状态同步给其他通道</td>
+</tr>
+<tr>
+<td><strong>PASSIVE (被动)</strong></td>
+<td>不在进入时强制设为 ‘1’</td>
+<td>只有本地有请求或来自 ACTIVE 通道的信号时才发 ‘1’</td>
+</tr>
+</tbody>
+</table>
+<h3 id="COMM-PNC-READY-SLEEP">COMM_PNC_READY_SLEEP</h3>
+<p>其核心特征是<strong>停止本地请求但保持总线监听</strong>。</p>
+<ol>
+<li>
+<p>进入状态时的动作 (On Entry)</p>
+<p>当状态机从 <code>COMM_PNC_REQUESTED</code> 切换至 <code>COMM_PNC_READY_SLEEP</code> 时，ComM 必须立即执行以下退避操作：</p>
+<ul>
+<li><strong>停止发送激活信号 (TX Bit = 0)</strong>：调用 <code>Com_SendSignal()</code> 将该 PNC 在所有关联通道上的 TX 比特位设为 <strong>‘0’</strong>。这意味着该节点不再主动要求总线保持唤醒。</li>
+<li><strong>释放物理通道请求</strong>：ComM 必须针对该 PNC 涉及的所有配置通道，释放之前的 <code>COMM_FULL_COMMUNICATION</code> 请求。</li>
+</ul>
+</li>
+<li>
+<p>状态维持与运行行为</p>
+<p>在 <code>COMM_PNC_READY_SLEEP</code> 状态下，系统处于一种“待命观察”模式：</p>
+<ul>
+<li><strong>维持条件</strong>：只要外部信号（EIRA 比特向量）中该 PNC 的位仍为 <strong>‘1’</strong>（意味着网络上其他节点仍在请求该 PNC），且本地没有用户提出新的 <code>FULL_COM</code> 请求，状态机就会保持在该状态。</li>
+<li><strong>逻辑意义</strong>：此时本节点不再发话（TX=0），但因为总线还在活动（EIRA=1），它会保持接收能力，随时准备被重新激活。</li>
+</ul>
+</li>
+<li>
+<p>状态退出触发</p>
+<p>该状态有三个主要去向，取决于本地用户意图和外部网络状态：</p>
+<table>
+<thead>
+<tr>
+<th><strong>触发条件</strong></th>
+<th><strong>条件细节</strong></th>
+<th><strong>目标子状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>外部请求结束</strong></td>
+<td>EIRA 比特向量中对应位全部变为 <strong>‘0’</strong></td>
+<td><strong>COMM_PNC_PREPARE_SLEEP</strong></td>
+</tr>
+<tr>
+<td><strong>本地新请求</strong></td>
+<td>至少有一个本地 <code>ComMUser</code> 再次请求 <code>FULL_COM</code></td>
+<td><strong>COMM_PNC_REQUESTED</strong></td>
+</tr>
+<tr>
+<td><strong>网关外部请求</strong></td>
+<td>开启网关功能且对应的 <code>ERA</code> 信号位变为 <strong>‘1’</strong></td>
+<td><strong>COMM_PNC_REQUESTED</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p><code>COMM_PNC_READY_SLEEP</code> 实际上是 <strong>“逻辑上的释放”</strong> 与 <strong>“物理上的关闭”</strong> 之间的一个缓冲区：</p>
+<ul>
+<li>
+<p>本节点已经“释放”了请求（因此 TX=0，并释放了通道请求）。</p>
+</li>
+<li>
+<p>但只要总线上还有人在用这个 PNC（EIRA=1），本节点就不能真正进入睡眠，必须留在 <code>READY_SLEEP</code> 等待。</p>
+</li>
+<li>
+<p>只有当全网都没有人再请求这个 PNC（EIRA=0）时，它才会进入 <code>PREPARE_SLEEP</code> 倒计时阶段。</p>
+</li>
+</ul>
+<h3 id="COMM-PNC-PREPARE-SLEEP">COMM_PNC_PREPARE_SLEEP</h3>
+<p>这个状态本质上是一个<strong>延时观察期</strong>，旨在确保在全网彻底关闭该 PNC 通信前，给各节点留出统一的缓冲时间，防止因信号抖动导致网络频繁唤醒。</p>
+<ol>
+<li>
+<p>进入状态时的动作 (On Entry)</p>
+<p>一旦进入 <code>COMM_PNC_PREPARE_SLEEP</code>：</p>
+<ul>
+<li><strong>启动计时器</strong>：系统必须启动一个名为 <code>ComMPncPrepareSleepTimer</code> 的计时器，其初值由配置参数 <code>ECUC_ComM_00841</code> 决定。</li>
+</ul>
+</li>
+<li>
+<p>状态维持逻辑 (Behavior)</p>
+<ul>
+<li><strong>静默等待</strong>：只要计时器还在运行，且本地用户请求、外部 EIRA 或 ERA 信号都没有发生变化，状态机就保持在 <code>COMM_PNC_PREPARE_SLEEP</code> 状态。</li>
+<li><strong>超时自动退出</strong>：一旦计时器倒计时结束（Expire），状态机将彻底离开全通信主状态，回到最初的 <strong><code>COMM_PNC_NO_COMMUNICATION</code></strong>。</li>
+</ul>
+</li>
+<li>
+<p>中途被重新唤醒的跳转 (Interruption)<br>
+如果在计时器运行期间，系统收到了新的请求或信号，计时器将立即<strong>停止</strong>，并根据来源跳转到相应的激活状态：</p>
+<table>
+<thead>
+<tr>
+<th><strong>触发源</strong></th>
+<th><strong>跳转条件</strong></th>
+<th><strong>目标子状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>本地用户</strong></td>
+<td>至少一个 <code>ComMUser</code> 请求 <code>FULL_COM</code></td>
+<td><strong>COMM_PNC_REQUESTED</strong></td>
+</tr>
+<tr>
+<td><strong>外部 EIRA</strong></td>
+<td>收到 EIRA 信号（位变为 ‘1’）</td>
+<td><strong>COMM_PNC_READY_SLEEP</strong></td>
+</tr>
+<tr>
+<td><strong>网关 ERA</strong></td>
+<td>开启网关功能且收到对应 ERA 信号</td>
+<td><strong>COMM_PNC_REQUESTED</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>在部分网络（Partial Networking）中，<code>PREPARE_SLEEP</code> 扮演着“维稳”的角色：</p>
+<ol>
+<li><strong>防止总线负载颠簸</strong>：如果没有这个延时，当最后一个节点释放请求时，总线可能立即尝试关闭。但如果此时某个节点突然又有了瞬时请求，会导致总线反复在开启和关闭之间切换（抖动），增加功耗并消耗 CPU 资源。</li>
+<li><strong>全网同步</strong>：由于不同节点的处理速度和采样周期不同，这个计时器给全网络提供了一个“冷静期”，确保所有节点在真正进入 <code>NO_COMMUNICATION</code> 前都达成了一致。</li>
+<li><strong>优先级区分</strong>：
+<ul>
+<li>收到 <strong>EIRA</strong> 跳回 <code>READY_SLEEP</code>：说明网络上有人还在用，但我本地没请求，所以我继续“陪跑”监听。</li>
+<li>收到 <strong>用户请求或 ERA</strong> 跳回 <code>REQUESTED</code>：说明本地或网关对端需要主动发话，我必须立刻恢复“主动请求”身份。</li>
+</ul>
+</li>
+</ol>
+<h2 id="PNC-Gateway">PNC Gateway</h2>
+<p>**主动（Active）<strong>与</strong>被动（Passive）**网关类型在多通道环境下的职责分工。其核心目标是确保跨越多个通信通道（如 CAN1 和 CAN2）的 Partial Network 在请求和释放时间上保持同步。</p>
+<ol>
+<li>
+<p>PNC 网关的基本原则</p>
+<ul>
+<li><strong>多通道协调</strong>：如果一个 PNC 连接到多个 <code>ComMChannel</code>，它们必须作为一个整体被协调。应用层不应该感知底层通道的具体状态，只需请求 PNC，ComM 负责确保所有关联通道同步请求或释放。</li>
+<li><strong>一致性要求</strong>：如果没有 PNC 网关进行协调，必须通过其他手段确保所有受影响的通道在同一时间点被请求或释放。</li>
+</ul>
+</li>
+<li>
+<p>主动 PNC 网关 (Active PNC Gateway)</p>
+<ul>
+<li><strong>行为一致性</strong>：即使作为主动网关，其核心行为逻辑仍遵循标准的 <strong>PNC 状态机</strong>（即你之前看到的 <code>REQUESTED</code> -&gt; <code>READY_SLEEP</code> 等过程）。</li>
+<li><strong>决策权威</strong>：主动网关通常是系统通道上<strong>最后一个释放 PNC 的节点</strong>。</li>
+<li><strong>状态判定</strong>：如果所有关联通道的 <code>ERA</code>（外部请求聚合）信号位都为 <strong>0</strong>，则意味着除了该网关本地外，没有其他外部节点在请求这个 PNC。</li>
+</ul>
+</li>
+<li>
+<p>被动 PNC 网关 (Passive PNC Gateway)</p>
+<p>被动协调通常出现在一个通道连接了两个不同网关的复杂拓扑中。</p>
+<ul>
+<li><strong>唯一性原则</strong>：如果一个通道映射到两个 PNC 网关，只能有<strong>一个网关将其设为 Active</strong> 进行主动协调，另一个网关则必须设为 <strong>Passive</strong>。</li>
+<li><strong>映射关系</strong>：一个 PNC 网关必须至少映射到一个 <code>Active</code> 类型的通道，同时可以映射到一个或多个 <code>Passive</code> 类型的通道。</li>
+<li><strong>请求逻辑</strong>：被动网关在以下任一条件满足时请求 PNC：
+<ul>
+<li>. 本地有 <code>ComMUser</code> 提出了请求。
+<ul>
+<li>或者，来自该网关<strong>主动协调通道</strong>的 <code>ERA</code> 信号位不为 0（即将主动通道的请求转发至被动通道</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>信号计算规则</p>
+<ul>
+<li><strong>ERA TX 比特计算</strong>：被动网关在计算要发送到被动通道的 <code>ERA</code> 比特位时，计算方式与主动通道一致。</li>
+<li><strong>强制置零规则</strong>：虽然计算方式一致，但必须遵循 <strong>SWS_ComM_00959</strong> 的规则（即当本地无请求且主动通道也无外部请求时，强制将该位设为 ‘0’），以允许该分支网络进入睡眠。</li>
+</ul>
+</li>
+</ol>
+<p>💡 Active vs Passive 的本质区别</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>主动网关 (Active)</strong></th>
+<th><strong>被动网关 (Passive)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>控制权</strong></td>
+<td>负责主导该通道的唤醒与保持</td>
+<td>仅作为信号的“跟随者”或“转发者”</td>
+</tr>
+<tr>
+<td><strong>拓扑角色</strong></td>
+<td>通道状态的源头，最后一个释放者</td>
+<td>辅助网关，防止多网关冲突</td>
+</tr>
+<tr>
+<td><strong>信号转发</strong></td>
+<td>将本地请求/外部请求广播至通道</td>
+<td>仅在本地或其主动侧有请求时才向被动侧转发</td>
+</tr>
+</tbody>
+</table>
+<h2 id="PNC处理示例">PNC处理示例</h2>
+<p>假设你的 ECU 充当网关，连接了 <strong>CAN1（配置为 Active）</strong> 和 <strong>CAN2（配置为 Passive）</strong>，且两者都属于同一个 <code>PNC_01</code>。</p>
+<p>当 CAN1 上的外部节点发出唤醒请求时，信号在你的网关 ECU 内部会经历从物理层到逻辑层、再回流到物理层的闭环。</p>
+<p>第一阶段：信号接收与识别 (RX)</p>
+<ol>
+<li><strong>物理层感知</strong>：CAN1 上的外部节点发送包含 PNC 向量的 NM 报文（比特位为 1）。</li>
+<li><strong>CanIf / CanNm 提取</strong>：<code>CanIf</code> 接收报文，<code>CanNm</code> 提取其中的用户数据（NM User Data），识别出 <code>PNC_01</code> 对应的比特位。</li>
+<li><strong>ComM 接收 EIRA/ERA</strong>：通过 <code>Com_ReceiveSignal</code>，ComM 获取到该位。
+<ul>
+<li>此时，网关检测到 CAN1（Active 侧）的 <strong>ERA</strong> 信号由 <code>0</code> 变为 <code>1</code></li>
+</ul>
+</li>
+</ol>
+<p>第二阶段：PNC 状态机跳转 (Logic)</p>
+<ol>
+<li><strong>状态切换</strong>：<code>PNC_01</code> 的状态机感应到外部请求（ERA=1），从 <code>PNC_NO_COMMUNICATION</code> 直接跳转到 <strong><code>PNC_REQUESTED</code></strong>。</li>
+<li><strong>联动 BswM</strong>：ComM 调用 <code>BswM_ComM_CurrentPncMode</code>，通知 BswM 该 PNC 已激活。</li>
+<li><strong>开启通道</strong>：由于 <code>PNC_01</code> 进入了请求状态，ComM 会向 <strong>CAN2</strong> 的通道请求 <code>COMM_FULL_COMMUNICATION</code>（如果 CAN2 还没开）。</li>
+</ol>
+<p>第三阶段：信号转发与唤醒 (TX)</p>
+<ol>
+<li><strong>计算被动侧信号</strong>：因为 CAN2 被配置为 <code>PASSIVE</code> 网关类型，ComM 检查跳转条件：
+<ul>
+<li>条件：本地有用户请求 <strong>或者</strong> 来自 <code>ACTIVE</code> 侧（CAN1）的 ERA 信号为 1。</li>
+<li>结果：满足条件，ComM 决定在 CAN2 上也发送 ‘1’。</li>
+</ul>
+</li>
+<li><strong>触发发送</strong>：ComM 调用 <code>Com_SendSignal</code>，将 <code>PNC_01</code> 在 CAN2 对应的 TX 比特位置为 <strong>1</strong>。</li>
+<li><strong>总线传播</strong>：<code>CanNm</code> 将此比特位装入发送缓存，通过 <code>CanIf</code> 发往 CAN2 总线。此时，CAN2 上的所有 PNC 成员节点感应到该位，完成唤醒。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>步骤</strong></th>
+<th><strong>组件</strong></th>
+<th><strong>动作</strong></th>
+<th><strong>目的</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>CanIf/CanNm</strong></td>
+<td>采样并解析 NM 报文</td>
+<td>捕获原始唤醒物理信号</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>ComM (EIRA/ERA)</strong></td>
+<td>聚合各通道位向量</td>
+<td>将物理信号转为逻辑请求</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>PNC State Machine</strong></td>
+<td><code>NO_COM</code> -&gt; <code>REQUESTED</code></td>
+<td>驱动 PNC 核心逻辑跳转</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>ComM (Gateway)</strong></td>
+<td>根据 Active/Passive 路由信号</td>
+<td>决定是否要“透传”请求到另一侧</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>Com / CanNm</strong></td>
+<td><code>Com_SendSignal</code> -&gt; 总线发送</td>
+<td>物理唤醒目标网段（CAN2）</td>
+</tr>
+</tbody>
+</table>
+<p>网关 ECU 在这里扮演了**“逻辑映射器”**的角色：</p>
+<ol>
+<li>它把 CAN1 的 <strong>Input (ERA)</strong> 变成了自己内部 PNC 状态机的 <strong>Request</strong>。</li>
+<li>它又把内部状态机的 <strong>Result</strong> 变成了 CAN2 的 <strong>Output (TX)</strong>。</li>
+</ol>
+<h1>Channel状态管理</h1>
+<p>与之前的 PNC 状态机不同，通道状态机直接面向物理总线和对应的总线状态管理器（如 CanSM）。</p>
+<ol>
+<li>
+<p>通道独立性与优先级</p>
+<ul>
+<li><strong>独立控制</strong>：ComM 为每个通信通道实现一个独立的状态机。这允许不同通道拥有不同的通信能力（例如，LIN 通道在采集传感器数据时处于全通信状态，而 CAN 通道保持非活动状态）。</li>
+<li><strong>PNC 优先</strong>：如果启用了 PNC 功能，所有 PNC 相关的动作必须在通道动作之前执行。</li>
+<li><strong>强推 NM 请求</strong>：如果配置了 <code>ComMPncNmRequest</code>，当 PNC 状态机切换到 <code>COMM_PNC_REQUESTED</code> 时，ComM 必须调用 <code>Nm_NetworkRequest()</code>。这确保了 NM 报文能立即发送，从而同步唤醒网络上的所有 PNC 节点。</li>
+</ul>
+</li>
+<li>
+<p>状态结构与子状态</p>
+<p>通道状态机由三个主状态组成，涵盖了通信的不同阶段：</p>
+<table>
+<thead>
+<tr>
+<th><strong>主状态</strong></th>
+<th><strong>子状态</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>COMM_NO_COMMUNICATION</strong></td>
+<td><code>NO_COM_NO_PENDING_REQUEST</code> <code>NO_COM_REQUEST_PENDING</code></td>
+<td>默认状态。在 <code>REQUEST_PENDING</code> 子状态下，系统会检查 <code>CommunicationAllowed</code> 标志位。</td>
+</tr>
+<tr>
+<td><strong>COMM_FULL_COMMUNICATION</strong></td>
+<td><code>FULL_COM_NETWORK_REQUESTED</code> <code>FULL_COM_READY_SLEEP</code></td>
+<td>允许正常的发送和接收。<code>READY_SLEEP</code> 用于同步总线关闭过程。</td>
+</tr>
+<tr>
+<td><strong>COMM_SILENT_COMMUNICATION</strong></td>
+<td>(无子状态)</td>
+<td>仅允许接收，禁止发送。主要用于 NM 的同步关闭流程。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>通信能力映射 (Mode vs Capability)</p>
+<p>根据上表，不同模式下的物理能力对比如下：</p>
+<ul>
+<li><strong>FULL</strong>：发送 <strong>On</strong>，接收 <strong>On</strong>。请求总线通信。</li>
+<li><strong>SILENT</strong>：发送 <strong>Off</strong>，接收 <strong>On</strong>。已释放总线通信，仅保持监听。</li>
+<li><strong>NO</strong>：发送 <strong>Off</strong>，接收 <strong>Off</strong>。总线完全释放。</li>
+</ul>
+</li>
+<li>
+<p>关键运行机制</p>
+<ul>
+<li><strong>用户透明性</strong>：状态机的内部逻辑（如“最高者胜”仲裁）对用户（SW-C）是不可见的。用户只需提出模式请求，无需关心内部如何处理冲突。</li>
+<li><strong>许可检查 (CommunicationAllowed)</strong>：这是一个重要的安全锁。状态机只有在 <code>COMM_NO_COM_REQUEST_PENDING</code> 子状态下才会评估这个标志位。这意味着如果通道已经在运行中，即便该标志变为 <code>FALSE</code>，通道也不会立即关停。</li>
+<li><strong>用户通知 (Fan-out)</strong>：每当主状态发生变化，ComM 必须通知所有关联该通道的用户。如果一个通道对应多个用户，通知会进行分发（Fan-out）。</li>
+</ul>
+</li>
+<li>
+<p>状态机的职责界限</p>
+<p>通道状态机直接与其连接的 <strong>Bus State Manager</strong>（如 CanSM）通信，负责处理特定通道/网络的硬件状态映射，而其他跨模块接口则由 ComM 模块统一处理。</p>
+</li>
+</ol>
+<p>状态机如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260330091113021.png" alt="通道状态机" loading='lazy'></p>
+<p>ComM 中 存在**“管理通道（Managing Channel）”** 与 <strong>“被管理通道（Managed Channel）”</strong> 。这种机制主要用于处理<strong>跨通道的通信协调</strong>，特别是在一个通道拥有网络管理（NM）能力而另一个通道没有的情况下。</p>
+<ol>
+<li>
+<p>管理关系与配置</p>
+<ul>
+<li><strong>引用关系</strong>：通过配置参数 <code>ComMManageReference</code>，一个通道可以引用其他通道。</li>
+<li><strong>角色定义</strong>：
+<ul>
+<li><strong>Managing Channel (管理通道)</strong>：引用的发起方（源）。</li>
+<li><strong>Managed Channel (被管理通道)</strong>：被引用的目标。</li>
+</ul>
+</li>
+<li><strong>数量限制</strong>：
+<ul>
+<li>一个管理通道可以管理 <strong>0 到多个</strong> 被管理通道。</li>
+<li>一个被管理通道只能被 <strong>0 到 1 个</strong> 管理通道所管理。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>典型使用场景 (Use Case)</p>
+<p>这种设计主要为了支持以下场景：</p>
+<p><strong>管理通道负责处理 NM 模块的交互（如同步唤醒、协调关机），而被管理通道本身没有 NM 功能。</strong> 例如：一个 CAN 通道作为 Managing Channel 运行完整的 AUTOSAR NM，同时带动一个没有 NM 的 LIN 子网（Managed Channel）同步启动或关闭。</p>
+</li>
+<li>
+<p>配置约束 (Limitations)</p>
+<p>为了确保这种管理关系逻辑正常，规范设定了严格的配置约束：</p>
+<ul>
+<li>对于管理通道 (Managing Channel):
+<ul>
+<li><strong>NM 变体限制</strong>：其 <code>ComMNmVariant</code> 必须设置为 <strong>FULL</strong>。这意味着管理通道必须具备完整的网络管理能力，才能承担起协调者的职责。</li>
+</ul>
+</li>
+<li>对于被管理通道 (Managed Channel):
+<ul>
+<li><strong>NM 变体限制</strong>：其 <code>ComMNmVariant</code> 必须设置为 <strong>LIGHT</strong>。因为它的通信生命周期（尤其是与 NM 相关的部分）已经交由管理通道来处理了。</li>
+<li><strong>PNC 网关限制</strong>：被管理通道的 <code>ComMPncGatewayType</code> <strong>不能</strong> 设置为 <code>ACTIVE</code> 或 <code>PASSIVE</code>。这意味着被管理通道不能同时作为 PNC 网关参与复杂的跨段协调，其状态纯粹随管理通道而变。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>这种“父子”式的管理关系，实际上是将<strong>网络管理的复杂性</strong>集中在了 Managing Channel 上。</p>
+<ul>
+<li><strong>同步逻辑</strong>：当 Managing Channel 进入 <code>COMM_FULL_COMMUNICATION</code> 并触发 NM 请求时，其下的 Managed Channels 会被带动进入相应的通信状态。</li>
+<li><strong>简化设计</strong>：对于开发者而言，这简化了那些不支持 NM 协议（如 LIN 或某些简单的私有 CAN 协议）的通道与系统主网同步的难度。</li>
+</ul>
+<h2 id="COMM-NO-COMMUNICATION-2">COMM_NO_COMMUNICATION</h2>
+<p>这是 ECU 关机、休眠或初始化后的基准状态。</p>
+<ol>
+<li>初始化与默认子状态
+<ul>
+<li><strong>默认子状态</strong>：一旦进入 <code>COMM_NO_COMMUNICATION</code>，状态机必须首先进入 <code>COMM_NO_COM_NO_PENDING_REQUEST</code>（无待处理请求）子状态。</li>
+<li><strong>初始化静默</strong>：在上电初始化进入此状态时，ComM <strong>不应</strong> 向 RTE 或 BswM 发出模式变更指示。这是因为此时 RTE 可能尚未完成初始化，无法处理回调。</li>
+</ul>
+</li>
+<li>硬件与总线请求
+<ul>
+<li><strong>关闭通信能力</strong>：进入该状态的核心动作是关闭发送和接收能力。ComM 通过向底层的总线状态管理器（如 CanSM）请求 <code>COMM_NO_COMMUNICATION</code> 模式来实现物理层的切断。</li>
+<li><strong>网络管理释放 (NM Release)</strong>：如果该通道的 NM 变体配置为 <code>FULL</code>，ComM 必须调用 <code>Nm_NetworkRelease()</code> 来释放网络。这确保了如果之前请求过网络唤醒，现在能够正确通知网络管理模块进入休眠序列。</li>
+</ul>
+</li>
+<li>设计原理与限制
+<ul>
+<li><strong>不可中断性</strong>：对于 FlexRay 等总线，关闭过程不能被中断，以避免出现局部网络运行不一致的情况。</li>
+<li><strong>禁止请求</strong>：在此状态下，通道状态机<strong>不允许</strong>向总线状态管理器请求任何形式的总线通信。</li>
+<li><strong>局部性原则</strong>：
+<ul>
+<li><strong>本地运行</strong>：ECU 可以在不参与总线通信的情况下执行本地控制功能（例如仅进行传感器采样而不发送数据）。</li>
+<li><strong>通道独立</strong>：无通信状态是针对单一通道的。即使通道 A 处于 <code>NO_COM</code>，ECU 依然可以通过通道 B 进行通信。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>进入 <code>NO_COM</code> 后的链式反应</p>
+<ol>
+<li><strong>逻辑层</strong>：进入子状态 <code>NO_PENDING_REQUEST</code>。</li>
+<li><strong>服务层</strong>：调用 <code>Nm_NetworkRelease</code>（若为 FULL NM）。</li>
+<li><strong>抽象层</strong>：调用 <code>XXSM_RequestComMode(COMM_NO_COMMUNICATION)</code> 通知硬件管理器。</li>
+<li><strong>硬件层</strong>：控制器停止 PDU 收发，收发器可能进入低功耗模式。</li>
+</ol>
+<h3 id="COMM-NO-COM-NO-PENDING-REQUEST">COMM_NO_COM_NO_PENDING_REQUEST</h3>
+<p>ComM 通道状态机从“静默”的初始子状态 <strong><code>COMM_NO_COM_NO_PENDING_REQUEST</code></strong> 触发并跳转到 <strong><code>COMM_NO_COM_REQUEST_PENDING</code></strong>。这是系统从休眠或空闲走向通信激活的“第一步”。</p>
+<ol>
+<li>
+<p>主动请求触发 (User &amp; DCM)</p>
+<ul>
+<li><strong>本地用户请求</strong>：当用户请求 <code>COMM_FULL_COMMUNICATION</code> 且未开启通信限制时，通道状态机立即跳转。
+<ul>
+<li><strong>联动逻辑</strong>：如果该通道是被管理通道（Managed Channel），ComM 会自动请求其关联的管理通道（Managing Channel）进入全通信模式。</li>
+</ul>
+</li>
+<li><strong>诊断激活</strong>：当 DCM 指示 <code>ComM_DCM_ActiveDiagnostic</code> 时，无论是否存在通信限制，状态机都会跳转。诊断请求具有高优先级，会自动使通信限制暂时失效。</li>
+</ul>
+</li>
+<li>
+<p>外部总线唤醒 (Wake-up)</p>
+<p>为了保证总线唤醒后能尽快恢复通信，规范定义了多种唤醒处理方式：</p>
+<ul>
+<li><strong>同步唤醒 (<code>ComMSynchronousWakeUp = TRUE</code>)</strong>：
+<ul>
+<li>一旦调用 <code>ComM_EcuM_WakeUpIndication</code>，<strong>所有</strong>通道状态机都会跳转到 <code>REQUEST_PENDING</code>。</li>
+</ul>
+</li>
+<li><strong>异步唤醒 (<code>ComMSynchronousWakeUp = FALSE</code>)</strong>：
+<ul>
+<li>仅<strong>被指示唤醒的特定通道</strong>发生跳转。同样，如果该通道是 Managed Channel，其对应的 Managing Channel 也会同步跳转。</li>
+</ul>
+</li>
+<li><strong>NM 重启指示</strong>：如果网络管理模块指示 <code>Nm_RestartIndication</code>，状态机立即跳转。</li>
+</ul>
+</li>
+<li>
+<p>部分网络 (PNC) 唤醒指示</p>
+<p>针对启用了 PNC 功能的系统，唤醒逻辑更加精细：</p>
+<ul>
+<li><strong>特定 PNC 唤醒 (<code>PNCWakeUpIndication</code>)</strong>：
+<ul>
+<li><strong>异步模式</strong>：仅将引用了该 PNC 的通道（包括管理通道和被管理通道）切换到 <code>REQUEST_PENDING</code>。</li>
+<li><strong>同步模式</strong>：将<strong>所有</strong>通道切换到 <code>REQUEST_PENDING</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>关键防止抖动机制</p>
+<p>在进入 <code>COMM_FULL_COM_NETWORK_REQUESTED</code> 后，即使暂时没有用户请求，系统也不会立刻跳回 <code>NO_COM</code>：</p>
+<ul>
+<li><strong>计时器保护</strong>：参数 <code>ComMTMinFullComModeDuration</code> 会强制通道在全通信模式下保持一段时间。</li>
+<li><strong>目的</strong>：克服系统启动/初始化过程中的延迟，防止状态机在“开启”和“关闭”之间剧烈抖动。</li>
+</ul>
+</li>
+</ol>
+<p>跳转触发矩阵</p>
+<table>
+<thead>
+<tr>
+<th><strong>触发源</strong></th>
+<th><strong>通道范围 (Synchronous=FALSE)</strong></th>
+<th><strong>通道范围 (Synchronous=TRUE)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User Request</strong></td>
+<td>仅请求通道 (+其 Managing 通道)</td>
+<td>仅请求通道</td>
+</tr>
+<tr>
+<td><strong>DCM Diagnostic</strong></td>
+<td>仅关联通道</td>
+<td>仅关联通道</td>
+</tr>
+<tr>
+<td><strong>General Wake-up</strong></td>
+<td>仅指示唤醒的通道</td>
+<td><strong>所有</strong>通道</td>
+</tr>
+<tr>
+<td><strong>PNC Wake-up</strong></td>
+<td>仅引用该 PNC 的通道</td>
+<td><strong>所有</strong>通道</td>
+</tr>
+<tr>
+<td><strong>NM Restart</strong></td>
+<td>仅指示重启的通道</td>
+<td>仅指示重启的通道</td>
+</tr>
+</tbody>
+</table>
+<h3 id="COMM-NO-COM-REQUEST-PENDING">COMM_NO_COM_REQUEST_PENDING</h3>
+<p><strong>ComM 通道状态机</strong> 在关键中间状态 <strong><code>COMM_NO_COM_REQUEST_PENDING</code></strong>（无通信-请求待处理）下的逻辑。这个状态充当了“请求发起”与“硬件开启”之间的<strong>安全审查层</strong>。</p>
+<ol>
+<li>
+<p>通信许可评估 (The Gatekeeper)</p>
+<p>即便有了用户请求或唤醒指示，通道也不会盲目开启。</p>
+<ul>
+<li><strong>权限检查</strong>：在此子状态下，状态机必须评估 <code>CommunicationAllowed</code> 标志位。</li>
+<li><strong>跳转条件</strong>：只有当 <code>CommunicationAllowed == TRUE</code> 时，状态机才会真正跨越门槛，进入 <strong><code>COMM_FULL_COMMUNICATION</code></strong> 主状态。</li>
+<li><strong>设计意图</strong>：这允许系统（例如通过 BswM 或 EcuM）根据整车电源状态或安全约束，在物理层面上“锁死”或“放行”通信。</li>
+</ul>
+</li>
+<li>
+<p>请求撤销与退回逻辑</p>
+<p>如果在等待许可的过程中请求消失了，系统需要具备“回撤”能力：</p>
+<ul>
+<li><strong>普通通道退回</strong>：如果没有有效的 <code>FULL_COM</code> 挂起请求（例如用户改主意请求了 <code>NO_COM</code>，或诊断会话结束），状态机会跳回默认的 <code>COMM_NO_COM_NO_PENDING_REQUEST</code>。</li>
+<li><strong>管理通道 (Managing Channel) 特殊规则</strong>：
+<ul>
+<li>一个管理通道只有在满足以下两个条件时才能退回：
+<ol>
+<li>本身没有有效的 <code>FULL_COM</code> 请求。</li>
+<li><strong>所有</strong>由它管理且未被 PNC 引用的从属通道（Managed Channels）也都没有 <code>FULL_COM</code> 请求。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><strong>典型场景</strong>：用户调用了 <code>ComM_RequestComMode(FULL)</code> 触发了跳转，但在 <code>CommunicationAllowed</code> 变为 <code>TRUE</code> 之前，又调用了 <code>COMM_NO_COMMUNICATION</code> 撤销了请求。</li>
+</ul>
+</li>
+<li>
+<p>诊断请求的特殊性</p>
+<p>正如之前提到的，DCM 的 <code>ActiveDiagnostic</code> 指示也会触发进入此状态。如果诊断仪取消了会话（<code>InactiveDiagnostic</code>），而此时还没有获得通信许可，状态机也会根据上述规则安全退回。</p>
+</li>
+</ol>
+<p><code>REQUEST_PENDING</code> 的三种结局</p>
+<table>
+<thead>
+<tr>
+<th><strong>结局</strong></th>
+<th><strong>触发条件</strong></th>
+<th><strong>后续动作</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>开启通信</strong></td>
+<td><code>CommunicationAllowed</code> 变为 <strong>TRUE</strong></td>
+<td>进入 <code>FULL_COM</code>，通知 BusSM 开启总线</td>
+</tr>
+<tr>
+<td><strong>保持等待</strong></td>
+<td><code>CommunicationAllowed</code> 为 <strong>FALSE</strong> 且请求仍存在</td>
+<td>停留在该子状态，总线保持关闭</td>
+</tr>
+<tr>
+<td><strong>放弃请求</strong></td>
+<td>用户/诊断撤回请求 (请求变回 <code>NO_COM</code>)</td>
+<td>退回 <code>NO_PENDING_REQUEST</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="COMM-SILENT-COMMUNICATION">COMM_SILENT_COMMUNICATION</h2>
+<p>这个状态的主要目的是支持<strong>协调关机 (Coordinated Shutdown)</strong>，特别是在使用 AUTOSAR 网络管理 (NM) 时。在这种模式下，ECU 就像一个“只听不说的观察员”。</p>
+<ol>
+<li>
+<p>核心行为：单向通信</p>
+<ul>
+<li><strong>动作</strong>：进入该状态时，ComM 会向底层总线状态管理器（XXSM）请求 <code>COMM_SILENT_COMMUNICATION</code> 模式。</li>
+<li><strong>效果</strong>：
+<ul>
+<li><strong>发送 (TX)</strong>：强制关闭。</li>
+<li><strong>接收 (RX)</strong>：保持开启。</li>
+</ul>
+</li>
+<li><strong>典型用途</strong>：在 NM 准备进入总线睡眠（Prepare Bus Sleep）之前，确保 ECU 不再主动发送应用报文，但仍能监听网络上是否有其他节点再次唤醒总线。</li>
+</ul>
+</li>
+<li>
+<p>状态的升级与恢复 (Upgrade)</p>
+<p>如果 ECU 处于静默状态，但突然产生了通信需求，它会立即恢复“全通信”：</p>
+<ul>
+<li><strong>用户请求</strong>：当本地用户请求 <code>COMM_FULL_COMMUNICATION</code> 且无限制时，直接跳回全通信主状态。</li>
+<li><strong>诊断激活</strong>：当 DCM 触发 <code>ActiveDiagnostic</code> 指示时，状态机会忽略任何通信限制并跳回全通信主状态。</li>
+</ul>
+</li>
+<li>
+<p>与网络管理 (NM) 的深度联动</p>
+<p>在静默状态下，NM 的指示决定了通道是彻底关闭还是重新激活：</p>
+<ul>
+<li>
+<p><strong>彻底关闭 (<code>SILENT</code> -&gt; <code>NO_COM</code>)</strong>：</p>
+<p>当 NM 模块发出 <code>ComM_Nm_BusSleepMode()</code> 指示（意味着全网已达成一致，可以睡觉了），通道状态机切换到 <strong><code>COMM_NO_COMMUNICATION</code></strong>。</p>
+</li>
+<li>
+<p><strong>重新激活 (<code>SILENT</code> -&gt; <code>FULL_COM</code>)</strong>：</p>
+<p>当 NM 模块发出 <code>ComM_Nm_NetworkMode()</code> 指示（意味着总线上有其他节点再次请求了网络），状态机切换回 <strong><code>COMM_FULL_COMMUNICATION</code></strong>，并进入其子状态 <strong><code>READY_SLEEP</code></strong>。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>静默状态的“守门人”角色</p>
+<table>
+<thead>
+<tr>
+<th><strong>外部输入</strong></th>
+<th><strong>逻辑含义</strong></th>
+<th><strong>结果状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NM 指示 BusSleep</strong></td>
+<td>外部节点全安静了，可以放心关机</td>
+<td><strong>NO_COMMUNICATION</strong></td>
+</tr>
+<tr>
+<td><strong>NM 指示 NetworkMode</strong></td>
+<td>外部有人发话了，我得赶紧醒过来</td>
+<td><strong>FULL_COMMUNICATION</strong></td>
+</tr>
+<tr>
+<td><strong>本地 User/DCM 请求</strong></td>
+<td>我自己有话要说，不能再保持沉默</td>
+<td><strong>FULL_COMMUNICATION</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!tip]</p>
+<p>🔍 为什么需要这个状态？</p>
+<p>设想如果没有 <code>SILENT</code> 状态，ECU 可能会直接从 <code>FULL_COM</code> 跳到 <code>NO_COM</code>。如果此时总线上其他 ECU 还没准备好关机，它们会因为收不到这个 ECU 的信号而报出“通信丢失”的故障。通过 <code>SILENT</code> 状态，ECU 停止了发话，但还在“听”着大家的动静，直到 NM 确认全网都已经同步准备好入睡，才会真正切断电源。</p>
+</blockquote>
+<h2 id="COMM-FULL-COMMUNICATION">COMM_FULL_COMMUNICATION</h2>
+<p>ComM 通道状态机中最活跃的主状态：<strong><code>COMM_FULL_COMMUNICATION</code>（全通信状态）</strong>。在该状态下，节点拥有完整的发送和接收能力，并详细规定了如何从这一状态安全“降级”以关闭通信。</p>
+<ol>
+<li>
+<p>进入全通信状态的动作</p>
+<p>当通道状态机跨入全通信门槛时：</p>
+<ul>
+<li><strong>默认子状态</strong>：通常进入 <strong><code>COMM_FULL_COM_NETWORK_REQUESTED</code></strong>。除非是从静默状态（Silent）由于 NM 重新检测到网络模式而跳回，这种情况下可以直接进入 <code>READY_SLEEP</code>。</li>
+<li><strong>开启硬件能力</strong>：ComM 必须向底层的 <code>BusSM</code>（如 CanSM）请求 <code>COMM_FULL_COMMUNICATION</code> 模式，从而激活 PDU 的发送和接收。</li>
+</ul>
+</li>
+<li>
+<p>状态的“降级”与退出逻辑</p>
+<p>全通信状态不会永久持续，它通过以下路径根据网络情况退回到低功耗状态：</p>
+<ul>
+<li>
+<p>降级到静默状态 (To SILENT)</p>
+<ul>
+<li><strong>触发条件</strong>：对于配置为 <code>FULL</code> 或 <code>PASSIVE</code> 网络管理的通道，当 NM 模块指示 <strong><code>PrepareBusSleepMode</code></strong>（准备总线睡眠）时，状态机切换到 <code>COMM_SILENT_COMMUNICATION</code>。</li>
+<li><strong>逻辑背景</strong>：这通常发生在本地已经调用了 <code>Nm_NetworkRelease()</code>，且全网其他节点也表现出睡眠意图时。进入静默模式是为了停止发送应用报文，避免干扰正在进行的网络关断过程。</li>
+</ul>
+</li>
+<li>
+<p>直接退回到无通信状态 (To NO_COM)</p>
+<p>在某些特殊或精简的配置下，状态机会跳过静默状态：</p>
+<ul>
+<li><strong>强行同步</strong>：如果 NM 已经指示 <strong><code>BusSleepMode</code></strong>，即便本地用户请求可能“来晚了”（NM 已达成关断共识），状态机也必须切换到 <code>COMM_NO_COMMUNICATION</code>。</li>
+<li><strong>特定变体 (LIN Slave)</strong>：对于 LIN 从节点，其通信完全由主节点控制。如果 <code>BusSM</code> 指示总线进入睡眠，状态机直接切换到 <code>COMM_NO_COMMUNICATION</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>全通信状态的生命周期</p>
+<table>
+<thead>
+<tr>
+<th><strong>阶段</strong></th>
+<th><strong>动作/事件</strong></th>
+<th><strong>目的</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>激活 (Entry)</strong></td>
+<td>请求 <code>XXSM_FULL_COM</code></td>
+<td>开启收发器，允许 PDU 传输。</td>
+</tr>
+<tr>
+<td><strong>维持 (Running)</strong></td>
+<td>用户持续请求或 NM 保持激活</td>
+<td>保证应用层数据的正常交互。</td>
+</tr>
+<tr>
+<td><strong>退让 (To SILENT)</strong></td>
+<td>收到 <code>PrepareBusSleep</code></td>
+<td>停止“发声”，仅保持监听，配合全网关断。</td>
+</tr>
+<tr>
+<td><strong>关断 (To NO_COM)</strong></td>
+<td>收到 <code>BusSleep</code></td>
+<td>彻底切断通信，进入省电模式。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!tip]</p>
+<p>🔍 为什么 NM 的指示如此关键？</p>
+<p>在 <code>FULL_COMMUNICATION</code> 状态下，ComM 高度依赖 NM 的指示。这是因为在多节点网络中，**“什么时候可以关机”**不是由一个 ECU 说了算的，而是全网共同决定的。</p>
+<ul>
+<li>如果本地想睡但别人还在发数据，ECU 进入 <code>READY_SLEEP</code> 观察。</li>
+<li>如果全网都准备睡了（<code>PrepareBusSleep</code>），ECU 进入 <code>SILENT</code>。</li>
+<li>只有全网达成共识熄火了（<code>BusSleep</code>），ECU 才进入 <code>NO_COM</code>。</li>
+</ul>
+</blockquote>
+<h3 id="COMM-FULL-COM-NETWORK-REQUESTED">COMM_FULL_COM_NETWORK_REQUESTED</h3>
+<p>在这个子状态下，ECU 不仅仅是在线，而且是在<strong>主动请求总线保持唤醒</strong>。</p>
+<ol>
+<li>
+<p>进入动作：如何与 NM 模块交互？</p>
+<p>当状态机进入该子状态时，ComM 会根据触发源的不同，向网络管理（NM）模块发出不同的指令：</p>
+<ul>
+<li><strong>被动启动 (<code>Nm_PassiveStartup</code>)</strong>：
+<ul>
+<li>如果是由 <strong>EcuM 唤醒指示</strong>（普通或 PNC 唤醒）触发进入的。</li>
+<li>如果由 <strong>NM 重启</strong>（<code>RestartIndication</code>）或 <strong>网络启动</strong>（<code>NetworkStartIndication</code>）触发。</li>
+<li><strong>原则</strong>：被动启动意味着 ECU 准备好参与通信，但它本身不一定是那个“带头唤醒”的人。</li>
+</ul>
+</li>
+<li><strong>主动请求 (<code>Nm_NetworkRequest</code>)</strong>：
+<ul>
+<li>如果 <strong>本地用户请求</strong> 了全通信。</li>
+<li>如果 <strong>DCM 诊断激活</strong> 了。</li>
+<li><strong>原则</strong>：这会触发 NM 立即并多次发送 NM 报文，强制要求总线保持在 Network 模式。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>时间保护：防止状态抖动</p>
+<p>对于没有复杂 NM 协议（如 <code>LIGHT</code> 或 <code>NONE</code> 变体）的通道，系统引入了强制计时：</p>
+<ul>
+<li><strong>启动计时</strong>：进入该状态时，启动 <code>ComMTMinFullComModeDuration</code> 计时器。</li>
+<li><strong>目的</strong>：即使请求瞬间消失，ECU 也必须在该状态停留一段时间。这能确保系统有足够的时间完成启动和同步，防止状态机在 <code>NO_COM</code> 和 <code>FULL_COM</code> 之间剧烈“打摆子”。</li>
+</ul>
+</li>
+<li>
+<p>退回到 READY_SLEEP 的条件</p>
+<p>一旦主动请求消失，状态机将降级到 <code>READY_SLEEP</code>（即“我已经做完我的事了，但我陪你们保持唤醒”）：</p>
+<table>
+<thead>
+<tr>
+<th><strong>NM 变体类型</strong></th>
+<th><strong>退出跳转到 READY_SLEEP 的条件</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LIGHT / NONE</strong></td>
+<td>计时器超时 <strong>且</strong> 无本地用户/诊断请求。</td>
+</tr>
+<tr>
+<td><strong>FULL</strong></td>
+<td>只要无本地用户/诊断请求即可（不需要计时器，因为 FULL NM 协议内部有类似保护）。</td>
+</tr>
+<tr>
+<td><strong>LIN SLAVE</strong></td>
+<td>只要无本地用户请求即可。</td>
+</tr>
+<tr>
+<td><strong>PASSIVE</strong></td>
+<td>始终保持跳转（被动通道从不主动请求网络）。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>特殊管理规则</p>
+<ul>
+<li><strong>管理通道联动</strong>：如果一个管理通道（Managing Channel）要退回到 <code>READY_SLEEP</code>，它不仅要检查自己没请求，还要确保它下面所有<strong>未绑定 PNC</strong> 的被管理通道（Managed Channels）也都没有请求。</li>
+<li><strong>通信限制 (Communication Limitation)</strong>：如果此时系统收到了通信限制请求，且当前没有活动的诊断会话，状态机会立即无视计时器，强行跳入 <code>READY_SLEEP</code>。</li>
+</ul>
+</li>
+</ol>
+<p><code>NETWORK_REQUESTED</code> 的本质</p>
+<p>这个子状态代表了 ECU 的**“主观能动性”**：</p>
+<ol>
+<li><strong>我在发话</strong>：通过 <code>Nm_NetworkRequest</code> 告诉全网我需要用总线。</li>
+<li><strong>我有底线</strong>：通过 <code>MinFullComModeDuration</code> 保证一旦开启就不会闪退。</li>
+<li><strong>我能让步</strong>：一旦我的事情做完了（用户释放、诊断结束），我会退到 <code>READY_SLEEP</code>，把关掉总线的权利交给全网。</li>
+</ol>
+<h3 id="COMM-FULL-COM-READY-SLEEP">COMM_FULL_COM_READY_SLEEP</h3>
+<p>在这个状态下，ECU 处于一种“<strong>逻辑释放但物理在线</strong>”的状态。这意味着本节点已经完成了自己的通信任务，不再主动要求总线保持开启，但它必须留在该状态，等待全网络（通过 NM 协议）达成一致后再关机。</p>
+<ol>
+<li>
+<p>进入状态时的动作：释放请求</p>
+<p>一旦从 <code>NETWORK_REQUESTED</code> 降级到 <code>READY_SLEEP</code>，ComM 会根据 NM 变体执行不同的操作：</p>
+<ul>
+<li><strong>FULL NM (标准网管)</strong>：调用 <code>Nm_NetworkRelease()</code>。这会告诉 NM 模块：“本节点不再需要总线了，你可以开始进入准备睡眠的投票流程了。”</li>
+<li><strong>LIGHT NM (简化网管)</strong>：启动 <code>ComMNmLightTimeout</code> 计时器。由于没有复杂的 NM 握手协议，这种变体通过简单的超时机制来决定何时关机。</li>
+</ul>
+</li>
+<li>
+<p>状态退出与“降级”路径</p>
+<p>在 <code>READY_SLEEP</code> 状态下，通道会根据配置和总线类型决定去向：</p>
+<table>
+<thead>
+<tr>
+<th><strong>条件 / 变体</strong></th>
+<th><strong>触发事件</strong></th>
+<th><strong>目标状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LIGHT NM</strong></td>
+<td><code>ComMNmLightTimeout</code> 计时器超时</td>
+<td><strong>COMM_NO_COMMUNICATION</strong></td>
+</tr>
+<tr>
+<td><strong>INTERNAL 总线</strong></td>
+<td>只要进入 <code>READY_SLEEP</code></td>
+<td><strong>立即进入 NO_COMMUNICATION</strong></td>
+</tr>
+<tr>
+<td><strong>FULL NM</strong></td>
+<td>收到 <code>PrepareBusSleep</code> (见前文 SWS_ComM_00826)</td>
+<td><strong>COMM_SILENT_COMMUNICATION</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>被重新“拉回”激活状态 (Re-activation)</p>
+<p>如果在准备睡觉的过程中，本地突然又有了新的通信需求，状态机会立即升级回 <code>NETWORK_REQUESTED</code>：</p>
+<ul>
+<li><strong>本地用户再次请求</strong>：如果 <code>CommunicationAllowed</code> 允许，立即跳回 <code>NETWORK_REQUESTED</code>。如果是被管理通道，其管理通道也会同步被拉回激活状态。</li>
+<li><strong>诊断激活 (DCM)</strong>：一旦诊断会话激活，立即忽略通信限制并跳回 <code>NETWORK_REQUESTED</code>。</li>
+<li><strong>计时器处理 (针对 LIGHT NM)</strong>：如果在计时器运行期间发生了上述重新激活，必须立即取消 <code>ComMNmLightTimeout</code> 计时器。</li>
+</ul>
+</li>
+</ol>
+<p><code>READY_SLEEP</code> 的“待命”哲学</p>
+<ol>
+<li><strong>不再主动</strong>：通过 <code>Nm_NetworkRelease</code> 或启动超时计时器，表达了“我想关机”的意图。</li>
+<li><strong>服从大局</strong>：它不会立刻关机，而是留在 <code>FULL_COM</code> 模式下。这样如果总线上其他节点还在发数据，本节点依然可以正常接收，不会产生通信丢失（Timeout）错误。</li>
+<li><strong>随时待命</strong>：一旦用户或诊断仪在最后一秒改变主意，它可以瞬间从“准备睡”切换回“全力发话”状态。</li>
+</ol>
+<p>PNC 状态机与通道状态机的关联</p>
+<p>至此，我们已经完整梳理了 PNC 逻辑和通道逻辑。简单来说：</p>
+<ul>
+<li><strong>PNC 状态机</strong> 决定了某个<strong>功能集群</strong>是否需要通信。</li>
+<li><strong>通道状态机</strong> 决定了具体的<strong>物理导线</strong>是否需要通电发信号。</li>
+<li>当 PNC 进入 <code>REQUESTED</code> 时，它会驱动关联的通道状态机进入 <code>NETWORK_REQUESTED</code>。</li>
+</ul>
+<h1>通信抑制</h1>
+<p>ComM 的<strong>扩展功能：通信抑制（Communication Inhibition）</strong>。如果说之前的状态机决定了“如何运行”，那么通信抑制则决定了“<strong>是否允许运行</strong>”。这种机制通常用于特殊的车辆状态（如展厅模式、生产线刷写或极端低电压保护），允许系统强制限制某些通道的通信能力。</p>
+<ol>
+<li>
+<p>核心概念：抑制与限制 (Inhibition &amp; Limitation)</p>
+<p>通信抑制主要分为两类逻辑，通过不同的 API 进行控制：</p>
+<ul>
+<li><strong>限制至无通信 (Limit to NoCom)</strong>：
+<ul>
+<li><strong>控制 API</strong>：<code>ComM_LimitChannelToNoComMode()</code> 或 <code>ComM_LimitECUToNoComMode()</code>。</li>
+<li><strong>效果</strong>：即便用户请求了 <code>FULL_COM</code>，ComM 也会强制通道保持在 <code>NO_COMMUNICATION</code> 状态。</li>
+</ul>
+</li>
+<li><strong>唤醒抑制 (Wakeup Inhibition)</strong>：
+<ul>
+<li><strong>控制 API</strong>：<code>ComM_PreventWakeUp()</code>。</li>
+<li><strong>效果</strong>：防止总线上的外部请求（如接收到 NM 报文）将 ECU 从休眠中唤醒，但本地用户主动请求通常不受此限。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>配置与控制：三位一体</p>
+<p>抑制功能的生效取决于三个要素的综合作用：</p>
+<ol>
+<li><strong>请求位 (Request Bit)</strong>：通过上述 API 设置的 <code>ComMNoCom</code> 或 <code>ComMNoWakeup</code> 标志位。</li>
+<li><strong>掩码位 (Mask Bits)</strong>：<code>ComMEcuGroupClassification</code>。这是一个全局开关，决定了当前 ECU 属于哪一类分组（例如：是否受抑制影响）。</li>
+<li><strong>运行时 API</strong>：<code>ComM_SetECUGroupClassification()</code>。可以在运行时改变 ECU 的分类，从而动态开启或关闭抑制功能（例如：通过诊断命令切换模式）。</li>
+</ol>
+</li>
+<li>
+<p>关键运行逻辑</p>
+<ul>
+<li>
+<p>**状态存储与“记忆”功能 **</p>
+<p>这是 ComM 设计中非常人性化的一点：</p>
+<ul>
+<li><strong>静默记录</strong>：当通信被抑制时，如果用户发送了 <code>FULL_COM</code> 请求，ComM <strong>不会丢弃</strong>这个请求，而是将其记录下来。</li>
+<li><strong>自动恢复</strong>：一旦抑制功能被解除（例如诊断仪发出了允许通信的指令），ComM 会立即检查之前的存储状态，并自动将通道切入用户请求的 <code>FULL_COM</code> 模式。</li>
+</ul>
+</li>
+<li>
+<p><strong>诊断优先原则</strong></p>
+<p><strong>诊断会话是最高优先级的例外。</strong></p>
+<ul>
+<li>当 DCM 调用 <code>ComM_DCM_ActiveDiagnostic()</code> 时，所有的通信抑制逻辑会<strong>暂时失效</strong>。</li>
+<li><strong>理由</strong>：必须确保在诊断期间 ECU 不会因为抑制逻辑而强行进入睡眠，否则会导致诊断中断或刷写失败。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>角色定义：谁在控制抑制？</p>
+<p>规范特别提到：**ComM 模块本身不会触发这些抑制功能 **。</p>
+<ul>
+<li>通常由 <strong>特权 SW-C</strong>（如电源管理应用）或 <strong>OEM 特有的 BSW 模块</strong> 负责调用这些 API。</li>
+<li>这是一种典型的“策略与机制分离”的设计：ComM 提供“限制”的<strong>机制</strong>，而其他模块决定执行“限制”的<strong>策略</strong>。</li>
+</ul>
+</li>
+</ol>
+<p>抑制功能的层级</p>
+<table>
+<thead>
+<tr>
+<th><strong>功能类型</strong></th>
+<th><strong>影响对象</strong></th>
+<th><strong>核心目的</strong></th>
+<th><strong>绕过条件</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NoCom 限制</strong></td>
+<td>本地用户请求</td>
+<td>极端省电或生产安全</td>
+<td>活跃的诊断会话</td>
+</tr>
+<tr>
+<td><strong>唤醒抑制</strong></td>
+<td>外部总线请求</td>
+<td>防止意外唤醒（如展厅模式）</td>
+<td>活跃的诊断会话</td>
+</tr>
+</tbody>
+</table>
+<h2 id="总线唤醒抑制">总线唤醒抑制</h2>
+<p><strong>总线唤醒抑制（Bus Wake Up Inhibition）</strong> 的核心逻辑其精髓在于：<strong>防止一个“可能有故障”的 ECU 因为内部错误的触发而意外唤醒整个车载网络。</strong></p>
+<ol>
+<li>
+<p>核心定义：什么是唤醒抑制？</p>
+<p>唤醒抑制并不是关闭 ECU 的接收能力，而是<strong>限制 ECU 的“主动发言权”</strong>。</p>
+<ul>
+<li><strong>初衷</strong>：如果某个传感器损坏或线路短路，导致 ECU 误以为需要通信，如果不加限制，这个 ECU 会发出网络管理报文，进而把全车几十个 ECU 全部叫醒，造成电池耗尽。</li>
+<li><strong>手段</strong>：通过**“假装没听见”**本地用户的请求来实现。</li>
+</ul>
+</li>
+<li>
+<p>核心行为逻辑：忽略但不丢弃</p>
+<ul>
+<li><strong>接受请求</strong>：当 <code>ComMNoWakeup = TRUE</code> 时，如果 SW-C 请求 <code>FULL_COM</code>，ComM 会记录下这个请求。</li>
+<li><strong>不执行</strong>：ComM 不会触发状态机跳转，总线保持静默。</li>
+<li><strong>延时生效</strong>：一旦抑制位被解除，之前缓存的请求会立即触发“最高优先级胜出”逻辑，使通道进入全通信模式。</li>
+</ul>
+</li>
+<li>
+<p>生效的临界条件</p>
+<p>唤醒抑制只有在“总线还没醒”的时候才管用：</p>
+<ul>
+<li><strong>生效区间</strong>：通道处于 <code>COMM_NO_COMMUNICATION</code> 或 <code>COMM_SILENT_COMMUNICATION</code> 时。</li>
+<li><strong>无效区间</strong>：如果通道已经处于 <code>COMM_FULL_COMMUNICATION</code>，抑制逻辑<strong>不起作用</strong>。</li>
+<li><strong>逻辑背后的哲学</strong>：既然总线已经醒了（大家都在说话），这时候再限制某个节点说话已经没有“节能”或“防干扰”的意义了，所以不干预当前的活动通信。</li>
+</ul>
+</li>
+<li>
+<p>被动唤醒：永远的例外</p>
+<p><strong>ComM 绝不会抑制“被动唤醒（Passive Wake-up）”能力。</strong></p>
+<ul>
+<li><strong>含义</strong>：即便开启了唤醒抑制，如果外部总线（如其他 ECU）发来了唤醒信号，本 ECU 必须能够正常响应并进入通信状态。</li>
+<li><strong>理由</strong>：唤醒抑制是为了防止“我害别人”，但不能变成“我自闭”。ECU 必须始终具备对外部网络请求的反应能力。</li>
+</ul>
+</li>
+<li>
+<p>持久化存储</p>
+<ul>
+<li><strong>要求</strong>：<code>ComMNoWakeup</code> 的状态必须存储在 <strong>非易失性存储器（如 NvM/Flash）</strong> 中。</li>
+<li><strong>必要性</strong>：抑制状态必须在 ECU 上电初始化那一刻就生效。如果在启动后还需要等其他 ECU 告诉它是否抑制，那么在等待的过程中，故障请求可能已经把总线唤醒了。</li>
+</ul>
+</li>
+</ol>
+<p>唤醒抑制 vs. 普通通信限制</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>唤醒抑制 (Wake Up Inhibition)</strong></th>
+<th><strong>限制至 NoCom (Limit to NoCom)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主要目标</strong></td>
+<td>防止 ECU 成为唤醒源</td>
+<td>强制 ECU 保持静默（如刷写模式）</td>
+</tr>
+<tr>
+<td><strong>抑制对象</strong></td>
+<td>仅抑制从 <code>NO_COM</code> 发起的<strong>主动</strong>跳转</td>
+<td>抑制<strong>所有</strong>进入 <code>FULL_COM</code> 的尝试</td>
+</tr>
+<tr>
+<td><strong>外部唤醒</strong></td>
+<td><strong>允许</strong>（被动唤醒）</td>
+<td><strong>禁止</strong>（除非诊断激活）</td>
+</tr>
+<tr>
+<td><strong>存储要求</strong></td>
+<td>必须非易失存储</td>
+<td>视 OEM 需求而定</td>
+</tr>
+</tbody>
+</table>
+<p>🛠️ 典型应用案例</p>
+<p>在**运输模式（Transport Mode）**下，为了防止车辆在船运或卡车运输过程中因为震动触发某些传感器唤醒总线，OEM 会通过诊断仪设置 <code>ComMNoWakeup = TRUE</code>。这样，即便传感器乱跳，ECU 也会乖乖睡觉，直到诊断仪解除该标志。</p>
+<h2 id="限制至无通信模式">限制至无通信模式</h2>
+<p>如果说“唤醒抑制”是防患于未然的“拒之门外”，那么本节定义的 <strong>限制至无通信模式（Limit to NoCom）</strong> 就是针对运行中故障的“强制熔断”。</p>
+<p>这种机制赋予了系统一种<strong>强制关机</strong>的能力，即便本地有应用软件（SW-C）死抓着总线不放，ComM 也能通过逻辑强行切断通信。</p>
+<ol>
+<li>
+<p>强制关机的核心逻辑</p>
+<p>当 <code>ComMNoCom = TRUE</code> 被触发时，ComM 不会暴力直接切断硬件，而是采用<strong>优雅的降级流程</strong>：</p>
+<ul>
+<li><strong>强制跳转</strong>：即便用户还在请求 <code>FULL_COM</code>，状态机会强行从 <code>NETWORK_REQUESTED</code> 切换到 <strong><code>READY_SLEEP</code></strong>。</li>
+<li><strong>启动关机序列</strong>：进入 <code>READY_SLEEP</code> 后，ComM 会调用 <code>Nm_NetworkRelease()</code>，通知网络管理模块开始关机投票。</li>
+<li><strong>忽略新请求</strong>：在限制生效期间，任何新的 <code>FULL_COM</code> 请求都会被记录但被立即忽略。</li>
+</ul>
+</li>
+<li>
+<p>生效范围与精准打击</p>
+<p>这是一把只针对“主动请求”的利剑：</p>
+<ul>
+<li><strong>目标状态</strong>：该限制逻辑仅在通道处于 <strong><code>COMM_FULL_COM_NETWORK_REQUESTED</code></strong>（即本地正在主动请求总线）时才会被触发跳转。</li>
+<li><strong>被动唤醒不受限</strong>：如果通道是被外部远程唤醒的（Passive Wake-up），<code>Limit to NoCom</code> <strong>不会</strong>执行强制跳转。</li>
+<li><strong>设计意图</strong>：这确保了限制功能只用来对付“本地不听话的软件”，而不是切断节点对外部合法请求的响应。</li>
+</ul>
+</li>
+<li>
+<p>故障恢复：强制重启</p>
+<p>当一个 SW-C 发生故障导致它无法释放总线请求时，简单的状态跳转可能解决不了根本问题。</p>
+<ul>
+<li><strong>强制复位</strong>：如果配置了 <code>ComMResetAfterForcingNoComm=TRUE</code>，在通道进入 <code>NO_COMMUNICATION</code> 后，ComM 会通过 BswM 触发 <strong>ECU 重置</strong>。</li>
+<li><strong>理由</strong>：假设用户代码陷入死循环持续发送请求，重置是清除这种顽固故障状态的最终手段。</li>
+<li><strong>请求清理</strong>：一旦所有通道都回到了 <code>NO_COM</code> 模式，ComM 会清空该用户的所有挂起请求。</li>
+</ul>
+</li>
+<li>
+<p>存储与初始化特性</p>
+<p>与“唤醒抑制”不同，<code>Limit to NoCom</code> 具有不同的生存周期：</p>
+<ul>
+<li><strong>非持久化</strong>：<code>ComMNoCom</code> 状态<strong>不要求</strong>非易失性存储（NvM）。</li>
+<li><strong>初始化重载</strong>：每次 ECU 重启初始化时，该标志位都会恢复为配置工具中设定的默认值。</li>
+<li><strong>逻辑哲学</strong>：这种限制通常是针对运行时检测到的临时异常（如监控模块发现某个 SW-C 逻辑异常），因此不需要像“唤醒抑制”那样具备跨上电周期的记忆。</li>
+</ul>
+</li>
+</ol>
+<p>两类限制功能的对比</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>唤醒抑制 (Wakeup Inhibition)</strong></th>
+<th><strong>限制至无通信 (Limit to NoCom)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>主要动作</strong></td>
+<td><strong>拦截</strong>进入全通信的尝试</td>
+<td><strong>中断</strong>当前正在进行的全通信</td>
+</tr>
+<tr>
+<td><strong>状态机行为</strong></td>
+<td>停留在 <code>NO_COM</code> 或 <code>SILENT</code></td>
+<td>从 <code>NETWORK_REQUESTED</code> 强跳 <code>READY_SLEEP</code></td>
+</tr>
+<tr>
+<td><strong>针对故障</strong></td>
+<td>传感器/硬件误唤醒</td>
+<td>软件组件（SW-C）逻辑挂死</td>
+</tr>
+<tr>
+<td><strong>极端手段</strong></td>
+<td>忽略请求</td>
+<td>重置 ECU (<code>BswM_InitiateReset</code>)</td>
+</tr>
+<tr>
+<td><strong>存储</strong></td>
+<td>NvM 存储（上电生效）</td>
+<td>初始化重载（运行时生效）</td>
+</tr>
+</tbody>
+</table>
+<p>🔍 实际应用案例</p>
+<p>在一个多网关复杂的系统中，如果“网络大师（Network Master）”检测到某个 ECU 即使在全网都该睡觉时仍在疯狂发报文，它会通过诊断指令给这个 ECU 发送“禁言令”。ComM 接收到指令后设置 <code>ComMNoCom</code>，强制本地状态机释放 NM 信号，并可能通过重启来尝试修复那个“发疯”的应用软件。</p>
+<h1>与SM和NM联动</h1>
+<p>在 AUTOSAR 通信栈中，<strong>ComM（Communication Manager）</strong> 是最高层的管理者，它不直接操作硬件，而是通过驱动 <strong>CanNM（Network Management）</strong> 和 <strong>CanSM（State Manager）</strong> 来实现业务需求。</p>
+<p>三者的角色分配如下：</p>
+<ul>
+<li><strong>ComM</strong>：决策者（决定“我要不要通信”）。</li>
+<li><strong>CanNM</strong>：协调者（决定“全网是否都同意睡觉”）。</li>
+<li><strong>CanSM</strong>：执行者（决定“控制收发器和控制器的上下电/物理模式”）。</li>
+</ul>
+<p>它们之间的状态切换存在明显的层级联锁关系：</p>
+<ol>
+<li><strong>ComM 请求 Full Com</strong>：
+<ul>
+<li>ComM 进入 <code>FULL_COM_NETWORK_REQUESTED</code>。</li>
+<li><strong>联动 CanSM</strong>：ComM 调用 <code>CanSM_RequestComMode(FULL)</code>，让 CanSM 将控制器的物理状态切换到能够收发 PDU 的模式。</li>
+<li><strong>联动 CanNM</strong>：ComM 调用 <code>Nm_NetworkRequest()</code>，让 CanNM 开始在总线上发 NM 报文（告知别人：我醒了，你们也别睡）。</li>
+</ul>
+</li>
+<li><strong>ComM 释放请求（准备睡眠）</strong>：
+<ul>
+<li>ComM 进入 <code>FULL_COM_READY_SLEEP</code>。</li>
+<li><strong>联动 CanNM</strong>：ComM 调用 <code>Nm_NetworkRelease()</code>。此时 CanNM 进入 <code>Ready Sleep</code> 状态，停止发送自己的 NM 报文，开始监听总线上是否还有别人的 NM 报文。</li>
+</ul>
+</li>
+<li><strong>全网同步入睡</strong>：
+<ul>
+<li><strong>CanNM 反馈</strong>：当总线上所有人都不发 NM 报文了，CanNM 进入 <code>Bus Sleep</code>，并回调通知 ComM：<code>ComM_Nm_BusSleepMode()</code>。</li>
+<li><strong>ComM 降级</strong>：ComM 收到回调后，状态机跳往 <code>NO_COMMUNICATION</code>。</li>
+<li><strong>最终执行</strong>：ComM 调用 <code>CanSM_RequestComMode(NO_COM)</code>，由 CanSM 真正关闭收发器物理供电。</li>
+</ul>
+</li>
+</ol>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant User as SW-C (User)
+    participant ComM as ComM
+    participant CanNM as CanNM
+    participant CanSM as CanSM
+    participant Bus as CAN Bus
+
+    Note over User, Bus: --- 唤醒与启动流程 ---
+    User-&gt;&gt;ComM: ComM_RequestComMode(FULL_COM)
+    ComM-&gt;&gt;ComM: 进入 NETWORK_REQUESTED
+    
+    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(FULL_COM)
+    CanSM-&gt;&gt;Bus: 控制收发器进入 Normal 模式
+    CanSM--&gt;&gt;ComM: 异步回调确认
+    
+    ComM-&gt;&gt;CanNM: Nm_NetworkRequest()
+    CanNM-&gt;&gt;Bus: 发送 NM PDU (Repeat Message)
+
+    Note over User, Bus: --- 正常通信中 ---
+
+    Note over User, Bus: --- 释放与关闭流程 (Shutdown) ---
+    User-&gt;&gt;ComM: ComM_RequestComMode(NO_COM)
+    ComM-&gt;&gt;ComM: 降级至 READY_SLEEP
+    
+    ComM-&gt;&gt;CanNM: Nm_NetworkRelease()
+    CanNM-&gt;&gt;CanNM: 停止发送 NM PDU，进入 Ready Sleep 监听
+    
+    Bus--&gt;&gt;CanNM: 监测到总线无 NM 信号 (Timeout)
+    CanNM-&gt;&gt;ComM: ComM_Nm_BusSleepMode() 回调
+    
+    ComM-&gt;&gt;ComM: 进入 NO_COMMUNICATION
+    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(NO_COM)
+    CanSM-&gt;&gt;Bus: 控制收发器进入 Sleep/Standby</code></pre>
+<p>关键状态对应关系表</p>
+<table>
+<thead>
+<tr>
+<th><strong>阶段</strong></th>
+<th><strong>ComM 状态</strong></th>
+<th><strong>CanNM 状态</strong></th>
+<th><strong>CanSM 状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>初始/休眠</strong></td>
+<td><code>NO_COMMUNICATION</code></td>
+<td><code>Bus Sleep Mode</code></td>
+<td><code>CANSM_BSM_S_NOT_READY</code></td>
+</tr>
+<tr>
+<td><strong>主动唤醒</strong></td>
+<td><code>FULL_COM_NETWORK_REQUESTED</code></td>
+<td><code>Repeat Message</code> / <code>Normal Operation</code></td>
+<td><code>CANSM_BSM_S_FULL_COM</code></td>
+</tr>
+<tr>
+<td><strong>本地释放</strong></td>
+<td><code>FULL_COM_READY_SLEEP</code></td>
+<td><code>Ready Sleep Mode</code></td>
+<td><code>CANSM_BSM_S_FULL_COM</code></td>
+</tr>
+<tr>
+<td><strong>协调关机中</strong></td>
+<td><code>SILENT_COMMUNICATION</code></td>
+<td><code>Prepare Bus Sleep</code></td>
+<td><code>CANSM_BSM_S_SILENT_COM</code></td>
+</tr>
+<tr>
+<td><strong>彻底关闭</strong></td>
+<td><code>NO_COMMUNICATION</code></td>
+<td><code>Bus Sleep Mode</code></td>
+<td><code>CANSM_BSM_S_NO_COM</code></td>
+</tr>
+</tbody>
+</table>
+<p>🔍 总结</p>
+<ul>
+<li><strong>ComM 是“大脑”</strong>：它汇总所有 User 的需求，决定逻辑状态。</li>
+<li><strong>CanNM 是“嘴巴”</strong>：它负责跟总线上其他 ECU “商量”能不能睡。</li>
+<li><strong>CanSM 是“手脚”</strong>：它负责开关硬件开关。</li>
+<li><strong>关联点</strong>：ComM 的子状态跳转往往是由 User 的 API 调用触发的，而主状态（如从 Full Com 跳回 No Com）通常是由 CanNM 的回调（<code>BusSleepMode</code>）触发的。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Dem/" title="Dem"><img class="cover" src="/img/RandomCoverImage/random_13.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Dem</div></div><div class="info-2"><div class="info-item-1">概述 Dem(Diagnostic Event Manager，诊断事件管理), 用来记录和存储诊断事件的，将这些诊断事件及相关信息(冻结帧及扩展数据)记录到EEPROM。简单说其功能是：  故障事件确认前的故障消抖 故障事件确认时的故障数据存储 故障发生后的故障老化 故障替代（AUTOSAR...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">模块交互</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">PNC状态管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9F%E8%83%BD%E7%BB%86%E8%8A%82"><span class="toc-number">3.1.</span> <span class="toc-text">功能细节</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PNC%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">3.2.</span> <span class="toc-text">PNC状态机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-NO-COMMUNICATION"><span class="toc-number">3.2.1.</span> <span class="toc-text">COMM_NO_COMMUNICATION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-PNC-REQUESTED"><span class="toc-number">3.2.2.</span> <span class="toc-text">COMM_PNC_REQUESTED</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-PNC-READY-SLEEP"><span class="toc-number">3.2.3.</span> <span class="toc-text">COMM_PNC_READY_SLEEP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-PNC-PREPARE-SLEEP"><span class="toc-number">3.2.4.</span> <span class="toc-text">COMM_PNC_PREPARE_SLEEP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PNC-Gateway"><span class="toc-number">3.3.</span> <span class="toc-text">PNC Gateway</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PNC%E5%A4%84%E7%90%86%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.4.</span> <span class="toc-text">PNC处理示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">Channel状态管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#COMM-NO-COMMUNICATION-2"><span class="toc-number">4.1.</span> <span class="toc-text">COMM_NO_COMMUNICATION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-NO-COM-NO-PENDING-REQUEST"><span class="toc-number">4.1.1.</span> <span class="toc-text">COMM_NO_COM_NO_PENDING_REQUEST</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-NO-COM-REQUEST-PENDING"><span class="toc-number">4.1.2.</span> <span class="toc-text">COMM_NO_COM_REQUEST_PENDING</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COMM-SILENT-COMMUNICATION"><span class="toc-number">4.2.</span> <span class="toc-text">COMM_SILENT_COMMUNICATION</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#COMM-FULL-COMMUNICATION"><span class="toc-number">4.3.</span> <span class="toc-text">COMM_FULL_COMMUNICATION</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-FULL-COM-NETWORK-REQUESTED"><span class="toc-number">4.3.1.</span> <span class="toc-text">COMM_FULL_COM_NETWORK_REQUESTED</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#COMM-FULL-COM-READY-SLEEP"><span class="toc-number">4.3.2.</span> <span class="toc-text">COMM_FULL_COM_READY_SLEEP</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">通信抑制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BA%BF%E5%94%A4%E9%86%92%E6%8A%91%E5%88%B6"><span class="toc-number">5.1.</span> <span class="toc-text">总线唤醒抑制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%90%E5%88%B6%E8%87%B3%E6%97%A0%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">限制至无通信模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">与SM和NM联动</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_7.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

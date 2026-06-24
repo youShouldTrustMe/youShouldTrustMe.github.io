@@ -1,0 +1,3108 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>DCM | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件请参见Specification of Diagnostic Communication Manager  AUTOSAR Dcm (Diagnostic Communication Manager) 模块被划分为三个核心子模块：DSL、DSD 和 DSP。这种分层架构类似于 OSI 模型，将网络传输管理、请求分发和具体业务逻辑解耦。   DSL (Diagnosti">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DCM">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/DCM/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件请参见Specification of Diagnostic Communication Manager  AUTOSAR Dcm (Diagnostic Communication Manager) 模块被划分为三个核心子模块：DSL、DSD 和 DSP。这种分层架构类似于 OSI 模型，将网络传输管理、请求分发和具体业务逻辑解耦。   DSL (Diagnosti">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "DCM",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/DCM/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg",
+  "datePublished": "2026-06-24T01:22:05.603Z",
+  "dateModified": "2026-06-24T01:22:05.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/DCM/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'DCM',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">DCM</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">DCM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.603Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.603Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">23.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>80分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件请参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R24-11/CP/AUTOSAR_CP_SWS_DiagnosticCommunicationManager.pdf">Specification of Diagnostic Communication Manager</a></p>
+</blockquote>
+<p>AUTOSAR <strong>Dcm (Diagnostic Communication Manager)</strong> 模块被划分为三个核心子模块：<strong>DSL</strong>、<strong>DSD</strong> 和 <strong>DSP</strong>。这种分层架构类似于 OSI 模型，将网络传输管理、请求分发和具体业务逻辑解耦。</p>
+<ol>
+<li>
+<p>DSL (Diagnostic Session Layer) —— “看门人”与“计时员”</p>
+<p>DSL 是 Dcm 的最底层，直接与 PduR（PDU Router）交互。它的职责不是理解诊断命令是什么，而是确保通信管道的合规性。</p>
+<ul>
+<li><strong>数据流监控</strong>：负责接收来自底层的原始诊断数据，并处理物理寻址（Physical）和功能寻址（Functional）的逻辑。</li>
+<li><strong>会话与安全管理</strong>：管理当前处于哪个诊断会话（如 Default, Extended）以及安全解锁状态（Security Level）。</li>
+<li><strong>协议计时（Timing）</strong>：这是 DSL 最关键的任务。它负责监控 $P2_{Server}$ 和 $P2^*_{Server}$ 等时间参数，确保 ECU 在规定时间内给出响应，或者在必要时发送“等候（Pending）”响应。</li>
+</ul>
+</li>
+<li>
+<p>DSD (Diagnostic Service Dispatcher) —— “调度员”</p>
+<p>DSD 位于中间层，起到承上启下的作用。</p>
+<ul>
+<li><strong>有效性检查</strong>：当 DSL 把一串原始字节传给 DSD 时，DSD 会根据当前会话和安全等级，检查这个服务 ID（SID）是否被允许执行。</li>
+<li><strong>分发请求</strong>：如果检查通过，DSD 会识别 SID（例如 <code>0x22</code> 读数据），并将其转发给 DSP 中对应的处理函数。</li>
+<li><strong>响应触发</strong>：当 DSP 处理完逻辑后，DSD 会封装响应报文并通知 DSL 发送出去。</li>
+</ul>
+</li>
+<li>
+<p>DSP (Diagnostic Service Processing) —— “业务员”</p>
+<p>DSP 是处理具体诊断业务的地方，它真正“读懂”诊断命令。</p>
+<ul>
+<li><strong>子服务处理</strong>：例如诊断命令 <code>0x31 01 AA BB</code>（启动例程），DSP 会解析出 <code>01</code> 是启动，<code>AA BB</code> 是具体的 Routine ID。</li>
+<li><strong>应用层交互</strong>：DSP 通过接口调用 RTE 中的 SW-C（软件组件）或者直接访问其他 BSW 模块（如 Dem, NvM）来获取数据或执行动作。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>为了让你更直观地理解它们的关系，我们可以模拟一次 <strong>0x22（读取 DID）</strong> 的过程：</p>
+<ol>
+<li><strong>物理层 -&gt; DSL</strong>：PduR 收到总线数据，交给 DSL。DSL 启动 $P2$ 定时器，并确认当前的会话允许诊断。</li>
+<li><strong>DSL -&gt; DSD</strong>：DSL 把数据包传给 DSD。DSD 发现 SID 是 <code>0x22</code>，查询配置表发现当前安全等级允许读数据，于是把请求传给 DSP。</li>
+<li><strong>DSD -&gt; DSP</strong>：DSP 解析出具体的 DID（例如 <code>0xF190</code> VIN 码），发现这个数据存在 NvM 里，于是调用相应接口读取。</li>
+<li><strong>DSP -&gt; DSD</strong>：DSP 把 VIN 码的数据给 DSD。</li>
+<li><strong>DSD -&gt; DSL</strong>：DSD 加上肯定响应标识（<code>0x62</code>），打包好给 DSL。</li>
+<li><strong>DSL -&gt; 物理层</strong>：DSL 停止 $P2$ 定时器，通过 PduR 发送响应。</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511084808923.png" alt="DCM子模块" loading='lazy'></p>
+<h1>一般设计</h1>
+<h2 id="NRC">NRC</h2>
+<p>在诊断协议中，<strong>NRC（Negative Response Code，否定响应码）</strong> 是 ECU 与诊断仪之间沟通的“错误语言”。在诊断开发中极易被忽略但又极其重要的原则：<strong>NRC 的优先级排序</strong>。</p>
+<ol>
+<li>
+<p>为什么 NRC 的顺序很重要？</p>
+<p>根据 ISO 14229-1 (UDS标准)，当一个诊断请求同时触发多个错误时，ECU 不能随机返回一个 NRC，必须按照协议规定的<strong>优先级</strong>进行判定。</p>
+<p>例如，如果你发送了一个长度错误且安全状态未解锁的请求：</p>
+<ul>
+<li>如果先判定安全（返回 <code>0x33</code>），再判定长度（返回 <code>0x13</code>），这在某些 OEM 看来是不合规的。</li>
+<li>要求 Dcm 的实现必须严格遵循 ISO 14229-1 附录中的流程图顺序。</li>
+</ul>
+</li>
+<li>
+<p>Dcm 内部典型的 NRC 判定顺序</p>
+<p>通常情况下，Dcm 子模块（DSL -&gt; DSD -&gt; DSP）会按照以下逻辑链条依次检查：</p>
+<ol>
+<li><strong>SID 检查</strong>：ECU 是否支持该服务？（不支持返回 <code>0x11 ServiceNotSupported</code>）</li>
+<li><strong>格式检查</strong>：请求长度是否正确？（不正确返回 <code>0x13 IncorrectMessageLengthOrInvalidFormat</code>）</li>
+<li><strong>会话检查</strong>：当前会话（Session）是否允许此操作？（不允许返回 <code>0x7F ServiceNotSupportedInActiveSession</code>）</li>
+<li><strong>安全检查</strong>：是否解锁？（未解锁返回 <code>0x33 SecurityAccessDenied</code>）</li>
+<li><strong>条件检查</strong>：当前车辆状态（如车速、转速）是否允许？（返回 <code>0x22 ConditionsNotCorrect</code>）</li>
+<li><strong>业务逻辑检查</strong>：具体的参数是否超出范围？（返回 <code>0x31 RequestOutOfRange</code>）</li>
+</ol>
+</li>
+<li>
+<p>数据类型：Dcm_NegativeResponseCodeType</p>
+<p>在代码实现中，你会经常在接口中看到这个类型。它本质上是一个 <code>uint8</code>。</p>
+<ul>
+<li>如果你在开发一个 <strong>SW-C（软件组件）</strong> 来处理某个特定的 DID（0x22 服务），当你的代码逻辑发现数据异常时，你会通过 RTE 接口返回一个 <code>Dcm_NegativeResponseCodeType</code> 给 Dcm。</li>
+<li><strong>注意</strong>：你不需要在代码里手动加上 <code>0x7F</code> 前缀，你只需要返回类似 <code>0x31</code> 这样的代码，Dcm 的 <strong>DSD 子模块</strong> 会自动帮你封装成 <code>7F 22 31</code> 这样的标准报文格式。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>在看 Dcm 规范时，可以尝试把 NRC 分为两类：</p>
+<ul>
+<li><strong>Dcm 自动处理的 NRC</strong>：如 <code>0x11</code>（服务不支持）、<code>0x13</code>（长度错误）、<code>0x7E</code>（子服务不支持）。这些通常在 DSD 层就直接判定并拦截了，请求甚至传不到应用层。</li>
+<li><strong>应用层（SW-C）触发的 NRC</strong>：如 <code>0x31</code>（数值不合法）、<code>0x22</code>（条件不满足）。这些需要你在 DSP 处理函数中，通过逻辑判定后主动传给 Dcm。</li>
+</ul>
+</blockquote>
+<h2 id="与Nvm之间的交互">与Nvm之间的交互</h2>
+<p>在诊断系统中，许多信息必须在掉电后保持，比如<strong>诊断会话状态（Session）</strong>、<strong>安全解锁状态（Security Level）</strong>、<strong>DTC 老化计数器</strong>或某些<strong>特定的 DID 数据</strong>。</p>
+<ol>
+<li>
+<p>非易失性信息的初始化与依赖</p>
+<ul>
+<li><strong>实现特定性</strong>：AUTOSAR 并没有强制规定 Dcm 必须通过哪种具体 API 去“拿”这些数据，或者这些数据是否必须在 <code>Dcm_Init</code> 之前就准备好。这属于系统集成的范畴，通常在配置 BswM 状态机时，会确保 NvM 先执行 <code>NvM_ReadAll</code>，待数据加载完成后再初始化 Dcm。</li>
+<li><strong>读取校验</strong>：Dcm 必须具备“容错逻辑”。如果 NvM 数据读取失败（比如 CRC 校验错误），Dcm 不能直接崩溃，而必须执行 <strong>Default Reaction（默认反应）</strong>。
+<ul>
+<li><em>典型场景</em>：如果安全访问（Security Access）的尝试次数存储在 NvM 中但读取失败，默认反应通常是：强制锁定一段时间，防止暴力破解。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>服务取消与任务清理</p>
+<p>这是一个关于“收尾”的重要规定。诊断服务有时会因为异常情况被中止：</p>
+<ul>
+<li><strong>RCRRP 超限</strong>：当 ECU 发送了过多的 <code>0x78</code>（ResponsePending）报文，达到了配置的上限（$P2_{Server}$ 超时限制）。</li>
+<li><strong>协议抢占（Protocol Preemption）</strong>：例如，一个低优先级的 OBD 请求正在执行（涉及 NvM 读写），此时突然来了一个高优先级的 UDS 物理请求。</li>
+</ul>
+<p><strong>核心操作</strong>：如果此时 Dcm 正在访问 NvM，它必须显式调用 <code>NvM_CancelJobs()</code>。</p>
+<ul>
+<li><strong>原因</strong>：NvM 是一个异步处理模块。如果不取消，NvM 可能会在 Dcm 已经跳转到新协议后，继续修改之前的缓冲区数据，导致内存冲突或逻辑错误。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>当你深入研究 Dcm 配置时，可以留意以下几个典型的 NvM 应用场景：</p>
+<ol>
+<li><strong>Programming Counter / Attempt Counter</strong>：记录刷写次数或解锁失败次数，防止非法篡改。</li>
+<li><strong>Diagnostic Session Persistence</strong>：某些 OEM 要求在非预期复位（如看门狗复位）后，ECU 能够恢复到之前的诊断会话（如仍保持在 Programming Session）。</li>
+<li><strong>Active Protocol</strong>：记录当前正在运行的诊断协议栈状态。</li>
+</ol>
+</blockquote>
+<h2 id="数据类型">数据类型</h2>
+<ol>
+<li>
+<p>非整型与不透明数据处理</p>
+<p>在诊断中，数据并不总是简单的数字（如 <code>uint16</code> 的电压值），有时是序列号、指纹信息或复杂的结构体。</p>
+<ul>
+<li><strong>匹配解释</strong>：对于 <code>uint8[n]</code> 类型的数组，Dcm 可以将其视为与其总大小匹配的整型进行处理（例如，<code>uint8[2]</code> 可能会被当做 <code>uint16</code> 进行字节序转换）。</li>
+<li><strong>OPAQUE（不透明）模式</strong>：
+<ul>
+<li><strong>定义</strong>：如果 <code>DcmDspDataEndianness</code> 配置为 <code>OPAQUE</code>，Dcm <strong>不会尝试解释</strong>其中的内容。</li>
+<li><strong>处理逻辑</strong>：数据被视为原始的字节流（<code>uint8[n]</code>），并直接映射到对应长度的信号中。</li>
+<li><strong>应用场景</strong>：当你需要处理 VIN 码（字符串）、加密密钥或由应用层 SW-C 自行解析的自定义协议数据时，必须配置为 <code>OPAQUE</code>，以防止 Dcm 错误地调换字节顺序。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>字节序转换的扩展</p>
+<p>传统的诊断标准（如早期的一些定义）有时只明确了无符号整型的字节序转换。AUTOSAR Dcm 对此进行了明确扩展：</p>
+<ul>
+<li><strong>支持有符号类型</strong>：Dcm 必须支持对有符号整型（如 <code>sint8</code>, <code>sint16</code>, <code>sint32</code>）执行大端（Big-endian/MSB first）或小端（Little-endian/LSB first）转换。</li>
+<li><strong>配置项</strong>：具体的转换规则由 <code>DcmDspData</code> 中的 <code>DcmDspDataEndianness</code> 参数决定。在 UDS 协议中，通常默认使用 <strong>大端模式（Big-endian）</strong>。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>在进行 Dcm 配置（例如配置一个用于读取车速的 DID）时，这几个需求对应的实战意义如下：</p>
+<ol>
+<li>
+<p><strong>高低字节反了？</strong></p>
+<p>如果你在诊断仪上看到的十六进制值是 <code>01 02</code>，但应用层收到的值是 <code>0x0201</code>，这通常是因为 <code>DcmDspDataEndianness</code> 配置成了小端，而诊断协议通常期望大端。</p>
+</li>
+<li>
+<p><strong>字符串乱码？</strong></p>
+<p>处理像 VIN 码这样的 ASCII 字符串时，<strong>千万不要使能字节序转换</strong>。必须将该 Data 配置为 <code>OPAQUE</code>，否则 Dcm 可能会为了“转换字节序”而把你的字符串顺序前后颠倒。</p>
+</li>
+<li>
+<p><strong>对齐问题</strong>：</p>
+<p>必须映射到 $n$ 字节信号。这意味着 Dcm 不会对 <code>OPAQUE</code> 数据进行位偏移（Bit-shifting）或压缩，它必须是整字节对齐的。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="原子类型数据">原子类型数据</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ATOMIC</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data bit size</td>
+<td>1 (Byte aligned)</td>
+<td>8</td>
+<td>16</td>
+<td>32</td>
+<td>8</td>
+<td>16</td>
+<td>32</td>
+</tr>
+<tr>
+<td>DcmDspDidDataType</td>
+<td>BOOLEAN</td>
+<td>UINT8</td>
+<td>UINT16</td>
+<td>UINT32</td>
+<td>SINT8</td>
+<td>SINT16</td>
+<td>SINT32</td>
+</tr>
+<tr>
+<td>DcmDspDataEndianness</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>LE,BE</td>
+<td>LE,BE</td>
+<td>N/A</td>
+<td>LE,BE</td>
+<td>LE,BE</td>
+</tr>
+<tr>
+<td>DcmDspDataUSe Port</td>
+<td>S/R, C/S and I/O</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+</tr>
+<tr>
+<td>resulting ImplType</td>
+<td>BOOLEAN</td>
+<td>UINT8</td>
+<td>UINT16</td>
+<td>UINT32</td>
+<td>SINT8</td>
+<td>SINT16</td>
+<td>SINT32</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>字节序（Endianness）的适用范围</p>
+<ul>
+<li><strong>N/A (不适用)</strong>：可以看到 <code>BOOLEAN</code>、<code>UINT8</code> 和 <code>SINT8</code> 的字节序配置都是 <strong>N/A</strong>。
+<ul>
+<li><strong>原理</strong>：因为它们只占用 1 个字节（或更少），不存在多字节排列顺序的问题。</li>
+</ul>
+</li>
+<li><strong>LE, BE (支持切换)</strong>：只有位宽 $\ge 16$ 位的类型（<code>UINT16/32</code>, <code>SINT16/32</code>）才需要配置 <code>DcmDspDataEndianness</code>。</li>
+</ul>
+</li>
+<li>
+<p>布尔型的特殊对齐</p>
+<p><strong>1 (Byte aligned)</strong>：虽然 <code>BOOLEAN</code> 逻辑上只有 1 位，但在 Dcm 处理诊断数据（DID）时，它被定义为 <strong>字节对齐</strong>。</p>
+<ul>
+<li><strong>实战意义</strong>：在 UDS 报文中，如果你定义一个 DID 包含一个布尔值，它通常会占用 1 个完整的 Byte，而不是和其他位挤在一起（除非使用了特殊的位偏移配置）。</li>
+</ul>
+</li>
+<li>
+<p>端口接口（Use Port）</p>
+<p>表格中提到 <code>S/R (Sender/Receiver)</code>、<code>C/S (Client/Server)</code> 和 <code>I/O</code>。</p>
+<ul>
+<li>这说明这些原子类型在 Dcm 与应用层 SW-C 交互时，可以通过多种 RTE 接口实现。</li>
+<li>例如：你读取一个 VIN 码（UINT8 数组），Dcm 可能会通过 <strong>Client/Server</strong> 接口调用你的 <code>Data_Read</code> 函数。</li>
+</ul>
+</li>
+<li>
+<p>最终实现类型（resulting ImplType）</p>
+<p>这一行告诉你编译器（如你的 IAR）最终看到的变量类型：</p>
+<ul>
+<li>在 Dcm 配置工具（如 DaVinci Configurator）中选定 <code>DcmDspDidDataType</code> 后，生成的代码会自动使用 <code>uint16</code>、<code>sint32</code> 等标准类型。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li><strong>Atomic vs OPAQUE</strong>：这张表里都是 <strong>Atomic（原子）</strong> 类型，意味着 Dcm “认识”这些数据，并能帮你做字节序转换和符号扩展。</li>
+<li><strong>如果你配置为 OPAQUE</strong>：它就不会出现在这个原子类型表里。对于 Dcm 来说，OPAQUE 就是一串 <code>uint8</code> 数组，它不关心里面是 <code>float</code> 还是几个 <code>uint16</code> 的组合。</li>
+</ul>
+</blockquote>
+<h3 id="数组数据类型">数组数据类型</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Field (Static)</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>==</th>
+<th>Field (Dynamic)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data bit size</td>
+<td>8-8*N</td>
+<td>==</td>
+<td>16-16*N</td>
+<td>==</td>
+<td>32-32*N</td>
+<td>==</td>
+<td>8-8*N</td>
+</tr>
+<tr>
+<td>DcmDspDataByteSize</td>
+<td>Any</td>
+<td>==</td>
+<td>(size MOD 2)==0</td>
+<td>==</td>
+<td>(size MOD 4)==0</td>
+<td>==</td>
+<td>Any</td>
+</tr>
+<tr>
+<td>DcmDspDidDataType</td>
+<td>UINT8_N</td>
+<td>SINT8_N</td>
+<td>UINT16_N</td>
+<td>SINT16_N</td>
+<td>UINT32_N</td>
+<td>SINT32_N</td>
+<td>UINT8_DYN</td>
+</tr>
+<tr>
+<td>DcmDspDataEndianness</td>
+<td>N/A</td>
+<td>==</td>
+<td>LE,BE</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>DcmDspDataUSe Port</td>
+<td>S/R, C/S, FNC, NVM</td>
+<td>S/R,C/S</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>==</td>
+<td>C/S,FNC</td>
+</tr>
+<tr>
+<td>resulting ImplType</td>
+<td>DataArrayTypeUint8_(Data)</td>
+<td>DataArrayTypeSint8_(Data)</td>
+<td>DataArrayTypeUint16_(Data）</td>
+<td>DataArrayTypeSint16_(Data)</td>
+<td>taArrayTypeUint32_(Da</td>
+<td>DataArrayTypeSint32_(Data)</td>
+<td>DataArrayTypeUint8_(Data</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>
+<p>静态数组 vs. 动态数组 (Field Static vs. Dynamic)</p>
+<p>这是最关键的区别，决定了内存分配和数据交换的方式。</p>
+<ul>
+<li><strong>静态数组 (Field Static)</strong>：
+<ul>
+<li>长度在配置阶段就是<strong>固定</strong>的（如 $8 \cdot N$）。</li>
+<li>适用于 VIN 码、硬件版本号等长度永远不变的数据。</li>
+</ul>
+</li>
+<li><strong>动态数组 (Field Dynamic - <code>UINT8_DYN</code>)</strong>：
+<ul>
+<li>报文长度在运行时可以变化。</li>
+<li><strong>限制</strong>：你会发现动态数组只支持 <code>UINT8_DYN</code>。这意味着如果你要传输动态长度的数据，Dcm 默认将其视为原始字节流（类似 OPAQUE 处理）。</li>
+<li><strong>接口限制</strong>：动态数据仅支持 <code>C/S</code> (Client/Server) 和 <code>FNC</code> (Function调用)，不支持 <code>S/R</code> (Sender/Receiver)，因为标准的 S/R 接口通常要求固定长度。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>字节对齐与对齐约束 (<code>size MOD X == 0</code>)</p>
+<p>这是在集成开发中最容易出错的地方。为了确保 Dcm 能够正确执行字节序转换（LE/BE），数组的总字节数必须符合其基本类型的倍数：</p>
+<ul>
+<li><strong><code>UINT16_N</code> / <code>SINT16_N</code></strong>：总字节数必须是 2 的倍数 (<code>size MOD 2 == 0</code>)。</li>
+<li><strong><code>UINT32_N</code> / <code>SINT32_N</code></strong>：总字节数必须是 4 的倍数 (<code>size MOD 4 == 0</code>)。</li>
+<li><strong>原理</strong>：如果一个 <code>UINT32_N</code> 的数组总长度是 7 个字节，Dcm 就无法完整地将最后一个元素按 4 字节进行大端或小端反转。</li>
+</ul>
+</li>
+<li>
+<p>数据使用端口 (DcmDspDataUse Port)</p>
+<p>这张表增加了一个重要的选项：<strong><code>NVM</code></strong>。</p>
+<ul>
+<li>对于 <code>UINT8_N</code> 或 <code>SINT8_N</code>（静态数组），Dcm 可以直接与 NvM 模块交互。</li>
+<li><strong>应用场景</strong>：比如某些写入后需要永久保存的配置参数。你可以直接在配置工具里把这个 DID 映射到 NvM 的一个 Block，而<strong>不需要写任何应用层 C 代码</strong>（通过 <code>NvM_ReadBlock</code> / <code>NvM_WriteBlock</code> 自动完成）。</li>
+</ul>
+</li>
+<li>
+<p>最终生成的 ImplType</p>
+<p>注意到底部的类型定义变成了 <code>DataArrayType...</code>。在 IAR 编译环境中，这通常会被定义为一个结构体或数组别名。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> uint8 DataArrayTypeUint8_17[<span class="number">17</span>]; <span class="comment">// 假设 N=17</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li><strong>原子类型</strong> 关注的是“这一个数怎么解析”。</li>
+<li><strong>数组类型</strong> 关注的是“这一堆数怎么排布，以及内存够不够分”。</li>
+</ul>
+<h3 id="嵌套数据类型">嵌套数据类型</h3>
+<p>AUTOSAR Dcm 处理复杂数据结构的核心哲学：<strong>通过“池化引用”实现无限嵌套</strong>。</p>
+<p>在传统的诊断开发中，DID 通常是扁平的（一串信号排开）。但现代汽车电子需要处理如“传感器序列”或“配置快照”这类具有逻辑层次的数据。为了在配置（ARXML）中描述这种层级，Dcm 引入了 <strong>CompositePool（复合池）</strong> 机制。</p>
+<ol>
+<li>
+<p>嵌套机制的“三位一体”结构</p>
+<p>嵌套配置由三个关键组件构成：</p>
+<ul>
+<li><strong>Anchor Object（锚点对象）</strong>：这是嵌套结构的<strong>根（Root）</strong>。
+<ul>
+<li>如果它是一个简单的 <code>uint8</code>，它就是终点。</li>
+<li>如果它代表一个结构体，它就变成了一个“容器”，指向池中的元素。</li>
+</ul>
+</li>
+<li><strong>Composite Pool（复合池）</strong>：这是一个<strong>备选零件库</strong>。它存储了所有可能被嵌套引用的子元素（信号、数组或子结构体）。</li>
+<li><strong>Composite Reference（复合引用）</strong>：这是<strong>连接线</strong>。它定义了父结构体具体包含了池中的哪些元素。</li>
+</ul>
+</li>
+<li>
+<p>核心逻辑：从配置到内存的映射，这种设计解决了两个棘手问题：</p>
+<ol>
+<li>
+<p>递归嵌套</p>
+<p>由于池中的元素（Pool Element）本身又可以作为新的“锚点”并引用更深层的池元素，这允许你定义极其复杂的 C 语言结构，例如：</p>
+<blockquote>
+<p><code>Structure A</code> -&gt; 包含 <code>Array B</code> -&gt; <code>Array B</code> 的每个元素是 <code>Structure C</code> -&gt; <code>Structure C</code> 包含 <code>Primitive D</code>。</p>
+</blockquote>
+</li>
+<li>
+<p>位置解耦与绝对偏移</p>
+<p>无论嵌套多深，子元素的 <code>ByteOffset</code> 必须是<strong>相对于整个 DID 开头的绝对偏移量</strong>。</p>
+<ul>
+<li><strong>好处</strong>：Dcm 在运行时解析数据时，不需要进行复杂的递归地址计算，直接根据绝对偏移量从缓存区取数即可，极大地提高了诊断响应的实时性。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>约束与边界保护（防止配置冲突）</p>
+<p>规范中提到的几个 [SWS] 编号实际上是在为这种灵活性划定“红线”：</p>
+<ul>
+<li><strong>独占性 [SWS_Dcm_01633]</strong>：如果一个信号变成了嵌套容器，它就不能再拥有自己的 <code>DataRef</code>（因为它的数据是由子元素构成的）。</li>
+<li><strong>空间包含 [SWS_Dcm_01635]</strong>：父结构体定义的 <code>ByteSize</code> 必须像一个信封，把所有子元素严丝合缝地包裹在内，不允许子元素“溢出”到父节点定义的空间之外。</li>
+<li><strong>唯一性 [SWS_Dcm_01637]</strong>：池里的每个元素只能被引用一次，防止在同一个结构体里出现两个完全重叠的物理定义。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>你可能会觉得这比在 IAR 里写一个 <code>struct</code> 麻烦得多。但 AUTOSAR 这样设计的目的是为了<strong>工具链的自动化</strong>：</p>
+<ol>
+<li><strong>诊断调查问卷（CDD/ODX）对接</strong>：这种嵌套定义可以自动导出为 ODX 文件，让诊断仪知道如何拆解这个复杂的 DID。</li>
+<li><strong>RTE 自动生成</strong>：基于这些引用关系，RTE 会自动生成复杂的 C 结构体定义和映射代码，确保应用层 SW-C 拿到的数据结构与总线上的原始字节流完全一致。</li>
+</ol>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511113904868.png" alt="DcmDspDid的嵌套数据" loading='lazy'></p>
+<p>由上图可知，存在三个逻辑岛：</p>
+<ol>
+<li>
+<p>核心容器岛：DcmDspDid 与 DcmDspDidSignal</p>
+<ul>
+<li><strong>DcmDspDid</strong>: 这是最外层的容器。它包含多个 <code>DcmDspDidSignal</code>。</li>
+<li><strong>DcmDspDidSignal</strong>: 这是最核心的配置项，代表 DID 中的一个“数据段”。它有两个基础参数：
+<ul>
+<li><strong><code>DcmDspDidByteOffset</code></strong>: 决定该信号在报文中的绝对位置（起始字节）。</li>
+<li><strong><code>DcmDspDataByteSize</code></strong>: 决定该信号占用的总长度。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>传统/简单模式：DcmDspDidDataRef</p>
+<p>这是你最开始接触的那种扁平定义：</p>
+<ul>
+<li><strong>路径</strong>：<code>DcmDspDidSignal</code> -&gt; <code>DcmDspDidDataRef</code> -&gt; <code>DcmDspData</code>。</li>
+<li><strong>逻辑</strong>：它直接引用一个具体的数据类型定义（如 <code>UINT16</code>、<code>UINT8_N</code>）。</li>
+<li><strong>互斥规则</strong>：注意图中 <code>DcmDspDidDataRef</code> 的 <code>upperMultiplicity = 1</code>。根据规范 [SWS_Dcm_01633]，如果一个信号使用了这种直接引用，它通常就不再使用嵌套引用。</li>
+</ul>
+</li>
+<li>
+<p>嵌套/复合模式：CompositePool 与 CompositeRef</p>
+<ul>
+<li><strong>DcmDspDidSignalCompositePool</strong>: 它是 <code>DcmDspDid</code> 下属的一个子容器，类似于一个“零件箱”。</li>
+<li><strong>DcmDspDidSignalCompositeRef</strong>: 这是一个引用（Reference）。</li>
+<li><strong>嵌套实现</strong>：
+<ul>
+<li>一个 <code>DcmDspDidSignal</code>（作为父结构体）可以通过 <code>CompositeRef</code> 指向 <code>CompositePool</code> 里的元素。</li>
+<li>关键点在于递归：你会发现 <code>DcmDspDidSignalCompositePool</code> 下面又可以包含 <code>DcmDspDidSignal</code>。</li>
+<li><strong>这正是实现“无限嵌套”的 UML 表达：信号包含引用，引用指向池，池里又是信号。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>假设我们要定义一个读取“动力电池组状态”的 DID。</p>
+<ol>
+<li>
+<p>核心容器 (DcmDspDid)</p>
+<p>这是最外层的结构，代表整个诊断数据包。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 对应 DcmDspDid：地基/大箱子 */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="comment">/* 这里的每一个成员，在配置里都是一个 DcmDspDidSignal */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方案 A：传统简单模式</span></span><br><span class="line">    uint16 BatteryVoltage; </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方案 B：嵌套复合模式（结构体 A）</span></span><br><span class="line">    BatteryPack_t PackStatus; </span><br><span class="line"></span><br><span class="line">&#125; Dcm_Did_BatteryInfo_t;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>传统简单模式 (Simple Mode)</p>
+<p>这种模式下，<code>DcmDspDidSignal</code> 直接通过 <code>DataRef</code> 指向一个基础类型。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 这就是【传统简单模式】</span></span><br><span class="line"><span class="comment">   在配置中：Signal_BatteryVoltage -&gt; DataRef -&gt; UINT16</span></span><br><span class="line"><span class="comment">   它直接就是一个物理值，没有内部结构。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">uint16 BatteryVoltage; <span class="comment">// 占 2 个字节，Offset = 0</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>嵌套复合模式 (Nested/Composite Mode)</p>
+<p>这就是“零件池”与“引用”发挥作用的地方。它对应 C 语言中的嵌套结构体。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 这就是【DcmDspDidSignalCompositePool】：零件池</span></span><br><span class="line"><span class="comment">   这里定义了“电池组”这个大零件内部包含哪些小零件。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    uint16 Temp_Sensor1; <span class="comment">// 零件 X (池元素)</span></span><br><span class="line">    uint16 Temp_Sensor2; <span class="comment">// 零件 Y (池元素)</span></span><br><span class="line">    uint8  FanStatus;    <span class="comment">// 零件 Z (池元素)</span></span><br><span class="line">&#125; BatteryPack_t;</span><br><span class="line">      </span><br><span class="line"><span class="comment">/* 这就是【嵌套复合模式】的锚点信号</span></span><br><span class="line"><span class="comment">   在配置中：Signal_PackStatus -&gt; CompositeRef -&gt; 引用了上面的池元素</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">BatteryPack_t PackStatus; <span class="comment">// 占 5 个字节，Offset = 2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>我们可以把整个报文的内存布局写出来，你会看得更清楚：</p>
+<table>
+<thead>
+<tr>
+<th><strong>字节偏移</strong></th>
+<th><strong>变量名</strong></th>
+<th><strong>模式类别</strong></th>
+<th><strong>逻辑岛关系</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td><code>BatteryVoltage</code> (High)</td>
+<td><strong>传统简单模式</strong></td>
+<td>信号直接映射到 <code>uint16</code></td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td><code>BatteryVoltage</code> (Low)</td>
+<td><strong>传统简单模式</strong></td>
+<td>直接引用基础类型</td>
+</tr>
+<tr>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><code>PackStatus.Temp1</code> (H)</td>
+<td><strong>嵌套复合模式</strong></td>
+<td><code>Signal_PackStatus</code> (锚点)</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><code>PackStatus.Temp1</code> (L)</td>
+<td><strong>嵌套复合模式</strong></td>
+<td>通过 <code>CompositeRef</code></td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><code>PackStatus.Temp2</code> (H)</td>
+<td><strong>嵌套复合模式</strong></td>
+<td>引用 <code>CompositePool</code></td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><code>PackStatus.Temp2</code> (L)</td>
+<td><strong>嵌套复合模式</strong></td>
+<td>中的子信号</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><code>PackStatus.FanStatus</code></td>
+<td><strong>嵌套复合模式</strong></td>
+<td>最终构成一个 <code>struct</code></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>实际上，规范中还划定了原子信号（Leaf Signal）<strong>与</strong>复合信号（Nested/Composite Signal）之间的严格界限。</p>
+<ol>
+<li>
+<p>“容器信号”的身份转变 [SWS_Dcm_01633]</p>
+<p>当你决定让一个 <code>DcmDspDidSignal</code> 包含子元素时（即引用了 <code>CompositeRef</code>），它的角色就从“数据载体”变成了“空间描述符”。</p>
+<ul>
+<li><strong>参数剥离</strong>：它被禁止拥有 <code>DcmDspDidDataRef</code>。这意味着这个父信号本身不再具备 <code>UINT8</code> 或 <code>UINT16</code> 等具体的数据类型属性。</li>
+<li><strong>唯一职责</strong>：它只负责声明自己在整个 DID 报文里<strong>占多大坑</strong>（Size）以及<strong>从哪开始</strong>（Offset）。具体的数据解析交由它包含的子信号完成。</li>
+</ul>
+</li>
+<li>
+<p>绝对坐标系的强制要求 [SWS_Dcm_01636]</p>
+<p>这是 Dcm 配置中最容易产生逻辑偏差的地方。通常我们在 C 语言中处理结构体偏移是相对父节点的，但 AUTOSAR Dcm 坚持使用<strong>绝对偏移（Absolute Offset）</strong>。</p>
+<blockquote>
+<p><strong>举例说明：</strong></p>
+<p>假设一个 DID 报文。</p>
+<ul>
+<li><strong>根结构体 A</strong>：Offset = 10, Size = 4。</li>
+<li><strong>子信号 B</strong>（位于 A 内部）：它的 Offset 必须写成 <strong>10</strong>（如果它是第一个字节），而<strong>不能</strong>写成 0。</li>
+<li><strong>子信号 C</strong>（位于 A 内部）：它的 Offset 必须写成 <strong>12</strong>（如果是第三个字节），而<strong>不能</strong>写成 2。</li>
+</ul>
+</blockquote>
+<p><strong>这种设计的好处</strong>：Dcm 的内部引擎（DSP 子模块）在提取数据时，可以实现“扁平化搜索”。它不需要递归计算地址，只需要遍历当前 DID 下的所有叶子信号，直接根据绝对地址去缓冲区拿数即可。</p>
+</li>
+<li>
+<p>池化元素的唯一性与闭环 [SWS_Dcm_01637] &amp; [SWS_Dcm_01638]</p>
+<ul>
+<li><strong>禁止重叠引用</strong>：<code>CompositePool</code> 里的元素就像物理存在的零件，一个零件不能同时装在两个支架上。这保证了 DID 报文内存布局的唯一性，防止出现“一个内存字节被两个不同信号定义”的配置逻辑冲突。</li>
+<li><strong>作用域闭环</strong>：引用不能跨越 DID。你不能在读取 DID <code>0xF190</code> 时，去引用定义在 <code>0xF180</code> 池子里的信号。</li>
+</ul>
+</li>
+<li>
+<p>逻辑映射表 [SWS_Dcm_01639]</p>
+<p>规范中提到的这一段非常有价值，它告诉我们这套嵌套逻辑是<strong>高度复用</strong>的。你可以直接把这套理解平移到其他服务中：</p>
+<table>
+<thead>
+<tr>
+<th><strong>DID 配置项</strong></th>
+<th><strong>Routine (0x31) 对应项</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DcmDspDidSignal</code></td>
+<td><code>DcmDsp&lt;Action&gt;Routine&lt;In/Out&gt;Signal</code></td>
+<td>结构体/信号锚点</td>
+</tr>
+<tr>
+<td><code>CompositePool</code></td>
+<td><code>...SignalCompositePool</code></td>
+<td>零件池（子元素仓库）</td>
+</tr>
+<tr>
+<td><code>CompositeRef</code></td>
+<td><code>...SignalCompositeSignalRef</code></td>
+<td>嵌套连接线</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>并且在规范中明确告诉我们：你在 DID（0x22/0x2E 服务）中学会的那套复杂的嵌套逻辑，可以无缝平移到 <strong>Routine Control（0x31 服务）</strong> 的所有输入输出场景中。</p>
+<ol>
+<li>
+<p>为什么 Routine 需要这种复杂的嵌套？</p>
+<p>在简单的 ECU 中，启动一个例程（Routine）可能只需要一个简单的 ID。但在复杂的控制器（如网关、智驾域控）中，<code>0x31</code> 服务往往承载着极重的任务：</p>
+<ul>
+<li><strong>输入 (In)</strong>：比如“请求指纹校验”，输入参数可能包含：<code>&#123;算法ID, 公钥长度, 公钥数据[], 随机数&#125;</code>。</li>
+<li><strong>输出 (Out)</strong>：例程完成后返回的数据，可能包含：<code>&#123;校验结果, 错误代码, 剩余尝试次数&#125;</code>。</li>
+</ul>
+<p>如果不用嵌套结构，开发者只能将这些参数定义为一串扁平的、难以维护的字节数组。使用嵌套结构后，Dcm 可以自动根据配置完成<strong>字节序转换</strong>和<strong>数据对齐</strong>。</p>
+</li>
+<li>
+<p>映射关系深度拆解</p>
+<p>我们可以将这种对应关系看作是“换汤不换药”的逻辑映射：</p>
+<table>
+<thead>
+<tr>
+<th><strong>逻辑角色</strong></th>
+<th><strong>DID 领域 (Data Identifier)</strong></th>
+<th><strong>Routine 领域 (Service 0x31)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>容器主体</strong></td>
+<td><code>DcmDspDid</code></td>
+<td><code>DcmDspStartRoutineIn</code> (及其 Out/Stop 等)</td>
+</tr>
+<tr>
+<td><strong>信号锚点</strong></td>
+<td><code>DcmDspDidSignal</code></td>
+<td><code>DcmDspStartRoutineInSignal</code></td>
+</tr>
+<tr>
+<td><strong>零件池</strong></td>
+<td><code>DcmDspDidSignalCompositePool</code></td>
+<td><code>DcmDspStartRoutineInSignalCompositePool</code></td>
+</tr>
+<tr>
+<td><strong>连接引用</strong></td>
+<td><code>DcmDspDidSignalCompositeRef</code></td>
+<td><code>DcmDspStartRoutineInSignalCompositeSignalRef</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>以 <code>StartRoutineIn</code> 为例</p>
+<p>当你配置一个 Routine 的输入参数时，遵循这套映射逻辑会带来以下好处：</p>
+<ol>
+<li>
+<p><strong>一致的偏移量算法</strong>：</p>
+<p>根据 <strong>[SWS_Dcm_01636]</strong>，即使是 <code>StartRoutineInSignal</code> 的嵌套子元素，其 <code>ByteOffset</code> 也是相对于整个诊断请求报文（即 <code>SID + SubFunction + RoutineID</code> 之后的部分）的<strong>绝对位置</strong>。</p>
+</li>
+<li>
+<p><strong>自动接口生成</strong>：</p>
+<p>RTE 会根据这些嵌套定义，为应用层的 Routine 处理函数（如 <code>Rte_Call_RoutineServices_..._Start</code>）生成结构化良好的 C 语言参数类型。</p>
+</li>
+<li>
+<p><strong>支持 RCRRP (0x78) 响应</strong>：</p>
+<p>由于 Routine 往往耗时较长，如果参数配置为结构化数据，Dcm 在发送 <code>Pending</code> 响应及最终结果回复（RequestResults）时，能更精确地管理内存缓冲区。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>具体的对应关系为：</p>
+<ol>
+<li>DcmDspDid 对应
+<ol>
+<li>DcmDspStartRoutineIn</li>
+<li>DcmDspStartRoutineOut</li>
+<li>DcmDspStopRoutineIn</li>
+<li>DcmDspStopRoutineOut</li>
+<li>DcmDspRequestRoutineResultsIn</li>
+<li>DcmDspRequestRoutineResultsOut</li>
+</ol>
+</li>
+<li>DcmDspDidSignal 对应
+<ol>
+<li>DcmDspStartRoutineInSignal</li>
+<li>DcmDspStartRoutineOutSignal</li>
+<li>DcmDspStopRoutineInSignal</li>
+<li>DcmDspStopRoutineOutSignal</li>
+<li>DcmDspRequestRoutineResultsInSignal</li>
+<li>DcmDspRequestRoutineResultsOutSignal</li>
+</ol>
+</li>
+<li>DcmDspDidSignalCompositePool对应
+<ol>
+<li>DcmDspStartRoutineInSignalCompositePool</li>
+<li>DcmDspStartRoutineOutSignalCompositePool</li>
+<li>DcmDspStopRoutineInSignalCompositePool</li>
+<li>DcmDspStopRoutineOutSignalCompositePool</li>
+<li>DcmDspRequestRoutineResultsInSignalCompositePool</li>
+<li>DcmDspRequestRoutineResultsOutSignalCompositePool</li>
+</ol>
+</li>
+<li>DcmDspDidSignalCompositeRef 对应
+<ol>
+<li>DcmDspStartRoutineInSignalCompositeSignalRef</li>
+<li>DcmDspStartRoutineOutSignalCompositeSignalRef</li>
+<li>DcmDspStopRoutineInSignalCompositeSignalRef</li>
+<li>DcmDspStopRoutineOutSignalCompositeSignalRef</li>
+<li>DcmDspRequestRoutineResultsInSignalCompositeSignalRef</li>
+<li>DcmDspRequestRoutineResultsOutSignalCompositeSignalRef</li>
+</ol>
+</li>
+</ol>
+<p>我们可以看以下例子：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511152541313.png" alt="DcmDspStartRoutineIn的复合类型 " loading='lazy'></p>
+<p>在图中，整个诊断请求报文就像一把尺子。</p>
+<ul>
+<li><strong>结构体 A (锚点)</strong>：
+<ul>
+<li><code>Pos = 2</code>：从尺子的刻度 2 开始。</li>
+<li><code>Size = 4</code>：一直占到刻度 6 之前。</li>
+</ul>
+</li>
+<li><strong>信号 X (叶子节点)</strong>：
+<ul>
+<li>注意！它的 <code>Pos</code> 也是 <strong>2</strong>（绝对位置），而不是相对于 A 的 0。</li>
+<li><code>Size = 1</code>，类型是 <code>UINT8</code>。</li>
+</ul>
+</li>
+<li><strong>信号 Y (叶子节点)</strong>：
+<ul>
+<li><code>Pos = 4</code>（绝对位置）。</li>
+<li><code>Size = 2</code>，类型是 <code>UINT16</code>。</li>
+</ul>
+</li>
+<li><strong>Gap (间隙)</strong>：刻度 3 的位置被空出来了，这在诊断协议里很常见，比如保留位。</li>
+</ul>
+<p>这张图展示了在配置工具里，把这个结构描述给 Dcm 听。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260511153311363.png" alt="DcmDspStartRoutineIn结构体的预览图" loading='lazy'></p>
+<ol>
+<li>
+<p>第一岛：核心容器 (The Root)</p>
+<p>左上角的 <strong>DcmDspStartRoutineIn</strong> 就是大箱子。它是 <code>Signal_A</code> 和 <code>Pool_X/Y</code> 的共同父节点。</p>
+</li>
+<li>
+<p>第二岛：锚点信号 (The Anchor) —— 绿色的 Signal_A</p>
+<p>它是入口。它不直接连数据类型，而是干了两件事：</p>
+<ol>
+<li><strong>占位</strong>：告诉 Dcm 它在 <code>Pos=2</code>，大小为 <code>4</code>。</li>
+<li><strong>引用</strong>：通过两个蓝色的 <strong>CompositeSignalRef</strong>，像磁铁一样把池子里的零件 X 和 Y 吸过来。</li>
+</ol>
+</li>
+<li>
+<p>第三岛：零件池 (The Pool) —— 橙色的 ContainedPool</p>
+<p>这就是你之前不太理解的“零件池”。</p>
+<ul>
+<li><strong>Pool_X</strong> 和 <strong>Pool_Y</strong> 住在池子里。</li>
+<li>每个池子元素下面都挂着一个真正的叶子信号（底部的绿色方块）。这些叶子信号才真正定义了 <code>Pos</code>、<code>Size</code> 和具体的 <code>DataType</code> (如 <code>UINT16</code>)。</li>
+</ul>
+</li>
+</ol>
+<p>如果 Dcm 根据这两张图生成代码，你会得到类似这样的定义：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/* 对应 Figure 7.5 的内存布局 */</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    /* Offset 0, 1: 可能是其他信号或 Routine ID */</span><br><span class="line">    uint8 _reserved_0_1[2]; </span><br><span class="line"></span><br><span class="line">    /* 下面是结构体 A 的内容 (Offset 2 到 5) */</span><br><span class="line">    struct &#123;</span><br><span class="line">        uint8  Signal_X;     /* Pos: 2, Size: 1 (UINT8)  */</span><br><span class="line">        uint8  _gap;         /* Pos: 3, 这是一个空隙 */</span><br><span class="line">        uint16 Signal_Y;     /* Pos: 4, Size: 2 (UINT16) */</span><br><span class="line">    &#125; Signal_A;</span><br><span class="line"></span><br><span class="line">    /* Offset 6 之后是其他内容 */</span><br><span class="line">&#125; StartRoutineIn_t;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[!tip]</p>
+<p>你可能会问：“我直接定义一个结构体 A 不就行了吗？为什么要搞出 Pool 和 Ref 这种弯弯绕？”</p>
+<ol>
+<li><strong>绝对位置的强制性</strong>：通过 <code>Pool</code> 和 <code>Ref</code>，配置工具可以强制校验 <code>Signal_X</code> 的位置（2）是否真的在 <code>Signal_A</code> 的范围（2~6）内。</li>
+<li><strong>跨服务的统一性</strong>：正如 [SWS_Dcm_01639] 所说，这套逻辑可以原封不动地搬到 <code>StopRoutine</code> 或 <code>RequestResults</code> 里。只要你学会了这一套，所有的复杂诊断数据你都能配出来。</li>
+</ol>
+</blockquote>
+<h3 id="数据类型限制">数据类型限制</h3>
+<ol>
+<li>
+<p>数组必须声明“总体大小”</p>
+<ul>
+<li>
+<p><strong>规则 [SWS_Dcm_CONSTR_06002/06012]</strong>：</p>
+<p>如果你用的是 <code>_N</code> 结尾的数组类型（如 <code>UINT16_N</code>），你必须明确填写 <code>DcmDspDataByteSize</code>。</p>
+</li>
+<li>
+<p><strong>逻辑解释</strong>：</p>
+<p>对于单体（Primitive）类型（如 <code>UINT16</code>），Dcm 知道它肯定是 2 字节。但对于数组，Dcm 必须知道这个数组到底包含多少个元素，才能分配内存。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>对齐铁律：不许“切断”基本单元</p>
+<ul>
+<li>
+<p><strong>规则 [SWS_Dcm_CONSTR_06035/06036]</strong>：</p>
+<ul>
+<li>如果是 <code>UINT16_N</code> 数组，总字节数必须是 <strong>2 的倍数</strong>。</li>
+<li>如果是 <code>UINT32_N</code> 数组，总字节数必须是 <strong>4 的倍数</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>逻辑解释</strong>：</p>
+<p>Dcm 需要对数组里的每个元素做字节序转换（Endianness Conversion）。如果一个 <code>UINT32_N</code> 数组你只给 7 个字节，最后一个元素就只剩 3 个字节了，Dcm 没法对这个“残缺”的 32 位数进行大端转小端的翻转。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>动态长度的“排队”原则</p>
+<ul>
+<li>
+<p><strong>规则 [SWS_Dcm_CONSTR_06011]</strong>：</p>
+<p>在 Routine（0x31 服务）的参数列表中，<code>VARIABLE_LENGTH</code>（变长参数）只能出现在<strong>最后一个</strong>。</p>
+</li>
+<li>
+<p><strong>逻辑解释</strong>：</p>
+<p>这和 C 语言的变参函数（如 <code>printf</code>）逻辑一致。如果变长参数放在中间，Dcm 就无法通过偏移量（Offset）定位到它后面的参数了。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>通信接口的“死板”要求</p>
+<ul>
+<li>
+<p><strong>规则 [SWS_Dcm_CONSTR_06026]</strong>：</p>
+<p>如果你配置 DID 的方式是通过 <strong>Sender/Receiver (S/R)</strong> 接口、<strong>NvM</strong> 访问或者直接访问 <strong>ECU 信号</strong>，那么<strong>严禁使用变长数据</strong>。</p>
+</li>
+<li>
+<p><strong>逻辑解释</strong>：</p>
+<p>RTE 的 S/R 接口和 NvM 的 Block 都是基于<strong>静态内存分配</strong>的。它们在编译时就需要确定固定的大小。如果你想传动态长度的数据，只能使用 <strong>Client/Server (C/S)</strong> 接口，因为 C/S 接口允许在调用时传递一个长度参数（Length）。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>如果你违反了这些约束，通常会发生以下两种情况：</p>
+<ol>
+<li><strong>配置工具报错</strong>：在你生成代码（Generate）之前，工具会弹出一堆 Error，告诉你“Size must be a multiple of 4”。</li>
+<li><strong>代码运行异常</strong>：如果你强行绕过检查，生成的 <code>Rte_Type.h</code> 里的数组长度可能与你预想的不符，导致诊断仪读取时出现 <code>0x13</code> (NRC IncorrectMessageLength)。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>约束场景</strong></th>
+<th><strong>关键参数</strong></th>
+<th><strong>强制要求摘要</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>16位数组</strong></td>
+<td><code>UINT16_N</code></td>
+<td><code>ByteSize % 2 == 0</code></td>
+</tr>
+<tr>
+<td><strong>32位数组</strong></td>
+<td><code>UINT32_N</code></td>
+<td><code>ByteSize % 4 == 0</code></td>
+</tr>
+<tr>
+<td><strong>变长信号</strong></td>
+<td><code>UINT8_DYN</code></td>
+<td>必须放在参数列表最后</td>
+</tr>
+<tr>
+<td><strong>S/R 接口</strong></td>
+<td><code>USE_DATA_S/R</code></td>
+<td>必须是固定长度</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Dcm操作状态类型">Dcm操作状态类型</h3>
+<p>作为嵌入式软件开发人员，你可以把 <code>Dcm_OpStatusType</code> 理解为 Dcm 与应用层（SW-C）之间的一种“握手协议”。它主要解决一个矛盾：诊断服务（如刷写、复杂的 Routine 运算）可能需要几秒钟，但 <code>Dcm_MainFunction</code> 必须毫秒级循环，不能死等。</p>
+<ol>
+<li>DCM_INITIAL：第一次亲密接触 [SWS_Dcm_00527]
+<ul>
+<li><strong>场景</strong>：当 Dcm 刚收到一个诊断请求（如 <code>0x31</code> 启动 Routine），第一次调用你的回调函数时。</li>
+<li><strong>逻辑</strong>：此时 <code>OpStatus</code> 必定为 <code>DCM_INITIAL</code>。</li>
+<li><strong>你的任务</strong>：在这个状态下进行初始化，比如检查参数合法性、开启定时器或触发底层驱动。</li>
+</ul>
+</li>
+<li>DCM_E_PENDING：让 Dcm “等一下” [SWS_Dcm_00530]
+<ul>
+<li><strong>场景</strong>：你的任务还没做完（比如正在擦除 Flash），无法立刻给诊断仪回复。</li>
+<li><strong>逻辑</strong>：你向 Dcm 返回 <code>DCM_E_PENDING</code>。</li>
+<li><strong>后续调用</strong>：Dcm 会在下一个 <code>Dcm_MainFunction</code> 循环中再次调用你，此时 <code>OpStatus</code> 变为 <code>DCM_PENDING</code>。</li>
+<li><strong>注意</strong>：只要你一直返回 <code>PENDING</code>，Dcm 就会一直用这个状态“骚扰”你，直到你返回 <code>E_OK</code> 或错误 NRC。</li>
+</ul>
+</li>
+<li>DCM_E_FORCE_RCRRP：主动申请“缓期执行” [SWS_Dcm_00528]
+<ul>
+<li><strong>场景</strong>：你预感到这次操作时间很长（超过了 $P2_{Server}$ 时间），为了防止诊断仪超时报错误，你需要给诊断仪发一个 <strong>NRC 0x78 (Response Pending)</strong>。</li>
+<li><strong>逻辑</strong>：你返回 <code>DCM_E_FORCE_RCRRP</code>。</li>
+<li><strong>Dcm 动作</strong>：Dcm 收到后会立刻向总线发送一帧 <code>7F XX 78</code>。在这个过程中，它<strong>不会</strong>再调用你的函数，避免重入冲突。</li>
+</ul>
+</li>
+<li>DCM_FORCE_RCRRP_OK：你可以继续了 [SWS_Dcm_00529]
+<ul>
+<li><strong>场景</strong>：上一步提到的 NRC 0x78 已经成功发到了总线上。</li>
+<li><strong>逻辑</strong>：Dcm 确认发送成功后，会再次调用你的函数，此时 <code>OpStatus</code> 变为 <code>DCM_FORCE_RCRRP_OK</code>。</li>
+<li><strong>你的任务</strong>：看到这个状态，说明你已经成功“续命”了，可以接着上次中断的地方继续干活。</li>
+</ul>
+</li>
+</ol>
+<p>假设你在编写一个 Routine 的处理函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Std_ReturnType <span class="title function_">MyRoutine_Start</span><span class="params">(Dcm_OpStatusType OpStatus, ...)</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> (OpStatus) &#123;</span><br><span class="line">        <span class="keyword">case</span> DCM_INITIAL:</span><br><span class="line">            <span class="comment">// 步骤 1: 启动异步硬件操作</span></span><br><span class="line">            Start_Async_Hardware_Job();</span><br><span class="line">            <span class="keyword">return</span> DCM_E_PENDING; <span class="comment">// 告诉 Dcm：我刚开始，还要等</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> DCM_PENDING:</span><br><span class="line">            <span class="comment">// 步骤 2: 轮询硬件状态</span></span><br><span class="line">            <span class="keyword">if</span> (Check_Hardware_Job_Done()) &#123;</span><br><span class="line">                <span class="keyword">return</span> E_OK; <span class="comment">// 任务完成！</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Is_Almost_Timeout()) &#123;</span><br><span class="line">                <span class="keyword">return</span> DCM_E_FORCE_RCRRP; <span class="comment">// 快超时了，赶紧申请发 0x78</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> DCM_E_PENDING; <span class="comment">// 还没完，继续等</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> DCM_FORCE_RCRRP_OK:</span><br><span class="line">            <span class="comment">// 步骤 3: 0x78 发完了，重置内部计时器，继续轮询</span></span><br><span class="line">            Reset_Internal_Timer();</span><br><span class="line">            <span class="keyword">return</span> DCM_E_PENDING;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> E_NOT_OK;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>INITIAL</strong> 是开始。</li>
+<li><strong>PENDING</strong> 是中间循环。</li>
+<li><strong>FORCE_RCRRP</strong> 是“发救命信号”。</li>
+<li><strong>FORCE_RCRRP_OK</strong> 是“救命信号发完了，继续工作”。</li>
+</ul>
+<p>这种设计确保了嵌入式系统不会因为诊断操作而导致主循环卡死，同时也保证了诊断协议的时间合规性。</p>
+<h3 id="生成符号">生成符号</h3>
+<p>Dcm 模块通过生成符号名（Symbolic Names）来简化应用层（SWC）对 <strong>CEMR（Control Enable Mask Record）</strong> 的操作。</p>
+<p>在 UDS 协议的 <strong>0x2F (InputOutputControlByIdentifier)</strong> 服务中，CEMR 是一个非常关键的掩码，用于告知 ECU 哪些信号应该受诊断仪控制，哪些应该维持原样。</p>
+<ol>
+<li>
+<p>为什么要生成符号名？</p>
+<p>手动处理 CEMR 位掩码在嵌入式开发中非常容易出错，原因有三：</p>
+<ul>
+<li><strong>大端序与位顺序的矛盾</strong>：规范提到，网络上发送的第一个位控制 DID 的第一个参数，但在多字节内存布局中，这个位可能是最高有效位（MSB）。开发者很容易在进行 <code>(1 &lt;&lt; n)</code> 操作时算错位置。</li>
+<li><strong>配置变更的鲁棒性</strong>：如果 DID 的参数长度发生变化，对应的位偏移（Bit Offset）也会随之改变。使用符号名可以确保代码在配置更新后只需重新编译，而不需要手动修改位掩码数值。</li>
+<li><strong>代码可读性</strong>：相比于 <code>Mask = 0x80</code>，使用 <code>Dcm_Cemr_MyDid_SignalA</code> 显然更直观。</li>
+</ul>
+</li>
+<li>
+<p>Dcm_Cemr_{DID}Type 的实现逻辑</p>
+<p>根据 <strong>[SWS_Dcm_91087]</strong>，Dcm 会为具有 IO Control 功能的 DID 的每个数据元素生成一个文本表（Text Table）或枚举。</p>
+<ul>
+<li><strong>生成规则</strong>：对于每一个受控信号，Dcm 都会计算其在 CEMR 字节流中的准确位置。</li>
+<li><strong>使用方式</strong>：SWC（应用层软件组件）通过这些生成的符号名作为掩码（Mask），对接收到的控制请求进行位运算，从而提取出具体的控制许可。</li>
+</ul>
+</li>
+</ol>
+<p>假设你有一个名为 <code>CoolingFan</code> 的 DID，包含两个控制位：<code>FanSpeed</code> 和 <code>FanRelay</code>。</p>
+<p><strong>不使用符号名（危险且难读）：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 开发者必须自己根据规范计算掩码 */</span></span><br><span class="line"><span class="keyword">if</span> (ControlMask &amp; <span class="number">0x80</span>) &#123; <span class="comment">// 假设第一个位对应 FanSpeed</span></span><br><span class="line">    <span class="comment">// 执行控制</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用 Dcm 生成的符号名（安全且标准）：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Dcm 会在 Dcm_Cfg.h 或 Rte_Dcm_Type.h 中生成类似定义 */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Dcm_Cemr_CoolingFan_FanSpeed  ((uint8)0x80)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> Dcm_Cemr_CoolingFan_FanRelay  ((uint8)0x40)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 应用层代码 */</span></span><br><span class="line"><span class="keyword">if</span> (ControlMask &amp; Dcm_Cemr_CoolingFan_FanSpeed) &#123;</span><br><span class="line">    <span class="comment">// 自动映射到正确的网络位，无需担心字节序问题</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>DSL：诊断服务层</h1>
+<p><strong>DSL (Diagnostic Session Layer)</strong> 是 Dcm 模块的门卫，它不关心 DID 里具体是什么数，它只关心诊断仪和 ECU 之间的<strong>状态、时间和权限</strong>。</p>
+<p>根据你提供的规范描述，我们可以将 DSL 的核心职责拆解为以下四个关键领域：</p>
+<ol>
+<li>
+<p>会话管理 (Session Handling) [SWS_Dcm_00030]</p>
+<p>这是 DSL 最基础的功能，完全遵循 ISO 14229-1 和 ISO 15765-3 标准。</p>
+<ul>
+<li><strong>状态维护</strong>：DSL 负责管理 ECU 当前处于哪种会话模式（如 <code>Default</code>、<code>Programming</code> 或 <code>Extended</code>）。</li>
+<li><strong>会话超时 (S3 Timer)</strong>：如果诊断仪在一段时间内没有发送任何请求，DSL 会负责将 ECU 自动切回 <code>Default Session</code> 以确保安全。</li>
+</ul>
+</li>
+<li>
+<p>应用层时间处理 (Timing Handling)</p>
+<p>时间是诊断协议的灵魂。DSL 负责监控和执行所有的 $P2$ 时间参数：</p>
+<ul>
+<li><strong>$P2_{Server}$</strong>：ECU 接收到请求后，必须在此时间内给出响应（或者发 0x78 续命）。</li>
+<li><strong>$P2^{*}_{Server}$</strong>：发送 0x78 响应后的扩展等待时间。</li>
+<li><strong>职责分工</strong>：DSL 负责计秒表，如果应用层（SWC）处理太慢，DSL 就会根据时间戳触发 NRC 0x78 或 0x10（响应超时）。</li>
+</ul>
+</li>
+<li>
+<p>特定响应行为 (Response Behavior)</p>
+<p>DSL 决定了在某些特殊情况下如何回复诊断仪：</p>
+<ul>
+<li><strong>多路请求处理</strong>：当多个诊断请求同时到达（例如物理寻址和功能寻址冲突）时，DSL 负责仲裁优先级。</li>
+<li><strong>响应抑制 (Suppress Pos Response)</strong>：如果请求中设置了 <code>SuppressPosResponseBit</code>，DSL 会拦截掉本该发出的肯定响应。</li>
+</ul>
+</li>
+<li>
+<p>认证状态管理 (Authentication State)</p>
+<p>这是 ISO 14229-1:2018 引入的新特性，比传统的 0x27 安全访问更先进：</p>
+<ul>
+<li><strong>连接绑定</strong>：DSL 为每个诊断连接（Connection）独立维护认证状态。</li>
+<li><strong>状态转换</strong>：DSL 管理从“未认证”到“已认证”的转换过程，并为 DSP（诊断服务处理）提供权限检查的依据。</li>
+</ul>
+</li>
+</ol>
+<p>我们可以把 Dcm 的三个子模块想象成一个<strong>餐厅</strong>：</p>
+<ol>
+<li><strong>DSL (门卫/前台)</strong>：检查你有没有预约（Session），看你进店多久了（Timing），确保一次只进一个客人（Connection Handling）。</li>
+<li><strong>DSD (服务员)</strong>：看你的菜单（SID），判断这个菜能不能做（NRC 检查），然后把单子传给后厨。</li>
+<li><strong>DSP (后厨)</strong>：真正切菜、炒菜（解析数据、读取 NvM、执行 Routine）。</li>
+</ol>
+<p>DSL 的核心意义在于它<strong>屏蔽了底层网络的差异性</strong>（Network-independent）。无论你是走 CAN、LIN 还是 Ethernet (DoIP)，对于 DSL 来说，它看到的都是一套标准的 ISO 时间参数和状态迁移规则。</p>
+<h2 id="与其他模块的交互">与其他模块的交互</h2>
+<p>DSL（诊断会话层）在 AUTOSAR Dcm 架构中扮演着“通信枢纽”的角色。它负责协调底层网络、上层应用以及 Dcm 内部其他子模块之间的交互。</p>
+<ol>
+<li>
+<p>与 PduR 模块的交互</p>
+<ul>
+<li><strong>输入流</strong>：PduR 模块负责接收来自总线（如 CAN, LIN, Ethernet）的原始诊断请求数据，并将其提供给 DSL 子模块。</li>
+<li><strong>输出流</strong>：DSL 子模块负责触发诊断响应的发送过程。</li>
+</ul>
+</li>
+<li>
+<p>与 DSD (诊断服务调度器) 子模块的交互</p>
+<ul>
+<li><strong>请求分发</strong>：DSL 子模块在接收到请求后，会通知 DSD 子模块有新请求到达，并负责传输相关数据。</li>
+<li><strong>响应触发</strong>：当 DSD 完成服务识别后，会触发 DSL 执行最终诊断响应的输出操作。</li>
+</ul>
+</li>
+<li>
+<p>与 SW-Cs / DSP 子模块的交互</p>
+<p><strong>权限与状态共享</strong>：DSL 子模块为应用层软件组件（SW-Cs）以及 DSP（诊断服务处理）子模块提供访问当前安全状态（Security State）<strong>和</strong>会话状态（Session State）的接口。这确保了只有在正确的会话或安全级别下，特定的诊断操作（如写入 DID 或执行 Routine）才会被允许。</p>
+</li>
+<li>
+<p>与 ComM (通信管理) 模块的交互</p>
+<p><strong>通信一致性</strong>：DSL 子模块负责保证符合 ComM 模块所要求的通信行为。例如，当 ComM 要求进入低功耗状态时，DSL 需确保诊断通信能够正确挂起或关闭。</p>
+</li>
+</ol>
+<p>为什么 DSL 位于 DSD 之前？</p>
+<p>这种设计的核心目的是为了实现<strong>协议无关性</strong>。</p>
+<ul>
+<li><strong>DSL 处理的是“通道”</strong>：它关心的是数据包是否完整、时间是否超时、当前的 Session 是否允许建立连接。</li>
+<li><strong>DSD 处理的是“语义”</strong>：它只在 DSL 确认连接有效后，才开始解析请求里的 <code>SID</code> 是 <code>0x22</code> 还是 <code>0x31</code>。</li>
+</ul>
+<h2 id="请求处理-PduR-DSD">请求处理(PduR-&gt;DSD)</h2>
+<p><strong>DSL 子模块</strong>作为 PduR（协议数据单元路由）与 Dcm 内部 <strong>DSD 子模块</strong>之间的桥梁。它不仅涉及数据的搬运，还包含了关键的<strong>缓冲区保护</strong>和<strong>多路访问限制</strong>逻辑。</p>
+<ol>
+<li>
+<p>接收阶段：握手与拷贝</p>
+<p>当底层网络（如 CAN TP）收到诊断数据时，PduR 会通过以下 API 与 Dcm 交互：</p>
+<ul>
+<li><strong><code>Dcm_StartOfReception</code></strong>：
+<ul>
+<li><strong>触发时机</strong>：收到首帧（FF）或单帧（SF）时。</li>
+<li><strong>功能</strong>：告知 Dcm 数据的总大小。Dcm 会在此处检查缓冲区是否足够，或判断服务是否可用，从而决定是接受还是拒绝（Reject）这次接收。</li>
+<li><strong>元数据处理</strong>：对于通用连接（Generic Connections），寻址信息（MetaData）会在此处传递给 Dcm，DSL 必须存储这些信息以便后续响应或识别同一测试仪。</li>
+</ul>
+</li>
+<li><strong><code>Dcm_CopyRxData</code></strong>：
+<ul>
+<li><strong>功能</strong>：Dcm 被要求将数据从 PduR 提供的缓冲区拷贝到自己的内部缓冲区中。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>验证与转发：隔离机制</p>
+<p>这是 DSL 履行“交通警察”职责的核心：</p>
+<ul>
+<li><strong>转发时机 [SWS_Dcm_00111]</strong>：DSL <strong>只有</strong>在收到 <code>Dcm_TpRxIndication</code> 且结果为 <code>E_OK</code>（表示整包诊断数据已完整、正确接收）之后，才会将数据转发给 DSD 子模块。</li>
+<li><strong>资源锁定 [SWS_Dcm_00241]</strong>：
+<ul>
+<li>一旦 <code>Dcm_TpRxIndication</code> 成功返回，DSL 会阻塞（Block）对应的 <code>DcmPduId</code>。</li>
+<li>这种锁定状态会一直持续，直到响应报文发送完毕（即收到 <code>Dcm_TpTxConfirmation</code>）为止。</li>
+<li><strong>排他性</strong>：在处理当前请求期间，同一连接（Connection）不允许接收其他请求（例如 OBD 抢占 UDS 会话），除非是并发的 <code>TesterPresent</code> 请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>PduId 与寻址配置</p>
+<p>DSL 支持为不同的诊断应用配置独立的 PduId，这决定了数据的流向和处理方式：</p>
+<ul>
+<li><strong>多应用隔离</strong>：可以分别为 OBD（接收/发送）、UDS 物理寻址和 UDS 功能寻址配置不同的 <code>DcmPduId</code>。</li>
+<li><strong>寻址类型固定</strong>：寻址类型（物理或功能）是直接配置在 <code>DcmDslProtocolRxPduId</code> 上的。</li>
+<li><strong>配置灵活性</strong>：无论传输层使用何种寻址格式（扩展寻址或正常寻址），物理和功能接收总是对应不同的 <code>RxPduId</code>，这使得 Dcm 能够从入口处就区分请求的属性。</li>
+</ul>
+</li>
+</ol>
+<p>在嵌入式开发中，这一层逻辑主要体现在生成的 <code>Dcm_Lcfg.c</code> 或 <code>Dcm_PBcfg.c</code> 中：</p>
+<ol>
+<li><strong>缓冲区溢出</strong>：如果你的 <code>Dcm_StartOfReception</code> 返回了错误，通常是因为你在配置工具中给 <code>DcmDslBufferSize</code> 分配的空间小于诊断仪发送的 <code>FF_DL</code>。</li>
+<li><strong>多路处理失败</strong>：如果你发现诊断仪在发送 0x2E（写数据）后立刻发送 0x22（读数据）导致 ECU 无响应，通常是因为第一个请求还没收到 <code>TxConfirmation</code>，DSL 还在执行 [SWS_Dcm_00241] 规定的阻塞逻辑。</li>
+<li><strong>TesterPresent 的特殊性</strong>：只有 $0x3E 80$ (Concurrent TesterPresent) 能够穿透这种阻塞机制，这也是为了维持非默认会话（Non-default session）而设计的“绿色通道”。</li>
+</ol>
+<h3 id="Dcm-StartOfReception">Dcm_StartOfReception</h3>
+<ol>
+<li>
+<p>缓冲区与基础协议映射 (Buffer &amp; ISO Mapping)</p>
+<p>DSL 必须严格遵守 ISO 14229-2 的会话层定义，确保与底层传输层（TP）的握手逻辑一致：</p>
+<ul>
+<li><strong>溢出处理 [SWS_Dcm_00444]</strong>：如果诊断仪请求的数据长度（TpSduLength）超过了 Dcm 预留的缓冲区大小，<code>Dcm_StartOfReception</code> 必须返回 <code>BUFREQ_E_OVFL</code>。</li>
+<li><strong>非法长度 [SWS_Dcm_00642]</strong>：如果收到的长度为 0，则返回 <code>BUFREQ_E_NOT_OK</code>。</li>
+<li><strong>标准映射 [SWS_Dcm_01671, 01672, 01673]</strong>：Dcm 的 API 与 ISO 14229-2 有明确的映射关系。<code>Dcm_StartOfReception</code> 对应 <strong>T_DataSOM.ind</strong>（消息开始接收），而 <code>Dcm_TpRxIndication</code> 对应 <strong>T_Data.ind</strong>（消息接收完成）。</li>
+</ul>
+</li>
+<li>
+<p>多客户端并发处理 (Multi-client Handling)</p>
+<p>这是 Dcm 最复杂的逻辑之一，遵循 ISO 14229-1 附录 J 的流程图。它允许 ECU 同时面对多个诊断客户端（例如：OBD 扫描仪 + 售后诊断仪）：</p>
+<ul>
+<li><strong>资源分配 [SWS_Dcm_01675]</strong>：Dcm 会为每个配置的协议行（<code>DcmDslProtocolRow</code>）分配独立的协议资源和缓冲区，从而实现在默认会话（Default Session）下的并行处理。</li>
+<li><strong>第二请求的处理 (NRC 0x21) [SWS_Dcm_01676, 01677]</strong>：当 Dcm 已经忙于处理一个请求，又收到来自<strong>另一个连接</strong>的请求时，其行为取决于配置参数 <code>DcmDslDiagRespOnSecondDeclinedRequest</code>：
+<ul>
+<li><strong>TRUE</strong>：回复 <strong>NRC 0x21</strong> (Busy Repeat Request)，告知客户端稍后再试。</li>
+<li><strong>FALSE</strong>：直接忽略该请求，不发回任何响应。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>同一连接的“防重入”限制 [SWS_Dcm_01678]</p>
+<p>对于来自<strong>同一个连接</strong>（Same Connection）的并行请求，Dcm 采取了更严格的限制策略：</p>
+<ul>
+<li><strong>拒绝逻辑</strong>：如果 Dcm 正在处理某个连接上的请求，而该连接又发来了新的请求，Dcm 必须拒绝这个新请求。</li>
+<li><strong>静默拒绝</strong>：与多客户端不同，在这种情况下，Dcm 不会发送任何响应，甚至不发 NRC 0x21。这弥补了 ISO 标准在同一连接并发请求定义上的空白。</li>
+</ul>
+</li>
+</ol>
+<p>在进行嵌入式开发和测试时，这些规范对应以下常见场景：</p>
+<table>
+<thead>
+<tr>
+<th><strong>现象</strong></th>
+<th><strong>规范依据</strong></th>
+<th><strong>原因分析</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>刷写时缓冲区报错</strong></td>
+<td>[SWS_Dcm_00444]</td>
+<td>传输层分段数据总长超过了 <code>DcmDslBuffer</code> 的配置值。</td>
+</tr>
+<tr>
+<td><strong>两个诊断仪冲突</strong></td>
+<td>[SWS_Dcm_01676]</td>
+<td>若配置为 TRUE，第二个诊断仪会看到 <code>7F XX 21</code>；若为 FALSE，它会表现为超时。</td>
+</tr>
+<tr>
+<td><strong>同一工具连发两条指令</strong></td>
+<td>[SWS_Dcm_01678]</td>
+<td>诊断工具在收到上一条指令的确认响应前发出了新指令，ECU 会直接丢弃新指令。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Dcm-CopyRxData">Dcm_CopyRxData</h3>
+<ol>
+<li>
+<p>数据拷贝与缓冲区更新 [SWS_Dcm_00443]</p>
+<p>当底层传输层（TP）分段发送诊断请求时，它会多次调用 <code>Dcm_CopyRxData</code>：</p>
+<ul>
+<li><strong>任务</strong>：Dcm 必须将 <code>info</code> 参数指向的原始数据拷贝到其内部预留的接收缓冲区（Rx Buffer）中。</li>
+<li><strong>反馈机制</strong>：每次拷贝完成后，Dcm 必须更新 <code>bufferSizePtr</code>。这个值告诉 TP 层：<strong>“我这儿还剩下多少空位”</strong>。这决定了 TP 层后续发送流控制帧（Flow Control）时的行为。</li>
+</ul>
+</li>
+<li>
+<p>零长度请求的处理 [SWS_Dcm_00996]</p>
+<p>如果 TP 层调用 <code>Dcm_CopyRxData</code> 且 <code>SduLength</code> 为 <strong>0</strong>：</p>
+<ul>
+<li><strong>响应</strong>：Dcm 必须返回 <code>BUFREQ_OK</code>。</li>
+<li><strong>信息查询</strong>：此时不发生拷贝，但 Dcm 仍需在 <code>bufferSizePtr</code> 中填入当前缓冲区剩余的可用空间。这通常被传输层用来探测接收端的实时负载。</li>
+</ul>
+</li>
+<li>
+<p>“只读/锁定”安全协议 [SWS_Dcm_00342]</p>
+<p>这是保证诊断数据完整性的关键锁机制：</p>
+<ul>
+<li><strong>锁定状态</strong>：一旦 Dcm 开始通过 <code>Dcm_CopyRxData</code> 填充数据，整个接收缓冲区就进入了“不可触碰”状态。</li>
+<li><strong>禁止访问</strong>：在收到 <code>Dcm_TpRxIndication</code> 明确告知接收成功或失败之前，Dcm 模块的任何其他部分（如 DSD 或 DSP）都<strong>严禁</strong>访问该缓冲区。</li>
+<li><strong>逻辑前提</strong>：只有在 <code>Dcm_StartOfReception</code> 成功返回后，系统才会期待并处理 <code>Dcm_TpRxIndication</code>。</li>
+</ul>
+</li>
+</ol>
+<p>如果你在调试 0x36（分段传输）或长 DID 写入时遇到问题，可以参考以下场景：</p>
+<ul>
+<li><strong>数据被截断</strong>：检查 <code>Dcm_StartOfReception</code> 返回的 <code>RxBufferSizePtr</code>。如果这个初始容量给小了，后续的 <code>Dcm_CopyRxData</code> 就会因为剩余空间不足（<code>bufferSizePtr</code> 变小）导致接收失败。</li>
+<li><strong>竞态条件（Race Condition）</strong>：[SWS_Dcm_00342] 保证了 Dcm 不会去解析一个“还没收全”的数据包。如果你发现代码在 <code>Dcm_TpRxIndication</code> 之前就开始尝试解析 SID，说明你的 DSL 层状态机实现违背了这条规范。</li>
+<li><strong>性能优化</strong>：由于 <code>Dcm_CopyRxData</code> 会在 <code>MainFunction</code> 之外被频繁调用（通常在中断上下文中），拷贝逻辑的执行效率直接影响了总线上的响应间隔时间（STmin）。</li>
+</ul>
+<h3 id="Dcm-TpRxIndication">Dcm_TpRxIndication</h3>
+<ol>
+<li>
+<p>核心逻辑：失败即丢弃 [SWS_Dcm_00344]</p>
+<p>当底层传输层（TP）完成一个数据包的接收（无论是单帧还是多帧）并调用 <code>Dcm_TpRxIndication</code> 时：</p>
+<ul>
+<li><strong>触发条件</strong>：如果参数 <code>Result</code> <strong>不等于 <code>E_OK</code></strong>（例如发生了 <code>NTFRSLT_E_TIMEOUT_CR</code> 接收超时或 <code>NTFRSLT_E_WRONG_SN</code> 序列号错误）。</li>
+<li><strong>Dcm 动作</strong>：Dcm 必须<strong>严禁评估或解析</strong>该 <code>DcmRxPduId</code> 对应的接收缓冲区。</li>
+<li><strong>后果</strong>：该请求会被直接忽略，不会转发给 DSD 子模块进行处理，也不会发送任何响应。</li>
+</ul>
+</li>
+<li>
+<p>设计原理（Rationale）</p>
+<ul>
+<li><strong>数据不确定性</strong>：在接收失败的情况下，缓冲区中哪些部分是正确的数据、哪些是残余的旧数据或乱码是无法确定的。</li>
+<li><strong>安全性</strong>：如果 Dcm 尝试解析一个损坏的数据包，可能会导致错误的诊断操作（如误写 DID 或执行了错误的 Routine）。</li>
+</ul>
+</li>
+</ol>
+<p>💡 针对嵌入式开发的实战意义</p>
+<ul>
+<li>
+<p><strong>诊断仪显示“Timeout”但 ECU 没回 NRC</strong>：</p>
+<p>通常是因为总线干扰导致 CAN-TP 接收失败（如丢帧）。此时 TP 会给 DSL 发送 <code>Result != E_OK</code>。根据 [SWS_Dcm_00344]，Dcm 会直接装死（不解析缓冲区），因此你不会在后续的 DSD 处理中看到任何记录。</p>
+</li>
+<li>
+<p><strong>缓冲区重用</strong>：</p>
+<p>由于 Dcm 在此时不会清理缓冲区，如果下一条成功的指令较短，缓冲区后半部分可能还留着上次失败的数据。但只要你遵循规范不跨界访问，这不会产生问题。</p>
+</li>
+</ul>
+<h2 id="会话保持">会话保持</h2>
+<p>在 UDS 诊断中，如果 ECU 处于非默认会话（如扩展会话或编程会话），且在一段时间（$S3$ 时间）内没有收到任何请求，它会自动跳回默认会话。</p>
+<p>为了防止这种情况，测试仪会周期性发送 <code>TesterPresent</code> ($0x3E 80$)。而 <strong>Concurrent TesterPresent</strong>（并发 TesterPresent）特指在 ECU 正在处理一个耗时请求（比如正在擦除 Flash 或执行复杂的 Routine）时，依然能够并行处理的保活指令。</p>
+<ol>
+<li>
+<p>核心定义与目的</p>
+<ul>
+<li><strong>别名</strong>：在规范中也被称为“旁路逻辑 (Bypass Logic)”。</li>
+<li><strong>主要功能</strong>：其唯一目的是重置 ISO 14229-2 定义的 <strong>$S3$ 定时器</strong>，从而保持非默认会话的激活状态。</li>
+<li><strong>触发方式</strong>：通常通过<strong>功能寻址 (Functional Addressing)</strong> 发送。</li>
+</ul>
+</li>
+<li>
+<p>“并发”处理的独立性</p>
+<ul>
+<li><strong>并行性</strong>：这种请求的处理与当前正在进行的物理寻址请求或服务处理（比如正在进行的 $0x2E$ 或 $0x31$ 服务）是完全<strong>相互独立</strong>的。</li>
+<li><strong>不阻塞</strong>：即使 DSL 模块因为 [SWS_Dcm_00241] 锁定了某个 PduId 来处理长任务，<code>TesterPresent</code> 依然可以被处理。</li>
+</ul>
+</li>
+<li>
+<p>安全限制：连接绑定 [SWS_Dcm_01666, 01667]</p>
+<p>AUTOSAR 对 ISO 标准进行了增强，增加了严格的连接限制：</p>
+<ul>
+<li><strong>同连接原则</strong>：Dcm 只处理来自<strong>开启了非默认会话的同一个连接</strong>的 <code>Concurrent TesterPresent</code>。</li>
+<li><strong>设计目的</strong>：这是为了防止其他测试仪（未开启会话的第三方设备）干扰当前正在进行的诊断协议和时间行为。</li>
+</ul>
+</li>
+</ol>
+<p>在配置和调试时注意：</p>
+<ol>
+<li><strong>功能寻址配置</strong>：确保你的 <code>UDS_func_DcmDslProtocolRxPduId</code> 能够正确接收并触发 DSL 内部的保活逻辑。</li>
+<li><strong>$S3_{Server}$ 超时</strong>：如果在 IAR 调试时发现单步执行时间太长导致 ECU 自动退出了扩展会话，通常是因为主循环（<code>Dcm_MainFunction</code>）停止运行，导致 $S3$ 定时器溢出且无法处理 <code>TesterPresent</code>。</li>
+<li><strong>多客户端干扰</strong>：如果你同时接入了两个诊断工具，A 工具开启了会话，B 工具发送的 <code>0x3E</code> 会被 Dcm 忽略（根据 [SWS_Dcm_01667]），不会重置 A 工具开启的 $S3$ 计数器。</li>
+</ol>
+<p>多测试仪的时序如下：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant TA as 测试仪 A&lt;br/&gt;(已开启非默认会话)
+    participant TB as 测试仪 B&lt;br/&gt;(未开启会话)
+    participant ECU as ECU (DCM/DSL)
+    participant Timer as S3 Timer (连接A)
+    participant Flash as 长任务&lt;br/&gt;(如Flash擦写)
+
+    Note over TA,Flash: 场景：ECU 正在执行耗时操作
+
+    TA-&gt;&gt;ECU: ① 物理寻址 0x10 03 (Extended Session)
+    ECU-&gt;&gt;Timer: 启动 S3 定时器
+    ECU--&gt;&gt;TA: 肯定响应
+
+    ECU-&gt;&gt;Flash: ② 开始执行长任务
+    Note over Flash: Flash 擦写中...&lt;br/&gt;耗时可能数秒
+
+    Note over TB,ECU: ③ 测试仪 B 发送 Concurrent TesterPresent
+    TB-&gt;&gt;ECU: 功能寻址 0x3E
+    ECU-&gt;&gt;ECU: 检查：B 对应的连接&lt;br/&gt;是否开启过非默认会话？
+    ECU--&gt;&gt;TB: ❌ 忽略 (SWS_Dcm_01667)
+
+    Note over TA,ECU: ④ 测试仪 A 发送 Concurrent TesterPresent
+    TA-&gt;&gt;ECU: 功能寻址 0x3E
+    ECU-&gt;&gt;ECU: 检查：A 对应的连接&lt;br/&gt;是否开启过非默认会话？✅
+    ECU-&gt;&gt;Timer: 复位 S3 定时器 (Keep Alive)
+    ECU--&gt;&gt;TA: ✅ 处理成功
+
+    Note over Flash: ⑤ 长任务继续执行&lt;br/&gt;非默认会话保持激活</code></pre>
+<p>$S3$定时器与会话状态转换时序流程为：</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; DefaultSession: ECU 上电/复位
+
+    DefaultSession --&gt; ExtendedSession: 收到 0x10 03&lt;br/&gt;(物理寻址，连接A)
+    DefaultSession --&gt; ProgrammingSession: 收到 0x10 02&lt;br/&gt;(物理寻址，连接A)
+
+    ExtendedSession --&gt; ExtendedSession: 收到 Concurrent TesterPresent&lt;br/&gt;(来自同一连接A)
+    ProgrammingSession --&gt; ProgrammingSession: 收到 Concurrent TesterPresent&lt;br/&gt;(来自同一连接A)
+
+    ExtendedSession --&gt; DefaultSession: S3 Timer 超时
+    ProgrammingSession --&gt; DefaultSession: S3 Timer 超时
+
+    note right of ExtendedSession: 非默认会话需要&lt;br/&gt;周期性复位 S3 Timer
+    note right of ProgrammingSession: Concurrent TesterPresent&lt;br/&gt;只复位“请求过会话的连接”
+    
+    state ExtendedSession &#123;
+        [*] --&gt; TimerRunning
+        TimerRunning --&gt; TimerReset: 收到来自A的0x3E
+        TimerReset --&gt; TimerRunning: 继续计时
+    &#125;</code></pre>
+<h3 id="Dcm-CopyTxData">Dcm_CopyTxData</h3>
+<blockquote>
+<p><strong>Dcm_CopyTxData</strong> 是 DCM 模块中用于<strong>分段传输数据拷贝</strong>的回调函数。当上层（PduR/传输协议）准备好发送下一段数据时，调用此函数让 DCM 将待发送数据拷贝到指定缓冲区中。它实现了发送场景下的<strong>流式数据传递</strong>机制。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义与目的</p>
+<ul>
+<li><strong>函数角色</strong>：DCM 作为数据提供方，通过此函数将待发送数据<strong>分块</strong>提供给传输协议层</li>
+<li><strong>典型场景</strong>：读取大数据块（如 <code>$0x22$</code> 读取长 DID、<code>$0x19$</code> 读取 DTC 信息）时，一次响应无法承载全部数据，需要分段传输</li>
+<li><strong>触发方</strong>：传输协议层（如 CAN TP、DoIP）在准备好发送下一段时调用</li>
+</ul>
+<blockquote>
+<p>可以理解为：<strong>传输协议每发完一段数据，就找 DCM 要下一段</strong>，直到全部发完。</p>
+</blockquote>
+</li>
+<li>
+<p>函数行为规范 [SWS_Dcm_00346]</p>
+<p>当 <code>Dcm_CopyTxData</code> 被调用，且 DCM 成功将数据拷贝到 <code>info</code> 参数指向的缓冲区时，函数应返回 <code>BUFREQ_OK</code>。</p>
+<ul>
+<li><strong>成功条件</strong>：DCM 成功将数据拷贝到 <code>info</code> 参数指定的缓冲区中</li>
+<li><strong>返回值</strong>：<code>BUFREQ_OK</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BUFREQ_OK</code></td>
+<td>数据拷贝成功，传输协议可以继续发送</td>
+</tr>
+<tr>
+<td><code>BUFREQ_E_NOT_OK</code></td>
+<td>数据拷贝失败（见下文 [SWS_Dcm_00350]）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>注意事项与约束 [SWS_Dcm_00350]</p>
+<p>数据长度限制</p>
+<ul>
+<li><code>availableDataPtr</code> 参数的值<strong>不得超过剩余待发送字节数</strong></li>
+<li>即：不能向传输协议声称“还有 X 字节可发”但实际上没那么多数据</li>
+</ul>
+<p>错误处理与完成确认</p>
+<p>当 <code>Dcm_CopyTxData</code> 返回 <code>BUFREQ_E_NOT_OK</code> 时：</p>
+<ul>
+<li>
+<p>之前通过 <code>PduR_DcmTransmit()</code> 发起的传输请求<strong>尚未完成</strong></p>
+</li>
+<li>
+<p>需要一个<strong>最终确认</strong>（调用 <code>Dcm_TpTxConfirmation</code> 指示错误）来结束本次传输</p>
+</li>
+<li>
+<p>只有收到这个最终确认后，才能开始下一次传输（再次调用 <code>PduR_DcmTransmit()</code>）</p>
+</li>
+<li>
+<p><strong>责任归属</strong>：由<strong>传输协议层</strong>负责确认传输的中止（abort）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>正常分段发送流程</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 应用层 (SWC/DSP)
+    participant DCM as DCM
+    participant PduR as PduR
+    participant TP as 传输协议 (CAN-TP/DoIP)
+    participant Bus as 总线
+
+    Note over App,Bus: 场景：响应大数据块（如长 DID 读取）
+
+    App-&gt;&gt;DCM: 请求读取长数据
+    DCM-&gt;&gt;DCM: 准备完整响应数据&lt;br/&gt;(假设 1500 字节)
+    
+    Note over DCM,TP: 第一段发送 (TP 层请求)
+    TP-&gt;&gt;PduR: 请求发送数据
+    PduR-&gt;&gt;DCM: PduR_DcmTransmit()
+    DCM-&gt;&gt;DCM: 准备第一段数据 (如 500 字节)
+    DCM--&gt;&gt;PduR: 返回数据
+    PduR--&gt;&gt;TP: 转发数据
+    TP-&gt;&gt;Bus: 发送第一段
+
+    Note over DCM,TP: 第二段发送 (继续请求)
+    TP-&gt;&gt;PduR: 请求下一段
+    PduR-&gt;&gt;DCM: Dcm_CopyTxData()
+    DCM-&gt;&gt;DCM: 拷贝第二段数据 (500 字节)&lt;br/&gt;到 info 缓冲区
+    DCM--&gt;&gt;PduR: 返回 BUFREQ_OK
+    PduR--&gt;&gt;TP: 转发数据
+    TP-&gt;&gt;Bus: 发送第二段
+
+    Note over DCM,TP: 第三段发送 (最后一段)
+    TP-&gt;&gt;PduR: 请求下一段
+    PduR-&gt;&gt;DCM: Dcm_CopyTxData()
+    DCM-&gt;&gt;DCM: 拷贝第三段数据 (500 字节)
+    DCM--&gt;&gt;PduR: 返回 BUFREQ_OK&lt;br/&gt;(且剩余字节为 0)
+    PduR--&gt;&gt;TP: 转发数据
+    TP-&gt;&gt;Bus: 发送第三段
+
+    Note over DCM,TP: 传输完成确认
+    TP-&gt;&gt;PduR: 传输完成
+    PduR-&gt;&gt;DCM: Dcm_TpTxConfirmation()
+    DCM-&gt;&gt;App: 响应发送完成</code></pre>
+</li>
+<li>
+<p>错误场景（拷贝失败/传输中止）</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DCM as DCM
+    participant PduR as PduR
+    participant TP as 传输协议
+
+    Note over DCM,TP: 正常传输进行中...
+
+    TP-&gt;&gt;PduR: 请求下一段数据
+    PduR-&gt;&gt;DCM: Dcm_CopyTxData()
+    DCM-&gt;&gt;DCM: 尝试拷贝数据&lt;br/&gt;❌ 失败（如数据被破坏）
+    DCM--&gt;&gt;PduR: 返回 BUFREQ_E_NOT_OK
+    
+    Note over DCM,TP: 错误处理阶段
+    PduR--&gt;&gt;TP: 透传错误状态
+    TP-&gt;&gt;TP: 决定中止传输
+    TP-&gt;&gt;PduR: 传输中止确认
+    PduR-&gt;&gt;DCM: Dcm_TpTxConfirmation(错误)
+    
+    Note over DCM: 本次传输结束&lt;br/&gt;可以开始下一次传输</code></pre>
+</li>
+<li>
+<p>发送事务生命周期</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; Idle: 空闲
+
+    Idle --&gt; TransmitStarted: PduR_DcmTransmit()&lt;br/&gt;开始发送
+
+    TransmitStarted --&gt; SendingData: 发送第一段数据
+
+    SendingData --&gt; MoreData: 还有数据待发送
+
+    MoreData --&gt; CopyingData: Dcm_CopyTxData() 被调用
+
+    CopyingData --&gt; SendingData: 返回 BUFREQ_OK&lt;br/&gt;数据拷贝成功
+
+    CopyingData --&gt; ErrorPending: 返回 BUFREQ_E_NOT_OK
+
+    ErrorPending --&gt; TransmitFinished: Dcm_TpTxConfirmation(错误)
+
+    SendingData --&gt; TransmitFinished: Dcm_TpTxConfirmation(成功)&lt;br/&gt;全部发送完成
+
+    TransmitFinished --&gt; Idle: 清理，准备下次传输</code></pre>
+</li>
+<li>
+<p>与其他函数/模块的关联</p>
+<table>
+<thead>
+<tr>
+<th>函数/模块</th>
+<th>关系</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PduR_DcmTransmit()</code></td>
+<td>前置调用</td>
+<td>由传输协议调用，触发 DCM 准备第一段数据</td>
+</tr>
+<tr>
+<td><code>Dcm_TpTxConfirmation()</code></td>
+<td>后续确认</td>
+<td>传输完成后，传输协议调用此函数通知 DCM</td>
+</tr>
+<tr>
+<td><code>Dcm_CopyRxData()</code></td>
+<td>对应函数</td>
+<td>接收方向的类似机制（分段接收时的数据拷贝）</td>
+</tr>
+<tr>
+<td><code>BUFREQ_OK</code> / <code>BUFREQ_E_NOT_OK</code></td>
+<td>返回值</td>
+<td>状态码定义</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>与接收方向 <code>Dcm_CopyRxData</code> 的对比</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Dcm_CopyTxData</th>
+<th>Dcm_CopyRxData</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>方向</strong></td>
+<td>发送 (Tx)</td>
+<td>接收 (Rx)</td>
+</tr>
+<tr>
+<td><strong>数据流向</strong></td>
+<td>DCM → 传输协议缓冲区</td>
+<td>传输协议缓冲区 → DCM</td>
+</tr>
+<tr>
+<td><strong>调用时机</strong></td>
+<td>每段数据发送前</td>
+<td>每段数据接收后</td>
+</tr>
+<tr>
+<td><strong>典型返回值</strong></td>
+<td><code>BUFREQ_OK</code> / <code>BUFREQ_E_NOT_OK</code></td>
+<td><code>BUFREQ_OK</code> / <code>BUFREQ_E_NOT_OK</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Dcm-TpTxConfirmation">Dcm_TpTxConfirmation</h3>
+<blockquote>
+<p><strong>Dcm_TpTxConfirmation</strong> 是传输协议层（TP）通知 DCM <strong>发送完成确认</strong>的回调函数。当一帧或多帧数据已成功发送到总线上（或至少已提交给控制器），TP 层调用此函数，DCM 据此释放资源并停止相关的超时计时器。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义与目的</p>
+<ul>
+<li><strong>函数角色</strong>：传输协议层（如 CAN-TP、FlexRay TP）向 DCM 报告“发送已完成”的异步确认</li>
+<li><strong>典型场景</strong>：DCM 通过 <code>PduR_DcmTransmit()</code> 请求发送一段响应数据，TP 层处理完传输后（成功或失败），调用此函数通知 DCM</li>
+<li><strong>触发方</strong>：传输协议层（PduR 下层）</li>
+</ul>
+<blockquote>
+<p>可以理解为：<strong>快递员（TP）把包裹送达后，打电话通知发件人（DCM）“已送达”</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>函数行为规范</p>
+<ol>
+<li>
+<p>解锁发送缓冲区 [SWS_Dcm_00352]</p>
+<blockquote>
+<p><strong>[SWS_Dcm_00352]</strong>：当 <code>Dcm_TpTxConfirmation</code> 被调用时，DCM 模块应<strong>解锁发送缓冲区</strong>。</p>
+</blockquote>
+<ul>
+<li><strong>目的</strong>：发送缓冲区在传输期间被锁定，防止被其他请求覆盖</li>
+<li><strong>动作</strong>：释放缓冲区锁，使其可以被后续的新传输请求使用</li>
+<li><strong>关联概念</strong>：<code>PduId</code> 级别的锁机制，与 [SWS_Dcm_00241] 中的长任务锁类似</li>
+</ul>
+</li>
+<li>
+<p>停止超时处理 [SWS_Dcm_00353]</p>
+<blockquote>
+<p><strong>[SWS_Dcm_00353]</strong>：当 <code>Dcm_TpTxConfirmation</code> 被调用时，DCM 模块应停止以下错误处理：</p>
+<ul>
+<li>页面缓冲区超时 (Page buffer timeout)</li>
+<li>$P2_{ServerMax}$ / $P2^*_{ServerMax}$ 超时</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>目的</strong>：确认已收到响应，无需继续监控超时</li>
+<li><strong>停止的超时类型</strong>：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>超时类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>页面缓冲区超时</strong></td>
+<td>分段传输中，等待后续数据段超时</td>
+</tr>
+<tr>
+<td><strong>$P2_{ServerMax}$</strong></td>
+<td>ECU 响应最大允许时间（含应用处理）</td>
+</tr>
+<tr>
+<td><strong>$P2^*_{ServerMax}$</strong></td>
+<td>发送 0x78（待处理响应）后的扩展等待时间</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>当传输确认到达时，意味着响应已发出，这些计时器自然应当停止。</p>
+</blockquote>
+</li>
+<li>
+<p>FlexRay 特殊限制</p>
+<blockquote>
+<p><strong>For FlexRay</strong>：由于 FlexRay 规范不强制要求存在发送中断，<code>Dcm_TpTxConfirmation</code> 的确切含义取决于：</p>
+<ul>
+<li>FlexRay 通信控制器的能力</li>
+<li>FlexRay 接口的配置</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>可能性</th>
+<th>含义</th>
+<th>对 DCM 的影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>“已存入发送缓冲区”</strong></td>
+<td>数据仅提交给 FlexRay 控制器，未必已发送到总线</td>
+<td>DCM 认为传输完成，但实际总线可能未收到</td>
+</tr>
+<tr>
+<td><strong>“已发送到网络”</strong></td>
+<td>数据确实已出现在 FlexRay 总线上</td>
+<td>更可靠，但依赖硬件支持</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>注意</strong>：配置 FlexRay 时，需要明确确认语义，避免 DCM 过早释放缓冲区导致数据丢失。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<p>正常发送完成流程</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DCM as DCM
+    participant PduR as PduR
+    participant TP as 传输协议层&lt;br/&gt;(CAN-TP/DoIP)
+    participant Bus as 总线
+
+    Note over DCM,Bus:发送流程开始
+
+    TP-&gt;&gt;PduR: 请求数据
+    PduR-&gt;&gt;DCM: PduR_DcmTransmit()
+    DCM-&gt;&gt;DCM: 锁定发送缓冲区
+    DCM--&gt;&gt;PduR: 返回数据
+    PduR--&gt;&gt;TP: 转发数据
+
+    TP-&gt;&gt;Bus: 发送数据到总线
+    Note over Bus: 数据传输中...
+
+    Bus--&gt;&gt;TP: 发送完成
+
+    TP-&gt;&gt;PduR: Dcm_TpTxConfirmation(成功)
+    PduR-&gt;&gt;DCM: Dcm_TpTxConfirmation()
+
+    DCM-&gt;&gt;DCM: ① 解锁发送缓冲区 [SWS_Dcm_00352]
+    DCM-&gt;&gt;DCM: ② 停止超时计时器 [SWS_Dcm_00353]
+
+    Note over DCM: 传输结束，资源释放</code></pre>
+<p>错误场景（传输失败）</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DCM as DCM
+    participant PduR as PduR
+    participant TP as 传输协议层
+    participant Bus as 总线
+
+    TP-&gt;&gt;PduR: 请求数据
+    PduR-&gt;&gt;DCM: PduR_DcmTransmit()
+    DCM-&gt;&gt;DCM: 锁定发送缓冲区
+    DCM--&gt;&gt;PduR: 返回数据
+    PduR--&gt;&gt;TP: 转发数据
+
+    TP-&gt;&gt;Bus: 尝试发送
+
+    Bus--&gt;&gt;TP: ❌ 发送失败（总线错误/超时）
+
+    TP-&gt;&gt;PduR: Dcm_TpTxConfirmation(错误)
+    PduR-&gt;&gt;DCM: Dcm_TpTxConfirmation(错误)
+
+    DCM-&gt;&gt;DCM: ① 解锁发送缓冲区
+    DCM-&gt;&gt;DCM: ② 停止超时计时器
+    DCM-&gt;&gt;DCM: ③ 记录错误/触发错误处理
+
+    Note over DCM: 传输失败，资源仍释放</code></pre>
+<p>与其他函数/模块的关联</p>
+<table>
+<thead>
+<tr>
+<th>函数/模块</th>
+<th>关系</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PduR_DcmTransmit()</code></td>
+<td>前置调用</td>
+<td>发起传输，此时 DCM 锁定缓冲区</td>
+</tr>
+<tr>
+<td><code>Dcm_CopyTxData()</code></td>
+<td>配套函数</td>
+<td>分段传输时，TP 层通过此函数获取后续数据段</td>
+</tr>
+<tr>
+<td><code>Dcm_TpRxIndication()</code></td>
+<td>对应函数</td>
+<td>接收方向的通知（收到数据时调用）</td>
+</tr>
+<tr>
+<td>超时管理模块</td>
+<td>被操作</td>
+<td>停止 $P2_{ServerMax}$、$P2^*_{ServerMax}$ 等计时器</td>
+</tr>
+<tr>
+<td>缓冲区管理器</td>
+<td>被操作</td>
+<td>解锁发送缓冲区</td>
+</tr>
+</tbody>
+</table>
+<p>发送事务与确认的关系</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; Idle: 空闲
+
+    Idle --&gt; BufferLocked: PduR_DcmTransmit()&lt;br/&gt;锁定缓冲区
+
+    BufferLocked --&gt; Transmitting: 数据交予 TP 层
+
+    Transmitting --&gt; WaitingConfirm: 数据发送中
+
+    WaitingConfirm --&gt; BufferUnlocked: Dcm_TpTxConfirmation(成功)
+    WaitingConfirm --&gt; BufferUnlocked: Dcm_TpTxConfirmation(错误)
+
+    BufferUnlocked --&gt; Idle: 清理完成
+
+    note right of WaitingConfirm: 超时计时器运行中
+    note right of BufferUnlocked: [SWS_Dcm_00352] 解锁&lt;br/&gt;[SWS_Dcm_00353] 停止超时</code></pre>
+<p>与接收方向 <code>Dcm_TpRxIndication</code> 的对比</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Dcm_TpTxConfirmation</th>
+<th>Dcm_TpRxIndication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>方向</strong></td>
+<td>发送完成确认 (Tx)</td>
+<td>接收指示 (Rx)</td>
+</tr>
+<tr>
+<td><strong>调用时机</strong></td>
+<td>数据发送到总线后</td>
+<td>数据从总线接收后</td>
+</tr>
+<tr>
+<td><strong>主要动作</strong></td>
+<td>解锁缓冲区、停止超时</td>
+<td>触发数据解析、启动 $P2$ 计时器</td>
+</tr>
+<tr>
+<td><strong>典型来源</strong></td>
+<td>TP 层确认</td>
+<td>TP 层指示</td>
+</tr>
+</tbody>
+</table>
+<h2 id="响应处理（DSD-PduR）">响应处理（DSD-&gt;PduR）</h2>
+<blockquote>
+<p>DCM 内部 <strong>DSD</strong> 和 <strong>DSL</strong> 两个子模块在<strong>响应发送</strong>过程中的协作关系：DSD 请求发送，DSL 执行发送，并通过 <code>PduR</code> 模块将响应数据传递到传输层。同时定义了<strong>周期传输</strong>和<strong>无响应</strong>两种特殊场景的处理规则。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心流程：DSD 请求 DSL 发送响应</p>
+<ol>
+<li>
+<p>DSD 请求 DSL 发送响应 [SWS_Dcm_00114]</p>
+<p>DSD 子模块应请求 DSL 子模块进行响应的传输。</p>
+<ul>
+<li><strong>职责划分</strong>：
+<ul>
+<li><strong>DSD</strong>：负责构造响应数据、确定发送的必要性</li>
+<li><strong>DSL</strong>：负责执行实际的传输动作（调用 <code>PduR</code> 接口）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>DSL 触发传输 [SWS_Dcm_00115]</p>
+<p>当某个 <code>DcmDslMainConnection</code> 的诊断响应准备好后，DSL 子模块应通过调用 <code>PduR_DcmTransmit()</code> 来触发响应的传输，使用对应的 <code>DcmDslProtocolTxPduRef</code> 配置参数作为 <code>PduId</code>。</p>
+<ul>
+<li><strong>关键点</strong>：
+<ul>
+<li>每个诊断主连接 (<code>DcmDslMainConnection</code>) 有独立的响应准备状态</li>
+<li>用于发送的 <code>PduId</code> 来源于配置参数 <code>DcmDslProtocolTxPduRef</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>响应 PDU 的标识与路由</p>
+<p>响应使用 <code>DcmTxPduId</code> 发送，该 ID 在 DCM 模块配置中与接收请求时使用的 <code>DcmDslProtocolRxPduId</code> 相关联。</p>
+<p><strong>核心映射关系</strong>：发送 PDU ID 与接收 PDU ID 在配置中绑定——用哪个 ID 收到的请求，就用对应的 ID 发送响应。</p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>接收</strong></td>
+<td><code>DcmDslProtocolRxPduId</code></td>
+<td>标识收到请求的 PDU</td>
+</tr>
+<tr>
+<td><strong>发送</strong></td>
+<td><code>DcmTxPduId</code></td>
+<td>标识发送响应的 PDU</td>
+</tr>
+<tr>
+<td><strong>映射关系</strong></td>
+<td>配置中与 Rx ID 绑定</td>
+<td>响应使用与请求配对的 Tx PDU ID 发送</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>简单理解：<strong>来时的路，就是回去的路</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>特殊传输模式</p>
+<ol>
+<li>
+<p>周期传输 [SWS_Dcm_01072]</p>
+<p>在周期传输模式下，DCM 在调用 <code>PduR_DcmTransmit()</code> 时应<strong>提供完整的负载数据</strong>，并且<strong>不应期望</strong> <code>Dcm_CopyTxData</code> 被回调。</p>
+<p><strong>周期传输与普通传输的区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>普通传输</th>
+<th>周期传输</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据提供方式</strong></td>
+<td>先调用 <code>PduR_DcmTransmit()</code>，后通过 <code>Dcm_CopyTxData()</code> 分次拷贝</td>
+<td>一次性提供完整负载</td>
+</tr>
+<tr>
+<td><strong><code>Dcm_CopyTxData</code> 回调</strong></td>
+<td>会发生</td>
+<td><strong>不会发生</strong></td>
+</tr>
+<tr>
+<td><strong>典型场景</strong></td>
+<td>单次响应（如读取 DID）</td>
+<td>周期发送的响应</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>周期传输的完成确认 [SWS_Dcm_01073]</p>
+<p>在周期传输模式下，DCM 将通过 <code>Dcm_TxConfirmation</code> 被调用，以指示传输结果。</p>
+<blockquote>
+<p>注意区分：普通传输使用 <code>Dcm_TpTxConfirmation</code>，周期传输使用 <code>Dcm_TxConfirmation</code>（命名上省略了 <code>Tp</code> 前缀）。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>完整传输链路中的后续步骤</p>
+<p>DCM 成功调用 <code>PduR_DcmTransmit()</code> 后，<code>PduR</code> 模块将依次执行以下动作：</p>
+<ol>
+<li><strong>调用 <code>Dcm_CopyTxData</code></strong>：请求 DCM 提供待发送的数据</li>
+<li><strong>调用 <code>Dcm_TpTxConfirmation</code></strong>：在整个 PDU 成功发送完毕或发生错误后进行确认</li>
+</ol>
+<p><strong>发送流程的三步走</strong>：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DSD as DSD
+    participant DSL as DSL
+    participant DCM as DCM (整体)
+    participant PduR as PduR
+    participant TP as 传输协议层
+
+    DSD-&gt;&gt;DSL: ① 请求发送响应 [SWS_Dcm_00114]
+    DSL-&gt;&gt;DCM: 响应已准备好
+    DCM-&gt;&gt;PduR: ② 调用 PduR_DcmTransmit() [SWS_Dcm_00115]
+    Note over DCM,PduR: 传入 DcmDslProtocolTxPduRef 作为 PduId
+
+    PduR-&gt;&gt;DCM: ③ 回调 Dcm_CopyTxData() 请求拷贝数据
+    DCM--&gt;&gt;PduR: 返回数据
+    PduR--&gt;&gt;TP: 转发数据
+
+    TP-&gt;&gt;TP: 传输中...
+    TP-&gt;&gt;PduR: 传输完成或发生错误
+    PduR-&gt;&gt;DCM: ④ 回调 Dcm_TpTxConfirmation()</code></pre>
+</li>
+<li>
+<p>确认转发与错误处理</p>
+<ol>
+<li>
+<p>确认转发 [SWS_Dcm_00117]</p>
+<p>当 DSL 子模块通过 <code>Dcm_TpTxConfirmation</code> 回调收到传输完成（成功或失败）的确认后，DSL 应将该确认<strong>转发给 DSD 子模块</strong>。</p>
+<ul>
+<li><strong>数据流向</strong>：<code>Dcm_TpTxConfirmation</code> → DSL → DSD</li>
+<li><strong>目的</strong>：让 DSD 知道响应已发出（或发送失败），以便进行后续状态更新或错误处理</li>
+</ul>
+</li>
+<li>
+<p>失败时不允许重试 [SWS_Dcm_00118]</p>
+<p>在以下情况下，DSD 子模块<strong>不得重复发送</strong>诊断响应：</p>
+<ul>
+<li>
+<p>调用 <code>PduR_DcmTransmit()</code> 失败</p>
+</li>
+<li>
+<p><code>Dcm_TpTxConfirmation</code> 回调带有错误指示</p>
+</li>
+<li>
+<p><strong>设计原则</strong>：一次请求对应一次响应尝试，失败后由上层（测试仪）负责重试</p>
+</li>
+<li>
+<p><strong>补充说明</strong>：<code>Dcm_TpTxConfirmation</code> 仅在 <code>PduR_DcmTransmit()</code> 调用成功时才会被回调</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>无响应配置 [SWS_Dcm_01166]</p>
+<p>如果 <code>DcmDslProtocolTx</code> 的多重性配置为 <strong>零</strong>，DCM 应处理接收到的诊断请求但<strong>不发送响应</strong>。</p>
+<ul>
+<li><strong>适用场景</strong>：
+<ul>
+<li>仅需 ECU 执行动作、无需返回数据的请求（如某些特定的例程控制）</li>
+<li>测试或调试模式</li>
+</ul>
+</li>
+<li><strong>配置含义</strong>：发送 PDU 数量为零 → 没有可用的发送通道</li>
+</ul>
+</li>
+<li>
+<p>完整的响应发送流程（成功场景）</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Test as 测试仪
+    participant Bus as 总线
+    participant PduR as PduR
+    participant DSL as DSL
+    participant DSD as DSD
+    participant App as 应用层
+
+    Test-&gt;&gt;Bus: 发送诊断请求
+    Bus-&gt;&gt;PduR: 转发请求
+    PduR-&gt;&gt;DSL: 指示收到请求
+
+    DSL-&gt;&gt;DSD: 转发请求进行处理
+    DSD-&gt;&gt;App: 请求数据
+    App--&gt;&gt;DSD: 返回响应数据
+
+    Note over DSD: 响应数据已准备好
+    DSD-&gt;&gt;DSL: ① 请求发送响应 [SWS_Dcm_00114]
+    
+    DSL-&gt;&gt;PduR: ② 调用 PduR_DcmTransmit() [SWS_Dcm_00115]
+    Note over DSL,PduR: 使用 DcmDslProtocolTxPduRef 作为 PduId
+
+    PduR-&gt;&gt;DSL: ③ 回调 Dcm_CopyTxData()
+    DSL--&gt;&gt;PduR: 返回响应数据
+
+    PduR-&gt;&gt;Bus: 发送响应数据
+    Bus--&gt;&gt;Test: 返回诊断响应
+
+    PduR-&gt;&gt;DSL: ④ 回调 Dcm_TpTxConfirmation(成功)
+    DSL-&gt;&gt;DSD: ⑤ 转发确认 [SWS_Dcm_00117]
+    
+    Note over DSD: 响应发送完成</code></pre>
+</li>
+<li>
+<p>错误场景（无重试）</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DSD as DSD
+    participant DSL as DSL
+    participant PduR as PduR
+
+    DSD-&gt;&gt;DSL: 请求发送响应
+
+    DSL-&gt;&gt;PduR: 调用 PduR_DcmTransmit()
+    PduR--&gt;&gt;DSL: ❌ 调用失败
+
+    Note over DSL: 传输启动失败
+    DSL-&gt;&gt;DSD: 转发失败状态
+
+    DSD-&gt;&gt;DSD: 不进行重试 [SWS_Dcm_00118]
+    
+    Note over DSD: 静默结束，等待下一个请求</code></pre>
+</li>
+<li>
+<p>响应发送状态机</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; 空闲: 初始化
+
+    空闲 --&gt; 响应就绪: DSD 构造好响应
+
+    响应就绪 --&gt; 已请求发送: DSD 请求 DSL 发送
+
+    已请求发送 --&gt; 等待拷贝数据: 调用 PduR_DcmTransmit() 成功
+
+    已请求发送 --&gt; 发送失败: 调用 PduR_DcmTransmit() 失败 [不重试]
+
+    等待拷贝数据 --&gt; 传输中: 完成 Dcm_CopyTxData() 回调
+
+    传输中 --&gt; 等待确认: 数据交予传输协议层
+
+    等待确认 --&gt; 发送完成: 收到 Dcm_TpTxConfirmation(成功)
+
+    等待确认 --&gt; 发送失败: 收到 Dcm_TpTxConfirmation(错误)
+
+    发送完成 --&gt; 空闲: 清理完成
+
+    发送失败 --&gt; 空闲: 不重试 [SWS_Dcm_00118]
+
+    note right of 发送失败: 无论成功或失败&lt;br/&gt;均不重复发送响应</code></pre>
+<p>配置参数速查</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>所属容器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DcmDslProtocolTxPduRef</code></td>
+<td><code>DcmDslProtocol</code></td>
+<td>发送响应时使用的发送 PDU ID</td>
+</tr>
+<tr>
+<td><code>DcmDslProtocolRxPduId</code></td>
+<td><code>DcmDslProtocol</code></td>
+<td>接收请求的接收 PDU ID</td>
+</tr>
+<tr>
+<td><code>DcmDslProtocolTx</code></td>
+<td><code>DcmDslProtocol</code></td>
+<td>发送配置容器，多重性为零时无响应</td>
+</tr>
+<tr>
+<td><code>DcmDslMainConnection</code></td>
+<td><code>DcmDslConnections</code></td>
+<td>诊断主连接，关联接收和发送 PDU</td>
+</tr>
+</tbody>
+</table>
+<p>流程中的角色分工总结</p>
+<table>
+<thead>
+<tr>
+<th>子模块</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DSD</strong></td>
+<td>构造响应内容、判断是否需要发送、<strong>请求</strong> DSL 发送</td>
+</tr>
+<tr>
+<td><strong>DSL</strong></td>
+<td>执行发送（调用 <code>PduR_DcmTransmit()</code>）、<strong>转发</strong>确认回 DSD</td>
+</tr>
+<tr>
+<td><strong>PduR</strong></td>
+<td>路由数据、回调 <code>Dcm_CopyTxData</code> 获取数据、回调 <code>Dcm_TpTxConfirmation</code> 确认</td>
+</tr>
+<tr>
+<td><strong>传输层</strong></td>
+<td>实际总线发送、硬件确认</td>
+</tr>
+</tbody>
+</table>
+<h2 id="通用连接处理">通用连接处理</h2>
+<blockquote>
+<p><strong>通用连接</strong> 是 DCM 中一种特殊的诊断连接类型，它使用元数据项在<strong>运行时</strong>动态携带测试仪的实际地址信息。这使得 DCM 能够支持需要显式寻址的诊断协议（如 DoIP、FlexRay 以及部分 CAN 寻址模式），从而实现同一配置下处理来自不同测试仪的请求。</p>
+</blockquote>
+<ol>
+<li>
+<p>核心定义与适用范围</p>
+<ol>
+<li>
+<p>什么是通用连接</p>
+<p>通用连接通过带有 <code>SOURCE_ADDRESS_16</code> 和 <code>TARGET_ADDRESS_16</code> 元数据项的 DCM PDU 来标识。这些连接在<strong>运行时</strong>携带实际的测试仪地址信息。</p>
+<p><strong>支持的技术</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>诊断技术</th>
+<th>是否支持通用连接</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DoIP</strong>（基于 IP 的诊断）</td>
+<td>✅ 支持</td>
+<td>以太网诊断的标准寻址方式</td>
+</tr>
+<tr>
+<td><strong>FlexRay</strong> 诊断</td>
+<td>✅ 支持</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>CAN</strong> 诊断（29位混合寻址）</td>
+<td>✅ 支持</td>
+<td>符合 ISO 15765-2 标准</td>
+</tr>
+<tr>
+<td><strong>CAN</strong> 诊断（11位扩展/混合寻址）</td>
+<td>视情况支持</td>
+<td>取决于 CAN ID 的实际布局</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>重要特性</p>
+<ul>
+<li><strong>地址格式无关性</strong>：DCM 不需要感知 <code>CanTp</code> 层实际使用的寻址格式</li>
+<li><strong>多连接共享</strong>：多个连接可以引用同一个 DCM PDU</li>
+</ul>
+<blockquote>
+<p>可以理解为：通用连接就像<strong>带收件人和发件人标签的快递包裹</strong>——DCM 不需要知道快递员是怎么送的，只需要读取和填写地址标签即可。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>通用连接的一致性约束 [SWS_Dcm_CONSTR_06044]</p>
+<blockquote>
+<p><strong>约束</strong>：通用连接必须保持一致。这意味着同一个 <code>DcmDslConnection</code> 中引用的所有 PDU（包括接收 PDU、发送 PDU、周期发送 PDU）的<strong>元数据项</strong>和<strong>PDU 长度</strong>必须完全相同。</p>
+</blockquote>
+<p><strong>涉及的配置参数</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DcmDslProtocolRxPduRef</code></td>
+<td>引用的接收 PDU</td>
+</tr>
+<tr>
+<td><code>DcmDslProtocolTxPduRef</code></td>
+<td>引用的发送 PDU</td>
+</tr>
+<tr>
+<td><code>DcmDslPeriodicTxPduRef</code></td>
+<td>引用的周期发送 PDU</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一致性要求</strong>：所有这些 PDU 的元数据类型和长度必须一致。</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Connection [同一个 DcmDslConnection]
+        Rx[接收 PDU&lt;br/&gt;RxPduRef]
+        Tx[发送 PDU&lt;br/&gt;TxPduRef]
+        Periodic[周期发送 PDU&lt;br/&gt;PeriodicTxPduRef]
+    end
+
+    Rx --&gt; Check&#123;元数据项一致?&lt;br/&gt;PDU长度一致?&#125;
+    Tx --&gt; Check
+    Periodic --&gt; Check
+    Check --&gt;|✅ 是| Valid[有效配置]
+    Check --&gt;|❌ 否| Invalid[❌ 配置错误]</code></pre>
+</li>
+<li>
+<p>接收请求时的源地址处理</p>
+<ol>
+<li>
+<p>存储源地址 [SWS_Dcm_00848]</p>
+<p>通过通用连接接收到的诊断请求中的<strong>源地址必须被存储</strong>。该地址通过 <code>Dcm_StartOfReception()</code> 回调的 <code>SOURCE_ADDRESS_16</code> 元数据项提供。</p>
+<p><strong>数据流向</strong>：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant TP as 传输协议层
+    participant PduR as PduR
+    participant DCM as DCM
+    participant Storage as 存储的源地址
+
+    TP-&gt;&gt;PduR: 接收诊断请求
+    PduR-&gt;&gt;DCM: Dcm_StartOfReception(SOURCE_ADDRESS_16)
+    Note over DCM: SOURCE_ADDRESS_16 = 测试仪地址
+    DCM-&gt;&gt;Storage: 存储源地址
+    Note over Storage: 用于后续发送响应</code></pre>
+</li>
+<li>
+<p>目标地址验证 [SWS_Dcm_01347]</p>
+<p>如果通过 <code>Dcm_StartOfReception()</code> 收到了 <code>TARGET_ADDRESS_16</code> 元数据项，DCM 应进行地址验证：当目标地址与配置的 ECU 地址 <code>DcmDspProtocolEcuAddr</code> <strong>不相等</strong>时，DCM 应<strong>忽略</strong>该物理请求。</p>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[收到诊断请求] --&gt; HasTarget&#123;元数据中包含&lt;br/&gt;TARGET_ADDRESS_16?&#125;
+    HasTarget --&gt;|否| Process[正常处理请求]
+    HasTarget --&gt;|是| Compare&#123;TARGET_ADDRESS_16 ==&lt;br/&gt;配置的 ECU 地址?&#125;
+    Compare --&gt;|相等| Process
+    Compare --&gt;|不相等| Ignore[忽略该物理请求]
+    
+    Ignore --&gt; Note[不发送响应，静默丢弃]</code></pre>
+<blockquote>
+<p><strong>设计目的</strong>：防止将发送给其他 ECU 的请求误处理。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>发送响应时的地址设置</p>
+<ol>
+<li>
+<p>设置目标地址 [SWS_Dcm_00849]</p>
+<p>当 DCM 准备为通用连接请求发送<strong>响应</strong>、<strong>事件响应</strong>或<strong>周期消息</strong>时，DCM 应将 <code>TARGET_ADDRESS_16</code> 设置为<strong>之前存储的源地址值</strong>，并在调用 <code>PduR_DcmTransmit()</code> 时通过元数据指针传递。</p>
+<pre><code class="highlight mermaid">flowchart LR
+    Storage[存储的源地址&lt;br/&gt;= 测试仪 A 的地址] --&gt; SetTarget
+    SetTarget[设置 TARGET_ADDRESS_16&lt;br/&gt;= 存储的源地址] --&gt; Transmit
+    Transmit[调用 PduR_DcmTransmit&lt;br/&gt;携带元数据] --&gt; Reply
+    
+    Reply[响应发送给&lt;br/&gt;测试仪 A]</code></pre>
+<blockquote>
+<p><strong>简单理解</strong>：把之前收到的“发件人地址”填到“收件人地址”栏，让响应能够正确返回给发起请求的测试仪。</p>
+</blockquote>
+</li>
+<li>
+<p>设置源地址 [SWS_Dcm_01348]</p>
+<p>发送响应时，响应的<strong>源地址</strong>从配置参数 <code>DcmDspProtocolEcuAddr</code> 读取。如果发送 PDU 配置了 <code>SOURCE_ADDRESS_16</code> 元数据项，DCM 应将其提供给 <code>PduR_DcmTransmit()</code>。</p>
+<table>
+<thead>
+<tr>
+<th>配置方式</th>
+<th>行为</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>配置 <code>SOURCE_ADDRESS_16</code></strong></td>
+<td>DCM 自动填入配置的 ECU 地址</td>
+<td>所有响应使用同一源地址</td>
+</tr>
+<tr>
+<td><strong>省略 <code>SOURCE_ADDRESS_16</code></strong></td>
+<td>由下层协议配置地址</td>
+<td>同一连接的不同消息需要不同源地址</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>灵活性说明</strong>：如果同一 <code>DcmDslProtocolRow</code> 下不同诊断消息需要不同的源地址，可以在 PDU 中省略 <code>SOURCE_ADDRESS_16</code>，改由下层协议配置地址。同理，物理请求中的 <code>TARGET_ADDRESS_16</code> 也可以省略。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>应用层接口：源地址透传 [SWS_Dcm_01429]</p>
+<p>通过通用连接接收到的诊断请求中的<strong>源地址</strong>应通过以下参数传递给应用层：</p>
+<ul>
+<li>参数名称：<code>TesterSourceAddress</code></li>
+<li>关联规范：<code>SWS_Dcm_01341</code>、<code>SWS_Dcm_01342</code>、<code>SWS_Dcm_00694</code>、<code>SWS_Dcm_00698</code></li>
+</ul>
+<pre><code class="highlight mermaid">flowchart LR
+    Request[诊断请求] --&gt; DCM
+    DCM --&gt; |提取 SOURCE_ADDRESS_16| App
+    
+    subgraph DCM [DCM 内部]
+        Storage[存储源地址]
+    end
+    
+    subgraph App [应用层]
+        Logic[诊断业务逻辑&lt;br/&gt;可识别具体测试仪&lt;br/&gt;读取 TesterSourceAddress]
+    end</code></pre>
+<blockquote>
+<p><strong>价值</strong>：应用层可以根据源地址区分不同的测试仪，实现<strong>多客户端隔离</strong>或<strong>基于测试仪 ID 的差异化处理</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>通用连接的完整交互流程</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Tester as 测试仪 A&lt;br/&gt;(地址 0x1234)
+    participant Bus as 总线
+    participant TP as 传输协议层
+    participant PduR as PduR
+    participant DCM as DCM
+    participant App as 应用层
+
+    Note over Tester,App: 阶段一：接收请求，存储源地址
+
+    Tester-&gt;&gt;Bus: 诊断请求&lt;br/&gt;(目标 ECU，源地址 0x1234)
+    Bus-&gt;&gt;TP: 转发
+    TP-&gt;&gt;PduR: 传输确认
+    PduR-&gt;&gt;DCM: Dcm_StartOfReception(&lt;br/&gt;SOURCE_ADDRESS_16=0x1234)
+    
+    DCM-&gt;&gt;DCM: [SWS_Dcm_00848]&lt;br/&gt;存储源地址 0x1234
+    
+    DCM-&gt;&gt;DCM: [SWS_Dcm_01347]&lt;br/&gt;验证 TARGET_ADDRESS_16&lt;br/&gt;(如存在)
+    
+    DCM-&gt;&gt;App: 转发请求&lt;br/&gt;TesterSourceAddress=0x1234
+
+    Note over Tester,App: 阶段二：发送响应，使用存储的地址
+
+    App-&gt;&gt;DCM: 返回响应数据
+    
+    DCM-&gt;&gt;DCM: [SWS_Dcm_00849]&lt;br/&gt;设置 TARGET_ADDRESS_16&lt;br/&gt;= 存储的源地址 (0x1234)
+    
+    DCM-&gt;&gt;DCM: [SWS_Dcm_01348]&lt;br/&gt;设置 SOURCE_ADDRESS_16&lt;br/&gt;= ECU 配置地址
+    
+    DCM-&gt;&gt;PduR: PduR_DcmTransmit(&lt;br/&gt;TARGET_ADDRESS_16=0x1234)
+    PduR-&gt;&gt;TP: 转发
+    TP-&gt;&gt;Bus: 发送响应
+    Bus--&gt;&gt;Tester: 诊断响应&lt;br/&gt;(目标地址 0x1234)</code></pre>
+</li>
+<li>
+<p>地址处理逻辑总结</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>方向</th>
+<th>地址类型</th>
+<th>地址来源</th>
+<th>规范</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>接收请求</td>
+<td>Rx</td>
+<td>源地址</td>
+<td>从元数据 <code>SOURCE_ADDRESS_16</code> 读取并存储</td>
+<td>[SWS_Dcm_00848]</td>
+</tr>
+<tr>
+<td>接收请求</td>
+<td>Rx</td>
+<td>目标地址</td>
+<td>从元数据 <code>TARGET_ADDRESS_16</code> 读取并验证</td>
+<td>[SWS_Dcm_01347]</td>
+</tr>
+<tr>
+<td>发送响应</td>
+<td>Tx</td>
+<td>目标地址</td>
+<td>使用存储的源地址（即请求方的地址）</td>
+<td>[SWS_Dcm_00849]</td>
+</tr>
+<tr>
+<td>发送响应</td>
+<td>Tx</td>
+<td>源地址</td>
+<td>从配置 <code>DcmDspProtocolEcuAddr</code> 读取</td>
+<td>[SWS_Dcm_01348]</td>
+</tr>
+<tr>
+<td>应用层</td>
+<td>-</td>
+<td>源地址</td>
+<td>通过 <code>TesterSourceAddress</code> 参数透传</td>
+<td>[SWS_Dcm_01429]</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>配置参数速查</p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>所属容器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DcmDslProtocolRxPduRef</code></td>
+<td><code>DcmDslConnection</code></td>
+<td>引用的接收 PDU</td>
+</tr>
+<tr>
+<td><code>DcmDslProtocolTxPduRef</code></td>
+<td><code>DcmDslConnection</code></td>
+<td>引用的发送 PDU</td>
+</tr>
+<tr>
+<td><code>DcmDslPeriodicTxPduRef</code></td>
+<td><code>DcmDslConnection</code></td>
+<td>引用的周期发送 PDU</td>
+</tr>
+<tr>
+<td><code>DcmDspProtocolEcuAddr</code></td>
+<td><code>DcmDspProtocol</code></td>
+<td>ECU 的诊断地址（用于填充响应中的源地址）</td>
+</tr>
+<tr>
+<td><code>SOURCE_ADDRESS_16</code></td>
+<td>PDU 元数据</td>
+<td>16 位源地址元数据项</td>
+</tr>
+<tr>
+<td><code>TARGET_ADDRESS_16</code></td>
+<td>PDU 元数据</td>
+<td>16 位目标地址元数据项</td>
+</tr>
+</tbody>
+</table>
+<p>通用连接 vs 非通用连接</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>通用连接</th>
+<th>非通用连接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>地址来源</strong></td>
+<td>运行时动态（元数据）</td>
+<td>静态配置</td>
+</tr>
+<tr>
+<td><strong>支持的协议</strong></td>
+<td>DoIP、FlexRay、部分 CAN</td>
+<td>传统 CAN、LIN</td>
+</tr>
+<tr>
+<td><strong>多测试仪支持</strong></td>
+<td>✅ 支持（通过源地址区分）</td>
+<td>❌ 需要多个连接</td>
+</tr>
+<tr>
+<td><strong>地址验证</strong></td>
+<td>可选（<code>TARGET_ADDRESS_16</code>）</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td><strong>配置复杂度</strong></td>
+<td>较高</td>
+<td>较低</td>
+</tr>
+</tbody>
+</table>
+<h2 id="安全管理">安全管理</h2>
+<p>在安全管理模块中，有以下功能：</p>
+<ul>
+<li>管理安全级别</li>
+<li>处理Key和Seed</li>
+</ul>
+<p>DSL提供Dcm_GetSecurityLevel()、DslInternal_SetSecurityLevel()两个函数分别用于获取当前的安全等级和设置安全等级。</p>
+<p>对于配置层面而言，DSL菜单主要是配置诊断帧，包括物理寻址和功能寻址，单次通信的最大Buffer，以及时间参数，包括回复0x78的时间和为了防止诊断服务异常，允许0x78的最大次数等。</p>
+<p>在 Dcm 初始化期间，安全级别设置为值 0x00 （DCM_SEC_LEV_LOCKED）， 在满足下列条件其中之一时，DSL会将安全级别重置为值 0x00：</p>
+<ul>
+<li>从任意<strong>非默认会话</strong>切换到另一个<strong>非默认会话</strong>（包括当前已激活的会话）。</li>
+<li>从任意<strong>非默认会话</strong>切换到<strong>默认会话</strong>（当使用UDS 的0x10服务或 S3 Server 超时执行）</li>
+</ul>
+<blockquote>
+<p>[!note]</p>
+<p>一次只能激活一个安全级别</p>
+</blockquote>
+<p>每次安全级别更改时，Dcm 应更新 ModeDeclarationGroup 的DcmSecurityAccess</p>
+<p>DcmDspSecurityResetAttemptCounterOnTimeout参数应该在仅当 DcmDspSecurityRow 的 DcmDspSecurityAttemptCounterEnabled 设置为 TRUE 时，才应存在。</p>
+<h3 id="会话管理">会话管理</h3>
+<p>会话（session）一般有三种：</p>
+<ol>
+<li>缺省会话（0x00, Default session）</li>
+<li>编程会话（0x01, Programming session）</li>
+<li>扩展会话（0x02Extended session）</li>
+</ol>
+<p>DCM的会话管理有以下几个功能：</p>
+<ul>
+<li>管理会话状态处理当前激活的Session以及设置新的Sesstion</li>
+<li>管理权限状态分为权限模式和默认的模式</li>
+<li>跟踪活动的非默认会话</li>
+<li>允许修改时间。</li>
+</ul>
+<p>DSL子模块保存当前活动会话的状态，为了访问这个变量，DSL子模块提供了以下接口:</p>
+<ul>
+<li>获取当前活动会话:Dcm_GetSesCtrlType ()</li>
+<li>设置会话:DslInternal_SetSesCtrlType()</li>
+</ul>
+<p>初始化DCM时，会话状态设置为0x01(“DefaultSession”)。调用Dcm_ResetToDefaultSession()允许应用程序将当前会话重置为默认会话，并调用ModeDeclarationGroupPrototype DcmDiagnosticSessionControl的模式切换SchM_Switch__DcmDiagnosticSessionControl（RTE_MODE_DcmDiagnostic）SessionControl_DEFAULT_SESSION)。示例:超出速度限制时自动终止扩展诊断会话。</p>
+<blockquote>
+<p>[!note]</p>
+<p>每种会话下可以进行的诊断服务不同，根据实际需求由OEM自己定义。一般来说诊断（UDS）刷写功能需要在编程会话下进行，涉及到NVM关键存储数据的写功能需要在扩展会话下进行。根据实际需求可以自己定义会话，比如定义0x60（EOL session）专门用于EOL工厂下线处理。</p>
+</blockquote>
+<p><strong>会话保持将</strong>在一个单独的DcmRxPduld (UDS功能DcmRxPduld)上接收，该DcmRxPduld与物理请求属于同一个DcmDslConnection。在这种情况下，使用了未显式配置的dcm内部接收缓冲区。由于这个原因，函数testpresent(并且只有没有响应的函数testpresent)以以下方式处理:</p>
+<blockquote>
+<p>[!tip]</p>
+<p>当PduR模块调用Dcm_TpRxIndication并返回E_OK时，如果请求是“testpresent”命令，且“抑制正响应位”设置为TRUE ，则DSL子模块将重置会话超时定时器(S3Server)，并且不会将此请求转发给DSD。</p>
+<p>由于绕过了DSL子模块中的功能“testpresent”，Dcm模块能够毫无延迟地接收和处理下一个物理请求。</p>
+</blockquote>
+<h4 id="诊断协议处理">诊断协议处理</h4>
+<ul>
+<li>处理不同的诊断协议</li>
+<li>处理设置诊断协议服务Table， 根据UDS或者OBD链接到不同的诊断协议</li>
+<li>设置不同服务协议的优先级</li>
+<li>支持优先级抢占机制</li>
+<li>并行处理OBD和UDS协议， 可以忽略优先级和抢占机制</li>
+</ul>
+<p><strong>管理资源</strong></p>
+<p>给服务分配对应的Buffer，</p>
+<ol>
+<li>在Dcm模块中只允许使用和分配一个诊断缓冲区，这个缓冲区随后用于处理诊断请求和响应</li>
+<li>NRC 0x78 (Response pending)响应的输出是通过一个单独的缓冲区完成的</li>
+<li>支持分页缓冲处理</li>
+</ol>
+<h4 id="通信模式处理">通信模式处理</h4>
+<p>DCM模块和ComM模块的交互由DSL子模块完成。ComM模块把每个通信通道（channel）的当前通信状态（No-com, Full-com, Silent-com）通知给Dcm模块。Dcm模块的诊断功能将会调用ComM模块的接口功能可能会阻止Ecu进入shutdown模式（ActiveDiagnostic ==’DCM_COMM_ACTIVE’时ECU必须保持唤醒状态，也就是不允许 进入shutdown/sleep）。</p>
+<p>应用程序可以调用Xxx_SetActiveDiagnostic()接口通知Dcm模块ActiveDiagnostic的当前状态</p>
+<ul>
+<li>处理通信要求（Full/Silent/No）:ComM会通知DCM当前的通道， DCM会进行模式的请求， 避免通信进入Sleep；在Silent和NO下， DCM禁止通信
+<ul>
+<li>No Communication：ComM模块调用 Dcm_ComM_NoComModeEntered接口通知Dcm模块通信关闭。Dcm模块收到通知后就会Disable所有的诊断接收/传输。</li>
+<li>Silent Communication:ComM模块调用 Dcm_ComM_SilentComModeEntered接口通知Dcm模块通信静默。Dcm模块收到通知后就会Disable所有的诊断传输。</li>
+<li>Full Communication:ComM模块调用 Dcm_ComM_FullComModeEntered接口通知Dcm模块通信静默。Dcm模块收到通知后就会Enable所有的诊断接收/传输。</li>
+</ul>
+</li>
+<li>指示活动/非活动诊断</li>
+<li>启用/禁用所有类型的诊断传输</li>
+</ul>
+<p>在DSL里面可以配置多路诊断通道，假设诊断ID有2个以上，通过DcmDslProtocolRows容器实现。</p>
+<h1>DSD：诊断调度服务</h1>
+<p>DSD(Diagnostic Service Dispatche)子模块负责检查传入诊断请求的有效性(诊断会话/安全访问级别/应用程序权限的验证)，并跟踪服务请求执行的进度。</p>
+<p>DSD和DSL的交互为：</p>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>双向</td>
+<td>诊断消息的交换 (接收/发送)</td>
+</tr>
+<tr>
+<td>DSD到DSL</td>
+<td>获取最新的诊断会话和安全级别</td>
+</tr>
+<tr>
+<td>DSL 到DSD</td>
+<td>诊断报文传输确认</td>
+</tr>
+</tbody>
+</table>
+<p>DSD和DSP的交互为：</p>
+<table>
+<thead>
+<tr>
+<th>描述</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DSD 到DSP</td>
+<td>委托诊断处理 ·确认传输消息</td>
+</tr>
+<tr>
+<td>DSP 到DSD</td>
+<td>处理结束的信号</td>
+</tr>
+</tbody>
+</table>
+<h2 id="检查">检查</h2>
+<p>DSD模块会检查诊断服务标识和适配诊断消息：</p>
+<ul>
+<li>DSD接收来自DSL的数据， 根据具体的配置参数决定接收到的信号是否在DCM中进行处理</li>
+<li>基于ID进行识别</li>
+<li>可以选择诊断的ID Table</li>
+<li>对于不支持的ID进行Negative 响应</li>
+</ul>
+<ol>
+<li>
+<p>当DSL接收到新的诊断请求，DSL通过内部接口通知DSD。DSD调用Dcm_GetSesCtrlType()、Dcm_GetSecurityLevel()获取当前的Session和安全等级，DSD通过检查以上的参数会响应不同的数据：</p>
+<ol>
+<li>
+<p>DSD模块会在当前Session的“Service Identifier Table”检查诊断请求SID是否在其中，如果不在table中，DSD会发送NRC <strong>0x7F</strong>。</p>
+<blockquote>
+<p>如果配置DcmRespondAllRequest=FALSE，那么当DCM模块收到包含0x40到0x7F或0xC0到0xFF范围内的服务ID的诊断请求，DCM将不响应这样的请求。因为此范围的SID在 ISO 14229-1（UDS）标准中定义是<strong>响应 SID 范围</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p>如果诊断服务支持，但当前Session不支持该子服务，DSD会发送NRC <strong>0x7E</strong>。</p>
+</li>
+<li>
+<p>然后检查当前安全等级是否满足条件，如果当前安全等级不支持该诊断请求，DSD会发送NRC <strong>0x33</strong>。</p>
+</li>
+<li>
+<p>最后检查数据的长度。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>当DSP模块完成诊断请求处理后，DSD负责将整理响应数据发送至DSL。</p>
+<ol>
+<li>DSD模块将服务标识符(SID)(如果是负反馈，则为0x7F)和响应的数据流添加至“Dcm_MsgContextType”。</li>
+<li>然后DSD将其传送至缓冲区，并在缓冲区的第一个字节添加SID。</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>举个例子：<strong>写VIN号</strong></p>
+<ol>
+<li>DSL子模块接收到一条新的诊断消息。诊断信息WriteDataByldentifier = 0x2E,0xF1,0x90,0x57,0x30,0x4C,0x30,0x30,0x30,0x30,0x34,0x33,0x4D,0x42,0x35,0x34,0x31,0x33,0x32,0x36</li>
+<li>DSL子模块向DSD子模块指示具有“数据指示”功能的新诊断消息。在诊断消息缓冲区中存储诊断消息(buffer = 0x2E,0xF1,0x90，…)。</li>
+<li>DSD子模块使用传入诊断消息上确定的服务标识符(缓冲区0x2E的第一个字节)对受支持的服务执行检查。</li>
+<li>传入的诊断消息存储在DCM变量中Dcm MsgContextType。</li>
+</ol>
+<p>DcmDsdSidTabServiceld中配置的服务标识符的Id在一个DcmDsdServiceTable中必须是唯一的。</p>
+</blockquote>
+<h3 id="验证">验证</h3>
+<p>DSD子模块只有在通过以下六项验证后才会接受服务:</p>
+<ol>
+<li>厂商权限验证(厂商接口inctnptn的调用）</li>
+<li>SID的验证</li>
+<li>诊断会话的验证</li>
+<li>服务安全访问级别的验证</li>
+<li>供应商权限验证(调用供应商接口指示操作)</li>
+<li>验证服务id的Mode规则</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p><strong>当前</strong>会话下服务不支持响应0x7F（注意区分0x11）,例如10 03下不支持2E一样，当前请求子服务不支持响应0x7E（注意区分0x12）,例如10 03下支持0x2E,但是不支持0x2E F1 89这样的F1 89子服务。一定要注意区分。校验安全等级，一般就是在某些服务下校验0x27是否能正常通过。</p>
+</blockquote>
+<p>并且DSD还会检查格式与子服务：</p>
+<ul>
+<li>服务权限（0x29服务可以改变权限）</li>
+<li>诊断的Session（0x10服务实现不同的Session）</li>
+<li>Security Access Level（0x27）</li>
+<li>服务的关联和依赖</li>
+</ul>
+<h4 id="响应">响应</h4>
+<p>响应主要有以下类型：</p>
+<ul>
+<li>Positive的响应</li>
+<li>Negative的响应</li>
+<li>抑制响应</li>
+</ul>
+<p>详细为：</p>
+<ol>
+<li>
+<p><strong>接收请求消息并发送积极响应消息</strong>：服务端接收诊断请求消息。DSD子模块确保请求消息的有效性，将该请求转发到DSP子模块中相应的服务处理程序中。当服务处理函数完成所有数据处理动作后，触发DSD子模块发送响应消息。</p>
+<ul>
+<li>如果DSP作为请求指示函数的一部分，立即处理服务，则DSP可以触发该指示函数内部的传输(“同步”)。</li>
+<li>如果处理需要较长的时间(例如等待EEPROM驱动程序)，则数据处理器推迟一些处理(“异步”–使用pending)。响应挂起机制由DSL子模块涵盖。数据处理器显式地触发传输，但是是从数据处理器的上下文中触发的。一旦收到请求消息，相应的DcmPduld就会被DSL子模块阻塞。在处理此请求期间，不能接收其他相同协议类型的请求(例如，可以通过OBD会话结束增强会话)，直到发送相应的响应消息并再次释放DcmPduld。</li>
+</ul>
+</li>
+<li>
+<p><strong>接收请求消息并抑制积极响应</strong>：这是前一个用例的子用例。在UDS协议中，可以通过在请求消息中设置一个特殊的位来抑制正响应。这种特殊的抑制处理完全在DSD子模块中执行。</p>
+</li>
+<li>
+<p><strong>接收请求消息并抑制负面响应</strong>：在功能性寻址的情况下，DSD子模块应抑制NRC 0x11, 0x12, 0x31, 0x7E和0x7F的负响应.</p>
+</li>
+<li>
+<p><strong>接收请求消息并发送否定响应消息</strong>：拒绝请求消息和发送否定响应有许多不同的原因。如果诊断请求无效，或者在当前会话中可能不会执行请求，则DSD子模块将拒绝处理并返回否定响应。但是拒绝执行格式良好的请求消息甚至有很多原因，例如，如果ECU或系统状态不允许执行。在这种情况下，DSP子模块将触发一个否定响应，包括NRC提供该请求被拒绝的额外信息。</p>
+<p>如果请求由多个参数组成(例如，一个有多个标识符要读取的UDS Service ReadDataByldentifier (0x22)请求)，则每个参数被单独处理。每个参数都会返回一个错误。</p>
+<p>如果至少有一个参数被成功处理，这种请求将返回一个积极的响应。</p>
+</li>
+<li>
+<p><strong>发送一个积极的响应消息，没有相应的请求</strong>：UDS协议中有两种服务，对一个请求发送多个响应。通常，一个服务用于启用(和禁用)由事件或时间触发的另一个服务的传输，该服务再次由ECU发送，而不需要相应的请求.UDS Service readdatabyperiodicentifier (0x2A)。该服务允许客户端请求定期传输由一个或多个periodicDataldentifiers标识的服务器的数据记录值。类型1 = DcmTxPduld上的USDT消息已用于正常诊断响应(仅限单帧);类型2=单独的DcmTxPduld上的udt消息。对于类型1，传出消息必须与具有更高优先级的“正常传出消息”同步。ResponseOnEvent (Ox86)。此服务请求服务器启动或停止对指定事件的响应传输。方式1 = DcmTxPduld上的USDT消息已用于正常诊断响应;方式2 =在单独的DcmTxPduld上发送USDT消息。对于方式1，传出消息必须与具有更高优先级的“正常传出消息”同步。</p>
+<p>这种处理特别由DSL子模块控制。然而，DSD子模块还提供了在没有相应请求的情况下生成响应的可能性。</p>
+</li>
+<li>
+<p><strong>分段反应</strong>：在诊断协议中，一些服务允许交换大量的数据，例如UDS Service ReadDTCInformation (0x19)和UDS Service传输数据 （0x36）。在传统方法中，ECU内部缓冲区必须足够大，以保存要交换的最长数据消息(最坏情况)，并且在传输开始之前填满整个缓冲区。ECU中的RAM存储器通常是一个关键资源，特别是在较小的微处理器中。在一种更节省内存的方法中，缓冲区只被部分填充，部分传输，然后部分重新填充，以此类推。这种分页机制只需要显著减少的内存量，但需要定义良好的缓冲区重新填充反应时间。用户可以决定是使用“线性缓冲区”还是分页缓冲区进行诊断。</p>
+</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>可能出现的NRC为：</p>
+<ul>
+<li>0x11 (Service not supported)</li>
+<li>0x12(SubFunction not supported)</li>
+<li>0x31(Request out of range)</li>
+<li>0x7E (Subfunction not supported in active session)</li>
+<li>0x7F (Service not supported in active session)</li>
+</ul>
+</blockquote>
+<p>响应过程为：</p>
+<ol>
+<li>DSD子模块将诊断(响应)消息(正面或负面响应)转发给DSL子模块。</li>
+<li>DSL子模块应通过执行DSL传输功能将诊断(响应)消息(正面或负面响应)进一步转发到PduR模块。</li>
+<li>DSL子模块在转发数据时将收到PduR模块的确认。</li>
+<li>DSL子模块将从PduR模块接收到的确认信息转发给DSD子模块。</li>
+<li>DSD子模块应通过内部函数DspInternal_DcmConfirmation()将确认转发给DSP子模块。
+<ol>
+<li>如果不发送诊断(响应)消息(响应抑制)，则DSL子模块不发送任何响应。</li>
+<li>在这种情况下，没有数据确认从DSL子模块发送到DSD子模块，但DSD子模块仍将调用内部函数DspInternal_DcmConfirmation （）。</li>
+</ol>
+</li>
+</ol>
+<h3 id="DSP：诊断服务处理">DSP：诊断服务处理</h3>
+<p>Diagnostic Service Processing：处理实际的诊断请求。当接收到来自DSD子模块的函数调用要求DSP子模块处理诊断服务请求时， DSP始终执行以下基本处理步骤：</p>
+<ul>
+<li>
+<p>分析收到的请求消息</p>
+<ul>
+<li>分析收到的 Service‑ID、子功能码以及报文长度、结构等信息。</li>
+<li>检查格式是否符合 UDS/OBD 规范，若不符合则产生负响应 NRC 0x13（“Message length or format incorrect”）</li>
+</ul>
+</li>
+<li>
+<p>检查格式以及是否支持寻址的子功能</p>
+<ul>
+<li>判断当前诊断会话、权限、安全等级是否允许该服务；若不允许则返回 NRC 0x10（“General reject”）或其他对应的 NRC</li>
+</ul>
+</li>
+<li>
+<p>在 DEM、 SW-C 或其他 BSW 模块上获取数据或执行所需的函数调用</p>
+<ul>
+<li>与 DEM（Diagnostic Event Manager）、其他 BSW 模块或应用层 SW‑C 交互，读取故障码、执行读/写 DID、进行编程、访问安全访问等功能。</li>
+<li>若使用分页缓冲区机制，DSP 必须先计算整体响应长度，再把数据分段交给 DSD/DSL 处理。</li>
+</ul>
+</li>
+<li>
+<p>服务响应</p>
+<ul>
+<li>将响应 Service‑ID（原 Service‑ID + 0x40）以及相应的数据字段组织成完整的响应帧。</li>
+<li>对于负响应，按照 UDS 规范生成 0x7F 前缀 + 原 Service‑ID + NRC 码</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>[!note]</p>
+<p>在DSP和bootloader交互的时，如果满足所有先决条件并假设’suppressPosRspMsgIndicationBit标志设置为’false’，则已经确定了跳转到引导加载程序的4个不同用例:</p>
+<ol>
+<li>应用程序立即发送一个最终的积极响应，然后跳转到引导加载程序</li>
+<li>应用程序首先发送一个NRC 0x78响应，然后是最终的积极响应，然后跳转到引导加载程序</li>
+<li>应用程序立即跳转到引导加载程序，引导加载程序发送最终的积极响应</li>
+<li>应用程序首先发送一个NRC 0x78响应，然后跳转到引导加载程序，引导加载程序发送最终的积极响应</li>
+</ol>
+<p>注意:如果’suppressPosRspMsgIndicationBit’标志被设置为’true’，用例’1’并且用例“3”不会发出积极响应。</p>
+<p>在接收服务诊断sessioncontrol时，如果提供的会话用于跳转到OEM引导加载程序(参数DcmDspSessionForBoot设置为DCM_OEM_BOOT或DCM_OEM_BOOT_RESPAPP)，Dcm应通过触发ModeDeclarationGroupPrototype DcmEcuReset的模式切换来准备跳转到OEM引导加载程序。</p>
+<p>注意:通过这种模式切换，DCM通知BswM准备跳转到引导加载程序。</p>
+<p>在DCM初始化时，DCM应该调用Dcm_GetProgConditions()来知道初始化是否是从引导加载程序/ ECUReset跳转的结果。注意:当调用Dcm_Init时，确保Dcm_ProgConditionsType中包含的数据有效是软件集成商的责任。例如，如果此数据存储在非易失性存储器中，则在ECU复位后可能需要一些时间才能使其可用。在设计ECU的启动过程时，必须考虑到这一点。</p>
+</blockquote>
+<h3 id="关联模块">关联模块</h3>
+<ol>
+<li>RTE： 接收诊断相关的数据处理诊断相关的通信服务，Dcm模块在完成诊断功能的时候需要通过RTE接口来读写/函数调用其他SWC的数据/服务。</li>
+<li>如果Dcm模块无法直接处理诊断数据请求时，Dcm会把通过以下方式来转发请求并获得结果数据：
+<ul>
+<li>通过SW-C的port-interface。</li>
+<li>通过直接调用BSW模块函数。</li>
+</ul>
+</li>
+<li>BswM：接收DCM的状态变化进行模式模式管理，如果Dcm的初始化是从引导加载程序跳转的结果，则Dcm通知BswM应用程序已被更新（UDS的0x11服务）。Dcm还向BswM表示通信模式的改变（UDS的0x28服务）。</li>
+<li>SchM： 提供调度</li>
+<li>PduR： 提供收发诊断数据的路由</li>
+<li>ComM：处理诊断相关的通信请求，ComM模块提供了一些功能，如Dcm模块可以指示“活动”和“非活动”状态，以便进行诊断通信。Dcm模块提供了处理“Full-/ Silent-/ No-Communication”通信需求的功能。此外，如果ComM模块要求，Dcm模块提供启用和禁用诊断通信的功能。（UDS的0x28服务）</li>
+<li>NvM： 存储诊断数据</li>
+<li>DEM： 处理诊断事件，DEM模块提供检索与故障内存相关的所有信息的功能，以便Dcm模块能够通过从故障内存中读取数据来响应测试者的请求。通俗的讲就是Dcm能够读取Dem记录的DTC信息</li>
+<li>EcuM： 诊断相关的唤醒以及模式切换</li>
+<li>PDUR：PduR模块提供诊断数据的发送和接收功能。PduR模块接收和发送诊断数据。PduR为Dcm模块提供一个与具体通信协议无关的接口。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/DCM/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/DCM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/IPduR/" title="IPduR"><img class="cover" src="/img/RandomCoverImage/random_10.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">IPduR</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of I-PDU Multiplexer  </div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanSm/" title="CanSm"><img class="cover" src="/img/RandomCoverImage/random_6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">CanSm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of CAN State Manager (autosar.org)  CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">一般设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NRC"><span class="toc-number">2.1.</span> <span class="toc-text">NRC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8ENvm%E4%B9%8B%E9%97%B4%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-number">2.2.</span> <span class="toc-text">与Nvm之间的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.3.1.</span> <span class="toc-text">原子类型数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.2.</span> <span class="toc-text">数组数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B5%8C%E5%A5%97%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.3.</span> <span class="toc-text">嵌套数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E9%99%90%E5%88%B6"><span class="toc-number">2.3.4.</span> <span class="toc-text">数据类型限制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dcm%E6%93%8D%E4%BD%9C%E7%8A%B6%E6%80%81%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.5.</span> <span class="toc-text">Dcm操作状态类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E7%AC%A6%E5%8F%B7"><span class="toc-number">2.3.6.</span> <span class="toc-text">生成符号</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">DSL：诊断服务层</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E%E5%85%B6%E4%BB%96%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-number">3.1.</span> <span class="toc-text">与其他模块的交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86-PduR-DSD"><span class="toc-number">3.2.</span> <span class="toc-text">请求处理(PduR-&gt;DSD)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dcm-StartOfReception"><span class="toc-number">3.2.1.</span> <span class="toc-text">Dcm_StartOfReception</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dcm-CopyRxData"><span class="toc-number">3.2.2.</span> <span class="toc-text">Dcm_CopyRxData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dcm-TpRxIndication"><span class="toc-number">3.2.3.</span> <span class="toc-text">Dcm_TpRxIndication</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E4%BF%9D%E6%8C%81"><span class="toc-number">3.3.</span> <span class="toc-text">会话保持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dcm-CopyTxData"><span class="toc-number">3.3.1.</span> <span class="toc-text">Dcm_CopyTxData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dcm-TpTxConfirmation"><span class="toc-number">3.3.2.</span> <span class="toc-text">Dcm_TpTxConfirmation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%A4%84%E7%90%86%EF%BC%88DSD-PduR%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">响应处理（DSD-&gt;PduR）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E8%BF%9E%E6%8E%A5%E5%A4%84%E7%90%86"><span class="toc-number">3.5.</span> <span class="toc-text">通用连接处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86"><span class="toc-number">3.6.</span> <span class="toc-text">安全管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%9A%E8%AF%9D%E7%AE%A1%E7%90%86"><span class="toc-number">3.6.1.</span> <span class="toc-text">会话管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%8A%E6%96%AD%E5%8D%8F%E8%AE%AE%E5%A4%84%E7%90%86"><span class="toc-number">3.6.1.1.</span> <span class="toc-text">诊断协议处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%BC%8F%E5%A4%84%E7%90%86"><span class="toc-number">3.6.1.2.</span> <span class="toc-text">通信模式处理</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">DSD：诊断调度服务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5"><span class="toc-number">4.1.</span> <span class="toc-text">检查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81"><span class="toc-number">4.1.1.</span> <span class="toc-text">验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94"><span class="toc-number">4.1.1.1.</span> <span class="toc-text">响应</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DSP%EF%BC%9A%E8%AF%8A%E6%96%AD%E6%9C%8D%E5%8A%A1%E5%A4%84%E7%90%86"><span class="toc-number">4.1.2.</span> <span class="toc-text">DSP：诊断服务处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E6%A8%A1%E5%9D%97"><span class="toc-number">4.1.3.</span> <span class="toc-text">关联模块</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

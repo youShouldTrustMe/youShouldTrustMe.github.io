@@ -1,0 +1,1302 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CanSm | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件请参见Specification of CAN State Manager (autosar.org)  CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其总线的通信状态，所以CanSM模块管理的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CanSm">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanSm/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件请参见Specification of CAN State Manager (autosar.org)  CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其总线的通信状态，所以CanSM模块管理的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_6.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_6.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CanSm",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanSm/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_6.jpg",
+  "datePublished": "2026-06-24T01:22:05.603Z",
+  "dateModified": "2026-06-24T01:22:05.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanSm/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CanSm',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_6.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">CanSm</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">CanSm</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.603Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.603Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">9.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>31分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件请参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R20-11/CP/AUTOSAR_SWS_CANStateManager.pdf">Specification of CAN State Manager (autosar.org)</a></p>
+</blockquote>
+<p>CanSM和上一章介绍的CanNm是两兄弟，都是基于interface层，对上则服务于ComM服务。只不过两兄弟所实现的功能不一样，在具体介绍CanSM模块之前，得先搞清楚状态管理是个什么玩意。首先这里管理的状态其实是对应其<strong>总线的通信状态</strong>，所以CanSM模块管理的就是CAN总线的通信状态，而这里的通信状态则包含能不能发送报文，能不能接收报文，总线上有没有错误等。CanSM提供的主要功能主要有：</p>
+<ol>
+<li>总线模式切换</li>
+<li>Busoff 恢复管理</li>
+<li>切换波特率</li>
+<li>唤醒确认管理</li>
+</ol>
+<h1>模块交互</h1>
+<p>CanSM模块针对CAN总线状态而言，由上而下，CanSM接收其他模块的总线状态切换请求并通知CanIf模块去执行，由下而上，CanSM接收CanIf模块的总线状态切换反馈并汇报给其他模块。下图显示了在AUTOSAR的BSW层中其他模块与CanSM的交互情况：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260105090049317.png" alt="CAN SM和别的模块的交互图" loading='lazy'></p>
+<ol>
+<li>ECuM模块会初始化CanSM模块，并与CanSM模块交互进行CAN总线唤醒的验证。</li>
+<li>ComM模块使用CanSM模块请求CAN网络的通信模式，CanSM模块会将其CAN网络的当前通信模式通知给ComM模块。</li>
+<li>CanSM模块使用Canlf模块来控制CAN控制器和CAN收发器工作模式，Canlf模块通知CanSM模块CAN总线相关事件。</li>
+<li>CanSM模块向Dem模块报告总线特定的故障信息。</li>
+<li>CanSM将总线特定的模式更新通知到BswM模块。</li>
+<li>CanSM模块将部分网络可用性通知给CanNm模块，并在部分联网的情况下处理已通知的CanNm超时异常。</li>
+<li>CanSM模块向Det模块报告开发和运行时错误。</li>
+</ol>
+<h1>通信模式</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260105091015967.png" alt="CAN SM的通信模式" loading='lazy'></p>
+<p>在CAN通信（基于AUTOSAR架构）中，有三种通信模式：</p>
+<ol>
+<li>完全通信模式（FULL_COMMUNICATION）：节点<strong>正常收发数据</strong>，参与总线通信（如ECU运行时）。
+<ul>
+<li>控制器：<code>CANIF_CS_STARTED</code>（启动状态，处理协议层）。</li>
+<li>收发器：<code>TRCVMODE_NORMAL</code>（主动驱动差分信号）。</li>
+</ul>
+</li>
+<li>静默通信模式（SILENT_COMMUNICATION）：节点<strong>仅接收数据，不发送数据</strong>，避免干扰总线（如诊断监听）。
+<ul>
+<li>控制器：<code>CANIF_TX_OFFLINE</code>（发送关闭，仅接收）。</li>
+<li>收发器：仍保持<code>TRCVMODE_NORMAL</code>（需接收物理层信号）。</li>
+</ul>
+</li>
+<li>无通信模式（NO_COMMUNICATION）： 节点<strong>完全离线</strong>，进入低功耗状态（如车辆熄火后）。
+<ul>
+<li>控制器：<code>CANIF_CS_STOPPED</code>（协议层停止运行）。</li>
+<li>收发器：<code>TRCVMODE_STANDBY</code>（待机模式，仅保留唤醒能力）。</li>
+</ul>
+</li>
+</ol>
+<p>模式切换逻辑为：</p>
+<ol>
+<li><strong>唤醒事件</strong>（如总线活动）： <code>NO_COMMUNICATION</code> → <strong>唤醒</strong> → <code>FULL_COMMUNICATION</code>。</li>
+<li><strong>诊断需求</strong>： <code>FULL_COMMUNICATION</code> → <strong>静默</strong> → <code>SILENT_COMMUNICATION</code>。</li>
+<li><strong>休眠指令</strong>： <code>FULL_COMMUNICATION</code> → <strong>关闭</strong> → <code>NO_COMMUNICATION</code>。</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>在上面的状态机中实际上还有其他的状态，对于通信模式而言只有三种稳定状态，其余都是中间状态。</p>
+<ul>
+<li>NOT_INITIALIZED 状态下，只能调用 CanSM_Init。</li>
+<li>PRENOCOM/WUVALIDATION/PRE_FULLCOM/CHANGE_BAUDRATE/SILENTCOM_BOR 为中间状态，正常情况下，CanSM不会停留在这些状态中，在这些状态下，调用 CanSM_RequestComMode 会被拒绝。</li>
+<li>NOCOM\FULLCOM\SILENTCOM 为稳定状态，处于这些状态下，可接受新的CanSM_RequestComMode 请求。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>[!Note]</p>
+<p>在以上状态机图中，不同的前缀条件代表不同的条件：</p>
+<ul>
+<li>T: Trigger</li>
+<li>G: Guarding condition</li>
+<li>E: Effect</li>
+</ul>
+</blockquote>
+<p>在图中详细描述了 <strong>CanSM</strong> 模块的状态机触发条件（Trigger）、判定条件（Guard）以及产生的效应（Effect）。CanSM 通过这些机制在 <strong>ComM</strong>（通信管理器）和 <strong>CanIf</strong>（CAN 接口）之间起到承上启下的作用。</p>
+<ol>
+<li>状态机触发条件 (Triggers)：状态机的跳转由外部 API 调用或底层回调触发：
+<ul>
+<li><strong>系统初始化与去初始化</strong>：
+<ul>
+<li><strong>PowerOn</strong>: 初始状态为 <code>CANSM_BSM_NOT_INITIALIZED</code>。</li>
+<li><strong>CanSM_Init</strong>: 触发所有配置网络的初始化流程。</li>
+<li><strong>CanSM_DeInit</strong>: 触发去初始化，前提是网络已处于 <code>NO_COMMUNICATION</code>。</li>
+</ul>
+</li>
+<li><strong>唤醒源控制</strong>：
+<ul>
+<li><strong>T_START_WAKEUP_SOURCE</strong>: 由 <code>CanSM_StartWakeUpSource</code> 成功返回后触发。</li>
+<li><strong>T_STOP_WAKEUP_SOURCE</strong>: 由 <code>CanSM_StopWakeUpSource</code> 成功返回后触发。</li>
+</ul>
+</li>
+<li><strong>模式请求 (来自 ComM)</strong>：
+<ul>
+<li><strong>T_FULL_COM_MODE_REQUEST</strong>: 请求进入全通信模式。</li>
+<li><strong>T_SILENT_COM_MODE_REQUEST</strong>: 请求进入静默模式（通常用于准备进入总线睡眠）。</li>
+<li><strong>T_NO_COM_MODE_REQUEST</strong>: 请求关闭通信。</li>
+</ul>
+</li>
+<li><strong>异常监控</strong>：
+<ul>
+<li><strong>T_BUS_OFF</strong>: 底层检测到控制器 Bus-Off 时通过回调触发。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>判定条件 (Guarding Conditions)：在执行某些跳转前，状态机会检查最近一次被接受的模式请求：
+<ol>
+<li><strong>G_FULL_COM_MODE_REQUESTED</strong>: 检查最后一次请求是否为 <code>COMM_FULL_COMMUNICATION</code>。</li>
+<li><strong>G_SILENT_COM_MODE_REQUESTED</strong>: 检查最后一次请求是否为 <code>COMM_SILENT_COMMUNICATION</code>。</li>
+</ol>
+</li>
+<li>执行效应 (Effects)：当状态跳转发生时，CanSM 会通过一系列 API 调用来配置底层硬件并通知上层模块。
+<ol>
+<li>进入全通信模式 (E_FULL_COM)：这是最复杂的效应，包含多个步骤：
+<ol>
+<li><strong>设置 PDU 模式</strong>：
+<ul>
+<li>若 <strong>ECU Passive</strong> 为 FALSE：调用 <code>CanIf_SetPduMode</code> 为 <code>CANIF_ONLINE</code>。</li>
+<li>若 <strong>ECU Passive</strong> 为 TRUE：设置为 <code>CANIF_TX_OFFLINE_ACTIVE</code>。</li>
+</ul>
+</li>
+<li><strong>通知 ComM</strong>：调用 <code>ComM_BusSM_ModeIndication</code> 指示 <code>COMM_FULL_COMMUNICATION</code>。</li>
+<li><strong>通知 BswM</strong>：调用 <code>BswM_CanSM_CurrentState</code> 指示 <code>CANSM_BSWM_FULL_COMMUNICATION</code>。</li>
+</ol>
+</li>
+<li>进入静默模式 (E_FULL_TO_SILENT_COM)：执行步骤如下：
+<ol>
+<li><strong>通知 BswM</strong>：设置为 <code>CANSM_BSWM_SILENT_COMMUNICATION</code>。</li>
+<li><strong>设置 PDU 模式</strong>：调用 <code>CanIf_SetPduMode</code> 为 <code>CANIF_TX_OFFLINE</code>。</li>
+<li><strong>通知 ComM</strong>：指示 <code>COMM_SILENT_COMMUNICATION</code>。</li>
+</ol>
+</li>
+<li>关闭通信流程 (E_PRE_NOCOM &amp; E_NOCOM)
+<ul>
+<li><strong>E_PRE_NOCOM</strong>: 预关闭阶段，通知 BswM 状态为 <code>CANSM_BSWM_NO_COMMUNICATION</code>。</li>
+<li><strong>E_NOCOM</strong>:
+<ul>
+<li>更新内部存储的模式为 <code>COMM_NO_COMMUNICATION</code>。</li>
+<li>若请求确实是关闭通信，则向 ComM 发送最终的模式指示。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>📝 效应汇总表</p>
+<table>
+<thead>
+<tr>
+<th><strong>效应名称</strong></th>
+<th><strong>目标通信模式</strong></th>
+<th><strong>主要动作</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E_FULL_COM</strong></td>
+<td>Full Com</td>
+<td>开启 PDU 传输（Online），通知 ComM/BswM。</td>
+</tr>
+<tr>
+<td><strong>E_FULL_TO_SILENT_COM</strong></td>
+<td>Silent Com</td>
+<td>禁用发送（TX_Offline），通知 ComM/BswM。</td>
+</tr>
+<tr>
+<td><strong>E_NOCOM</strong></td>
+<td>No Com</td>
+<td>更新内部状态，通知 ComM。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="子状态机">子状态机</h2>
+<blockquote>
+<p>[!note]</p>
+<p>如果观察下面的所有状态机，就会发现，在设置控制器模式之前都需要将先设置为Stop模式，将收发器设置为Nomal模式。这是因为控制器可能在上电后默认处于未初始化状态，需先复位到“停止模式”作为启动前的统一基准状态。同理，收发器状态也需要做基准。</p>
+</blockquote>
+<h3 id="CANSM-BSM-WUVALIDATION">CANSM_BSM_WUVALIDATION</h3>
+<p>以下是唤醒校验的状态机图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260121104604787.png" alt="CANSM_BSM_WUVALIDATION子状态机转换" loading='lazy'></p>
+<p>该状态机确保在进入全通信模式之前，CAN 收发器（Transceiver）和控制器（Controller）能够正确、安全地切换到目标工作状态。</p>
+<ol>
+<li>
+<p>收发器状态操作：S_TRCV_NORMAL</p>
+<p>当状态机处于收发器模式设置阶段时，必须确保硬件已准备就绪。</p>
+<ul>
+<li><strong>状态行为 (DO Action)</strong>：只要处于 <code>S_TRCV_NORMAL</code> 状态，CanSM 就必须重复调用 <code>CanIf_SetTrcvMode</code>，请求将收发器模式设置为 <code>CANTRCV_TRCVMODE_NORMAL</code>。</li>
+<li><strong>判定条件</strong>：只有当 <code>CanIf_SetTrcvMode</code> 返回 <code>E_OK</code> 时，判定条件 <code>G_TRCV_NORMAL_E_OK</code> 才算通过。</li>
+<li><strong>成功触发</strong>：当 CanSM 收到底层确认回调（模式指示），证明收发器已成功进入 Normal 模式，触发 <code>T_TRCV_NORMAL_INDICATED</code> 进行状态跳转。</li>
+<li><strong>超时触发</strong>：如果等待指示的时间超过了配置的 <code>CANSM_MODEREQ_REPEAT_TIME</code>，则触发 <code>T_TRCV_NORMAL_TIMEOUT</code>。</li>
+</ul>
+</li>
+<li>
+<p>控制器停止操作：S_CC_STOPPED</p>
+<p>在某些唤醒或重置流程中，需要先将控制器置于停止状态。</p>
+<ul>
+<li><strong>状态行为</strong>：如果当前控制器模式不是 <code>CAN_CS_STOPPED</code>，CanSM 必须持续请求 <code>CanIf_SetControllerMode</code> 为停止模式。</li>
+<li><strong>判定条件</strong>：所有配置的控制器请求都返回 <code>E_OK</code> 后，<code>G_CC_STOPPED_OK</code> 判定通过。</li>
+<li><strong>成功与超时</strong>：
+<ul>
+<li>收到所有控制器的停止模式指示后，触发 <code>T_CC_STOPPED_INDICATED</code>。</li>
+<li>若在 <code>CANSM_MODEREQ_REPEAT_TIME</code> 时间内未完成，触发 <code>T_CC_STOPPED_TIMEOUT</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>控制器启动操作：S_CC_STARTED</p>
+<p>这是唤醒校验的关键步骤，确保控制器能够正常启动。</p>
+<ul>
+<li><strong>状态行为</strong>：CanSM 重复调用 <code>CanIf_SetControllerMode</code>，请求将模式设置为 <code>CAN_CS_STARTED</code>。</li>
+<li><strong>判定条件</strong>：所有启动请求返回 <code>E_OK</code> 后，<code>G_CC_STARTED_E_OK</code> 判定通过。</li>
+<li><strong>跳转逻辑</strong>：
+<ul>
+<li><strong>成功指示</strong>：所有控制器均反馈已启动，触发 <code>T_CC_STARTED_INDICATED</code>。</li>
+<li><strong>超时反馈</strong>：超时未启动则触发 <code>T_CC_STARTED_TIMEOUT</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>💡唤醒校验的核心机制：请求-确认-重试</p>
+<p>CanSM 在管理底层硬件时遵循一个严密的<strong>闭环逻辑</strong>：</p>
+<ol>
+<li><strong>Do Action</strong>: 持续发起请求（Do Action），直到获得 API 的 <code>E_OK</code>。</li>
+<li><strong>Wait for Indication</strong>: 等待异步回调（Indication）来确认硬件实际状态已切换。</li>
+<li><strong>Timeout Guard</strong>: 使用统一的重复间隔时间 <code>CANSM_MODEREQ_REPEAT_TIME</code> 监控每一个阶段，防止因硬件故障导致状态机死锁。</li>
+</ol>
+<p>所以收发器的变化过程为：<code>Normal</code>-&gt;<code>Stop</code>-&gt;<code>start</code></p>
+<h3 id="CANSM-BSM-S-PRE-NOCOM">CANSM_BSM_S_PRE_NOCOM</h3>
+<p>以下是预备无通信状态的状态机：<br>
+<img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260121131942892.png" alt="CANSM_BSM_S_PRE_NOCOM子状态机" loading='lazy'></p>
+<p>首先根据硬件配置判断是否支持 <strong>PN（部分网络）</strong>。这是因为支持 PN 的收发器在休眠前需要额外的操作（如清除唤醒标志)。</p>
+<ol>
+<li>
+<p>判定条件：不支持 PN (<code>G_PN_NOT_SUPPORTED</code>)</p>
+<p>当满足以下任一条件时，状态机认为该网络不支持 PN 功能：</p>
+<ul>
+<li>
+<p><strong>未配置收发器</strong>：在配置参数 <code>CanSMTransceiverId</code> 中没有关联任何 CAN 收发器。</p>
+</li>
+<li>
+<p><strong>收发器未开启 PN</strong>：虽然配置了收发器，但其对应的硬件配置参数 <code>CanTrcvPnEnabled</code> 被设置为 <code>FALSE</code>。</p>
+</li>
+</ul>
+<p><strong>后果</strong>：状态机将跳过所有与 PN 相关的子状态（如清除 WUF 标志），直接执行常规的控制器停止和收发器进入 Standby 的流程。</p>
+</li>
+<li>
+<p>判定条件：支持 PN (<code>G_PN_SUPPORTED</code>)</p>
+<p>只有同时满足以下两个条件，状态机才会进入 PN 处理流程：</p>
+<ul>
+<li>
+<p><strong>已配置收发器</strong>：<code>CanSMTransceiverId</code> 引用了一个有效的收发器。</p>
+</li>
+<li>
+<p><strong>收发器开启 PN</strong>：该收发器的 <code>CanTrcvPnEnabled</code> 参数设置为 <code>TRUE</code>。</p>
+</li>
+</ul>
+<p><strong>后果</strong>：状态机会进入更复杂的子状态机（通常涉及 <code>S_PN_CLEAR_WUF</code> 等状态），确保在收发器进入睡眠模式前，硬件的唤醒帧过滤器已正确重置。</p>
+</li>
+</ol>
+<p>在这个状态机中，对于支持PN功能的程度不同走了两个不同的分支，但是实际上控制器和收发器的最终状态是一致的，改变过程为：</p>
+<ul>
+<li>设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CC_STOPPED)</li>
+<li>设置CAN控制器为Sleep状态，CanIf_SetControllerMode(CAN_CC_SLEEP)</li>
+<li>设置CAN收发器为Normal状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_NORMAL)</li>
+<li>设置CAN收发器为Standy状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_STANDBY)</li>
+</ul>
+<p>所以最终的收发器状态为<code>Standy</code>，控制器状态为<code>Sleep</code>。</p>
+<hr>
+<p>其中CANSM_BSM_DeInitPnSupported状态机为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260121134247460.png" alt="CANSM_BSM_DeInitPnSupported状态机" loading='lazy'></p>
+<p>其核心逻辑仍然遵循 <strong>“执行 DO Action -&gt; 检查 Guard -&gt; 等待 Indication -&gt; 超时重试”</strong> 的闭环模式。</p>
+<p>在支持 PN 的路径下，关机序列比普通路径多出了“清除唤醒标志”和“检查唤醒标志”的关键步骤：</p>
+<ol>
+<li>
+<p>第一阶段：清除唤醒标志 (WUF)</p>
+<ul>
+<li><strong>S_PN_CLEAR_WUF</strong>: CanSM 持续调用 <code>CanIf_ClrTrcvWufFlag</code>。</li>
+<li><strong>跳转条件</strong>: 当 API 返回 <code>E_OK</code> 且收到 <code>CanSM_ClearTrcvWufFlagIndication</code> 回调时，触发 <code>T_CLEAR_WUF_INDICATED</code> 进入下一阶段。</li>
+</ul>
+</li>
+<li>
+<p>第二阶段：硬件状态同步（停止与 Normal 化）</p>
+<ul>
+<li><strong>S_CC_STOPPED</strong>: 将所有控制器设置为 <code>CAN_CS_STOPPED</code>。</li>
+<li><strong>S_TRCV_NORMAL</strong>: 将收发器暂时切回 <code>NORMAL</code> 模式（这是为了确保后续能正确检测唤醒标志）。</li>
+</ul>
+</li>
+<li>
+<p>第三阶段：进入深度休眠</p>
+<ul>
+<li><strong>S_TRCV_STANDBY</strong>: 将收发器置于 <code>STANDBY</code> 模式。</li>
+<li><strong>S_CC_SLEEP</strong>: 将所有控制器设置为 <code>CAN_CS_SLEEP</code> 模式。</li>
+</ul>
+</li>
+<li>
+<p>第四阶段：最终唤醒标志检查</p>
+<p><strong>S_CHECK_WFLAG_…</strong>: 在控制器处于休眠或非休眠状态下，再次调用 <code>CanIf_CheckTrcvWakeFlag</code> 以确认没有挂起的唤醒请求。</p>
+</li>
+</ol>
+<p>执行 DO Action 后，状态机的流转规律如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>当前执行的 DO Action</strong></th>
+<th><strong>成功跳转条件 (Next State)</strong></th>
+<th><strong>超时处理 (Retry)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DO_CLEAR_TRCV_WUF</strong></td>
+<td>收到 <code>ClearWuf</code> 指示</td>
+<td>重复执行直到成功或达到 RepetitionMax</td>
+</tr>
+<tr>
+<td><strong>DO_SET_CC_MODE_STOPPED</strong></td>
+<td>收到所有控制器 <code>STOPPED</code> 指示</td>
+<td>触发 <code>T_CC_STOPPED_TIMEOUT</code> 重新尝试</td>
+</tr>
+<tr>
+<td><strong>DO_SET_TRCV_STANDBY</strong></td>
+<td>收到收发器 <code>STANDBY</code> 指示</td>
+<td>触发 <code>T_TRCV_STANDBY_TIMEOUT</code> 重新尝试</td>
+</tr>
+<tr>
+<td><strong>DO_CHECK_WFLAG</strong></td>
+<td>收到 <code>CheckWakeFlag</code> 指示</td>
+<td>触发 <code>T_CHECK_WFLAG_TIMEOUT</code></td>
+</tr>
+</tbody>
+</table>
+<p>超时机制与状态机退出</p>
+<ul>
+<li><strong>内部重试</strong>: 每个子状态都有对应的 <code>T_..._TIMEOUT</code>。如果硬件在 <code>CANSM_MODEREQ_REPEAT_TIME</code> 时间内没有给出 Indication 回调，状态机会跳回该子状态的入口，重新执行 DO Action。</li>
+<li><strong>最终退出</strong>: 只有当整个 <code>DeinitPnSupported</code> 链条上的所有 Indication 全部按序到齐，状态机才会从该子状态机“出去”，回到主状态机并最终进入 <code>CANSM_BSM_S_NOCOM</code>。</li>
+</ul>
+<hr>
+<p>CANSM_BSM_DeInitPnNotSupported的状态机为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260124092941490.png" alt="CANSM_BSM_DeInitPnNotSupported状态机" loading='lazy'></p>
+<p>在不支持部分网络（PN）的情况下，<code>CANSM_BSM_DeinitPnNotSupported</code> 子状态机负责执行简化的关机序列。与 PN 路径类似，它遵循 <strong>“发起请求（DO Action） -&gt; 确认成功（Guard OK） -&gt; 等待硬件反馈（Indication）”</strong> 的闭环控制逻辑。</p>
+<p>关机序列该子状态机通过以下四个核心阶段，将 CAN 控制器和收发器逐步置于休眠状态：</p>
+<ol>
+<li>第一阶段：控制器停止 (S_CC_STOPPED)
+<ul>
+<li><strong>动作</strong>：如果当前模式不是 <code>STOPPED</code>，CanSM 会持续调用 <code>CanIf_SetControllerMode</code> 将控制器设为停止状态。</li>
+<li><strong>跳转</strong>：API 返回 <code>E_OK</code> 后进入等待，收到所有控制器的模式确认回调（Indication）后触发 <code>T_CC_STOPPED_INDICATED</code>。</li>
+</ul>
+</li>
+<li>第二阶段：收发器 Normal 化 (S_TRCV_NORMAL)
+<ul>
+<li><strong>动作</strong>：将收发器设为 <code>NORMAL</code> 模式。</li>
+<li><strong>特殊逻辑</strong>：如果没有配置收发器，状态机会直接触发 <code>T_TRCV_NORMAL_INDICATED</code> 跳过此步。</li>
+</ul>
+</li>
+<li>第三阶段：收发器待机 (S_TRCV_STANDBY)
+<ul>
+<li><strong>动作</strong>：将收发器设为 <code>STANDBY</code> 模式。</li>
+<li><strong>特殊逻辑</strong>：若无收发器配置，直接触发 <code>T_TRCV_STANDBY_INDICATED</code> 跳转。</li>
+</ul>
+</li>
+<li>第四阶段：控制器休眠 (S_CC_SLEEP)
+<ul>
+<li><strong>动作</strong>：最后将所有控制器设置为 <code>CAN_CS_SLEEP</code> 模式。</li>
+<li><strong>完成</strong>：收到所有休眠确认指示后，触发 <code>T_CC_SLEEP_INDICATED</code>。</li>
+</ul>
+</li>
+</ol>
+<p>执行 DO Action 后,在子状态机内部，执行完 <strong>DO Action</strong> 后的流转严格受 Guard 和 Trigger 控制：</p>
+<table>
+<thead>
+<tr>
+<th><strong>当前状态</strong></th>
+<th><strong>执行的 DO Action</strong></th>
+<th><strong>跳转至 WAIT 或下一状态的条件</strong></th>
+<th><strong>超时处理 (Retry)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S_CC_STOPPED</strong></td>
+<td><code>DO_SET_CC_MODE_STOPPED</code></td>
+<td>所有调用返回 <code>E_OK</code> 且收到 <code>T_CC_STOPPED_INDICATED</code></td>
+<td>触发 <code>T_CC_STOPPED_TIMEOUT</code> 重新执行</td>
+</tr>
+<tr>
+<td><strong>S_TRCV_NORMAL</strong></td>
+<td><code>DO_SET_TRCV_MODE_NORMAL</code></td>
+<td>调用返回 <code>E_OK</code> 且收到 <code>T_TRCV_NORMAL_INDICATED</code></td>
+<td>触发 <code>T_TRCV_NORMAL_TIMEOUT</code> 重新执行</td>
+</tr>
+<tr>
+<td><strong>S_TRCV_STANDBY</strong></td>
+<td><code>DO_SET_TRCV_MODE_STANDBY</code></td>
+<td>调用返回 <code>E_OK</code> 且收到 <code>T_TRCV_STANDBY_INDICATED</code></td>
+<td>触发 <code>T_TRCV_STANDBY_TIMEOUT</code> 重新执行</td>
+</tr>
+<tr>
+<td><strong>S_CC_SLEEP</strong></td>
+<td><code>DO_SET_CC_MODE_SLEEP</code></td>
+<td>所有调用返回 <code>E_OK</code> 且收到 <code>T_CC_SLEEP_INDICATED</code></td>
+<td>触发 <code>T_CC_SLEEP_TIMEOUT</code> 重新执行</td>
+</tr>
+</tbody>
+</table>
+<p>与 PN 路径的主要区别为：</p>
+<ul>
+<li><strong>流程简化</strong>：去掉了清除和检查唤醒标志（WUF/WFLAG）的复杂步骤。</li>
+<li><strong>硬件兼容性</strong>：通过 <code>SWS_CanSM_00556</code> 和 <code>SWS_CanSM_00557</code> 显式处理了没有收发器的情况，确保纯控制器环境下的逻辑闭环。</li>
+</ul>
+<h3 id="CANSM-BSM-S-SILENTCOM-BOR">CANSM_BSM_S_SILENTCOM_BOR</h3>
+<p>在该状态机中，BOR表示<strong>Bus-Off Recovery</strong>（总线离线恢复），需要将Can设备重启（控制器为<code>S_RESTART_CC</code>状态）。同时应该调用Dem_SetEventStatus报告Bus Off事件。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260124095147280.png" alt="CANSM_BSM_S_SILENTCOM_BOR状态机" loading='lazy'></p>
+<p>当 CAN 网络发生 <strong>Bus-Off</strong> 错误且处于 <code>SILENTCOM</code>（静默通信）模式时，状态机会进入 <code>CANSM_BSM_S_SILENTCOM_BOR</code> 子状态机进行恢复处理。</p>
+<p>关于执行 <strong>DO Action</strong> 后的跳转逻辑及其效应，解析如下：</p>
+<ol>
+<li>
+<p>Bus-Off 初始效应：E_BUS_OFF</p>
+<p>当检测到 Bus-Off 时，CanSM 首先会执行故障上报：</p>
+<ul>
+<li><strong>故障上报</strong>：调用 <code>Dem_SetEventStatus</code> 将 <code>CANSM_E_BUS_OFF</code> 事件的状态设置为 <code>DEM_EVENT_STATUS_PRE_FAILED</code>。</li>
+</ul>
+</li>
+<li>
+<p>执行 DO Action：S_RESTART_CC (控制器重启)</p>
+<p>在 <code>SILENTCOM_BOR</code> 子状态机中，核心任务是将因 Bus-Off 停止的控制器重新启动：</p>
+<ul>
+<li><strong>执行 DO Action</strong>：只要处于 <code>S_RESTART_CC</code> 状态，CanSM 就会持续检查各控制器的状态。如果当前模式不是 <code>STARTED</code>，则重复调用 <code>CanIf_SetControllerMode</code> 请求进入 <code>CAN_CS_STARTED</code>。</li>
+<li><strong>跳转逻辑 (Guard)</strong>：一旦所有的 API 请求都返回了 <code>E_OK</code>，判定条件 <code>G_RESTART_CC_OK</code> 就会通过，状态机进入**等待（WAIT）**环节。</li>
+</ul>
+</li>
+<li>
+<p>退出与重试机制</p>
+<p>执行完重启请求后，状态机的下一步流转取决于硬件的反馈：</p>
+<ul>
+<li><strong>成功退出</strong>：当 CanSM 收到了所有配置控制器的模式指示回调（Indication）时，触发 <code>T_RESTART_CC_INDICATED</code>。这标志着控制器已成功恢复，子状态机完成使命并退出。</li>
+<li><strong>超时重试</strong>：如果在 <code>CANSM_MODEREQ_REPEAT_TIME</code> 时间内未收到所有指示，则触发 <code>T_RESTART_CC_TIMEOUT</code>。此时状态机会<strong>跳回 <code>S_RESTART_CC</code> 状态</strong>，重新开始执行 DO Action（即再次请求启动控制器）。</li>
+</ul>
+</li>
+<li>
+<p>特殊效应：E_TX_OFF</p>
+<p>由于控制器在 Bus-Off 重启后的默认 PDU 模式已经是 <strong>TX OFF</strong>（符合 <code>SILENTCOM</code> 要求的只听不发状态），因此该效应<strong>不执行任何操作</strong>。</p>
+</li>
+</ol>
+<p>在 <code>SILENTCOM_BOR</code> 流程中，执行完 DO Action 后的逻辑是：</p>
+<ol>
+<li><strong>不直接退出</strong>，而是跳转到内部的等待逻辑。</li>
+<li><strong>依赖反馈</strong>：只有硬件指示（Indication）到齐后才真正退出子状态机。</li>
+<li><strong>循环尝试</strong>：如果超时，它会不断循环执行 DO Action 尝试拉起控制器，直到硬件响应或达到全局的最大重试次数限制。</li>
+</ol>
+<h3 id="CANSM-BSM-S-PRE-FULLCOM">CANSM_BSM_S_PRE_FULLCOM</h3>
+<p><code>CANSM_BSM_S_PRE_FULLCOM</code>（预备全通信状态），其中正常的状态转移为：</p>
+<ul>
+<li>设置CAN收发器为Normal状态，CanIf_SetTrcvMode(CANTRCV_TRCVMODE_NORMAL)</li>
+<li>设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CS_STOPPED)</li>
+<li>设置CAN控制器为Started状态，CanIf_SetControllerMode(CAN_CS_STARTED)</li>
+</ul>
+<p>所以最终的收发器状态为<code>Normal</code>，控制器状态为<code>Started</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260126090604553.png" alt="CANSM_BSM_S_PRE_FULLCOM状态机" loading='lazy'></p>
+<ol>
+<li>
+<p>核心运行逻辑：请求与反馈</p>
+<p>在 <code>S_PRE_FULLCOM</code> 中，CanSM 的目标是确保硬件（收发器和控制器）在正式开启 PDU 传输前达到工作状态。</p>
+<ul>
+<li><strong>执行 DO Action</strong>：只要处于对应的 <code>S_...</code> 状态，CanSM 就会持续尝试发起模式请求（如 <code>CanIf_SetTrcvMode</code> 或 <code>CanIf_SetControllerMode</code>）。</li>
+<li><strong>Guard 判定</strong>：执行完 API 调用后，状态机会立即检查 Guard 条件。只有当 API 返回 <code>E_OK</code> 时，才会认为“请求已成功发出”，并允许逻辑停留在该状态或进入等待环节。</li>
+<li><strong>Indication 触发跳转</strong>：执行完 DO Action 且 API 返回成功后，状态机<strong>不会自动进入下一个功能阶段</strong>。它必须等待底层的异步回调通知（Indication）。一旦收到确认，相应的 <code>T_..._INDICATED</code> 触发器才会将状态机推向序列的下一步。</li>
+</ul>
+</li>
+<li>
+<p>状态机内部跳转序列</p>
+<p>该子状态机按照以下顺序强制执行硬件初始化：</p>
+<table>
+<thead>
+<tr>
+<th><strong>阶段</strong></th>
+<th><strong>状态 (State)</strong></th>
+<th><strong>执行的 DO Action</strong></th>
+<th><strong>退出到下一阶段的条件</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 收发器</strong></td>
+<td><code>S_TRCV_NORMAL</code></td>
+<td><code>DO_SET_TRCV_MODE_NORMAL</code></td>
+<td>收到收发器 Normal 指示</td>
+</tr>
+<tr>
+<td><strong>2. 控制器停止</strong></td>
+<td><code>S_CC_STOPPED</code></td>
+<td><code>DO_SET_CC_MODE_STOPPED</code></td>
+<td>收到所有控制器 Stopped 指示</td>
+</tr>
+<tr>
+<td><strong>3. 控制器启动</strong></td>
+<td><code>S_CC_STARTED</code></td>
+<td><code>DO_SET_CC_MODE_STARTED</code></td>
+<td>收到所有控制器 Started 指示</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>超时与容错处理</p>
+<ul>
+<li><strong>循环重试</strong>：如果在等待 Indication 的过程中触发了 <code>T_..._TIMEOUT</code>（即超过了 <code>CANSM_MODEREQ_REPEAT_TIME</code>），状态机会返回到当前阶段的起始点，重新执行 DO Action。</li>
+<li><strong>无硬件兼容性</strong>：如果没有配置收发器，<code>S_TRCV_NORMAL</code> 状态会直接模拟收到 <code>T_TRCV_NORMAL_INDICATED</code> 指示，从而直接跳转到控制器处理阶段。</li>
+</ul>
+</li>
+<li>
+<p>最终退出点</p>
+<p>当最后的 <code>T_CC_STARTED_INDICATED</code> 被触发后，该子状态机执行完毕。</p>
+<p>根据主状态机图（图 7-1），此时会产生效应 <strong><code>E_FULL_COM</code></strong>。这意味着 CanSM 此时才会调用 <code>CanIf_SetPduMode(CANIF_ONLINE)</code> 来真正允许报文在总线上发送，并最终向 ComM 模块发送模式指示。</p>
+</li>
+</ol>
+<h3 id="CANSM-BSM-S-FULLCOM">CANSM_BSM_S_FULLCOM</h3>
+<p>该状态机的核心功能是在CAN通信正常激活后，<strong>监控总线状态（如总线离线、发送超时）、处理故障恢复（如Bus-Off恢复）以及支持波特率切换</strong>，确保CAN总线持续稳定通信。</p>
+<ul>
+<li><strong>E_TX_OFF/ON</strong>:总线结果为TX_OFFLINE/TX_ONLINE</li>
+<li><strong>G_BUS_OFF_PASSIVE</strong>：如果CANSM_BOR_TX_CONFIRMATION_POLLING禁能且E_TX_ON持续时间大于等于CANSM_BOR_TIME_TX_ENSURED；或如果CANSM_BOR_TX_CONFIRMATION_POLLING使能且API：CanIf_GetTxConfirmationState返回CANIF_TX_RX_NOTIFICATION则满足条件G_BUS_OFF_PASSIVE。</li>
+<li><strong>T_SILENT_COM_MODE_REQUEST</strong>：CanSM_RequestComMode(COMM_SILENT_COMMUNICATION)</li>
+<li><strong>T_BUS_OFF</strong>：如果回调函数CanSM_ControllerBusOff，则以T_BUS_OFF触发状态切换。</li>
+<li><strong>T_RESTART_CC_INDICATED</strong>：在重启CAN控制器后，CanSM获得状态指示，则以T_RESTART_CC_INDICATED触发状态切换。</li>
+<li><strong>G_TX_ON</strong>：如果参数CanSMEnableBusOffDelay是FALSE：当bus-off恢复次数小于CanSMBorCounterL1ToL2时，经过时间CanSMBorTimeL1；或当bus-off恢复次数大于等于CanSMBorCounterL1ToL2时，经过时间CanSMBorTimeL2则满足G_TX_ON。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260127081230460.png" alt="CANSM_BSM_S_FULLCOM状态机" loading='lazy'></p>
+<p>CanSM 通过分层恢复策略（L1 和 L2）来平衡网络的可用性与稳定性。</p>
+<ol>
+<li>
+<p>Bus-Off 恢复的分层策略 (L1 vs L2)</p>
+<p>当 CAN 控制器发生 Bus-Off 时，CanSM 不会盲目重启，而是根据重试次数采用不同的等待时间：</p>
+<ul>
+<li>
+<p><strong>L1 (快速恢复)</strong>：如果 Bus-Off 重试次数未达到 <code>CanSMBorCounterL1ToL2</code>，则等待 <code>CanSMBorTimeL1</code>（较短时间）后尝试恢复。</p>
+</li>
+<li>
+<p><strong>L2 (慢速恢复)</strong>：如果连续失败次数过多，则进入 L2 阶段，等待 <code>CanSMBorTimeL2</code>（较长时间），以避免在故障严重时频繁冲击总线。</p>
+</li>
+<li>
+<p><strong>随机延迟</strong>：如果开启了 <code>CanSMEnableBusOffDelay</code>，会在上述时间基础上增加一个随机抖动，防止多个 ECU 同时重启导致总线再次冲突。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260127095114573.png" alt="Busoff恢复策略" loading='lazy'></p>
+</li>
+</ul>
+</li>
+<li>
+<p>Bus-Off 发生时 (E_BUS_OFF)</p>
+<p>一旦收到 <code>CanSM_ControllerBusOff</code> 回调：</p>
+<ol>
+<li><strong>通知 BswM</strong>：状态切至 <code>CANSM_BSWM_BUS_OFF</code>。</li>
+<li><strong>通知 ComM</strong>：通信模式降级为 <code>COMM_SILENT_COMMUNICATION</code>（只听不发）。</li>
+<li><strong>记录故障</strong>：向 DEM 报告 <code>PRE_FAILED</code>。</li>
+<li><strong>联动停止</strong>：如果一个网络有多个控制器，其中一个 Bus-Off，其他控制器也会被一并停止。</li>
+</ol>
+</li>
+<li>
+<p>恢复通信 (E_TX_ON)</p>
+<p>当等待时间结束并成功重启控制器后：</p>
+<ul>
+<li><strong>开启 PDU</strong>：根据 ECU Passive 状态，将 <code>CanIf</code> 设为 <code>ONLINE</code> 或 <code>TX_OFFLINE_ACTIVE</code>。</li>
+<li><strong>模式回升</strong>：通知 BswM 恢复全通信，并向 ComM 发送 <code>COMM_FULL_COMMUNICATION</code> 指示。</li>
+</ul>
+</li>
+<li>
+<p>恢复成功判定 (G_BUS_OFF_PASSIVE)</p>
+<p>这是 BOR 逻辑闭环的关键点。只有满足以下条件，Bus-Off 计数器才会重置，DEM 才会上报 <code>PASSED</code>：</p>
+<ul>
+<li><strong>基于时间</strong>：从开启发送（E_TX_ON）起，正常运行超过 <code>CANSM_BOR_TIME_TX_ENSURED</code>。</li>
+<li><strong>基于确认</strong>：或者开启了轮询模式，且 <code>CanIf</code> 确认所有控制器都有成功的发送或接收记录。</li>
+</ul>
+</li>
+<li>
+<p>波特率更改 (T_CHANGE_BR_REQUEST)</p>
+<p>在全通信状态下，CanSM 允许通过 <code>CanSM_SetBaudrate</code> 异步更改波特率。</p>
+<ul>
+<li>触发 <code>T_CHANGE_BR_REQUEST</code> 后，会通知 BswM 进入 <code>CANSM_BSWM_CHANGE_BAUDRATE</code> 状态进行流程同步。</li>
+</ul>
+</li>
+</ol>
+<p>🔄 状态流转汇总表</p>
+<table>
+<thead>
+<tr>
+<th><strong>触发/状态</strong></th>
+<th><strong>动作 (Action) / 效应 (Effect)</strong></th>
+<th><strong>目的</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>T_BUS_OFF</strong></td>
+<td><code>E_BUS_OFF</code></td>
+<td>停止发送，降级模式，上报 DEM</td>
+</tr>
+<tr>
+<td><strong>S_RESTART_CC</strong></td>
+<td><code>DO_SET_CC_MODE_STARTED</code></td>
+<td>尝试重启 CAN 硬件控制器</td>
+</tr>
+<tr>
+<td><strong>G_TX_ON</strong> (Wait)</td>
+<td>根据计数器选择 L1 或 L2 时间</td>
+<td>故障恢复间隔控制</td>
+</tr>
+<tr>
+<td><strong>E_TX_ON</strong></td>
+<td><code>CanIf_SetPduMode(ONLINE)</code></td>
+<td>重新开启总线通信</td>
+</tr>
+<tr>
+<td><strong>G_BUS_OFF_PASSIVE</strong></td>
+<td>重置计数器，DEM PASSED</td>
+<td>确认 Bus-Off 故障已真正消除</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>其中子状态CANSM_BSM_S_TX_TIMEOUT_EXCEPTION为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260127095321949.png" alt="CANSM_BSM_S_TX_TIMEOUT_EXCEPTION状态机" loading='lazy'></p>
+<p><code>CANSM_BSM_S_TX_TIMEOUT_EXCEPTION</code>（发送超时异常）子状态机旨在通过<strong>重启控制器</strong>的方式来尝试恢复异常的发送功能。当底层驱动检测到发送超时并触发 <code>CanSM_TxTimeoutException</code> 回调时，状态机会进入此流程。</p>
+<p>其核心逻辑依然遵循 CanSM 典型的“请求-确认”循环，但目的变为“冷启动”硬件：</p>
+<ol>
+<li>
+<p>核心异常恢复流程</p>
+<p>该子状态机通过先“停止”后“启动”控制器的序列，尝试重置控制器的发送逻辑：</p>
+<p>第一阶段：强制停止控制器 (S_CC_STOPPED)</p>
+<ul>
+<li><strong>动作 (DO Action)</strong>：只要处于 <code>S_CC_STOPPED</code> 状态，CanSM 会持续检查并调用 <code>CanIf_SetControllerMode</code> 将控制器设为 <code>CAN_CS_STOPPED</code>。</li>
+<li><strong>跳转逻辑</strong>：
+<ul>
+<li><strong>API 成功</strong>：当 API 调用返回 <code>E_OK</code> 时，满足 <code>G_CC_STOPPED_E_OK</code> 判定条件。</li>
+<li><strong>确认指示</strong>：收到所有控制器的停止指示回调后，触发 <code>T_CC_STOPPED_INDICATED</code> 跳转到下一阶段。</li>
+<li><strong>超时处理</strong>：如果超过 <code>CANSM_MODEREQ_REPEAT_TIME</code> 未收到反馈，则触发 <code>T_CC_STOPPED_TIMEOUT</code> 重新尝试。</li>
+</ul>
+</li>
+</ul>
+<p>第二阶段：重新启动控制器 (S_CC_STARTED)</p>
+<ul>
+<li><strong>动作 (DO Action)</strong>：持续请求 <code>CanIf_SetControllerMode</code> 为 <code>CAN_CS_STARTED</code>。</li>
+<li><strong>跳转逻辑</strong>：
+<ul>
+<li><strong>API 成功</strong>：满足 <code>G_CC_STARTED_E_OK</code>。</li>
+<li><strong>确认指示</strong>：收到所有控制器的启动指示回调后，触发 <code>T_RESTART_CC_INDICATED</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>最终退出效应 (ExitPoint: TxTimeout)</p>
+<p>与常规 Bus-Off 恢复不同，发送超时异常恢复在退出时有一个关键的自动操作：</p>
+<ul>
+<li><strong>自动恢复通信</strong>：一旦收到 <code>T_CC_STARTED_INDICATED</code> 信号，在退出子状态机时，CanSM 会<strong>自动调用</strong> <code>CanIf_SetPduMode(CANIF_ONLINE)</code>。</li>
+</ul>
+<p>这确保了控制器在重启后，报文传输（PDU Mode）能够立即回到正常工作状态。</p>
+</li>
+</ol>
+<p>在这个子状态机中，执行完 <strong>DO Action</strong> 后的行为是：</p>
+<ol>
+<li><strong>挂起等待</strong>：在 Guard 条件满足（API 返回 <code>E_OK</code>）后，状态机保持在当前状态（或逻辑上的 WAIT 状态）。</li>
+<li><strong>不直接退出</strong>：必须等到硬件层给出 Indication（指示）。</li>
+<li><strong>循环直到成功</strong>：如果硬件没反应，通过 TIMEOUT 机制不断回到 DO Action 重新发起请求。</li>
+</ol>
+<h3 id="CANSM-BSM-S-CHANGE-BAUDRATE">CANSM_BSM_S_CHANGE_BAUDRATE</h3>
+<p>CanIf_SetBaudrate() 如果直接设置波特率失败，执行</p>
+<ul>
+<li>设置CAN控制器为Stopped状态，CanIf_SetControllerMode(CAN_CS_STOPPED)</li>
+<li>设置CAN控制器为Started状态，CanIf_SetControllerMode(CAN_CS_STARTED)</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260129141630694.png" alt="CANSM_BSM_S_CHANGE_BAUDRATE状态机" loading='lazy'></p>
+<p><code>CANSM_BSM_CHANGE_BAUDRATE</code> 子状态机负责处理波特率的动态更改。CanSM 提供了两种路径：一种是<strong>直接更改</strong>（Direct），另一种是通过<strong>重启序列</strong>（Stop-Change-Start）进行的异步更改。</p>
+<ol>
+<li>
+<p>路径一：直接更改 (Direct Change)</p>
+<p>当调用 <code>CanSM_SetBaudrate</code> 时，状态机会首先尝试“最快”的方式：</p>
+<ul>
+<li><strong>DO Action</strong>: 执行 <code>DO_SET_BAUDRATE_DIRECT</code>，立即调用 <code>CanIf_SetBaudrate</code>。</li>
+<li><strong>跳转逻辑</strong>:
+<ul>
+<li><strong>成功 (G_SET_BAUDRATE_DIRECT_OK)</strong>: 如果 API 返回 <code>E_OK</code>，逻辑直接结束，认为波特率已生效。</li>
+<li><strong>失败 (G_SET_BAUDRATE_DIRECT_NOT_OK)</strong>: 如果 API 返回 <code>E_NOT_OK</code>，说明当前硬件状态不支持直接修改，状态机会自动切换到“路径二”进行处理。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>路径二：异步重启更改 (Async Change Sequence)</p>
+<p>如果直接更改失败，CanSM 会通过标准的“停止-修改-启动”序列来确保硬件正确重置：</p>
+<p>阶段 A：停止控制器 (S_CC_STOPPED)</p>
+<ul>
+<li><strong>DO Action</strong>: 持续请求 <code>CAN_CS_STOPPED</code>。</li>
+<li><strong>反馈跳转</strong>: 收到所有控制器的 <code>T_CC_STOPPED_INDICATED</code> 后向下流转。</li>
+</ul>
+<p>阶段 B：执行效应 (E_CHANGE_BAUDRATE)</p>
+<p>这是<strong>核心动作点</strong>，在跳转过程中执行：</p>
+<ol>
+<li><strong>模式降级</strong>: 通知 ComM 进入 <code>COMM_NO_COMMUNICATION</code>（因为重启期间总线不可用）。</li>
+<li><strong>再次修改</strong>: 在控制器停止状态下，再次调用 <code>CanIf_SetBaudrate</code>。</li>
+</ol>
+<p>阶段 C：重新启动 (S_CC_STARTED)</p>
+<ul>
+<li><strong>DO Action</strong>: 持续请求 <code>CAN_CS_STARTED</code>。</li>
+<li><strong>反馈跳转</strong>: 收到 <code>T_CC_STARTED_INDICATED</code> 后，准备退出子状态机。</li>
+</ul>
+</li>
+<li>
+<p>最终出口判定 (Guarding conditions)</p>
+<p>当硬件重启完成后，子状态机会检查外部的通信请求，决定下一步去向：</p>
+<ul>
+<li><strong>返回 FullCom</strong>: 如果最新的请求是 <code>FULL</code> 或 <code>SILENT</code> 模式，通过 <code>G_NO_COM_MODE_NOT_REQUESTED</code> 路径回到主状态机的通信流程中。</li>
+<li><strong>保持 NoCom</strong>: 如果此时已经请求了 <code>COMM_NO_COMMUNICATION</code>，则通过 <code>G_NO_COM_MODE_REQUESTED</code> 路径跳转，这避免了不必要的通信恢复。</li>
+</ul>
+</li>
+</ol>
+<p>📝 执行 DO Action 后的状态流转</p>
+<table>
+<thead>
+<tr>
+<th><strong>执行的 DO Action</strong></th>
+<th><strong>API 返回 E_OK 后</strong></th>
+<th><strong>最终跳转触发点</strong></th>
+<th><strong>超时处理</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DO_SET_BAUDRATE_DIRECT</strong></td>
+<td>判定 Guard 条件</td>
+<td>无需等待 Indication</td>
+<td>若失败则转入异步序列</td>
+</tr>
+<tr>
+<td><strong>DO_SET_CC_MODE_STOPPED</strong></td>
+<td>满足 Guard</td>
+<td><strong>等待</strong> <code>T_CC_STOPPED_INDICATED</code></td>
+<td>触发 <code>TIMEOUT</code> 重新执行</td>
+</tr>
+<tr>
+<td><strong>DO_SET_CC_MODE_STARTED</strong></td>
+<td>满足 Guard</td>
+<td><strong>等待</strong> <code>T_CC_STARTED_INDICATED</code></td>
+<td>触发 <code>TIMEOUT</code> 重新执行</td>
+</tr>
+</tbody>
+</table>
+<h2 id="模式切换">模式切换</h2>
+<p>==启动流程：No Communication → Full Communication==</p>
+<p>这是最标准的硬件初始化序列。它严格遵循“收发器 Normal -&gt; 控制器 Stopped -&gt; 控制器 Started”的逻辑。</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant ComM
+    participant CanSM
+    participant BswM
+    participant CanIf_Trcv as CanIf (Transceiver)
+    participant CanIf_Ctrl as CanIf (Controller)
+
+    Note over CanSM: 状态: S_NO_COMMUNICATION
+    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(FULL_COM)
+    
+    rect rgb(240, 240, 240)
+    Note right of CanSM: 步骤 1: 准备收发器 (S_TRCV_NORMAL)
+    CanSM-&gt;&gt;CanIf_Trcv: CanIf_SetTrcvMode(NORMAL)
+    CanIf_Trcv--&gt;&gt;CanSM: CanSM_TransceiverModeIndication(NORMAL)
+    end
+
+    rect rgb(240, 240, 240)
+    Note right of CanSM: 步骤 2: 重置控制器 (S_CC_STOPPED)
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetControllerMode(STOPPED)
+    CanIf_Ctrl--&gt;&gt;CanSM: CanSM_ControllerModeIndication(STOPPED)
+    end
+
+    rect rgb(240, 240, 240)
+    Note right of CanSM: 步骤 3: 启动控制器 (S_CC_STARTED)
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetControllerMode(STARTED)
+    CanIf_Ctrl--&gt;&gt;CanSM: CanSM_ControllerModeIndication(STARTED)
+    end
+
+    Note right of CanSM: 步骤 4: 开启通信 (Effect: E_FULL_COM)
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetPduMode(ONLINE)
+    CanSM-&gt;&gt;BswM: BswM_CanSM_CurrentState(FULL_COM)
+    CanSM-&gt;&gt;ComM: ComM_BusSM_ModeIndication(FULL_COM)
+    Note over CanSM: 状态: S_FULL_COMMUNICATION</code></pre>
+<p>==关机流程：Full Communication → No Communication (不支持 PN)==</p>
+<p>关机时，CanSM 会先停止控制器，再将收发器置于 Standby 模式，以节省功耗。</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant ComM
+    participant CanSM
+    participant CanIf_Trcv as CanIf (Transceiver)
+    participant CanIf_Ctrl as CanIf (Controller)
+
+    Note over CanSM: 状态: S_FULL_COMMUNICATION
+    ComM-&gt;&gt;CanSM: CanSM_RequestComMode(NO_COM)
+
+    rect rgb(230, 230, 230)
+    Note right of CanSM: 步骤 1: 停止控制器
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetControllerMode(STOPPED)
+    CanIf_Ctrl--&gt;&gt;CanSM: CanSM_ControllerModeIndication(STOPPED)
+    end
+
+    rect rgb(230, 230, 230)
+    Note right of CanSM: 步骤 2: 控制器进入睡眠
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetControllerMode(SLEEP)
+    CanIf_Ctrl--&gt;&gt;CanSM: CanSM_ControllerModeIndication(SLEEP)
+    end
+
+    rect rgb(230, 230, 230)
+    Note right of CanSM: 步骤 3: 收发器进入待机 (S_TRCV_STANDBY)
+    CanSM-&gt;&gt;CanIf_Trcv: CanIf_SetTrcvMode(STANDBY)
+    CanIf_Trcv--&gt;&gt;CanSM: CanSM_TransceiverModeIndication(STANDBY)
+    end
+
+    CanSM-&gt;&gt;ComM: ComM_BusSM_ModeIndication(NO_COM)
+    Note over CanSM: 状态: S_NO_COMMUNICATION</code></pre>
+<p>==异常恢复：Bus-Off 恢复流程 (BOR)==</p>
+<p>当硬件发生 Bus-Off 时，CanSM 会暂时关闭发送功能，并尝试重启控制器。</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DEM
+    participant CanSM
+    participant CanIf_Ctrl as CanIf (Controller)
+    participant CanDrv as CAN Driver
+
+    CanDrv--&gt;&gt;CanSM: CanSM_ControllerBusOff(Ctrl_0)
+    
+    rect rgb(255, 240, 240)
+    Note right of CanSM: 步骤 1: 发生 Bus-Off (E_BUS_OFF)
+    CanSM-&gt;&gt;DEM: Dem_SetEventStatus(BUS_OFF, PRE_FAILED)
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetPduMode(OFFLINE)
+    end
+
+    Note over CanSM: 等待 BOR 时间 (L1 或 L2)
+
+    rect rgb(240, 255, 240)
+    Note right of CanSM: 步骤 2: 重启控制器 (S_RESTART_CC)
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetControllerMode(STARTED)
+    CanIf_Ctrl--&gt;&gt;CanSM: CanSM_ControllerModeIndication(STARTED)
+    end
+
+    Note right of CanSM: 步骤 3: 恢复发送 (E_TX_ON)
+    CanSM-&gt;&gt;CanIf_Ctrl: CanIf_SetPduMode(ONLINE)
+    
+    Note over CanSM: 运行并监测 T_BOR_TX_ENSURED
+    CanSM-&gt;&gt;DEM: Dem_SetEventStatus(BUS_OFF, PASSED)</code></pre>
+<p>状态切换中的组件变化规律</p>
+<table>
+<thead>
+<tr>
+<th><strong>切换类型</strong></th>
+<th><strong>控制器 (Controller) 变化</strong></th>
+<th><strong>收发器 (Transceiver) 变化</strong></th>
+<th><strong>PDU 传输状态</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>启动 (Go Full)</strong></td>
+<td>Stopped → Started</td>
+<td>Standby → Normal</td>
+<td>Offline → Online</td>
+</tr>
+<tr>
+<td><strong>关机 (Go No)</strong></td>
+<td>Started → Stopped → Sleep</td>
+<td>Normal → Standby</td>
+<td>Online → Offline</td>
+</tr>
+<tr>
+<td><strong>Bus-Off 恢复</strong></td>
+<td>Started (Error) → Started</td>
+<td>保持 Normal</td>
+<td>Online → Offline → Online</td>
+</tr>
+<tr>
+<td><strong>波特率切换</strong></td>
+<td>Started → Stopped → Started</td>
+<td>保持 Normal</td>
+<td>Online → Offline → Online</td>
+</tr>
+</tbody>
+</table>
+<h1>Busoff</h1>
+<p>除了上面所说的总线状态机，CanSM模块还有另外一个小型状态机，那就是用来实现的Busoff 恢复机制。</p>
+<p>当CanSM模块从CanIf模块收到 Busoff 通知时，将会进入 Busoff 恢复的状态，恢复机制如下：</p>
+<ol>
+<li>快恢复，产生 Busoff 后，延时 CanSMBorTimeL1 时间尝试恢复；</li>
+<li>快恢复次数达到 CanSMBorCounterL1ToL2 后，进行慢恢复；</li>
+<li>慢恢复，产生 Busoff 后，延时 CanSMBorTimeL2 时间尝试恢复；</li>
+<li>慢恢复次数为无限次。</li>
+</ol>
+<p>尝试恢复指的是，重新打开Can的发送能力，并从Busoff Recovery状态切换至CHECK_BUS_OFF状态。在首次进行快恢复和慢恢复时，CanSM模块会分别给出回调函数通知用户。</p>
+<p>当 CanSM 尝试恢复 Busoff 后，有两种方法对总线是否恢复进行确认。</p>
+<ol>
+<li>若 CanSMBorTxConfirmationPolling 为 false，停留在BUS_OFF_CHECK状态没有超过时间参数CanSMBorTimeTxEnsured，在此时间段内，没有新的 Busoff 事件产生，则认为 Busoff恢复成功。</li>
+<li>若 CanSMBorTxConfirmationPolling 为 true，停留在 BUS_OFF_CHECK状态，直到检测到确实有一帧 Can 报文发送成功并给出了发送确认则认为 Busoff 恢复成功。这种情况下，需要调用 CanIf 的CanIf_GetTxConfirmationState 接口。</li>
+</ol>
+<p>Busoff 恢复成功后，BUS_OFF_CHECK状态将切换为 NO_BUS_OFF状态，总线通信恢复正常（<strong>注</strong>：BUS_OFF_CHECK和NO_BUS_OFF是FULLCOM状态中的两个小状态）。</p>
+<p>如果Busoff 恢复不成功，节点一直在慢恢复期，意味着该节点不会外报文(应用报文和网络管理报文均不会外发)，其他节点会上报对应的节点丢失故障。</p>
+<h2 id="概述">概述</h2>
+<blockquote>
+<p><strong>什么是Can Bus Off</strong></p>
+<p>车上有一个ECU 1, 一直向总线发送消息，可怎么都发送不出去。</p>
+<p>如果这个累计到一定的次数（255），按照CAN总线协议： ECU 1自己进入 BUSOFF模式，这个时候ECU 1 一时半会是不能发送信息了。</p>
+</blockquote>
+<blockquote>
+<p><strong>BusOff 后如何处理</strong></p>
+<p>ECU 1在自己内部检测到BUS OFF后，默默的从逻辑上退出了总线，暂时他没妨碍大家，ECU 1他自己也搞不明白啥回事，于是ECU 1拿着小本子，记下了 x年x月x日x时x分x秒, 汽车电压，里程，xxx 是多少多少，我bus off 了。</p>
+<p>写完备案后，ECU 1 开始数时间，等待 5 秒后，重启自己的CAN模块</p>
+</blockquote>
+<blockquote>
+<p><strong>BusOff时计数的变化规律</strong></p>
+<p>bus off是个非常集体的概念：</p>
+<ul>
+<li>ECU自己发送失败，TX error count + 8，</li>
+<li>ECU自己发送成功，TX error count - 1，</li>
+</ul>
+<p>这个TX error count 超过255，ECU就必须进入Bus Off 状态，并需要逻辑上断开总线</p>
+</blockquote>
+<blockquote>
+<p><strong>Can Frame的一些常见错误</strong></p>
+<ol>
+<li>发送ECU检查
+<ul>
+<li>有无ACK</li>
+<li>CRC检查，CRC Delimiter, ACK Delimiter，EOF等</li>
+<li>BIT监控， 送的那个ECU，自己校对每个BIT，看有没有都送对（ID区域，和ACK区域除外）</li>
+</ul>
+</li>
+<li>接收ECU检查
+<ul>
+<li>CRC检查，CRC Delimiter, ACK Delimiter，EOF等</li>
+<li>检查有无连续6比特是全0、或全1的</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="故障界定">故障界定</h2>
+<p>为了避免某个设备因为自身原因（例如硬件损坏）导致无法正确收发报文而不断的破坏总线的数据帧，从而影响其它正常节点通信，CAN网络具有严格的错误诊断功能，CAN通用规范中规定每个CAN控制器中有一个发送错误计数器和一个接收错误计数器。根据计数值不同，节点会处于不同的错误状态，并根据计数值的变化进行状态转换，状态转换如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125135253590.png" alt="故障界定状态转化图" loading='lazy'></p>
+<p>以上三种错误状态表示发生故障的严重程度，总线关闭是节点最严重的错误状态。并且，节点在不同的状态下具有不同的特性，在总线关闭状态下，节点不能发送报文或应答总线上的报文，也就意味着不能再对总线有任何影响。</p>
+<p>状态跳转和错误计数的规则使得节点在发生通信故障时有了较好的自我错误处理和恢复机制，从一种较严重的错误状态跳转到另一种严重性相对较低的状态，本质上就是一种恢复过程。上图所呈现的转换过程是CAN通用规范所要求的，我们从设备供应商买回来的CAN控制器已经把这些功能固化在硅片之中。</p>
+<p>在通信过程中，错误主动和错误被动两种状态下节点的恢复过程一般不需要MCU进行额外的编程处理，直接使用CAN控制器固有功能即可。但对于总线关闭状态，往往不直接使用CAN控制器固有的恢复过程，而是对其进行编程控制，以实现“快恢复”和“慢恢复”机制。</p>
+<h2 id="快恢复和慢恢复">快恢复和慢恢复</h2>
+<p>当节点进入总线关闭状态后，如果MCU仅是开启自动恢复功能，CAN控制器在检测到128次11个连续的隐性位后即可恢复通信，在实际的CAN通信总线中，这一条件是很容易达到的。以125K的波特率为例，12811（1/125000）= 0.011264s。这意味着如果节点所在的CAN总线的帧间隔时间大于0.011264s，节点在总线空闲时间内便可轻易恢复通信。我们已经知道，当进入总线关闭状态时，节点已经发生了严重的错误，处于不可信状态，如果迅速恢复参与总线通信，具有较高的风险，因此，在实际的应用中，往往会通过MCU对CAN控制器总线关闭状态的恢复过程进行编程处理，以控制节点从总线关闭状态恢复到错误主动状态的等待时间，达到既提高灵活性又保证节点在功能上的快速响应性的目的。具体包括“快恢复”和“慢恢复”策略，两种策略一般同时应用。</p>
+<p>通过以上的讨论，我们可以知道，节点进入总线关闭状态后，存在以下几种恢复情况：</p>
+<ol>
+<li>
+<p>MCU仅开启CAN控制器的自动恢复功能，节点只需检测到128次11个连续的隐性位便可以恢复通信，恢复过程如<a href="##%E6%95%85%E9%9A%9C%E7%95%8C%E5%AE%9A">上节图</a>所示。</p>
+</li>
+<li>
+<p>MCU没有开启CAN控制器的自动恢复功能，也不主动干预总线关闭错误，节点将一直无法“自动”恢复总线通信，只能通过重新上电的方式使节点恢复, 恢复过程如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125135934279.png" alt="重新上电恢复总线" loading='lazy'></p>
+</li>
+<li>
+<p>MCU对CAN控制器的恢复过程进行编程处理，这时，节点的恢复行为由具体的编程逻辑决定，各厂家普遍采用了先“快恢复”后“慢恢复”的恢复策略，恢复过程如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125140011673.png" alt="快慢恢复" loading='lazy'></p>
+</li>
+</ol>
+<p>MCU编程实现总线关闭“快恢复”和“慢恢复”的一般过程可用以下流程图描述：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125140037371.png" alt="快慢恢复流程" loading='lazy'></p>
+<p>节点以正常发送模式发送报文的过程中，如果出现了发送错误，发送错误计数会增加，只要发送错误计数没有超过255， CAN控制器便会自动重发报文，如果出现多次发送错误，使发送错误计数累加超过255，则节点跳转为总线关闭状态。MCU能够第一时间知道节点进入了总线关闭状态（例如在错误中断处理逻辑中查询状态寄存器的相应位），这时MCU控制CAN控制器进入“快恢复”过程，即控制CAN控制器停止报文收发，并进行等待，计时达到需要的时间T1（如100ms）后，MCU重新启动恢复CAN控制器参与总线通信，这样便完成了一次“快恢复”过程。</p>
+<p>节点每进入一次“快恢复”过程时，MCU会对此进行计数，当节点“快恢复”计数达到设定的值N（如5次），则后续再次进入总线关闭状态时MCU把恢复总线通信的等待时间T2进行延长（如1000ms），这样便实现了“慢恢复”过程。“快恢复”和“慢恢复”过程的主要区别就在于恢复节点参与总线通信的等待时间的不同。</p>
+<p>通过MCU对于总线关闭后的恢复行为进行编程控制，实际上是对CAN控制器的错误管理和恢复机制进行了补充，使得总线关闭状态后的恢复过程更加灵活，更能适应实际应用的需要。对于 “快恢复”和“慢恢复”的等待时间，以及“快恢复”计数多少次后进入“慢恢复”过程，不同厂家可根据具体的需求进行编程实现。</p>
+<blockquote>
+<p>[!note]</p>
+<p>当我们进行干扰的时候，不用Rx口就可以知道数据帧发送是否正确，以下使用Ack干扰来举例：</p>
+<p>CAN总线采用&quot;线与&quot;逻辑，发送节点在ACK槽（ACK Slot）发送隐性位（逻辑1），而正确接收的节点会覆盖为显性位（逻辑0）。发送节点通过<strong>实时回读总线电平</strong>与自身发送的电平对比：</p>
+<ul>
+<li>成功应答：若回读到显性位（0），说明至少有一个节点正确接收。</li>
+<li>应答错误：若回读到隐性位（1），说明无节点应答，触发ACK错误。</li>
+</ul>
+<p>此过程由CAN控制器硬件自动完成，无需软件干预。发送节点在TX发送的同时通过内部回环检测总线实际状态，而非依赖RX口 。</p>
+<p>问题：不走Rx是怎么知道发出去的报文是正确的‼‼‼‼‼‼‼‼</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanSm/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanSm/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/DCM/" title="DCM"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">DCM</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Diagnostic Communication Manager  AUTOSAR Dcm (Diagnostic Communication Manager) 模块被划分为三个核心子模块：DSL、DSD 和 DSP。这种分...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Dem/" title="Dem"><img class="cover" src="/img/RandomCoverImage/random_13.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Dem</div></div><div class="info-2"><div class="info-item-1">概述 Dem(Diagnostic Event Manager，诊断事件管理), 用来记录和存储诊断事件的，将这些诊断事件及相关信息(冻结帧及扩展数据)记录到EEPROM。简单说其功能是：  故障事件确认前的故障消抖 故障事件确认时的故障数据存储 故障发生后的故障老化 故障替代（AUTOSAR...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">模块交互</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">通信模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">子状态机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CANSM-BSM-WUVALIDATION"><span class="toc-number">3.1.1.</span> <span class="toc-text">CANSM_BSM_WUVALIDATION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANSM-BSM-S-PRE-NOCOM"><span class="toc-number">3.1.2.</span> <span class="toc-text">CANSM_BSM_S_PRE_NOCOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANSM-BSM-S-SILENTCOM-BOR"><span class="toc-number">3.1.3.</span> <span class="toc-text">CANSM_BSM_S_SILENTCOM_BOR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANSM-BSM-S-PRE-FULLCOM"><span class="toc-number">3.1.4.</span> <span class="toc-text">CANSM_BSM_S_PRE_FULLCOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANSM-BSM-S-FULLCOM"><span class="toc-number">3.1.5.</span> <span class="toc-text">CANSM_BSM_S_FULLCOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANSM-BSM-S-CHANGE-BAUDRATE"><span class="toc-number">3.1.6.</span> <span class="toc-text">CANSM_BSM_S_CHANGE_BAUDRATE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E5%88%87%E6%8D%A2"><span class="toc-number">3.2.</span> <span class="toc-text">模式切换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">Busoff</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E7%95%8C%E5%AE%9A"><span class="toc-number">4.2.</span> <span class="toc-text">故障界定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E6%81%A2%E5%A4%8D%E5%92%8C%E6%85%A2%E6%81%A2%E5%A4%8D"><span class="toc-number">4.3.</span> <span class="toc-text">快恢复和慢恢复</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_6.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

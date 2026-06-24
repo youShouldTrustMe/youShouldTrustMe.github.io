@@ -1,0 +1,531 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Communication Stack概述 | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，例举一下汽车电子通信网络中的几大总线，CAN, LIN, FlexRay，以太网。所以不难想象Commun">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Communication Stack概述">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，例举一下汽车电子通信网络中的几大总线，CAN, LIN, FlexRay，以太网。所以不难想象Commun">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_16.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_16.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Communication Stack概述",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_16.jpg",
+  "datePublished": "2026-06-24T01:22:05.603Z",
+  "dateModified": "2026-06-24T01:22:05.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Communication Stack概述',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_16.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Communication Stack概述</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Communication Stack概述</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.603Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.603Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<p><strong>Communication stack</strong>包括以下三个大模块：</p>
+<ol>
+<li>Communication Service</li>
+<li>Communication Hardware Abstraction</li>
+<li>Communication Drivers</li>
+</ol>
+<p>Communication Stack主要承载了ECU的通信功能，例举一下汽车电子通信网络中的几大总线，CAN, LIN, FlexRay，以太网。所以不难想象Communication Stack必须要针对这四大总线实现它们的驱动以及相关常见协议栈，比如说CAN的UDS，以太网的TCP/IP等。整个Communication Stack的结构如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251211083119069.png" alt="Communication stack结构" loading='lazy'></p>
+<p>仔细观察四大总线的消息传递路径，可以发现在AUTOSAR架构中基本上都大同小异，对于接收消息而言，四大总线上的消息大多都是先由MCAL层中的Driver，然后传输到位于ECU抽象层的Interface，Interface层会根据消息类型进行分配最后再传输到该消息对应的服务层，对于发送则是一个相反的过程。</p>
+<h1>通信过程</h1>
+<p>Communication Stack所提供的服务，主要有两类：</p>
+<ol>
+<li>
+<p>一类主要负责通信数据的传输，主要有Com服务和Dcm服务，这两者主要负责ECU大量系统数据的传输。</p>
+<ol>
+<li>
+<p>Com服务主要负责传递来自APP层的消息，说简单点它就是把系统中的一些系统变量参数根据一定数据组合规则打包（或者解包），然后根据一定的时间/事件规则发送出去（或者接收进来）。Com服务中Can消息传递路径为：</p>
+<pre><code class="highlight mermaid">graph TD
+    subgraph 顶层模块
+        A[ ]:::orange
+        B[ ]:::orange
+    end
+    
+    C[Com]:::blue
+    D[I-PDU]:::gray
+    E[PduR]:::blue
+    F[I-PDU]:::gray
+    G[CanIf]:::green
+    H[L-PDU]:::gray
+    I[CanDrv]:::pink
+    
+    A --&gt; C
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E
+    E --&gt; F
+    F --&gt; G
+    G --&gt; H
+    H --&gt; I
+    
+    classDef orange fill:#FF7F50,stroke:#000,stroke-width:2px,width:40px,height:30px
+    classDef blue fill:#87CEFA,stroke:#000,stroke-width:2px
+    classDef gray fill:#D3D3D3,stroke:#000,stroke-width:2px
+    classDef green fill:#98FB98,stroke:#000,stroke-width:2px
+    classDef pink fill:#FFB6C1,stroke:#000,stroke-width:2px</code></pre>
+<p>对于接收而言，MCAL层中的CanDrv接收到最原始的CAN报文后传输到CanIf模块，CanIf模块相当于是一个报文分类模块，它会根据CAN ID将CAN报文分类，然后传递到服务层的不同模块，比如图中的PduR模块。经过了CanIf模块后，这个时候原始CAN报文变换为服务层PDU。PduR功能为PDU路由，它会对PDU再次进行分类，随后将其传递到更上层的软件模块，比如Com模块。</p>
+</li>
+<li>
+<p>Dcm服务主要实现了UDS诊断协议，接收来自外部的请求，并作出响应。Dcm服务中Can消息传递路径为：</p>
+<pre><code class="highlight mermaid">graph TD
+    A[Dcm]:::blue
+    B[I-PDU]:::gray
+    C[PduR]:::blue
+    D[I-PDU]:::gray
+    E[CanTp]:::blue
+    F[N-PDUs]:::gray
+    G[CanIf]:::green
+    H[L-PDU]:::gray
+    I[CanDrv]:::pink
+
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E
+    E --&gt; F
+    F --&gt; G
+    G --&gt; H
+    H --&gt; I
+
+    classDef blue fill:#87CEFA,stroke:#000,stroke-width:2px
+    classDef gray fill:#D3D3D3,stroke:#000,stroke-width:2px
+    classDef green fill:#98FB98,stroke:#000,stroke-width:2px
+    classDef pink fill:#FFB6C1,stroke:#000,stroke-width:2px</code></pre>
+<p>在Dcm服务中，对比Com服务，发现其有两个不同，第一个不同为Dcm服务与APP没有交集，因为Dcm就是UDS。第二个不同为在CanIf模块和PduR模块中多了一层CanTP模块，这个模块其实就是实现了ISO15765-2中描述的UDS on CAN的网络层。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>另外一类则负责通信模式的管理，包括有SM模块和NM，这两者主要负责状态管理和网络管理。</p>
+<ol>
+<li>SM模块则是负责总线的状态管理，主要负责总线通信开启和关闭，另外还负责总线错误的检测和恢复。</li>
+<li>而NM模块则负责总线的网络管理，基于总线报文协议控制ECU的睡眠和唤醒。</li>
+</ol>
+</li>
+</ol>
+<p>更为详细的通信过程如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251211085115455.png" alt="AUTOSAR CAN通信过程" loading='lazy'></p>
+<p>其中不同层的名词解释如下：</p>
+<ol>
+<li>
+<p><strong>交互层</strong></p>
+<ul>
+<li>IPDU multiplexer：协议数据单元复用模块</li>
+<li>COM：COMMUNICATION 通信模块</li>
+<li>DCM: 诊断通信管理模块（Diagnostic Comminication Manager）</li>
+<li>PDUR:Protocol Data Unit Router -PDU路由器</li>
+</ul>
+</li>
+<li>
+<p><strong>网络层：</strong></p>
+<ul>
+<li>CAN TP: CAN Transport Layer</li>
+<li>CAN TP提供的服务包括： 传输方向的数据分割、接收方向的数据重组、 数据流控制、检测分割会话中的错误、传输取消接收取消</li>
+<li>J1939 TP：基于J1939协议的CAN TP，J1939Tp模块实现了SAEJ1939标准中的两种数据传输方式BAM和CMDT；</li>
+</ul>
+</li>
+<li>
+<p><strong>数据链路层：</strong></p>
+<ul>
+<li>CAN Interface：CAN 接口层（CanIf）是访问CAN总线的标准接口;</li>
+</ul>
+</li>
+<li>
+<p><strong>物理层：</strong></p>
+<ul>
+<li>CAN Driver： CAN 驱动；，可以实现对CAN控制器的初始化、发送/接收CAN报文、对接收报文的指示与对发送报文的确认、唤醒检测、溢出和错误处理等功能。</li>
+<li>CAN Controller： CAN控制器；</li>
+<li>CAN Transceiver Driver: CAN收发器驱动程序抽象了CAN收发器硬件。它为较高层提供了一个独立于硬件的接口。它利用MCAL层的api从ECU布局中抽象出来，访问CAN收发硬件。</li>
+</ul>
+</li>
+<li>
+<p><strong>硬件部分：</strong></p>
+<ul>
+<li>CANTransceiver：CAN收发器，是一种硬件设备，可将CAN总线上使用的信号电平调整为微控制器识别的逻辑（数字）信号电平。此外，收发器还能够检测电气故障，例如布线问题，接地偏移或长主导信号的传输。根据与微控制器的接口，它们会标记由单个端口引脚汇总的检测到的错误或由SPI非常详细地标记出来</li>
+<li>CAN High： CAN总线高电平；</li>
+<li>CAN Low： CAN总线低电平；</li>
+<li>CAN network：AUTOSAR CAN网络管理是一个独立于硬件的协议，只能在CAN上使用。其主要目的是协调网络从正常运行到总线休眠模式的过渡。</li>
+</ul>
+</li>
+<li>
+<p><strong>传输数据类型：</strong></p>
+<ul>
+<li>
+<p>signals：信号；</p>
+</li>
+<li>
+<p>PDU：Protocol Data Unit 协议数据单元，PDU 由 SDU 和 PCI 组成</p>
+<ul>
+<li><strong>PCI（Protocol Control Information，协议控制信息）</strong>：控制信息（如CAN帧的标识符、DLC等）。</li>
+<li><strong>SDU（Service Data Unit，服务数据单元）</strong>：实际数据（如CAN帧的数据字段）。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>标识符</td>
+<td>PCI</td>
+<td>帧的ID和优先级</td>
+</tr>
+<tr>
+<td>控制字段</td>
+<td>PCI</td>
+<td>数据长度（DLC）</td>
+</tr>
+<tr>
+<td>数据字段</td>
+<td>SDU</td>
+<td>实际传输的数据（1-8字节）</td>
+</tr>
+<tr>
+<td>CRC、ACK等</td>
+<td>PCI</td>
+<td>错误检查和应答</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>I-PDU：Interaction Layer PDU，由 data、length、I-PDU ID 组成。</p>
+</li>
+<li>
+<p>N-PDU：Network Layer PDU，或 I-PDU Segment，由传输协议模块使用，对 I-PDU 进行分段</p>
+</li>
+<li>
+<p>L-PDU：Data Link Layer PDU，或 Large PDU，一个或多个 I-PDU 被打包成 L-PDU，L-PDU是基于总线的，例如 CAN 总线的 L-PDU 就是 CAN 帧；</p>
+</li>
+<li>
+<p>Message：报文；</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>那么数据流的走向为：<strong>应用层–&gt;RTE–&gt;COM–&gt;PDUR–&gt;CANTP–&gt;CAN Interface–&gt;CAN Driver–&gt;CAN controller–&gt;CAN transceiver–&gt;CAN BUS Line</strong></p>
+<ol>
+<li>Com模块获取应用层的信号（Signal），经一定处理封装为IPDU（Interaction Layer Protocol Data Unit）发送到PduR模块；</li>
+<li>PduR根据路由协议中所指定的I-PDU目标接收模块，将接收到的I-PDU经一定处理后发送给CanIf；PduR也可以将部分I-PDU发送给CAN TP模块，处理之后再发送给CANIf；</li>
+<li>CanIf将信号以L-PDU（Data Link Layer Protocol Data Unit）的形式发送给CAN驱动模块；</li>
+<li>CAN 驱动模块将Message 报文发送给CAN controller；</li>
+<li>CAN controller 与外部硬件的CAN transceiver（CAN收发器)进行CAN 报文的收发；</li>
+<li>外部硬件CAN收发器–CAN Transceiver Hardware主要工作内容为，接收CAN bus上的网络信息（通常叫做CAN Frame）相关的信号电平并将其转化为逻辑信息电平转发给CAN Controller,接收从CAN Controller传输过来的逻辑电平信息并将其转化为信号电平传从到CAN bus上。CAN Transceiver有两条线，一条连CAN总线的高电平，一条低电平；</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_16.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/" title="ComM"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ComM</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/" title="ComM"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">ComM</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">通信过程</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_16.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

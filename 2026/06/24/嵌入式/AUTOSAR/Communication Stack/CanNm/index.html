@@ -1,0 +1,1716 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CanNm | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的文章：《AUTOSAR架构下关于CanNm的几点思考》。  首先来简单说说NM（网络管理）的概念，现在汽车">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CanNm">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的文章：《AUTOSAR架构下关于CanNm的几点思考》。  首先来简单说说NM（网络管理）的概念，现在汽车">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_8.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_8.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CanNm",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_8.jpg",
+  "datePublished": "2026-06-24T01:22:05.603Z",
+  "dateModified": "2026-06-24T01:22:05.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CanNm',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_8.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">CanNm</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">CanNm</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.603Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.603Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">12.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>41分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件可参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R21-11/CP/AUTOSAR_SWS_CANNetworkManagement.pdf">Specification of CAN Network Management (autosar.org)</a></p>
+<p>CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/532263163">《AUTOSAR CAN NM（CAN网络管理）》</a>。再推荐一篇干货满满的文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/JkbdlKvCSqMjq9ZRJoqnJg">《AUTOSAR架构下关于CanNm的几点思考》</a>。</p>
+</blockquote>
+<p>首先来简单说说NM（网络管理）的概念，现在汽车上ECU非常之多令人乍舌，设备越多，这电就要越扣扣嗖嗖的用，那该怎么省电呢？有一种方法就是在某些用车场景用不到的ECU，那么就让你进入休眠不工作，当需要这个ECU时，再去把你唤醒，而NM就是为了去实现这个省电小技巧基于总线报文而创造出来的一个玩意。</p>
+<p>在介绍CanNm模块之前，首先需要搞清楚CanNm模块和NM模块的关系。如下图所示，Nm 模块位于 AUTOSAR 的通信服务层，对上与ComM 交互，对下控制各总线网络管理模块，为 ComM 提供统一的网络管理功能，同时当开启网络协同功能时，协调各总线网络管理模块之间的状态关系。</p>
+<pre><code class="highlight mermaid">graph TD
+    %% 定义节点
+    subgraph Apps [ ]
+        direction LR
+        App1[App]
+        App2[App]
+        App3[App]
+    end
+
+    ComM[AUTOSAR ComM]
+
+    SM1[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;State Manager&quot;]
+    SM2[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;State Manager&quot;]
+
+    Nm[&quot;Generic NM Interface&lt;br/&gt;(Nm)&quot;]
+
+    NM_Bus1[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;NM&quot;]
+    NM_Bus2[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;NM&quot;]
+
+    BusIF[&quot;&amp;lt;Bus Specific&amp;gt;&lt;br/&gt;Interface&quot;]
+
+    %% 定义连接关系
+    App1 &amp; App2 &amp; App3 --- ComM
+    
+    ComM --- SM1
+    ComM --- SM2
+    ComM --- Nm
+
+    Nm --- NM_Bus1
+    Nm --- NM_Bus2
+
+    SM1 --- BusIF
+    SM2 --- BusIF
+    NM_Bus1 --- BusIF
+    NM_Bus2 --- BusIF
+
+    %% 样式设置
+    style Apps fill:none,stroke:none
+    style App1 fill:#A9A9A9,stroke:#333,color:#000,font-weight:bold
+    style App2 fill:#A9A9A9,stroke:#333,color:#000,font-weight:bold
+    style App3 fill:#A9A9A9,stroke:#333,color:#000,font-weight:bold
+    
+    style ComM fill:#4FC3F7,stroke:#333,color:#000,font-weight:bold
+    
+    style SM1 fill:#81C784,stroke:#333,color:#000,font-weight:bold
+    style SM2 fill:#81C784,stroke:#333,color:#000,font-weight:bold
+    
+    style Nm fill:#E1BEE7,stroke:#333,color:#000,font-weight:bold
+    style NM_Bus1 fill:#E1BEE7,stroke:#333,color:#000,font-weight:bold
+    style NM_Bus2 fill:#E1BEE7,stroke:#333,color:#000,font-weight:bold
+    
+    style BusIF fill:#FFD54F,stroke:#333,color:#000,font-weight:bold</code></pre>
+<p>CanNm模块其实只是CAN总线上的NM，而LIN, FlexRay也有其对应的NM，大家都大同小异，都实现着一模一样的目的，所以对于CanNm模块和NM模块的关系，说得再简单点，NM模块是一个经理，CanNm模块是真正打工人，那么站在NM之上的ComM模块则是老板了，ComM模块后面会介绍到，这里不多说。这里推荐一篇文章，里面详细的讲述了NM模块的一些基本理论知识：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/GyGCdNZu3_0E2ZN6KnD-EQ">《一文搞懂AUTOSAR CanNm模块》</a>。</p>
+<p>CanNm 模块主要功能如下：</p>
+<ol>
+<li>初始化</li>
+<li>网络管理报文发送</li>
+<li>网络管理报文接收处理</li>
+<li>同步睡眠和唤醒功能</li>
+<li>向应用层提供网络上节点信息</li>
+<li>降低总线负载机制</li>
+</ol>
+<p>CanNM和其他层的依赖关系为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251218195335863.png" alt="CANNM与其他模块的依赖关系" loading='lazy'></p>
+<p><strong>CanNm (CAN Network Management)</strong> 的核心原理是基于一种**去中心化（Decentralized）**的直接网络管理策略，即每个节点只根据总线上接收或发送的 NM PDU（网络管理报文）来独立决定自己的状态。</p>
+<ol>
+<li>核心机制：周期性 NM PDU 与“保持唤醒”，CanNm 的运行逻辑可以类比为一种“心跳”机制：
+<ol>
+<li>
+<p><strong>广播通信</strong>：每个节点周期性地向网络发送 NM PDU。</p>
+</li>
+<li>
+<p><strong>保持唤醒信号</strong>：只要一个节点接收到来自其他任何节点的 NM PDU，就意味着集群中仍有节点需要通信。</p>
+</li>
+<li>
+<p><strong>节点的独立性</strong>：节点不需要知道集群中有多少个节点，也不需要主从节点（Master/Slave）的概念。它只关心“总线上是否还有人在说话”。</p>
+</li>
+</ol>
+</li>
+<li>进入 Bus-Sleep Mode 的逻辑：从正常运行到进入休眠，必须经过严格的计时逻辑，以确保整个网络同步关闭：
+<ol>
+<li><strong>主动释放</strong>：当节点本身不再需要通信时，它会停止发送自己的 NM PDU。</li>
+<li><strong>被动等待</strong>：即使停止了发送，节点仍必须监听总线。只要收到别人的 NM PDU，就必须维持唤醒状态。</li>
+<li><strong>计时触发</strong>：只有当总线上没有任何 NM PDU 出现，且经过了以下两个时间段的累加后，节点才会进入 Bus-Sleep Mode：
+<ul>
+<li><strong>CanNmTimeoutTime</strong>：检测不到 NM PDU 的超时时间。</li>
+<li><strong>CanNmWaitBusSleepTime</strong>：进入休眠前的准备/等待时间（用于确保所有节点都已准备就绪）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>核心需求：
+<ol>
+<li>发送准则：只要节点需要总线通信，就必须发送周期性的 NM PDU；不需要时，必须停止发送。</li>
+<li>休眠准则：如果没有外部报文且自身已释放，经过 Timeout + WaitBusSleep 时间后，必须切换至 Bus-Sleep。</li>
+</ol>
+</li>
+<li>CanNm 状态机概览
+<ol>
+<li>
+<p>CanNm 的状态机是理解其行为的关键。一个节点通常在以下主要状态间切换：</p>
+<ul>
+<li><strong>Bus-Sleep Mode</strong>：网络完全静默，控制器可能处于低功耗模式。</li>
+<li><strong>Network Mode</strong>：包含以下子状态：
+<ul>
+<li><strong>Repeat Message State</strong>：节点刚启动或检测到唤醒时进入，确保所有节点都能看到彼此。</li>
+<li><strong>Normal Operation State</strong>：节点正常发送和接收 NM PDU。</li>
+<li><strong>Ready Sleep State</strong>：节点自身已准备好休眠，但仍在监听总线上其他节点的报文。</li>
+</ul>
+</li>
+<li><strong>Prepare Bus-Sleep Mode</strong>：总线活动已停止，节点正在等待进入物理休眠。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>CanNm 的精髓在于其<strong>自发性</strong>：</p>
+<ol>
+<li><strong>唤醒</strong>：任何节点发送 NM PDU 都能拉起整个集群。</li>
+<li><strong>维持</strong>：只要有人发，大家都不能睡。</li>
+<li><strong>关闭</strong>：只有当所有人都不发且计时结束，大家才整齐划一地睡去。</li>
+</ol>
+<p>这种设计具有极高的鲁棒性，因为任何一个节点的故障（只要不乱发报文）都不会阻止其他节点进入休眠或保持唤醒。</p>
+<h1>操作模式</h1>
+<p>操作模式转换图如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260105085004416.png" alt="CanNM的操作模式转换" loading='lazy'></p>
+<h2 id="Network-Mode">Network Mode</h2>
+<p>网络模式是 CanNm 状态机中最活跃的部分，其核心职责是通过发送和接收 NM PDU 来维持集群的唤醒状态。网络模式包含三个核心子状态，它们决定了节点是主动“发言”还是被动“监听”：</p>
+<ul>
+<li><strong>Repeat Message State (重复消息状态)</strong>：通常是进入网络模式的第一站，确保节点在线。</li>
+<li><strong>Normal Operation State (常规运行状态)</strong>：应用层需要通信时保持心跳的状态。</li>
+<li><strong>Ready Sleep State (准备休眠状态)</strong>：自身已释放通信，等待其他节点关闭。</li>
+</ul>
+<ol>
+<li>⏱️ NM-Timeout Timer：网络存活的“呼吸灯”，在网络模式中，所有的活动都围绕着 <strong>NM-Timeout Timer</strong> 展开。
+<ul>
+<li><strong>启动与重置</strong>：
+<ul>
+<li><strong>进入模式</strong>：一旦从休眠或准备休眠进入网络模式，计时器立即启动。</li>
+<li><strong>发送确认</strong>：每成功发出一个 NM PDU，计时器重置。</li>
+<li><strong>成功接收</strong>：只要收到总线上其他节点的 NM PDU，计时器重置。</li>
+</ul>
+</li>
+<li><strong>重要意义</strong>：只要计时器在不断重置（因为收到了或发送了报文），节点就会留在网络模式。如果计时器归零，说明总线已经静默，节点将尝试滑向休眠状态。</li>
+</ul>
+</li>
+<li>🔄 进入网络模式的默认路径
+<ul>
+<li><strong>默认入口</strong> ：无论是从 Bus-Sleep（冷启动）还是 Prepare Bus-Sleep（唤醒重连）进入网络模式，默认都必须先进入 Repeat Message State，这确保了该节点的存在能够被网络上其他所有节点检测到。</li>
+<li><strong>上层通知</strong>：进入模式时，CanNm 必须通过回调 <code>Nm_NetworkMode</code> 通知 <code>Nm</code> 模块。</li>
+</ul>
+</li>
+<li>🧬 部分网络 (Partial Networking) 的动态映射
+<ul>
+<li>PN Learning (PN 学习请求)：当系统需要重新映射 PNC 与通道的关系时，会触发学习请求。</li>
+<li>强制跳转：如果收到或发起了 PN 学习请求，CanNm 必须在 CBV (Control Bit Vector) 字节中设置 Repeat Message Bit 和 Partial Network Learning Bit 为 1，并强制重新进入（Restart） Repeat Message 状态。</li>
+<li><strong>意义</strong>：这通过强制所有相关节点进入重复消息阶段，确保新的网络配置信息能被快速广播并同步。</li>
+</ul>
+</li>
+<li>🚫 逻辑约束
+<ul>
+<li>被动启动限制：如果节点已经在 Network Mode 运行，此时调用 CanNm_PassiveStartUp（通常用于被动唤醒）是非法的，函数会返回 E_NOT_OK。因为节点已经在线，不需要再执行“启动”逻辑。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Repeat-Message-State">Repeat Message State</h3>
+<p><strong>Repeat Message State（重复消息状态）</strong> 是网络管理的“声明阶段”，确保节点在进入网络时不仅能被其他节点发现，还能在总线上保持足够的活跃时间。</p>
+<ol>
+<li>
+<p>📡 Repeat Message State 的核心作用</p>
+<ol>
+<li><strong>可见性（Visibility）</strong>：确保从休眠（Bus-Sleep）或准备休眠（Prepare Bus-Sleep）转换过来的节点能通过发送 NM PDU 让全网感知。</li>
+<li><strong>节点检测（Node Detection）</strong>：通过保持一段时间的活跃，方便诊断工具或主节点识别当前总线上有哪些节点在线。</li>
+<li><strong>最小活跃时间</strong>：强制节点至少运行 <code>CanNmRepeatMessageTime</code> 这么久，防止网络频繁地在唤醒和休眠之间剧烈抖动。</li>
+</ol>
+</li>
+<li>
+<p>🛠️ 关键行为与需求解析</p>
+<ol>
+<li>
+<p><strong>报文发送</strong> ：一旦进入此状态，CanNm 必须开始（或重新开始）发送周期性的 NM PDU。这是“我已上线”的物理宣告。</p>
+<blockquote>
+<p>注意：如果配置为被动模式（Passive Mode）或通信被禁用，则不发送。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>定时器与超时处理</strong>:在 Repeat Message 状态下，如果 <code>NM-Timeout Timer</code> 到期：</p>
+<ul>
+<li>
+<p><strong>不会导致休眠</strong>：CanNm 会立即<strong>重启</strong>该计时器。</p>
+</li>
+<li>
+<p><strong>错误报告</strong>：它会向 DET 报告 <code>CANNM_E_NETWORK_TIMEOUT</code>。</p>
+</li>
+<li>
+<p><strong>逻辑意义</strong>：这说明在 Repeat Message 期间，节点没能从总线上收到任何 NM PDU（包括自己发出的确认），暗示总线可能存在硬件故障或只有自己一个节点。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>状态退出与去向</strong>:该状态的停留时间固定由配置参数 <strong><code>CanNmRepeatMessageTime</code></strong> 决定。时间一到，节点根据自身的“网络请求状态”决定去向：</p>
+<ul>
+<li><strong>进入 Normal Operation</strong>：如果应用层还需要通信（Network Requested）。</li>
+<li><strong>进入 Ready Sleep</strong>：如果应用层已经释放了请求（Network Released）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>🏁 离开状态时的清理工作</p>
+<ol>
+<li>当计时结束准备退出 Repeat Message State 时，CanIf 需要清理控制位向量（CBV）中的相关标志：
+<ul>
+<li>**Repeat Message Bit **：如果启用了节点检测，将此位清零。</li>
+<li>**Partial Network Learning Bit **：如果启用了动态 PNC 映射，将学习位清零。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>🚫 禁止操作</p>
+<p>如果在 <strong>Repeat Message State</strong>、<strong>Prepare Bus-Sleep</strong> 或 <strong>Bus-Sleep</strong> 期间调用 <code>CanNm_RepeatMessageRequest</code>：</p>
+<ul>
+<li><strong>结果</strong>：函数直接返回 <code>E_NOT_OK</code>。</li>
+<li><strong>原因</strong>：在这些状态下，系统要么已经在执行重复消息逻辑，要么正处于不可触发该请求的状态。该 API 通常只在 <code>Normal Operation</code> 或 <code>Ready Sleep</code> 状态下使用，用于强制所有节点重新进入 Repeat Message 阶段。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Normal-Operation-State">Normal Operation State</h3>
+<p><strong>Normal Operation State（常规运行状态）</strong> 是 CanNm 的核心业务状态：只要应用层（通过 ComM）请求了网络，节点就会留在此状态发送“心跳”，确保整个网络不掉线。</p>
+<ol>
+<li>🚀 Normal Operation State 的核心职责
+<ol>
+<li><strong>主动保活</strong>：只要本地 ECU 需要使用总线（Network Requested），它就通过周期性发送 NM PDU 来阻止其他节点进入休眠。</li>
+<li><strong>双向通信</strong>：既发送自己的 NM PDU，也监听别人的 NM PDU。</li>
+</ol>
+</li>
+<li>🛠️ 关键行为与需求解析
+<ol>
+<li>恢复发送：如果节点是从 <strong>Ready Sleep</strong>（只听不发）返回到 <strong>Normal Operation</strong>（又听又发）：
+<ol>
+<li><strong>动作</strong>：CanNm 必须立刻重新开启 NM PDU 的周期性发送。</li>
+<li><strong>意义</strong>：这通常发生在 ECU 本来准备睡觉，但突然应用层又要发数据的情况。</li>
+</ol>
+</li>
+<li>定时器异常处理 ：在 Normal Operation 状态下，理想情况是不断收到自己发送成功的确认或别人的报文来重置 <code>NM-Timeout Timer</code>。
+<ul>
+<li><strong>异常</strong>：如果该计时器到期，说明总线上完全没有通信反馈。</li>
+<li><strong>处理</strong>：CanNm 会重启计时器并向 DET 报告 <code>CANNM_E_NETWORK_TIMEOUT</code>。</li>
+<li><strong>注意</strong>：这<strong>不会</strong>导致状态跳转，节点会倔强地继续尝试在 Normal Operation 状态发送。</li>
+</ul>
+</li>
+<li>释放网络
+<ol>
+<li><strong>触发</strong>：当上层 ComM 调用 <code>Nm_NetworkRelease</code>，表明应用层不再需要总线。</li>
+<li><strong>动作</strong>：节点从 Normal Operation 跳转到 <strong>Ready Sleep State</strong>。</li>
+<li><strong>结果</strong>：节点停止发送报文，但开始等待全网静默。</li>
+</ol>
+</li>
+<li>强制重入重复消息状态：如果启用了 <strong>节点检测（Node Detection）</strong>：
+<ul>
+<li><strong>外部触发</strong>：收到其他节点发来的 NM PDU，且其 CBV（控制位向量）中的 <code>Repeat Message Request Bit</code> 位为 1。</li>
+<li><strong>内部触发</strong>：本地软件调用了 <code>CanNm_RepeatMessageRequest()</code>。</li>
+<li><strong>动作</strong>：节点必须立即跳回 <strong>Repeat Message State</strong>，并在发送的报文中将 <code>Repeat Message Bit</code> 置 1。</li>
+<li><strong>意义</strong>：这用于同步全网节点，让大家一起进入“点名模式”，方便相互识别。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>💡 深入思考</p>
+<p>在 Normal Operation 状态下，发送周期由 <code>CanNmMsgCycleTime</code> 决定。如果在这个状态下发生 <strong>Bus-Off</strong>，CanNm 的状态机本身不会直接崩溃，但由于无法成功发送（收不到 TxConfirmation），<code>NM-Timeout Timer</code> 可能会频繁到期并触发 DET 报错。</p>
+</blockquote>
+<h3 id="Ready-Sleep-State">Ready Sleep State</h3>
+<p>**Ready Sleep State（就绪休眠状态）**是网络管理中实现“同步关机”的关键环节。在这个状态下，本节点已经不想“说话”了，但它必须留下来陪着总线上其他还在“说话”的节点，直到全场静默。</p>
+<ol>
+<li>
+<p>🤫 Ready Sleep State 的核心逻辑</p>
+<p>这个状态可以形象地理解为：<strong>“我已经准备好睡觉了，但我得等最后一个人关灯。”</strong></p>
+</li>
+<li>
+<p>停止主动发言</p>
+<ol>
+<li><strong>行为</strong>：一旦从 Repeat Message 或 Normal Operation 进入此状态，CanNm 必须<strong>停止发送</strong> NM PDU。</li>
+<li><strong>目的</strong>：通过停止自己的心跳，告诉网络其他节点“我已经不再请求网络了”。</li>
+<li><strong>例外</strong>：如果涉及部分网络（Partial Networking），为了确保同步关闭，可能仍会发送特殊的 PN 关闭报文。</li>
+</ol>
+</li>
+<li>
+<p>监听与计时</p>
+<ul>
+<li><strong>关键动作</strong>：节点虽然不发报文，但仍在接收总线上的 NM PDU。</li>
+<li><strong>重置计时</strong>：每当收到总线上其他节点发来的 NM PDU，<code>NM-Timeout Timer</code> 就会重置。</li>
+<li><strong>跳转条件</strong>：只有当 <code>NM-Timeout Timer</code> <strong>彻底耗尽（Expire）</strong>，意味着在配置的时间内总线上没有任何节点发声了，本节点才会进入 <strong>Prepare Bus-Sleep Mode</strong>。</li>
+</ul>
+</li>
+<li>
+<p>🔄 状态的逆转与中断</p>
+<ol>
+<li>即使处于准备睡觉的状态，节点也可以被随时拉回活跃状态：
+<ul>
+<li>应用层反悔：如果在 Ready Sleep 期间，本地应用层（ComM）突然又请求了网络，节点会立即跳回 Normal Operation State 并重新开始发送报文。</li>
+<li>被要求“点名” ：如果启用了节点检测，且收到了带有 Repeat Message Bit 的报文，或者本地触发了 CanNm_RepeatMessageRequest，节点必须跳回 Repeat Message State。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>📊 状态行为对比</p>
+<table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>Normal Operation</strong></th>
+<th><strong>Ready Sleep</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发送 NM PDU</strong></td>
+<td>✅ 周期性发送</td>
+<td>❌ 停止发送</td>
+</tr>
+<tr>
+<td><strong>接收 NM PDU</strong></td>
+<td>✅ 接收并重置计时器</td>
+<td>✅ 接收并重置计时器</td>
+</tr>
+<tr>
+<td><strong>超时后果</strong></td>
+<td>报 DET 错误，保持原状</td>
+<td><strong>跳转至 Prepare Bus-Sleep</strong></td>
+</tr>
+<tr>
+<td><strong>本地网络请求状态</strong></td>
+<td>Requested (需要总线)</td>
+<td>Released (释放总线)</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="Prepare-Bus-Sleep-Mode">Prepare Bus-Sleep Mode</h2>
+<p><strong>Prepare Bus-Sleep Mode（准备总线休眠模式）</strong>。如果说 <code>Ready Sleep</code> 是在等别人关灯，那么 <code>Prepare Bus-Sleep</code> 就是**“最后一次扫除”**——确保所有节点的缓存都清空，总线彻底静默。</p>
+<ol>
+<li>🧹 Prepare Bus-Sleep Mode 的核心目的
+<ol>
+<li>在进入物理休眠（Bus-Sleep）之前，必须给硬件驱动和收发器留出一点时间来处理尾声工作：
+<ol>
+<li><strong>平息总线活动</strong>：确保队列中积压的普通应用报文（Application PDUs）全部发出，让所有 Tx-buffers 变为空。</li>
+<li><strong>软着陆</strong>：防止 ECU 还没发完报文就突然断电或进入休眠导致错误。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>🛠️ 关键行为与需求解析
+<ol>
+<li>通知与计时
+<ol>
+<li><strong>通知上层</strong>：进入该模式时，通过 <code>Nm_PrepareBusSleepMode</code> 回调通知上层（通常是 <code>ComM</code> 或 <code>CanSm</code>）。</li>
+<li><strong>停留时间</strong>：由参数 <strong><code>CanNmWaitBusSleepTime</code></strong> 决定。</li>
+<li><strong>无限停留模式</strong>：如果配置了 <code>CanNmStayInPbsEnabled = TRUE</code>，节点将永远停留在此模式而不会进入 Bus-Sleep。这常用于某些需要保持控制器供电但不通信的特殊测试或特定 ECU 电源策略。</li>
+</ol>
+</li>
+<li>紧急唤醒与重返 :即使是在“清扫阶段”，节点也可以被随时拉回：
+<ol>
+<li><strong>外部唤醒</strong>：只要在总线上收到了 NM PDU，说明其他节点还没睡，必须立刻返回 <strong>Network Mode</strong>（进入 Repeat Message 状态）。</li>
+<li><strong>内部请求</strong>：本地应用层突然请求网络，同样跳回 <strong>Network Mode</strong>。</li>
+</ol>
+</li>
+<li>立即重启机制 :这是为了应对一个<strong>竞争风险</strong>：
+<ol>
+<li><strong>场景</strong>：当本节点在 Prepare Bus-Sleep 模式下收到请求准备重回网络时，<strong>其他节点可能还在 Prepare Bus-Sleep 模式中</strong>，并且很快就要滑入真正的休眠了。</li>
+<li><strong>策略</strong>：如果开启了 <code>CanNmImmediateRestartEnabled</code>，节点在切换到 Network Mode 的瞬间会<strong>立即</strong>发送一条 NM PDU。</li>
+<li><strong>意义</strong>：NM PDU 通常有发送偏移（Offset），如果等周期发送可能太慢了。通过立即发送，可以“大喊一声”叫醒那些正准备睡觉的其他节点，防止网络意外中断。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>📋 模式对比：Ready Sleep vs. Prepare Bus-Sleep</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>Ready Sleep</strong></th>
+<th><strong>Prepare Bus-Sleep</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>计时器</strong></td>
+<td><code>NM-Timeout Timer</code></td>
+<td><code>CanNmWaitBusSleepTime</code></td>
+</tr>
+<tr>
+<td><strong>总线活动</strong></td>
+<td>可能还有其他节点在发报文</td>
+<td>理论上总线已经静默</td>
+</tr>
+<tr>
+<td><strong>主要动作</strong></td>
+<td>监听并重置计时器</td>
+<td>等待缓冲区清空</td>
+</tr>
+<tr>
+<td><strong>收到 NM PDU</strong></td>
+<td>留在 Ready Sleep (重置计时)</td>
+<td><strong>跳回 Network Mode</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>Prepare Bus-Sleep</code> 是进入休眠前的**“安全检查站”**。它确保了：</p>
+<ol>
+<li>通信是<strong>优雅地停止</strong>而非骤停。</li>
+<li>只要网络有变，能以**最快速度（Immediate Tx）**恢复通信。</li>
+</ol>
+<h2 id="Bus-Sleep-Mode">Bus-Sleep Mode</h2>
+<p>**Bus-Sleep Mode（总线休眠模式）**是网络管理的终点，也是 ECU 节能的核心阶段。在此模式下，节点不仅停止了所有通信，还开启了“监听唤醒”的低功耗监控逻辑。</p>
+<ol>
+<li>🔋 Bus-Sleep Mode 的核心目的与行为
+<ol>
+<li><strong>节能降耗</strong>：CAN 控制器切换到 Sleep 状态，硬件唤醒机制（如收发器的 WUP 检测）被激活，ECU 功耗降至最低。</li>
+<li><strong>全网同步休眠</strong>：
+<ul>
+<li><strong>计算公式</strong>：进入休眠的总时间 = $CanNmTimeoutTime + CanNmWaitBusSleepTime$。</li>
+<li><strong>同步性</strong>：如果全网节点配置了相同的这两个参数，理论上它们会<strong>几乎同时</strong>进入休眠。</li>
+<li><strong>抖动（Jitter）因素</strong>：实际上受晶振漂移（Drift）、任务周期（Task Cycle）以及发送确认延迟的影响，各节点进入休眠的时间点会有微小差异。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>🚨 唤醒逻辑：为什么不自动跳转？
+<ol>
+<li>这是一个非常关键的设计点 ：如果在 Bus-Sleep 模式下收到了 NM PDU（由于硬件可能已部分唤醒或正在启动），CanNm 不会直接跳回 Network Mode。
+<ul>
+<li><strong>处理方式</strong>：它仅调用回调函数 <code>Nm_NetworkStartIndication</code> 通知上层。</li>
+<li><strong>设计初衷（Rationale）</strong>：
+<ul>
+<li>为了防止<strong>竞态条件（Race Conditions）</strong>。</li>
+<li>唤醒决策权属于上层模块（如 <code>EcuM</code> 或 <code>ComM</code>）。上层需要判断当前 ECU 是正在执行关机序列还是刚准备启动，从而决定是否允许网络层重新激活。</li>
+</ul>
+</li>
+<li>**异常记录 **：在休眠状态下收到报文会被视为一种异常指示，会向 DET 报告 <code>CANNM_E_NET_START_IND</code>。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>🔄 离开休眠模式的路径:离开 Bus-Sleep 进入 Network Mode（默认进入 Repeat Message 状态）只有两种合规途径：
+<ol>
+<li>被动启动
+<ul>
+<li><strong>触发</strong>：上层调用 <code>CanNm_PassiveStartUp</code>。</li>
+<li><strong>含义</strong>：这通常意味着 ECU 检测到了外部唤醒源（如总线上的 NM 报文），上层决定响应该请求并启动网络管理。</li>
+</ul>
+</li>
+<li>主动请求
+<ul>
+<li><strong>触发</strong>：本地应用层（ComM）请求网络（Network Requested）。</li>
+<li><strong>含义</strong>：ECU 自身需要发送数据，因此主动唤醒并请求进入网络。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>📝 CanNm 状态切换总结表</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>控制器状态</strong></th>
+<th><strong>报文发送</strong></th>
+<th><strong>接收处理</strong></th>
+<th><strong>跳转至下一步的触发点</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Network</strong></td>
+<td><code>STARTED</code></td>
+<td>✅ 周期发送</td>
+<td>✅ 重置 $NM-Timeout$</td>
+<td>本地释放且 $NM-Timeout$ 到期</td>
+</tr>
+<tr>
+<td><strong>Prepare Bus-Sleep</strong></td>
+<td><code>STARTED</code></td>
+<td>❌ 停止发送</td>
+<td>✅ 收到报文则跳回 Network</td>
+<td>$WaitBusSleepTime$ 到期</td>
+</tr>
+<tr>
+<td><strong>Bus-Sleep</strong></td>
+<td><code>SLEEP</code></td>
+<td>❌ 彻底静默</td>
+<td>🔔 仅通知上层 (Indication)</td>
+<td>收到请求或被动启动 API 调用</td>
+</tr>
+</tbody>
+</table>
+<h1>相关参数</h1>
+<h2 id="时间参数">时间参数</h2>
+<table>
+<thead>
+<tr>
+<th><strong>计时参数</strong></th>
+<th><strong>功能描述</strong></th>
+<th><strong>核心作用</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CanNmTimeoutTime</strong></td>
+<td><strong>NM 超时时间</strong>。在该时间内如果没有收到或发出 NM PDU，则认为总线已静默。</td>
+<td>判定总线上是否还有其他活跃节点。</td>
+</tr>
+<tr>
+<td><strong>CanNmRepeatMessageTime</strong></td>
+<td><strong>重复消息时间</strong>。节点处于 <code>Repeat Message State</code> 的固定持续时间。</td>
+<td>确保节点上线后有足够的曝光时间，用于节点发现。</td>
+</tr>
+<tr>
+<td><strong>CanNmWaitBusSleepTime</strong></td>
+<td><strong>等待总线休眠时间</strong>。从检测到总线静默到进入物理休眠之间的缓冲时间。</td>
+<td>确保所有节点清空缓冲区，实现“软着陆”同步休眠。</td>
+</tr>
+<tr>
+<td><strong>CanNmRemoteSleepIndTime</strong></td>
+<td><strong>远端休眠指示时间</strong>。如果在该时间内没收到某节点的 NM 报文，则认为该远端节点已准备休眠。</td>
+<td>用于检测网络中其他节点是否已经释放了网络请求。</td>
+</tr>
+</tbody>
+</table>
+<p>通过过程可以清晰地看到这些时间参数如何驱动状态机的跳转：</p>
+<ol>
+<li><strong>启动阶段</strong>：进入网络模式后，强制停留 <code>CanNmRepeatMessageTime</code> 时长。</li>
+<li><strong>运行阶段</strong>：每次收到或发送 NM PDU，内部的 <code>NM-Timeout Timer</code> 就会被重置为 <code>CanNmTimeoutTime</code>。</li>
+<li><strong>准备阶段</strong>：当 <code>NM-Timeout Timer</code> 减到 0 时，说明总线静默，进入 <code>Prepare Bus-Sleep</code>，启动 <code>CanNmWaitBusSleepTime</code> 计时。</li>
+<li><strong>休眠阶段</strong>：<code>WaitBusSleep</code> 计时结束，进入 <code>Bus-Sleep</code>。</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>🔍 什么是 Remote Sleep Indication (远端休眠指示)?</p>
+<p>这是一个经常被误解的参数。</p>
+<ul>
+<li><strong>逻辑</strong>：如果一个节点在 <code>CanNmRemoteSleepIndTime</code> 时间内没有收到任何其他节点的 NM 报文，它会向应用层发送一个“远端休眠指示”通知。</li>
+<li><strong>应用</strong>：这并不直接导致状态跳转，但它可以告诉应用层（通过 <code>Nm_RemoteSleepIndication</code> 回调）：“目前总线上似乎只有我一个人想保持唤醒了，其他人可能都已经释放了请求。”</li>
+</ul>
+</blockquote>
+<p>⚠️ 配置一致性要求</p>
+<p>为了保证全网同步，通常要求同一个 CAN 网络（NM Cluster）中所有节点的以下两个参数<strong>必须完全一致</strong>：</p>
+<ul>
+<li><strong>CanNmTimeoutTime</strong></li>
+<li><strong>CanNmWaitBusSleepTime</strong></li>
+</ul>
+<p>如果配置不一致，会导致某些节点过早进入休眠（产生“僵尸节点”）或某些节点迟迟不肯休眠，从而导致蓄电池耗尽。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/Gemini_Generated_Image_p628thp628thp628.png" alt="唤醒时序图" loading='lazy'></p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260127093006472.png" alt="唤醒时序-快速发送子状态" loading='lazy'></p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20260127093634248.png" alt="休眠唤醒时序" loading='lazy'></p>
+<ul>
+<li><code>T1</code>: T_NM_ImmediateCycleTime 快速发送子状态下，网络管理报文发送周期；</li>
+<li><code>T2</code>: T_NM_MessageCycle 正常发送子状态下，网络管理报文发送周期；</li>
+<li><code>T3</code>: T_REPEAT_MESSAGE 节点对于网络上的其他节点的可视时间；</li>
+<li><code>T4</code>: NmAsrCanMsgCycleOffSet 被动唤醒节点收到主动唤醒节点的第一帧网络管理报文到自身发出网络管理报文的时间间隔，用于避免网络堵塞。</li>
+<li><code>T5</code>: T_STARTx_AppFrame 成功发送第一帧网络管理报文后开始发送应用报文最大间隔时间。</li>
+<li><code>T6</code>: T_NM_TIMEOUT 当此定时器到期时，节点将进入预睡眠模式；</li>
+<li><code>T7</code>: T_WAIT_BUS_SLEEP 确保所有节点有时间停止其网络活动。</li>
+</ul>
+<h2 id="PDU格式">PDU格式</h2>
+<p>通过<strong>控制位向量 (CBV)</strong> ，网络中的 ECU 可以交换关键信息，如：谁发出的报文、是否请求重启计时、以及哪些“部分网络”需要激活。</p>
+<p>📦 NM PDU 的结构布局为：</p>
+<table>
+<thead>
+<tr>
+<th>字节序列</th>
+<th>数据描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Byte 7</td>
+<td>PNC data 3</td>
+</tr>
+<tr>
+<td>Byte 6</td>
+<td>PNC data 2</td>
+</tr>
+<tr>
+<td>Byte 5</td>
+<td>PNC data 1</td>
+</tr>
+<tr>
+<td>Byte 4</td>
+<td>PNC data 0</td>
+</tr>
+<tr>
+<td>Byte 3</td>
+<td>User data 1</td>
+</tr>
+<tr>
+<td>Byte 2</td>
+<td>User data 0</td>
+</tr>
+<tr>
+<td>Byte 1</td>
+<td>Control Bit Vector</td>
+</tr>
+<tr>
+<td>Byte 0</td>
+<td>Source Node Identifier</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>系统字节 (System Bytes)
+<ol>
+<li>**SNI (Source Node Identifier) **: 发送节点的 ID。位置可配置在 Byte 0、Byte 1 或关闭（Off）。如果关闭，该字节可腾给用户数据。</li>
+<li>**CBV (Control Bit Vector) **: 控制位向量。位置同样可配置在 Byte 0、Byte 1 或关闭。</li>
+</ol>
+</li>
+<li>部分网络向量 (PNC Bit Vector)
+<ol>
+<li>如果开启了 <strong>Partial Networking (PN)</strong>，报文中会包含 PNC 位向量。它的起始位置（Offset）和长度（Length）都是可调的。</li>
+</ol>
+</li>
+<li>用户数据 (User Data)
+<ol>
+<li>除去系统字节和 PNC 向量后，剩余的字节统称为用户数据。</li>
+<li><strong>布局规则</strong>：用户数据必须是连续的，通常位于系统字节之后、PNC 向量之前，或者 PNC 向量之后直到报文末尾。</li>
+</ol>
+</li>
+</ol>
+<p>🕹️ 控制位向量 (CBV) 位定义:CBV 是 NM PDU 的“指挥中心”，每一位（Bit）都承载特定的控制逻辑：</p>
+<table>
+<thead>
+<tr>
+<th><strong>位 (Bit)</strong></th>
+<th><strong>名称</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bit 0</strong></td>
+<td><strong>Repeat Message Request</strong></td>
+<td><strong>1</strong>: 请求全网进入重复消息状态（点名模式）。</td>
+</tr>
+<tr>
+<td><strong>Bit 1</strong></td>
+<td><strong>PN Shutdown Request</strong></td>
+<td><strong>1</strong>: 包含同步的部分网络关闭请求。</td>
+</tr>
+<tr>
+<td><strong>Bit 3</strong></td>
+<td><strong>NM Coordinator Sleep</strong></td>
+<td><strong>1</strong>: 协调器请求开始同步关机。</td>
+</tr>
+<tr>
+<td><strong>Bit 4</strong></td>
+<td><strong>Active Wakeup Bit</strong></td>
+<td><strong>1</strong>: 本节点是主动唤醒者（即因为自己需要通信而唤醒总线）。</td>
+</tr>
+<tr>
+<td><strong>Bit 5</strong></td>
+<td><strong>PN Learning Bit</strong></td>
+<td><strong>1</strong>: 请求进行部分网络学习/映射。</td>
+</tr>
+<tr>
+<td><strong>Bit 6</strong></td>
+<td><strong>PN Information Bit</strong></td>
+<td><strong>1</strong>: 表示报文中包含有效的 PNC 激活信息。</td>
+</tr>
+<tr>
+<td><strong>Bit 7</strong></td>
+<td><strong>Res</strong></td>
+<td>保留</td>
+</tr>
+</tbody>
+</table>
+<p>对于 CBV 中的 bit 说明如下：</p>
+<ol>
+<li>Bit 0 ：重复消息请求
+<ul>
+<li>0：未请求进入 Repeat Message State</li>
+<li>1：请求进入 Repeat Message State</li>
+</ul>
+</li>
+<li>Bit 1,2：保留位，当配置项 CanNmCoordinatorEnabled 使能时，该位等于配置的 CanNmCoordinatorId 的值</li>
+<li>Bit 3 NM 协调器休眠位
+<ul>
+<li>0：主协调器不要求启动同步休眠</li>
+<li>1：主协调员请求启动同步休眠</li>
+</ul>
+</li>
+<li>Bit 4 主动唤醒位
+<ul>
+<li>0：节点尚未唤醒网络</li>
+<li>1：节点唤醒了网络</li>
+</ul>
+</li>
+<li>Bit 6： 局部网络信息位（PNI）
+<ul>
+<li>0：NM 消息不包含局部网络请求信息</li>
+<li>1：NM 消息包含局部网络请求信息,该位由配置决定，运行阶段不改变</li>
+</ul>
+</li>
+<li>Bit5 Bit7 为保留位</li>
+</ol>
+<p>NmPdu 中的 UserData 可以通过 CanNm 的配置引用 EcuC 中的 Pdu。未使用的情况下默认全 0xFF，通过 Nm 的接口去抓取当前接收与发送的 UserData。</p>
+<blockquote>
+<p>[!tip]</p>
+<p>🚀 主动唤醒位 (Active Wakeup Bit) 的逻辑</p>
+<p>这是一个非常重要的诊断和逻辑标志：</p>
+<ul>
+<li><strong>设置时机</strong>：当 ECU 从 <code>Bus Sleep</code> 或 <code>Prepare Bus Sleep</code> 切换到 <code>Network Mode</code> 是因为本地调用了 <code>CanNm_NetworkRequest</code>（即本地应用需要唤醒总线）时，CBV 中的 <strong>Active Wakeup Bit</strong> 被置为 1。</li>
+<li><strong>清除时机</strong>：当节点离开网络模式（准备休眠）时，该位被清零。</li>
+<li><strong>意义</strong>：这允许网络中的其他节点通过查看 NM 报文知道“是谁把大家叫醒的”。</li>
+</ul>
+</blockquote>
+<p>假设一个典型的 8 字节报文配置：</p>
+<ol>
+<li><strong>Byte 0</strong>: 发送者 ID (SNI)。</li>
+<li><strong>Byte 1</strong>: 控制标志 (CBV)，例如 <code>0x10</code> 表示主动唤醒。</li>
+<li><strong>Byte 2-3</strong>: 自定义的用户数据（如车辆状态信息）。</li>
+<li><strong>Byte 4-7</strong>: PNC 位向量，标志着哪些局部网络簇需要保持工作。</li>
+</ol>
+<h1>工作流</h1>
+<h2 id="网络状态">网络状态</h2>
+<p>除了模式（Network, Bus-Sleep）这种全局状态外，CanNm 还维护着一个<strong>内部意图状态</strong>。这反映了本地 ECU “主观上”是否想留在总线上。</p>
+<ul>
+<li>**Requested (已请求) **：
+<ul>
+<li><strong>触发</strong>：上层（ComM）调用 <code>CanNm_NetworkRequest</code>。</li>
+<li><strong>意义</strong>：本地应用 SWC 需要发送数据。即使总线上没有别人，我也要通过发 NM 报文来保持网络唤醒。</li>
+</ul>
+</li>
+<li>**Released (已释放) **：
+<ul>
+<li><strong>触发</strong>：上层调用 <code>CanNm_NetworkRelease</code>。</li>
+<li><strong>意义</strong>：本地应用不需要总线了。</li>
+<li><strong>重要特性</strong>：网络被释放<strong>不代表</strong>通信立刻停止。如果总线上还有其他 ECU 在发报文（即其他 ECU 处于 Requested），本节点仍会留在 Network Mode 并保持监听。</li>
+</ul>
+</li>
+</ul>
+<h2 id="初始化">初始化</h2>
+<p>初始化是将 CanNm 从未定义状态带入确定的、安全的初始状态的过程。</p>
+<ol>
+<li>
+<p>核心状态设置</p>
+<ol>
+<li>**默认模式 **：初始化成功后，节点必须进入 <strong>Bus-Sleep Mode</strong>。</li>
+<li>**默认意图 **：网络状态默认为 <strong>Released</strong>（即默认不想主动唤醒总线）。</li>
+</ol>
+</li>
+<li>
+<p>静态配置与重置</p>
+<ol>
+<li>**配置选择 **：通过指针选择预定义的配置集（如波特率、计时器数值等）。</li>
+<li>**禁止发送 **：初始化后必须停止 <code>Message Cycle Timer</code>。此时不准发送任何 NM PDU，直到被明确请求。</li>
+<li>**总线负载 **：停用“总线负载降低（Bus Load Reduction）”功能，确保初始通信的鲁棒性。</li>
+</ol>
+</li>
+<li>
+<p>数据与控制位的初始值：初始化时，CanNm 会对报文中的控制信息进行“清零”或“预置”：</p>
+<table>
+<thead>
+<tr>
+<th>字段**</th>
+<th><strong>初始值</strong></th>
+<th><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User Data</strong></td>
+<td><strong>0xFF</strong></td>
+<td>每个字节均设为 0xFF。</td>
+</tr>
+<tr>
+<td><strong>Control Bit Vector (CBV)</strong></td>
+<td><strong>0x00</strong></td>
+<td>初始不设置任何标志位（如 Repeat Message 或 PN 位）。</td>
+</tr>
+<tr>
+<td>**PNC Bit Vector **</td>
+<td><strong>0x00</strong></td>
+<td>如果启用了部分网络（PN），所有的 PNC 位向量清零。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>关于部分网络 (PN) 的特殊逻辑</p>
+<ol>
+<li>如果启用了 <strong><code>CanNmGlobalPnSupport</code></strong>，初始化时会停止 <code>NM Message Tx Timeout Timer</code>。</li>
+<li><strong>原因</strong>：在 PN 场景下，报文的发送往往由特定的过滤逻辑触发。在系统未完全启动并确定哪些“部分网络”需要激活之前，不应启动发送监控计时器，以避免产生错误的超时上报。</li>
+</ol>
+</li>
+</ol>
+<p>规范特别指出了一点：<strong>CanNm 必须在 CanIf 初始化之后进行初始化。</strong></p>
+<ol>
+<li><strong>CanIf_Init</strong>: 准备好 CAN 通道。</li>
+<li><strong>CanNm_Init</strong>: 状态机进入 <code>Bus-Sleep</code>，意图设为 <code>Released</code>，CBV 清零。</li>
+<li><strong>ComM/CanSm</strong>: 随后调用 API 来真正开启网络。</li>
+</ol>
+<h4 id="发送">发送</h4>
+<p>CanNm 的发送行为主要取决于节点当前处于状态机的哪个位置。</p>
+<ol>
+<li>核心发送模式:
+<ol>
+<li>**周期性发送 (Periodic Transmission) **：
+<ul>
+<li><strong>适用状态</strong>：Repeat Message State 和 Normal Operation State。</li>
+<li><strong>机制</strong>：根据 <code>CanNmMsgCycleTime</code> 定时器循环发送 NM PDU。</li>
+</ul>
+</li>
+<li>**总线负载降低模式 (Bus Load Reduction) **：
+<ul>
+<li><strong>适用状态</strong>：仅限 Normal Operation State。</li>
+<li><strong>机制</strong>：采用特殊算法（如基于特定位变化的发送）来减少总线报文总量，优化带宽。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>立即发送机制 (Immediate NM Transmissions):这是为了解决“唤醒太慢”的问题。在传统的周期性发送中，第一条报文可能因为 Offset 延迟。
+<ol>
+<li><strong>触发场景</strong>：
+<ul>
+<li>由于本地调用 <code>CanNm_NetworkRequest</code>（主动唤醒）进入 Repeat Message 状态。</li>
+<li>配置了 <code>CanNmPnHandleMultipleNetworkRequests</code> 且在网络模式下再次收到请求。</li>
+</ul>
+</li>
+<li><strong>行为</strong>：
+<ul>
+<li><strong>跳过 Offset</strong>：第一条报文立即发出。</li>
+<li><strong>爆发式发送 (Burst)</strong>：随后的 <code>CanNmImmediateNmTransmissions</code> 次发送将使用更短的 <code>CanNmImmediateNmCycleTime</code>。</li>
+<li><strong>重试逻辑</strong>：如果 <code>CanIf_Transmit</code> 返回失败，CanNm 会在下个 <code>MainFunction</code> 中立即重试，直到成功发完指定的 Burst 次数。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>定时器管理与冲突处理
+<ol>
+<li><strong>启动偏移</strong>：如果不是因为主动唤醒进入状态，第一条报文会延迟 <code>CanNmMsgCycleOffset</code> 再发出，以错开网络中不同节点的发送峰值。</li>
+<li>**同步 PNC 关闭优先 **：
+<ul>
+<li>如果启用了 <strong>Synchronized PNC Shutdown</strong> 且当前有待处理的关闭请求，周期性的 NM 报文发送会<strong>推迟</strong>。</li>
+<li><strong>原因</strong>：关闭指令具有最高优先级，必须立即发送，哪怕会延误一个 MainFunction 周期。</li>
+<li><strong>安全余量</strong>：设计时需确保 $(CanNmPnResetTime - CanNmMsgCycleTime) &gt; n * MainFunctionPeriod$，以容忍这种推迟。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>虚拟发送确认 (Immediate Tx Confirmation)
+<ul>
+<li><strong>常规方式</strong>：CanNm 发出请求 -&gt; CanIf 转发 -&gt; CanDrv 发出成功 -&gt; 回调 CanIf -&gt; 回调 CanNm（TxConfirmation）。</li>
+<li><strong>立即确认模式</strong>：CanNm 调用 <code>CanIf_Transmit</code> 后，系统<strong>立即模拟</strong>一个发送成功的回调给 CanNm。</li>
+<li><strong>适用场景</strong>：离线设计已经规划好 arbitration time 的系统，不关心硬件层面的实际确认，以节省中断处理和函数调用链产生的执行开销。</li>
+</ul>
+</li>
+</ol>
+<p>📝 关键参数汇总</p>
+<table>
+<thead>
+<tr>
+<th><strong>配置参数</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>CanNmMsgCycleTime</code></strong></td>
+<td>常规周期发送间隔（通常为 100ms - 1000ms）。</td>
+</tr>
+<tr>
+<td><strong><code>CanNmImmediateNmCycleTime</code></strong></td>
+<td>快速爆发发送的间隔（通常为 10ms - 20ms）。</td>
+</tr>
+<tr>
+<td><strong><code>CanNmImmediateNmTransmissions</code></strong></td>
+<td>进入 Repeat Message 后立即发送的报文数量。</td>
+</tr>
+<tr>
+<td><strong><code>CanNmMsgCycleOffset</code></strong></td>
+<td>节点启动发送时的随机/固定偏移量，防止总线拥堵。</td>
+</tr>
+</tbody>
+</table>
+<p>CanNm 的发送逻辑非常严密：平时按部就班地发“心跳”（周期发送）；遇到唤醒或紧急需求时，立刻开启“大声呼喊”模式（立即发送）；在面临 PNC 关闭等关键操作时，懂得“让路”优先保障核心指令。</p>
+<h2 id="接收">接收</h2>
+<p>当 <strong>CanIf</strong> 模块在总线上识别并接收到一条网络管理报文时，它会触发 <code>CanNm_RxIndication</code>。这是 CanNm 处理外部网络状态的起点。</p>
+<p>📥 接收指示（RxIndication）的核心行为</p>
+<p>CanNm 在收到该回调时的首要任务是<strong>数据同步</strong>：</p>
+<ul>
+<li><strong>原子性拷贝</strong>：CanNm 必须立即将接收到的 NM PDU 数据（包含控制位 CBV、节点 ID 以及用户数据）从 CanIf 指向的临时缓冲区拷贝到 <strong>CanNm 内部定义的影子缓冲区（Internal Buffer）</strong> 中。</li>
+<li><strong>目的</strong>：
+<ul>
+<li><strong>数据一致性</strong>：CanIf 的缓冲区可能会在下一个 MainFunction 周期之前被新的报文覆盖。拷贝到内部确保了 CanNm 在后续的逻辑处理（如状态机跳转判断）中使用的是最新且完整的快照。</li>
+<li><strong>解耦处理</strong>：允许接收中断快速返回，而复杂的协议逻辑（如 PNC 位向量分析、节点检测等）可以在 <code>CanNm_MainFunction</code> 中异步处理。</li>
+</ul>
+</li>
+</ul>
+<p>🔄 接收后的连锁反应</p>
+<p>成功接收还会触发以下逻辑：</p>
+<ol>
+<li>
+<p>重启计时器 ：</p>
+<p>如果当前处于 Network Mode，NM-Timeout Timer 会被重置，防止节点进入休眠。</p>
+</li>
+<li>
+<p>状态监控：</p>
+<p>如果当前处于 Bus-Sleep，会触发 Nm_NetworkStartIndication 通知上层有外部唤醒。</p>
+</li>
+<li>
+<p>解析控制位 (CBV)：</p>
+<p>CanNm 会检查拷贝后的数据中 Repeat Message Bit 是否为 1。如果是，且启用了节点检测，本地节点将准备跳转回 Repeat Message State。</p>
+</li>
+<li>
+<p>部分网络 (PN) 过滤：</p>
+<p>如果启用了 PN，CanNm 会解析 PDU 中的 PNC Bit Vector。只有当收到的 PNC 与本地感兴趣的 PNC 匹配时，才会进一步重置对应的 PnResetTimer。</p>
+</li>
+</ol>
+<p>📝 CanNm 处理报文的“三步走”</p>
+<ol>
+<li><strong>触发</strong>：硬件接收 -&gt; <code>CanIf_RxIndication</code> -&gt; <code>CanNm_RxIndication</code>。</li>
+<li><strong>拷贝</strong>：将数据存入内部 Buffer。</li>
+<li><strong>处理</strong>：在下一个周期中，根据 Buffer 里的 CBV 和数据更新计时器和状态机。</li>
+</ol>
+<h2 id="降低总线负载机制">降低总线负载机制</h2>
+<p>在大型网络（如拥有 30 个 ECU 的 CAN 网络）中，如果每个节点都在 <code>Normal Operation</code> 状态下每 100ms 发送一次 NM PDU，总线负载会非常高。该机制的核心目标是：<strong>无论网络中有多少个节点，确保每个周期内总线上最多只出现两条 NM 报文。</strong></p>
+<p>⚖️ 总线负载削减的核心算法</p>
+<p>这个算法利用了每个节点配置的微小时间差异（<code>CanNmMsgReducedTime</code>）来实现“优胜劣汰”：</p>
+<ol>
+<li><strong>发送后行为</strong>：当本节点<strong>发送</strong>了一条 NM PDU，它将定时器重置为标准周期 <strong><code>CanNmMsgCycleTime</code></strong>。</li>
+<li><strong>接收后行为</strong>：当本节点<strong>收到</strong>别人的 NM PDU，它将定时器重置为一个缩短的时间 <strong><code>CanNmMsgReducedTime</code></strong>。
+<ul>
+<li><strong>约束条件</strong>：$\frac{1}{2} CanNmMsgCycleTime &lt; CanNmMsgReducedTime &lt; CanNmMsgCycleTime$。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<ul>
+<li>由于 $ReducedTime &lt; CycleTime$，那些收到报文的节点会比刚发完报文的节点<strong>更早</strong>触发定时器。</li>
+<li>通过精细配置每个节点的 <code>CanNmMsgReducedTime</code>，系统会自动演变成：<strong>只有两个 <code>ReducedTime</code> 最小的节点在交替发送报文</strong>。</li>
+<li>其他节点因为一直在接收报文并不断重置较短的定时器，它们的 <code>CycleTime</code> 永远无法归零，从而保持沉默。</li>
+</ul>
+</blockquote>
+<p>🔄 状态切换与机制激活</p>
+<p>该机制并不是一直开启的，它只在稳定的通信阶段生效：</p>
+<ul>
+<li>进入 Repeat Message 禁用 ：进入 Repeat Message State 时必须禁用此机制。
+<ul>
+<li><em>原因</em>：该状态是为了“节点发现”，必须让所有节点都有机会发声，不能被削减。</li>
+</ul>
+</li>
+<li>进入 Normal Operation 启用：进入 Normal Operation 且配置开启时，激活此机制。
+<ul>
+<li><em>原因</em>：此时网络已稳定，只需维持唤醒，不需要所有人都发声。</li>
+</ul>
+</li>
+</ul>
+<p>📋 负载削减逻辑对比</p>
+<table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>定时器重置值</strong></th>
+<th><strong>结果</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>未启用负载削减</strong></td>
+<td>无论是发还是收，均设为 <code>CanNmMsgCycleTime</code></td>
+<td>所有节点周期性齐射报文。</td>
+</tr>
+<tr>
+<td><strong>启用负载削减 (发送后)</strong></td>
+<td><code>CanNmMsgCycleTime</code></td>
+<td>刚发完的节点暂时进入长周期等待。</td>
+</tr>
+<tr>
+<td><strong>启用负载削减 (接收后)</strong></td>
+<td><code>CanNmMsgReducedTime</code></td>
+<td>听众节点进入短周期等待，准备“抢答”。</td>
+</tr>
+</tbody>
+</table>
+<p>🛡️ 鲁棒性保障</p>
+<p>该算法具有<strong>自动冗余</strong>特性：</p>
+<ul>
+<li>如果当前负责发送的两个节点中有一个故障（停止发送），下一个 <code>CanNmMsgReducedTime</code> 最小的节点会发现定时器归零，从而<strong>自动接替</strong>成为新的“发言人”。</li>
+<li>如果整个网络只有本节点需要通信，它会退化为每 <code>CanNmMsgCycleTime</code> 发送一次的标准模式。</li>
+</ul>
+<p>总线负载削减机制通过简单的**“谁听到了报文，谁就缩短下一次发送等待时间”**的逻辑，实现了分布式竞选。它既保证了总线永远有“心跳”维持唤醒，又避免了节点过多导致的通信拥堵。</p>
+<h2 id="远程睡眠指示">远程睡眠指示</h2>
+<p><strong>Remote Sleep Indication（远端休眠指示）</strong> 机制是一种“软检测”功能，让一个依然处于活跃状态的节点能够感知到：<strong>“虽然我还在发报文保活，但总线上其他所有人都已经想睡觉了。”</strong></p>
+<p>🧐 什么是远端休眠指示？</p>
+<p>在复杂的网络中，可能只有一个 ECU（例如网关）因为某些后台任务需要保持总线唤醒，而其他 ECU 已经完成了工作并进入了 <code>Ready Sleep State</code>（只听不发）。</p>
+<ul>
+<li><strong>核心逻辑</strong>：如果一个处于 <code>Normal Operation</code> 的节点在 <strong><code>CanNmRemoteSleepIndTime</code></strong> 时间内没有收到来自任何其他节点的 NM PDU，它就推断出其他节点都已经释放了网络请求。</li>
+</ul>
+<ol>
+<li>触发通知
+<ol>
+<li><strong>触发条件</strong>：在 <code>Normal Operation State</code> 下，连续 <code>CanNmRemoteSleepIndTime</code> 时间未收到 NM PDU。</li>
+<li><strong>动作</strong>：调用回调函数 <code>Nm_RemoteSleepIndication</code> 通知上层（Nm/ComM）。</li>
+<li><strong>配置</strong>：必须将 <code>CanNmRemoteSleepIndEnabled</code> 设置为 TRUE 才能启用此检测。</li>
+</ol>
+</li>
+<li>状态取消（Cancellation）
+<ol>
+<li>如果之前已经检测到了远端休眠，但在以下情况发生时，必须调用 <code>Nm_RemoteSleepCancellation</code> 通知上层“有人醒了”：
+<ul>
+<li>**收到报文 **：在 <code>Normal Operation</code> 或 <code>Ready Sleep</code> 状态下再次收到了 NM PDU。</li>
+<li>**进入点名模式 **：节点重新进入了 <code>Repeat Message State</code>（这通常意味着有新的节点加入或有人发起了重置请求）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>API 调用限制
+<ol>
+<li><strong>约束</strong>：只有在 <code>Normal Operation</code> 或 <code>Ready Sleep</code> 状态下检查远端休眠才有意义。</li>
+<li><strong>禁止</strong>：在 <code>Bus-Sleep</code>、<code>Prepare Bus-Sleep</code> 或 <code>Repeat Message</code> 状态下调用 <code>CanNm_CheckRemoteSleepIndication</code> 将直接返回 <code>E_NOT_OK</code>。</li>
+</ol>
+</li>
+</ol>
+<hr>
+<p>📊 为什么需要这个功能？</p>
+<p><strong>Remote Sleep Indication</strong> 对系统设计有以下几个重要帮助：</p>
+<ol>
+<li><strong>诊断与监控</strong>：帮助网关或主节点监控网络节点的活跃度。</li>
+<li><strong>电源管理优化</strong>：上层 ComM 可以根据此指示决定是否可以提前关闭某些非必要的后台服务，因为除了自己，没有其他 ECU 需要这些服务了。</li>
+<li><strong>防止“僵尸”节点</strong>：如果一个节点一直请求网络却不知道其他人都想睡了，这可能暗示某种系统级的逻辑设计问题。</li>
+</ol>
+<p>为了防止混淆，请看这两个相似但用途完全不同的计时器：</p>
+<table>
+<thead>
+<tr>
+<th><strong>计时器参数</strong></th>
+<th><strong>监控对象</strong></th>
+<th><strong>超时后果</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>CanNmTimeoutTime</code></strong></td>
+<td>整个网络的存活</td>
+<td>判定总线静默，触发<strong>状态跳转</strong>（去睡觉）。</td>
+</tr>
+<tr>
+<td><strong><code>CanNmRemoteSleepIndTime</code></strong></td>
+<td>其他节点的意图</td>
+<td>仅发送<strong>回调通知</strong>，不改变节点当前状态。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意：</strong> 通常配置 $RemoteSleepIndTime &lt; TimeoutTime$，这样节点可以在网络真正关闭之前，先得到“远端已准备好休眠”的预警。</p>
+</blockquote>
+<h2 id="用户数据">用户数据</h2>
+<ol>
+<li><strong>传统 API 方式：Set/Get User Data</strong>：这是最直接的数据交换方式，通过 CanNm 模块提供的专用 API 手动管理数据。
+<ol>
+<li><strong>发送 ：上层调用 <code>CanNm_SetUserData</code>。CanNm 会将这些数据存入内部 Buffer，并在</strong>下一次发送 NM PDU 时将其发出。</li>
+<li><strong>接收：上层调用 <code>CanNm_GetUserData</code>。CanNm 返回</strong>最近一次收到的 NM PDU 中的数据。</li>
+<li><strong>状态约束</strong>：
+<ul>
+<li><strong>Repeat Message</strong>：肯定会发送用户数据。</li>
+<li><strong>Normal Operation</strong>：如果开启了负载削减，只有“胜出”的发送节点会发出用户数据。</li>
+<li><strong>Ready Sleep</strong>：不发送用户数据（因为停止了发送）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>COM 映射方式：COM User Data</strong>：在现代 AUTOSAR 架构中，更常见的做法是将 NM 用户数据直接映射到 <strong>COM 栈</strong>。这样应用层可以像处理普通信号一样处理 NM 数据，无需直接调用 CanNm API。
+<ol>
+<li>核心逻辑与约束
+<ul>
+<li>**API 互斥 **：一旦启用了 <code>CanNmComUserDataSupport</code>，手动设置数据的 API <code>CanNm_SetUserData</code> 将失效。</li>
+<li><strong>触发获取</strong>：当 CanNm 准备发送报文时，它会通过 PduR_CanNmTriggerTransmit 向上层（COM 模块）“索取”最新的 I-PDU 数据，并将其与 NM 控制字节（SNI/CBV）合并。</li>
+<li><strong>错误处理 <strong>：如果 PduR 获取数据失败，CanNm 会使用</strong>上一次发送成功</strong>的旧数据。</li>
+</ul>
+</li>
+<li>确认与同步
+<ul>
+<li><strong>发送确认</strong> ：当硬件确认报文发出后，CanNm 会调用 <code>PduR_CanNmTxConfirmation</code>，最终由 COM 模块更新其信号状态。</li>
+<li>**长度匹配 **：在配置工具生成代码时，NM PDU 中预留的用户数据字节数必须与 COM 中定义的 I-PDU 长度完全匹配，否则会报错。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>数据流对比：API vs COM</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>API 方式 (CanNm_SetUserData)</strong></th>
+<th><strong>COM 方式 (CanNmComUserDataSupport)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据源</strong></td>
+<td>应用层手动调用 API</td>
+<td>COM 模块的 I-PDU 信号</td>
+</tr>
+<tr>
+<td><strong>数据更新</strong></td>
+<td>异步（调用即更新 Buffer）</td>
+<td>同步（在发送瞬间通过 PduR 抓取）</td>
+</tr>
+<tr>
+<td><strong>上层透明度</strong></td>
+<td>需要感知 NM 模块</td>
+<td>就像读写普通 CAN 信号一样</td>
+</tr>
+<tr>
+<td><strong>典型应用</strong></td>
+<td>简单的节点 ID 或基础状态</td>
+<td>复杂的跨模块协同信息</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!note]</p>
+<p>💡 关键提示：TriggerTransmit (触发发送)</p>
+<p>规范中提到的 <strong>TriggerTransmit</strong> 机制非常重要。</p>
+<ol>
+<li>如果 <code>CanIfTxPduTriggerTransmit</code> 为 <strong>FALSE</strong>：CanNm 主动通过 PduR 拉取数据再发送。</li>
+<li>如果为 <strong>TRUE</strong>（通常用于 TTCAN 或严格时间触发网络）：CanNm 只发出长度请求，实际数据会在更底层的 <code>CanNm_TriggerTransmit</code> 回调中从 PduR 获取。</li>
+</ol>
+</blockquote>
+<p>通过 <code>CanNmComUserDataSupport</code>，AUTOSAR 实现了 <strong>“管理面” (NM)</strong> 与 <strong>“数据面” (COM)</strong> 的解耦。这使得开发人员可以利用已有的信号处理逻辑（如信号超时监控、信号过滤）来处理网络管理报文里的负载数据。</p>
+<h1>PN</h1>
+<p>在汽车电子（AUTOSAR）领域，<strong>PN (Partial Networking，部分网络)</strong> 的核心作用是：<strong>“按需唤醒，节能减排”</strong>。</p>
+<p>在没有 PN 技术的传统网络中，只要总线上一台 ECU 发出唤醒信号，全车几十个甚至上百个 ECU 都会被同时叫醒。这种“一人开灯，全家不睡”的模式在电动化和高度智能化的今天，会产生严重的电能浪费。</p>
+<p>以下是 PN 解决的核心问题和工作机制：</p>
+<ol>
+<li>PN 的核心用途：实现“局部待机”
+<ol>
+<li>PN 允许将整车的 ECU 划分为多个逻辑上的 <strong>PNC (Partial Network Cluster，局部网络簇)</strong>。
+<ul>
+<li><strong>传统模式（全网唤醒）</strong>：你只是想在车里听个歌，结果发动机控制单元（ECU）、雷达控制单元、座椅控制单元全都得通电待命，即使它们根本不干活。</li>
+<li><strong>PN 模式（局部唤醒）</strong>：你听歌时，只有娱乐系统相关的几个 ECU 保持活跃，其他不相关的 ECU（如底盘、动力系统）继续在“深度休眠”中省电。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>PN 是如何工作的？（报文过滤机制）
+<ol>
+<li>PN 的实现依赖于一种特殊的硬件（支持 PN 的 CAN 收发器）和软件（CanNm 过滤算法）。
+<ul>
+<li><strong>PNC 位向量 (Bit Vector)</strong>：在 NM 报文（网络管理报文）中，有一段专门的位域，每一位代表一个 PNC。</li>
+<li><strong>掩码匹配 (Filter Mask)</strong>：每个 ECU 内部都存有一个“掩码”，记录了自己属于哪几个 PNC。</li>
+<li><strong>精准判断</strong>：当一个 ECU 收到 NM 报文时，它会对比报文里的位向量。
+<ul>
+<li>如果报文里请求的 PNC 与自己无关 $\rightarrow$ <strong>忽略报文，继续睡觉</strong>。</li>
+<li>如果报文里请求的位正好命中了自己 $\rightarrow$ <strong>重置计时器，保持唤醒</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>PN 的关键优势
+<ol>
+<li><strong>降低静态电流（Quiescent Current）</strong>：对于新能源汽车（EV）尤为重要。在充电或远程空调预热时，只需唤醒少量 ECU，能显著延长电池续航。</li>
+<li><strong>减少总线负载</strong>：不活跃的节点不发报文，总线带宽利用率更高。</li>
+<li><strong>符合环保标准</strong>：有助于汽车厂商满足日益严苛的碳排放和能效限制。</li>
+</ol>
+</li>
+</ol>
+<h2 id="RX处理">RX处理</h2>
+<p>当 CanNm 接收到一条 NM PDU 时，它会根据配置和报文控制位（CBV）进入不同的处理分支：</p>
+<ol>
+<li>
+<p>当 PN 功能禁用时</p>
+<p>如果 <code>CanNmPnEnabled</code> 为 <strong>FALSE</strong>，不做任何过滤。所有的 NM PDU 都会按常规流程处理（重启超时计时器）。</p>
+</li>
+<li>
+<p>当 PN 功能启用时</p>
+<ol>
+<li><strong>PNI (Partial Network Information)</strong> 位为 0 表示该报文不包含特定的 PNC 激活信息。
+<ul>
+<li><strong>Case A</strong>: 如果 <code>CanNmAllNmMessagesKeepAwake</code> 为 <strong>TRUE</strong>（通常用于网关），报文被接受，节点保持唤醒。</li>
+<li><strong>Case B</strong>: 如果该参数为 <strong>FALSE</strong>，报文被<strong>丢弃</strong>。节点不会因为这条报文而重启计时器。</li>
+</ul>
+</li>
+<li><strong>PNI (Partial Network Information)</strong> 位为 1是 PN 逻辑的核心。CanNm 会提取 <strong>PNC Bit Vector</strong>（位向量）并交给上层（Nm 模块）进行过滤匹配。
+<ol>
+<li><strong>转发逻辑</strong>：CanNm 根据偏移量提取位向量，调用 <code>Nm_PncBitVectorRxIndication</code>。</li>
+<li><strong>处理条件</strong>：只有满足以下之一，报文才会被进一步处理（即维持唤醒）：
+<ul>
+<li><code>CanNmAllNmMessagesKeepAwake</code> 为 TRUE。</li>
+<li>CanSM 尚未确认 PN 的可用性（初始化阶段为了安全，默认全部接受）。</li>
+<li><strong>关键点</strong>：<code>RelevantPncRequestDetectedPtr</code> 返回 TRUE。这意味着报文中请求的某个 PNC 正好是本 ECU 感兴趣的。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>🛑 同步 PNC 关闭 (Synchronized PNC Shutdown) 逻辑：这是针对更高级场景（如网关协调关闭）的保护机制：</p>
+<ol>
+<li>
+<p>非法请求处理</p>
+<p>如果一个**主动协调器（Active Coordinator）**收到了带有 <code>PNSR</code>（Shutdown Request）位的报文，这是逻辑冲突的。</p>
+<ul>
+<li><strong>动作</strong>：忽略该报文，向 DET 报运行时错误。</li>
+<li><strong>反应</strong>：如果开启了错误反应机制，它会立即发送一条包含当前正确 PN 信息的报文来“纠正”总线状态。</li>
+</ul>
+</li>
+<li>
+<p>合法转发</p>
+<p>当 PNI=1 且 PNSR=1 时，CanNm 提取位向量并通过 <code>Nm_ForwardSynchronizedPncShutdown</code> 转发。这确保了关闭指令能跨拓扑传递，实现整个网络簇的同时休眠。</p>
+</li>
+</ol>
+<p>📊 报文布局示例解析</p>
+<p>规范中提供了一个清晰的 8 字节 PDU 示例，展示了数据是如何挤在一起的：</p>
+<table>
+<thead>
+<tr>
+<th><strong>字节 (Byte)</strong></th>
+<th><strong>字段名称</strong></th>
+<th><strong>示例值</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td><strong>CBV</strong></td>
+<td><code>0x40</code></td>
+<td>二进制 <code>0100 0000</code>：<strong>PNI=1</strong>, PNSR=0。表示包含 PN 信息。</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>NID</strong></td>
+<td><code>0x00</code></td>
+<td>发送节点 ID。</td>
+</tr>
+<tr>
+<td><strong>2 - 3</strong></td>
+<td><strong>User Data</strong></td>
+<td><code>0xFF</code></td>
+<td>填充的用户数据。</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>PNC Vector Data1</strong></td>
+<td><code>0x12</code></td>
+<td><strong>PNC 位向量</strong>。用于匹配过滤掩码（Filter Mask）。</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>PNC Vector Data2</strong></td>
+<td><code>0x8E</code></td>
+<td>二进制数据为0001 0010，那么PNC ID就对应1和4（bit1和bit4为1）</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>PNC Vector Data3</strong></td>
+<td><code>0x80</code></td>
+<td>二进制数据为1000 1110，那么PNC ID对应9, 10, 11, 15 。这里需要注意的是，位是从第8bit开始的，所以PNC id是从8开始</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>PNC Vector Data4</strong></td>
+<td><code>0x01</code></td>
+<td>以此类推</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Tx的处理">Tx的处理</h2>
+<p><strong>CanNm 发送报文时 PN（部分网络）标志位的设置</strong>，以及一个非常关键的机制：<strong>同步 PNC 关闭（Synchronized PNC Shutdown）</strong>。其核心目标是：当某个功能（PNC）不再需要时，通知全网相关 ECU 同时关闭该功能，以达到最高效的省电效果。</p>
+<ol>
+<li>
+<p>PN 标志位的基本设置</p>
+<p>在 NM 报文的 <strong>CBV（控制位向量）</strong> 中，有一个 <strong>PNI (Partial Network Information)</strong> 位：</p>
+<ul>
+<li><strong>启用 PN 时</strong>：发送的报文中 PNI 位必须设为 <strong>1</strong>。</li>
+<li><strong>禁用 PN 时</strong>：发送的报文中 PNI 位必须设为 <strong>0</strong>。</li>
+</ul>
+</li>
+<li>
+<p>正常发送流</p>
+<p>当需要发送一条普通的 NM 报文（非关闭请求）时，CanNm 遵循以下精密顺序：</p>
+<ol>
+<li><strong>获取状态</strong>：调用 <code>Nm_PncBitVectorTxIndication</code> 获取本地当前哪些 PNC 是活跃的。</li>
+<li><strong>组装向量</strong>：将获取到的 PNC 状态填入报文的 <strong>PNC Bit Vector</strong> 区域。</li>
+<li><strong>合并用户数据</strong>：如果开启了用户数据，从 COM 或内部缓存抓取数据填入。</li>
+<li><strong>执行发送</strong>：调用 <code>CanIf_Transmit</code> 发射报文。</li>
+</ol>
+</li>
+<li>
+<p>同步 PNC 关闭机制 (Synchronized PNC Shutdown)</p>
+<p>这是该规范最复杂也最重要的部分。当网关或主节点决定关闭某个 PNC 时，它不能只是自己闭嘴，必须发一个“撤退命令”。</p>
+</li>
+</ol>
+<hr>
+<p>触发与存储</p>
+<p>上层调用 <code>CanNm_RequestSynchronizedPncShutdown</code>。CanNm 会把这个关闭请求存起来，等待在 <code>MainFunction</code> 中异步处理。</p>
+<hr>
+<p>构造关闭报文 (PNSR Bit)</p>
+<p>关闭报文与普通报文的不同点：</p>
+<ul>
+<li><strong>PNSR 位 = 1</strong>：在 CBV 中将“PN 关闭请求位”置 1。</li>
+<li><strong>精准位图</strong>：将需要关闭的 <code>PncId</code> 转换成位图。例如 <code>PncId 10</code> 对应 <code>byteIndex = 1</code> (10/8), <code>bitIndex = 2</code> (10%8)。</li>
+<li><strong>覆盖写入</strong>：在此报文中，只有请求关闭的 PNC 位设为 1，其他设为 0。</li>
+</ul>
+<hr>
+<p>重传与错误处理</p>
+<p>由于关闭指令至关重要，CanNm 引入了重传计时器：</p>
+<ul>
+<li><strong>重传启动</strong>：第一次发关闭报文时，启动 <code>CanNmPnShutdownMessageRetransmissionDuration</code> 计时器。</li>
+<li><strong>确认机制</strong>：
+<ul>
+<li>收到 <strong>E_OK</strong>：任务完成，清除存储的关闭请求，停止重传计时器。</li>
+<li>收到 <strong>E_NOT_OK</strong> 或发送失败：如果在重传周期内，下个周期立刻<strong>重试</strong>。</li>
+<li><strong>超时失败</strong>：如果计时器到期还没发成功，上报 DET 错误 <code>CANNM_E_TRANSMISSION_OF_PN_SHUTDOWN_MESSAGE_FAILED</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>冲突预防</p>
+<p>如果一个 PNC 正准备关闭，但此时突然：</p>
+<ul>
+<li><strong>外部唤醒</strong>：收到了别人发来的该 PNC 激活报文。</li>
+<li><strong>内部请求</strong>：本地应用突然又需要这个 PNC 了。</li>
+<li><strong>动作</strong>：CanNm 必须立刻从“待关闭列表”中移除该 PNC，取消关闭行动。</li>
+</ul>
+<hr>
+<p>📊普通 NM 报文 vs PN 关闭报文</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>普通 NM PDU</strong></th>
+<th><strong>PN 关闭 (Shutdown) PDU</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CBV PNI 位</strong></td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>CBV PNSR 位</strong></td>
+<td>0</td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><strong>PNC 位向量内容</strong></td>
+<td>当前所有活跃的 PNC</td>
+<td><strong>仅包含请求关闭的 PNC</strong></td>
+</tr>
+<tr>
+<td><strong>优先级</strong></td>
+<td>正常周期</td>
+<td>高优先级（可能推迟普通报文）</td>
+</tr>
+<tr>
+<td><strong>重传机制</strong></td>
+<td>依赖下个周期</td>
+<td>专门的重传计时器快速重试</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_8.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/" title="ComM"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">ComM</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">操作模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-Mode"><span class="toc-number">2.1.</span> <span class="toc-text">Network Mode</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Repeat-Message-State"><span class="toc-number">2.1.1.</span> <span class="toc-text">Repeat Message State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Normal-Operation-State"><span class="toc-number">2.1.2.</span> <span class="toc-text">Normal Operation State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ready-Sleep-State"><span class="toc-number">2.1.3.</span> <span class="toc-text">Ready Sleep State</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare-Bus-Sleep-Mode"><span class="toc-number">2.2.</span> <span class="toc-text">Prepare Bus-Sleep Mode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bus-Sleep-Mode"><span class="toc-number">2.3.</span> <span class="toc-text">Bus-Sleep Mode</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">相关参数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%8F%82%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">时间参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PDU%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.2.</span> <span class="toc-text">PDU格式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">工作流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%8A%B6%E6%80%81"><span class="toc-number">4.1.</span> <span class="toc-text">网络状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.2.</span> <span class="toc-text">初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E9%80%81"><span class="toc-number">4.2.0.1.</span> <span class="toc-text">发送</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6"><span class="toc-number">4.3.</span> <span class="toc-text">接收</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E4%BD%8E%E6%80%BB%E7%BA%BF%E8%B4%9F%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="toc-number">4.4.</span> <span class="toc-text">降低总线负载机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E7%9D%A1%E7%9C%A0%E6%8C%87%E7%A4%BA"><span class="toc-number">4.5.</span> <span class="toc-text">远程睡眠指示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE"><span class="toc-number">4.6.</span> <span class="toc-text">用户数据</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">PN</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RX%E5%A4%84%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">RX处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tx%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-number">5.2.</span> <span class="toc-text">Tx的处理</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_8.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

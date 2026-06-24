@@ -1,0 +1,1807 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>CanIf | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I&#x2F;O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN controller芯片需要IO来进行输入输出，有些特殊的CAN Tranceiver也需要IO来进行输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CanIf">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I&#x2F;O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN controller芯片需要IO来进行输入输出，有些特殊的CAN Tranceiver也需要IO来进行输">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.603Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CanIf",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg",
+  "datePublished": "2026-06-24T01:22:05.603Z",
+  "dateModified": "2026-06-24T01:22:05.603Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CanIf',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">CanIf</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">CanIf</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.603Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.603Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">14k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>45分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R20-11/CP/AUTOSAR_SWS_CANInterface.pdf">AUTOSAR_SWS_CANInterface.pdf</a></p>
+</blockquote>
+<p>下图展示了Can模块所处的位置：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251211155458676.png" alt="Can模块处于的位置" loading='lazy'></p>
+<p>在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN controller芯片需要IO来进行输入输出，有些特殊的CAN Tranceiver也需要IO来进行输入输出，比如经典的TJA1043，就有一个EN引脚和STB引脚，所以就需要IO Driver来控制。</p>
+<p>CanIf模块位于MCAL层（CAN Driver）和上层通信服务层（如 CAN Network Management, CAN Transport Protocol 等）的中间，其充当 CAN Driver 和上层通信服务层的接口层。所以它位于BSW层中的ECU抽象层，为了让上层软件与ECU硬件设计无关。</p>
+<p>CAN Interface 模块主要功能如下：</p>
+<ol>
+<li>初始化</li>
+<li>发送请求服务</li>
+<li>发送确认服务</li>
+<li>接收指示服务</li>
+<li>Controller 模式控制服务</li>
+<li>PDU channel mode 控制服务</li>
+</ol>
+<p>CANIF可能应用在以下情景：</p>
+<ol>
+<li>中断模式 CanDrv 处理由 CAN 控制器触发的中断。CanIf 是基于事件的，当事件发生时会被通知。在这种情况下，相关的 CanIf 服务在 CanDrv 对应的 ISR 中被调用。</li>
+<li>轮询模式 CanDrv 由 SchM 触发并执行后续过程（轮换模式）。在这种情况下，必须在规定的时间区间内定期调用 Can_MainFunction_&lt;写/读/总线关闭/唤醒/收发器&gt;（）。CanDrv 会通知 CanDrv 在某个 CAN 控制器中发生的事件（接收、传输、总线关闭、超时），与中断驱动作同样有效。CanDrv 负责更新属于 CAN 控制器中事件的对应信息，例如接收 L-PDU。</li>
+<li>混合模式：中断驱动和轮询驱动的 CanDrv 功能可根据所用 CAN 控制器分为中断驱动和轮询驱动作模式。</li>
+</ol>
+<p>与别的模块的关联性如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251211162102508.png" alt="CANIf与其他模块的关联性" loading='lazy'></p>
+<h1>物理信道</h1>
+<p>一个物理信道通过一个 CAN 控制器和一个 CAN 收发器连接，而一个或多个物理信道可以连接到单一网络。CanIf 提供控制所有 CAN 设备（如 CAN 控制器和所有支持 ECU 通道的 CAN 收发器）的服务。这些 API 被 CanSm 用于向 ComM提供网络视图，用于对所有连接到单一网络的物理通道执行唤醒和睡眠请求。CanIf 分别将 CanDrv 和 CanTrcv 提供的状态信息传递给每个物理通道，作为 CanSm 的状态信息。</p>
+<p>CanIf 将提供一个控制器Id，该 Id 从不同 CanDrv 实例的不同控制器中抽象出来。CanIf 内 ControllerId 的范围应以“0”开头。它应可通过 CanIfCtrlId.c（）进行配置。</p>
+<table>
+<thead>
+<tr>
+<th>Canlf</th>
+<th>CanDrv A</th>
+<th>CanDrv B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controllerld 0</td>
+<td>Controller 0</td>
+<td></td>
+</tr>
+<tr>
+<td>Controllerld 1</td>
+<td>Controller 1</td>
+<td></td>
+</tr>
+<tr>
+<td>Controllerld 2</td>
+<td></td>
+<td>Controller 0</td>
+</tr>
+</tbody>
+</table>
+<p>CanIf 将提供一个收发器 Id，从不同 CanTrcv 实例的不同收发器中抽象出来。CanIF 内收发器的范围应以“0”开头。它应可通过 CanIfTrcvId.c（） 进行配置。</p>
+<table>
+<thead>
+<tr>
+<th>Canlf</th>
+<th>CanDrv A</th>
+<th>CanDrv B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TransceiverId 0</td>
+<td>Transceiver 0</td>
+<td></td>
+</tr>
+<tr>
+<td>TransceiverId 1</td>
+<td>Transceiver 1</td>
+<td></td>
+</tr>
+<tr>
+<td>TransceiverId 2</td>
+<td></td>
+<td>Transceiver 0</td>
+</tr>
+</tbody>
+</table>
+<p>在通知过程中，CanIf 会将原始 CAN 控制器或 CAN 收发器参数从驱动模块映射到 CanSm。这种映射是在引用的 CAN 控制器或 CAN 收发器参数被用抽象的 CanIf 参数 ControllerId 或 TransceiverId 配置时完成的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251216113110616.png" alt="物理信道单通道视图" loading='lazy'></p>
+<p>CanIf 支持多个物理 CAN 通道。这些必须通过网络控制的 CanSm 进行区分。CanIf API 为多个底层物理 CAN 通道提供请求和读取控制。<br>
+此外，CanIf 不区分专用类型的 CAN 物理层（即低速 CAN 或高速 CAN），不区分连接一个或多个 CAN 控制器的类型。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251216113548445.png" alt="物理信道多通道视图" loading='lazy'></p>
+<h1>工作流</h1>
+<h2 id="初始化">初始化</h2>
+<p>EcuM 调用 CanIf 的函数 CanIf_Init（），用于初始化整个 CanIf。在初始化过程中，所有全局变量和数据结构（包括标志和缓冲区）都会被初始化。EcuM 通过调用对应的初始化服务分别执行 CanDrvs 和 CanTrcvs 的初始化。</p>
+<p>CanIf 期望 CAN 控制器在初始化过程完成后，保持在<strong>开机重置后停止状态</strong>。在此模式下，CanIf 和 CanDrv 既无法发送也无法接收 CAN L-PDU。<br>
+如果运行时需要重新初始化整个 CAN 模块，EcuM 应调用 CanSm，通过调用 CAN 接口模块的 API 服务 CanIf_SetControllerMode（）启动 CAN 控制器所需的状态转换。CanIf 将 CanSm 的调用映射到相应 CanDrv 的调用。</p>
+<h2 id="发送请求">发送请求</h2>
+<p>CanIf 的传输请求函数 CanIf_Transmit（）是 CAN 网络上上层传输 L-PDU 的常用接口。上层通信层模块仅通过 CanIf 的服务发起传输，无法直接访问 CanDrv。如果 CanDrv 能够将 L-PDU 数据写入 CAN 硬件传输对象，则发送请求成功完成。上层模块使用 API 服务 CanIf_Transmit（） 来发起传输请求。</p>
+<p>CanIf_Transmit函数将会进行以下操作：</p>
+<ol>
+<li>检查CanIf的初始化状态</li>
+<li>识别CanDrv(仅在使用多个CanDrv时)</li>
+<li>确定访问CAN硬件传输对象的HTH</li>
+<li>调用CanDry的 Can_Write(）函数</li>
+</ol>
+<p>如果传输请求服务CanIf_Transmit()返回E_OK,则传输成功完成。</p>
+<p>如果请求通过 PDU 信道模式传输 L-PDU，请求返回 CANIF_OFFLINE，CanIf 应向 DET 的 Det_ReportRuntimeError（）服务报告运行时错误代码 CANIF_E_STOPPED，CanIf_Transmit（）返回 E_NOT_OK</p>
+<h2 id="传输数据流">传输数据流</h2>
+<p>发射请求服务Canlf Transmit()基于L-PDU。访问L-SDU特定数据的参数如下：</p>
+<ul>
+<li>发送L-PDU=&gt;L-SDU ID</li>
+<li>引用包含L-SDU相关数据的数据结构：指向L-SDU,指向元数据的指针和L-SDU长度。</li>
+</ul>
+<p>对L-SDU数据结构的引用被用作多个Canlf API服务中的参数，例如Canlf Transmit()或回调服务&lt;User_RxIndication&gt;()。如果L-PDU配置为触发传输，则L-SDU指针为空指针。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251216194659599.png" alt="传输数据流" loading='lazy'></p>
+<p>CanIf 存储了为传输目的配置的可用硬件对象的信息。函数 CanIf_Transmit（） 将 CanTxPduId 映射到对应的 HTH，并调用函数 Can_Write（）。</p>
+<p>如果总线镜像已全局启用（参见 CanIfBusMirroringSupport），并且通过调用 CanIf_EnableBusMirroring 激活 CAN 控制器，CanIf 应在传输前存储每个帧的内容<br>
+注意：帧内容应仅在实际发送时提供给总线镜像模块。因此，内容必须存储，以便能够从 CanIf_TxConfirmation（）内部提供给总线镜像模块。</p>
+<h2 id="传输缓冲">传输缓冲</h2>
+<h3 id="发送缓冲区">发送缓冲区</h3>
+<p>首先介绍一个叫做（<strong>HOH</strong>）Hardware Object handles的这个概念，这个其实在MCAL层出现的较多，对MCAL的上层软件来说，HOH其实就是一个CAN报文的消息缓冲区，该结构包含与 CAN 相关的参数，如 CanId、DLC 和数据。基于 CAN 硬件缓冲区抽象，每个硬件对象在 CanIf 中被引用，独立于 CAN 硬件缓冲区布局。上层软件想发送报文的时候，就把报文往里面塞就好了，MCAL会负责发送出去，同理，接收报文就是从缓冲区里读取。但是在MCAL层，这个HOH的实现就五花八门了，这里就不多解释了。后文出现的HTH意思就是用来发送的HOH，而HRH意思就是用来接收的HOH。HOH 作为 CanDrv 接口服务调用中的参数，由 CanDrv 配置提供，CanDrv 用作 CAN 邮箱通信缓冲区的标识符。</p>
+<p>CanIf 仅作为硬件对象句柄的用户，但不会基于硬件特定信息来解释。因此，CanIf 始终独立于硬件。</p>
+<ol>
+<li>CanIf 应避免直接访问硬件特定的通信缓冲区，仅通过 CanDrv 接口服务访问。CanIf 与硬件保持独立，因为 CanDrv 接口调用时带有 HOH 参数，这些参数抽象了具体的 CAN 硬件缓冲区属性。</li>
+<li>每个 CAN 控制器可以在 CAN 邮箱中提供多个 CAN 传输硬件对象。这些可以逻辑上通过HTH寻址动态的连接到一个完整的硬件对象池（复用硬件对象）
+<ol>
+<li>多个物理硬件对象（如CAN控制器提供的多个发送邮箱）可以被<strong>逻辑映射到一个统一的资源池</strong>中。</li>
+<li>通过这种复用机制，<strong>一个HTH可以动态关联到池中的任意空闲硬件对象</strong>，而非固定绑定到某个物理邮箱。</li>
+</ol>
+</li>
+<li>CanIf 将使用两种类型的 HOH 以实现对 CanDrv 的访问</li>
+</ol>
+<p>HRH应该可以收到：</p>
+<ol>
+<li>BasicCAN：一组CanId和在一个区域或一个范围内的CANID</li>
+<li>FullCan：单个CanId</li>
+<li>所有的Canid</li>
+</ol>
+<p>这里不妨衍生一下，这两个的定义其实起源颇深，大家可参考文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/484354161">《Full-CAN vs. Basic-CAN》</a>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251215085708380.png" alt="PDU ID和硬件对象句柄之间的映射" loading='lazy'></p>
+<p>当 CANIF_PUBLIC_TX_BUFFERING 配置为 ON 的时候， CanIf 会为 Basic 类型（多个 PDU 共享一个 HTH）的 PDU 分配发送缓冲区。<br>
+  当 CanIf 调用 Can_Write 返回 CAN_BUSY 的时候，说明当前的 HTH 正在发送上一帧数据，不能写入新的数据。此时， CanIf 将会把新的数据储存在 CanIf 的缓冲区。在 Can 的发送确认中，针对刚刚发送成功的 HTH（此时已经处于空闲状态，可以写入新的数据）， CanIf 将查询分配给该 HTH 的 PDU，是否有数据在缓冲区中，如果有的话， CanIf 将自动把缓冲区中的数据写入 HTH，并发送出去。CanIf 发送缓冲区具有如下特性：</p>
+<ol>
+<li>Full 类型的 PDU 不会分配缓冲区；</li>
+<li>每个 Basic 类型的 PDU 有且只有一级缓存，因此，新的数据覆盖旧的数据；</li>
+<li>当 CANIF_PUBLIC_TX_BUFFERING 配置为 OFF 时，所有的 PDU 都没有发送缓冲区；</li>
+<li>如果同一 HTH 的缓冲区中有多个 PDU，将按照 PDU 的优先级（CANID 从小到大的顺序）进行发送。</li>
+</ol>
+<h3 id="一般行为">一般行为</h3>
+<p>在 CanIf 的范围内，传输过程从调用 CanIf_Transmit（）开始，最终以调用上层模块的回调服务（）结束。在传输过程中，CanIf、CanDrv 和 CAN 邮箱应将 L-PDU 存储一次，只在一个位置发送一次。根据发射方式的不同，这些包括：</p>
+<ol>
+<li>CAN 硬件传输对象</li>
+<li>CanIf 内的发射 L-PDU 缓冲区（如果启用了传输缓冲，CanIf 会将 Tx L-PDU 存储在 CanIf 传输 L-PDU 缓冲区（CanIfBufferCfg）中，前提是 CanDrv 在发送请求时拒绝该缓冲。）</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>对于触发传输，CanIf 只需存储给定 L-PDU 的发送请求，而无需存储其数据。当 HTH 再次空闲时，通过触发传输功能及时获取数据。单个 Tx L-PDU 若被请求传输，绝不能存储两次。这种行为对应于 CAN 网络上通常的周期性通信方式。</p>
+</blockquote>
+<p>基本上，CanIf 中用于缓冲 Tx L-PDU 的整体缓冲区由一个或多个 CanIfBufferCfg 组成。而每个 CanIfBufferCfg 分配给一个或多个专用 CanIfBufferHthRef，并可配置为缓冲一个或多个 Tx L-PDU。但如上所述，每个 Tx L-PDU 只能缓冲一个实例，包含 CanIfBufferCfg 的总量。</p>
+<p>在 L-PDU 传输过程中，CanIf 的行为会根据对应发送L-PDU 的配置设置是否启用传输缓冲而有所不同：</p>
+<ul>
+<li>如果传输缓冲被禁用且发送请求失败（CAN 控制器邮箱正在使用 BasicCAN），L-PDU 不会被复制到 CAN 控制器邮箱，CanIf_Transmit（）返回值 E_NOT_OK。</li>
+<li>如果启用了传输缓冲且发送请求失败，根据 CanIfTxBuffer 配置，L-PDU 可以存储在 CanIfTxBuffer 中。在这种情况下，CanIf_Transmit（）返回了值 E_OK，尽管无法执行传输。在这种情况下，CanIf 通过 CanIf_TxConfirmation（）回调处理 L-PDU 的未完成传输，上层无需重试发送请求。</li>
+</ul>
+<p>在配置 <strong>CanIf</strong> 模块时，你为发送 L-PDU（即应用层想要通过 CAN 发送的数据包）分配的<strong>实际 RAM 缓冲区数量</strong>，<strong>可以完全独立于</strong>你在 CAN 网络描述文件（如 <code>.dbc</code> 文件）中为该 ECU 定义的<strong>要发送的 L-PDU 数量</strong>。假设你的 ECU 可能在网络描述文件中定义了 10 个不同的 Tx L-PDU，但你可能只需要配置 5 个 CanIf Tx L-PDU 缓冲区，因为这些 L-PDU 可以共用硬件发送对象 (HTH)，或者有些 L-PDU 不需要 CanIf 内部缓冲。</p>
+<p>根据 AUTOSAR 规范，每个 Tx L-PDU（通过配置容器 <code>CanIfTxPduCfg</code> 定义）都需要通过一个 <strong><code>CanIfBufferCfg</code></strong> 配置容器来关联一个或多个 <strong>HTH (Hardware Transmit Handle)</strong>，HTH 是由 CAN Driver 提供的，代表 CAN 硬件上的发送邮箱或缓冲区。</p>
+<p>当某个 Tx L-PDU <strong>不需要</strong> CanIf 模块内部提供 RAM 缓冲时（例如，这个 L-PDU 直接使用 CAN 硬件的发送邮箱，不需要在软件层排队或存储），<code>CanIfBufferCfg</code> 仍然是<strong>必需的</strong>。此时，需要将 <code>CanIfBufferCfg</code> 中的配置参数 <strong><code>CanIfBufferSize</code></strong> 设置为 <strong>0</strong>。当 <code>CanIfBufferSize</code> 设置为 0 时，<code>CanIfBufferCfg</code> 配置容器的作用就只剩下<strong>引用</strong>或<strong>关联</strong>该 L-PDU 将要使用的 <strong>HTH</strong>，它不再具备实际的软件缓冲功能。</p>
+<h3 id="L-PDU的存储">L-PDU的存储</h3>
+<p>配置的不同的传输方式也会进行不同的缓存处理：</p>
+<ol>
+<li>
+<p>当 L-PDU 被配置为 <strong>直接传输</strong> (Direct Transmission) 模式时：</p>
+<ul>
+<li>如果缓冲功能已启用，并且 <code>Can_Write()</code> 返回 <code>CAN_BUSY</code>，CanIf 必须检查是否有可能将<strong>整个</strong>被请求传输的 <strong>CanIf Tx L-PDU 数据</strong> 缓冲到 <code>CanIfTxBuffer</code> 中。</li>
+<li>对于 <strong>动态 (Dynamic)</strong> Tx L-PDUs，<strong>CanID (CAN 标识符)</strong> 也必须与 L-PDU 数据一起存储在缓冲区中。</li>
+<li><strong>数据长度不匹配的处理</strong>：
+<ul>
+<li>如果被拒绝的 L-PDU <strong>数据长度</strong>超过了配置的缓冲区大小 (<code>CanIfBufferSize</code>)，CanIf 必须：
+<ol>
+<li><strong>只缓冲</strong>配置允许的<strong>数据量</strong>，并<strong>丢弃</strong>其余部分。</li>
+<li>向 <strong>DET (Development Error Tracer)</strong> 报告运行时错误码 <strong><code>CANIF_E_DATA_LENGTH_MISMATCH</code></strong>。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>当 L-PDU 被配置为 <strong>触发传输</strong> (Triggered Transmission) 模式时：</p>
+<ul>
+<li>
+<p>如果缓冲功能已启用，并且 <code>Can_Write()</code> 返回 <code>CAN_BUSY</code>，CanIf 必须检查是否有可能将<strong>发送请求 (Transmit Request)</strong> 缓冲到 <code>CanIfTxBuffer</code> 中。</p>
+<blockquote>
+<p>[!note]</p>
+<p>注：对于触发传输，通常缓冲的不是实际的数据，而是发送请求本身（即一个标志），实际数据会在后续由 PDU Router 或上层模块提供（例如在 <code>PduR_CanIfTriggerTransmit()</code> 被调用时）。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<p>CanIf 只有在配置参数 <strong><code>CanIfPublicTxBuffering</code></strong> 启用时，才支持对 <strong>BasicCAN</strong> 传输进行 L-PDU 缓冲。</p>
+<blockquote>
+<p>[!note]</p>
+<p>BasicCAN 通常指一个 L-PDU 可能使用多个不同的 HTH，且通常需要软件缓冲来处理排队。FullCAN L-PDU 通常不使用 CanIf 缓冲。</p>
+</blockquote>
+<p>尝试发送过程如下：</p>
+<ol>
+<li>上层 (如 PduR) 调用 <code>CanIf_Transmit()</code>。</li>
+<li>CanIf 尝试立即调用 <code>Can_Write()</code> 写入 CAN Driver。
+<ol>
+<li><strong>结果 A (<code>CAN_OK</code>):</strong> 发送成功，流程结束。</li>
+<li><strong>结果 B (<code>CAN_BUSY</code>):</strong> 硬件繁忙（无 HTH 可用）。
+<ol>
+<li><strong>CanIf 检查：</strong>
+<ol>
+<li>如果 <strong><code>CanIfPublicTxBuffering</code> 禁用</strong>：发送失败，向上传输结果。</li>
+<li>如果 <strong><code>CanIfPublicTxBuffering</code> 启用</strong>：将 L-PDU <strong>数据</strong>（直接传输）或 L-PDU <strong>请求</strong>（触发传输）存储到 CanIf 内部的 Tx L-PDU 缓冲区中。</li>
+</ol>
+</li>
+<li>当 CAN Driver 报告发送完成（通过 <code>CanIf_TxConfirmation()</code>）且有 HTH 释放时，CanIf 会将缓冲区中的 L-PDU 写入 CAN Driver。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="发送确认">发送确认</h2>
+<p>如果之前的传输请求成功完成，CanDrv 会通过调用 CanIf_TxConfirmation（）通知 CanIf。</p>
+<p>如果总线镜像在全局启用，并且通过调用 CanIf_EnableBusMirroring（）激活 CAN 控制器，CanIf 应对该控制器上的每个帧传输通过 CanIf_TxConfirmation（）确认发送帧，调用 Mirror_ReportCanFrame（）服务，调用时，需要提供<strong>存储的内容</strong>和<strong>实际的 CAN ID</strong>）</p>
+<blockquote>
+<p>[!tip]</p>
+<p>总线镜像允许外部工具或模块监听 ECU 实际发送的 CAN 帧，常用于诊断和调试。</p>
+</blockquote>
+<p>当 <code>CanIf_TxConfirmation()</code> 回调服务被调用时，CanIf 必须执行以下操作：</p>
+<ol>
+<li><strong>识别</strong>与成功传输的 L-PDU 链接的<strong>上层通信层</strong>（例如 PduR 或某个应用模块）。</li>
+<li>通过调用该上层模块的<strong>发送确认服务</strong>（返回值为 <strong><code>E_OK</code></strong>）来通知其传输已完成。</li>
+</ol>
+<p><strong>上层回调：</strong> 这个回调服务是由被通知的<strong>上层模块实现</strong>的。</p>
+<p><strong>配置静态分配：</strong> 一个 Transmit L-PDU 只能静态地分配给一个<strong>单一</strong>的发送确认回调服务。上层模块可以配置为对不同的 L-PDU 使用单个或多个回调服务。</p>
+<p>如果配置启用了 <strong>发送确认轮询支持</strong> (<code>CanIfPublicTxConfirmPollingSupport</code>)。并且，对应的 CAN 控制器模式处于 <strong><code>CAN_CS_STARTED</code></strong> 状态。那么，CanIf 必须为每个 CAN 控制器<strong>缓冲</strong>接收到的 TxConfirmation <strong>信息</strong>。这允许 CanIf 在后续的 <code>CanIf_MainFunction()</code> 中，通过轮询的方式处理这些确认信息，而不是立即在中断上下文（如果 TxConfirmation 是在中断中触发的话）中处理。</p>
+<h2 id="接收数据流">接收数据流</h2>
+<p>根据 AUTOSAR 基础软件架构，接收到的数据将在上层通信栈（如 AUTOSAR COM、CanNm、CanTp、DCM）中进行评估和处理，这意味着，上层模块既不能使用 CanDrv (Rx) 的缓冲区，也不能访问 CanIf (Tx) 的缓冲区。</p>
+<p>如果有新的 L-PDU 接收，CanDrv 会调用 CanIf 的 CanIf_RxIndication（）。对 L-PDU 指定数据的访问由以下参数决定：</p>
+<ul>
+<li>硬件接收句柄（HRH）</li>
+<li>接收 CAN 标识符（CanId）</li>
+<li>接收数据长度</li>
+<li>接收 L-PDU 的Reference</li>
+</ul>
+<p>接收的 L-PDU 依赖硬件（字节和字节排序、访问类型），并分配给通信系统中最低层——CanDrv，其中<strong>HRH (Hardware Receive Handle)</strong> 充当了 <strong>CanDrv</strong> 和使用该 L-PDU 的<strong>上层模块</strong>之间的<strong>链接</strong>。</p>
+<p>当 CanDrv 接收到一个 L-PDU 后，它会调用 <strong><code>CanIf_RxIndication()</code></strong> 来通知 CanIf 模块。</p>
+<ul>
+<li>CanIf <strong>无法识别</strong> CanDrv 是使用了<strong>临时缓冲</strong>还是<strong>直接硬件访问</strong>来获取数据。</li>
+<li>CanIf 期望在 <code>CanIf_RxIndication()</code> 的调用中接收到的 L-PDU 数据是<strong>规范化 (normalized) 的</strong>（即，CanDrv 必须处理硬件的字节序等依赖性，向 CanIf 提供统一格式的数据）。</li>
+</ul>
+<p>硬件接收对象的锁定与释放：</p>
+<ul>
+<li><strong>锁定：</strong> 在将数据<strong>复制</strong>到<strong>临时缓冲区</strong>或<strong>上层模块缓冲区</strong>的过程中，CAN 硬件接收对象是处于<strong>锁定</strong>状态的。
+<ul>
+<li>这个锁定确保了数据在被复制完成之前不会被新的接收帧覆盖。</li>
+</ul>
+</li>
+<li><strong>释放：</strong> 为了避免数据丢失，在 CanIf 的 <code>CanIf_RxIndication()</code> 函数<strong>返回</strong>给 CanDrv 后，该硬件接收对象<strong>必须立即被释放</strong>。
+<ul>
+<li><em>这保证了 CAN 硬件能够迅速准备好接收下一个传入的 CAN 帧。</em></li>
+</ul>
+</li>
+</ul>
+<p>缓冲区访问：</p>
+<ul>
+<li><strong>共享缓冲区：</strong> <strong>CanDrv</strong>、<strong>CanIf</strong> 以及属于该接收 L-PDU 的<strong>上层模块</strong>，都可能访问<strong>同一个临时中间缓冲区</strong>。</li>
+<li><strong>缓冲区位置：</strong> 这个临时缓冲区可以位于：
+<ol>
+<li><strong>CAN 控制器的 CAN 硬件接收对象</strong>中。</li>
+<li><strong>CanDrv 的临时缓冲区</strong>中。</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251217102724045.png" alt="接收数据流" loading='lazy'></p>
+<h2 id="接收指示">接收指示</h2>
+<p><code>CanIf_RxIndication()</code> 是 CAN Driver 用来通知 CanIf 模块接收到新 CAN 帧的回调函数。CanIf 接收到调用后，其主要任务是评估 L-PDU 的<strong>接受性</strong>并准备 <strong>L-SDU</strong> (上层数据)。</p>
+<ol>
+<li>总线镜像报告
+<ol>
+<li>如果全局启用了<strong>总线镜像</strong> (<code>CanIfBusMirroringSupport</code>) 且已为该控制器激活。</li>
+<li>CanIf 必须为该控制器上<strong>每个</strong>通过 <code>CanIf_RxIndication()</code> 指示的接收帧，调用 <strong><code>Mirror_ReportCanFrame()</code></strong> 进行报告。</li>
+</ol>
+</li>
+<li>软件过滤 (Software Filtering)
+<ol>
+<li>一旦调用 <code>CanIf_RxIndication()</code>，CanIf 必须对接收到的 L-PDU 执行<strong>软件过滤</strong>（如果配置了，例如通过 <code>CanIfHrhRangeCfg</code>）。</li>
+<li><strong>如果软件过滤拒绝了</strong>该 L-PDU，CanIf 必须<strong>立即终止</strong>该 <code>CanIf_RxIndication()</code> 的后续处理。</li>
+<li><em>注：软件过滤主要用于 FullCAN 未能覆盖到的 BasicCAN 接收，或用于更复杂的过滤逻辑。</em></li>
+</ol>
+</li>
+<li>数据长度检查 (Data Length Check)
+<ol>
+<li>如果 L-PDU <strong>通过</strong>了软件过滤。</li>
+<li>CanIf 随后必须执行<strong>数据长度检查</strong>（如果配置了，通过 <code>CanIfPrivateDataLengthCheck</code> 和 <code>CanIfRxPduDataLengthCheck</code>）。</li>
+<li><em>注：这确保接收到的数据长度不超过配置所允许的长度。</em></li>
+</ol>
+</li>
+<li>缓冲和数据复制
+<ol>
+<li>如果 L-PDU <strong>通过</strong>了数据长度检查。</li>
+<li>并且该 L-PDU 配置了使用 <strong>静态接收缓冲区</strong>。</li>
+<li>CanIf 必须将接收到的 L-PDU 数据（L-SDU）<strong>复制</strong>到该静态接收缓冲区中，复制的字节数应等于配置的<strong>数据长度</strong>。</li>
+<li>如果 L-SDU 配置了 <strong>元数据 (MetaData)</strong>。</li>
+<li>CanIf 必须将 L-PDU 的<strong>有效载荷 (payload)</strong> 复制到静态接收缓冲区，并将 <strong>CAN ID</strong> 复制到类型为 <code>CAN_ID_32</code> 的 <strong>MetaDataItem</strong> 中。</li>
+</ol>
+</li>
+<li>通知上层模块 (Upper Layer Indication)
+<ol>
+<li>如果 L-PDU <strong>通过</strong>了数据长度检查。</li>
+<li>CanIf 必须检查是否配置了<strong>目标上层模块</strong>，以便调用其<strong>接收指示服务</strong>来处理接收到的 L-SDU（通过 <code>CanIfRxPduUserRxIndicationUL</code> 等参数配置）。</li>
+<li>如果配置了要调用目标上层模块，CanIf 必须调用这个配置好的<strong>接收指示回调服务</strong> (<code>CanIfRxPduUserRxIndicationName</code>)。</li>
+<li>CanIf 将基于 <code>CanIf_RxIndication()</code> 的参数，提供上层通知回调函数所需的参数。</li>
+<li><em>注：一个接收 L-PDU 只能分配给<strong>一个单一</strong>的接收指示回调服务。</em></li>
+</ol>
+</li>
+</ol>
+<h3 id="读取接收数据">读取接收数据</h3>
+<p><strong>通过同步 API <code>CanIf_ReadRxPduData()</code> 读取数据</strong>。这提供了一种与异步接收指示 (Rx_Indication) 不同的数据获取方式。</p>
+<ol>
+<li>
+<p>API 的作用和接口</p>
+<ol>
+<li><strong>作用：</strong> <code>CanIf_ReadRxPduData()</code> 是 CanIf 模块提供给上层模块（如 PduR 或应用层）用来<strong>读取</strong>最近从 CAN 网络接收到的 <strong>CAN L-SDU</strong> 的通用接口。</li>
+<li><strong>访问方式：</strong> 上层模块通过 CanIf 的服务（即这个 API）发起接收请求，<strong>不直接访问 CanDrv</strong>。</li>
+<li><strong>完成标志：</strong> 当 CanIf 将接收到的 L-SDU <strong>写入</strong>上层模块提供的 I-PDU 缓冲区时，接收请求成功完成。</li>
+</ol>
+</li>
+<li>
+<p>独立于接收事件</p>
+<ol>
+<li><strong>配置启用：</strong> 如果配置参数 <strong><code>CanIfPublicReadRxPduDataApi</code></strong> 启用，则可以使用此 API 读取数据。</li>
+<li><strong>异步解耦：</strong> 这种读取方式使得数据读取<strong>不依赖于接收事件的发生（即 <code>RxIndication</code>）</strong>。</li>
+<li><strong>灵活配置：</strong> 当此 API 启用时，<strong>不必</strong>同时为同一个 L-SDU 配置<strong>接收指示服务</strong> (<code>CanIfRxPduUserRxIndicationUL</code>)。当然，如果需要，两者也可以同时启用。</li>
+</ol>
+</li>
+<li>
+<p>缓冲机制的要求</p>
+<ol>
+<li>如果配置参数 <strong><code>CanIfPublicReadRxPduDataApi</code></strong> 设置为 <code>TRUE</code>。</li>
+<li>并且某个特定的 L-SDU 配置参数 <strong><code>CanIfRxPduReadData</code></strong> 设置为 <code>TRUE</code>。</li>
+<li>那么，CanIf <strong>必须</strong>为该接收 L-SDU <strong>分配</strong>并使用一个<strong>接收 L-SDU 缓冲区</strong>来存储接收到的数据。</li>
+<li>在 <code>CanIf_RxIndication()</code> 调用过程中，如果 L-PDU <strong>通过</strong>了软件过滤和数据长度检查，CanIf 必须将接收到的 L-SDU <strong>存储</strong>到这个接收 L-SDU 缓冲区中。</li>
+<li><strong>互斥访问：</strong> 在调用 <code>CanIf_ReadRxPduData()</code> 期间（即上层正在读取数据时），CanIf <strong>必须避免</strong>可能抢占访问该接收 L-SDU 缓冲区的事件（例如，新的 <code>CanIf_RxIndication</code> 或其他并行访问），以确保数据的一致性。</li>
+</ol>
+</li>
+<li>
+<p>接收机制的选择</p>
+<ol>
+<li>
+<p>通过配置参数 <strong><code>CanIfRxPduUserRxIndicationUL</code></strong>（用于<strong>异步通知</strong>）和 <strong><code>CanIfRxPduReadData</code></strong>（用于<strong>同步读取</strong>），上层模块可以根据自己的需求，在配置时选择适合的接收 L-SDU 机制：</p>
+<table>
+<thead>
+<tr>
+<th><strong>机制</strong></th>
+<th><strong>异步通知 (Rx Indication Callback)</strong></th>
+<th><strong>同步读取 (ReadRxPduData API)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>触发方式</strong></td>
+<td>数据<strong>到达</strong>时，CanIf 主动调用上层回调。</td>
+<td>上层模块<strong>需要</strong>数据时，主动调用 CanIf API。</td>
+</tr>
+<tr>
+<td><strong>配置参数</strong></td>
+<td><code>CanIfRxPduUserRxIndicationUL</code></td>
+<td><code>CanIfRxPduReadData</code></td>
+</tr>
+<tr>
+<td><strong>数据缓冲</strong></td>
+<td>可选，通常不强制要求 CanIf 内部静态缓冲。</td>
+<td><strong>强制</strong>要求 CanIf 内部静态缓冲</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="通知状态轮询">通知状态轮询</h2>
+<p>AUTOSAR CanIf 模块提供的另一种状态获取机制：<strong>通知状态轮询 (Notification Status Polling)</strong>。除了通过回调函数（Callback）被动接收通知外，上层模块还可以主动调用 API 来查询某个 PDU 是否已经成功发送或接收。</p>
+<ol>
+<li>
+<p>CanIf 提供了两个专门用于查询状态的 API，实现了“<strong>读并清除 (Read-and-Consume)</strong>”的机制：</p>
+<ol>
+<li><strong><code>CanIf_ReadTxNotifStatus()</code></strong>: 用于查询某个 <strong>发送 (Tx) L-PDU</strong> 的发送确认状态。</li>
+<li><strong><code>CanIf_ReadRxNotifStatus()</code></strong>: 用于查询某个 <strong>接收 (Rx) L-PDU</strong> 的接收指示状态。</li>
+</ol>
+</li>
+<li>
+<p>配置与启用</p>
+<ol>
+<li>
+<p>这两个 API 的功能可以通过配置参数在<strong>全局</strong>或<strong>单个 PDU</strong> 级别进行开启或关闭：</p>
+<table>
+<thead>
+<tr>
+<th><strong>级别</strong></th>
+<th><strong>发送 (Tx) 配置参数</strong></th>
+<th><strong>接收 (Rx) 配置参数</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>全局开关</strong></td>
+<td><code>CanIfPublicReadTxPduNotifyStatusApi</code></td>
+<td><code>CanIfPublicReadRxPduNotifyStatusApi</code></td>
+</tr>
+<tr>
+<td><strong>单 PDU 开关</strong></td>
+<td><code>CanIfTxPduReadNotifyStatus</code></td>
+<td><code>CanIfRxPduReadNotifyStatus</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>只有当全局开关设为 <code>TRUE</code> 时，CanIf 才会为每个 L-PDU 维护（存储）这个内部状态位。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>“读并清除”机制 (Read-and-Consume)</p>
+<ol>
+<li><strong>逻辑含义</strong>：当上层模块调用这些 API 读取状态后，CanIf 会<strong>自动将该状态重置</strong>（通常重置为 <code>CANIF_NO_NOTIFICATION</code>）。</li>
+<li><strong>设计目的</strong>：确保上层模块获取到的“成功”状态，代表的是<strong>自上次调用该服务以来</strong>，至少发生过一次新的成功发送或接收事件。</li>
+<li><strong>状态返回值</strong>：
+<ul>
+<li><code>CANIF_TX_RX_NOTIFICATION</code>: 自上次清除以来已发生事件。</li>
+<li><code>CANIF_NO_NOTIFICATION</code>: 自上次清除以来未发生新事件。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>[!note]</p>
+<p>在 AUTOSAR 架构中，并不是所有上层模块都适合用“回调/中断”模式工作。以下场景通常会用到这些 API：</p>
+<ol>
+<li><strong>非事件驱动型任务</strong>：某些应用层任务（SWC）运行在固定的周期循环中，它们更倾向于在每个周期开始时“轮询”一下数据是否更新，而不是被中断随机打断。</li>
+<li><strong>降低中断负载</strong>：如果通信频率极高，频繁的回调会占用大量 CPU 资源。通过轮询状态，可以将处理逻辑集中在低优先级的周期性任务中。</li>
+<li><strong>双重确认</strong>：在某些安全关键应用中，除了等待回调，还可以通过该 API 进行状态的二次校验。</li>
+</ol>
+</blockquote>
+<p>当相关配置参数使能后， CanIf 提供了接口，可通过这些接口查询 CanIf PDU 的的状态和数据，这包括：</p>
+<ol>
+<li>CanIf_ReadRxNotifStatus 查询某个 PDU 是否接收到；</li>
+<li>CanIf_ReadTxNotifStatus 查询某个 PDU 是否发送成功；</li>
+<li>CanIf_ReadRxPduData，读取某个 PDU 的接收数据；</li>
+<li>CanIf_GetTxConfirmationState，获取是否有报文发送成功，主要用于 Busoff 恢复。</li>
+</ol>
+<h1>DLC检查</h1>
+<p>当 CanIf 从 Can Drviver接收到一帧报文，可以对报文的 DLC 进行检查，如果 DLC 不合法，可以报错，并进行相应的处理。DLC 检查的方法有两种：</p>
+<ol>
+<li>AUTOSAR 标准算法：当实际接收到的 DLC 小于配置的 DLC 时，认为 DLC 不合法；</li>
+<li>用户自定义算法：用户需要完成 CanIf_DlcCheckCallout 函数，自行进行检查。</li>
+</ol>
+<p>若 DLC 检查失败，等同于该报文没有接收到，不会调用上层的接收指示回调函数。</p>
+<h1>控制器模式</h1>
+<h2 id="通用功能">通用功能</h2>
+<p><strong>CanIf</strong> 在控制 <strong>CAN 控制器模式（Controller Mode）</strong> 时的角色的核心思想是：<strong>CanIf 是“执行者”，而 CanSm（CAN State Manager）是“决策者”</strong>。</p>
+<ol>
+<li>CanIf 的角色：执行与透传
+<ol>
+<li><strong>核心职责</strong>：CanIf 提供了一组 API（如 <code>CanIf_SetControllerMode()</code>），允许上层模块请求改变 CAN 控制器的状态（如：START, STOP, SLEEP）。</li>
+<li><strong>不做校验</strong>：<strong>CanIf 不负责判断模式切换是否合法</strong>。它只是简单地把请求通过 <code>CanDrv</code> 的接口转发给硬件。</li>
+<li><strong>状态存储</strong>：CanIf 会存储控制器的当前状态，并执行转换。为了优化性能，它会记录由 <code>CanIf_ControllerModeIndication()</code> 上报的最新状态，以避免频繁调用底层驱动获取信息。</li>
+</ol>
+</li>
+<li>CanSm 的角色：网络级决策
+<ol>
+<li><strong>全局管理</strong>：<strong>CanSm</strong> 负责管理整个 CAN 网络（Network）的一致性。例如，当一个网络需要进入睡眠时，CanSm 会依次命令该网络下的所有控制器进入睡眠。</li>
+<li><strong>状态机实现</strong>：复杂的网络状态机逻辑（如 Bus-Off 恢复流程、网络激活/去激活）是在 CanSm 中实现的，而不是在 CanIf 中。</li>
+</ol>
+</li>
+<li>模式切换流程
+<ol>
+<li><strong>全局管理</strong>：<strong>CanSm</strong> 负责管理整个 CAN 网络（Network）的一致性。例如，当一个网络需要进入睡眠时，CanSm 会依次命令该网络下的所有控制器进入睡眠。</li>
+<li><strong>状态机实现</strong>：复杂的网络状态机逻辑（如 Bus-Off 恢复流程、网络激活/去激活）是在 CanSm 中实现的，而不是在 CanIf 中。</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<ul>
+<li><strong>Bus-Off 处理</strong>：虽然 <code>CanIf_SetControllerMode()</code> 是主动请求，但 <code>CanIf_ControllerBusOff()</code> 是由硬件检测到故障后被动触发的。</li>
+<li><strong>多方请求</strong>：规范提到“不仅只有 CanSm 能请求改变模式”。这意味着在某些特定配置下，其他模块（如 BswM）也可能直接介入控制。</li>
+<li><strong>性能优化</strong>：CanIf 内部缓存控制器状态是推荐的做法，这样在响应 <code>CanIf_GetControllerMode()</code> 时速度更快。</li>
+</ul>
+</blockquote>
+<h2 id="操作模式">操作模式</h2>
+<p>当控制器进入 <code>CAN_CS_STOPPED</code> 状态时，当控制器被停止（例如为了节能或准备进入睡眠状态）时，CanIf 必须清理所有相关的中间状态：</p>
+<ol>
+<li><strong>拒绝新的发送请求</strong>：
+<ul>
+<li>如果控制器处于 <code>STOPPED</code> 状态，任何调用 <code>CanIf_Transmit()</code> 的请求都会被拦截。</li>
+<li>CanIf <strong>不会</strong>调用底层的 <code>Can_Write()</code>，而是直接返回 <strong><code>E_NOT_OK</code></strong>。</li>
+</ul>
+</li>
+<li><strong>清理缓冲区</strong>：
+<ul>
+<li>控制器一旦停止，CanIf 必须**清空（Clear）**分配给该控制器的所有 Tx 缓冲区（Tx Buffers）。这防止了陈旧的数据在控制器重启后被意外发送。</li>
+</ul>
+</li>
+<li><strong>通知上层失败</strong>：
+<ul>
+<li>对于所有已经在缓冲区中或正在等待确认（Outstanding）的发送 PDU，CanIf 必须通过调用上层的 <strong><code>TxConfirmation(id, E_NOT_OK)</code></strong> 告知发送失败。</li>
+<li><strong>原则</strong>：这保证了对于每一个 <code>CanIf_Transmit</code> 请求，上层最终都会收到一个确定的反馈（要么成功，要么失败），不会出现“悬挂”状态。</li>
+<li>如果开启了轮询模式（Polling），相关的确认信息也要被清除。</li>
+</ul>
+</li>
+</ol>
+<p>状态通知与回调转发</p>
+<p>CanIf 作为一个中间层，负责将底层的硬件状态回调转发给正确的决策模块（通常是 <strong>CanSm</strong>）：</p>
+<ul>
+<li><strong>Bus-Off 处理</strong>：
+<ul>
+<li>当硬件检测到 Bus-Off 并调用 <code>CanIf_ControllerBusOff()</code> 时，CanIf 必须立即通知 <strong>CanSm</strong>。CanSm 随后会启动恢复状态机。</li>
+</ul>
+</li>
+<li>**模式切换确认 **：
+<ul>
+<li>当底层驱动真正完成了模式切换（例如从 START 到 STOP）并调用 <code>CanIf_ControllerModeIndication()</code> 时，CanIf 将此信息转发给 <strong>CanSm</strong>。</li>
+</ul>
+</li>
+<li><strong>收发器状态</strong>：
+<ul>
+<li>同理，CAN 收发器（Transceiver）的模式切换也会通过 CanIf 转发给 <strong>CanSm</strong>。</li>
+</ul>
+</li>
+</ul>
+<p>CAN controller 在硬件实现上的状态抽象为以下四种基本状态：</p>
+<ol>
+<li>UNINIT</li>
+<li>STOPPED</li>
+<li>STARTED</li>
+<li>SLEEP</li>
+</ol>
+<p>对每个 CAN Controller，在 Can Interface 模块上有一个对应的“软件”状态机，其有以下几种状态：</p>
+<ol>
+<li>CANIF_CS_UNINIT</li>
+<li>CANIF_CS_STOPPED</li>
+<li>CANIF_CS_STARTED</li>
+<li>CANIF_CS_SLEEP</li>
+</ol>
+<p>上层可以通过调用 CanIf_SetControllerMode()服务来改变 CAN Controller 的状态。下表展示了用户使用CanIf_SetControllerMode()时的状态转换:</p>
+<table>
+<thead>
+<tr>
+<th>CanIf 当前模式</th>
+<th>用户请求模式</th>
+<th>传递给 Can 的模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X</td>
+<td>CANIF_CS_STARTED</td>
+<td>CAN_T_START</td>
+</tr>
+<tr>
+<td>CANIF_CS_SLEEP</td>
+<td>CANIF_CS_STOPPED</td>
+<td>CAN_T_WAKEUP</td>
+</tr>
+<tr>
+<td>CANIF_CS_STOPPED</td>
+<td>CANIF_CS_STOPPED</td>
+<td>CAN_T_STOP</td>
+</tr>
+<tr>
+<td>CANIF_CS_STARTED</td>
+<td>CANIF_CS_STOPPED</td>
+<td>CAN_T_STOP</td>
+</tr>
+<tr>
+<td>X</td>
+<td>CANIF_CS_SLEEP</td>
+<td>CAN_T_SLEEP</td>
+</tr>
+</tbody>
+</table>
+<p>不合法的状态转换请求，例如 SLEEP 到 START， START 到 SLEEP，将在 Can 模块被检测到，并返回 E_NOT_OK。在转换阶段， Can Interface 模块中软件状态机的状态可能会与 CAN controller 中的硬件状态不一致。</p>
+<p>调用 CanIf_SetControllerMode 进行模式切换，如果硬件的模式能够在较短的时间内完成，那么模式转换可以是同步的，也就是说，在 CanIf_SetControllerMode 返回之前，模式转换已经完成，并且通过 User_ControllerModeIndication 通知了上层。否则，模式转换是异步完成的，用户需周期调用 Can_MainFunction_Mode 来完成模式转换并通知上层。</p>
+<p>在AUTOSAR架构中，<strong>CAN控制器（CAN Controller）的模式</strong>由通信接口层（CAN Interface, CANIf）管理。通过分层控制（控制器模式 + PDU模式），AUTOSAR实现了灵活且低功耗的CAN通信管理。CAN控制器模式如下：</p>
+<ol>
+<li>启动模式（ <code>CANIF_CS_STARTED</code>）
+<ul>
+<li>功能：
+<ul>
+<li>控制器<strong>完全激活</strong>，可正常<strong>收发CAN帧</strong>（包括数据帧、远程帧、错误帧等）。</li>
+<li>参与总线仲裁、错误检测与恢复（如自动重传）。</li>
+</ul>
+</li>
+<li>触发条件：
+<ul>
+<li>网络管理（NM）请求通信，或上层模块（如ComM）授权通信。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>停止模式（<code>CANIF_CS_STOPPED</code>）
+<ul>
+<li>功能：
+<ul>
+<li>控制器<strong>停止所有通信活动</strong>，关闭内部时钟以降低功耗。</li>
+<li>仍可响应硬件唤醒事件（如总线显性电平）。</li>
+</ul>
+</li>
+<li>触发条件：
+<ul>
+<li>网络管理（NM）进入总线睡眠模式（Bus-Sleep），或ComM拒绝通信请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>睡眠模式 (<code>CANIF_CS_SLEEP</code>)
+<ul>
+<li>功能：
+<ul>
+<li>控制器进入<strong>深度低功耗状态</strong>，仅保留基础唤醒功能。</li>
+<li>需软件唤醒（调用<code>CanIf_ControllerWakeup()</code>）才能恢复通信。</li>
+</ul>
+</li>
+<li>触发条件：
+<ul>
+<li>明确请求低功耗（如整车电源管理指令）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>PDU模式与控制器模式协同工作，独立控制发送/接收行为：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>发送（TX）</th>
+<th>接收（RX）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CANIF_ONLINE</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>完全通信（默认模式）</td>
+</tr>
+<tr>
+<td><code>CANIF_TX_OFFLINE</code></td>
+<td>❌</td>
+<td>✅</td>
+<td>静默模式（仅接收）</td>
+</tr>
+<tr>
+<td><code>CANIF_OFFLINE</code></td>
+<td>❌</td>
+<td>❌</td>
+<td>无通信（控制器停止或睡眠）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>控制器模式与其他模块的关系为：</p>
+<ol>
+<li>与收发器的联动：
+<ul>
+<li>控制器进入<code>CANIF_CS_STOPPED</code>时，收发器通常切换至<code>TRCVMODE_STANDBY</code>（待机）。</li>
+<li>控制器唤醒后，收发器需先恢复<code>TRCVMODE_NORMAL</code>，再启动控制器。</li>
+</ul>
+</li>
+<li>与网络管理（NM）的协同：
+<ul>
+<li>NM通过<code>CanIf_ControllerMode</code>控制总线参与权（如休眠时强制<code>CANIF_CS_STOPPED</code>）。</li>
+</ul>
+</li>
+<li>与ComM的交互：
+<ul>
+<li>ComM决定通信权限，通过<code>CanIf_SetControllerMode</code>配置控制器状态。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>状态切换示例：</p>
+<ol>
+<li>
+<p>唤醒流程：</p>
+<pre><code class="highlight mermaid">graph LR
+A[总线显性电平] --&gt; B[收发器唤醒]
+B --&gt; C[CanIf_ControllerWakeup]
+C --&gt; D[控制器: CANIF_CS_STARTED]
+D --&gt; E[PDU模式: CANIF_ONLINE]</code></pre>
+</li>
+<li>
+<p>休眠流程：</p>
+<pre><code class="highlight mermaid">graph LR
+A[NM请求休眠] --&gt; B[ComM释放通信]
+B --&gt; C[CanIf_SetControllerMode: CANIF_CS_STOPPED]
+C --&gt; D[收发器待机]</code></pre>
+</li>
+</ol>
+<hr>
+<p>关键差异总结：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>通信能力</th>
+<th>功耗</th>
+<th>唤醒方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CANIF_CS_STARTED</code></td>
+<td>全双工</td>
+<td>高</td>
+<td>始终活跃</td>
+<td>正常运行</td>
+</tr>
+<tr>
+<td><code>CANIF_CS_STOPPED</code></td>
+<td>无</td>
+<td>中</td>
+<td>硬件/总线唤醒</td>
+<td>短时休眠</td>
+</tr>
+<tr>
+<td><code>CANIF_CS_SLEEP</code></td>
+<td>无</td>
+<td>极低</td>
+<td>软件指令唤醒</td>
+<td>深度休眠</td>
+</tr>
+</tbody>
+</table>
+<h2 id="模式转换">模式转换</h2>
+<p>在 AUTOSAR 中，改变 CAN 控制器的状态并不是“即时”完成的，而是一个请求与响应的过程。</p>
+<ol>
+<li><strong>异步流程</strong>：
+<ul>
+<li><strong>请求阶段</strong>：上层模块调用 <code>CanIf_SetControllerMode(CAN_CS_SLEEP)</code>。此时 CanIf 只是将指令下发给 CanDrv，API 随即返回。</li>
+<li><strong>执行阶段</strong>：CAN 控制器硬件在完成当前的通信任务后，才开始物理切换。</li>
+<li><strong>通知阶段</strong>：一旦硬件完成切换，CanDrv 调用回调函数 <code>CanIf_ControllerModeIndication()</code>。随后，CanIf 会将此通知转发给 <code>CanSm</code>。</li>
+</ul>
+</li>
+<li><strong>特殊情况（快速切换）</strong>：
+<ul>
+<li>如果硬件响应极快，<code>CanIf_ControllerModeIndication()</code> 可能会在 <code>CanIf_SetControllerMode()</code> 还没执行完时就被触发（嵌套调用）。这是实现相关的。</li>
+</ul>
+</li>
+<li><strong>失败处理</strong>：
+<ul>
+<li>CanIf 本身不监控“模式转换是否超时”。如果转换失败或没有响应，必须由<strong>上层模块</strong>（如 CanSm）通过超时机制来跟踪处理。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>🛌 睡眠与唤醒机制 (Wake-up):CAN 控制器的硬件差异（是否支持 Sleep/Wake-up）被 <code>CanDrv</code> 屏蔽了，CanIf 只需要处理标准化的模式。</p>
+</blockquote>
+<p><strong>内部唤醒 vs 外部唤醒</strong></p>
+<p>CanIf 严格区分了两类唤醒请求：</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>内部唤醒 (Internal Request)</strong></th>
+<th><strong>外部/网络唤醒 (External Request)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>触发源</strong></td>
+<td>软件逻辑（ECU 主动想通信）</td>
+<td>外部总线活动（其他节点发出的帧）</td>
+</tr>
+<tr>
+<td><strong>触发方式</strong></td>
+<td>调用 <code>CanIf_SetControllerMode(..., CAN_CS_STARTED)</code></td>
+<td>硬件检测到信号，由 CanDrv/CanTrcv 通知</td>
+</tr>
+<tr>
+<td><strong>处理性质</strong></td>
+<td>异步软件请求</td>
+<td>硬件中断事件</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>注意：</strong> 在从 <code>STOPPED</code> 切换到 <code>SLEEP</code> 的敏感过程中，硬件可能会意外产生一个唤醒中断给集成代码（ECU Integration Code），这在开发底层驱动时需要特别注意。</p>
+</blockquote>
+<p><strong>状态查询</strong>：如果上层模块不想等待异步通知，可以随时调用 <code>CanIf_GetControllerMode()</code> 主动轮询。</p>
+<p><strong>硬件解耦</strong>：无论底层硬件如何实现，CanIf 看到的都是统一的 <code>START</code>、<code>STOP</code>、<code>SLEEP</code>。</p>
+<p><strong>责任分担</strong>：CanIf 负责“传话”和“记录”，CanSm 负责“决策”和“监控”。</p>
+<h2 id="唤醒">唤醒</h2>
+<p>为了支持通过 CAN 网络唤醒 ECU（无论是通过 CAN 控制器还是收发器），硬件必须处于一种**“监听唤醒”**的状态。唤醒模式的硬件前提：</p>
+<ol>
+<li><strong>必须进入休眠（Sleep Mode）</strong>：
+<ul>
+<li>唤醒监听通常是在 <strong>Sleep Mode</strong> 下实现的。</li>
+<li>在这个模式下，<strong>正常的通信功能是关闭的</strong>。这种“禁用通信”是确保 CAN 控制器能够完全停止（Stopped）的必要条件。</li>
+</ul>
+</li>
+<li><strong>唤醒中断的使能</strong>：
+<ul>
+<li>只有当控制器停止了正常的帧处理逻辑，硬件才能将资源切换到检测特定的总线活动（如 WUP - Wake-up Pattern）。</li>
+<li>此时，<strong>唤醒中断（Wake-up Interrupt）</strong> 才能被安全地使能。如果控制器还在正常发送/接收数据，硬件是无法区分普通信号和唤醒信号的。</li>
+</ul>
+</li>
+<li><strong>硬件独立性</strong>：
+<ul>
+<li>规范提到，无论唤醒信号是通过 <strong>CAN 控制器</strong> 直接检测，还是通过 <strong>CAN 收发器 (Transceiver)</strong> 检测，这种逻辑都适用。</li>
+</ul>
+</li>
+</ol>
+<p>🔄 唤醒流程图解</p>
+<p>当 ECU 处于低功耗状态时，数据的流动和状态切换如下：</p>
+<ul>
+<li><strong>进入休眠</strong>：CanSm 发起请求 $\rightarrow$ CanIf 转发 $\rightarrow$ CanDrv 将硬件设为休眠并开启中断。</li>
+<li><strong>监听状态</strong>：此时总线上没有该节点的流量，耗电极低，但硬件电路仍在监控差分电压的变化。</li>
+<li><strong>外部触发</strong>：总线上出现特定波形（如远程节点发送的网络管理帧）。</li>
+<li><strong>中断触发</strong>：硬件产生唤醒中断 $\rightarrow$ 触发 ECU 的启动序列 $\rightarrow$ CanIf 收到通知并将模式切回 <code>CAN_CS_STARTED</code>。</li>
+</ul>
+<p>这段话的核心技术意义在于：<strong>通信的“停止”是唤醒“开启”的前提</strong>。在设计 AUTOSAR 系统的休眠逻辑时，必须先通过 <code>CanIf_SetControllerMode</code> 确保控制器进入 <code>CAN_CS_SLEEP</code>，否则硬件层面的唤醒中断可能无法正确初始化。</p>
+<p><strong>CanIf</strong> 模块在 AUTOSAR 唤醒流程中扮演的“协调者”角色，特别是它如何响应 <strong>ECU Manager (EcuM)</strong> 的请求来验证物理硬件是否真的发生了唤醒。</p>
+<h3 id="唤醒检查">唤醒检查</h3>
+<p>🛡️ CanIf 唤醒检查机制 (<code>CanIf_CheckWakeup</code>)：当 ECU 处于睡眠状态并检测到潜在的唤醒信号时，系统的处理逻辑遵循从上到下再到下的链式调用。</p>
+<ol>
+<li>触发源：集成代码与 EcuM
+<ol>
+<li><strong>调用背景</strong>：当硬件检测到总线活动，<strong>EcuM</strong>（通过集成代码）会启动唤醒验证流程。它会调用 <code>CanIf_CheckWakeup(WakeupSource)</code>。</li>
+<li><strong>参数意义</strong>：<code>WakeupSource</code> 是一个位掩码，代表 EcuM 定义的唤醒源。CanIf 需要知道这个“源”对应的是哪些具体的 CAN 控制器或收发器。</li>
+</ol>
+</li>
+<li>映射逻辑：寻找目标硬件
+<ol>
+<li><strong>配置引用</strong>：CanIf 通过配置（<code>CanIfCtrlCanCtrlRef</code>）建立起 <strong>EcuM 唤醒源</strong> 与 <strong>CAN 控制器/收发器</strong> 之间的映射关系。</li>
+<li><strong>精准定位</strong>：当 EcuM 问“这个唤醒源有没有唤醒？”时，CanIf 查表得知该源涉及哪些驱动（CanDrv 或 CanTrcv）。</li>
+</ol>
+</li>
+<li>执行验证：向下查询
+<ol>
+<li>这是核心动作。CanIf 不自己判断，而是去问底层：
+<ol>
+<li>问收发器驱动：<code>CanTrcv_CheckWakeup()</code></li>
+<li>问控制器驱动：<code>Can_CheckWakeup()</code></li>
+</ol>
+</li>
+<li><strong>目的</strong>：底层驱动会读取硬件状态寄存器，确认是否真的发生了有效的总线唤醒波形（例如符合 ISO 11898-2 的唤醒序列）。</li>
+</ol>
+</li>
+<li>判定规则 (返回值的逻辑)
+<ol>
+<li>CanIf 汇总底层驱动的检查结果并反馈给 EcuM：
+<ul>
+<li><strong>只要有一个行，就行</strong>：
+<ul>
+<li>只要底层驱动中有一个返回 <code>E_OK</code>（确认有唤醒事件），<code>CanIf_CheckWakeup()</code> 就向 EcuM 返回 <strong><code>E_OK</code></strong>。</li>
+</ul>
+</li>
+<li><strong>必须全不行，才算不行</strong>：
+<ul>
+<li>只有当所有相关的底层驱动都返回 <code>E_NOT_OK</code> 时，<code>CanIf_CheckWakeup()</code> 才向 EcuM 返回 <strong><code>E_NOT_OK</code></strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>📝 总结：CanIf 在这里的职责</p>
+<ol>
+<li><strong>分发者</strong>：将 EcuM 抽象的 <code>WakeupSource</code> 翻译成具体的硬件对象。</li>
+<li><strong>调用者</strong>：统一调用不同厂商（Vendor）提供的 CAN 驱动 API。</li>
+<li><strong>聚合者</strong>：将多个驱动的状态合并成一个简单的成功或失败，供 EcuM 决策是否需要全面启动 ECU（即从低功耗状态切回正常运行状态）。</li>
+</ol>
+<p>💡 为什么需要这个过程？</p>
+<p>这个机制是为了<strong>防止误唤醒（False Wakeups）</strong>。</p>
+<ul>
+<li>有时候总线上的电磁干扰（EMC）可能会触发一个虚假的唤醒中断。</li>
+<li>EcuM 通过 <code>CanIf_CheckWakeup</code> 强制要求驱动层去检查硬件内部的<strong>唤醒标志位</strong>。如果标志位没置位，ECU 会认为这是一个噪声，从而继续保持睡眠，节省功耗。</li>
+</ul>
+<h3 id="唤醒校验">唤醒校验</h3>
+<p>**唤醒校验 (Wake-up Validation)**的存在是为了防止 ECU 被总线上的电磁干扰（噪声）误唤醒，从而浪费电量。</p>
+<p>当 CAN 控制器检测到总线活动并触发唤醒中断后，ECU 此时仅处于“疑似唤醒”状态。为了确认这确实是一个有效的通信请求，而不是由于电线接触不良产生的火花，<strong>EcuM (ECU Manager)</strong> 需要看到一个<strong>真实的 CAN 报文</strong>。</p>
+<ol>
+<li>
+<p>校验的前提：控制器必须“转起来”</p>
+<ol>
+<li>控制器不能直接从 <code>SLEEP</code> 跳到 <code>STARTED</code>。</li>
+<li><strong>流程</strong>：当硬件产生唤醒事件通知 EcuM 后，EcuM 会通过 <code>CanIf_SetControllerMode()</code> 将控制器设为 <code>STARTED</code> 状态。只有控制器开始工作，才能接收报文来进行校验。</li>
+</ol>
+</li>
+<li>
+<p>谁能通过校验？ (<code>CanIf_RxIndication</code>)</p>
+<ol>
+<li>
+<p>CanIf 会盯住控制器启动后的<strong>第一条</strong>报文：</p>
+<ul>
+<li>
+<p>如果配置了 <code>CanIfPublicWakeupCheckValidByNM = TRUE</code>：只有<strong>网络管理 (NM) 报文</strong>才能算作有效的唤醒。</p>
+</li>
+<li>
+<p>如果为 <code>FALSE</code>：任何在配置表里的 <strong>Rx PDU</strong>（普通应用报文）都能通过校验。</p>
+</li>
+<li>
+<p>一旦收到这第一条符合要求的报文，CanIf 内部就会存下一个“已验证”的标记。</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>[!important]</p>
+<p>规范中特别提到：<strong>在校验期间，PDU 通道模式（PduRoute）不能设为 <code>ONLINE</code>。</strong></p>
+<ul>
+<li><strong>原因</strong>：如果校验还没通过就把通道设为 <code>ONLINE</code>，那么上层应用模块（如 PduR, Com）就会立刻收到数据。</li>
+<li><strong>逻辑矛盾</strong>：如果最后校验发现这个唤醒是“误报”，但此时应用层已经开始处理数据了，会导致系统逻辑混乱。</li>
+<li><strong>正确做法</strong>：只有在 EcuM 确认校验成功后，才会将 PDU 通道切换到 <code>ONLINE</code>，允许数据流向应用层。</li>
+</ul>
+</blockquote>
+<p>🔄 校验的生命周期管理</p>
+<table>
+<thead>
+<tr>
+<th><strong>动作</strong></th>
+<th><strong>CanIf 的处理逻辑</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>检测到报文</strong></td>
+<td>检查是否为合法的 NM 或应用报文，并记录状态。</td>
+</tr>
+<tr>
+<td><strong>触发校验请求</strong></td>
+<td>EcuM 调用 <code>CanIf_CheckValidation()</code>，CanIf 回复：收到有效帧了。</td>
+</tr>
+<tr>
+<td><strong>重置标记</strong></td>
+<td>当控制器重新进入 <code>CAN_CS_SLEEP</code> 时，清空“已验证”标记，为下次唤醒做准备。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>唤醒校验</strong>是一个“二次确认”的过程：</p>
+<ol>
+<li><strong>硬件</strong>说：“有人拍我，我醒了（产生中断）。”</li>
+<li><strong>EcuM</strong> 说：“别急，把控制器打开，我看看他说了什么（请求校验）。”</li>
+<li><strong>CanIf</strong> 说：“我看到他发了一个合法的报文，确实是自己人（收到 RxIndication）。”</li>
+<li><strong>EcuM</strong> 说：“好，现在全员正常开工（切换 ONLINE）。”</li>
+</ol>
+<h1>PDU模式</h1>
+<h2 id="PDU信道组">PDU信道组</h2>
+<p>📂 什么是 L-PDU 通道组？</p>
+<p>在 AUTOSAR 中，ECU 可能会连接多个 CAN 网络。为了方便管理，CanIf 将 L-PDU 进行了逻辑分组：</p>
+<ol>
+<li><strong>物理对应关系</strong>：
+<ul>
+<li>每个 <strong>L-PDU</strong> 都固定分配给一个物理 CAN 通道（即一个 CAN 控制器 + 一个 CAN 网络）。</li>
+<li>属于同一个物理通道的所有 L-PDU 被归为一个<strong>逻辑组</strong>。</li>
+</ul>
+</li>
+<li><strong>单一性原则</strong>：
+<ul>
+<li>一个 L-PDU <strong>只能</strong>属于一个通道组。这确保了模式切换（如：一键关闭该网络的所有通信）时逻辑的唯一性。</li>
+</ul>
+</li>
+<li><strong>逻辑抽象</strong>：
+<ul>
+<li>通过这种分组，上层模块不需要逐个操作成百上千个 PDU，而是可以针对整个“通道组”下达指令。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>🎮 谁在控制这些通道组？</p>
+<p>虽然 CanIf 负责执行，但<strong>控制权</strong>属于更高层的模块：</p>
+<ul>
+<li><strong>PduR (PDU Router)</strong>：负责路由 PDU。它可以决定某个路径的通信是否开启。</li>
+<li><strong>NM (Network Management)</strong>：负责网络管理。当网络需要休眠或激活时，NM 会通知 CanIf 切换通道组的状态。</li>
+</ul>
+<hr>
+<p>🚦 通道模式（PDU Operation Modes）</p>
+<p>当 PduR 或 NM 控制这些组时，主要是在切换以下几种模式（即 <strong>PduChannelMode</strong>）：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>发送 (TX)</strong></th>
+<th><strong>接收 (RX)</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CANIF_OFFLINE</strong></td>
+<td>❌ 禁用</td>
+<td>❌ 禁用</td>
+<td>通信完全切断。</td>
+</tr>
+<tr>
+<td><strong>CANIF_ONLINE</strong></td>
+<td>✅ 启用</td>
+<td>✅ 启用</td>
+<td>正常通信状态。</td>
+</tr>
+<tr>
+<td><strong>CANIF_TX_OFFLINE</strong></td>
+<td>❌ 禁用</td>
+<td>✅ 启用</td>
+<td>仅接收，不发送。常用于诊断或网络启动初期。</td>
+</tr>
+<tr>
+<td><strong>CANIF_TX_OFFLINE_ACTIVE</strong></td>
+<td>⚠️ 模拟</td>
+<td>✅ 启用</td>
+<td>模拟发送成功（触发 TxConfirmation），但实际不往总线上发。用于测试或静默模式。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>📝 这种设计的意义在于：</p>
+<ul>
+<li><strong>简化操作</strong>：上层只需要通过一个 <code>CanIf_SetPduMode(ChannelGroup, Mode)</code> 调用，就能瞬间改变整个控制器的通信行为。</li>
+<li><strong>解耦</strong>：上层模块（如 NM）只需要关注“网络（Network）”的状态，而不必关心这个网络里具体有哪些 PDU。</li>
+<li><strong>一致性</strong>：确保属于同一网络的所有报文在状态转换时步调一致。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251218134713741.png" alt="信道PDU组" loading='lazy'></p>
+<h2 id="PDU信道模式">PDU信道模式</h2>
+<p>如果说控制器模式（Controller Mode）是整个控制器的“电源总闸”，那么 <strong>PDU 通道模式（PDU Channel Mode）</strong> 就是每个逻辑通道的“分路开关”。</p>
+<p>CanIf 允许上层模块（如 PduR 或 CanSm）通过 <code>CanIf_SetPduMode()</code> 来控制一个逻辑通道内所有 PDU 的行为。</p>
+<ol>
+<li>
+<p>四种核心模式对比</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>发送 (Tx)</strong></th>
+<th><strong>接收 (Rx)</strong></th>
+<th><strong>行为描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CANIF_OFFLINE</strong></td>
+<td>❌ 禁用</td>
+<td>❌ 禁用</td>
+<td><strong>默认状态</strong>。该通道的所有 PDU 既不发送也不接收。</td>
+</tr>
+<tr>
+<td><strong>CANIF_ONLINE</strong></td>
+<td>✅ 启用</td>
+<td>✅ 启用</td>
+<td><strong>全功能状态</strong>。报文在总线和上层之间自由流动。</td>
+</tr>
+<tr>
+<td><strong>CANIF_TX_OFFLINE</strong></td>
+<td>❌ 禁用</td>
+<td>✅ 启用</td>
+<td><strong>被动监听模式</strong>。节点可以听到总线上的声音，但自己保持沉默。常用于网络初始化或诊断期间。</td>
+</tr>
+<tr>
+<td><strong>CANIF_TX_OFFLINE_ACTIVE</strong></td>
+<td>⚠️ 模拟</td>
+<td>✅ 启用</td>
+<td><strong>模拟发送模式</strong>。CanIf <strong>不</strong>将数据传给驱动，但会向上层回复“发送确认”。这用于欺骗上层协议栈，使其认为发送已成功。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>关键约束：必须先“通电”</p>
+<ol>
+<li>只有当对应的 CAN 控制器处于 <strong><code>CAN_CS_STARTED</code></strong> 状态时，才允许更改 PDU 通道模式。</li>
+<li><strong>逻辑关系</strong>：如果控制器本身都处于 <code>STOPPED</code> 或 <code>SLEEP</code> 状态（总闸关了），那么调节 PDU 的分路开关是没有意义且不被允许的。</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251218143925247.png" alt="PDU信道模式控制" loading='lazy'></p>
+<hr>
+<ol>
+<li>
+<p>静默模式（TX_OFFLINE）：</p>
+<p>当 ECU 处于某些特殊诊断状态或刚上电需要观察总线流量（防止干扰其他节点）时，会将模式设为 CANIF_TX_OFFLINE。</p>
+</li>
+<li>
+<p>模拟通信（TX_OFFLINE_ACTIVE）：</p>
+<p>在某些测试场景或特定的网络管理（NM）流程中，可能需要维持上层协议栈的状态机运行，但又不希望实际报文干扰总线。此时开启“模拟发送”，上层模块会收到正常的 TxConfirmation，从而维持业务逻辑不报错。</p>
+</li>
+<li>
+<p>防止“悬挂”请求：</p>
+<p>当模式从 ONLINE 切换到 OFFLINE 时，CanIf 会负责清理该通道关联的所有缓冲区，确保不会有旧数据残留在里面。</p>
+</li>
+</ol>
+<ul>
+<li><strong>默认状态</strong>始终是 <code>OFFLINE</code>，必须显式切换才能通信。</li>
+<li><strong>精细控制</strong>：你可以单独关闭发送路径（TX_OFFLINE），而保持接收能力。</li>
+<li><strong>状态查询</strong>：上层可以随时通过 <code>CanIf_GetPduMode()</code> 确认当前的通信状态。</li>
+</ul>
+<h3 id="CANIF-OFFLINE">CANIF_OFFLINE</h3>
+<ol>
+<li>
+<p>模式的触发条件</p>
+<ol>
+<li>根据规范，PDU 通道模式往往会随着控制器的状态变化而<strong>自动同步</strong>：
+<ul>
+<li>**初始化 **：系统启动时，所有通道默认处于 <code>CANIF_OFFLINE</code> 状态。</li>
+<li><strong>进入睡眠</strong>：当调用 <code>CanIf_SetControllerMode(..., CAN_CS_SLEEP)</code> 时，通道会自动切换到 <code>CANIF_OFFLINE</code>。</li>
+<li><strong>停止或 BusOff</strong>：当控制器进入 <code>CAN_CS_STOPPED</code> 或发生 <code>BusOff</code> 时，通道会自动切换到 <code>CANIF_TX_OFFLINE</code>。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>核心模式行为对比表</p>
+<table>
+<thead>
+<tr>
+<th><strong>行为特性</strong></th>
+<th><strong>CANIF_OFFLINE (全离线)</strong></th>
+<th><strong>CANIF_TX_OFFLINE (发送离线)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>新发送请求 (<code>CanIf_Transmit</code>)</strong></td>
+<td>❌ 拒绝 (返回 <code>E_NOT_OK</code>)</td>
+<td>❌ 拒绝 (返回 <code>E_NOT_OK</code>)</td>
+</tr>
+<tr>
+<td><strong>发送缓冲区 (Tx Buffer)</strong></td>
+<td>🧹 <strong>立即清空</strong></td>
+<td>🧹 <strong>立即清空</strong></td>
+</tr>
+<tr>
+<td><strong>发送确认回调 (TxConfirmation)</strong></td>
+<td>❌ 屏蔽/拦截</td>
+<td>❌ 屏蔽/拦截</td>
+</tr>
+<tr>
+<td><strong>接收指示回调 (RxIndication)</strong></td>
+<td>❌ 屏蔽/拦截</td>
+<td>✅ <strong>正常触发</strong> (允许监听)</td>
+</tr>
+<tr>
+<td><strong>触发场景</strong></td>
+<td>初始化、睡眠 (Sleep)</td>
+<td>停止 (Stopped)、总线关闭 (BusOff)</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li>缓冲区的“暴力”清理 :一旦通道切换到 <code>OFFLINE</code> 或 <code>TX_OFFLINE</code>，CanIf 内部的 Tx 软件缓冲区会<strong>立刻清空</strong>。这防止了当网络恢复正常（回到 <code>ONLINE</code>）时，缓冲区中积压的陈旧数据突然“喷涌”而出，干扰总线时序。</li>
+<li>BusOff 通知的“残留处理”
+<ol>
+<li><strong>场景</strong>：如果有些报文在模式切换<strong>之前</strong>已经进入了硬件寄存器（Hardware Object），但还没发出去。</li>
+<li><strong>现象</strong>：切换到 <code>OFFLINE</code> 后，硬件可能仍会尝试发送这些残留报文。如果发送导致了 <code>BusOff</code>。</li>
+<li><strong>处理</strong>：CanIf <strong>不会禁止</strong> 这个 <code>BusOff</code> 的通知。这意味着上层模块（如 CanSm）依然能收到这个最后的故障信号，从而启动恢复流程。</li>
+</ol>
+</li>
+<li>唤醒通知的独立性：<strong>唤醒通知 (Wake-up Notification)</strong> 不受 PDU 通道模式的影响。即便通道是 <code>OFFLINE</code>，只要硬件配置了唤醒监听，唤醒事件依然会正常上报。</li>
+</ol>
+</blockquote>
+<ul>
+<li><strong><code>CANIF_OFFLINE</code> 是“全闭口”</strong>：不听也不说，通常用于断电或深度睡眠。</li>
+<li><strong><code>CANIF_TX_OFFLINE</code> 是“只听不说”</strong>：用于节点生病（BusOff）或被要求闭嘴（Stopped）时，维持基本的网络监听能力。</li>
+<li><strong>自动化管理</strong>：CanIf 通过同步控制器状态和 PDU 状态，确保了即使上层模块没有精细操作每个 PDU，整个通信系统的状态也是安全的。</li>
+</ul>
+<h3 id="CANIF-ONLINE">CANIF_ONLINE</h3>
+<p>当一个逻辑通道（Channel Group）切换到此模式时，通信的所有“闸门”都会打开，允许数据在控制器和上层应用之间自由流动。当物理通道切换到 <code>CANIF_ONLINE</code> 时，CanIf 必须执行以下操作：</p>
+<ol>
+<li>开启发送转发 (Enable Transmit Forwarding)
+<ol>
+<li><strong>逻辑：</strong> 允许 <code>CanIf_Transmit()</code> 请求通过。</li>
+<li><strong>行为：</strong> 当上层模块（如 PduR）请求发送数据时，CanIf 不再直接返回错误或拦截，而是将其转发给底层的 <strong>CanDrv</strong>（调用 <code>Can_Write()</code>）。</li>
+</ol>
+</li>
+<li>开启接收通知 (Enable Receive Indication)
+<ol>
+<li><strong>逻辑：</strong> 允许底层接收到的数据上传给应用层。</li>
+<li><strong>行为：</strong> 当总线上收到报文并触发 <code>CanIf_RxIndication()</code> 时，CanIf 会执行过滤和检查，并最终调用上层配置的 <strong>Rx 回调函数</strong>（如 <code>PduR_CanIfRxIndication</code>）。</li>
+</ol>
+</li>
+<li>开启发送确认通知 (Enable Transmit Confirmation)
+<ol>
+<li><strong>逻辑：</strong> 允许反馈发送成功的状态。</li>
+<li><strong>行为：</strong> 当硬件完成报文发送并触发 <code>CanIf_TxConfirmation()</code> 时，CanIf 会将此成功信号转发给上层。这对于需要确认机制的协议（如诊断 TP 或网络管理 NM）至关重要。</li>
+</ol>
+</li>
+</ol>
+<p>为了方便理解，我们可以将 <code>CANIF_ONLINE</code> 与之前提到的 <code>OFFLINE</code> 模式进行对比：</p>
+<table>
+<thead>
+<tr>
+<th><strong>功能路径</strong></th>
+<th><strong>CANIF_OFFLINE</strong></th>
+<th><strong>CANIF_ONLINE</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发送请求 (<code>CanIf_Transmit</code>)</strong></td>
+<td>❌ 拒绝并返回 <code>E_NOT_OK</code></td>
+<td>✅ <strong>转发至 CanDrv</strong></td>
+</tr>
+<tr>
+<td><strong>发送确认 (<code>TxConfirmation</code>)</strong></td>
+<td>❌ 拦截/屏蔽</td>
+<td>✅ <strong>转发至上层</strong></td>
+</tr>
+<tr>
+<td><strong>接收指示 (<code>RxIndication</code>)</strong></td>
+<td>❌ 拦截/屏蔽</td>
+<td>✅ <strong>转发至上层</strong></td>
+</tr>
+<tr>
+<td><strong>缓冲区状态</strong></td>
+<td>🧹 清空并锁定</td>
+<td>✅ <strong>启用（如果已配置）</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!tip]</p>
+<p>⚠️ 关键提示：从 Offline 恢复到 Online</p>
+<p>虽然进入 <code>CANIF_ONLINE</code> 会开启所有功能，但有两点需要注意：</p>
+<ul>
+<li><strong>不自动补发</strong>：切换到 <code>ONLINE</code> <strong>不会</strong>自动补发之前在 <code>OFFLINE</code> 期间被拒绝的报文（因为那些报文在进入 <code>OFFLINE</code> 时已经被清空了）。</li>
+<li><strong>前提条件</strong>：正如之前规范提到的，切换到 <code>ONLINE</code> 模式的前提是 CAN 控制器必须已经处于 <strong><code>CAN_CS_STARTED</code></strong> 状态。</li>
+</ul>
+</blockquote>
+<h3 id="CANIF-OFFLINE-ACTIVE">CANIF_OFFLINE_ACTIVE</h3>
+<p>👻 <strong><code>CANIF_TX_OFFLINE_ACTIVE</code> (发送离线激活模式)</strong>：简单来说，这是一种**“虚拟发送”<strong>或</strong>“欺骗”**模式。它让上层模块以为报文发成功了，但实际上物理总线上静悄悄。</p>
+<ol>
+<li>什么是“模拟成功传输”？
+<ol>
+<li>在正常的 <code>CANIF_ONLINE</code> 模式下，<code>TxConfirmation</code> 必须等到硬件发出报文并收到 ACK 之后，由中断触发。但在 <code>CANIF_TX_OFFLINE_ACTIVE</code> 模式下：
+<ul>
+<li>当上层调用 <code>CanIf_Transmit()</code> 时，CanIf <strong>不会</strong>把报文发给 <code>CanDrv</code>（硬件），也<strong>不会</strong>存入缓冲区。</li>
+<li><strong>立即回调</strong>：CanIf 会在 <code>CanIf_Transmit()</code> 函数内部，<strong>立即</strong>调用上层的 <code>TxConfirmation</code> 回调函数。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>“立即”意味着什么？
+<ol>
+<li>这改变了 AUTOSAR 典型的异步逻辑。在正常的发送流程中，<code>CanIf_Transmit</code> 返回 <code>E_OK</code> 后很久才会触发回调；而在本模式下，回调几乎是同步发生的。上层模块必须能够处理这种“刚请求发送就收到确认”的情况。</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>🛠️ 为什么要设计这个模式？（应用场景）</p>
+<p>规范中提到了一个核心词：<strong>诊断被动模式 (Diagnosis Passive Mode)</strong>。</p>
+<ul>
+<li><strong>避免总线干扰</strong>：在某些诊断场景下（例如刷新其他 ECU 或执行某些系统测试），当前 ECU 不允许向总线上发送任何报文，以免产生干扰。</li>
+<li><strong>维持状态机运行</strong>：虽然不发报文，但上层协议栈（如 <code>Com</code>、<code>PduR</code>、<code>NM</code>）的状态机可能依赖于 <code>TxConfirmation</code> 才能进入下一个状态。</li>
+<li><strong>无感切换</strong>：如果直接使用 <code>OFFLINE</code> 模式，上层会因为收不到确认而报错或超时。使用 <code>TX_OFFLINE_ACTIVE</code>，上层模块逻辑保持不变（依然能收到确认），实现了“逻辑在线、物理离线”。</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>是否传给硬件 (CanDrv)</strong></th>
+<th><strong>是否触发 TxConfirmation</strong></th>
+<th><strong>物理总线表现</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ONLINE</strong></td>
+<td>✅ 是</td>
+<td>✅ 是（异步，等待硬件反馈）</td>
+<td>有报文</td>
+</tr>
+<tr>
+<td><strong>OFFLINE</strong></td>
+<td>❌ 否</td>
+<td>❌ 否</td>
+<td>无报文</td>
+</tr>
+<tr>
+<td><strong>TX_OFFLINE</strong></td>
+<td>❌ 否</td>
+<td>❌ 否</td>
+<td>无报文</td>
+</tr>
+<tr>
+<td><strong>TX_OFFLINE_ACTIVE</strong></td>
+<td>❌ 否</td>
+<td>✅ <strong>是（立即模拟触发）</strong></td>
+<td><strong>无报文</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!note]</p>
+<p>💡 提示</p>
+<p>这个功能是可选的。在配置工具中，必须先将全局参数 <strong><code>CanIfTxOfflineActiveSupport</code></strong> 设置为 <code>TRUE</code>，才能使用 <code>CanIf_SetPduMode()</code> 切换进入此状态。</p>
+<p>在执行 <strong>UDS 28服务 (Communication Control)</strong> 时，利用这个模式来关闭应用报文但保持网络管理或诊断响应的</p>
+</blockquote>
+<p>CanIf中，可调用 CanIf_SetPduMode 控制某个 CAN 通道上 PDU 的接收和发送，各 CAN通道可分别控制。CanIf支持的Pdu Mode 模式和特征描述如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>PDU Mode</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CANIF_OFFLINE</td>
+<td>1. 阻止发送请求，调用 CanIf_Transmit() 时，返回 E_NOT_OK。<br>2. 清除相关通道的发送缓冲区。<br>3. 阻止调用上层的接收指示回调函数。<br>4. 阻止调用上层的发送确认回调函数。</td>
+</tr>
+<tr>
+<td>CANIF_TX_OFFLINE_ACTIVE</td>
+<td>1. 调用的 CanIf_Transmit() 时，返回 E_OK，但是不调用 Can 的发送接口发送报文。<br>2. 调用的 CanIf_Transmit() 时，直接调用上层的发送确认函数。<br>3. 阻止调用上层的接收指示回调函数。</td>
+</tr>
+<tr>
+<td>CANIF_TX_OFFLINE</td>
+<td>1. 阻止发送请求，调用 CanIf_Transmit() 时，返回 E_NOT_OK。<br>2. 清除相关通道的发送缓冲区。<br>3. 允许调用上层的接收指示回调函数。<br>4. 阻止调用上层的发送确认回调函数。</td>
+</tr>
+<tr>
+<td>CANIF_ONLINE</td>
+<td>1. 调用 CanIf_Transmit() 时，正常发送报文，返回 E_OK。<br>2. 报文发送成功时，调用上层的发送确认函数。<br>3. 接收到报文时，调用上层的接收指示回调函数。</td>
+</tr>
+</tbody>
+</table>
+<h1>收发器模式</h1>
+<p>在AUTOSAR架构中，<strong>CAN收发器（CAN Transceiver）的模式</strong>由收发器驱动（CAN Transceiver Driver, CanTrcv）管理，收发器有以下模式：</p>
+<ol>
+<li>正常模式（ <code>TRCVMODE_NORMAL</code>）
+<ul>
+<li>功能：
+<ul>
+<li>收发器<strong>完全激活</strong>，支持差分信号（CAN_H/CAN_L）的发送和接收。</li>
+<li>符合ISO 11898-2电气标准（显性/隐性电平）。</li>
+</ul>
+</li>
+<li>功耗：
+<ul>
+<li>典型值：5~15mA（取决于型号，如TJA1042）。</li>
+</ul>
+</li>
+<li>触发条件：
+<ul>
+<li>控制器需主动通信（<code>CANIF_CS_STARTED</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>待机模式（<code>TRCVMODE_STANDBY</code>）
+<ul>
+<li>功能：
+<ul>
+<li>收发器<strong>停止发送</strong>，但仍可监听总线活动（接收功能部分激活）。</li>
+<li>支持硬件唤醒（如总线显性电平触发）。</li>
+</ul>
+</li>
+<li>功耗：
+<ul>
+<li>典型值：100~500μA（如TJA1145）。</li>
+</ul>
+</li>
+<li>触发条件：
+<ul>
+<li>控制器进入<code>CANIF_CS_STOPPED</code>，但需保留唤醒能力。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>睡眠模式（<code>TRCVMODE_SLEEP</code>）
+<ul>
+<li>功能：
+<ul>
+<li>收发器<strong>完全关闭</strong>，断开与总线的电气连接。</li>
+<li>仅支持特定唤醒方式（如LIN唤醒、硬件引脚触发）。</li>
+</ul>
+</li>
+<li>功耗：
+<ul>
+<li>典型值：1~10μA（如SIT1145AQ）。</li>
+</ul>
+</li>
+<li>触发条件：
+<ul>
+<li>明确请求深度休眠（如整车电源管理指令）。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>收发器模式与其他模块的关系</p>
+<ol>
+<li>与控制器的联动：
+<ul>
+<li>控制器模式（<code>CANIF_CS_STARTED</code>）要求收发器必须处于<code>TRCVMODE_NORMAL</code>。</li>
+<li>控制器休眠（<code>CANIF_CS_STOPPED</code>）时，收发器可切换至<code>TRCVMODE_STANDBY</code>或<code>TRCVMODE_SLEEP</code>。</li>
+</ul>
+</li>
+<li>与网络管理（NM）的协同：
+<ul>
+<li>NM通过<code>CanTrcv_SetMode</code>控制收发器状态（如Bus-Sleep时强制<code>TRCVMODE_SLEEP</code>）。</li>
+</ul>
+</li>
+<li>与电源管理的交互：
+<ul>
+<li>部分收发器通过<code>INH</code>引脚控制外部电源（睡眠时关闭MCU供电）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>状态切换示例：</p>
+<p>唤醒流程（睡眠→正常）：</p>
+<pre><code class="highlight mermaid">graph TB
+A[总线显性电平或硬件唤醒] --&gt; B[CanTrcv_SetMode: TRCVMODE_NORMAL]
+B --&gt; C[收发器激活差分驱动]
+C --&gt; D[控制器启动: CANIF_CS_STARTED]</code></pre>
+<p>休眠流程（正常→睡眠）：</p>
+<pre><code class="highlight mermaid">graph TB
+A[NM请求Bus-Sleep] --&gt; B[CanTrcv_SetMode: TRCVMODE_SLEEP]
+B --&gt; C[收发器断开总线]
+C --&gt; D[控制器停止: CANIF_CS_STOPPED]</code></pre>
+<hr>
+<p>关键差异总结：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th>发送能力</th>
+<th>接收能力</th>
+<th>功耗</th>
+<th>唤醒方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TRCVMODE_NORMAL</code></td>
+<td>✅</td>
+<td>✅</td>
+<td>高（5mA+）</td>
+<td>始终活跃</td>
+<td>正常通信</td>
+</tr>
+<tr>
+<td><code>TRCVMODE_STANDBY</code></td>
+<td>❌</td>
+<td>⚠️（部分）</td>
+<td>中（100μA）</td>
+<td>总线显性电平/硬件唤醒</td>
+<td>低功耗监听</td>
+</tr>
+<tr>
+<td><code>TRCVMODE_SLEEP</code></td>
+<td>❌</td>
+<td>❌</td>
+<td>极低（μA）</td>
+<td>特定引脚/LIN/软件指令</td>
+<td>深度休眠</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/" title="ComM"><img class="cover" src="/img/RandomCoverImage/random_7.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">ComM</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">物理信道</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">工作流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.1.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82"><span class="toc-number">3.2.</span> <span class="toc-text">发送请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">3.3.</span> <span class="toc-text">传输数据流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E7%BC%93%E5%86%B2"><span class="toc-number">3.4.</span> <span class="toc-text">传输缓冲</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">3.4.1.</span> <span class="toc-text">发送缓冲区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E8%A1%8C%E4%B8%BA"><span class="toc-number">3.4.2.</span> <span class="toc-text">一般行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#L-PDU%E7%9A%84%E5%AD%98%E5%82%A8"><span class="toc-number">3.4.3.</span> <span class="toc-text">L-PDU的存储</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E7%A1%AE%E8%AE%A4"><span class="toc-number">3.5.</span> <span class="toc-text">发送确认</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">3.6.</span> <span class="toc-text">接收数据流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%8C%87%E7%A4%BA"><span class="toc-number">3.7.</span> <span class="toc-text">接收指示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">3.7.1.</span> <span class="toc-text">读取接收数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%9F%A5%E7%8A%B6%E6%80%81%E8%BD%AE%E8%AF%A2"><span class="toc-number">3.8.</span> <span class="toc-text">通知状态轮询</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">DLC检查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">控制器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="toc-number">5.1.</span> <span class="toc-text">通用功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">操作模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E8%BD%AC%E6%8D%A2"><span class="toc-number">5.3.</span> <span class="toc-text">模式转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%94%A4%E9%86%92"><span class="toc-number">5.4.</span> <span class="toc-text">唤醒</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%94%A4%E9%86%92%E6%A3%80%E6%9F%A5"><span class="toc-number">5.4.1.</span> <span class="toc-text">唤醒检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%94%A4%E9%86%92%E6%A0%A1%E9%AA%8C"><span class="toc-number">5.4.2.</span> <span class="toc-text">唤醒校验</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">PDU模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PDU%E4%BF%A1%E9%81%93%E7%BB%84"><span class="toc-number">6.1.</span> <span class="toc-text">PDU信道组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PDU%E4%BF%A1%E9%81%93%E6%A8%A1%E5%BC%8F"><span class="toc-number">6.2.</span> <span class="toc-text">PDU信道模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CANIF-OFFLINE"><span class="toc-number">6.2.1.</span> <span class="toc-text">CANIF_OFFLINE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANIF-ONLINE"><span class="toc-number">6.2.2.</span> <span class="toc-text">CANIF_ONLINE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CANIF-OFFLINE-ACTIVE"><span class="toc-number">6.2.3.</span> <span class="toc-text">CANIF_OFFLINE_ACTIVE</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">收发器模式</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

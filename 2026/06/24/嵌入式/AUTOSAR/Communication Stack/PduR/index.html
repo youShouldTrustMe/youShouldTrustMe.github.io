@@ -1,0 +1,2114 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>PduR | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  [!tip] 标准文件请参见Specification of PDU Router  如果说 ComM 是“司令部”，那么 PduR 就是 ECU 内部的“物流转运中心”。它不关心数据包（PDU）里装的是什么信号，它只根据“路由表”决定这个包该发往哪里。   PduR 的层级位置：承上启下 PduR 处于一个非常特殊的中间位置，它切断了应用层与底层总线之间的直接耦合：  上层模块 (Upp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PduR">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/PduR/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  [!tip] 标准文件请参见Specification of PDU Router  如果说 ComM 是“司令部”，那么 PduR 就是 ECU 内部的“物流转运中心”。它不关心数据包（PDU）里装的是什么信号，它只根据“路由表”决定这个包该发往哪里。   PduR 的层级位置：承上启下 PduR 处于一个非常特殊的中间位置，它切断了应用层与底层总线之间的直接耦合：  上层模块 (Upp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg">
+<meta property="article:published_time" content="2026-06-24T01:22:05.604Z">
+<meta property="article:modified_time" content="2026-06-24T01:22:05.604Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "PduR",
+  "url": "https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/PduR/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_9.jpg",
+  "datePublished": "2026-06-24T01:22:05.604Z",
+  "dateModified": "2026-06-24T01:22:05.604Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/PduR/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.12.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'PduR',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">PduR</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-jiafangzijianzhu"></use></svg><span class="menu_word" style="font-size:17px"> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-folderyellow"></use></svg><span class="menu_word" style="font-size:17px"> 归档</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-fenlei-"></use></svg><span class="menu_word" style="font-size:17px"> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-a-07biaoqian"></use></svg><span class="menu_word" style="font-size:17px"> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-guanyuwomen"></use></svg><span class="menu_word" style="font-size:17px"> 关于</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/friends/"><svg class="menu_icon faa-tada" aria-hidden="true" style="width:1.30em;height:1.30em;vertical-align:-0.15em;fill:currentColor;overflow:hidden;"><use xlink:href="#icon-lianjie"></use></svg><span class="menu_word" style="font-size:17px"> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">PduR</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-24T01:22:05.604Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-24T01:22:05.604Z" title="更新于 2026-06-24 01:22:05">2026-06-24</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">16.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>55分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1>概述</h1>
+<blockquote>
+<p>[!tip]</p>
+<p>标准文件请参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_SWS_PDURouter.pdf">Specification of PDU Router</a></p>
+</blockquote>
+<p>如果说 ComM 是“司令部”，那么 PduR 就是 ECU 内部的“<strong>物流转运中心</strong>”。它不关心数据包（PDU）里装的是什么信号，它只根据“路由表”决定这个包该发往哪里。</p>
+<ol>
+<li>
+<p>PduR 的层级位置：承上启下</p>
+<p>PduR 处于一个非常特殊的中间位置，它切断了应用层与底层总线之间的直接耦合：</p>
+<ul>
+<li><strong>上层模块 (Upper Layers)</strong>：数据的源头或终点。
+<ul>
+<li><strong>COM</strong>：信号层，处理应用数据。</li>
+<li><strong>DCM</strong>：诊断层，处理诊断协议。</li>
+</ul>
+</li>
+<li><strong>下层模块 (Lower Layers)</strong>：数据的物理传输路径。
+<ul>
+<li><strong>Interface 模块</strong> (如 CanIf, LinIf)：处理短报文（单帧）。</li>
+<li><strong>TP 模块</strong> (如 CanTp)：处理需要分包重组的长报文（如诊断数据）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>PduR 的三大核心业务逻辑</p>
+<ol>
+<li>
+<p>本地接收 (PDU Reception)</p>
+<ul>
+<li><strong>方向</strong>：下层 $\rightarrow$ 上层。</li>
+<li><strong>逻辑</strong>：总线上来了一个报文，PduR 查表发现本 ECU 需要它，于是分发给 COM 或 DCM。</li>
+<li><strong>特性 (Fan-out)</strong>：支持“一对多”。一个报文进来，可以同时分发给多个上层模块。</li>
+</ul>
+</li>
+<li>
+<p>本地发送 (PDU Transmission)</p>
+<ul>
+<li><strong>方向</strong>：上层 $\rightarrow$ 下层。</li>
+<li><strong>逻辑</strong>：COM 或 DCM 产生数据，请求 PduR 发送。PduR 根据 ID 找到对应的总线接口（CAN、LIN 等）并传达发送指令。</li>
+</ul>
+</li>
+<li>
+<p>网关转发 (PDU Gateway)</p>
+<p>这是 PduR 最强大的功能，数据<strong>不经过上层应用</strong>，直接在底层模块间流转。</p>
+<ul>
+<li><strong>Interface 级网关</strong>：CAN1 的报文直接转到 CAN2（适用于实时性要求高的 L-PDU）。</li>
+<li><strong>TP 级网关</strong>：诊断长报文在不同网段间转发。PduR 会管理中间缓存，实现一边收一边发的“流水线”操作。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>关键点解析：灵活的混合模式</p>
+<p>规范中特别提到一个极具代表性的场景：<strong>接收与网关并存</strong>。</p>
+<blockquote>
+<p><strong>举例</strong>：一个网关 ECU 收到发动机转速报文。</p>
+<ol>
+<li><strong>动作 A (接收)</strong>：PduR 把报文给本机的 <strong>COM</strong>，供仪表盘显示当前转速。</li>
+<li><strong>动作 B (网关)</strong>：同时，PduR 把这个报文转发给 <strong>LIN 总线</strong>，供后排娱乐系统显示。</li>
+</ol>
+<p><strong>结论</strong>：这两个动作在 PduR 内部是并行触发的，互不干扰，极大地提高了路由效率。</p>
+</blockquote>
+</li>
+</ol>
+<p>💡 PduR 的本质：</p>
+<p>PduR 本质上是一个<strong>静态的、无状态的路由矩阵</strong>：</p>
+<ol>
+<li><strong>它是无感的</strong>：它不解析 PDU 里的具体信号（如温度、转速）。</li>
+<li><strong>它是高效的</strong>：基于 I-PDU ID 的查表转发，逻辑路径在配置阶段（arxml）就已固定。</li>
+<li><strong>它是解耦的</strong>：上层模块不需要知道报文是走 CAN 还是以太网，只需要把 PDU 交给 PduR，剩下的路径寻找由 PduR 完成。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260403162816757.png" alt="PDUR交互图" loading='lazy'></p>
+<ol>
+<li>
+<p>核心路由准则：静态 ID 路由</p>
+<ul>
+<li><strong>非动态路由</strong>：PduR 绝对不会在运行时根据 PDU 的**有效载荷（Payload）**去决定路由方向。</li>
+<li><strong>静态标识符</strong>：所有的路由决定都是基于预先配置好的 <strong>I-PDU ID</strong>。</li>
+<li><strong>意义</strong>：这意味着 PduR 的执行效率极高，且行为是确定性的（Deterministic），符合汽车电子对实时性和安全性的要求。</li>
+</ul>
+</li>
+<li>
+<p>模块分类：接口类 vs. 传输协议类</p>
+<p>PduR 处理两类本质不同的通信接口：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模块类型</strong></th>
+<th><strong>处理对象</strong></th>
+<th><strong>典型模块</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>通信接口模块 (Interface)</strong></td>
+<td>短报文 / 单帧 (L-PDU)</td>
+<td><code>CanIf</code>, <code>LinIf</code>, <code>FrIf</code>, <code>Com</code>, <code>IpduM</code></td>
+</tr>
+<tr>
+<td><strong>传输协议模块 (TP)</strong></td>
+<td>长报文 / 分段 (N-PDU)</td>
+<td><code>CanTp</code>, <code>DCM</code>, <code>J1939Tp</code>, <code>FrTp</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>技术细节</strong>：PduR 需要区分这两类，因为 TP 路由涉及分段传输、流控制（Flow Control）和缓冲区管理，而 Interface 路由通常只是简单的直接转发。</li>
+</ul>
+</li>
+<li>
+<p>最常见的路由组合 (Case Studies)</p>
+<ol>
+<li><strong>DCM $\leftrightarrow$ TP 模块</strong>：处理诊断仪与 ECU 之间的多帧长报文交互。</li>
+<li><strong>COM $\leftrightarrow$ Interface 模块</strong>：处理最基础的循环信号报文（如车速、转速）。</li>
+<li><strong>COM $\leftrightarrow$ TP 模块</strong>：处理大数据的信号传输。</li>
+<li><strong>IpduM $\leftrightarrow$ Interface 模块</strong>：处理多路复用报文的收发。</li>
+</ol>
+</li>
+</ol>
+<h1>I-Pdu处理</h1>
+<p>它的工作本质可以概括为：<strong>ID 转换（ID Conversion）</strong> 与 <strong>透明传输（Transparent Transfer）</strong>。</p>
+<ol>
+<li>
+<p>核心原则：数据一致性与透明性</p>
+<ul>
+<li><strong>无修改传输</strong>：PduR 必须在不修改数据内容的情况下，将 I-PDU 从源模块传输到目标模块。</li>
+<li><strong>一致性</strong>：确保数据在搬运过程中不会被截断或损坏。PduR 扮演的是“管道”角色，不感知负载（Payload）的具体含义。</li>
+</ul>
+</li>
+<li>
+<p>I-PDU 的身份识别：ID 与 符号名</p>
+<p>规范区分了两种识别方式，这主要取决于你的编译策略：</p>
+<ul>
+<li><strong>I-PDU ID</strong>：主要用于 <strong>Post-build</strong>（后编译配置）。因为在代码编译后，只有通过固定的 ID 才能在内存中定位和识别 PDU。</li>
+<li><strong>Symbolic Name (符号名)</strong>：主要用于 <strong>Pre-compile</strong>（预编译配置）。在源代码阶段，开发者可以使用具有可读性的名称（如 <code>Engine_Speed_PDU</code>），由工具链最终映射为具体的 ID。</li>
+</ul>
+</li>
+<li>
+<p>核心机制：ID 转换 (ID Conversion)</p>
+<p>这是 PduR 最重要的功能。每个 BSW 模块（Com, CanIf, LinIf）都有自己的一套 I-PDU ID 查表。</p>
+<ul>
+<li><strong>逻辑转换</strong>：PduR 就像一个翻译官。
+<ul>
+<li><strong>发送路径</strong>：COM 调用 <code>PduR_ComTransmit(ID_A)</code>，PduR 查表发现对应的目标是 CanIf，于是将其转换为 CanIf 认识的 <code>ID_B</code>，然后调用 <code>CanIf_Transmit(ID_B)</code>。</li>
+<li><strong>确认/指示路径</strong>：当底层反馈 <code>PduR_CanIfTxConfirmation(ID_B)</code> 时，PduR 再将其反向转换回 <code>ID_A</code> 并告诉上层 <code>Com_TxConfirmation(ID_A)</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>路由路径的唯一性</p>
+<ul>
+<li>
+<p><strong>唯一识别</strong>：一条路由路径是由 <strong>源模块 I-PDU ID</strong> 和 <strong>目标模块 I-PDU ID</strong> 的组合唯一确定的。</p>
+</li>
+<li>
+<p><strong>多路分发 (Fan-out) 示例</strong>：</p>
+<p>如规范所述，如果 COM 发送一个 PDU 给 CanIf 和 LinIf：</p>
+<ol>
+<li>COM 提供一个源 ID 给 PduR。</li>
+<li>PduR 将其转换为 <strong>两个不同的目标 ID</strong>：一个给 CanIf，一个给 LinIf。</li>
+<li>原始的数据指针（<code>PduInfoType</code>）被原封不动地传递给这两个模块。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>严格的静态约束</p>
+<ul>
+<li><strong>严禁动态路由</strong>：PduR 只能根据配置好的路径干活。如果配置里没写这条路，PduR 绝对不会转发。</li>
+<li><strong>MetaData 类型检查</strong>：如果两个 I-PDU 的 <code>MetaDataTypes</code>（元数据类型，常用于带地址信息的通信，如 J1939 或以太网）不一致，生成工具必须报错。这保证了路由两端的数据结构是兼容的。</li>
+</ul>
+</li>
+</ol>
+<p>PduR 到底在做什么？</p>
+<p>为了方便理解，我们可以把 PduR 处理 I-PDU 的过程想象成 <strong>“拨号转发”</strong>：</p>
+<table>
+<thead>
+<tr>
+<th><strong>步骤</strong></th>
+<th><strong>动作</strong></th>
+<th><strong>类比</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 接收请求</strong></td>
+<td>模块 A 发起 Transmit(ID_1)</td>
+<td>邮局收到一封发往“北京”的信</td>
+</tr>
+<tr>
+<td><strong>2. 查表转换</strong></td>
+<td>PduR 查找路由表，发现 ID_1 对应模块 B 的 ID_99</td>
+<td>邮局确认“北京”对应的邮编是“100000”</td>
+</tr>
+<tr>
+<td><strong>3. 数据透明搬运</strong></td>
+<td>将数据指针原样传给模块 B</td>
+<td>把信件装进发往“100000”的邮袋，内容不准看</td>
+</tr>
+<tr>
+<td><strong>4. 反馈转换</strong></td>
+<td>模块 B 回复确认(ID_99)，PduR 转换回 ID_1 给 A</td>
+<td>投递成功后，告诉发信人“北京”的信到了</td>
+</tr>
+</tbody>
+</table>
+<p>通信样例为：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant COM
+    participant PduR
+    participant CanIf
+    COM-&gt;&gt;PduR: PduR_ComTransmit(11)
+    PduR-&gt;&gt;CanIf: CanIf_Transmit(22)
+    CanIf-&gt;&gt;PduR: PduR_CanIfTxConfirmation(42)
+    PduR-&gt;&gt;COM: Com_TxConfirmation(32)</code></pre>
+<h2 id="接收数据">接收数据</h2>
+<p><strong>PduR (PDU Router)</strong> 在“接收”场景下，根据底层模块的类型（Interface vs. TP）采取不同的转发策略。</p>
+<p>核心差异在于：<strong>Interface（接口类）是“直接投递”，而 TP（传输协议类）是“流式握手”</strong>。</p>
+<ol>
+<li>
+<p>通信接口接收 (Communication Interface)</p>
+<p>对于像 <code>CanIf</code> 这样处理短报文的模块，接收逻辑非常简单、直接。</p>
+<ul>
+<li>
+<p>**1:n 路由 (Fan-out) **：</p>
+<p>这是 Interface 路由的一大特色。底层收到的一个 I-PDU，可以同时分发给多个上层模块（如同时给 <code>COM</code> 和 <code>DCM</code>）。</p>
+</li>
+<li>
+<p>**不检查长度 **：</p>
+<p>由于 PduR 在这种路径下<strong>不提供缓冲区（Buffer）</strong>，它只是一个“传声筒”。因此，它不会检查报文长度是否符合配置，直接原样转交给上层。</p>
+</li>
+<li>
+<p><strong>动作</strong>：底层调用 <code>PduR_RxIndication</code> $\rightarrow$ PduR 调用所有目标上层的 <code>_RxIndication</code> 。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>传输协议接收 (Transport Protocol)</p>
+<p>对于处理长报文（分段传输）的 TP 模块，逻辑要复杂得多，涉及多步握手过程。</p>
+<ul>
+<li>
+<p><strong>1:1 路由</strong>：</p>
+<p>不同于 Interface，TP 接收通常只能路由给<strong>一个</strong>上层目标（例如诊断请求只能给 <code>DCM</code>）。</p>
+</li>
+<li>
+<p><strong>三步走流程</strong>：</p>
+<ol>
+<li><strong>开始接收 (<code>StartOfReception</code>)</strong>：当收到首帧（FF）或单帧（SF）时，通知上层准备缓存。PduR 负责转发该调用并传回上层的返回值（如 BUFREQ_OK） 。</li>
+<li><strong>数据拷贝 (<code>CopyRxData</code>)</strong>：后续的每一个分段（N-PDU）都会触发此调用，将数据从 TP 层搬运到上层定义的缓冲区中 。</li>
+<li><strong>最终指示 (<code>TpRxIndication</code>)</strong>：所有分段收齐后，TP 层通知 PduR，PduR 再通知上层传输完成 。</li>
+</ol>
+</li>
+<li>
+<p><strong>错误处理</strong>：如果 TP 层上报了错误，PduR 同样只负责“透传”，不负责具体的错误纠正逻辑。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>特殊机制：未知长度处理 (Unknown Length)</p>
+<p>在某些流式数据传输（Streaming）中，接收方在开始时并不知道总长度。</p>
+<ul>
+<li><strong>TpSduLength = 0</strong>：这是 AUTOSAR 中表示“未知长度”的特殊标识。</li>
+<li><strong>透明转发</strong>：如果 <code>PduR_StartOfReception</code> 传入的长度为 0，PduR 必须原封不动地将这个 0 传给上层，让上层决定如何分配初始空间。</li>
+</ul>
+</li>
+</ol>
+<p>Interface vs. TP 接收对比</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>通信接口 (Interface)</strong></th>
+<th><strong>传输协议 (TP)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>路由比例</strong></td>
+<td><strong>1:n</strong> (支持多路分发)</td>
+<td><strong>1:1</strong> (单一目标)</td>
+</tr>
+<tr>
+<td><strong>数据量</strong></td>
+<td>短报文 (通常 $\le 8$ 字节或 CAN FD $\le 64$)</td>
+<td>长报文 (支持分段，最高可达 4GB)</td>
+</tr>
+<tr>
+<td><strong>缓冲处理</strong></td>
+<td>PduR <strong>不缓冲</strong>，直接转发</td>
+<td>数据通过 <code>CopyRxData</code> <strong>拷贝</strong>至上层缓存</td>
+</tr>
+<tr>
+<td><strong>握手过程</strong></td>
+<td>一步到位 (<code>RxIndication</code>)</td>
+<td>三步握手 (<code>Start</code> $\rightarrow$ <code>Copy</code> $\rightarrow$ <code>Indication</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="发送数据">发送数据</h2>
+<p>无论是基础的接口类通信还是复杂的传输协议，其本质都是 <strong>“异步透传”</strong>。</p>
+<ol>
+<li>
+<p>异步传输机制 (Asynchronous Transmission)</p>
+<p>在 AUTOSAR 架构中，PduR 的发送操作被设计为异步的。</p>
+<ul>
+<li><strong>立即返回</strong>：当上层模块（如 COM）调用发送函数时，PduR 将请求转发给底层（如 CanIf）后会<strong>立即返回</strong>，而不会等待数据真正发送到物理总线上。</li>
+<li><strong>确认机制</strong>：真正的发送结果（成功或失败）会在稍后通过 <strong>TxConfirmation</strong> 链路异步返回。
+<ul>
+<li><strong>接口类</strong>：底层调用 <code>PduR_TxConfirmation</code> $\rightarrow$ PduR 查表并转换 ID $\rightarrow$ 调用上层 <code>_TxConfirmation</code>。</li>
+<li><strong>协议类 (TP)</strong>：底层调用 <code>PduR_TxConfirmation</code> $\rightarrow$ PduR 调用上层 <code>_TpTxConfirmation</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>PduR 的“零缓存”原则</p>
+<p>这是一个非常关键的性能和架构约束：</p>
+<ul>
+<li><strong>不留痕迹</strong>：在从上层发往下层的过程中，PduR <strong>严禁缓存</strong> I-PDU。</li>
+<li><strong>设计意图</strong>：
+<ol>
+<li><strong>降低延迟</strong>：避免了不必要的数据拷贝（Zero-copy）。</li>
+<li><strong>节省内存</strong>：PduR 作为一个路由层，不需要像 COM 或 TP 那样开辟巨大的静态 Buffer 空间。</li>
+<li><strong>职责分离</strong>：如果数据需要重发或持久化，那是上层（COM 的重发机制）或底层（CanIf 的硬件缓存）的职责，<strong>PduR 只负责中转指针</strong>。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>数据流向与逻辑总结</p>
+<p>对于本地发送（Transmission），数据流遵循以下路径：</p>
+<table>
+<thead>
+<tr>
+<th><strong>步骤</strong></th>
+<th><strong>模块动作</strong></th>
+<th><strong>关键接口示例</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 发起</strong></td>
+<td>上层发起请求</td>
+<td><code>PduR_ComTransmit(ID_A)</code></td>
+</tr>
+<tr>
+<td><strong>2. 路由</strong></td>
+<td>PduR 转换 ID 并转发</td>
+<td><code>CanIf_Transmit(ID_B)</code></td>
+</tr>
+<tr>
+<td><strong>3. 物理发送</strong></td>
+<td>底层操作硬件</td>
+<td>总线 PDU 传输</td>
+</tr>
+<tr>
+<td><strong>4. 底层反馈</strong></td>
+<td>下层告知 PduR 发送结果</td>
+<td><code>PduR_CanIfTxConfirmation(ID_B)</code></td>
+</tr>
+<tr>
+<td><strong>5. 上层确认</strong></td>
+<td>PduR 转换 ID 并反馈上层</td>
+<td><code>Com_TxConfirmation(ID_A)</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>PduR 发送的本质：我们可以把 PduR 的发送过程看作是一个 <strong>“即拨即挂”</strong> 的分拣动作：</p>
+<ol>
+<li><strong>它是纯粹的搬运工</strong>：它只传递数据的地址指针（<code>PduInfoType</code>），从不自己复印一份存起来。</li>
+<li><strong>它是双向的 ID 翻译官</strong>：发送时把逻辑 ID 变成物理 ID，反馈时把物理 ID 还原回逻辑 ID。</li>
+<li><strong>它是非阻塞的</strong>：它只负责把球传给下一位队员，至于球有没有进框，等裁判（确认回调）吹哨再说。</li>
+</ol>
+<p><strong>由于 PduR 坚持“零缓存”，这也意味着如果底层模块返回 <code>E_NOT_OK</code>（例如 CAN 队列满），PduR 会直接把这个错误抛给上层，由上层自行决定是稍后重试还是放弃发送。</strong></p>
+<h3 id="传输机制">传输机制</h3>
+<ol>
+<li>
+<p>多播发送 (Multicast: 1:n)</p>
+<p>多播允许上层的一个发送请求同时触发多个底层的发送。</p>
+<ul>
+<li><strong>结果判定</strong>：只要目标模块中有一个返回 <code>E_OK</code>，PduR 给上层的返回值就是 <code>E_OK</code>。这意味着即使部分总线发送失败，系统仍认为这次逻辑发送是成功的。</li>
+<li><strong>同质化限制</strong>：一个多播组内的所有目标必须“同质”。即：要么全是 <strong>Interface</strong>（如 CanIf + LinIf），要么全是 <strong>TP</strong>（如 CanTp + FrTp）。<strong>绝对禁止混合路由</strong>（例如 COM 同时发给 CanIf 和 CanTp）。</li>
+<li><strong>确认逻辑</strong>：只有当多播组中<strong>所有</strong>支持确认机制的底层模块都返回了 <code>TxConfirmation</code> 后，PduR 才会向上层触发最终的确认。</li>
+<li><strong>ID 记忆</strong>：由于多播涉及多个不同的目标 ID，PduR 必须在内部记录原始请求的 ID，以便在确认时能准确找回“发件人”。</li>
+</ul>
+</li>
+<li>
+<p>通信接口的三种发送方式</p>
+<p>规范梳理了数据从上层流向下层的三种模式：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>关键点</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 直接提供数据 (Direct)</strong></td>
+<td>上层调用 <code>Transmit</code> 时，数据指针直接传给底层。</td>
+<td>底层在调用瞬间完成数据拷贝。</td>
+</tr>
+<tr>
+<td><strong>2. 触发发送 (Trigger Transmit)</strong></td>
+<td>底层（如 LinIf）主动调用 <code>TriggerTransmit</code> 请求数据。</td>
+<td>上层被动提供数据。常用于周期性调度的总线（LIN, FlexRay）。</td>
+</tr>
+<tr>
+<td><strong>3. 混合模式 (Transmit + Trigger)</strong></td>
+<td>上层先调 <code>Transmit</code> 通知底层，但底层当时不拿数据。</td>
+<td>底层稍后通过 <code>TriggerTransmit</code> 异步获取数据。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>触发发送逻辑 (Trigger Transmit)</p>
+<p>这是针对 LIN 或 FlexRay 等静态调度总线的核心机制：</p>
+<ul>
+<li><strong>按需索取</strong>：底层通信接口根据调度表到达发送点时，向 PduR 发起 <code>PduR_TriggerTransmit</code>。</li>
+<li><strong>路由转发</strong>：PduR 查表并将请求转发给对应的上层（如 COM）。</li>
+<li><strong>数据填充</strong>：上层模块将最新的信号数据填入 PduR 提供的缓冲区中。</li>
+<li><strong>状态反馈</strong>：PduR 将上层返回的成功/失败状态透传给底层。</li>
+</ul>
+</li>
+<li>
+<p>其他关键约束</p>
+<ul>
+<li><strong>长度不检查</strong>：与接收一致，发送时 PduR 也不检查 I-PDU 长度，因为 PduR 不负责分配发送 Buffer，长度合规性由上层和底层对接。</li>
+<li><strong>确认转发</strong>：底层上报的 <code>TxConfirmation</code>（包含成功或错误结果）会被 PduR 原样转发给上层。</li>
+<li><strong>错误处理</strong>：PduR 在发送链路上非常“被动”，不负责任何错误重传逻辑。如果返回 <code>E_NOT_OK</code>，它只是负责把这个坏消息转告给上层。</li>
+</ul>
+</li>
+<li>
+<p><strong>多播是并行的</strong>：PduR 像一个分线器，把一个信号分给多路，并汇总确认结果。</p>
+</li>
+<li>
+<p><strong>传输是灵活的</strong>：既支持上层“推”数据（Direct），也支持底层“拉”数据（Trigger）。</p>
+</li>
+<li>
+<p><strong>身份是透明的</strong>：PduR 在这个过程中只做 ID 翻译和调用跳转，不干预数据内容和错误恢复。</p>
+</li>
+</ol>
+<h2 id="传输协议">传输协议</h2>
+<p>由于 TP 报文（如诊断多帧）通常很大且需要分段，PduR 在此充当了复杂的“数据调度员”。</p>
+<ol>
+<li>
+<p>TP 发送的基本流程：单播 (1:1)</p>
+<p>与 Interface 直接发送不同，TP 发送是一个**拉取（Pull）**数据的过程：</p>
+<ol>
+<li><strong>初始化</strong>：上层调用 <code>PduR_Transmit</code>。PduR 查表并转发给底层的 <code>_Transmit</code> 。</li>
+<li><strong>数据请求</strong>：底层 TP 模块根据物理层的发送能力，多次调用 <code>PduR_CopyTxData</code>。</li>
+<li><strong>数据搬运</strong>：PduR 收到请求后，反向调用上层的 <code>_CopyTxData</code>，将数据从上层缓存直接“拉”到底层。</li>
+<li><strong>最终确认</strong>：底层完成最后一段发送后调用 <code>PduR_TxConfirmation</code>，PduR 再通知上层 <code>_TpTxConfirmation</code>。</li>
+</ol>
+</li>
+<li>
+<p>TP 多播发送：复杂的“数据回滚” (1:n)</p>
+<p>多播长报文是 PduR 最复杂的操作之一。因为 PduR <strong>不缓存数据</strong>，但多个底层模块（如 CanTp 和 FrTp）都需要同一份数据。</p>
+<ul>
+<li>
+<p><strong>同一数据的多次查询</strong>：</p>
+<p>由于不同的总线速度不同，底层模块请求数据的节奏也不一致。PduR 必须协调上层多次提供同一段数据。</p>
+</li>
+<li>
+<p>**状态控制 (RetryInfoPtr) **：</p>
+<ul>
+<li><strong>TP_CONFPENDING</strong>：当第一个 TP 模块请求某段数据时，PduR 通知上层：“我要这段数据，请准备好”。</li>
+<li><strong>TP_DATARETRY</strong>：当后续其他 TP 模块请求<strong>同一段</strong>数据时，PduR 使用此标志通知上层：“刚才那段数据请再给我一份”。</li>
+</ul>
+</li>
+<li>
+<p>**多播确认逻辑 **：</p>
+<ul>
+<li><strong>汇总结果</strong>：PduR 必须等待所有目标 TP 模块都返回确认。</li>
+<li><strong>乐观判定</strong>：只要其中<strong>至少一个</strong>底层模块成功发送（返回 <code>E_OK</code>），PduR 给上层的反馈就是 <code>E_OK</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>未知长度传输 (Streaming)</p>
+<ul>
+<li><strong>定义</strong>：当 <code>SduLength = 0</code> 时，表示这是一个流式传输，起始时不知道总字节数。</li>
+<li><strong>透明转发</strong>：PduR 不会拦截此状态，而是原封不动地转发给所有底层 TP 模块，由底层和上层协商如何通过多次 <code>CopyTxData</code> 完成流式读取。</li>
+</ul>
+</li>
+</ol>
+<p>关键点总结与差异</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>TP 单播 (Singlecast)</strong></th>
+<th><strong>TP 多播 (Multicast)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据流向</strong></td>
+<td>上层 $\rightarrow$ 下层 (按需拉取)</td>
+<td>上层 $\rightarrow$ 多个下层 (按需多次拉取)</td>
+</tr>
+<tr>
+<td><strong>重试机制</strong></td>
+<td>通常不涉及 PduR 层的重试</td>
+<td><strong>必须</strong> 使用 <code>TP_DATARETRY</code> 机制</td>
+</tr>
+<tr>
+<td><strong>确认触发</strong></td>
+<td>唯一的下层反馈即触发</td>
+<td>最后一个下层反馈后汇总触发</td>
+</tr>
+<tr>
+<td><strong>PduR 缓存</strong></td>
+<td><strong>无缓存</strong></td>
+<td><strong>无缓存</strong> (依赖上层 Buffer 重读能力)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>[!tip]</p>
+<p>为什么 PduR 要用 <code>TP_DATARETRY</code>？</p>
+<p>这是为了实现 <strong>“零内存”网关/转发</strong>。</p>
+<p>如果 PduR 自己缓存一份 4KB 的诊断报文，会浪费宝贵的 RAM。通过 <code>TP_DATARETRY</code> 协议，PduR 强制要求上层（如 COM 或 DCM）在内存中保留这份数据，直到所有的底层（CAN、LIN、FlexRay）都确认读完了。</p>
+<p><strong>至此，我们已经完整梳理了 PduR 的路由、接收、发送以及 TP 处理逻辑。您是否需要我为您总结一份 PduR 配置中常见的坑点（例如多播配置时最容易忽略的 Buffer 或 TP 状态限制）？</strong></p>
+</blockquote>
+<h2 id="收发时序">收发时序</h2>
+<p>Communication Interface 接收与发送 (1:1 单播)：这是最基础的短报文收发过程，特点是<strong>直接转发，不带缓存</strong>。</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant COM as Upper Layer (e.g. COM)
+    participant PduR as PduR
+    participant CanIf as Lower Layer (e.g. CanIf)
+
+    Note over COM, CanIf: --- 接收过程 (Reception) ---
+    CanIf-&gt;&gt;PduR: PduR_CanIfRxIndication(ID, PduInfo)
+    PduR-&gt;&gt;PduR: 查路由表：转换 ID
+    PduR-&gt;&gt;COM: Com_RxIndication(ID, PduInfo)
+
+    Note over COM, CanIf: --- 发送过程 (Transmission) ---
+    COM-&gt;&gt;PduR: PduR_ComTransmit(ID, PduInfo)
+    PduR-&gt;&gt;PduR: 查路由表：转换 ID
+    PduR-&gt;&gt;CanIf: CanIf_Transmit(ID, PduInfo)
+    CanIf--&gt;&gt;PduR: 返回 E_OK (异步开始)
+    PduR--&gt;&gt;COM: 返回 E_OK
+
+    Note over COM, CanIf: --- 发送确认 (Confirmation) ---
+    CanIf-&gt;&gt;PduR: PduR_CanIfTxConfirmation(ID, result)
+    PduR-&gt;&gt;PduR: 查路由表：还原 ID
+    PduR-&gt;&gt;COM: Com_TxConfirmation(ID, result)</code></pre>
+<p>Transport Protocol (TP) 接收过程 (1:1 单播)：TP 接收涉及分段传输，PduR 在其中协调上层的缓冲区与底层的分段拷贝。</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant DCM as Upper Layer (e.g. DCM)
+    participant PduR as PduR
+    participant CanTp as Lower Layer (e.g. CanTp)
+
+    Note over DCM, CanTp: --- TP 接收开始 ---
+    CanTp-&gt;&gt;PduR: PduR_CanTpStartOfReception(ID, Length)
+    PduR-&gt;&gt;DCM: Dcm_StartOfReception(ID, Length)
+    DCM--&gt;&gt;PduR: 返回 BUFREQ_OK (Buffer Ready)
+    PduR--&gt;&gt;CanTp: 返回 BUFREQ_OK
+
+    Note over DCM, CanTp: --- 数据分段拷贝 (多次循环) ---
+    CanTp-&gt;&gt;PduR: PduR_CanTpCopyRxData(ID, PduInfo)
+    PduR-&gt;&gt;DCM: Dcm_CopyRxData(ID, PduInfo)
+    DCM--&gt;&gt;PduR: 返回 BUFREQ_OK
+    PduR--&gt;&gt;CanTp: 返回 BUFREQ_OK
+
+    Note over DCM, CanTp: --- 接收完成 ---
+    CanTp-&gt;&gt;PduR: PduR_CanTpRxIndication(ID, result)
+    PduR-&gt;&gt;DCM: Dcm_TpRxIndication(ID, result)</code></pre>
+<p>TP Multicast 发送过程 (1:N 多播)：这是最复杂的场景，PduR 必须协调一个上层同时供给多个下层，并利用 <code>TP_DATARETRY</code> 机制让上层重复提供同一段数据。</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant COM as Upper Layer (Source)
+    participant PduR as PduR
+    participant CanTp as Lower 1 (Fast)
+    participant FrTp as Lower 2 (Slow)
+
+    COM-&gt;&gt;PduR: PduR_ComTransmit(ID)
+    PduR-&gt;&gt;CanTp: CanTp_Transmit(ID1)
+    PduR-&gt;&gt;FrTp: FrTp_Transmit(ID2)
+    
+    Note over COM, FrTp: --- CanTp 先请求数据 ---
+    CanTp-&gt;&gt;PduR: PduR_CopyTxData(ID1)
+    PduR-&gt;&gt;COM: Com_CopyTxData(ID, TpDataState=CONF_PENDING)
+    COM--&gt;&gt;PduR: 返回数据 A
+    PduR--&gt;&gt;CanTp: 返回数据 A
+
+    Note over COM, FrTp: --- FrTp 稍后请求同一段数据 ---
+    FrTp-&gt;&gt;PduR: PduR_CopyTxData(ID2)
+    PduR-&gt;&gt;COM: Com_CopyTxData(ID, TpDataState=DATA_RETRY)
+    COM--&gt;&gt;PduR: 再次返回数据 A (重读)
+    PduR--&gt;&gt;FrTp: 返回数据 A
+
+    Note over COM, FrTp: --- 确认汇总 ---
+    CanTp-&gt;&gt;PduR: PduR_CanTpTxConfirmation(E_OK)
+    FrTp-&gt;&gt;PduR: PduR_FrTpTxConfirmation(E_OK)
+    PduR-&gt;&gt;COM: Com_TpTxConfirmation(E_OK)</code></pre>
+<h2 id="I-PDU-Gateway">I-PDU Gateway</h2>
+<p>与之前的本地收发（Local Reception/Transmission）不同，网关模式下 PduR 同时扮演了“接收者”和“发送者”的角色。数据不经过 COM 或 DCM，直接在底层模块之间流转。</p>
+<ol>
+<li>
+<p>通信接口网关 (Interface Gateway)</p>
+<p>针对像 <code>CanIf</code> 这样的小数据报文路由：</p>
+<ul>
+<li><strong>1:n 路由</strong>：一个源总线（如 CAN）的报文可以路由到多个目标总线（如 LIN 或另一个 CAN 频道）。</li>
+<li><strong>灵活缓存 [FIFO]</strong>：PduR 允许为每个目标通道配置<strong>缓冲区深度</strong>。如果总线繁忙，PduR 可以通过 FIFO（先进先出）队列暂时存住这些报文。</li>
+<li><strong>并行接收</strong>：支持“网关+接收”混合模式。数据在转发给其他总线的同时，也可以传给本地的 <code>COM</code> 模块。</li>
+</ul>
+</li>
+<li>
+<p>传输协议网关 (TP Gateway)</p>
+<p>针对诊断长报文等大数据块的跨网段路由：</p>
+<ul>
+<li><strong>“On-the-fly” (即时转发)</strong>：这是 TP 网关最强大的特性。PduR 不需要等整个 4KB 的诊断包收完才转发。当收到前几个分段（N-PDU）时，PduR 就可以立即启动目标侧的发送。这大大降低了跨网段诊断的延迟。</li>
+<li><strong>独占性限制</strong>：对于多帧 TP 报文，网关转发和本地接收是<strong>互斥</strong>的。即一个长报文要么转给别的 TP 模块，要么给本地 <code>DCM</code> 接收，不能同时进行（单帧 SF 除外）。</li>
+</ul>
+</li>
+<li>
+<p>网关的核心约束与高级特性</p>
+<ol>
+<li><strong>严禁异构路由</strong>
+<ul>
+<li><strong>同质原则</strong>：数据只能在 Interface 之间或 TP 之间流转。</li>
+<li><strong>反例</strong>：绝对不能把从 <code>CanIf</code> 接收到的单帧报文直接路由给 <code>LinTp</code>。这种跨协议类型的转换超出了 PduR 的职责，需要 COM 层参与。</li>
+</ul>
+</li>
+<li><strong>n:1 路由与时序保证</strong>
+<ul>
+<li><strong>多合一</strong>：支持多个源总线的报文汇聚到一个目标总线。</li>
+<li><strong>保序性</strong>：PduR 必须确保先到达的报文先被发送到目标总线，维持原始的时序。</li>
+</ul>
+</li>
+<li><strong>动态路径控制</strong>
+<ul>
+<li><strong>API 控制</strong>：通过 <code>PduR_EnableRouting</code> 和 <code>PduR_DisableRouting</code> 可以在运行时动态开启或关闭某条网关路径。</li>
+<li><strong>互斥保证</strong>：在 n:1 场景下，可以通过这两个 API 确保同一时刻只有一个源在工作（避免总线负载冲突）。</li>
+</ul>
+</li>
+<li><strong>元数据缓存</strong>
+<ul>
+<li><strong>MetaData 搬运</strong>：如果报文带有元数据（如以太网的 IP 地址或 J1939 的源地址），当 PduR 需要缓存该 PDU 时，必须<strong>连同元数据一起缓存</strong>，否则转发出去时会丢失关键的寻址信息。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>本地收发 vs. 网关</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>本地收发 (Local)</strong></th>
+<th><strong>网关 (Gateway)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>路径</strong></td>
+<td>下层 $\rightarrow$ 上层 / 上层 $\rightarrow$ 下层</td>
+<td>下层 $\rightarrow$ 下层</td>
+</tr>
+<tr>
+<td><strong>缓存</strong></td>
+<td>PduR 内部<strong>无缓存</strong></td>
+<td>PduR <strong>提供缓存</strong> (FIFO)</td>
+</tr>
+<tr>
+<td><strong>实时性</strong></td>
+<td>依赖上层处理速度</td>
+<td>高实时性，支持 TP 现场转发</td>
+</tr>
+<tr>
+<td><strong>数据一致性</strong></td>
+<td>依赖上层 Buffer</td>
+<td>PduR 负责 Buffer 与元数据一致性</td>
+</tr>
+</tbody>
+</table>
+<p>💡 核心解读：PduR 为什么要提供缓存？</p>
+<p>在本地发送时，PduR 认为上层（如 COM）有自己的 Buffer。但在网关模式下，数据是从底层的接收缓冲区（Rx Buffer）直接过来的，底层驱动（CanIf）在处理完中断后会立即释放该空间。<strong>如果此时目标总线由于仲裁失败没发出去，数据就会丢失</strong>。因此，PduR 必须在这个“立交桥”的转弯处（网关路径上）建立自己的仓库（FIFO Buffer）。</p>
+<h3 id="通信接口">通信接口</h3>
+<ol>
+<li>
+<p>核心网关行为：即时路由与频率限制</p>
+<ul>
+<li><strong>即时性</strong>：PduR 侧重于报文的快速转发。它<strong>不支持</strong>在路由过程中改变报文的周期（Rate Conversion）。</li>
+<li><strong>限制</strong>：如果你需要将一个 10ms 的 CAN 报文转发为 50ms 的 LIN 报文，PduR 无法直接实现，必须路由到 <strong>COM 模块</strong>，利用信号网关（Signal Gateway）来处理。</li>
+</ul>
+</li>
+<li>
+<p>两种数据提供方式（核心配置点）</p>
+<p>根据目标总线的特性（是事件触发还是调度触发），PduR 提供两种模式：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>配置参数 (PDUR_DIRECT)</strong></th>
+<th><strong>配置参数 (PDUR_TRIGGERTRANSMIT)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>工作原理</strong></td>
+<td>PduR 收到报文后，立即调用下层的 <code>Transmit</code>。</td>
+<td>PduR 先把报文存入自己的 Buffer，等待下层来“拉”。</td>
+</tr>
+<tr>
+<td><strong>数据拷贝</strong></td>
+<td>下层在 <code>Transmit</code> 调用时同步完成拷贝。</td>
+<td>下层通过 <code>TriggerTransmit</code> 回调时异步完成拷贝。</td>
+</tr>
+<tr>
+<td><strong>缓存必要性</strong></td>
+<td>仅在配置 FIFO 队列时需要。</td>
+<td><strong>必须配置缓存</strong>，用于保存最新的报文数据。</td>
+</tr>
+<tr>
+<td><strong>典型场景</strong></td>
+<td>CAN 总线（事件触发）。</td>
+<td>LIN/FlexRay（按调度表执行）。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>缓冲区逻辑与溢出保护</p>
+<p>PduR 的网关 Buffer 管理非常严谨，涉及长度校验以防止内存越界：</p>
+<ul>
+<li>**Last-is-best (覆盖写) **：在触发发送模式下，如果 <code>PduRQueueDepth</code> 为 1，新到的报文会覆盖旧报文，确保总线发出的是最新数据。</li>
+<li><strong>FIFO 行为</strong>：如果配置了深度 &gt; 1 的队列，当下层来要数据但队列为空时，返回 <code>E_NOT_OK</code>。</li>
+<li>**长度截断 **：
+<ul>
+<li>如果收到的报文 &gt; PduR 配置的 <code>PduRPduMaxLength</code>，PduR <strong>只拷贝前一段数据</strong>，多余的部分丢弃。</li>
+<li>发送时（Direct 模式），PduR 告诉下层实际存入 Buffer 的长度（<code>SduLength</code>）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>异常处理与反馈</p>
+<ul>
+<li><strong>空间不足</strong>：当下层模块调用 <code>TriggerTransmit</code> 时，如果它提供的接收缓冲区比 PduR 存的数据还小，PduR 会拒绝拷贝并返回错误，且<strong>不会</strong>从 Buffer 中移除该报文（留待下次重试）。</li>
+<li>**TX 确认忽略 **：对于网关报文，PduR 通常不关心发送确认回调（除非是带 FIFO 的 Direct 模式），因为它不需要像本地发送那样通知上层应用。</li>
+</ul>
+</li>
+<li>
+<p>PduR 接口网关接收与发送过程</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Src as Source (CanIf)
+    participant PduR as PduR Buffer
+    participant Dst as Destination (LinIf)
+
+    Note over Src, Dst: --- 场景 1: Direct Gateway (CAN to CAN) ---
+    Src-&gt;&gt;PduR: PduR_CanIfRxIndication(ID)
+    PduR-&gt;&gt;Dst: CanIf_Transmit(Converted_ID, PduInfo)
+    Dst--&gt;&gt;PduR: E_OK (数据立即从 Src 拷贝到 Dst)
+    
+    Note over Src, Dst: --- 场景 2: Trigger Transmit Gateway (CAN to LIN) ---
+    Src-&gt;&gt;PduR: PduR_CanIfRxIndication(ID)
+    PduR-&gt;&gt;PduR: 存入内部 Buffer (Last-is-best)
+    Note right of Dst: 根据调度表到达发送槽位
+    Dst-&gt;&gt;PduR: PduR_LinIfTriggerTransmit(Converted_ID)
+    PduR-&gt;&gt;Dst: 拷贝 Buffer 数据到 Dst 缓冲区
+    Dst--&gt;&gt;PduR: 返回 E_OK</code></pre>
+</li>
+</ol>
+<p>PduR 在接口网关中的核心价值在于<strong>适配不同的总线节奏</strong>。它通过内部 Buffer 解决了“异步总线”与“调度总线”之间的数据同步问题，同时利用严格的长度校验保障了嵌入式内存的安全。</p>
+<h3 id="错误处理">错误处理</h3>
+<p>PduR 在网关模式下的**“无责任转发”**原则。在嵌入式通信中，PduR 被设计为一个高效的数据分拣器，而不是一个复杂的错误管理模块。</p>
+<ol>
+<li>
+<p>核心逻辑：不重试，直接丢弃</p>
+<ul>
+<li>当 PduR 执行网关操作（Gateway）并尝试向目标通信接口（如 <code>CanIf</code>）发送报文时，如果下层接口返回了 <code>E_NOT_OK</code>：</li>
+<li><strong>执行动作</strong>：PduR 会立即<strong>丢弃</strong>该 I-PDU 实例。</li>
+<li><strong>严禁重试</strong>：PduR 绝对不会尝试再次调用发送函数。</li>
+<li><strong>理由</strong>：下层模块（如 CAN 驱动）返回错误通常意味着硬件繁忙、队列溢出或物理总线故障。PduR 没有足够的上下文信息来判断何时重试是安全的，盲目重试可能会加剧总线负载或导致死循环。</li>
+</ul>
+</li>
+<li>
+<p>错误处理的职责边界</p>
+<p>PduR 在这里表现得非常“冷酷”，其设计背后的哲学是<strong>职责解耦</strong>：</p>
+<table>
+<thead>
+<tr>
+<th><strong>模块</strong></th>
+<th><strong>职责</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PduR</strong></td>
+<td>仅负责将数据从 A 搬到 B。如果 B 不接，PduR 的任务就此结束。</td>
+</tr>
+<tr>
+<td><strong>下层模块</strong></td>
+<td>目标模块（如 <code>CanIf</code> 或 <code>LinIf</code>）本身会通过诊断事件（DEM）或内部状态机上报硬件层面的错误。</td>
+</tr>
+<tr>
+<td><strong>上层/系统层</strong></td>
+<td>如果数据非常重要，通常由发送端的源节点通过应用层协议（如超时监控、请求重传机制）来确保数据到达。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>网关丢包时序逻辑</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Src as Source (e.g. CanIf)
+    participant PduR as PduR
+    participant Dst as Destination (e.g. LinIf)
+
+    Src-&gt;&gt;PduR: PduR_CanIfRxIndication(ID, PduInfo)
+    PduR-&gt;&gt;PduR: 查表并转换 ID
+    PduR-&gt;&gt;Dst: LinIf_Transmit(Converted_ID, PduInfo)
+    
+    Note right of Dst: 发生故障（如总线繁忙或队列满）
+    Dst--&gt;&gt;PduR: 返回 E_NOT_OK
+    
+    Note over PduR: 立即丢弃数据，不进行重试
+    PduR--&gt;&gt;PduR: 清理本次路由任务</code></pre>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>为什么 PduR 不像 COM 一样支持重传？</p>
+<ol>
+<li><strong>资源开销</strong>：如果 PduR 需要支持网关重传，它必须为每一个正在路由的报文准备额外的 Buffer 和定时器，这会极大地消耗 RAM 资源。</li>
+<li><strong>实时性</strong>：网关转发往往要求极高的实时性。对于陈旧的数据，在某些汽车控制逻辑中（如转向或制动信号），<strong>丢弃它并等待下一帧最新数据</strong>通常比重传一帧已经过时的数据更安全。</li>
+</ol>
+<p>在配置 PduR 网关时，如果你的系统对丢包非常敏感，通常建议在目标接口层（如 <code>CanIf</code>）配置足够的 <strong>Transmit Queue</strong>，或者在应用层增加数据完整性校验。</p>
+</blockquote>
+<h3 id="传输协议-2">传输协议</h3>
+<p><strong>PduR (PDU Router)</strong> 在 <strong>TP (传输协议)</strong> 网关场景下的高级特性，重点在于如何平衡数据传输的完整性与实时性。</p>
+<ol>
+<li>
+<p>两种网关模式：直接转发 vs. 现场转发</p>
+<p>TP 网关（处理长报文）有两种截然不同的策略，根据配置决定：</p>
+<ul>
+<li><strong>直接转发 (Direct Gateway/Store-and-Forward)</strong>：
+<ul>
+<li><strong>逻辑</strong>：PduR 必须接收完所有的分段（所有的 N-PDU），在内存中拼凑成完整的 I-PDU 后，才启动目标总线的发送。</li>
+<li><strong>优点</strong>：数据最稳妥，可以进行完整的校验。</li>
+<li><strong>缺点</strong>：延迟极高（Latency），适合对时间不敏感的大数据。</li>
+</ul>
+</li>
+<li><strong>现场转发 (On-the-fly / Fragmented Gateway)</strong>：
+<ul>
+<li><strong>逻辑</strong>：PduR 不需要等全部收完。只要接收到的数据达到一个<strong>阈值（Threshold）</strong>，就立即启动目标侧的发送。</li>
+<li><strong>优点</strong>：显著降低端到端的延迟。</li>
+<li><strong>技术细节</strong>：这种模式下，PduR 实际上在扮演一个“管道”的角色，一边在 <code>CopyRxData</code>，另一边已经在 <code>CopyTxData</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>元数据处理 (MetaData Handling)</p>
+<p>对于带地址信息的通信（如 J1939 或以太网中的 IP/端口信息），MetaData 至关重要：</p>
+<ul>
+<li><strong>存储与透传</strong>：在 TP 接收的第一阶段（<code>StartOfReception</code>），源 TP 模块会提供 MetaData。PduR 必须<strong>先将其存入缓冲区</strong>。</li>
+<li><strong>发送关联</strong>：当 PduR 调用目标侧的 <code>_Transmit</code> 开启网关发送时，必须把这段存好的 MetaData 塞进去，确保报文发往正确的目标地址。</li>
+</ul>
+</li>
+<li>
+<p>多播与地址转换的复杂性</p>
+<p>规范提到了两个典型的 TP 网关用例：</p>
+<ol>
+<li><strong>物理寻址 (Physical Addressing)</strong>：通常是 1:1 的，对应多帧（Multi-frame）长报文网关。</li>
+<li><strong>功能寻址 (Functional Addressing)</strong>：通常是 1:n 的多播（Multicast），且往往是单帧（SF）。
+<ul>
+<li><strong>挑战：总线载荷不兼容</strong>。</li>
+<li><strong>示例</strong>：从 CAN 转发单帧到 LIN。CAN 的单帧可能携带 6 字节有效数据，但 LIN 的单帧由于协议限制可能只能带 5 字节。</li>
+<li><strong>结果</strong>：如果发生这种网关行为，数据的长度会被限制在较小的那个总线上（即 5 字节），多出的部分会被丢弃。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>另一种“暴力”网关：帧对帧转发 (Frame-by-Frame)</p>
+<p>除了在 TP 层做网关，规范还提到了一个“降维打击”的方案：</p>
+<ul>
+<li><strong>原理</strong>：直接把 CAN TP 的每一帧 N-PDU 当作普通的 <strong>Interface PDU</strong> 进行转发。</li>
+<li><strong>前提条件</strong>：源总线和目标总线的 N-PDU 打包格式必须<strong>完全一致</strong>（例如 CAN 到 CAN，且分段逻辑相同）。</li>
+<li><strong>优点</strong>：对 PduR 来说，这只是最简单的 <code>RxIndication</code> 到 <code>Transmit</code> 的路由，不需要维护复杂的 TP 状态机和缓冲区水位。</li>
+</ul>
+</li>
+</ol>
+<p>TP网关和接口级网关的对比如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>TP 网关 (TP Gateway)</strong></th>
+<th><strong>接口级网关 (Interface Gateway)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>处理层次</strong></td>
+<td>协议层 (不关心 N-PDU 细节，只管 Payload)</td>
+<td>驱动接口层 (把 N-PDU 当成普通报文)</td>
+</tr>
+<tr>
+<td><strong>实时性</strong></td>
+<td><strong>On-the-fly</strong> 模式支持极速转发</td>
+<td>最快（不涉及 TP 逻辑开销）</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>支持不同总线间的长报文转换</td>
+<td>仅限同类总线或格式完全一致的总线</td>
+</tr>
+<tr>
+<td><strong>内存占用</strong></td>
+<td>较高（需要较大的 TP 缓冲区）</td>
+<td>较低（仅需小额 FIFO）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>PduR 的 TP 网关设计真正体现了 AUTOSAR 的解耦思想：它不关心 N-PDU 的 PCI 信息或单/多帧细节，它只负责高效、透明地在不同网段之间搬运有效载荷。</strong></p>
+<h6 id="缓冲分配">缓冲分配</h6>
+<p><strong>PduR (PDU Router)</strong> 在执行 TP（传输协议）网关任务时核心策略是：<strong>“专款专用”以保证高优先级任务，配合“动态分配”以处理大数据。</strong></p>
+<ol>
+<li>
+<p>两种缓存池的设计思想</p>
+<p>PduR 将 TP 网关缓存分为两类，这种设计直接服务于汽车诊断的实时性要求：</p>
+<table>
+<thead>
+<tr>
+<th><strong>缓存类型</strong></th>
+<th><strong>配置项</strong></th>
+<th><strong>适用对象</strong></th>
+<th><strong>设计目的</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>专用缓存 (Dedicated Buffer)</strong></td>
+<td><code>PduRDestTxBufferRef</code></td>
+<td><strong>单帧 (SF)</strong></td>
+<td>保证 <strong>OBD (车载诊断)</strong> 和 <strong>功能寻址请求</strong>。这类报文优先级极高，不能因为没有内存而延迟。</td>
+</tr>
+<tr>
+<td><strong>大报文缓存池 (Large TP Buffers)</strong></td>
+<td><code>PduRTpBuffers</code></td>
+<td><strong>多帧 (MF)</strong></td>
+<td>用于处理刷写数据或长诊断响应。内存通过 <code>PduRRoutingPaths</code> 定义，根据需求动态申请。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>缓存分配策略：根据长度决定归宿</p>
+<p>当底层 TP 模块通过 <code>PduR_StartOfReception</code> 宣告一个新报文到来时，PduR 会根据报文长度 <code>TpSduLength</code> 执行以下逻辑：</p>
+<ol>
+<li><strong>优先尝试专用缓存</strong>：
+<ul>
+<li>如果长度 $\le$ 专用缓存的最大长度（通常对应各总线最大单帧长度，如 CAN FD 的 64 字节），则分配专用缓存。</li>
+</ul>
+</li>
+<li><strong>动态申请大缓存</strong>：
+<ul>
+<li>如果长度超过了专用缓存，PduR 会转而从 <code>PduRTxBuffer</code> 资源池中动态查找并分配一块足够大的空间。</li>
+</ul>
+</li>
+<li><strong>失败处理</strong>：
+<ul>
+<li>如果专用缓存被占用且大缓存池也满了，PduR 必须立即终止该 PDU 的接收，并返回 <code>BUFREQ_E_OVFL</code>（缓冲区溢出）。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>网关中的水位管理</p>
+<p>在网关传输过程中，底层发送模块会不断调用 <code>PduR_CopyTxData</code> 来提取数据。</p>
+<ul>
+<li><strong>剩余数据指引</strong>：PduR 会通过 <code>availableDataPtr</code> 参数实时告知底层 TP 模块，目前缓冲区里还有多少字节是已经收齐并等待发送的。</li>
+<li><strong>意义</strong>：这对于 <strong>On-the-fly (现场转发)</strong> 模式至关重要。发送侧可以据此判断是否需要等待接收侧进一步填充数据。</li>
+</ul>
+</li>
+<li>
+<p>缓冲区大小的配置原则</p>
+<p>规范明确了对缓冲区最小尺寸的要求，这直接关系到网关能否成功运行：</p>
+<ul>
+<li><strong>对于 Direct Gateway (存储转发)</strong>：缓存必须能够容纳 <strong>整个 I-PDU</strong>。</li>
+<li><strong>对于 On-the-fly Gateway (现场转发)</strong>：缓存至少要能容纳 <strong>一个数据块 (One Block)</strong>，以支持边收边发的流水线操作。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!tip]</p>
+<p>为什么要区分专用和动态缓存？</p>
+<p>想象 ECU 正在进行复杂的诊断刷写（长报文，占用大缓存池）。此时，交警或环保检测仪突然发送了一个高优先级的 <strong>OBD 查询（单帧）</strong>。</p>
+<ul>
+<li>如果只有一种缓存池，单帧可能因为缓冲区被刷写报文占满而无法接收，导致检测失败。</li>
+<li><strong>AUTOSAR PduR 方案</strong>：OBD 单帧会直接被分配到预留好的“专用缓存”中，从而不受刷写任务的影响，确保了法规件的强制响应能力。</li>
+</ul>
+<p><strong>这就是 PduR 的精髓：通过静态配置与动态管理相结合，既兼顾了大数据传输，又捍卫了关键诊断任务的“VIP 路径”。</strong></p>
+</blockquote>
+<h6 id="存储转发网关">存储转发网关</h6>
+<p><strong>PduR (PDU Router)</strong> 在 <strong>Direct Gateway (存储转发网关)</strong> 模式下，针对 TP（传输协议）长报文和单帧的数据调度细节。核心逻辑在于：<strong>单帧允许重试（Retry），而多帧要求所有目标步调一致。</strong></p>
+<ol>
+<li>
+<p>触发时机：全收完再发</p>
+<p>在 Direct Gateway 模式下，PduR 的行为非常严谨：</p>
+<ul>
+<li><strong>时机</strong>：只有当源 TP 模块调用 <code>PduR_TpRxIndication</code> 且结果为 <code>E_OK</code>（表示整包数据已完整、正确存入 PduR 缓存）时，PduR 才会调用目标模块的 <code>_Transmit</code> 开启发送。</li>
+<li><strong>对比</strong>：这与 “On-the-fly”（现场转发）不同，后者是在收到的数据达到阈值时就启动发送。</li>
+</ul>
+</li>
+<li>
+<p>单帧网关 (Single-frame) 的数据拷贝</p>
+<p>单帧由于数据量小且存放在专用缓存，PduR 提供了更灵活的容错机制：</p>
+<ul>
+<li><strong>常规拷贝</strong>：
+<ul>
+<li>在正常状态下（<code>TP_CONFPENDING</code> / <code>TP_DATACONF</code> / 无重试信息），PduR 尝试拷贝数据。</li>
+<li>如果缓存数据不够，返回 <code>BUFREQ_E_BUSY</code>。</li>
+</ul>
+</li>
+<li>**支持重试 (Retry) **：
+<ul>
+<li>如果底层请求 <code>TP_DATARETRY</code>，PduR 会将当前的读取指针<strong>回退</strong> <code>TxTpDataCnt</code> 字节，重新拷贝。这允许底层在物理层发送失败时（例如收到无应答 NACK）重新尝试发送当前帧。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>多帧网关 (Multi-frame) 的同步逻辑</p>
+<p>多帧网关涉及多个分段，且可能涉及多播（1:N）。PduR 必须确保多个目标模块在同一个 Buffer 上“步调一致”：</p>
+<ul>
+<li><strong>步调同步</strong>：
+<ul>
+<li><strong>指针增加</strong>：当有多个目标模块（多播）时，只有<strong>最后一个</strong>目标模块调用 <code>PduR_CopyTxData</code> 完成拷贝后，PduR 才会真正增加缓冲区读取指针的位置。</li>
+<li><strong>等待机制</strong>：如果某个目标模块跑得太快，而其他模块还没读完上一帧，PduR 会返回 <code>BUFREQ_E_BUSY</code> 强制其等待。</li>
+</ul>
+</li>
+<li><strong>严禁重试</strong>：
+<ul>
+<li>在多帧模式下，如果底层请求 <code>TP_DATARETRY</code>，PduR 会直接返回 <code>E_NOT_OK</code>。</li>
+<li><strong>原因</strong>：多帧网关的缓冲区通常较大，且涉及多路同步。回退指针会干扰其他目标模块的读取进度，逻辑极其复杂且开销巨大，因此 AUTOSAR 规定多帧网关不支持 TP 层的重试。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>单帧与多帧的区别对待</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>单帧网关 (SF)</strong></th>
+<th><strong>多帧网关 (MF)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>启动时机</strong></td>
+<td>收完 SF 后启动</td>
+<td>收完所有 FF/CF 后启动</td>
+</tr>
+<tr>
+<td><strong>重试支持</strong></td>
+<td><strong>支持 <code>TP_DATARETRY</code></strong></td>
+<td><strong>不支持</strong> (返回 <code>E_NOT_OK</code>)</td>
+</tr>
+<tr>
+<td><strong>读取指针</strong></td>
+<td>每次拷贝即移动</td>
+<td><strong>仅最后一个目标读完才移动</strong></td>
+</tr>
+<tr>
+<td><strong>多路同步</strong></td>
+<td>相对独立</td>
+<td>强同步 (一人没读完，全队等一等)</td>
+</tr>
+</tbody>
+</table>
+<p>PduR 的这一套规则保证了在<strong>不增加额外内存拷贝</strong>的情况下，实现可靠的跨总线长报文转发。单帧的重试保证了诊断请求的高成功率，而多帧的强同步机制则通过牺牲重试换取了对 Buffer 管理的简单高效。</p>
+<p><strong>如果你需要实现一个具备 TP 网关功能的驱动，步调一致是最容易造成“死锁”的地方：如果一个目标模块因为某种原因不再调用 <code>CopyTxData</code>，会导致 PduR 的 Buffer 指针永远不更新，从而阻塞其他所有目标模块。</strong></p>
+<h6 id="本地并行处理和现场转发">本地并行处理和现场转发</h6>
+<p>PduR 在 TP 网关中的两个进阶场景：<strong>本地接收的并行处理</strong> 以及 <strong>“On-the-fly”（现场转发）</strong>。</p>
+<ol>
+<li>
+<p>存储转发中的本地接收</p>
+<p>当一个 TP 报文被配置为“直接网关”（存储转发）时，它可以同时被转发给底层和本地上层（如 DCM）。</p>
+<ul>
+<li><strong>解耦原则</strong>：如果上层接收失败（例如 <code>StartOfReception</code> 报错），PduR 可以通过 DET 报错，但<strong>绝对不能中断</strong>发往下层的网关操作。</li>
+<li><strong>顺序调用</strong>：与普通接收不同，在网关模式下，只有当 PduR <strong>完整收完</strong> 底层的报文后，才会启动对上层的调用：<code>Start</code> $\rightarrow$ <code>Copy</code> $\rightarrow$ <code>Indication</code>。</li>
+<li><strong>错误处理机制</strong>：
+<ul>
+<li>如果 <code>StartOfReception</code> 发现上层 Buffer 根本放不下整包数据，PduR 会直接调 <code>_RxIndication(E_NOT_OK)</code> 结束本地会话。</li>
+<li>如果在拷贝过程中 <code>CopyRxData</code> 报错，同样会触发 <code>E_NOT_OK</code> 的最终指示。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>“On-the-fly” 现场转发</p>
+<p>这是 TP 网关为了追求极限实时性而设计的“边收边发”模式。</p>
+<ul>
+<li><strong>唯一目标限制</strong>：现场转发<strong>只允许 1:1 路由</strong>。不允许将一个正在流式转发的报文多播给多个目标。</li>
+<li><strong>阈值启动机制</strong>：
+<ul>
+<li>PduR 会监控接收缓冲区。一旦缓存的数据量达到配置的 <strong>Threshold (阈值)</strong>，立即调用目标的 <code>_Transmit</code>。</li>
+<li>如果 <code>Threshold = 0</code>，则在收到首帧（FF）或单帧（SF）的 <code>StartOfReception</code> 时立即启动发送。</li>
+</ul>
+</li>
+<li><strong>收尾保证</strong>：即使报文很短，一直没达到阈值，只要接收端收到了最终的 <code>RxIndication(E_OK)</code>，PduR 也会强制启动发送，确保数据不被憋在 Buffer 里。</li>
+</ul>
+</li>
+<li>
+<p>数据拷贝与重试约束</p>
+<ul>
+<li><strong>不支持重试</strong>：在现场转发模式下，PduR 像流水一样处理数据，不保留已经发出的数据段。</li>
+<li>**状态处理 **：
+<ul>
+<li>当底层调用 <code>CopyTxData</code> 时，PduR 只处理 <code>TP_DATACONF</code> 或无重试信息（NULL）的请求。</li>
+<li>这意味着如果在现场转发时发生物理层错误，由于 PduR 已经释放了之前的 Buffer 水位，<strong>无法执行回退重发</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>Direct vs. On-the-fly 的时序差异</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>Direct Gateway (存储转发)</strong></th>
+<th><strong>Gateway On-the-fly (现场转发)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发送启动点</strong></td>
+<td><strong>收齐整包</strong> 后的 <code>RxIndication</code></td>
+<td><strong>达到阈值</strong> 后的瞬间</td>
+</tr>
+<tr>
+<td><strong>本地接收</strong></td>
+<td>支持并行给上层</td>
+<td><strong>不支持</strong> (通常只用于转发)</td>
+</tr>
+<tr>
+<td><strong>目标数量</strong></td>
+<td>支持多播 (1:n)</td>
+<td><strong>仅限 1:1</strong></td>
+</tr>
+<tr>
+<td><strong>延迟</strong></td>
+<td>高 (总接收时间 + 总发送时间)</td>
+<td><strong>极低</strong> (几乎是并发的)</td>
+</tr>
+</tbody>
+</table>
+<p>PduR 的设计非常务实：如果你需要 <strong>“多播”</strong> 或 <strong>“本地备份”</strong>，请选择 <strong>Direct</strong> 模式（虽然慢，但稳）；如果你需要 <strong>“极限速度”</strong>（如跨网段刷新），请选择 <strong>On-the-fly</strong> 模式（虽然牺牲了多播和重试能力，但赢得了时间）。</p>
+<h3 id="FIFO">FIFO</h3>
+<p>在 PduR 中，FIFO 队列不仅是简单的缓冲区，它是<strong>源总线</strong>与<strong>目标总线</strong>之间进行速率匹配（Rate Matching）和处理并发冲突的关键组件。</p>
+<p>当 <code>PduRQueueDepth</code> &gt; 1 时，PduR 将使用 FIFO 机制，将发送请求排队，从而防止在目标通道繁忙时数据丢失。</p>
+<ol>
+<li>
+<p>核心运行机制</p>
+<p>PduR FIFO 的运作取决于数据提供方式（Direct vs. Trigger Transmit），其核心逻辑在于确保 <strong>FIFO 的先进先出顺序</strong> 与 <strong>物理总线的发送状态</strong> 保持同步。</p>
+</li>
+<li>
+<p>通信接口（Communication Interface）FIFO 逻辑</p>
+<table>
+<thead>
+<tr>
+<th><strong>数据提供方式</strong></th>
+<th><strong>状态</strong></th>
+<th><strong>行为</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Direct</strong></td>
+<td>FIFO 为空 且 通道空闲</td>
+<td>直接调用 <code>_Transmit()</code>，不进入队列。</td>
+</tr>
+<tr>
+<td><strong>Direct</strong></td>
+<td>FIFO 有数据 或 通道繁忙</td>
+<td>将新 I-PDU 入队（Enqueue），等待 <code>TxConfirmation</code> 触发。</td>
+</tr>
+<tr>
+<td><strong>Trigger Transmit</strong></td>
+<td>总是</td>
+<td>将 I-PDU 存入 FIFO，等待底层（如 LIN/FlexRay）调度触发。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>发送确认 (TxConfirmation) 的联动</strong>：在 Direct 模式下，当 <code>PduR_TxConfirmation</code> 收到时，PduR 会自动检查 FIFO，若队列非空，则立刻取出队首元素调用 <code>_Transmit()</code> 发送下一帧。</li>
+</ul>
+</li>
+<li>
+<p>传输协议（TP）FIFO 逻辑</p>
+<p>TP 网关中的 FIFO 行为更为复杂，因为涉及分段（N-PDU）的完整性。</p>
+<ul>
+<li><strong>缓冲区预留</strong>：一旦 FIFO 使能，PduR 会从 <code>PduRTxBuffer</code> 预留足够空间以处理 1:n 路由。</li>
+<li><strong>触发机制</strong>：
+<ul>
+<li><strong>阈值触发 (On-the-fly)</strong>：如果 FIFO 为空，且达到 <code>PduRTpThreshold</code>，立即调用 <code>_Transmit()</code>；如果 FIFO 非空，新来的报文直接存入 FIFO，排队等待。</li>
+<li><strong>完整接收触发</strong>：如果未达到阈值，但收到 <code>PduR_RxIndication</code>（整包收齐），也会立即触发传输。</li>
+</ul>
+</li>
+<li><strong>后续发送</strong>：每当收到 <code>TxConfirmation</code>，PduR 会自动开始 FIFO 中下一条 TP 报文的发送。</li>
+</ul>
+</li>
+<li>
+<p>错误处理与 FIFO 溢出策略</p>
+<p>这是该章节中最严谨的部分。PduR 定义了两种截然不同的错误处理路径：</p>
+<ol>
+<li>
+<p>传输错误 (E_NOT_OK)</p>
+<p>当调用下层 <code>_Transmit()</code> 返回 <code>E_NOT_OK</code> 时：</p>
+<ul>
+<li><strong>动作</strong>：PduR 假设该帧已损毁，<strong>直接将其从 FIFO 中移除</strong>，并尝试发送 FIFO 中的下一条数据。</li>
+<li><strong>通知</strong>：通过 DET 报告 <code>PDUR_E_PDU_INSTANCES_LOST</code>。</li>
+<li><strong>影响范围</strong>：仅针对当前失败的 Destination，不影响其他 Destination 的正常路由。</li>
+</ul>
+</li>
+<li>
+<p>FIFO 溢出 (Queue Full)</p>
+<p>当 FIFO 已满，且有新的 <code>PduR_RxIndication</code> 到达时：</p>
+<ul>
+<li><strong>动作 (Flush)</strong>：PduR 会<strong>清空整个 FIFO</strong>。</li>
+<li><strong>处理新数据</strong>：新到达的 I-PDU 被视为 FIFO 为空时的第一条数据进行处理（即直接发送或存入空队列）。</li>
+<li><strong>通知</strong>：报告 <code>PDUR_E_PDU_INSTANCES_LOST</code>。</li>
+</ul>
+<blockquote>
+<p><strong>注意</strong>：这种 “FIFO Flush” 机制在 <code>PduRQueueDepth == 1</code> 时表现为典型的 <strong>“Last-is-best” (最新数据覆盖)</strong> 行为，确保系统在资源紧张时，发送给总线的永远是最新状态。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>关键实现注意事项</p>
+<ul>
+<li><strong>并发保护</strong>：由于 <code>PduR_RxIndication</code> (Rx 上下文) 和 <code>PduR_TxConfirmation</code> (Tx 上下文) 可能发生中断嵌套，FIFO 操作<strong>必须受到原子保护（如中断锁或 Mutex）</strong>，否则队列指针容易出现竞争条件（Race Condition）。</li>
+<li><strong>资源消耗</strong>：使用 FIFO 意味着必须为每个 Routing Path 预分配固定的内存空间。在资源受限（RAM 受限）的 ECU 上，应谨慎设定 <code>PduRQueueDepth</code>。</li>
+<li><strong>LIN 限制</strong>：规范特别提到 FIFO 路由到 LIN 零星帧（Sporadic frames）是不支持的，这一点在设计网关时需要特别确认。</li>
+</ul>
+</li>
+</ol>
+<p>PduR 的 FIFO 设计实现了 <strong>“异步流量整形”</strong>。它将突发的接收请求平滑地转化为受控的总线发送序列。如果 FIFO 满了，PduR 选择“牺牲旧数据以换取最新数据”，这是符合汽车电子控制逻辑中“状态监控优于历史追溯”的设计哲学。</p>
+<h1>取消发送</h1>
+<p>**取消发送（Cancel Transmission）**是一个可选功能，主要用于在紧急情况下中断不再需要的通信任务，以释放系统资源。</p>
+<ol>
+<li>
+<p>核心职能：转发取消请求</p>
+<p>PduR 在取消发送过程中充当“指令分发器”。当上层模块（如 COM 或 DCM）意识到某个正在发送的 I-PDU 已无意义时（例如诊断超时或应用逻辑变更），它会调用 PduR 的接口。</p>
+<ul>
+<li><strong>适用范围</strong>：同时支持 <strong>接口模块 (Communication Interface)</strong> 和 <strong>传输协议模块 (Transport Protocol)</strong>。</li>
+<li><strong>配置使能</strong>：此功能是<strong>可选的</strong>。只有在配置参数 <code>PduRCancelTransmit</code> 开启的情况下，PduR 才会包含此逻辑。</li>
+</ul>
+</li>
+<li>
+<p>路由逻辑：单播与多播的处理</p>
+<p>PduR 根据预定义的路由路径转发取消请求：</p>
+<table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>PduR 的行为</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>单播 (1:1)</strong></td>
+<td>直接调用该 ID 对应的唯一目标模块的 <code>_CancelTransmit</code>。</td>
+</tr>
+<tr>
+<td><strong>多播 (1:n)</strong></td>
+<td>遍历所有路由路径，调用每一个目标模块的 <code>_CancelTransmit</code>。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>路径状态检查</strong>：</p>
+<p>如果该 I-PDU 所在的路由路径目前处于 <strong>Disabled</strong> 状态（通过 <code>PduR_DisableRouting</code> 禁用），PduR 会直接返回 <code>E_NOT_OK</code>，而不会尝试向下层发送取消指令。</p>
+</li>
+<li>
+<p>返回值判定逻辑</p>
+<p>这是开发者在处理上层逻辑时最需要关注的地方，尤其是多播场景：</p>
+<ul>
+<li><strong>单播判定</strong>：
+<ul>
+<li><strong>逻辑简单</strong>：下层返回什么，PduR 就向上层透传什么。</li>
+</ul>
+</li>
+<li><strong>多播判定</strong>：
+<ul>
+<li><strong>严格模式</strong>：只有当 <strong>所有 (All)</strong> 目标模块都成功执行了取消操作并返回 <code>E_OK</code> 时，PduR 才会向上层返回 <code>E_OK</code>。</li>
+<li><strong>失败判定</strong>：只要有一个目标模块拒绝取消（返回 <code>E_NOT_OK</code>），PduR 给上层的反馈就是 <code>E_NOT_OK</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>网关模式下的取消 (Gatewaying)</p>
+<p>在网关逻辑中，<code>CancelTransmit</code> 具有优化资源的重要意义：</p>
+<ul>
+<li><strong>资源释放</strong>：如果网关的目标总线（Destination Bus）出现故障或不再可用，PduR 的网关部分可以主动发起取消，从而释放其内部为该路由分配的 FIFO 或 TP 缓冲区。</li>
+</ul>
+</li>
+<li>
+<p>取消发送过程时序图</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant UL as Upper Layer (e.g. COM)
+    participant PduR as PduR
+    participant DL1 as Lower Layer 1 (e.g. CanIf)
+    participant DL2 as Lower Layer 2 (e.g. LinIf)
+
+    Note over UL, DL2: --- 场景: 多播取消 (Multicast Cancel) ---
+    UL-&gt;&gt;PduR: PduR_CancelTransmit(PduId)
+    
+    par 并行转发
+        PduR-&gt;&gt;DL1: CanIf_CancelTransmit(PduId_A)
+        DL1--&gt;&gt;PduR: E_OK
+    and
+        PduR-&gt;&gt;DL2: LinIf_CancelTransmit(PduId_B)
+        DL2--&gt;&gt;PduR: E_OK
+    end
+
+    Note over PduR: 所有目标均返回 E_OK
+    PduR--&gt;&gt;UL: E_OK</code></pre>
+</li>
+</ol>
+<p>💡 核心总结与注意事项</p>
+<ol>
+<li><strong>它不保证成功</strong>：调用 <code>PduR_CancelTransmit</code> 并不代表发送一定会停止。如果底层驱动（如 CanIf）已经把报文写入了硬件发送邮箱，或者 TP 模块已经发送完了最后一帧，取消请求通常会失败。</li>
+<li><strong>异步确认的清理</strong>：一旦取消成功，通常不会再收到对应的 <code>TxConfirmation</code> 回调。</li>
+<li><strong>对 TP 的影响</strong>：在 TP 网关中，取消发送非常关键。因为 TP 传输可能持续数百毫秒，及时取消可以防止无用的数据流继续占用总线带宽。</li>
+</ol>
+<p><strong>在实际的嵌入式开发中，如果你的 ECU 需要处理高频的诊断请求切换，合理配置并使用 <code>CancelTransmit</code> 可以显著减少 PduR 缓冲区被“幽灵报文”占用的情况。</strong></p>
+<h1>取消接收</h1>
+<p>这一机制主要针对 <strong>TP (传输协议)</strong> 模块，因为只有长报文分段传输（多帧接收）才存在“正在进行中”的状态，从而有必要中途取消。</p>
+<ol>
+<li>
+<p>核心应用场景</p>
+<ul>
+<li><strong>针对 TP 模块</strong>：取消接收通常用于诊断（UDS）场景。例如，DCM 发现当前收到的诊断请求由于某种原因（如会话变更或超时）已不再合法，可以通过此接口通知底层的 <code>CanTp</code> 或 <code>DoIP</code> 停止接收并释放缓存。</li>
+<li><strong>非接口类功能</strong>：对于 <code>CanIf</code> 等通信接口模块，接收通常是瞬时的（RxIndication），因此不存在“取消接收”的概念。</li>
+</ul>
+</li>
+<li>
+<p>ID 的特殊处理逻辑</p>
+<p>在普通的接收过程中，数据流向是从 <strong>下层 $\rightarrow$ 上层</strong>。但调用 <code>CancelReceive</code> 时：</p>
+<ul>
+<li><strong>反向寻址</strong>：上层模块发起请求，调用 PduR。</li>
+<li><strong>身份识别</strong>：虽然请求是从上层发下的，但传入的 ID 必须是该报文对应的 <strong>Rx I-PDU ID</strong>。PduR 必须能够根据这个接收 ID 找到对应的路由路径，并反向定位到底层的源 TP 模块。</li>
+</ul>
+</li>
+<li>
+<p>取消接收的流程控制</p>
+<table>
+<thead>
+<tr>
+<th><strong>环节</strong></th>
+<th><strong>规则要求</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>路径检查</strong></td>
+<td>若路由路径被禁用（Disabled），PduR 直接返回 <code>E_NOT_OK</code> 。</td>
+</tr>
+<tr>
+<td><strong>指令转发</strong></td>
+<td>PduR 查表后，调用目标下层 TP 模块的 <code>_CancelReceive</code>。</td>
+</tr>
+<tr>
+<td><strong>状态透传</strong></td>
+<td>下层 TP 模块（如 CanTp）的执行结果原样透传回上层 。</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>为什么“取消接收”对 TP 网关至关重要？</p>
+<p>在 <strong>TP 网关（Gatewaying）</strong> 场景下，PduR 可能正在为一个长报文分配巨大的缓冲区（如 4KB）。</p>
+<ol>
+<li>如果发送端突然停止发送，或者源网段总线出现异常。</li>
+<li>上层或网关管理逻辑意识到该次传输已失败。</li>
+<li>通过 <code>PduR_CancelReceive</code> 通知 PduR，PduR 转发给底层 TP。</li>
+<li><strong>最终目的</strong>：底层 TP 停止分段接收逻辑，PduR 立即释放分配的 <strong>TP Buffer</strong>。</li>
+</ol>
+<p>如果没有这一机制，PduR 的缓冲区可能会被一个“挂起”的坏报文长期占用，导致其他正常的诊断请求由于 BUFREQ_E_OVFL（溢出）而失败。</p>
+</li>
+</ol>
+<p>💡 核心总结</p>
+<ul>
+<li><strong>方向</strong>：指令流向是 <strong>上层 $\rightarrow$ PduR $\rightarrow$ 下层</strong>（反向操作）。</li>
+<li><strong>对象</strong>：仅适用于 <strong>TP 模块</strong>（如 CanTp, J1939Tp, DoIP）。</li>
+<li><strong>价值</strong>：它是系统<strong>资源回收</strong>的重要手段，确保异常发生时内存能及时释放。</li>
+</ul>
+<p><strong>至此，我们已经覆盖了 PduR 规范中关于“发送/接收”的正常操作、网关转发、以及“取消”操作的所有章节。这些逻辑共同构成了一个稳定、高效且具备容错能力的 AUTOSAR 通信路由系统。</strong></p>
+<h1>0操作成本</h1>
+<p>AUTOSAR PduR 架构中一种极具吸引力的极致性能优化手段——<strong>零成本操作 (Zero Cost Operation)</strong>。它打破了 PduR 作为一个独立模块存在的“传统思维”，在特定条件下直接消除了函数调用的开销。</p>
+<ol>
+<li>
+<p>什么是零成本操作？</p>
+<p>在标准的 AUTOSAR 架构中，数据路由的路径通常是：<code>Upper Layer -&gt; PduR -&gt; Lower Layer</code>。即使 PduR 内部逻辑非常简单（例如仅仅是 ID 转换），它仍然涉及到一次函数入栈、出栈以及可能的跳转逻辑。</p>
+<p><strong>“零成本操作”通过以下方式消除开销：</strong></p>
+<ul>
+<li><strong>宏转换</strong>：如果满足特定条件，PduR 将不再作为一个实际的“模块”存在，而是被转化为一组宏（Macro）或者内联函数。</li>
+<li><strong>直接调用</strong>：上层模块（如 COM）可以直接调用底层模块（如 CanIf）的接口，中间没有任何逻辑层代码的执行。</li>
+</ul>
+</li>
+<li>
+<p>实现的严苛前提</p>
+<p>这种优化并非随处可用，它要求极为严苛的配置约束：</p>
+<ol>
+<li><strong>源与目标唯一性</strong>：必须是 1:1 的直接路由，没有多播（Multicast）或复杂的网关处理。</li>
+<li><strong>源码可见性</strong>：参与路由的模块中，必须至少有一个提供源代码（以允许生成器插入胶水代码或直接链接）。</li>
+<li><strong>配置类一致性</strong>：<strong>这是最重要的门槛</strong>。所有的路由路径必须是 <strong>Pre-Compile（预编译）</strong> 时间配置的。
+<ul>
+<li>这意味着所有的路由关系在编译时刻就已经定死，编译器可以在编译期对这些函数调用进行常量折叠和优化。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>错误预防机制</p>
+<p>为了防止配置上的误用，规范强制规定：如果启用了 <code>PduRZeroCostOperation</code>，但却配置了非预编译（如 Link-Time 或 Post-Build）的路由路径，<strong>代码生成器必须报错并终止生成</strong>。这保证了系统在启动时刻的可靠性，防止因为动态配置导致的优化失效。</p>
+</li>
+<li>
+<p>优化带来的影响与折中</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>标准 PduR 模式</strong></th>
+<th><strong>零成本操作模式</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>执行效率</strong></td>
+<td>略有函数调用开销</td>
+<td>极致高效（接近直接调用）</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>支持动态路径、复杂路由、多播</td>
+<td>仅限静态 1:1 路由</td>
+</tr>
+<tr>
+<td><strong>可维护性</strong></td>
+<td>模块化强，逻辑清晰</td>
+<td>将路由逻辑硬编码进上层模块</td>
+</tr>
+<tr>
+<td><strong>内存占用</strong></td>
+<td>PduR 占有代码空间</td>
+<td>省去了 PduR 的逻辑代码空间</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<p>💡 核心解读：为什么需要这个功能？</p>
+<p>在那些微控制器（MCU）资源极其受限，或者对实时通信延迟有极端要求的场景下（例如某些底层的动力总成控制），即使是 <code>PduR_Transmit</code> 调用带来的几百个 CPU 指令周期的开销也是不能接受的。</p>
+<p><strong>这实际上是 AUTOSAR 设计的一种“性能让步于灵活性”的典型。</strong> 开启此功能后，虽然 PduR 的代码逻辑消失了，但你也失去了在后期通过修改配置来调整路由路径的能力（因为一切都已经编译进指令流里了）。</p>
+<p><strong>如果您正在评估是否在自己的嵌入式项目中开启此功能，建议检查您的系统是否包含任何需要动态改变（比如通过诊断改变）的路由路径。如果有，则千万不能开启；如果没有，这是榨干硬件性能的极佳手段。</strong></p>
+<h1>状态管理</h1>
+<p>作为一个负责整车数据分发的“枢纽”，PduR 的状态管理非常简单且严谨，目的是为了防止在系统尚未准备好或处于异常状态时，错误地转发任何数据。</p>
+<ol>
+<li>
+<p>核心状态机 (State Machine)</p>
+<p>PduR 仅包含两个全局状态，且在整个模块中<strong>仅允许存在一个</strong>状态机实例：</p>
+<ul>
+<li><strong>PDUR_UNINIT (未初始化)</strong>：
+<ul>
+<li><strong>触发点</strong>：上电或复位后的默认状态 。</li>
+<li><strong>行为限制</strong>：禁止执行任何路由操作。此时调用任何收发接口（如 <code>PduR_Transmit</code>），模块通常会直接返回错误或通过 DET 报错。</li>
+</ul>
+</li>
+<li><strong>PDUR_ONLINE (在线)</strong>：
+<ul>
+<li><strong>触发点</strong>：成功执行 <code>PduR_Init</code> 函数后。</li>
+<li><strong>行为能力</strong>：根据配置好的路由表进行正常的报文分发。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>初始化函数 (<code>PduR_Init</code>) 的关键任务</p>
+<p><code>PduR_Init</code> 不仅仅是切换一个状态位，它还承担着系统“清道夫”和“装载员”的角色：</p>
+<ul>
+<li>
+<p><strong>缓存清理</strong>：</p>
+<p>初始化时，PduR 必须释放所有已分配的缓冲区。这确保了系统重启后，不会有上次运行残留的陈旧数据被错误地发送出去。</p>
+</li>
+<li>
+<p><strong>默认值填充</strong>：</p>
+<p>如果配置了发送缓存（如用于网关的 FIFO 或 TriggerTransmit 缓存），初始化函数负责将这些缓存区填充为配置好的默认值（Default Value）。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>工程实践中的含义</p>
+<p>在嵌入式开发（如GD32 或 FM33 微控制器项目）中，这种状态管理直接影响系统的启动序列（Startup Sequence）：</p>
+<ol>
+<li><strong>启动时机</strong>：通常在 <code>EcuM</code> (ECU Manager) 中，必须先初始化底层驱动（CanIf）和内存，然后才能调用 <code>PduR_Init</code>。</li>
+<li><strong>安全防护</strong>：如果你的代码在 <code>PduR_Init</code> 之前就收到了总线报文并尝试调用路由，PduR 会因为处于 <code>UNINIT</code> 状态而拦截该操作，从而避免了在系统上下文尚未完全建立时访问空指针或未初始化的路由表。</li>
+<li><strong>多核考量</strong>：虽然 PduR 逻辑上只有一个状态机，但在多核系统中，必须确保所有核心看到的 PduR 状态是同步的，通常通过同步屏障（Barrier）来保证。</li>
+</ol>
+</li>
+</ol>
+<p>PduR 的状态管理遵循 <strong>“先初始化，后干活”</strong> 的铁律。</p>
+<ul>
+<li><strong>UNINIT</strong> = 沉默模式（静默且安全）。</li>
+<li><strong>ONLINE</strong> = 工作模式（激活路由）。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/20260428082829931.png" alt="PDU-R状态机" loading='lazy'></p>
+<h1>路由路径组</h1>
+<p>这是实现 ECU 动态通信管理的关键，通常由 <strong>BswM (Basic Software Mode Manager)</strong> 调用，用于在特定条件下（如休眠准备、网络管理状态切换或诊断模式切换）开启或关闭特定的通信路径。</p>
+<ol>
+<li>
+<p>核心概念：控制的是“目的地”</p>
+<p>一个非常关键的细节是：路由路径组包含的是 <strong>目标 I-PDU (Destination I-PDU)</strong>，而不是路由路径本身。</p>
+<ul>
+<li><strong>原因</strong>：支持多播（Multicast）。一个源报文可能同时转发到总线 A 和总线 B。通过控制“目的地”，你可以单独禁用发往总线 A 的路径，而保持发往总线 B 的路径正常。</li>
+</ul>
+</li>
+<li>
+<p>运行时行为约束</p>
+<ol>
+<li>
+<p>立即生效</p>
+<p>启用（Enable）操作必须是<strong>立即</strong>的。一旦调用成功，下一个 <code>PduR_Transmit</code> 或接收指示必须能够正常处理。</p>
+</li>
+<li>
+<p>禁用后的拦截</p>
+<p>当路由组被禁用（Disable）后，PduR 会在 API 入口处直接拦截相关操作：</p>
+<ul>
+<li><strong>拦截范围</strong>：涵盖了发送、接收、触发发送以及 TP 所有的分段拷贝接口。</li>
+<li><strong>返回值</strong>：
+<ul>
+<li><code>Std_ReturnType</code> 接口返回 <code>E_NOT_OK</code>。</li>
+<li><code>BufReq_ReturnType</code>（TP 类接口）返回 <code>BUFREQ_E_NOT_OK</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>停止后的现场清理 (Buffer Handling)</p>
+<p>当路由路径停止时，PduR 需要决定如何处理缓冲区中残留的数据：</p>
+<ul>
+<li>**单缓存情况 (QueueDepth == 1) **：
+<ul>
+<li>如果调用 <code>PduR_DisableRouting</code> 时参数 <code>initialize</code> 为 <strong>true</strong>：缓冲区恢复为初始默认值。</li>
+<li>如果为 <strong>false</strong>：保留当前值，等到下次重新启用时继续使用。</li>
+</ul>
+</li>
+<li>**FIFO 情况 (QueueDepth &gt; 1) **：
+<ul>
+<li>只要禁用，FIFO 必须<strong>立即清空（Flush）</strong>。</li>
+<li>同时通过 DET 报告 <code>PDUR_E_PDU_INSTANCES_LOST</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>路由路径组的状态图</p>
+<pre><code class="highlight mermaid">graph TD
+    %% 定义节点
+    Init((PduR Init)) --&gt; Enabled[Enabled 状态]
+    
+    Enabled --&gt;|PduR DisableRouting| Disabled[Disabled 状态]
+    
+    %% 使用更稳定的标注方式
+    Disabled --- NoteD[拦截API: 返回 E_NOT_OK &lt;br/&gt; BUF_REQ E_NOT_OK&lt;br/&gt; 缓冲区: FIFO 清空 &lt;br/&gt; 单Buffer重置]
+    
+    Disabled --&gt;|PduR EnableRouting| Enabled
+    
+    %% 样式美化
+    style Enabled fill:#e1f5fe,stroke:#01579b
+    style Disabled fill:#fff3e0,stroke:#e65100
+    style NoteD fill:#fafafa,stroke:#9e9e9e,stroke-dasharray: 5 5</code></pre>
+</li>
+<li>
+<p>实际应用场景示例</p>
+<ul>
+<li><strong>ECU 休眠准备</strong>：当系统准备进入低功耗模式时，BswM 会调用 <code>PduR_DisableRouting</code> 禁用应用报文组，只保留网络管理（NM）报文的路由。</li>
+<li><strong>诊断安全限制</strong>：在刷写（Flashing）过程中，为了保证总线带宽，BswM 可以临时禁用所有非诊断类的路由路径组。</li>
+</ul>
+</li>
+</ol>
+<h1>支持CDD</h1>
+<ol>
+<li>
+<p>CDD 的“多重身份”：上层还是下层？</p>
+<p>PduR 不歧视模块，它只看配置。通过 <code>PduRBswModules</code> 里的参数，CDD 可以扮演两种角色：</p>
+<ul>
+<li><strong>作为上层模块 (Upper Layer)</strong>：
+<ul>
+<li><strong>地位</strong>：等同于 COM 或 DCM。</li>
+<li><strong>行为</strong>：CDD 主动调用 <code>PduR_Transmit</code>。当数据从总线返回时，PduR 调用 CDD 的接收回调。</li>
+</ul>
+</li>
+<li><strong>作为下层模块 (Lower Layer)</strong>：
+<ul>
+<li><strong>地位</strong>：等同于 CanIf 或 CanTp。</li>
+<li><strong>行为</strong>：PduR 负责把数据“喂”给 CDD，或者从 CDD 接收 <code>RxIndication</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>灵活的 API 适配：Interface 还是 TP？</p>
+<p>除了位置，CDD 还可以选择它要用的“接口语言”：</p>
+<ul>
+<li><strong>Communication Interface API</strong>：用于单帧报文。CDD 只需要实现简单的 <code>RxIndication</code>、<code>TxConfirmation</code> 等。</li>
+<li><strong>Transport Protocol (TP) API</strong>：用于长报文分段。CDD 必须像 CanTp 一样处理 <code>StartOfReception</code>、<code>CopyRxData</code> 等复杂的流控接口。</li>
+</ul>
+</li>
+<li>
+<p>API 服务前缀 (apiServicePrefix)</p>
+<p>这是 CDD 接入 PduR 的核心技术细节。为了避免函数名冲突，PduR 不会给所有 CDD 都起名叫 <code>CDD_RxIndication</code>。</p>
+<ul>
+<li><strong>逻辑</strong>：在配置工具中，你会为 CDD 定义一个 <code>apiServicePrefix</code>（例如：<code>MySpecialSpi</code>）。</li>
+<li><strong>生成结果</strong>：PduR 内部调用的函数名就会变成 <code>MySpecialSpi_RxIndication</code>。这实现了代码层面的解耦和唯一性。</li>
+</ul>
+</li>
+<li>
+<p>路由路径的“血缘”判断：谁在发？谁在收？</p>
+<p>PduR 必须搞清楚一个 PDU 到底跟 CDD 有什么关系。它通过检查 <strong>EcuC (ECU Configuration)</strong> 模块中的 PDU 引用关系来判断：</p>
+<table>
+<thead>
+<tr>
+<th><strong>引用关系</strong></th>
+<th><strong>逻辑结论</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>源 PDU</strong> 被 <strong>上层 CDD</strong> 引用</td>
+<td>数据是由 CDD <strong>发送</strong>出去的 (Transmit)</td>
+</tr>
+<tr>
+<td><strong>目标 PDU</strong> 被 <strong>上层 CDD</strong> 引用</td>
+<td>数据是由 CDD <strong>接收</strong>到的 (Receive)</td>
+</tr>
+<tr>
+<td><strong>源 PDU</strong> 被 <strong>下层 CDD</strong> 引用</td>
+<td>数据是从 CDD <strong>传上来</strong>的 (From Lower)</td>
+</tr>
+<tr>
+<td><strong>目标 PDU</strong> 被 <strong>下层 CDD</strong> 引用</td>
+<td>数据是要<strong>通过</strong> CDD 发送的 (Via Lower)</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>实际开发中的意义</p>
+<p>假设你在 GD32 上做了一个自定义的 <strong>CDD_Sensor</strong>，通过 SPI 读取传感器数据并想通过 CAN 发送给仪表。</p>
+<ol>
+<li><strong>角色定义</strong>：将 <strong>CDD_Sensor</strong> 配置为 PduR 的 <strong>Upper Layer</strong>。</li>
+<li><strong>API 配置</strong>：使用 <code>apiServicePrefix = &quot;Sensor&quot;</code>, 类型选 <code>Communication Interface</code>。</li>
+<li><strong>路由逻辑</strong>：
+<ul>
+<li><strong>发送</strong>：你的 CDD 逻辑读完 SPI 后，直接调 <code>PduR_SensorTransmit()</code>。</li>
+<li><strong>回调</strong>：PduR 在 CAN 发送成功后，会反向调用你的 <code>Sensor_TxConfirmation()</code>。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>💡 核心总结</p>
+<p>CDD 在 PduR 中的交互遵循 <strong>“配置决定身份”</strong> 的原则。它既可以作为数据的源头（上层），也可以作为数据的物理载体（下层）。通过 <code>apiServicePrefix</code>，PduR 能够自动生成符合 CDD 命名规范的胶水代码。</p>
+<h1>参数检查</h1>
+<ol>
+<li>
+<p>错误检测：ID 合法性</p>
+<p>这是 BSW 健壮性的基础：</p>
+<ul>
+<li><strong>规则</strong>：如果开启了 <code>PduRDevErrorDetect</code>，一旦传入的 PDU ID 超出了配置范围（Range），PduR 必须向 DET 模块报告 <code>PDUR_E_PDU_ID_INVALID</code>。</li>
+<li><strong>意义</strong>：防止因 ID 越界导致的路由表非法内存访问。</li>
+</ul>
+</li>
+<li>
+<p>多核分布与分区调度 (Multicore Distribution)</p>
+<p>PduR 在多核系统中扮演着“跨核调度员”的角色。它分布在所有分区（Partition）上，处理分区间的 I-PDU 转发。</p>
+<ol>
+<li>
+<p>分区判定逻辑</p>
+<p>配置生成器会根据源（Source）和目标（Target）I-PDU 的分区分配来决定通信模式：</p>
+<ul>
+<li><strong>分区内通信 (Intra-partition)</strong>：如果源和目标在同一个分区，PduR 走简单的函数调用流程。</li>
+<li><strong>分区间通信 (Inter-partition)</strong>：如果二者在不同分区，PduR 必须处理跨核调度（通常通过 <strong>IOC - Inter-OS-Application Communication</strong> 机制）。</li>
+</ul>
+</li>
+<li>
+<p>分区分配的优先级</p>
+<p>如何确定一个 PDU 属于哪个核？生成器遵循以下顺序：</p>
+<ol>
+<li><strong>专项引用</strong>：优先检查 <code>EcucPduDedicatedPartition</code>，看该 PDU 是否明确指定了某个 BSW 模块的分区。</li>
+<li><strong>默认引用</strong>：如果没有专项指定，则采用该 I-PDU 的默认分区参考。</li>
+</ol>
+</li>
+<li>
+<p>多实例初始化</p>
+<p>在多核环境下，单一的初始化可能无法覆盖所有核心的上下文。</p>
+<ul>
+<li><strong>规范允许</strong>：PduR 可以在每个分区提供一个独立的初始化函数（<code>PduR_Init</code> 的分区版本），确保每个核心上的 PduR 实例都能正确建立自己的局部路由环境。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>路由路径组的限制</p>
+<p>为了降低复杂度和保证原子性，规范对“动态开关”路由组加了一个硬性约束：</p>
+<ul>
+<li><strong>约束</strong>：一个 <code>PduRRoutingPathGroup</code>（路由路径组）内的所有目标 I-PDU <strong>必须分配到同一个分区</strong>。</li>
+<li><strong>逻辑原因</strong>：如果一个组跨了核，由于不同核的调度时序不同，很难保证“立即同时启用/禁用”的同步性。</li>
+</ul>
+</li>
+<li>
+<p>分区内路由 (Intra-partition)</p>
+<p>即使系统中存在跨分区的其他模块，对于源和目标都在同一分区的路由路径，其行为不应受到任何干扰。</p>
+<ul>
+<li>**TriggerTransmit 约束 **：对于上层模块发起的触发传输（TriggerTransmit）路由，PduR <strong>仅接受</strong>分区内路由。这是因为触发传输对时序要求极高，跨分区调用引入的延迟可能导致底层驱动无法在特定时间窗内获取数据。</li>
+</ul>
+</li>
+<li>
+<p>分区间路由 (Inter-partition)</p>
+<p>当目标 PDU 被映射到与源 PDU 不同的 ECUC 分区时，即触发分区间路由。PduR 必须在数据传输和调用上下文中执行实际的跨分区通信。</p>
+<ol>
+<li>
+<p>上下文解耦与代码执行原则</p>
+<p>为了保证分区安全性，PduR 遵循严格的隔离原则：</p>
+<ul>
+<li><strong>同分区执行</strong>：对于分区间路由，<code>PduR_Transmit</code>、<code>PduR_CancelTransmit</code>、<code>PduR_CancelReceive</code> 以及 <code>RxIndication</code> 等函数的调用，<strong>只能执行</strong>分配给当前分区的代码。</li>
+<li><strong>禁止同步跨区调用</strong>：PduR <strong>不得</strong>在同一个上下文（Context）中直接调用位于另一个分区的目标模块接口（如 <code>_Transmit</code> 或 <code>_RxIndication</code>）。这意味着 PduR 必须通过某种中间机制（如跨核通信或缓冲区）来解耦请求。</li>
+</ul>
+</li>
+<li>
+<p>返回值的含义</p>
+<p>由于存在异步解耦，分区间路由的 API 返回值具有特殊含义：</p>
+<ul>
+<li><strong>状态反馈</strong>：<code>PduR_Transmit</code>、<code>PduR_CancelTransmit</code> 和 <code>PduR_CancelReceive</code> 的返回值仅反映 <strong>PduR 本身</strong>是否接受了该请求，而不代表目标分区模块的最终执行状态。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>分区间 TP 路由的特殊处理</p>
+<p>对于传输协议（TP）的分区间路由，PduR 的角色转变为一个<strong>强制性的中继站</strong>。</p>
+<ul>
+<li><strong>网关化处理 [SWS_PDUR_00860]</strong>：PduR 必须将分区间 TP 模块的交互视为 <strong>网关路由（Gateway Routings）</strong>。</li>
+<li><strong>中间缓冲 [SWS_PDUR_00859]</strong>：为了解耦不同核心之间的调用上下文，PduR 必须在 User 模块和 Provider 模块之间通过 <strong>中间缓冲区（Intermediate Buffering）</strong> 进行转发。</li>
+<li><strong>接口隔离</strong>：
+<ul>
+<li>在调用 <code>PduR_CopyRxData</code>、<code>PduR_StartOfReception</code> 或 <code>PduR_CopyTxData</code> 时，PduR 不会在同一上下文中调用另一分区的对应接口。</li>
+<li>这些接口返回的 <code>BufReq_ReturnType</code> 仅反映 PduR 缓冲区的状态，而不是上层 TP 模块的状态。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>💡 性能与时序警告</p>
+<p>规范特别提醒开发者，跨分区的 TP 交互会对系统性能产生影响：</p>
+<ol>
+<li><strong>延迟增加</strong>：跨分区通信必然引入额外的时延。</li>
+<li><strong>总线行为改变</strong>：由于上下文解耦，可能会出现接收端（User）尚未准备好接收数据，但源端总线已经开始传输的情况，这可能导致接收过程在后期被强行中止。</li>
+<li><strong>设计对策</strong>：如果应用对时序波动极其敏感，必须将所有相关的通信模块映射到 <strong>同一个分区</strong>。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/PduR/">https://youshouldtrustme.github.io/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/PduR/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdnjs.cloudflare.com/ajax/libs/butterfly-extsrc/1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/MemIf/" title="MemIf"><img class="cover" src="/img/RandomCoverImage/random_11.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">MemIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Memory Abstraction Interface (autosar.org)  </div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Functional%20Safety/WdogM/" title="WdogM"><img class="cover" src="/img/RandomCoverImage/random_10.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">WdogM</div></div><div class="info-2"><div class="info-item-1">概述 在AUTOSAR架构中，看门狗的架构也是非常的简单，如下图：  服务层有WdogM（Wdog Manager)模块，主要为软件状态机，通过软件策略来实现一些监测功能，对上可汇报当前错误状态，对下可调用抽象层接口进行一系列不同类型的复位操作。ECU抽象层则有WdogIf模块，主要将各种看门...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Autosar%E6%A6%82%E8%BF%B0/" title="Autosar概述"><img class="cover" src="/img/RandomCoverImage/random_5.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Autosar概述</div></div><div class="info-2"><div class="info-item-1">参考链接  搞一点AutoSar-墨客博客 (xcnm.net) CAN BusOff相关知识点_busoff基础知识-CSDN博客 CAN Busoff原理/快慢恢复介绍以及利用Vector VH6501 CAN干扰仪经典CAN2.0/CANFD帧触发Busoff_网络_汽车电子助手-Git...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_9.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_8.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_12.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  [!tip] 标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_16.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">111</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">I-Pdu处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE"><span class="toc-number">2.1.</span> <span class="toc-text">接收数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE"><span class="toc-number">2.2.</span> <span class="toc-text">发送数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E6%9C%BA%E5%88%B6"><span class="toc-number">2.2.1.</span> <span class="toc-text">传输机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.3.</span> <span class="toc-text">传输协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E5%8F%91%E6%97%B6%E5%BA%8F"><span class="toc-number">2.4.</span> <span class="toc-text">收发时序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-PDU-Gateway"><span class="toc-number">2.5.</span> <span class="toc-text">I-PDU Gateway</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E4%BF%A1%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.5.1.</span> <span class="toc-text">通信接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-number">2.5.2.</span> <span class="toc-text">错误处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE-2"><span class="toc-number">2.5.3.</span> <span class="toc-text">传输协议</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BC%93%E5%86%B2%E5%88%86%E9%85%8D"><span class="toc-number">2.5.3.0.0.1.</span> <span class="toc-text">缓冲分配</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91%E7%BD%91%E5%85%B3"><span class="toc-number">2.5.3.0.0.2.</span> <span class="toc-text">存储转发网关</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%B9%B6%E8%A1%8C%E5%A4%84%E7%90%86%E5%92%8C%E7%8E%B0%E5%9C%BA%E8%BD%AC%E5%8F%91"><span class="toc-number">2.5.3.0.0.3.</span> <span class="toc-text">本地并行处理和现场转发</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FIFO"><span class="toc-number">2.5.4.</span> <span class="toc-text">FIFO</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">取消发送</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">取消接收</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">0操作成本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">状态管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">7.</span> <span class="toc-text">路由路径组</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">8.</span> <span class="toc-text">支持CDD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">9.</span> <span class="toc-text">参数检查</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gcc/" title="Gcc">Gcc</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Git/" title="Git">Git</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Gdb/" title="Gdb">Gdb</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Linux/" title="Linux">Linux</a><time datetime="2026-06-24T01:22:05.617Z" title="发表于 2026-06-24 01:22:05">2026-06-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_9.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.9.0/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => fn())
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404.html') : window.location.href = '/404.html')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
