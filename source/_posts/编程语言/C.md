@@ -1,8 +1,6 @@
 ---
 title: C
 
-cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/11/30_10_53_6_202411301053994.png
-
 categories: 
   - 编程语言
 ---

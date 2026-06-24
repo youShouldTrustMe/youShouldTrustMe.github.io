@@ -126,38 +126,44 @@ categories:
 
 | 插件名称                                | 功能描述                                                     |
 | --------------------------------------- | ------------------------------------------------------------ |
+| Arm Assembly                            | 汇编代码语法高亮                                             |
+| Apc Customize UI++                      | 配合VSCode Animations使用实现丝滑动画                        |
 | Better Align                            | 用于对齐变量名和参数                                         |
 | Better Comments                         | 实时显示错误                                                 |
+| background-cover                        | vscode换壁纸                                                 |
+| bookmarks                               | 书签                                                         |
+| Blockman - Highlight Nested Code Blocks | 可以将块代码框起来                                           |
 | Code Spell Checker                      | 用于检查代码的拼写错误                                       |
 | Code Translate                          | 鼠标悬停可以查看相关翻译                                     |
+| C/C++ snippets                          | 用于生成代码分割符                                           |
+| Cursor免费续杯                          | [yeongpin/cursor-free-vip: Support 0.49.x](https://github.com/yeongpin/cursor-free-vip) |
+| codeTour                                | 回放代码演示思路                                             |
+| Custom CSS and JS Loader                | 用于动态特效，可以和vscode animation结合使用                 |
 | Error Lens                              | 高亮显示错误                                                 |
 | Fitten Code                             | 超强AI编程                                                   |
+| file-tree-generator                     | 将文件树转换为txt                                            |
 | Git Graph                               | 用于Git的可视化                                              |
 | GitLens                                 | Git的拓展                                                    |
 | Hex Editor                              | 十六进制文件查看器                                           |
-| LeetCode                                | 力扣的练习                                                   |
-| MarkMap                                 | 用于将markdown文件转化为思维导图                             |
-| offic viewer                            | 用于实时渲染markdown文件                                     |
-| Project Manager                         | 用于保存常用项目                                             |
-| Todo Tree                               | 可用于标记代码中的代办项                                     |
-| Vim                                     | vscode中的vim插件                                            |
-| VSCode Animations                       | 实现丝滑动画效果                                             |
-| Apc Customize UI++                      | 配合VSCode Animations使用实现丝滑动画                        |
-| C/C++ snippets                          | 用于生成代码分割符                                           |
 | IAR linker Configuration File Syntax    | 用于显示IAR的icf文件                                         |
-| Arm Assembly                            | 汇编代码                                                     |
 | iar build                               | iar官方插件                                                  |
 | iar                                     | ：                                                           |
-| Platform IO                             | 嵌入式替代开发插件                                           |
-| wakatime                                | 编程时间及行为跟踪统计                                       |
-| codeTour                                | 回放代码演示思路                                             |
-| koroFileHeader                          | 生成文件头注释                                               |
 | image comment                           | 在代码中插入图片注释                                         |
+| koroFileHeader                          | 生成文件头注释                                               |
+| LeetCode                                | 力扣的练习                                                   |
+| MarkMap                                 | 用于将markdown文件转化为思维导图                             |
+| Maple Theme                             | 代码文字的美化<br />[Releases · subframe7536/maple-font (github.com)](https://github.com/subframe7536/maple-font/releases) |
+| offic viewer                            | 用于显示office文档                                           |
+| Output Colorizer                        | 将输出彩色展示                                               |
+| Project Manager                         | 用于保存常用项目                                             |
+| Platform IO                             | 嵌入式替代开发插件                                           |
 | Peacock                                 | 可以将vscode的颜色跟着不同的项目进行改变                     |
-| file-tree-generator                     | 将文件树转换为txt                                            |
-| Blockman - Highlight Nested Code Blocks | 可以将块代码框起来                                           |
-| Maple Theme                             | 代码文字的美化，[Releases · subframe7536/maple-font (github.com)](https://github.com/subframe7536/maple-font/releases) |
-| Cursor免费续杯                          | [yeongpin/cursor-free-vip: Support 0.49.x](https://github.com/yeongpin/cursor-free-vip) |
+| Todo Tree                               | 可用于标记代码中的代办项                                     |
+| Task Runner                             | 用于管理Task                                                 |
+| Tencent Cloud CodeBuddy                 | 腾讯AI                                                       |
+| Vim                                     | vscode中的vim插件                                            |
+| VSCode Animations                       | 实现丝滑动画效果                                             |
+| wakatime                                | 编程时间及行为跟踪统计                                       |
 
 ## 配置
 
@@ -322,11 +328,191 @@ https://blog.csdn.net/luobeihai/article/details/127044565
 }
 ```
 
+当然，你也可以排除基于某些文件夹的搜索
+
+```json
+{
+    "search.exclude": {
+        // 排除 b 文件夹
+        "**/EpsDriverSW/ImplementationSet/Source/BSW/BSW": true,
+        // 排除 c 文件夹
+        "**/EpsDriverSW/ImplementationSet/Source/BSW/BSW01": true,
+        // 如果需要排除其他文件夹，可以继续添加
+        // "**/node_modules": true
+    }
+}
+```
 
 
 
+> [!important]
+>
+> 但是需要注意的是，如果使用了`.gitignore `文件去忽略`.vscode`文件夹，`settings.json`文件将会失效，可以在`.git/info/exclude`文件中结尾增加`.vscode/`即可。
+
+## Task配置
+
+`tasks.json` 是 VSCode 中用于配置**任务**的文件，本质上是一个任务运行器，让你可以在 VSCode 内部直接执行各种命令行操作。我们需要在根目录`.vscode`文件夹下新建这个文件。
+
+### 基本结构
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        // 任务1
+        { ... },
+        // 任务2
+        { ... }
+    ]
+}
+```
+
+### 核心字段详解
+
+1. 基础字段（每个任务必须有）
+
+   | 字段      | 说明                       | 示例                               |
+   | --------- | -------------------------- | ---------------------------------- |
+   | `label`   | 任务名称，在命令面板中显示 | `"Build Project"`                  |
+   | `type`    | 任务类型                   | `"shell"`(命令), `"process"`(进程) |
+   | `command` | 要执行的命令               | `"gcc"`, `"build.bat"`, `"npm"`    |
+
+2. 常用可选字段
+
+   | 字段             | 说明                             | 示例                                   |
+   | ---------------- | -------------------------------- | -------------------------------------- |
+   | `args`           | 命令行参数数组                   | `["-g", "main.c", "-o", "a.exe"]`      |
+   | `options`        | 运行选项（工作目录、环境变量等） | `{"cwd": "${workspaceFolder}"}`        |
+   | `group`          | 任务分组                         | `{"kind": "build", "isDefault": true}` |
+   | `problemMatcher` | 解析输出错误的匹配器             | `"$gcc"`, `"$tsc"`                     |
+   | `presentation`   | 控制终端显示行为                 | `{"reveal": "always"}`                 |
+   | `dependsOn`      | 依赖的其他任务                   | `["Clean"]`                            |
+   | `detail`         | 任务详细说明                     | `"编译所有源文件"`                     |
 
 
+
+### 典型配置示例
+
+#### 示例1：编译 C 程序
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build C Program",
+            "type": "shell",
+            "command": "gcc",
+            "args": ["-g", "${file}", "-o", "${fileDirname}/${fileBasenameNoExtension}.exe"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        }
+    ]
+}
+```
+
+#### 示例2：运行批处理脚本
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Build Script",
+            "type": "shell",
+            "command": "${workspaceFolder}/build.bat",
+            "args": ["all", "debug"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": "$gcc"
+        }
+    ]
+}
+```
+
+#### 示例3：多个任务 + 依赖关系
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "rm",
+            "args": ["-rf", "build/"],
+            "group": "build"
+        },
+        {
+            "label": "Compile",
+            "type": "shell",
+            "command": "gcc",
+            "args": ["main.c", "-o", "build/app.exe"],
+            "dependsOn": ["Clean"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc"
+        }
+    ]
+}
+```
+
+### 预定义变量（常用）
+
+| 变量                         | 含义                   | 示例值                    |
+| ---------------------------- | ---------------------- | ------------------------- |
+| `${workspaceFolder}`         | 工作区根目录           | `C:\MyProject`            |
+| `${file}`                    | 当前打开的文件完整路径 | `C:\MyProject\src\main.c` |
+| `${fileBasename}`            | 当前文件名（含扩展名） | `main.c`                  |
+| `${fileBasenameNoExtension}` | 当前文件名（无扩展名） | `main`                    |
+| `${fileDirname}`             | 当前文件所在目录       | `C:\MyProject\src`        |
+| `${relativeFile}`            | 相对于工作区的路径     | `src/main.c`              |
+| `${env:变量名}`              | 系统环境变量           | `${env:USERNAME}`         |
+
+### problemMatcher 常用值
+
+| 值           | 适用场景        |
+| ------------ | --------------- |
+| `$gcc`       | GCC 编译输出    |
+| `$tsc`       | TypeScript 编译 |
+| `$eslint`    | ESLint 检查     |
+| `$msCompile` | MSVC 编译       |
+| `$go`        | Go 编译         |
+
+### presentation 控制终端行为
+
+```json
+"presentation": {
+    "reveal": "always",      // 总是显示终端（always/never/silent）
+    "panel": "new",          // 使用新面板（shared/new/dedicated）
+    "showReuseMessage": false,  // 不显示重用消息
+    "clear": true            // 运行前清空终端
+}
+```
+
+### 生成方式
+
+#### 方式1：VSCode 自动生成
+- 按 `Ctrl+Shift+P` → 输入 `Tasks: Configure Task` → 选择模板
+
+#### 方式2：手动创建
+- 在项目根目录创建 `.vscode` 文件夹
+- 新建 `tasks.json` 文件，手动编写配置
+
+### 触发方式
+
+| 操作                        | 效果                                                |
+| --------------------------- | --------------------------------------------------- |
+| `Ctrl+Shift+B`              | 运行默认构建任务（标记了 `isDefault: true` 的任务） |
+| `Ctrl+Shift+P` → `Run Task` | 选择并运行任意任务                                  |
+| 状态栏点击（需插件）        | 一键运行                                            |
 
 
 

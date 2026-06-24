@@ -2956,6 +2956,8 @@ sequenceDiagram
 
 ![请求下载请求格式](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125111118895.png)
 
+
+
 ==该服务不支持sub-function==。部分参数的含义如下所示：
 
 1. dataFormatldentifier(1Byte):这个单字节里面标识了数据格式相关的信息，每半个字节分别编码，==高半字节==指定“==数据压缩方法==”，而==低半字节==则指定“==数据加密方法==”。如果该字节取值为0x00,则表示既不使用加密方法也不适用压缩方法，其他取值情况有整车制造商或者供应商决定，可以用约定好用不同的取值代表数据是否有压缩，是否有加密，用的又是什么算法等等。
@@ -2975,6 +2977,8 @@ sequenceDiagram
 ##### 否定响应
 
 ![请求下载的否定响应](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125111215050.png)
+
+
 
 可能出现的NRC：
 
