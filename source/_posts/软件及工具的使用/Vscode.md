@@ -151,6 +151,7 @@ categories:
 | image comment                           | 在代码中插入图片注释                                         |
 | koroFileHeader                          | 生成文件头注释                                               |
 | LeetCode                                | 力扣的练习                                                   |
+| LinkScript                              | 高亮ld文件                                                   |
 | MarkMap                                 | 用于将markdown文件转化为思维导图                             |
 | Maple Theme                             | 代码文字的美化<br />[Releases · subframe7536/maple-font (github.com)](https://github.com/subframe7536/maple-font/releases) |
 | offic viewer                            | 用于显示office文档                                           |
@@ -313,7 +314,7 @@ https://blog.csdn.net/luobeihai/article/details/127044565
 
 # 使用技巧
 
-## 忽略搜索文件
+## Settings文件
 
 在`settings.json`文件中增加以下代码：
 
@@ -334,9 +335,9 @@ https://blog.csdn.net/luobeihai/article/details/127044565
 {
     "search.exclude": {
         // 排除 b 文件夹
-        "**/EpsDriverSW/ImplementationSet/Source/BSW/BSW": true,
+        "**/b": true,
         // 排除 c 文件夹
-        "**/EpsDriverSW/ImplementationSet/Source/BSW/BSW01": true,
+        "**/c": true,
         // 如果需要排除其他文件夹，可以继续添加
         // "**/node_modules": true
     }
@@ -349,9 +350,17 @@ https://blog.csdn.net/luobeihai/article/details/127044565
 >
 > 但是需要注意的是，如果使用了`.gitignore `文件去忽略`.vscode`文件夹，`settings.json`文件将会失效，可以在`.git/info/exclude`文件中结尾增加`.vscode/`即可。
 
-## Task配置
+如果使用c环境的时候，出现很多报错，可以使用`compile_commands.json`来做引导，使用这个会使跳转变快。
 
-`tasks.json` 是 VSCode 中用于配置**任务**的文件，本质上是一个任务运行器，让你可以在 VSCode 内部直接执行各种命令行操作。我们需要在根目录`.vscode`文件夹下新建这个文件。
+```json
+    "C_Cpp.default.compileCommands": "C:/eps_deploy/MakeB6_var06/HighTec-Cmd/compile_commands.json",
+```
+
+
+
+## Tasks文件
+
+`tasks.json` 是 VsCode 中用于配置**任务**的文件，本质上是一个任务运行器，让你可以在 VsCode 内部直接执行各种命令行操作。我们需要在根目录`.vscode`文件夹下新建这个文件。
 
 ### 基本结构
 

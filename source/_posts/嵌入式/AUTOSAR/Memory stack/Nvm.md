@@ -559,20 +559,20 @@ NvM 与相关模块的关系
 >            direction LR
 >            N0["索引 0<br/>原生块"]
 >        end
->                    
+>                             
 >        subgraph Redundant [块基编号 = Y]
 >            direction LR
 >            R0["索引 0<br/>冗余副本 0"]
 >            R1["索引 1<br/>冗余副本 1"]
 >        end
->                    
+>                             
 >        subgraph Dataset [块基编号 = Z]
 >            direction LR
 >            D0["索引 0<br/>数据集 0"]
 >            D1["索引 1<br/>数据集 1"]
 >            D2["索引 2<br/>数据集 2"]
 >        end
->                    
+>                             
 >        Note["同一基编号下的不同索引<br/>映射到连续的 Fee/Ea 块编号"]
 >    ```
 >
@@ -2992,148 +2992,2094 @@ sequenceDiagram
 
 3. CRC 配置 [SWS_NvM_00165]
 
+   > 隐式数据一致性检查通过内部函数的**可配置选项**提供。一致性检查可按每个 NVRAM 块独立配置，取决于以下参数：
+
+   | 配置参数             | 说明                    |
+   | -------------------- | ----------------------- |
+   | `NvMBlockUseCrc`     | 是否对该块使用 CRC 校验 |
+   | `NvMCalcRamBlockCrc` | 是否对 RAM 块计算 CRC   |
+
+   ```mermaid
+   flowchart TD
+       Config{配置参数}
+       
+       Config --> UseCrc[NvMBlockUseCrc<br/>启用 CRC]
+       Config --> CalcCrc[NvMCalcRamBlockCrc<br/>RAM CRC 计算]
+       
+       UseCrc -->|启用| Check[读取时校验 NV 块 CRC]
+       UseCrc -->|禁用| NoCheck[不进行 CRC 校验]
+       
+       CalcCrc -->|启用| RAMCRC[RAM 块也计算 CRC]
+       CalcCrc -->|禁用| RAMNoCRC[RAM 块无 CRC]
+   ```
+
+4. 一次性写入块的 CRC 建议 [SWS_NvM_00724]
+
+   > 对于 `NvMWriteBlockOnce = TRUE` 的 NVRAM 块，**应启用** `NvMBlockUseCrc`。同时，**应禁用** `NvMBlockWriteProt`，以便在 CRC 校验失败时用户仍能写入数据到该块。
+
+   | 参数                | 一次性写入块推荐配置 | 原因                       |
+   | ------------------- | -------------------- | -------------------------- |
+   | `NvMBlockUseCrc`    | **启用**             | 确保写入后数据完整性可验证 |
+   | `NvMBlockWriteProt` | **禁用**             | CRC 失败时允许重新写入恢复 |
+
+   ```mermaid
+   flowchart TD
+       OneShot[一次性写入块<br/>NvMWriteBlockOnce = TRUE] --> UseCrc[NvMBlockUseCrc = 启用]
+       OneShot --> DisableProt[NvMBlockWriteProt = 禁用]
+       
+       DisableProt --> Reason[原因: CRC 失败时<br/>允许用户重新写入]
+   ```
+
+5. CRC 内存分配 [SWS_NvM_00544]
+
+   > 根据 `NvMBlockUseCrc` 和 `NvMCalcRamBlockCrc` 的配置，NvM 模块应为**所用 CRC 中最大的类型**分配内存。
+
+   | 配置场景               | 内存分配                    |
+   | ---------------------- | --------------------------- |
+   | 多个块使用不同大小 CRC | 分配**最大** CRC 所需的内存 |
+   | 所有块 CRC 大小相同    | 分配该大小所需的内存        |
+   | 未启用 CRC             | 不分配 CRC 内存             |
+
+6. CRC 内存对用户透明
+
+   > NvM 用户不应知道其 RAM 块中数据的 CRC 内存的任何信息（如大小、位置）。
+
+   ```mermaid
+   flowchart LR
+       subgraph NvM [NvM 模块]
+           RAM[RAM 块<br/>用户数据]
+           CRC_MEM[CRC 内存<br/>对用户不可见]
+       end
+       
+       User[应用层] -->|可见| RAM
+       User -.->|不可见| CRC_MEM
+   ```
+
+7. 一致性检查流程
+
+   ```mermaid
+   flowchart LR
+       subgraph Write [写入流程]
+           W1[应用写入数据] --> W2[NvM 更新 RAM 块]
+           W2 --> W3{CalcRamBlockCrc<br/>启用?}
+           W3 -->|是| W4[重新计算并存储 RAM CRC]
+           W3 -->|否| W5[不存储 RAM CRC]
+       end
+       
+       subgraph Read [读取/同步流程]
+           R1[从 NV 加载数据到 RAM] --> R2{UseCrc<br/>启用?}
+           R2 -->|是| R3[重新计算 NV 数据 CRC]
+           R3 --> R4{CRC 匹配?}
+           R4 -->|是| R5[✅ 数据有效]
+           R4 -->|否| R6[❌ 数据损坏<br/>触发恢复机制]
+           R2 -->|否| R5
+       end
+   ```
+
+## 错误恢复
+
+> NvM 模块为不同类型的 NVRAM 块提供了分层错误恢复机制。读取错误时通过加载默认值恢复，写入错误时通过重试恢复，启动时检测到 RAM 块无效则重新从 NV 加载或使用默认值。
+
+1. 错误恢复概述 [SWS_NvM_00047]
+
+   > NvM 模块应提供错误恢复技术。错误恢复方式取决于 NVRAM 块管理类型。
+
+   ```mermaid
+   flowchart TD
+       subgraph ErrorRecovery [错误恢复机制]
+           direction TB
+           ReadErr[读取错误恢复]
+           WriteErr[写入错误恢复]
+           StartupErr[启动时错误恢复]
+       end
+       
+       subgraph BlockTypes [块管理类型]
+           Native[原生块]
+           Redundant[冗余块]
+           Dataset[数据集块]
+       end
+       
+       BlockTypes --> ReadErr
+       BlockTypes --> WriteErr
+       BlockTypes --> StartupErr
+   ```
+
+2. 读取错误恢复 [SWS_NvM_00389]
+
+   > NvM 模块应为**所有类型**的 NVRAM 块管理提供读取错误恢复，方式为**加载默认值**。
+
+   | 块类型       | 读取错误恢复方式                         |
+   | ------------ | ---------------------------------------- |
+   | **原生块**   | 加载默认值（ROM 块或应用层提供）         |
+   | **冗余块**   | 尝试使用另一个副本恢复；失败则加载默认值 |
+   | **数据集块** | 加载默认值                               |
+
+   ```mermaid
+   flowchart LR
+       Read[读取请求] --> Check{数据<br/>有效?}
+       Check -->|有效| Return[返回数据]
+       Check -->|损坏/无效| LoadDefault[加载默认值]
+       LoadDefault --> ReturnDefault[返回默认值]
+       LoadDefault --> LogError[记录错误状态]
+   ```
+
+3. 冗余块读取恢复 [SWS_NvM_00390]
+
+   > 对于 `NVM_BLOCK_REDUNDANT` 类型的 NVRAM 块，NvM 模块应通过**加载默认值**到 RAM 块来提供读取错误恢复。
+
+   ```mermaid
+   flowchart TD
+       ReadRedundant[读取冗余块] --> Read0[读取副本 0]
+       ReadRedundant --> Read1[读取副本 1]
+       
+       Read0 --> Check0{副本 0<br/>有效?}
+       Read1 --> Check1{副本 1<br/>有效?}
+       
+       Check0 -->|有效| Use0[使用副本 0]
+       Check1 -->|有效| Use1[使用副本 1]
+       
+       Check0 -->|无效| Check1
+       Check1 -->|无效| BothInvalid[两份副本均无效]
+       
+       BothInvalid --> LoadDefault[加载默认值到 RAM 块]
+       LoadDefault --> LogError[记录错误状态<br/>上报 DEM]
+       
+       Use0 --> Return[返回数据]
+       Use1 --> Return
+       LoadDefault --> ReturnDefault[返回默认值]
+   ```
+
+4. 写入错误恢复 [SWS_NvM_00168]
+
+   > NvM 模块应通过**执行写入重试**来提供写入错误恢复，不受 NVRAM 块管理类型限制。
+
+   ```mermaid
+   flowchart TD
+       Write[写入请求] --> RetryCount[重试计数 = 0]
+       RetryCount --> Attempt[执行写入]
+       Attempt --> Check{写入<br/>成功?}
+       
+       Check -->|成功| Done[完成]
+       Check -->|失败| Count{重试次数<br/>< 最大值?}
+       
+       Count -->|是| Increment[重试计数 + 1]
+       Increment --> Attempt
+       
+       Count -->|否| Fail[写入失败]
+       Fail --> LogError[记录错误状态]
+   ```
+
+   **写入重试特性**：
+
+   | 特性         | 说明                             |
+   | ------------ | -------------------------------- |
+   | **适用类型** | 所有块类型（原生、冗余、数据集） |
+   | **重试次数** | 由配置参数决定                   |
+   | **重试行为** | 自动执行，对调用方透明           |
+   | **失败处理** | 记录错误状态，返回错误码         |
+
+5. 启动时读取错误恢复 [SWS_NvM_00169]
+
+   > 在启动时，对于所有配置了 RAM 块 CRC 的 NVRAM 块，在 RAM 块重新验证失败的情况下，NvM 模块应提供读取错误恢复。
+
+   ```mermaid
+   flowchart TD
+       Startup[系统启动] --> ReadAll[NvM_ReadAll]
+       ReadAll --> LoadBlock[加载块到 RAM]
+       LoadBlock --> CheckCRC{RAM CRC<br/>验证?}
+       
+       CheckCRC -->|通过| Valid[✅ RAM 块有效]
+       CheckCRC -->|失败| Recovery[触发错误恢复]
+       
+       Recovery --> LoadDefault[加载默认值到 RAM 块]
+       LoadDefault --> LogError[记录错误状态]
+       
+       Valid --> Ready[数据就绪]
+       LoadDefault --> Ready
+   ```
+
+   **启动恢复的关键点**：
+
+   | 条件             | 行为                                            |
+   | ---------------- | ----------------------------------------------- |
+   | **RAM CRC 配置** | 只有 `NvMCalcRamBlockCrc = TRUE` 的块才进行验证 |
+   | **重新验证失败** | 触发错误恢复，加载默认值                        |
+   | **默认值来源**   | ROM 块（如果配置）或应用层提供的默认值          |
+
+6. 错误恢复策略总结
+
+   ```mermaid
+   flowchart TD
+       subgraph Strategies [错误恢复策略]
+           direction TB
+           
+           subgraph ReadRecovery [读取错误恢复]
+               R1[所有块类型: 加载默认值]
+               R2[冗余块: 先尝试另一副本<br/>失败后加载默认值]
+           end
+           
+           subgraph WriteRecovery [写入错误恢复]
+               W1[所有块类型: 写入重试]
+           end
+           
+           subgraph StartupRecovery [启动时恢复]
+               S1[RAM CRC 验证失败: 加载默认值]
+           end
+       end
+   ```
+
+   
+
+### 使用 ROM 数据恢复 RAM 块
+
+> 当 NV 块发生不可恢复的数据不一致时，NvM 模块应提供**隐式**和**显式**恢复技术，将 ROM 数据恢复到对应的 RAM 块中。
+
+1. 核心定义 [SWS_NvM_00171]
+
+   > NvM 模块应提供隐式和显式恢复技术，在 NV 块发生不可恢复的数据不一致时，将 ROM 数据恢复到对应的 RAM 块。
+
+   ```mermaid
+   flowchart TD
+       subgraph Triggers [触发条件]
+           T1["NV 块 CRC 校验失败<br/>[SWS_NvM_00387]"]
+           T2["RAM 块无效数据检测<br/>[SWS_NvM_00226]"]
+           T3["ReadAll 中检测到<br/>不可恢复错误<br/>[SWS_NvM_00388]"]
+       end
+       
+       subgraph Recovery [恢复机制]
+           Implicit[隐式恢复<br/>NvM 自动执行]
+           Explicit[显式恢复<br/>应用层触发]
+       end
+       
+       subgraph DataSource [数据来源]
+           ROM[ROM 块<br/>默认数据]
+       end
+       
+       T1 --> Recovery
+       T2 --> Recovery
+       T3 --> Recovery
+       
+       Implicit --> ROM
+       Explicit --> ROM
+       
+       ROM --> RAM[RAM 块<br/>已恢复]
+   ```
+
+2. 隐式恢复 vs 显式恢复
+
+   | 恢复方式     | 触发者           | 说明                                       |
+   | ------------ | ---------------- | ------------------------------------------ |
+   | **隐式恢复** | NvM 模块自动执行 | 在检测到数据不一致时自动恢复，对应用层透明 |
+   | **显式恢复** | 应用层主动调用   | 通过 API 触发恢复，应用层控制恢复时机      |
+
+   ```mermaid
+   flowchart LR
+       subgraph Implicit[隐式恢复]
+           Auto[数据不一致检测] --> AutoRecovery[NvM 自动恢复]
+           AutoRecovery --> RAM1[RAM 块更新]
+           RAM1 --> App1[应用层无感知]
+       end
+       
+       subgraph Explicit[显式恢复]
+           App2[应用层检测到错误] --> API[调用恢复 API]
+           API --> ManualRecovery[NvM 执行恢复]
+           ManualRecovery --> RAM2[RAM 块更新]
+           RAM2 --> App2
+       end
+   ```
+
+3. 触发条件
+
+   以下三种情况会触发 ROM 数据恢复：
+
+   | 规范                | 触发条件               | 说明                               |
+   | ------------------- | ---------------------- | ---------------------------------- |
+   | **[SWS_NvM_00387]** | NV 块 CRC 校验失败     | 读取时重新计算 CRC，与存储值不匹配 |
+   | **[SWS_NvM_00226]** | RAM 块无效数据检测     | 管理块中 RAM 数据被标记为无效      |
+   | **[SWS_NvM_00388]** | ReadAll 中不可恢复错误 | 启动加载时 NV 块存在不可恢复错误   |
+
+   ```mermaid
+   flowchart TD
+       subgraph Triggers [触发条件]
+           CRC[NV 块 CRC 校验失败<br/>SWS_NvM_00387]
+           Invalid[RAM 块标记为无效<br/>SWS_NvM_00226]
+           Unrecoverable[ReadAll 中<br/>不可恢复错误<br/>SWS_NvM_00388]
+       end
+       
+       Triggers --> Decision{数据一致性检查}
+       Decision -->|失败| ROM[使用 ROM 数据恢复]
+   ```
+
+4. ROM 数据恢复流程
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant NvM as NvM 模块
+       participant RAM as RAM 块
+       participant NV as NV 块
+       participant ROM as ROM 块
+   
+       App->>NvM: 读取数据请求 / 启动 ReadAll
+       
+       par 数据一致性检查
+           NvM->>NV: 读取 NV 块数据
+           NvM->>NV: CRC 校验
+       end
+       
+       alt CRC 校验失败
+           NvM->>NvM: 标记数据不一致
+           
+           alt 隐式恢复
+               NvM->>ROM: 读取 ROM 默认数据
+               NvM->>RAM: 将 ROM 数据写入 RAM
+               NvM->>RAM: 标记为有效
+               NvM-->>App: 返回默认数据（隐式）
+           else 显式恢复
+               NvM-->>App: 返回错误状态
+               App->>NvM: 调用恢复 API
+               NvM->>ROM: 读取 ROM 默认数据
+               NvM->>RAM: 将 ROM 数据写入 RAM
+               NvM-->>App: 恢复完成
+           end
+       else CRC 校验通过
+           NvM->>RAM: 使用 NV 块数据
+           NvM-->>App: 返回数据
+       end
+   ```
+
+   
+
+### 隐式恢复
+
+> 隐式恢复是 NvM 模块在检测到数据不一致时自动执行的恢复机制。恢复过程中 NV 块数据保持不变，且恢复行为因配置和场景而异。
+
+1. NV 块数据保持不变 [SWS_NvM_00172]
+
+   > 在隐式恢复期间，对应 NV 块的数据内容应**保持不变**。
+
+   | 特性           | 说明                 |
+   | -------------- | -------------------- |
+   | **NV 块状态**  | 仅读取，不修改       |
+   | **RAM 块状态** | 被 ROM 默认数据覆盖  |
+   | **后续写入**   | 应用写入后更新 NV 块 |
+
+2. 无默认数据时的行为 [SWS_NvM_00572]
+
+   > 当未配置默认数据时，**启动期间**、`NvM_ReadBlock` 和 `NvM_ReadPRAMBlock` **不提供隐式恢复**。
+
+   条件：`NvMRomBlockDataAddress` 和 `NvMInitBlockCallback` 均未配置。
+
+   ```mermaid
+   flowchart TD
+       Read[读取请求] --> CheckDefault{配置了<br/>ROM 默认数据<br/>或回调?}
+       CheckDefault -->|否| NoRecovery[❌ 无隐式恢复]
+       NoRecovery --> ReturnErr[返回错误状态]
+   ```
+
+3. 有默认数据但 RAM 有效时 [SWS_NvM_00573]
+
+   > 配置了默认数据，且 RAM 块有效且 CRC 一致时，**不触发隐式恢复**。
+
+   | 条件           | 状态         |
+   | -------------- | ------------ |
+   | 默认数据已配置 | ✅            |
+   | RAM 块状态     | **有效**     |
+   | CRC 一致性     | **一致**     |
+   | 隐式恢复       | ❌ **不触发** |
+
+4. 有默认数据但 RAM 无效且 NV 读取成功 [SWS_NvM_00574]
+
+   > 配置了默认数据，RAM 无效/CRC 不一致，但 NV 读取成功时，**不触发隐式恢复**（因为 NV 数据有效，可直接使用）。
+
+   | 条件           | 状态                         |
+   | -------------- | ---------------------------- |
+   | 默认数据已配置 | ✅                            |
+   | RAM 块状态     | **无效**                     |
+   | CRC 一致性     | **不一致**                   |
+   | NV 读取        | **成功**                     |
+   | 隐式恢复       | ❌ **不触发**（使用 NV 数据） |
+
+   ```mermaid
+   flowchart TD
+       Read[读取请求] --> CheckDefault{配置了<br/>默认数据?}
+       CheckDefault -->|否| NoRecovery1[❌ 无隐式恢复]
+       CheckDefault -->|是| CheckRAM{RAM 有效<br/>且 CRC 一致?}
+       CheckRAM -->|是| NoRecovery2[❌ 不触发恢复<br/>使用 RAM 数据]
+       CheckRAM -->|否| CheckNV{NV 读取<br/>成功?}
+       CheckNV -->|是| NoRecovery3[❌ 不触发恢复<br/>使用 NV 数据]
+   ```
+
+   
+
+5. 触发隐式恢复的条件 [SWS_NvM_00575]
+
+   > 配置了默认数据，RAM 无效/CRC 不一致，且 NV 读取失败时，**触发隐式恢复**——将 ROM 默认数据加载到 RAM。
+
+   | 条件           | 状态                            |
+   | -------------- | ------------------------------- |
+   | 默认数据已配置 | ✅                               |
+   | RAM 块状态     | **无效**                        |
+   | CRC 一致性     | **不一致**                      |
+   | NV 读取        | **失败**                        |
+   | 隐式恢复       | ✅ **触发**（使用 ROM 默认数据） |
+
+   ```mermaid
+   flowchart TD
+       Read[读取请求] --> CheckDefault{配置了<br/>默认数据?}
+       CheckDefault -->|否| NoRecovery[❌ 无隐式恢复]
+       CheckDefault -->|是| CheckRAM{RAM 有效<br/>且 CRC 一致?}
+       CheckRAM -->|是| Skip[❌ 不触发恢复<br/>使用 RAM 数据]
+       CheckRAM -->|否| CheckNV{NV 读取<br/>成功?}
+       CheckNV -->|是| UseNV[❌ 不触发恢复<br/>使用 NV 数据]
+       CheckNV -->|否| Trigger[✅ 触发隐式恢复<br/>ROM → RAM]
+   ```
+
+6. 隐式恢复决策总览
+
+   ```mermaid
+   flowchart TD
+       Start[读取请求] --> Default{默认数据<br/>已配置?}
+       Default -->|否| No[❌ 无隐式恢复]
+       Default -->|是| RAMOk{RAM 有效<br/>且 CRC 一致?}
+       RAMOk -->|是| No
+       RAMOk -->|否| NVOk{NV 读取<br/>成功?}
+       NVOk -->|是| No
+       NVOk -->|否| Yes[✅ 隐式恢复<br/>ROM → RAM]
+   ```
+
+   
+
+### 显式恢复
+
+> 显式恢复通过 `NvM_RestoreBlockDefaults` 和 `NvM_RestorePRAMBlockDefaults` 两个 API 实现，由应用层按需触发，将 ROM 数据恢复到对应的 RAM 块，但不修改 NV 块内容。
+
+1. 提供的 API [SWS_NvM_00391]
+
+   | API                            | 适用对象    | 说明                         |
+   | ------------------------------ | ----------- | ---------------------------- |
+   | `NvM_RestoreBlockDefaults`     | 普通 RAM 块 | 恢复常规 NVRAM 块的 RAM 数据 |
+   | `NvM_RestorePRAMBlockDefaults` | 永久 RAM 块 | 恢复永久 RAM 块的数据        |
+
+2. NV 块保持不变 [SWS_NvM_00392]
+
+   > 这两个函数**不修改**对应 NV 块的数据内容。
+
+   - 仅更新 RAM 块
+   - NV 块保持原样
+   - 后续写入操作会覆盖 NV 块
+
+   ```mermaid
+   flowchart LR
+       App[应用层调用<br/>RestoreBlockDefaults] --> Restore
+       Restore --> ROM[读取 ROM 块]
+       ROM --> RAM[写入 RAM 块]
+       RAM --> NV[(NV 块<br/>保持不变)]
+   ```
+
+3. 隐式恢复 vs 显式恢复
+
+   | 对比项           | 隐式恢复              | 显式恢复               |
+   | ---------------- | --------------------- | ---------------------- |
+   | **触发者**       | NvM 自动              | 应用主动调用 API       |
+   | **对应用透明度** | 透明                  | 显式                   |
+   | **时机**         | 读取时自动触发        | 应用按需调用           |
+   | **适用场景**     | 启动/读取时的自动纠错 | 应用需要主动重置数据时 |
+   | **NV 块修改**    | 不修改                | 不修改                 |
+
+4. 典型使用场景
+
+   | 场景               | 说明                                |
+   | ------------------ | ----------------------------------- |
+   | 应用检测到数据异常 | 主动调用恢复，重置 RAM 数据为默认值 |
+   | 恢复出厂设置       | 将配置参数重置为默认值              |
+   | 调试/测试          | 快速恢复已知状态                    |
+
+## 不完整写入操作的检测
+
+> 对 NV 块的不完整写入操作的检测**不属于 NvM 模块的职责范围**，由**内存硬件抽象层**（Memory Hardware Abstraction）负责检测。NvM 模块仅从下层获取块的有效性信息，并提供了 `NvM_InvalidateNvBlock` API 供应用层主动标记块无效。
 
 
 
+1. **检测职责归属** [SWS_NvM_00174]
 
-### 2. 
+   > 对 NV 块的不完整写入操作的检测**不属于 NvM 模块的职责范围**，由**内存硬件抽象层**（Memory Hardware Abstraction）负责处理和检测。
 
-> 
+   - **NvM 模块**：不承担检测职责，依赖下层反馈
+   - **内存硬件抽象层**：负责检测不完整写入，并向 NvM 报告块状态
 
-### 3. 
+   | 层级               | 职责                                  |
+   | ------------------ | ------------------------------------- |
+   | **NvM 模块**       | 不检测，仅消费下层反馈的状态信息      |
+   | **内存硬件抽象层** | 检测不完整写入，上报块无效/不一致状态 |
 
-> 隐式数据一致性检查通过内部函数的**可配置选项**提供。一致性检查可按每个 NVRAM 块独立配置，取决于以下参数：
+   ```mermaid
+   flowchart TD
+       subgraph SWC[应用层]
+           App[软件组件 SW-C]
+       end
 
-| 配置参数             | 说明                    |
-| -------------------- | ----------------------- |
-| `NvMBlockUseCrc`     | 是否对该块使用 CRC 校验 |
-| `NvMCalcRamBlockCrc` | 是否对 RAM 块计算 CRC   |
+       subgraph NvM[NvM 模块]
+           NvM_Read[读取请求]
+           NvM_Invalidate[NvM_InvalidateNvBlock]
+       end
 
-```mermaid
-flowchart TD
-    Config{配置参数}
-    
-    Config --> UseCrc[NvMBlockUseCrc<br/>启用 CRC]
-    Config --> CalcCrc[NvMCalcRamBlockCrc<br/>RAM CRC 计算]
-    
-    UseCrc -->|启用| Check[读取时校验 NV 块 CRC]
-    UseCrc -->|禁用| NoCheck[不进行 CRC 校验]
-    
-    CalcCrc -->|启用| RAMCRC[RAM 块也计算 CRC]
-    CalcCrc -->|禁用| RAMNoCRC[RAM 块无 CRC]
-```
+       subgraph HWAbstraction[内存硬件抽象层]
+           Detect[检测不完整写入]
+           Report[上报块状态]
+       end
+
+       subgraph Storage[存储介质]
+           NV[NV 块]
+       end
+
+       App -->|读取| NvM_Read
+       App -->|主动失效| NvM_Invalidate
+       NvM_Read -->|获取块状态| HWAbstraction
+       NvM_Invalidate -->|标记无效| HWAbstraction
+       HWAbstraction -->|写入/读取| NV
+       Detect -->|检测到不完整| Report
+       Report -->|返回状态| NvM
+   ```
+
+2. **NvM 模块的预期行为** [SWS_NvM_00174]
+
+   > NvM 模块期望在以下情况时从内存硬件抽象层获取信息：
+   > - 引用的 NV 块无效（invalid）
+   > - 引用的 NV 块不一致（inconsistent）
+   > - 请求读取时无法访问该 NV 块
+
+   ```mermaid
+   flowchart LR
+       NvM[NvM 模块请求读取] --> HW[内存硬件抽象层]
+       HW --> Check{块状态检查}
+       Check -->|有效| OK[返回数据]
+       Check -->|无效/不一致/无法访问| Error[返回错误状态]
+       Error --> NvM
+   ```
+
+3. **应用层的主动失效机制** [SWS_NvM_00174]
+
+   > 软件组件（SW-C）可使用 `NvM_InvalidateNvBlock` API，主动将 NV 块标记为无效，**防止底层传递旧数据**给上层。
+
+   - **适用场景**：
+     - 应用检测到逻辑数据错误，希望强制重新加载
+     - 需要丢弃当前 NV 块中的旧数据
+     - 配合显式恢复，强制下次读取时触发 ROM → RAM 恢复
+
+   ```mermaid
+   flowchart LR
+       App[应用层] -->|NvM_InvalidateNvBlock| NvM[NvM 模块]
+       NvM -->|标记块无效| HW[内存硬件抽象层]
+       HW -->|后续读取| NV[NV 块]
+       NV -->|被标记无效| Reject[❌ 返回错误/触发恢复]
+   ```
+
+4. **流程图：完整交互示意**
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层 SW-C
+       participant NvM as NvM 模块
+       participant HW as 内存硬件抽象层
+       participant Storage as NV 存储介质
+   
+       Note over HW,Storage: 场景1：硬件检测到不完整写入
+       HW->>Storage: 执行写入操作
+       Storage-->>HW: 写入中断/失败
+       HW->>HW: 检测到不完整写入
+       HW->>HW: 标记对应块为无效/不一致
+   
+       Note over App,NvM: 场景2：应用层发起读取
+       App->>NvM: 读取块请求
+       NvM->>HW: 请求读取块
+       HW->>HW: 检查块状态
+       HW-->>NvM: 返回无效/不一致状态
+       NvM-->>App: 返回错误/触发恢复
+   
+       Note over App,NvM: 场景3：应用主动失效
+       App->>NvM: NvM_InvalidateNvBlock()
+       NvM->>HW: 标记块无效
+       HW->>Storage: 标记无效
+   ```
+
+## 单块请求的终止
+
+> NvM 模块的所有异步单块请求在终止时，其结果会记录在对应管理块的错误/状态字段中。同时支持通过配置回调函数的方式，在请求终止时主动通知调用方。
+
+1. **结果状态记录** [SWS_NvM_00175]
+
+   > 所有由 NvM 模块提供的异步请求（除 `NvM_CancelWriteAll` 外）都应在对应管理块的指定错误/状态字段中指示其结果。
+
+   - 适用范围：所有异步单块请求（如 `NvM_ReadBlock`、`NvM_WriteBlock` 等）
+   - 例外：`NvM_CancelWriteAll` 不适用此机制
+   - 记录位置：对应管理块（Administrative Block）的错误/状态字段
+   - 查询方式：应用层可通过 `NvM_GetErrorStatus(BlockID)` 读取
+
+   | 请求类型                   | 是否记录结果 | 记录位置 |
+   | -------------------------- | :----------: | -------- |
+   | `NvM_ReadBlock`            |      ✅       | 管理块   |
+   | `NvM_WriteBlock`           |      ✅       | 管理块   |
+   | `NvM_RestoreBlockDefaults` |      ✅       | 管理块   |
+   | `NvM_EraseNvBlock`         |      ✅       | 管理块   |
+   | `NvM_InvalidateNvBlock`    |      ✅       | 管理块   |
+   | `NvM_CancelWriteAll`       |    ❌ 例外    | —        |
+
+   ```mermaid
+   flowchart LR
+       App[应用层发起异步请求] --> NvM[NvM 模块]
+       NvM --> Queue[加入队列]
+       Queue --> Process[串行处理]
+       Process --> Terminate[请求终止]
+       Terminate --> Admin[记录结果到管理块]
+       Admin --> Query[应用层通过 NvM_GetErrorStatus 查询]
+   ```
+
+2. **回调通知机制** [SWS_NvM_00176]
+
+   > 可选的配置参数 `NvMSingleBlockCallback` 用于在异步块请求（以及 `NvM_ReadAll`）终止时通过回调进行通知。
+
+   - 配置方式：通过 `NvMSingleBlockCallback` 参数启用
+   - 触发时机：异步请求终止时
+   - 适用请求：异步单块请求 + `NvM_ReadAll`
+
+   | 配置方式     | 行为                                  |
+   | ------------ | ------------------------------------- |
+   | **启用回调** | 请求终止时自动调用回调函数            |
+   | **禁用回调** | 应用层需主动轮询 `NvM_GetErrorStatus` |
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant NvM as NvM 模块
+       participant Admin as 管理块
+   
+       App->>NvM: 异步读取请求 (NvM_ReadBlock)
+       NvM-->>App: 立即返回 (请求已接受)
+   
+       Note over NvM: 请求处理中...
+   
+       NvM->>Admin: 请求终止，记录结果
+   
+       alt 配置了回调
+           NvM->>App: 调用回调函数 (NvMSingleBlockCallback)
+           App->>App: 处理结果
+       else 未配置回调
+           App->>NvM: NvM_GetErrorStatus(BlockID)
+           NvM-->>App: 返回状态
+       end
+   ```
+
+3. **RTE 集成说明** [SWS_NvM_00176 注释]
+
+   > 在与应用层 SW-C 通信时，`NvMSingleBlockCallback` 应配置为对应的 `Rte_call_<p>_<o>` API。
+
+   - `NvMSingleBlockCallback` → `Rte_call_<p>_<o>` 映射
+
+   - 典型场景：应用层 SW-C 通过 RTE 接收 NvM 操作完成通知
+
+     > [!tip]
+     >
+     > `<p>`(port)：代表软件组件中的端口名（Port Name）
+     >
+     > **`<o>` (operation)**：代表端口所使用接口中的**操作名（Operation Name）**，通常指 Client-Server 接口中被调用的具体函数（operation）
+
+   ```mermaid
+   flowchart LR
+       subgraph BSW[BSW 层]
+           NvM[NvM 模块]
+           Callback[NvMSingleBlockCallback]
+       end
+   
+       subgraph RTE[RTE 层]
+           RteCall[Rte_call_<p>_<o>]
+       end
+   
+       subgraph SWC[应用层]
+           App[软件组件 SW-C]
+       end
+   
+       NvM --> Callback
+       Callback -->|配置映射| RteCall
+       RteCall -->|通知| App
+   ```
+
+4. **结果获取方式对比**
+
+   | 对比项   | 轮询方式                          | 回调方式                        |
+   | -------- | --------------------------------- | ------------------------------- |
+   | 配置参数 | `NvMSingleBlockCallback = FALSE`  | `NvMSingleBlockCallback = TRUE` |
+   | 获取方式 | 应用主动调用 `NvM_GetErrorStatus` | NvM 自动调用回调函数            |
+   | CPU 开销 | 需周期性轮询                      | 仅请求终止时触发                |
+   | 实时性   | 取决于轮询周期                    | 立即通知                        |
+   | 典型场景 | 非实时性需求                      | 实时响应需求                    |
+
+5. **相关规范**
+   - `SWS_NvM_00000`：管理块定义
+   - `ECUC_NvM_00506`：单块回调配置参数
+   - 文档 10.2.3：NvM 配置参数详解
+   - 文档 10.2.2：回调配置说明
+
+## 多块请求的终止
+
+> NvM 模块使用独立变量存储异步多块请求（`NvM_ReadAll`、`NvM_WriteAll`、`NvM_ValidateAll`）的结果。通过保留块 ID `0` 调用 `NvM_GetErrorStatus` 可获取整体状态，同时每个受影响块的管理块中记录详细错误信息。支持通过 `NvMMultiBlockCallback` 配置终止回调。
+
+
+
+1. **独立结果存储** [SWS_NvM_00393]
+
+   > NvM 模块应使用独立的变量存储异步多块请求的结果。
+
+   - 适用的多块请求：
+     - `NvM_ReadAll`
+     - `NvM_WriteAll`（含 `NvM_CancelWriteAll`）
+     - `NvM_ValidateAll`
+   - 存储方式：独立变量（区别于单块请求的管理块存储方式）
+   - 作用范围：多块请求的**整体**执行结果
+
+   | 请求类型             | 是否适用 | 结果存储方式 |
+   | -------------------- | :------: | ------------ |
+   | `NvM_ReadAll`        |    ✅     | 独立变量     |
+   | `NvM_WriteAll`       |    ✅     | 独立变量     |
+   | `NvM_CancelWriteAll` |    ✅     | 独立变量     |
+   | `NvM_ValidateAll`    |    ✅     | 独立变量     |
+   | 单块请求             |    ❌     | 管理块字段   |
+
+2. **整体状态查询** [SWS_NvM_00394]
+
+   > `NvM_GetErrorStatus` 与保留块 ID `0` 配合使用，返回异步多块请求的最新错误/状态信息。
+
+   - 调用方式：`NvM_GetErrorStatus(BlockID = 0)`
+   - 返回值：多块请求的整体状态（如 `NVM_REQ_PENDING`、`NVM_REQ_OK`、`NVM_REQ_NOT_OK`）
+   - 用途：快速了解多块请求是否全部完成，无需逐个查询块状态
+
+   ```mermaid
+   flowchart LR
+       App[应用层] --> NvM_GetErrorStatus(0)
+       NvM_GetErrorStatus(0) --> Var[(多块结果<br/>独立变量)]
+       Var --> Return[返回整体状态]
+   ```
+
+3. **整体状态的含义** [SWS_NvM_00395]
+
+   > 多块请求的结果仅代表**通用的错误/状态信息**，而非详细的每个块的状态。
+
+   - 整体状态：`NVM_REQ_OK`（全部成功）或 `NVM_REQ_NOT_OK`（存在失败）
+   - 详细状态：需通过每个块的管理块获取
+
+   ```mermaid
+   flowchart TD
+       Multi[多块请求执行完毕] --> Global[整体状态<br/>NVM_REQ_OK / NOT_OK]
+       Global --> OK[全部成功 → OK]
+       Global --> NotOK[至少一个块失败 → NOT_OK]
+       NotOK --> Detail[查询每个块的<br/>管理块获取详细错误]
+   ```
+
+4. **详细状态记录** [SWS_NvM_00396]
+
+   > 多块请求的详细错误/状态信息记录在**每个受影响的管理块**的错误/状态字段中。
+
+   - 查询方式：`NvM_GetErrorStatus(特定 BlockID)`
+   - 与单块请求共用同一错误/状态字段
+   - 每个块独立记录其处理结果
+
+   ```mermaid
+   flowchart LR
+       subgraph NVRAM[NVRAM 块]
+           BlockA[块 A 管理块<br/>状态: OK]
+           BlockB[块 B 管理块<br/>状态: 错误 X]
+           BlockC[块 C 管理块<br/>状态: OK]
+       end
+
+       App[应用层] --> QueryA[NvM_GetErrorStatus（A）] --> OK
+       App --> QueryB[NvM_GetErrorStatus（B）] --> ErrorX
+   ```
+
+5. **回调通知机制** [SWS_NvM_00179]
+
+   > 可选的配置参数 `NvMMultiBlockCallback` 用于在异步多块请求终止时通过回调进行通知。
+
+   - 配置方式：`NvMMultiBlockCallback`（参见文档 10.2.2）
+   - 触发时机：多块请求全部处理完毕后
+   - 回调函数：`NvM_MultiBlockCallback`
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant NvM as NvM 模块
+       participant Var as 多块结果变量
+
+       App->>NvM: NvM_ReadAll() / NvM_WriteAll()
+       NvM-->>App: 立即返回
+
+       loop 处理每个块
+           NvM->>NvM: 处理块
+           NvM->>Var: 更新整体状态
+       end
+
+       alt 配置了回调
+           NvM->>App: NvMMultiBlockCallback()
+           App->>App: 处理整体结果
+           App->>NvM: 按需查询每个块的详细状态
+       else 未配置回调
+           App->>NvM: NvM_GetErrorStatus(0)
+           NvM-->>App: 返回整体状态
+       end
+   ```
+
+6. **单块 vs 多块请求状态查询对比**
+
+   | 对比项           | 单块请求                      | 多块请求                      |
+   | ---------------- | ----------------------------- | ----------------------------- |
+   | **结果存储位置** | 对应块的管理块                | 独立变量 + 每个块的管理块     |
+   | **整体状态查询** | 不适用                        | `NvM_GetErrorStatus(0)`       |
+   | **详细状态查询** | `NvM_GetErrorStatus(BlockID)` | `NvM_GetErrorStatus(BlockID)` |
+   | **回调配置**     | `NvMSingleBlockCallback`      | `NvMMultiBlockCallback`       |
+
+7. **相关规范**
+   - `SWS_NvM_00015`：`NvM_GetErrorStatus` API 定义
+   - `SWS_NvM_00393-00396`：多块请求终止规范
+   - 文档 10.2.2：多块回调配置说明
+
+
+
+## 异步请求/作业处理的通用机制
+
+> NvM 模块通过队列机制管理异步请求，支持多请求排队、CRC 分步计算、紧急作业抢占，并在队列溢出时返回错误。每个请求入队时状态设为 `NVM_REQ_PENDING`，完成后更新为 `NVM_REQ_OK` 或错误码。
+
+1. **CRC 分步计算** [SWS_NvM_00180]
+
+   > 当请求中需要进行 CRC 计算，且所引用的 NVRAM 块长度超过配置参数 `NvMCrcNumOfBytes` 指定的字节数时，NvM 模块应**分多步**完成 CRC 计算。
+
+   - 配置参数：`NvMCrcNumOfBytes` 指定单次 CRC 计算处理的字节数
+   - 触发条件：块长度 > `NvMCrcNumOfBytes`
+   - 行为：将 CRC 计算拆分为多次调用，避免长时间占用 CPU
+
+   ```mermaid
+   flowchart LR
+       Start[CRC 计算请求] --> Check{块长度 ><br/>NvMCrcNumOfBytes?}
+       Check -->|否| Once[一次性计算完成]
+       Check -->|是| Multi[分步计算]
+       Multi --> Step1[步骤 1: 前 N 字节]
+       Step1 --> Step2[步骤 2: 下 N 字节]
+       Step2 --> StepN[... 直到全部完成]
+       StepN --> Done[计算完成]
+   ```
+
+2. **CRC 初始值来源** [SWS_NvM_00351]
+
+   > CRC 计算使用的初始值应来自 CRC 模块发布的初始值。
+
+   - 统一来源：由 CRC 模块发布（避免各模块自行定义导致不一致）
+   - 保证不同模块、不同 Profile 使用相同的 CRC 初始值
+
+   ```mermaid
+   flowchart LR
+       CRCM[CRC 模块] -->|发布初始值| NvM[NvM 模块]
+       NvM -->|CRC 计算| CRCRoutine[CRC 计算例程]
+   ```
+
+3. **多请求排队支持** [SWS_NvM_00181]
+
+   > 多个并发的单块请求应可排队。
+
+   - 多个单块请求可同时存在于队列中
+   - 队列管理由 NvM 模块内部处理（参见"（准）并行写入访问"）
+   - 处理顺序：按优先级串行处理
+
+   ```mermaid
+   flowchart LR
+       R1[请求 A] --> Queue[(作业队列)]
+       R2[请求 B] --> Queue
+       R3[请求 C] --> Queue
+       Queue --> Process[串行处理<br/>按优先级]
+   ```
+
+4. **紧急作业抢占** [SWS_NvM_00182]
+
+   > NvM 模块应中断当前异步请求/作业处理，优先处理**紧急优先级**的作业（崩溃数据）。
+
+   - 抢占者：紧急优先级作业（`immediate priority`）
+   - 被抢占者：当前正在执行的非紧急作业
+   - 抢占后：紧急作业完成后，被抢占作业恢复或重新启动
+
+   ```mermaid
+   flowchart LR
+       Current[正在执行<br/>普通作业] --> Preempt[❗ 紧急作业到达]
+       Preempt --> Save[保存当前作业状态]
+       Save --> Immediate[执行紧急作业]
+       Immediate --> Resume[恢复/重新启动<br/>被抢占作业]
+   ```
+
+5. **队列溢出处理** [SWS_NvM_00184]
+
+   > 如果调用 NvM 异步函数导致作业队列溢出，函数应返回 `E_NOT_OK`。
+
+   - 返回码：`E_NOT_OK`
+   - 含义：请求未被接受，调用方需要重试或处理错误
+
+   ```mermaid
+   flowchart TD
+       Call[调用异步函数] --> Check{队列<br/>已满?}
+       Check -->|是| ReturnError[返回 E_NOT_OK]
+       Check -->|否| Enqueue[入队成功]
+   ```
+
+6. **入队状态设置** [SWS_NvM_00185]
+
+   > 当请求成功入队后，NvM 模块应将对应 NVRAM 块的请求结果设为 `NVM_REQ_PENDING`。
+
+   - 状态值：`NVM_REQ_PENDING`
+   - 含义：请求已接受，正在等待处理
+   - 查询方式：`NvM_GetErrorStatus(BlockID)`
+
+   | 状态值            | 含义               |
+   | ----------------- | ------------------ |
+   | `NVM_REQ_PENDING` | 请求已入队，处理中 |
+   | `NVM_REQ_OK`      | 请求处理成功       |
+   | `NVM_REQ_NOT_OK`  | 请求处理失败       |
+
+7. **作业成功处理** [SWS_NvM_00270]
+
+   > 当 NvM 模块成功处理一个作业后，应将请求结果设为 `NVM_REQ_OK`。
+
+   - 状态值：`NVM_REQ_OK`
+   - 含义：作业处理成功
+   - 适用对象：单块请求和多块请求均适用
+
+8. **完整请求生命周期**
+
+   ```mermaid
+   flowchart LR
+       Enqueue[请求入队] --> Pending[状态: NVM_REQ_PENDING]
+       Pending --> Process[串行处理]
+       Process --> Success[处理成功] --> OK[状态: NVM_REQ_OK]
+       Process --> Fail[处理失败] --> NotOK[状态: NVM_REQ_NOT_OK]
+       Process --> QueueFull[队列溢出] --> ReturnError[返回 E_NOT_OK]
+   ```
+
+9. **相关规范**
+
+   - `SWS_NvM_00180`：CRC 分步计算
+   - `SWS_NvM_00351`：CRC 初始值来源
+   - `SWS_NvM_00181`：多请求排队
+   - `SWS_NvM_00182`：紧急作业抢占
+   - `SWS_NvM_00184`：队列溢出处理
+   - `SWS_NvM_00185`：入队状态设置
+   - `SWS_NvM_00270`：作业成功处理
+
+## NVRAM 块写保护
+
+> NvM 模块提供可配置的写保护机制，所有写保护仅针对 NV 块（非易失性部分），不影响 RAM 块数据的修改。根据 `NvMWriteBlockOnce` 和 `NvMBlockWriteProt` 两个配置参数，写保护的启用/禁用行为有所不同。
+
+1. **写保护的范围**
+
+   > 所有写保护仅针对 NVRAM 块的 NV 部分，即 RAM 块数据可以被修改，但无法写入 NV 存储器。
+
+   - 保护对象：NV 块（非易失性存储）
+   - 不受影响：RAM 块数据仍可正常修改
+   - 效果：写入请求不会实际更新 NV 存储
+
+   ```mermaid
+   flowchart LR
+       App[应用层] -->|修改数据| RAM[RAM 块]
+       RAM -->|写入 NV| NV[NV 块]
+       NV --> Check{写保护<br/>启用?}
+       Check -->|是| Blocked[❌ 阻止写入]
+       Check -->|否| Written[✅ 写入成功]
+   ```
+
+2. **`NvMWriteBlockOnce = FALSE` 时的行为** [SWS_NvM_00325]
+
+   > 当 `NvMWriteBlockOnce` 为 `FALSE` 时，无论 `NvMBlockWriteProt` 配置为何值，都允许通过 `NvM_SetBlockProtection` 函数启用/禁用写保护。
+
+   - 条件：`NvMWriteBlockOnce = FALSE`
+   - 行为：`NvM_SetBlockProtection` 可随时启用或禁用写保护
+   - 不受影响：`NvMBlockWriteProt` 的配置值（仅作为初始状态）
+
+   ```mermaid
+   flowchart TD
+       Start[写保护操作] --> CheckOnce{NvMWriteBlockOnce == FALSE?}
+       CheckOnce -->|是| Allow[✅ 允许 NvM_SetBlockProtection<br/>启用/禁用写保护]
+       Allow --> Enable[可随时启用保护]
+       Allow --> Disable[可随时禁用保护]
+   ```
+
+3. **`NvMWriteBlockOnce = TRUE` 时的行为** [SWS_NvM_00577] [SWS_NvM_00398]
+
+   > 当 `NvMWriteBlockOnce` 为 `TRUE` 时，无论 `NvMBlockWriteProt` 配置为何值，都**不允许**通过 `NvM_SetBlockProtection` 启用/禁用写保护。
+
+   - 条件：`NvMWriteBlockOnce = TRUE`
+   - 行为：`NvM_SetBlockProtection` 调用被禁止（返回错误或忽略）
+   - 原因：一次性写入块的保护状态应保持固定，防止意外修改
+
+4. **默认写保护** [SWS_NvM_00326]
+
+   > 所有配置了 `NvMBlockWriteProt = TRUE` 的 NVRAM 块，NvM 模块应启用默认写保护。
+
+   - 条件：配置 `NvMBlockWriteProt = TRUE`
+   - 行为：启动时自动启用写保护
+   - 默认状态：写保护处于启用状态
+
+   ```mermaid
+   flowchart LR
+       Config[配置 NvMBlockWriteProt = TRUE] --> Start[系统启动]
+       Start --> Enable[✅ 自动启用默认写保护]
+   ```
+
+5. **显式禁用保护** [SWS_NvM_00578]
+
+   > NvM 模块的环境可通过 `NvM_SetBlockProtection` 函数显式禁用写保护。
+
+   - 适用条件：`NvMWriteBlockOnce = FALSE`（见第 2 条）
+   - 调用方式：`NvM_SetBlockProtection(BlockID, FALSE)`
+   - 效果：临时解除写保护，允许写入操作
+
+6. **一次性写入块的行为** [SWS_NvM_00397] [SWS_NvM_00952]
+
+   > 对于配置了 `NvMWriteBlockOnce = TRUE` 的块，NvM 模块仅在 NV 设备为空白状态时写入一次。在首次读取请求之前，任何写入/擦除/失效请求都将被拒绝。
+
+   - 写入限制：仅在 NV 设备为空白时写入一次
+   - 请求拒绝：首次读取请求之前，写入/擦除/失效请求均被拒绝
+   - 保护恢复：复位后保护标志被清除，需通过首次读取重新激活保护
+
+   ```mermaid
+   flowchart TD
+       Start[启动/复位] --> Clear[管理块保护标志清除]
+       Clear --> Read{首次读取<br/>是否完成?}
+       Read -->|否| Reject[❌ 拒绝 Write/Erase/Invalidate]
+       Read -->|是| Check{块有效<br/>且一致?}
+       Check -->|是| Protect[✅ 写保护生效]
+       Check -->|否| NoProtect[❌ 写保护未生效<br/>需修复数据]
+   ```
+
+7. **复位后的保护恢复** [SWS_NvM_00952 注释]
+
+   > 复位后，`NVM_WRITE_BLOCK_ONCE` 块的写保护标志从管理块中清除。要重新激活保护，必须在首次写入/擦除/失效请求处理之前读取该块，以确保保护仅对有效且一致的块生效。
+
+   - 清除时机：复位时管理块写保护标志被清除
+   - 恢复条件：需先执行一次读取请求（单块读取或 `NvM_ReadAll`）
+   - 恢复前提：块数据有效且一致
+
+   ```mermaid
+   sequenceDiagram
+       participant System as 系统/复位
+       participant NvM as NvM 模块
+       participant Admin as 管理块
+   
+       System->>NvM: 系统启动/复位
+       NvM->>Admin: 清除写保护标志
+       NvM->>NvM: 等待块读取
+       
+       alt 读取请求到达（单块或 NvM_ReadAll）
+           NvM->>NvM: 检查块有效且一致
+           alt 有效且一致
+               NvM->>Admin: 设置写保护标志
+           else 无效或不一致
+               NvM->>NvM: 不设置保护<br/>（仅有效块才保护）
+           end
+       end
+   ```
+
+8. **配置参数速查**
+
+   | 配置参数                 | 说明                | 相互影响                                |
+   | ------------------------ | ------------------- | --------------------------------------- |
+   | `NvMBlockWriteProt`      | 启用/禁用默认写保护 | 仅作为初始状态，`TRUE` 时启动自动保护   |
+   | `NvMWriteBlockOnce`      | 是否允许多次写入    | `TRUE` 时禁止通过 API 修改保护状态      |
+   | `NvM_SetBlockProtection` | 运行时动态控制保护  | 仅在 `NvMWriteBlockOnce = FALSE` 时可用 |
+
+   ```mermaid
+   flowchart TD
+       subgraph Config[配置参数]
+           A[NvMBlockWriteProt]
+           B[NvMWriteBlockOnce]
+       end
+   
+       subgraph Behavior[运行时行为]
+           C[NvM_SetBlockProtection<br/>可用性]
+           D[首次读取前的<br/>请求处理]
+       end
+   
+       A -->|TRUE| E[启动时自动启用保护]
+       B -->|FALSE| C
+       C -->|允许启用/禁用| F[可动态控制]
+       B -->|TRUE| C
+       C -->|禁止API调用| G[保护状态固定]
+       B -->|TRUE| D
+       D -->|拒绝请求| H[Write/Erase/Invalidate<br/>被阻塞]
+   ```
+
+9. **相关规范**
+   - `SWS_NvM_00325`：非一次性写入块的保护控制
+   - `SWS_NvM_00577` / `SWS_NvM_00398`：一次性写入块的保护限制
+   - `SWS_NvM_00326`：默认写保护
+   - `SWS_NvM_00397`：一次性写入块的写入限制
+   - `SWS_NvM_00952`：首次读取前拒绝写入/擦除/失效请求
+   - `ECUC_NvM_00072`：一次性写入块配置参数
+   - `SRS_Mem_08009` / `SRS_Mem_08015`：相关需求
+
+## RAM 块数据的验证与修改
+
+> NvM 模块通过状态机管理 RAM 块的有效性和修改状态。API 调用会影响这些状态，同时提供配置选项控制状态修改权限。CRC 错误会触发状态回退，并通过错误恢复机制恢复。
+
+1. **RAM 块状态机概述**
+
+   RAM 块的状态由两个维度组合：**有效性**（VALID / INVALID）和 **修改性**（CHANGED / UNCHANGED）。
+
+   ![Ram 块状态](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260703150253019.png)
+
+   ```mermaid
+   stateDiagram-v2
+       [*] --> INVALID_UNCHANGED: 初始化后
+   
+       INVALID_UNCHANGED --> VALID_UNCHANGED: NvM_ReadAll 更新
+   
+       VALID_UNCHANGED --> VALID_CHANGED: 数据修改
+   
+       VALID_CHANGED --> VALID_UNCHANGED: NvM_WriteAll 写回成功
+   
+       VALID_UNCHANGED --> INVALID_UNCHANGED: CRC 错误
+   
+       INVALID_UNCHANGED --> VALID_CHANGED: 错误恢复（隐式/显式）
+   
+       note right of INVALID_UNCHANGED: INVALID/CHANGED<br/>状态不可达
+   ```
+
+   | 状态                    | 含义                                 |
+   | ----------------------- | ------------------------------------ |
+   | **INVALID / UNCHANGED** | RAM 数据无效，未修改                 |
+   | **VALID / UNCHANGED**   | RAM 数据有效，与 NV 一致             |
+   | **VALID / CHANGED**     | RAM 数据有效，已修改（与 NV 不一致） |
+   | **INVALID / CHANGED**   | ❌ 不可达状态                         |
+
+2. **状态转换说明**
+
+   - 初始化后：RAM 块处于 `INVALID / UNCHANGED`
+   - `NvM_ReadAll` 更新后：转为 `VALID / UNCHANGED`（此状态下 `WriteAll` 不被允许）
+   - `NvM_SetRamBlockStatus` 调用：可离开当前状态
+   - CRC 错误发生时：退回到 `INVALID / UNCHANGED`
+   - 错误恢复（隐式或显式）后：转为 `VALID / CHANGED`（RAM 数据与 NV 不一致）
+
+3. **禁用状态修改 API 时的写入行为** [SWS_NvM_00344]
+
+   > 如果配置中禁用了修改 RAM 块状态的 API（通过 `NvMSetRamBlockStatusApi` 或 `NvMBlockUseSetRamBlockStatus`），当向 NV 块写入数据时（即 `NvM_WriteAll` 期间），NvM 模块应将 RAM 块视为 **有效且已修改**，并将每个永久 RAM 块写入 NV 存储器。
+
+   - 配置条件：禁用状态修改 API
+   - 行为：`NvM_WriteAll` 时强制将每个永久 RAM 块写入 NV
+   - 简化逻辑：不依赖状态判断，直接写入
+
+4. **禁用状态修改 API 时的读取行为** [SWS_NvM_00345]
+
+   > 如果配置中禁用了修改 RAM 块状态的 API，当从 NV 块读取数据时（即 `NvM_ReadAll` 期间），NvM 模块应将 RAM 块视为 **无效**，并根据配置将每个 NVRAM 块复制到 RAM。
+
+   - 配置条件：禁用状态修改 API
+   - 行为：`NvM_ReadAll` 时视为无效，重新加载所有块
+   - 简化逻辑：不依赖状态判断，强制加载
+
+   ```mermaid
+   flowchart TB
+       subgraph API_ENABLED[API 启用时]
+           E1[读取] --> E2{检查状态}
+           E2 -->|有效| E3[使用 RAM 数据]
+           E2 -->|无效| E4[从 NV 加载]
+       end
+
+       subgraph API_DISABLED[API 禁用时]
+           D1[读取] --> D2[视为无效]
+           D2 --> D3[强制从 NV 加载]
+
+           D4[写入] --> D5[视为有效且已修改]
+           D5 --> D6[强制写入 NV]
+       end
+   ```
+
+5. **读取失败时的应用层职责** [SWS_NvM_00696]
+
+   > 如果块读取尝试失败，应用层负责在下一次写入尝试前提供有效数据。
+
+   - 触发条件：块读取失败
+   - 责任方：应用层
+   - 要求：应用层必须确保数据有效后再发起写入
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant NvM as NvM 模块
+
+       App->>NvM: 读取请求
+       NvM-->>App: ❌ 读取失败
+       App->>App: 准备有效数据
+       App->>NvM: 写入请求（数据已有效）
+   ```
+
+6. **写入成功后的状态更新** [SWS_NvM_00472]
+
+   > 当 RAM 块成功复制到 NV 存储器后，RAM 块状态应设为 **"有效/未修改"**。
+
+   - 触发条件：`NvM_WriteAll` 或单块写入成功
+   - 状态更新：`VALID / UNCHANGED`
+   - 含义：RAM 与 NV 数据一致
+
+   ```mermaid
+   flowchart LR
+       Write[写入 NV 成功] --> Update[状态更新]
+       Update --> ValidUnchanged[VALID / UNCHANGED]
+       ValidUnchanged --> RAM_NV[RAM 与 NV 一致]
+   ```
+
+7. **状态转换图（完整）**
+
+   ```mermaid
+   flowchart TD
+       Init[初始化] --> InvalidUnchanged[INVALID / UNCHANGED]
+
+       InvalidUnchanged -->|NvM_ReadAll| ValidUnchanged[VALID / UNCHANGED]
+       InvalidUnchanged -->|错误恢复（隐式/显式）| ValidChanged[VALID / CHANGED]
+
+       ValidUnchanged -->|CRC 错误| InvalidUnchanged
+       ValidUnchanged -->|NvM_SetRamBlockStatus| Any[其他状态]
+
+       ValidChanged -->|写入 NV 成功| ValidUnchanged
+
+       Note[INVALID / CHANGED 不可达]
+   ```
+
+8. **相关规范**
+
+   | 规范                              | 内容                 |
+   | --------------------------------- | -------------------- |
+   | `SWS_NvM_00344`                   | API 禁用时的写入行为 |
+   | `SWS_NvM_00345`                   | API 禁用时的读取行为 |
+   | `SWS_NvM_00696`                   | 读取失败后应用层职责 |
+   | `SWS_NvM_00472`                   | 写入成功后的状态更新 |
+   | `SRS_Mem_08550` / `SRS_Mem_08541` | 相关需求             |
+
+### VALID / UNCHANGED 状态
+
+> 此状态表示 RAM 块内容与对应 NV 块内容相同，或应用访问后未指示潜在变更。对于数据集块，此条件适用于最后处理的实例。进入此状态需满足特定条件，保持此状态则需满足持续条件。
+
+1. **状态含义**
+
+   | 条件                 | 说明                           |
+   | -------------------- | ------------------------------ |
+   | RAM 与 NV 一致       | RAM 块内容与对应 NV 块内容相同 |
+   | 应用访问后未指示变更 | 应用修改数据后未通知 NvM 模块  |
+   | 数据集块特例         | 适用于最后处理的实例           |
+   | 最近操作成功         | 最后一次块操作成功完成         |
+   | 未被主动失效         | 块未被请求标记为无效           |
+
+2. **进入条件**
+
+   满足以下任意一项即可进入 VALID / UNCHANGED 状态：
+
+   | #    | 触发事件                      | 说明               |
+   | ---- | ----------------------------- | ------------------ |
+   | 1    | `NvM_ReadAll()` 成功读取该块  | 启动时全部加载完成 |
+   | 2    | `NvM_ReadBlock` 成功完成      | 单块读取完成       |
+   | 3    | `NvM_WriteBlock` 成功完成     | 单块写入完成       |
+   | 4    | `NvM_WriteAll()` 成功写入该块 | 全部写回完成       |
+
+   ```mermaid
+   flowchart TD
+       Start[进入 VALID/UNCHANGED] --> Cond1[NvM_ReadAll 成功]
+       Start --> Cond2[NvM_ReadBlock 成功]
+       Start --> Cond3[NvM_WriteBlock 成功]
+       Start --> Cond4[NvM_WriteAll 成功]
+   
+       Cond1 --> Valid[VALID / UNCHANGED]
+       Cond2 --> Valid
+       Cond3 --> Valid
+       Cond4 --> Valid
+   ```
+
+3. **保持条件**
+
+   以下条件必须**同时满足**，状态才能保持：
+
+   | #    | 条件                            | 说明                              |
+   | ---- | ------------------------------- | --------------------------------- |
+   | 1    | 最近对 BlockID 的读取或写入成功 | 无错误，且未使用默认数据          |
+   | 2    | 应用未指示 RAM 块潜在变更       | 上次读取/写入后，未被标记为已修改 |
+
+   ```mermaid
+   flowchart TD
+       Valid[VALID / UNCHANGED] --> Check1{最近操作成功?<br/>（无错误/未用默认数据）}
+       Check1 -->|是| Check2{应用未指示变更?}
+       Check2 -->|是| Preserve[保持 VALID / UNCHANGED]
+       Check1 -->|否| Leave[离开该状态]
+       Check2 -->|否| Leave
+   ```
+
+4. **状态转换示例**
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant RAM as RAM 块
+       participant NV as NV 块
+   
+       Note over RAM,NV: 初始: 其他状态 → 进入 VALID/UNCHANGED
+   
+       App->>NvM: NvM_ReadBlock(BlockID)
+       NvM->>NV: 读取成功
+       NV-->>RAM: 加载数据
+       RAM-->>App: 返回数据
+       Note over RAM: ✅ 进入 VALID/UNCHANGED<br/>（条件 2 满足）
+   
+       App->>RAM: 修改数据
+       Note over RAM: 应用已修改<br/>状态可能变更
+   
+       App->>NvM: NvM_WriteBlock(BlockID)
+       NvM->>NV: 写入成功
+       RAM-->>App: 写入完成
+       Note over RAM: ✅ 回到 VALID/UNCHANGED<br/>（条件 3 满足）
+   ```
+
+5. **相关规范**
+
+   | 规范            | 内容                          |
+   | --------------- | ----------------------------- |
+   | `SWS_NvM_00015` | `NvM_GetErrorStatus` API      |
+   | `SWS_NvM_00472` | 写入成功后的状态更新          |
+   | `SWS_NvM_00344` | 禁用状态修改 API 时的写入行为 |
+   | `SWS_NvM_00345` | 禁用状态修改 API 时的读取行为 |
+
+6. **补充说明**
+
+   - 此状态是 NvM 模块的**稳定状态**，表示 RAM 与 NV 数据一致
+   - 应用读取数据后不修改，状态保持不变
+   - 应用修改数据后，需通过状态修改 API（如 `NvM_SetRamBlockStatus`）或写入操作来更新状态
+   - 写入成功（单块或全部）是回到此状态的主要方式
+
+### VALID / CHANGED 状态
+
+> 此状态表示 RAM 块内容可能与对应 NV 块内容不同。对于数据集块，此条件适用于最后处理的实例。块所有者可通过 API 信号指示 RAM 内容已变更，使块进入此状态。
+
+1. **状态含义**
+
+   | 条件               | 说明                                   |
+   | ------------------ | -------------------------------------- |
+   | RAM 与 NV 可能不同 | RAM 块内容可能与 NV 块内容不一致       |
+   | 数据集块特例       | 适用于最后处理的实例                   |
+   | 最近操作成功       | 最后一次块操作成功完成                 |
+   | 未被主动失效       | 块未被请求标记为无效                   |
+   | 变更信号           | 块所有者可通知 NvM 模块 RAM 内容已变更 |
+
+2. **进入条件**
+
+   满足以下任意一项即可进入 VALID / CHANGED 状态：
+
+   | #    | 触发事件                                      | 说明                             |
+   | ---- | --------------------------------------------- | -------------------------------- |
+   | 1    | `NvM_SetRamBlockStatus(BlockID, TRUE)` 被调用 | 应用主动标记 RAM 已修改          |
+   | 2    | `NvM_WriteBlock` 被调用                       | 写入请求表明数据将变更           |
+   | 3    | `NvM_WriteAll` 处理该块                       | 批量写入时块被包含               |
+   | 4    | `NvM_ReadBlock` 返回默认数据                  | 读取时使用了默认数据（隐式恢复） |
+   | 5    | `NvM_RestoreBlockDefaults` 成功完成           | 显式恢复完成                     |
+   | 6    | `NvM_ReadAll` 处理该块时返回默认数据          | 启动加载时使用了默认数据         |
+   | 7    | `NvM_ValidateAll` 成功处理该块                | 验证全部完成                     |
+
+   ```mermaid
+   flowchart TD
+       Start[进入 VALID/CHANGED] --> Cond1[NvM_SetRamBlockStatus TRUE]
+       Start --> Cond2[NvM_WriteBlock 被调用]
+       Start --> Cond3[NvM_WriteAll 处理该块]
+       Start --> Cond4[读取返回默认数据]
+       Start --> Cond5[NvM_RestoreBlockDefaults 成功]
+       Start --> Cond6[NvM_ReadAll 返回默认数据]
+       Start --> Cond7[NvM_ValidateAll 成功]
+   
+       Cond1 --> Valid[VALID / CHANGED]
+       Cond2 --> Valid
+       Cond3 --> Valid
+       Cond4 --> Valid
+       Cond5 --> Valid
+       Cond6 --> Valid
+       Cond7 --> Valid
+   ```
+
+3. **保持条件**
+
+   以下条件**任意一项**满足，状态即保持：
+
+   | #    | 条件                                   | 说明                          |
+   | ---- | -------------------------------------- | ----------------------------- |
+   | 1    | 块所有者已指示 RAM 块潜在变更          | 应用主动标记修改              |
+   | 2    | 上次读取时返回了默认数据（隐式或显式） | 恢复操作导致 RAM 与 NV 不一致 |
+
+   ```mermaid
+   flowchart TD
+       Valid[VALID / CHANGED] --> Check1{块所有者<br/>指示变更?}
+       Check1 -->|是| Preserve[保持 VALID / CHANGED]
+       Check1 -->|否| Check2{上次读取<br/>返回默认数据?}
+       Check2 -->|是| Preserve
+       Check2 -->|否| Leave[离开该状态]
+   ```
+
+4. **状态转换示例**
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant RAM as RAM 块
+       participant NV as NV 块
+   
+       Note over RAM,NV: 场景 1：应用主动标记修改
+   
+       App->>NvM: NvM_SetRamBlockStatus(BlockID, TRUE)
+       Note over RAM: ✅ 进入 VALID/CHANGED<br/>（条件 1 满足）
+   
+       App->>NvM: NvM_WriteBlock(BlockID)
+       NvM->>NV: 写入成功
+       Note over RAM: 写入完成后回到<br/>VALID/UNCHANGED
+   
+       Note over RAM,NV: 场景 2：读取返回默认数据
+   
+       App->>NvM: NvM_ReadBlock(BlockID)
+       NvM->>RAM: 加载默认数据（NV 损坏）
+       RAM-->>App: 返回默认数据
+       Note over RAM: ✅ 进入 VALID/CHANGED<br/>（条件 4 满足）
+   ```
+
+5. **VALID / UNCHANGED 与 VALID / CHANGED 对比**
+
+   | 对比项           | VALID / UNCHANGED | VALID / CHANGED                  |
+   | ---------------- | ----------------- | -------------------------------- |
+   | RAM 与 NV 一致性 | 一致              | 可能不一致                       |
+   | 变更信号         | 应用未指示变更    | 应用已指示变更 或 使用了默认数据 |
+   | 典型触发         | 读取/写入成功     | 标记修改、写入请求、默认数据恢复 |
+   | 写入行为         | 正常写入          | 需先写入 NV 以同步               |
+
+6. **相关规范**
+
+   | 规范                  | 内容                          |
+   | --------------------- | ----------------------------- |
+   | `SWS_NvM_00472`       | 写入成功后的状态更新          |
+   | `SWS_NvM_00344`       | 禁用状态修改 API 时的写入行为 |
+   | `SWS_NvM_00345`       | 禁用状态修改 API 时的读取行为 |
+   | `SWS_NvM_00389-00390` | 隐式恢复机制                  |
+   | `SWS_NvM_00391-00392` | 显式恢复机制                  |
+
+7. **补充说明**
+
+   - 此状态表示 RAM 与 NV 数据**可能不一致**
+   - `NvM_WriteAll` 会处理此状态的块，将 RAM 数据写入 NV
+   - 写入成功后将回到 `VALID / UNCHANGED` 状态
+   - 默认数据恢复（隐式或显式）会进入此状态，因为 RAM 与 NV 内容不同
+
+### INVALID / UNCHANGED 状态
+
+> 此状态表示 NV 块无效。对于数据集块，意味着最后处理的实例的 NV 块内容无效。此状态通常表示数据不可用，需要通过加载或恢复机制来离开该状态。
+
+1. **状态含义**
+
+   | 条件         | 说明                           |
+   | ------------ | ------------------------------ |
+   | NV 块无效    | 非易失性存储中的数据不可信     |
+   | 数据集块特例 | 最后处理的实例的 NV 块内容无效 |
+   | 数据不可用   | 需通过加载或恢复来离开此状态   |
+
+2. **进入条件**
+
+   满足以下任意一项即可进入 INVALID / UNCHANGED 状态：
+
+   | #    | 触发事件                                        | 说明                  |
+   | ---- | ----------------------------------------------- | --------------------- |
+   | 1    | `NvM_SetRamBlockStatus(BlockID, FALSE)` 被调用  | 应用主动标记 RAM 无效 |
+   | 2    | `NvM_ReadBlock` 指示用户请求失效                | 块被主动失效          |
+   | 3    | `NvM_ReadBlock` 检测到数据损坏（CRC 配置时）    | CRC 校验失败          |
+   | 4    | `NvM_ReadBlock` 检测到错误的 StaticID（配置时） | 静态块 ID 不匹配      |
+   | 5    | `NvM_WriteBlock` 未成功完成                     | 写入失败              |
+   | 6    | `NvM_WriteAll` 写入该块未成功                   | 批量写入失败          |
+   | 7    | `NvM_InvalidateNvBlock` 成功完成                | 主动失效成功          |
+   | 8    | `NvM_EraseNvBlock` 成功完成                     | 擦除成功              |
+
+   ```mermaid
+   flowchart TD
+       Start[进入 INVALID/UNCHANGED] --> Cond1[NvM_SetRamBlockStatus FALSE]
+       Start --> Cond2[用户请求失效]
+       Start --> Cond3[CRC 校验失败]
+       Start --> Cond4[StaticID 错误]
+       Start --> Cond5[写入失败]
+       Start --> Cond6[批量写入失败]
+       Start --> Cond7[主动失效成功]
+       Start --> Cond8[擦除成功]
+
+       Cond1 --> Invalid[INVALID / UNCHANGED]
+       Cond2 --> Invalid
+       Cond3 --> Invalid
+       Cond4 --> Invalid
+       Cond5 --> Invalid
+       Cond6 --> Invalid
+       Cond7 --> Invalid
+       Cond8 --> Invalid
+   ```
+
+3. **保持条件**
+
+   以下条件**任意一项**满足，状态即保持：
+
+   | #    | 条件                           | 说明                             |
+   | ---- | ------------------------------ | -------------------------------- |
+   | 1    | 块状态在早期初始化时未知       | 等待 ReadAll 或首次操作          |
+   | 2    | 块被检测为损坏或 StaticID 错误 | CRC 或 ID 校验失败               |
+   | 3    | 最近成功的操作是失效           | `NvM_InvalidateNvBlock` 执行成功 |
+   | 4    | 当前读取失败且无默认数据       | 无法恢复                         |
+   | 5    | 最近成功的操作是擦除           | `NvM_EraseNvBlock` 执行成功      |
+
+   ```mermaid
+   flowchart TD
+       Invalid[INVALID / UNCHANGED] --> Check1{状态在<br/>早期初始化?}
+       Check1 -->|是| Preserve[保持 INVALID / UNCHANGED]
+       Check1 -->|否| Check2{损坏或<br/>StaticID 错误?}
+       Check2 -->|是| Preserve
+       Check2 -->|否| Check3{最近操作<br/>是失效?}
+       Check3 -->|是| Preserve
+       Check3 -->|否| Check4{读取失败且<br/>无默认数据?}
+       Check4 -->|是| Preserve
+       Check4 -->|否| Check5{最近操作<br/>是擦除?}
+       Check5 -->|是| Preserve
+       Check5 -->|否| Leave[离开该状态]
+   ```
+
+4. **离开 INVALID / UNCHANGED 状态的路径**
+
+   ```mermaid
+   flowchart LR
+       Invalid[INVALID / UNCHANGED] --> Path1[错误恢复成功<br/>→ VALID/CHANGED]
+       Invalid --> Path2[读取成功且 CRC 通过<br/>→ VALID/UNCHANGED]
+       Invalid --> Path3[成功写入<br/>→ VALID/UNCHANGED]
+   ```
+
+5. **三种有效状态对比**
+
+   | 对比项         | VALID / UNCHANGED | VALID / CHANGED | INVALID / UNCHANGED    |
+   | -------------- | ----------------- | --------------- | ---------------------- |
+   | RAM 数据有效   | ✅ 有效            | ✅ 有效          | ❌ 无效                 |
+   | RAM 与 NV 一致 | ✅ 一致            | ❌ 可能不一致    | —                      |
+   | 数据可用性     | 可用              | 可用            | 不可用                 |
+   | 典型触发       | 读取/写入成功     | 修改/恢复       | 失效/CRC 错误/写入失败 |
+   | 下一动作       | 保持或修改        | 写入 NV         | 恢复或加载             |
+
+6. **补充说明**
+
+   - 此状态表示 NV 块数据**不可用**，通常由硬件错误、CRC 校验失败、主动失效或擦除引起
+   - `INVALID / CHANGED` 状态**不可达**（NvM 规范中明确说明）
+   - 离开此状态需要通过错误恢复（加载默认值）或成功读取/写入来重新建立有效数据
+   - 应用层可通过 `NvM_SetRamBlockStatus(FALSE)` 主动将块置为此状态，强制下次读取时重新加载
+
+7. **相关规范**
+
+   | 规范            | 内容                       |
+   | --------------- | -------------------------- |
+   | `SWS_NvM_00389` | 读取错误恢复（加载默认值） |
+   | `SWS_NvM_00391` | 显式恢复 API               |
+   | `SWS_NvM_00575` | 隐式恢复触发条件           |
+   | `SWS_NvM_00174` | 不完整写入检测             |
+   | `SWS_NvM_00168` | 写入重试机制               |
+
+## 应用与 NVRAM 管理器之间的通信与隐式同步
+
+> 为减少锁定/解锁开销或其他同步方法的使用，应用与 NvM 模块之间的通信需遵循严格的步骤序列，以确保可靠通信、避免 RAM 块数据损坏，并保证正确的同步。当多个应用共享同一 RAM 块时，数据完整性由应用层自行保证。
 
 ---
 
-### 4. 一次性写入块的 CRC 建议 [SWS_NvM_00724]
+1. **访问模型的基本假设**
 
-> 对于 `NvMWriteBlockOnce = TRUE` 的 NVRAM 块，**应启用** `NvMBlockUseCrc`。同时，**应禁用** `NvMBlockWriteProt`，以便在 CRC 校验失败时用户仍能写入数据到该块。
+   通信模型涉及两方：
 
-| 参数                | 一次性写入块推荐配置 | 原因                       |
-| ------------------- | -------------------- | -------------------------- |
-| `NvMBlockUseCrc`    | **启用**             | 确保写入后数据完整性可验证 |
-| `NvMBlockWriteProt` | **禁用**             | CRC 失败时允许重新写入恢复 |
+   | 参与方       | 角色                      |
+   | ------------ | ------------------------- |
+   | **应用层**   | 读写 RAM 块数据           |
+   | **NvM 模块** | 管理 RAM 与 NV 之间的同步 |
 
-```mermaid
-flowchart TD
-    OneShot[一次性写入块<br/>NvMWriteBlockOnce = TRUE] --> UseCrc[NvMBlockUseCrc = 启用]
-    OneShot --> DisableProt[NvMBlockWriteProt = 禁用]
-    
-    DisableProt --> Reason[原因: CRC 失败时<br/>允许用户重新写入]
-```
+2. **多应用共享 RAM 块的规则** [SWS_NvM_00697]
+
+   > 如果多个应用使用同一 RAM 块，**确保 RAM 块数据完整性不是 NvM 模块的职责**。应用必须自行同步对 RAM 块的访问，并保证在 NVRAM 操作期间不发生不适当的访问。
+
+   - NvM 模块不负责多应用间的数据一致性
+   - 应用需自行实现同步机制
+   - 多个应用通过不同临时 RAM 块共享 NVRAM 块时，同步更复杂
+
+   ```mermaid
+   flowchart TD
+       subgraph App1[应用 A]
+           A1[RAM 块访问]
+       end
+
+       subgraph App2[应用 B]
+           B1[RAM 块访问]
+       end
+
+       subgraph NvM[NvM 模块]
+           N1[NV 同步]
+       end
+
+       A1 --> RAM[共享 RAM 块]
+       B1 --> RAM
+       RAM --> N1
+
+       Note[同步由应用层自行保证<br/>NvM 不负责多应用数据一致性]
+   ```
+
+3. **回调通知的注意事项** [SWS_NvM_00697]
+
+   > 使用回调作为通知方式时，可能发生应用收到并非由其发起的请求的通知。
+
+   - 场景：应用 A 发起请求，应用 B 收到回调通知
+   - 原因：多个应用共享同一块
+   - 应对：应用需检查请求是否由自己发起
+
+   ```mermaid
+   sequenceDiagram
+       participant AppA as 应用 A
+       participant AppB as 应用 B
+       participant NvM as NvM 模块
+
+       AppA->>NvM: 发起请求
+       NvM->>AppA: 回调通知（正确）
+       NvM->>AppB: 回调通知（也可能收到）
+
+       Note over AppB: 应用 B 需检查<br/>请求是否由自己发起
+   ```
+
+4. **同步通信的步骤序列**
+
+   ```mermaid
+   flowchart TD
+       subgraph Step1[步骤 1]
+           S1[应用读取 RAM 块<br/>（无需 NvM 参与）]
+       end
+
+       subgraph Step2[步骤 2]
+           S2[应用修改 RAM 块数据<br/>（无需 NvM 参与）]
+       end
+
+       subgraph Step3[步骤 3]
+           S3[应用指示变更<br/>NvM_SetRamBlockStatus TRUE]
+       end
+
+       subgraph Step4[步骤 4]
+           S4[NvM 将 RAM 数据写入 NV<br/>（NvM_WriteBlock / NvM_WriteAll）]
+       end
+
+       Step1 --> Step2 --> Step3 --> Step4
+   ```
+
+5. **同步机制总结**
+
+   | 同步方式       | 说明                                      | 适用场景           |
+   | -------------- | ----------------------------------------- | ------------------ |
+   | **隐式同步**   | NvM 自动检测 RAM 变更并同步到 NV          | 标准场景           |
+   | **显式同步**   | 应用调用 `NvM_SetRamBlockStatus` 指示变更 | 需要精确控制时     |
+   | **回调通知**   | NvM 完成操作后通知应用                    | 异步操作完成确认   |
+   | **多应用同步** | 应用层自行实现                            | 多个应用共享同一块 |
+
+6. **相关规范**
+
+   | 规范            | 内容                          |
+   | --------------- | ----------------------------- |
+   | `SWS_NvM_00697` | 多应用共享块的数据完整性责任  |
+   | `SWS_NvM_00344` | 禁用状态修改 API 时的写入行为 |
+   | `SWS_NvM_00345` | 禁用状态修改 API 时的读取行为 |
+   | `SWS_NvM_00472` | 写入成功后的状态更新          |
+
+7. **补充说明**
+
+   - 单应用访问时：应用可自由读写 RAM，NvM 负责同步到 NV
+   - 多应用共享时：应用需自行协调访问顺序和时机
+   - 回调通知：应用收到通知后需验证请求来源
+   - 同步目的：避免数据损坏，保证 RAM 与 NV 的一致性
+
+### 写请求的隐式同步规则
+
+> 应用在发起 `NvM_WriteBlock` 或 `NvM_WritePRAMBlock` 写请求时，需遵循特定的步骤序列，以确保应用与 NvM 模块之间的隐式同步正确进行，避免数据损坏。
 
 ---
 
-### 5. CRC 内存分配 [SWS_NvM_00544]
+1. **写请求的完整步骤** [SWS_NvM_00698]
 
-> 根据 `NvMBlockUseCrc` 和 `NvMCalcRamBlockCrc` 的配置，NvM 模块应为**所用 CRC 中最大的类型**分配内存。
+   | 步骤  | 操作                | 说明                                                         |
+   | ----- | ------------------- | ------------------------------------------------------------ |
+   | **1** | 应用填充 RAM 块数据 | 将待写入的数据填入 RAM 块                                    |
+   | **2** | 应用发起写请求      | 调用 `NvM_WriteBlock` 或 `NvM_WritePRAMBlock`，控制权转移至 NvM 模块 |
+   | **3** | 应用等待完成        | 不应修改 RAM 块，但可读取其内容                              |
+   | **4** | 应用获取结果        | 通过轮询 `NvM_GetErrorStatus` 或回调函数获知完成状态         |
+   | **5** | 应用复用 RAM 块     | NvM 操作完成后，RAM 块可重新用于修改                         |
 
-| 配置场景               | 内存分配                    |
-| ---------------------- | --------------------------- |
-| 多个块使用不同大小 CRC | 分配**最大** CRC 所需的内存 |
-| 所有块 CRC 大小相同    | 分配该大小所需的内存        |
-| 未启用 CRC             | 不分配 CRC 内存             |
+2. **步骤流程图**
 
----
+   ```mermaid
+   flowchart TD
+       Step1[步骤 1: 应用填充 RAM 块数据] --> Step2
+       Step2[步骤 2: 发起写请求<br/>NvM_WriteBlock / NvM_WritePRAMBlock] --> Step3
+       Step3[步骤 3: 等待完成<br/>可读不可修改] --> Step4
+       Step4[步骤 4: 获取结果<br/>轮询或回调] --> Step5
+       Step5[步骤 5: RAM 块可复用]
+   ```
 
-### 6. CRC 内存对用户透明
+3. **各步骤的详细说明**
 
-> NvM 用户不应知道其 RAM 块中数据的 CRC 内存的任何信息（如大小、位置）。
+   - **步骤 1 和 2**：应用层准备数据并触发 NvM 写入操作，将控制权交给 NvM。
 
-```mermaid
-flowchart LR
-    subgraph NvM [NvM 模块]
-        RAM[RAM 块<br/>用户数据]
-        CRC_MEM[CRC 内存<br/>对用户不可见]
-    end
-    
-    User[应用层] -->|可见| RAM
-    User -.->|不可见| CRC_MEM
-```
+   - **步骤 3 的核心约束**：从请求发出到完成通知期间，应用**不应修改** RAM 块数据，但可以读取。这是为了保证 NvM 写入的数据与请求时一致。
 
----
+   - **步骤 4 的获取方式**：应用可以选择**轮询**或配置**回调函数**来获知请求结果。
 
-### 7. 一致性检查流程
+   - **步骤 5 的恢复**：NvM 操作完成后，RAM 块才可重新用于修改。
 
-```mermaid
-flowchart TD
-    subgraph Write [写入流程]
-        W1[应用写入数据] --> W2[NvM 更新 RAM 块]
-        W2 --> W3{CalcRamBlockCrc<br/>启用?}
-        W3 -->|是| W4[重新计算并存储 RAM CRC]
-        W3 -->|否| W5[不存储 RAM CRC]
-    end
-    
-    subgraph Read [读取/同步流程]
-        R1[从 NV 加载数据到 RAM] --> R2{UseCrc<br/>启用?}
-        R2 -->|是| R3[重新计算 NV 数据 CRC]
-        R3 --> R4{CRC 匹配?}
-        R4 -->|是| R5[✅ 数据有效]
-        R4 -->|否| R6[❌ 数据损坏<br/>触发恢复机制]
-        R2 -->|否| R5
-    end
-```
+4. **时序图**
 
----
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant RAM as RAM 块
+       participant NvM as NvM 模块
+       participant NV as NV 块
 
-### 8. 配置与调试注意
+       App->>RAM: ① 填充数据
+       App->>NvM: ② NvM_WriteBlock(BlockID)
+       NvM-->>App: 立即返回
 
-#### 8.1 CRC 开销
-- CRC 增加存储空间和计算时间开销
-- 关键数据建议启用，非关键数据可禁用以优化性能
+       Note over App,NV: ③ 应用不可修改 RAM 块<br/>（仅可读取）
 
-#### 8.2 一次性写入块
-- `NvMWriteBlockOnce = TRUE` 的块建议启用 CRC
-- 禁用写保护以便在 CRC 失败时进行恢复写入
+       NvM->>RAM: 读取数据
+       NvM->>NV: 写入 NV
 
-#### 8.3 CRC 内存大小
-- NvM 为所有块分配统一的 CRC 内存（最大尺寸）
-- 调试时需确认内存分配足够容纳所有配置的 CRC
+       alt 轮询方式
+           loop 轮询
+               App->>NvM: NvM_GetErrorStatus(BlockID)
+               NvM-->>App: NVM_REQ_PENDING
+           end
+           NvM-->>App: NVM_REQ_OK / NOT_OK
+       else 回调方式
+           NvM->>App: 回调函数通知
+       end
 
-#### 8.4 CRC 类型一致性
-- RAM 块和 NV 块的 CRC 类型必须一致
-- 参见 RAM 块规范中的 CRC 限制 [SWS_NvM_00127]
+       Note over App,RAM: ⑤ RAM 块可重新修改
+   ```
 
----
+5. **写请求期间的应用行为**
 
-### 9. 我的补充
+   | 允许的操作        | 禁止的操作                 |
+   | ----------------- | -------------------------- |
+   | ✅ 读取 RAM 块内容 | ❌ 修改 RAM 块内容          |
+   | ✅ 轮询请求状态    | ❌ 发起新的写请求（同一块） |
+   | ✅ 接收回调通知    | ❌ 假设操作已完成而不确认   |
 
-#### 隐式 vs 显式检查
+6. **相关规范**
 
-| 方式         | 说明                  | 调用方   |
-| ------------ | --------------------- | -------- |
-| **隐式检查** | NvM 自动执行 CRC 校验 | NvM 内部 |
-| **显式检查** | 应用主动调用检查 API  | 应用层   |
+   | 规范            | 内容                           |
+   | --------------- | ------------------------------ |
+   | `SWS_NvM_00698` | 写请求隐式同步规则             |
+   | `SWS_NvM_00185` | 请求入队状态 `NVM_REQ_PENDING` |
+   | `SWS_NvM_00270` | 作业成功状态 `NVM_REQ_OK`      |
+   | `SWS_NvM_00175` | 单块请求终止结果记录           |
+   | `SWS_NvM_00176` | 单块回调配置                   |
+   | `SRS_Mem_00013` | 相关需求                       |
 
-#### 相关规范
+### 读请求的隐式同步规则
 
-| 规范             | 内容              |
-| ---------------- | ----------------- |
-| `ECUC_NvM_00476` | CRC 配置参数      |
-| `SWS_NvM_00040`  | 一致性/完整性检查 |
-| `SWS_NvM_00127`  | RAM 块 CRC 限制   |
+> 应用在发起 `NvM_ReadBlock` 或 `NvM_ReadPRAMBlock` 读请求时，需遵循特定的步骤序列，以确保应用与 NvM 模块之间的隐式同步正确进行。读取期间应用不得访问 RAM 块，直到操作完成。
 
 ---
 
-以上内容可直接复制到 Typora 中使用。继续贴下一段规范！
+1. **读请求的完整步骤** [SWS_NvM_00699]
 
+   | 步骤  | 操作            | 说明                                                         |
+   | ----- | --------------- | ------------------------------------------------------------ |
+   | **1** | 应用提供 RAM 块 | 准备一个 RAM 块，供 NvM 填充 NV 数据                         |
+   | **2** | 应用发起读请求  | 调用 `NvM_ReadBlock` 或 `NvM_ReadPRAMBlock`，控制权转移至 NvM 模块 |
+   | **3** | 应用等待完成    | **不得读取或写入** RAM 块                                    |
+   | **4** | 应用获取结果    | 通过轮询 `NvM_GetErrorStatus` 或回调函数获知完成状态         |
+   | **5** | 应用使用数据    | NvM 操作完成后，RAM 块包含新数据，可供应用使用               |
+
+2. **步骤流程图**
+
+   ```mermaid
+   flowchart TD
+       Step1[步骤 1: 应用提供 RAM 块] --> Step2
+       Step2[步骤 2: 发起读请求<br/>NvM_ReadBlock / NvM_ReadPRAMBlock] --> Step3
+       Step3[步骤 3: 等待完成<br/>不可读也不可写] --> Step4
+       Step4[步骤 4: 获取结果<br/>轮询或回调] --> Step5
+       Step5[步骤 5: RAM 块包含新数据<br/>可供应用使用]
+   ```
+
+3. **各步骤的详细说明**
+
+   - **步骤 1 和 2**：应用准备好 RAM 块（可为空或已存在数据），然后触发 NvM 读取操作，将控制权交给 NvM。
+
+   - **步骤 3 的核心约束**：从请求发出到完成通知期间，应用**不得读取或写入** RAM 块。这是为了防止应用读取到未完成的数据或被 NvM 覆盖的数据，造成数据不一致。
+
+   - **步骤 4 的获取方式**：应用可以选择**轮询**或配置**回调函数**来获知请求结果。
+
+   - **步骤 5 的恢复**：NvM 操作完成后，RAM 块数据已更新，应用可正常访问。
+
+4. **时序图**
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant RAM as RAM 块
+       participant NvM as NvM 模块
+       participant NV as NV 块
+
+       App->>RAM: ① 提供 RAM 块<br/>（可为空）
+       App->>NvM: ② NvM_ReadBlock(BlockID)
+       NvM-->>App: 立即返回
+
+       Note over App,RAM: ③ 应用不可访问 RAM 块<br/>（不可读也不可写）
+
+       NvM->>NV: 读取 NV 数据
+       NV-->>NvM: 返回数据
+       NvM->>RAM: ④ 写入 RAM 块
+
+       alt 轮询方式
+           loop 轮询
+               App->>NvM: NvM_GetErrorStatus(BlockID)
+               NvM-->>App: NVM_REQ_PENDING
+           end
+           NvM-->>App: NVM_REQ_OK / NOT_OK
+       else 回调方式
+           NvM->>App: 回调函数通知
+       end
+
+       Note over App,RAM: ⑤ RAM 块包含新数据<br/>可供应用使用
+   ```
+
+5. **读请求期间的应用行为**
+
+   | 允许的操作     | 禁止的操作               |
+   | -------------- | ------------------------ |
+   | ✅ 轮询请求状态 | ❌ 读取 RAM 块内容        |
+   | ✅ 接收回调通知 | ❌ 写入 RAM 块内容        |
+   | ✅ 等待操作完成 | ❌ 假设操作已完成而不确认 |
+
+6. **写请求 vs 读请求对比**
+
+   | 对比项          | 写请求              | 读请求             |
+   | --------------- | ------------------- | ------------------ |
+   | **步骤 1**      | 应用填充 RAM 块数据 | 应用提供 RAM 块    |
+   | **步骤 3 约束** | 可读不可写          | **不可读也不可写** |
+   | **步骤 5 结果** | RAM 块可复用        | RAM 块包含新数据   |
+   | **数据方向**    | RAM → NV            | NV → RAM           |
+
+7. **相关规范**
+
+   | 规范            | 内容                           |
+   | --------------- | ------------------------------ |
+   | `SWS_NvM_00699` | 读请求隐式同步规则             |
+   | `SWS_NvM_00185` | 请求入队状态 `NVM_REQ_PENDING` |
+   | `SWS_NvM_00270` | 作业成功状态 `NVM_REQ_OK`      |
+   | `SWS_NvM_00175` | 单块请求终止结果记录           |
+   | `SWS_NvM_00176` | 单块回调配置                   |
+   | `SRS_Mem_00013` | 相关需求                       |
+
+### 恢复默认值请求的隐式同步规则
+
+> 应用在发起 `NvM_RestoreBlockDefaults` 或 `NvM_RestorePRAMBlockDefaults` 恢复默认值请求时，需遵循特定的步骤序列，以确保应用与 NvM 模块之间的隐式同步正确进行。恢复期间应用不得访问 RAM 块，直到操作完成。
+
+---
+
+1. **恢复默认值请求的完整步骤** [SWS_NvM_00700]
+
+   | 步骤  | 操作             | 说明                                                         |
+   | ----- | ---------------- | ------------------------------------------------------------ |
+   | **1** | 应用提供 RAM 块  | 准备一个 RAM 块，供 NvM 填充 ROM 默认数据                    |
+   | **2** | 应用发起恢复请求 | 调用 `NvM_RestoreBlockDefaults` 或 `NvM_RestorePRAMBlockDefaults`，控制权转移至 NvM 模块 |
+   | **3** | 应用等待完成     | **不得读取或写入** RAM 块                                    |
+   | **4** | 应用获取结果     | 通过轮询 `NvM_GetErrorStatus` 或回调函数获知完成状态         |
+   | **5** | 应用使用数据     | NvM 操作完成后，RAM 块包含 ROM 默认数据，可供应用使用        |
+
+2. **步骤流程图**
+
+   ```mermaid
+   flowchart TD
+       Step1[步骤 1: 应用提供 RAM 块] --> Step2
+       Step2[步骤 2: 发起恢复请求<br/>NvM_RestoreBlockDefaults<br/>NvM_RestorePRAMBlockDefaults] --> Step3
+       Step3[步骤 3: 等待完成<br/>不可读也不可写] --> Step4
+       Step4[步骤 4: 获取结果<br/>轮询或回调] --> Step5
+       Step5[步骤 5: RAM 块包含 ROM 默认数据<br/>可供应用使用]
+   ```
+
+3. **各步骤的详细说明**
+
+   - **步骤 1 和 2**：应用准备好 RAM 块，然后触发 NvM 恢复默认值操作，将控制权交给 NvM。
+
+   - **步骤 3 的核心约束**：从请求发出到完成通知期间，应用**不得读取或写入** RAM 块。这是为了防止应用读取到未完成的数据或被覆盖的数据，造成数据不一致。
+
+   - **步骤 4 的获取方式**：应用可以选择**轮询**或配置**回调函数**来获知请求结果。
+
+   - **步骤 5 的恢复**：NvM 操作完成后，RAM 块数据已更新为 ROM 默认数据，应用可正常访问。
+
+4. **时序图**
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant RAM as RAM 块
+       participant NvM as NvM 模块
+       participant ROM as ROM 块
+       participant NV as NV 块
+
+       App->>RAM: ① 提供 RAM 块<br/>（可为空）
+       App->>NvM: ② NvM_RestoreBlockDefaults(BlockID)
+       NvM-->>App: 立即返回
+
+       Note over App,RAM: ③ 应用不可访问 RAM 块<br/>（不可读也不可写）
+
+       NvM->>ROM: 读取 ROM 默认数据
+       ROM-->>NvM: 返回默认数据
+       NvM->>RAM: ④ 写入 RAM 块
+
+       Note over NV: NV 块保持不变<br/>[SWS_NvM_00392]
+
+       alt 轮询方式
+           loop 轮询
+               App->>NvM: NvM_GetErrorStatus(BlockID)
+               NvM-->>App: NVM_REQ_PENDING
+           end
+           NvM-->>App: NVM_REQ_OK / NOT_OK
+       else 回调方式
+           NvM->>App: 回调函数通知
+       end
+
+       Note over App,RAM: ⑤ RAM 块包含 ROM 默认数据<br/>可供应用使用
+   ```
+
+5. **恢复请求期间的应用行为**
+
+   | 允许的操作     | 禁止的操作               |
+   | -------------- | ------------------------ |
+   | ✅ 轮询请求状态 | ❌ 读取 RAM 块内容        |
+   | ✅ 接收回调通知 | ❌ 写入 RAM 块内容        |
+   | ✅ 等待操作完成 | ❌ 假设操作已完成而不确认 |
+
+6. **恢复默认值请求的核心特点** [SWS_NvM_00392]
+
+   - 数据来源：**ROM 块**（只读默认数据）
+   - NV 块状态：**保持不变**（仅 RAM 块被更新）
+   - 适用 API：
+     - `NvM_RestoreBlockDefaults`：普通块
+     - `NvM_RestorePRAMBlockDefaults`：永久 RAM 块
+
+7. **三种请求对比**
+
+   | 对比项          | 写请求              | 读请求             | 恢复默认值请求     |
+   | --------------- | ------------------- | ------------------ | ------------------ |
+   | **步骤 1**      | 应用填充 RAM 块数据 | 应用提供 RAM 块    | 应用提供 RAM 块    |
+   | **数据方向**    | RAM → NV            | NV → RAM           | ROM → RAM          |
+   | **步骤 3 约束** | 可读不可写          | **不可读也不可写** | **不可读也不可写** |
+   | **NV 块变化**   | 被更新              | 不变               | **不变**           |
+   | **数据来源**    | 应用数据            | NV 存储            | ROM 默认数据       |
+
+8. **相关规范**
+
+   | 规范            | 内容                           |
+   | --------------- | ------------------------------ |
+   | `SWS_NvM_00700` | 恢复默认值请求隐式同步规则     |
+   | `SWS_NvM_00392` | 恢复操作不修改 NV 块           |
+   | `SWS_NvM_00391` | 显式恢复 API 定义              |
+   | `SWS_NvM_00185` | 请求入队状态 `NVM_REQ_PENDING` |
+   | `SWS_NvM_00270` | 作业成功状态 `NVM_REQ_OK`      |
+   | `SRS_Mem_08548` | 相关需求                       |
+
+
+
+### 多块读请求的隐式同步规则
+
+> `NvM_ReadAll` 请求仅在系统启动时由 BSW 模式管理器触发，用于将所有配置的永久 RAM 块填充启动所需数据。如果请求部分或完全失败，NvM 向 DEM 报告并向 BSW 模式管理器返回错误，由 DEM 和 BSW 模式管理器决定后续措施。
+
+---
+
+1. **请求触发与范围**
+
+   - 触发者：**BSW 模式管理器**（唯一触发方）
+   - 触发时机：**系统启动时**
+   - 目的：将所有配置的永久 RAM 块填充启动所需数据
+
+2. **错误处理与上报**
+
+   | 结果     | 处理                                   |
+   | -------- | -------------------------------------- |
+   | 全部成功 | 正常启动                               |
+   | 部分成功 | 向 DEM 报告，向 BSW 模式管理器返回错误 |
+   | 完全失败 | 向 DEM 报告，向 BSW 模式管理器返回错误 |
+
+   - DEM 和 BSW 模式管理器决定后续措施
+   - NvM 模块本身不处理这些决策
+
+3. **多块读请求的完整步骤** [SWS_NvM_00701]
+
+   | 步骤  | 操作                   | 说明                                                         |
+   | ----- | ---------------------- | ------------------------------------------------------------ |
+   | **1** | BSW 模式管理器发起请求 | 调用 `NvM_ReadAll`，控制权转移至 NvM 模块                    |
+   | **2** | BSW 模式管理器获取结果 | 通过轮询 `NvM_GetErrorStatus(0)` 或回调函数获知完成状态      |
+   | **3** | 单块回调通知           | 每处理完一个 NVRAM 块时，调用单块回调（如配置了 `NvMSingleBlockCallback`） |
+
+4. **时序图**
+
+   ```mermaid
+   sequenceDiagram
+       participant BswM as BSW 模式管理器
+       participant NvM as NvM 模块
+       participant NV as NV 块
+       participant RTE as RTE
+       participant SWC1 as SW-C 1
+       participant SWC2 as SW-C 2
+
+       Note over BswM,SWC2: 系统启动阶段
+
+       BswM->>NvM: ① NvM_ReadAll()
+       NvM-->>BswM: 立即返回
+
+       loop 处理每个块
+           NvM->>NV: 读取块数据
+           NV-->>NvM: 返回数据
+           NvM->>NvM: 更新 RAM 块
+
+           alt 配置了单块回调
+               NvM->>RTE: ③ 单块回调
+               RTE->>SWC1: 启动 SW-C 1
+           end
+       end
+
+       alt 轮询方式
+           loop 轮询
+               BswM->>NvM: NvM_GetErrorStatus(0)
+               NvM-->>BswM: NVM_REQ_PENDING
+           end
+           NvM-->>BswM: NVM_REQ_OK / NOT_OK
+       else 回调方式
+           NvM->>BswM: 多块回调通知
+       end
+
+       alt 部分/完全失败
+           NvM->>DEM: 报告错误
+       end
+   ```
+
+5. **单块回调的作用**
+
+   - **触发条件**：每处理完一个 NVRAM 块后
+   - **配置方式**：`NvMSingleBlockCallback = TRUE`
+   - **核心价值**：RTE 利用这些回调**逐个启动 SW-C**，而无需等待所有块加载完成
+
+6. **状态查询方式**
+
+   | 方式         | 说明                                             |
+   | ------------ | ------------------------------------------------ |
+   | **轮询**     | BSW 模式管理器周期性调用 `NvM_GetErrorStatus(0)` |
+   | **多块回调** | 配置 `NvMMultiBlockCallback`，完成后通知         |
+   | **单块回调** | 配置 `NvMSingleBlockCallback`，每块完成后通知    |
+
+7. **相关规范**
+
+   | 规范            | 内容                             |
+   | --------------- | -------------------------------- |
+   | `SWS_NvM_00701` | 多块读请求隐式同步规则           |
+   | `SWS_NvM_00158` | `NvM_ReadAll` 调用者             |
+   | `SWS_NvM_00694` | 启动状态监控                     |
+   | `SWS_NvM_00394` | `NvM_GetErrorStatus(0)` 多块状态 |
+   | `SWS_NvM_00179` | 多块回调配置                     |

@@ -372,7 +372,7 @@ AUTOSAR Dcm 处理复杂数据结构的核心哲学：**通过“池化引用”
 >        uint16 Temp_Sensor2; // 零件 Y (池元素)
 >        uint8  FanStatus;    // 零件 Z (池元素)
 >    } BatteryPack_t;
->          
+>             
 >    /* 这就是【嵌套复合模式】的锚点信号
 >       在配置中：Signal_PackStatus -> CompositeRef -> 引用了上面的池元素
 >    */
@@ -1785,6 +1785,256 @@ stateDiagram-v2
 | **多测试仪支持** | ✅ 支持（通过源地址区分）    | ❌ 需要多个连接 |
 | **地址验证**     | 可选（`TARGET_ADDRESS_16`） | 不需要         |
 | **配置复杂度**   | 较高                        | 较低           |
+
+
+
+## 通过发送忙响应保证响应定时
+
+> 当应用层（或 DSP 子模块）能够执行请求的诊断任务，但需要额外时间完成任务并准备响应时，DSL 子模块应在达到响应时间阈值时发送 NRC 0x78（Response pending）的否定响应，以保证对测试仪的响应定时。该否定响应使用独立缓冲区发送，避免干扰正在进行的请求处理。NRC 0x78 的发送次数可通过配置参数限制，防止应用死锁时无限发送。
+
+---
+
+1. **NRC 0x78 的触发条件** [SWS_Dcm_00024]
+
+   - 应用层（或 DSP）能够执行请求的诊断任务
+   - 但需要**额外时间**完成任务并准备响应
+   - 达到响应时间阈值时触发：
+     - `DcmDspSessionP2ServerMax - DcmTimStrP2ServerAdjust`
+     - 或 `DcmDspSessionP2StarServerMax - DcmTimStrP2StarServerAdjust`
+
+2. **响应定时参数说明**
+
+   | 参数                           | 说明                                                       |
+   | ------------------------------ | ---------------------------------------------------------- |
+   | `DcmDspSessionP2ServerMax`     | $P2_{Server}$ 最大响应时间（ECU 处理请求并返回响应的时间） |
+   | `DcmTimStrP2ServerAdjust`      | $P2_{Server}$ 时间调整值                                   |
+   | `DcmDspSessionP2StarServerMax` | $P2^*_{Server}$ 最大响应时间（发送 0x78 后的扩展等待时间） |
+   | `DcmTimStrP2StarServerAdjust`  | $P2^*_{Server}$ 时间调整值                                 |
+
+3. **独立缓冲区发送** [SWS_Dcm_00119]
+
+   - DSL 使用**独立缓冲区**发送 NRC 0x78 响应
+   - **目的**：避免覆盖正在进行的请求处理（如应用已在诊断缓冲区中准备了响应内容）
+
+4. **发送次数限制** [SWS_Dcm_00119][SWS_Dcm_01567]
+
+   - 可通过配置参数 `DcmDslDiagRespMaxNumRespPend` 限制 NRC 0x78 的发送次数
+   - 目的：避免应用死锁时**无限**发送 NRC 0x78
+   - 默认行为：若未配置该参数，NRC 0x78 发送次数为**无限**
+
+5. **完整流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant Tester as 测试仪
+       participant DSL as DSL
+       participant DSP as DSP/应用
+
+       Tester->>DSL: 诊断请求
+       DSL->>DSP: 转发请求
+       Note over DSP: 任务执行中...
+
+       alt 任务耗时超过 $P2_{Server}$
+           DSL->>Tester: NRC 0x78（独立缓冲区）
+           Note over Tester: 测试仪等待更长时间
+       end
+
+       DSP-->>DSL: 响应准备完成
+       DSL->>Tester: 肯定响应
+
+       Note over DSL: 若应用死锁，NRC 0x78 发送次数<br/>受 DcmDslDiagRespMaxNumRespPend 限制
+   ```
+
+6. **相关配置参数**
+
+   | 配置参数                       | 说明                                    |
+   | ------------------------------ | --------------------------------------- |
+   | `DcmDspSessionP2ServerMax`     | $P2_{Server}$ 最大响应时间              |
+   | `DcmDspSessionP2StarServerMax` | $P2^*_{Server}$ 最大扩展响应时间        |
+   | `DcmTimStrP2ServerAdjust`      | $P2_{Server}$ 时间调整值                |
+   | `DcmTimStrP2StarServerAdjust`  | $P2^*_{Server}$ 时间调整值              |
+   | `DcmDslDiagRespMaxNumRespPend` | NRC 0x78 最大发送次数（可选，默认无限） |
+
+7. **相关规范**
+
+   | 规范                              | 内容              |
+   | --------------------------------- | ----------------- |
+   | `SWS_Dcm_00024`                   | NRC 0x78 触发条件 |
+   | `SWS_Dcm_00119`                   | 独立缓冲区发送    |
+   | `SWS_Dcm_01567`                   | 最大发送次数配置  |
+   | `ECUC_Dcm_00693`                  | 配置参数定义      |
+   | `RS_Diag_04016` / `RS_Diag_04249` | 上游需求          |
+
+## 周期传输的支持
+
+> UDS 服务 **ReadDataByPeriodicIdentifier（0x2A）** 允许测试仪请求 ECU 通过一个或多个周期数据标识符（periodicDataIdentifier）周期性地发送数据记录值。DCM 使用独立的协议和可配置大小的独立缓冲区来发送周期传输响应。
+
+---
+
+1. **0x2A 服务概述**
+
+   - 服务名称：`ReadDataByPeriodicIdentifier`
+   - 服务 ID：`0x2A`
+   - 功能：测试仪请求 ECU **周期性**发送数据记录值
+   - 通过一个或多个 `periodicDataIdentifier` 标识要传输的数据
+
+2. **独立协议与缓冲区** [SWS_Dcm_00122]
+
+   - DCM 使用**独立的协议**发送周期传输响应
+   - 使用**独立的缓冲区**，大小可配置
+   - 目的：不影响普通诊断响应的发送
+
+3. **协议链接配置**
+
+   - 配置参数：`DcmDslPeriodicTransmissionConRef`
+   - 作用：将接收周期传输请求/发送周期传输响应的协议，链接到用于发送周期传输消息的协议
+   - 注意：多个 `DcmTxPduId` 可分配给周期传输协议
+
+4. **通信模式限制** [SWS_Dcm_00123]
+
+   - 周期传输通信**仅在完全通信模式（Full Communication Mode）下进行**
+
+5. **周期传输事件的处理** [SWS_Dcm_00125]
+
+   - 在非完全通信模式下发生的周期传输事件：
+     - DCM **丢弃**该事件
+     - **不排队**等待传输
+
+6. **通信模式激活** [SWS_Dcm_00126]
+
+   - 周期传输事件**不会激活**完全通信模式
+
+7. **完整流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant Tester as 测试仪
+       participant DCM as DCM
+       participant COM as 通信层
+
+       Tester->>DCM: 0x2A 请求<br/>（含 periodicDataIdentifier）
+
+       alt 完全通信模式
+           DCM->>DCM: 启动周期传输
+           loop 每个周期
+               DCM->>COM: 发送周期响应（独立协议/缓冲区）
+               COM->>Tester: 周期数据
+           end
+       else 非完全通信模式
+           DCM->>DCM: 丢弃周期传输事件
+           Note over DCM: 不排队，不激活通信模式
+       end
+   ```
+
+8. **相关配置参数**
+
+   | 配置参数                           | 说明                                |
+   | ---------------------------------- | ----------------------------------- |
+   | `DcmDslPeriodicTransmissionConRef` | 链接周期传输请求协议与响应协议      |
+   | `DcmTxPduId`                       | 周期传输响应使用的 PDU ID（可多个） |
+   | 独立缓冲区大小                     | 可配置                              |
+
+9. **相关规范**
+
+   | 规范            | 内容                       |
+   | --------------- | -------------------------- |
+   | `SWS_Dcm_00122` | 独立协议和缓冲区           |
+   | `SWS_Dcm_00123` | 仅在完全通信模式下进行     |
+   | `SWS_Dcm_00125` | 非完全通信模式下丢弃事件   |
+   | `SWS_Dcm_00126` | 周期传输事件不激活通信模式 |
+   | `RS_Diag_04016` | 上游需求                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
