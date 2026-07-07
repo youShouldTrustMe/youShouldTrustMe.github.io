@@ -1869,8 +1869,6 @@ stateDiagram-v2
 
 > UDS 服务 **ReadDataByPeriodicIdentifier（0x2A）** 允许测试仪请求 ECU 通过一个或多个周期数据标识符（periodicDataIdentifier）周期性地发送数据记录值。DCM 使用独立的协议和可配置大小的独立缓冲区来发送周期传输响应。
 
----
-
 1. **0x2A 服务概述**
 
    - 服务名称：`ReadDataByPeriodicIdentifier`
