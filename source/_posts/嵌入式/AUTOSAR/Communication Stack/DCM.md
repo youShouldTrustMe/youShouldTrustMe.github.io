@@ -372,7 +372,7 @@ AUTOSAR Dcm 处理复杂数据结构的核心哲学：**通过“池化引用”
 >        uint16 Temp_Sensor2; // 零件 Y (池元素)
 >        uint8  FanStatus;    // 零件 Z (池元素)
 >    } BatteryPack_t;
->             
+>                
 >    /* 这就是【嵌套复合模式】的锚点信号
 >       在配置中：Signal_PackStatus -> CompositeRef -> 引用了上面的池元素
 >    */
@@ -1942,228 +1942,1511 @@ stateDiagram-v2
    | `SWS_Dcm_00126` | 周期传输事件不激活通信模式 |
    | `RS_Diag_04016` | 上游需求                   |
 
+## 分段响应的支持（分页缓冲区）
 
+> 当启用分页缓冲区时，DCM 提供一种发送大于已配置诊断缓冲区的响应的机制，无需 ECU 提供等于最大响应长度的缓冲区。分页缓冲区**仅用于发送**（不支持接收），且**仅供 DCM 内部使用**（应用层不可用）。
 
+1. **分页缓冲区的作用** [SWS_Dcm_00028]
 
+   - 允许发送**大于**已配置诊断缓冲区的响应
+   - ECU 无需提供等于最大响应长度的缓冲区
+   - 适用方向：**仅发送**（不支持接收）
+   - 适用范围：**DCM 内部使用**（应用层不可用）
 
+2. **依赖关系** [SWS_Dcm_CONSTR_06055]
 
+   - `DcmDslProtocolMaximumResponseSize` 仅在 `DcmPagedBufferEnabled = TRUE` 时存在
 
+3. **启用分页缓冲区时的长度检查** [SWS_Dcm_01058]
 
+   - 若响应长度 > `DcmDslProtocolMaximumResponseSize`
+   - 返回 NRC **0x14**（`DCM_E_RESPONSETOOLONG`）
 
+4. **未启用分页缓冲区时的长度检查** [SWS_Dcm_01059]
 
+   - 若响应长度 > `Dcm_MsgContextType` 结构中的 `resMaxDataLen`
+   - 返回 NRC **0x14**（`DCM_E_RESPONSETOOLONG`）
 
+5. **TP 数据请求处理** [SWS_Dcm_01186]
 
+   - DCM 应提供 TP 请求的**正确数据量**
+   - 若请求的数据量不可用，返回 `BUFREQ_E_BUSY`
+   - 建议：立即填充分页缓冲区
 
+6. **流程图**
 
+   ```mermaid
+   flowchart TD
+       Start[生成响应] --> Paged{DcmPagedBufferEnabled<br/>== TRUE?}
+       
+       Paged -->|是| CheckP{响应长度 ><br/>DcmDslProtocolMaximumResponseSize?}
+       CheckP -->|是| NRC14A[返回 NRC 0x14]
+       CheckP -->|否| SendA[发送响应<br/>分页缓冲区]
+       
+       Paged -->|否| CheckNP{响应长度 ><br/>resMaxDataLen?}
+       CheckNP -->|是| NRC14B[返回 NRC 0x14]
+       CheckNP -->|否| SendB[发送响应<br/>普通缓冲区]
+   ```
 
+7. **相关配置参数**
 
+   | 配置参数                            | 说明                                         |
+   | ----------------------------------- | -------------------------------------------- |
+   | `DcmPagedBufferEnabled`             | 是否启用分页缓冲区                           |
+   | `DcmDslProtocolMaximumResponseSize` | 最大响应长度（启用分页缓冲区时）             |
+   | `resMaxDataLen`                     | 结构体 `Dcm_MsgContextType` 中的最大数据长度 |
 
+8. **相关规范**
 
+   | 规范                   | 内容                         |
+   | ---------------------- | ---------------------------- |
+   | `SWS_Dcm_00028`        | 分页缓冲区机制               |
+   | `SWS_Dcm_CONSTR_06055` | 依赖关系                     |
+   | `SWS_Dcm_01058`        | 启用分页缓冲区时的长度检查   |
+   | `SWS_Dcm_01059`        | 未启用分页缓冲区时的长度检查 |
+   | `SWS_Dcm_01186`        | TP 数据请求处理              |
+   | `RS_Diag_04147`        | 上游需求                     |
 
 
 
+## 应用层触发的 ResponsePending 响应支持
 
+> 在某些场景下（如例程执行），应用层需要请求立即发送 NRC 0x78（Response pending）响应，该响应应立即发送，而非等到接近响应时间（$P2_{Server}$ 或 $P2^*_{Server}$ 最大值）时才发送。当 DCM 调用操作并返回错误状态 `DCM_E_FORCE_RCRRP` 时，DSL 子模块触发 NRC 0x78 的发送。该响应需使用独立缓冲区发送，避免覆盖正在进行的请求处理。
 
+1. **应用层触发的 NRC 0x78 与定时触发的 NRC 0x78 的区别**
 
+   | 对比项       | 定时触发（标准行为）                                 | 应用层触发（主动请求）                 |
+   | ------------ | ---------------------------------------------------- | -------------------------------------- |
+   | **触发条件** | 达到响应时间阈值（$P2_{Server}$ 或 $P2^*_{Server}$） | 应用层返回 `DCM_E_FORCE_RCRRP`         |
+   | **触发时机** | 接近超时时自动触发                                   | 应用层判断需要时立即触发               |
+   | **典型场景** | 任务耗时超过预期                                     | 例程执行等需要主动告知测试仪等待的场景 |
+   | **发送方式** | 独立缓冲区                                           | 独立缓冲区（同样）                     |
 
+2. **触发机制** [SWS_Dcm_00024 扩展]
 
+   - DCM 调用应用层（或 DSP）的操作
+   - 应用层返回错误状态 `DCM_E_FORCE_RCRRP`
+   - DSL 子模块**立即**触发 NRC 0x78 的发送
+   - 不受响应时间阈值限制
 
+3. **独立缓冲区要求** [SWS_Dcm_00119 扩展]
 
+   - NRC 0x78 响应使用**独立缓冲区**发送
+   - 避免覆盖正在进行的请求处理
+   - 应用层可能在诊断缓冲区中已准备响应内容
 
+4. **完整流程**
 
+   ```mermaid
+   sequenceDiagram
+       participant Tester as 测试仪
+       participant DSL as DSL
+       participant DSP as DSP/应用
 
+       Tester->>DSL: 诊断请求（如例程执行）
+       DSL->>DSP: 调用操作
 
+       alt 应用层需要主动请求 NRC 0x78
+           DSP-->>DSL: 返回 DCM_E_FORCE_RCRRP
+           DSL->>Tester: NRC 0x78（立即发送，独立缓冲区）
+           Note over DSL: 不等待 P2ServerMax 超时
+       end
 
+       DSP-->>DSL: 响应准备完成
+       DSL->>Tester: 肯定响应
+   ```
 
+5. **两种 NRC 0x78 触发方式对比**
 
+   ```mermaid
+   flowchart TD
+       subgraph TimingTrigger[定时触发]
+           A1[请求处理中] --> A2{达到 P2ServerMax?}
+           A2 -->|是| A3[DSL 自动发送 NRC 0x78]
+           A2 -->|否| A1
+       end
 
+       subgraph AppTrigger[应用层触发]
+           B1[请求处理中] --> B2[应用返回 DCM_E_FORCE_RCRRP]
+           B2 --> B3[DSL 立即发送 NRC 0x78]
+       end
+   ```
 
+6. **相关配置**
 
+   - `DcmDslDiagRespMaxNumRespPend`：NRC 0x78 最大发送次数限制（应用层触发同样受此限制）
+   - 独立缓冲区大小配置
 
+7. **相关规范**
 
+   | 规范            | 内容                       |
+   | --------------- | -------------------------- |
+   | `SWS_Dcm_00024` | 定时触发的 NRC 0x78 发送   |
+   | `SWS_Dcm_00119` | 独立缓冲区发送             |
+   | `SWS_Dcm_01567` | 最大发送次数配置           |
+   | 本规范          | 应用层触发的 NRC 0x78 发送 |
 
+## 安全等级管理
 
+> DSL 子模块负责保存当前激活的安全等级，并提供获取和设置安全等级的接口。初始化时安全等级设为 `0x00`（锁定状态），在特定会话转换时重置为 `0x00`。每次安全等级变更时更新模式声明组。安全等级相关配置包括尝试计数器、延迟时间和超时重置等选项。
 
+1. **安全等级的存储与接口** [SWS_Dcm_00020]
 
+   - DSL 子模块保存当前激活的安全等级
+   - 提供的接口：
+     - `Dcm_GetSecurityLevel()`：获取当前激活的安全等级
+     - `DslInternal_SetSecurityLevel()`：设置新的安全等级
 
+2. **初始化安全等级** [SWS_Dcm_00033]
 
+   - DCM 初始化时，安全等级设置为 `0x00`
+   - 宏定义：`DCM_SEC_LEV_LOCKED`（锁定状态）
 
+3. **安全等级重置条件** [SWS_Dcm_00139]
 
+   以下情况下，DSL 将安全等级重置为 `0x00`（安全启用）：
 
+   - 从**非默认会话**转换到**另一个非默认会话**（包括当前激活的诊断会话）
+   - 从**非默认会话**转换到**默认会话**（由 UDS 服务 0x10 或 S3Server 超时触发）
 
+   ```mermaid
+   flowchart LR
+       Start[当前会话] --> Check{会话转换?}
+       Check -->|非默认 → 非默认| Reset[重置安全等级为 0x00]
+       Check -->|非默认 → 默认| Reset
+       Check -->|其他| Keep[保持当前安全等级]
+   ```
 
+4. **安全等级变更通知** [SWS_Dcm_01329]
 
+   - 每次安全等级变更时，DCM 更新模式声明组 `DcmSecurityAccess`
+   - 更新内容：新的安全等级值
 
+5. **安全等级配置约束**
 
+   - 同一时间**只有一个安全等级**处于激活状态
+   - 配置约束 [SWS_Dcm_CONSTR_06083]：
+     - 若 `DcmDspSecurityNumAttDelay` 未配置，则 `DcmDspSecurityAttemptCounterEnabled` 必须设为 `FALSE`
+   - 配置约束 [SWS_Dcm_CONSTR_06101]：
+     - `DcmDspSecurityResetAttemptCounterOnTimeout` 仅在 `DcmDspSecurityAttemptCounterEnabled = TRUE` 时存在
 
+6. **相关配置参数**
 
+   | 配置参数                                     | 说明                     |
+   | -------------------------------------------- | ------------------------ |
+   | `DcmDspSecurityNumAttDelay`                  | 安全尝试次数延迟配置     |
+   | `DcmDspSecurityAttemptCounterEnabled`        | 是否启用尝试计数器       |
+   | `DcmDspSecurityResetAttemptCounterOnTimeout` | 超时时是否重置尝试计数器 |
 
+7. **相关规范**
 
+   | 规范                   | 内容               |
+   | ---------------------- | ------------------ |
+   | `SWS_Dcm_00020`        | 安全等级存储与接口 |
+   | `SWS_Dcm_00033`        | 初始化安全等级     |
+   | `SWS_Dcm_00139`        | 安全等级重置条件   |
+   | `SWS_Dcm_01329`        | 模式声明组更新     |
+   | `SWS_Dcm_CONSTR_06083` | 尝试计数器配置约束 |
+   | `SWS_Dcm_CONSTR_06101` | 超时重置配置约束   |
 
+### 初始化序列
 
+> 在 DCM 初始化期间，对于每个启用了尝试计数器的安全行，会调用相应的 `Xxx_GetSecurityAttemptCounter` 来获取尝试计数器的值。该过程支持异步操作，且具有超时取消机制。初始化完成后，根据恢复的尝试计数器值决定是否启动安全延迟定时器。
 
+1. **初始化时获取尝试计数器** [SWS_Dcm_01154]
 
+   - 对于每个 `DcmDspSecurityRow` 条目，若 `DcmDspSecurityAttemptCounterEnabled = TRUE`
+   - 调用对应的 `Xxx_GetSecurityAttemptCounter` 获取尝试计数器值
 
+2. **获取失败时的处理** [SWS_Dcm_01156]
 
+   - 若 `Xxx_GetSecurityAttemptCounter` 返回 `E_NOT_OK`
+   - 尝试计数器设置为该安全行配置的 `DcmDspSecurityNumAttDelay` 值
 
+3. **异步操作的挂起与恢复** [SWS_Dcm_01351]
 
+   - 若 `Xxx_GetSecurityAttemptCounter` 返回 `DCM_E_PENDING`
+   - DCM 中断当前调用链，在下一个 `Dcm_MainFunction()` 周期中恢复
+   - 适用场景：值存储在特定的非易失性存储器中
 
+4. **配置依赖** [SWS_Dcm_CONSTR_06076]
 
+   - `DcmDspSecurityGetAttemptCounterFnc` 仅在以下条件同时满足时存在：
+     - `DcmDspSecurityUsePort = USE_ASYNCH_FNC`
+     - `DcmDspSecurityAttemptCounterEnabled = TRUE`
 
+5. **超时取消机制** [SWS_Dcm_01352]
 
+   - 条件：达到 `DcmDspSecurityMaxAttemptCounterReadoutTime` 配置的延迟
+   - 且仍有 `Xxx_GetSecurityAttemptCounter` 未完成（前一周期返回 `DCM_E_PENDING`）
+   - 行为：以 `OpStatus = DCM_CANCEL` 取消挂起的操作
 
+6. **取消后的初始化** [SWS_Dcm_01353]
 
+   - 剩余安全行（未成功获取尝试计数器）的 AttemptCounter
+   - 初始化为该安全行配置的 `DcmDspSecurityNumAttDelay` 值
 
+7. **初始化期间的安全访问限制** [SWS_Dcm_01354]
 
+   - 在所有 `Xxx_GetSecurityAttemptCounter` 操作未完成且操作链未被取消期间
+   - 任何 SecurityAccess（0x27）服务的 Seed 子功能请求，返回 NRC **0x22**（`conditionsNotCorrect`）
 
+8. **安全延迟定时器启动** [SWS_Dcm_01355]
 
+   - 所有尝试计数器值已成功或未成功获取后（或操作链已取消）
+   - 若至少一个恢复的 AttemptCounter ≥ 对应安全行的 `DcmDspSecurityNumAttDelay`
+   - DCM 启动 `SecurityDelayTimer`，超时值为较高的：
+     - `DcmDspSecurityDelayTimeOnBoot` 或 `DcmDspSecurityDelayTime`
 
+9. **零值定时器处理** [SWS_Dcm_01356]
 
+   - 定时器配置为 0 时，启动时视为**立即超时**
+   - 即无延迟效果
 
+10. **配置约束** [SWS_Dcm_CONSTR_06074]
 
+    - `DcmDspSecurityMaxAttemptCounterReadoutTime` 必须是 `DcmTaskTime` 的倍数，且最小等于 `DcmTaskTime`
 
+11. **初始化序列时序图**
 
+    ```mermaid
+    sequenceDiagram
+        participant DCM as DCM
+        participant NVM as NVM/存储
+        participant Timer as 定时器
 
+        DCM->>DCM: 初始化开始
+        loop 每个启用了尝试计数器的安全行
+            DCM->>NVM: Xxx_GetSecurityAttemptCounter()
+            alt 立即返回
+                NVM-->>DCM: 返回计数值
+                DCM->>DCM: 存储计数值
+            else 返回 PENDING
+                NVM-->>DCM: DCM_E_PENDING
+                DCM->>DCM: 中断调用链，下一周期恢复
+            else 返回 E_NOT_OK
+                NVM-->>DCM: E_NOT_OK
+                DCM->>DCM: 使用 DcmDspSecurityNumAttDelay
+            end
+        end
 
+        alt 超时（> DcmDspSecurityMaxAttemptCounterReadoutTime）
+            DCM->>NVM: DCM_CANCEL 取消挂起操作
+            DCM->>DCM: 剩余行使用 DcmDspSecurityNumAttDelay
+        end
 
+        DCM->>DCM: 检查所有 AttemptCounter 值
+        alt 存在 AttemptCounter ≥ DcmDspSecurityNumAttDelay
+            DCM->>Timer: 启动 SecurityDelayTimer
+            Note over Timer: 延迟后允许安全访问
+        end
+    ```
 
+12. **相关配置参数**
 
+    | 配置参数                                     | 说明                 |
+    | -------------------------------------------- | -------------------- |
+    | `DcmDspSecurityAttemptCounterEnabled`        | 是否启用尝试计数器   |
+    | `DcmDspSecurityNumAttDelay`                  | 尝试次数延迟阈值     |
+    | `DcmDspSecurityGetAttemptCounterFnc`         | 获取尝试计数器的函数 |
+    | `DcmDspSecurityMaxAttemptCounterReadoutTime` | 最大读取超时时间     |
+    | `DcmDspSecurityDelayTimeOnBoot`              | 启动时安全延迟时间   |
+    | `DcmDspSecurityDelayTime`                    | 安全延迟时间         |
+    | `DcmDspSecurityUsePort`                      | 使用端口类型         |
+    | `DcmTaskTime`                                | DCM 任务周期时间     |
 
+13. **相关规范**
 
+    | 规范            | 内容                   |
+    | --------------- | ---------------------- |
+    | `SWS_Dcm_01154` | 获取尝试计数器         |
+    | `SWS_Dcm_01156` | 获取失败处理           |
+    | `SWS_Dcm_01351` | 异步操作挂起与恢复     |
+    | `SWS_Dcm_01352` | 超时取消               |
+    | `SWS_Dcm_01353` | 取消后初始化           |
+    | `SWS_Dcm_01354` | 初始化期间安全访问限制 |
+    | `SWS_Dcm_01355` | 安全延迟定时器启动     |
+    | `SWS_Dcm_01356` | 零值定时器处理         |
 
 
 
+### AttemptCounter 更新
 
+> 成功发送密钥（sendKey）子功能请求时，对应安全等级的尝试计数器被重置。若配置了超时重置且安全延迟定时器超时，尝试计数器也被重置。当计数器发生变化时，DCM 通过调用 `Xxx_SetSecurityAttemptCounter` 通知应用层。
 
+1. **成功发送密钥时重置** [SWS_Dcm_01357]
 
+   - **触发条件**：`sendKey` 子功能请求成功
+   - **行为**：重置该安全等级对应的尝试计数器
 
+2. **超时重置** [SWS_Dcm_01599]
 
+   - **触发条件**：
+     - `DcmDspSecurityResetAttemptCounterOnTimeout = TRUE`
+     - `SecurityDelayTimer` 超时
+   - **行为**：重置该安全等级对应的尝试计数器
 
+3. **计数器变更通知** [SWS_Dcm_01155]
 
+   - **触发条件**：DCM 已更改尝试计数器
+   - **行为**：调用 `Xxx_SetSecurityAttemptCounter()`
+   - **前提**：`DcmDspSecurityAttemptCounterEnabled = TRUE`
+   - **目的**：通知应用层计数器变化
 
+4. **配置依赖** [SWS_Dcm_CONSTR_06078]
 
+   - `DcmDspSecuritySetAttemptCounterFnc` 仅在以下条件同时满足时存在：
+     - `DcmDspSecurityUsePort = USE_ASYNCH_FNC`
+     - `DcmDspSecurityAttemptCounterEnabled = TRUE`
 
+5. **AttemptCounter 更新流程**
 
+   ```mermaid
+   flowchart TD
+       subgraph Reset[重置场景]
+           A1[sendKey 成功] --> R1[重置 AttemptCounter]
+           A2[SecurityDelayTimer 超时<br/>且 DcmDspSecurityResetAttemptCounterOnTimeout = TRUE] --> R1
+       end
 
+       subgraph Notify[通知应用层]
+           R1 --> N1[Dcm 调用 Xxx_SetSecurityAttemptCounter]
+           N1 --> N2[应用层收到计数器变更通知]
+       end
+   ```
 
+6. **相关配置参数**
 
+   | 配置参数                                     | 说明                   |
+   | -------------------------------------------- | ---------------------- |
+   | `DcmDspSecurityAttemptCounterEnabled`        | 是否启用尝试计数器     |
+   | `DcmDspSecurityResetAttemptCounterOnTimeout` | 超时是否重置尝试计数器 |
+   | `DcmDspSecurityUsePort`                      | 使用端口类型           |
+   | `DcmDspSecuritySetAttemptCounterFnc`         | 设置尝试计数器的函数   |
 
+7. **相关规范**
 
+   | 规范                   | 内容                |
+   | ---------------------- | ------------------- |
+   | `SWS_Dcm_01357`        | 成功 sendKey 时重置 |
+   | `SWS_Dcm_01599`        | 超时重置            |
+   | `SWS_Dcm_01155`        | 计数器变更通知      |
+   | `SWS_Dcm_CONSTR_06078` | 配置依赖            |
 
+## 会话状态管理
 
+> DSL 子模块负责保存当前激活的会话状态，并提供获取和设置会话状态的接口。初始化时会话状态设为 `0x01`（默认会话）。应用层可通过 `Dcm_ResetToDefaultSession` 将当前会话重置为默认会话，并触发模式切换。
 
+1. **会话状态的存储与接口** [SWS_Dcm_00022]
 
+   - DSL 子模块保存当前激活的会话状态
+   - 提供的接口：
+     - `Dcm_GetSesCtrlType()`：获取当前激活的会话
+     - `DslInternal_SetSesCtrlType()`：设置新的会话
 
+2. **初始化会话状态** [SWS_Dcm_00034]
 
+   - DCM 初始化时，会话状态设置为 `0x01`
+   - 含义：**默认会话（DefaultSession）**
 
+3. **应用层重置会话** [SWS_Dcm_01062]
 
+   - 接口：`Dcm_ResetToDefaultSession()`
+   - 功能：
+     - 将当前会话重置为默认会话
+     - 触发模式声明组 `DcmDiagnosticSessionControl` 的模式切换
+     - 调用：`SchM_Switch_<bsnp>_DcmDiagnosticSessionControl(RTE_MODE_DcmDiagnosticSessionControl_DCM_DEFAULT_SESSION)`
 
+4. **典型应用场景**
 
+   - 自动终止扩展诊断会话
+   - 示例：超过速度限制时自动退出扩展会话
 
+5. **会话状态转换图**
 
+   ```mermaid
+   stateDiagram-v2
+       [*] --> DefaultSession: 初始化 (0x01)
 
+       DefaultSession --> ExtendedSession: 0x10 03 (扩展会话)
+       DefaultSession --> ProgrammingSession: 0x10 02 (编程会话)
 
+       ExtendedSession --> ExtendedSession: 保持会话
+       ProgrammingSession --> ProgrammingSession: 保持会话
 
+       ExtendedSession --> DefaultSession: S3 超时 / 0x10 01 / Dcm_ResetToDefaultSession()
+       ProgrammingSession --> DefaultSession: S3 超时 / 0x10 01 / Dcm_ResetToDefaultSession()
+   ```
 
+6. **相关配置/接口**
 
+   | 接口/参数                      | 说明                 |
+   | ------------------------------ | -------------------- |
+   | `Dcm_GetSesCtrlType()`         | 获取当前会话状态     |
+   | `DslInternal_SetSesCtrlType()` | 设置会话状态         |
+   | `Dcm_ResetToDefaultSession()`  | 应用层重置到默认会话 |
+   | `DcmDiagnosticSessionControl`  | 模式声明组           |
 
+7. **相关规范**
 
+   | 规范            | 内容               |
+   | --------------- | ------------------ |
+   | `SWS_Dcm_00022` | 会话状态存储与接口 |
+   | `SWS_Dcm_00034` | 初始化会话状态     |
+   | `SWS_Dcm_01062` | 应用层重置会话     |
 
+## 认证状态管理
 
+> DCM 为每个诊断连接提供认证状态管理，支持"已认证"和"未认证"两种状态。DSL 子模块负责初始化状态，并在连接空闲或 S3 超时时回退到未认证状态。认证状态可通过模式声明组对外暴露，并支持持久化存储。
 
+1. **每连接的认证状态** [SWS_Dcm_01477]
 
+   - DCM 为每个配置的 `DcmDslConnection` 提供独立的认证状态
+   - 状态类型：
+     - `deauthenticated`（未认证）
+     - `authenticated`（已认证）
 
+2. **模式声明组暴露** [SWS_Dcm_01478]
 
-## 安全管理
+   - 每个连接的认证状态通过 `DcmAuthenticationState_<ConnectionName>` 模式声明组对外提供
+   - 该模式声明组仅由 DCM 修改，应用层的修改不影响 DCM 内部状态
 
-在安全管理模块中，有以下功能：
+3. **初始化行为** [SWS_Dcm_01480][SWS_Dcm_01481]
 
-- 管理安全级别
-- 处理Key和Seed
+   - 默认（未配置持久化或模式规则为 false）：`Dcm_Init` 将所有认证状态初始化为 `deauthenticated`
+   - 持久化启用时：从持久化存储恢复认证状态（包括角色和白名单）
 
-DSL提供Dcm_GetSecurityLevel()、DslInternal_SetSecurityLevel()两个函数分别用于获取当前的安全等级和设置安全等级。
+4. **状态转换控制** [SWS_Dcm_01479]
 
-对于配置层面而言，DSL菜单主要是配置诊断帧，包括物理寻址和功能寻址，单次通信的最大Buffer，以及时间参数，包括回复0x78的时间和为了防止诊断服务异常，允许0x78的最大次数等。
+   - 从 `deauthenticated` 到 `authenticated`：仅当客户端成功执行认证序列后
+   - 从 `authenticated` 到 `deauthenticated`：由 DSL 子模块负责（空闲超时、S3 超时等）
 
+5. **回退条件 - 空闲连接** [SWS_Dcm_01482]
 
+   以下条件**全部满足**时，从已认证回退到未认证：
+   - 该连接上次诊断响应发送时处于**默认会话**
+   - `DcmDspAuthenticationDefaultSessionTimeOut` 已配置
+   - 该连接在超时时间内未收到诊断请求（从上次 `Dcm_TpTxConfirmation` 开始计算）
 
-在 Dcm 初始化期间，安全级别设置为值 0x00 （DCM_SEC_LEV_LOCKED）， 在满足下列条件其中之一时，DSL会将安全级别重置为值 0x00：
+6. **回退条件 - S3 超时** [SWS_Dcm_01483]
 
-- 从任意**非默认会话**切换到另一个**非默认会话**（包括当前已激活的会话）。
-- 从任意**非默认会话**切换到**默认会话**（当使用UDS 的0x10服务或 S3 Server 超时执行）
+   - 若 DCM 处于非默认会话且发生 S3Server 超时
+   - 该连接执行从已认证到未认证的转换
 
-> [!note] 
->
-> 一次只能激活一个安全级别
+7. **持久化认证信息清除** [SWS_Dcm_01484]
 
- 每次安全级别更改时，Dcm 应更新 ModeDeclarationGroup 的DcmSecurityAccess
+   - 当认证状态转换到 `deauthenticated` 时
+   - DCM 清除该连接上所有持久化的认证信息
 
-DcmDspSecurityResetAttemptCounterOnTimeout参数应该在仅当 DcmDspSecurityRow 的 DcmDspSecurityAttemptCounterEnabled 设置为 TRUE 时，才应存在。
+8. **回退后的角色处理** [SWS_Dcm_01485]
 
-### 会话管理
+   - 从 `authenticated` 转换到 `deauthenticated` 后：
+     - 丢弃当前角色和白名单
+     - 使用配置的 `DcmDspAuthenticationDeauthenticatedRoleRef` 角色
 
-会话（session）一般有三种：
+9. **应用层设置未认证角色** [SWS_Dcm_01486][SWS_Dcm_01487][SWS_Dcm_01488]
 
-1. 缺省会话（0x00, Default session）
-2. 编程会话（0x01, Programming session）
-3. 扩展会话（0x02Extended session）
+   - API：`Dcm_SetDeauthenticatedRole`（仅当连接处于未认证状态时有效）
+   - 作用：覆盖配置的未认证角色
+   - 生命周期：
+     - 仅在未认证状态下有效
+     - 转换到已认证状态时被丢弃
+     - 不持久化
 
-DCM的会话管理有以下几个功能：
+10. **启动时默认角色** [SWS_Dcm_01489]
 
-- 管理会话状态处理当前激活的Session以及设置新的Sesstion
-- 管理权限状态分为权限模式和默认的模式
-- 跟踪活动的非默认会话
-- 允许修改时间。
+    - 若认证状态不持久化：
+    - 启动时始终处于 `deauthenticated` 状态
+    - 使用 `DcmDspAuthenticationDeauthenticatedRoleRef` 配置的默认角色
 
-DSL子模块保存当前活动会话的状态，为了访问这个变量，DSL子模块提供了以下接口:
+11. **认证状态机**
 
-- 获取当前活动会话:Dcm_GetSesCtrlType ()
-- 设置会话:DslInternal_SetSesCtrlType()
+    ```mermaid
+    stateDiagram-v2
+        [*] --> Deauthenticated: 初始化 / 持久化未启用
 
-初始化DCM时，会话状态设置为0x01(“DefaultSession”)。调用Dcm_ResetToDefaultSession()允许应用程序将当前会话重置为默认会话，并调用ModeDeclarationGroupPrototype DcmDiagnosticSessionControl的模式切换SchM_Switch__DcmDiagnosticSessionControl（RTE_MODE_DcmDiagnostic）SessionControl_DEFAULT_SESSION)。示例:超出速度限制时自动终止扩展诊断会话。
+        Deauthenticated --> Deauthenticated: Dcm_SetDeauthenticatedRole<br/>（仅未认证状态有效）
 
-> [!note]
->
-> 每种会话下可以进行的诊断服务不同，根据实际需求由OEM自己定义。一般来说诊断（UDS）刷写功能需要在编程会话下进行，涉及到NVM关键存储数据的写功能需要在扩展会话下进行。根据实际需求可以自己定义会话，比如定义0x60（EOL session）专门用于EOL工厂下线处理。
+        Deauthenticated --> Authenticated: 认证序列成功
 
-**会话保持将**在一个单独的DcmRxPduld (UDS功能DcmRxPduld)上接收，该DcmRxPduld与物理请求属于同一个DcmDslConnection。在这种情况下，使用了未显式配置的dcm内部接收缓冲区。由于这个原因，函数testpresent(并且只有没有响应的函数testpresent)以以下方式处理:
+        Authenticated --> Authenticated: 保持认证状态
 
-> [!tip]
->
-> 当PduR模块调用Dcm_TpRxIndication并返回E_OK时，如果请求是“testpresent”命令，且“抑制正响应位”设置为TRUE ，则DSL子模块将重置会话超时定时器(S3Server)，并且不会将此请求转发给DSD。
->
-> 由于绕过了DSL子模块中的功能“testpresent”，Dcm模块能够毫无延迟地接收和处理下一个物理请求。
+        Authenticated --> Deauthenticated: 空闲超时 / S3 超时<br/>（清除持久化信息）
+    ```
 
-#### 诊断协议处理
+12. **相关配置参数**
 
-- 处理不同的诊断协议
-- 处理设置诊断协议服务Table， 根据UDS或者OBD链接到不同的诊断协议
-- 设置不同服务协议的优先级
-- 支持优先级抢占机制
-- 并行处理OBD和UDS协议， 可以忽略优先级和抢占机制
+    | 配置参数                                      | 说明                         |
+    | --------------------------------------------- | ---------------------------- |
+    | `DcmDspAuthenticationPersistStateModeRuleRef` | 持久化认证状态的模式规则引用 |
+    | `DcmDspAuthenticationDefaultSessionTimeOut`   | 默认会话空闲超时时间（秒）   |
+    | `DcmDspAuthenticationDeauthenticatedRoleRef`  | 未认证状态默认角色           |
+    | `DcmDslConnection`                            | 诊断连接配置                 |
 
-**管理资源**
+13. **相关规范**
 
-给服务分配对应的Buffer，
+    | 规范            | 内容                 |
+    | --------------- | -------------------- |
+    | `SWS_Dcm_01477` | 每连接认证状态       |
+    | `SWS_Dcm_01478` | 模式声明组暴露       |
+    | `SWS_Dcm_01479` | 认证状态类型         |
+    | `SWS_Dcm_01480` | 初始化行为           |
+    | `SWS_Dcm_01481` | 持久化初始化         |
+    | `SWS_Dcm_01482` | 空闲回退             |
+    | `SWS_Dcm_01483` | S3 超时回退          |
+    | `SWS_Dcm_01484` | 清除持久化信息       |
+    | `SWS_Dcm_01485` | 回退后角色处理       |
+    | `SWS_Dcm_01486` | 应用层设置未认证角色 |
+    | `SWS_Dcm_01487` | 仅未认证状态有效     |
+    | `SWS_Dcm_01488` | 角色生命周期         |
+    | `SWS_Dcm_01489` | 启动时默认角色       |
 
-1. 在Dcm模块中只允许使用和分配一个诊断缓冲区，这个缓冲区随后用于处理诊断请求和响应
-2. NRC 0x78 (Response pending)响应的输出是通过一个单独的缓冲区完成的
-3. 支持分页缓冲处理
+## 非默认会话
 
-#### 通信模式处理
+> DCM 支持 ISO 14229-1 定义的会话类型，分为默认会话和非默认会话。在非默认会话中，使用 S3 定时器检测非活跃测试仪，定时器超时后自动返回默认会话。S3 定时器仅对请求非默认会话的特定连接上的客户端生效。
 
-DCM模块和ComM模块的交互由DSL子模块完成。ComM模块把每个通信通道（channel）的当前通信状态（No-com, Full-com, Silent-com）通知给Dcm模块。Dcm模块的诊断功能将会调用ComM模块的接口功能可能会阻止Ecu进入shutdown模式（ActiveDiagnostic ==’DCM_COMM_ACTIVE’时ECU必须保持唤醒状态，也就是不允许 进入shutdown/sleep）。
+---
 
-应用程序可以调用Xxx_SetActiveDiagnostic()接口通知Dcm模块ActiveDiagnostic的当前状态
+1. **会话类型**
 
-- 处理通信要求（Full/Silent/No）:ComM会通知DCM当前的通道， DCM会进行模式的请求， 避免通信进入Sleep；在Silent和NO下， DCM禁止通信
-  - No Communication：ComM模块调用 Dcm_ComM_NoComModeEntered接口通知Dcm模块通信关闭。Dcm模块收到通知后就会Disable所有的诊断接收/传输。
-  - Silent Communication:ComM模块调用 Dcm_ComM_SilentComModeEntered接口通知Dcm模块通信静默。Dcm模块收到通知后就会Disable所有的诊断传输。
-  - Full Communication:ComM模块调用 Dcm_ComM_FullComModeEntered接口通知Dcm模块通信静默。Dcm模块收到通知后就会Enable所有的诊断接收/传输。
-- 指示活动/非活动诊断
-- 启用/禁用所有类型的诊断传输
+   - **默认会话（Default Session）**：ECU 启动后的初始会话状态
+   - **非默认会话（Non-Default Session）**：如扩展会话（Extended Session）、编程会话（Programming Session）等
 
-在DSL里面可以配置多路诊断通道，假设诊断ID有2个以上，通过DcmDslProtocolRows容器实现。
+2. **S3 定时器** [SWS_Dcm_01668]
+
+   - DCM 支持 S3Server 定时器
+   - 根据 ISO 14229-2 启动和停止该定时器
+   - 用途：检测非活跃测试仪
+
+3. **会话与连接的绑定** [SWS_Dcm_01669]
+
+   - S3 定时器仅对**请求非默认会话的 `DcmDslConnection` 上的客户端**生效
+   - 不同连接的会话状态相互独立
+
+4. **S3 超时处理** [SWS_Dcm_01670]
+
+   - 若 S3Server 超时，DCM 切换回默认会话
+   - 同时触发认证状态回退（参见认证状态管理相关规范）
+
+5. **会话状态机**
+
+   ```mermaid
+   stateDiagram-v2
+       [*] --> DefaultSession: 初始化
+
+       DefaultSession --> NonDefaultSession: 请求进入非默认会话<br/>（0x10 02/03）
+       NonDefaultSession --> NonDefaultSession: 收到 TesterPresent<br/>（复位 S3 定时器）
+       NonDefaultSession --> DefaultSession: S3 定时器超时
+
+       Note right of NonDefaultSession: S3 定时器仅对<br/>请求该会话的连接生效
+   ```
+
+6. **多连接场景**
+
+   ```mermaid
+   flowchart LR
+       subgraph ECU[ECU]
+           ConnA[连接 A]
+           ConnB[连接 B]
+       end
+
+       ConnA -->|请求非默认会话| TimerA[S3 定时器 A 运行]
+       ConnB -->|仍处于默认会话| NoTimer[S3 定时器未启动]
+
+       TimerA -->|超时| FallbackA[连接 A 回退默认会话]
+   ```
+
+7. **相关配置参数**
+
+   | 配置参数           | 说明                         |
+   | ------------------ | ---------------------------- |
+   | `DcmDslConnection` | 诊断连接配置                 |
+   | S3 定时器相关参数  | ISO 14229-2 定义的定时器配置 |
+
+8. **相关规范**
+
+   | 规范            | 内容                      |
+   | --------------- | ------------------------- |
+   | `SWS_Dcm_01668` | S3Server 定时器支持       |
+   | `SWS_Dcm_01669` | 会话与连接绑定            |
+   | `SWS_Dcm_01670` | S3 超时回退默认会话       |
+   | `SWS_Dcm_01483` | 认证状态回退（S3 超时时） |
+
+## 定时参数的修改
+
+> DCM 模块按照 ISO 14229-2 处理协议定时参数（P2ServerMin、P2ServerMax、P2*ServerMin、P2*ServerMax、S3Server）。P2min/P2*min 固定为 0ms。S3Server 默认 5000ms，可通过配置覆盖。这些参数可通过 UDS 服务 0x10 或 0x83 动态修改，修改后的参数在发送响应后生效。
+
+1. **支持的协议定时参数** [SWS_Dcm_00027]
+
+   | 参数           | 说明                      |
+   | -------------- | ------------------------- |
+   | `P2ServerMin`  | 最小 $P2_{Server}$ 时间   |
+   | `P2ServerMax`  | 最大 $P2_{Server}$ 时间   |
+   | `P2*ServerMin` | 最小 $P2^*_{Server}$ 时间 |
+   | `P2*ServerMax` | 最大 $P2^*_{Server}$ 时间 |
+   | `S3Server`     | S3 定时器超时值           |
+
+2. **P2min 固定值** [SWS_Dcm_00143]
+
+   - `P2min = 0ms`
+   - `P2*min = 0ms`
+
+3. **S3Server 默认超时值** [SWS_Dcm_01679]
+
+   - 若 `DcmS3ServerTimeoutOverwrite` 未配置
+   - S3Server 超时值默认为 **5000ms**
+
+4. **S3Server 覆盖配置** [SWS_Dcm_01680]
+
+   - 若 `DcmS3ServerTimeoutOverwrite` 已配置
+   - 使用配置值作为 S3Server 超时值
+
+5. **动态修改方式**
+
+   | UDS 服务 | 功能                     | 说明                   |
+   | -------- | ------------------------ | ---------------------- |
+   | `0x10`   | DiagnosticSessionControl | 会话切换时修改定时参数 |
+   | `0x83`   | AccessTimingParameter    | 显式修改定时参数       |
+
+6. **DSL 提供的修改功能**
+
+   - 提供当前激活的定时参数
+   - 设置新的定时参数
+   - **新定时值在发送响应后生效**
+
+7. **定时参数修改流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant Tester as 测试仪
+       participant DSL as DSL
+
+       Tester->>DSL: 0x83 (AccessTimingParameter)
+       DSL->>DSL: 暂存新定时参数
+       DSL->>Tester: 肯定响应
+       Note over DSL: 响应发送后，激活新定时参数
+   ```
+
+8. **定时参数作用范围**
+
+   - 影响**会话层定时**（Session Layer Timing）
+   - **不影响**传输层定时（Transport Layer Timing）
+
+9. **相关配置参数**
+
+   | 配置参数                      | 说明                                     |
+   | ----------------------------- | ---------------------------------------- |
+   | `DcmS3ServerTimeoutOverwrite` | S3Server 超时覆盖值（可选，默认 5000ms） |
+
+10. **相关规范**
+
+    | 规范                              | 内容                |
+    | --------------------------------- | ------------------- |
+    | `SWS_Dcm_00027`                   | 支持的定时参数      |
+    | `SWS_Dcm_00143`                   | P2min/P2*min 固定值 |
+    | `SWS_Dcm_01679`                   | S3Server 默认超时值 |
+    | `SWS_Dcm_01680`                   | S3Server 覆盖配置   |
+    | `RS_Diag_04015` / `RS_Diag_04249` | 上游需求            |
+
+
+
+### 不同的服务表
+
+> 不同协议对应不同的诊断服务集合（如 UDS 增强诊断命令、OBD 模式服务）。通过创建不同的服务表并将其链接到诊断协议，DSL 子模块在协议初始化时设置服务表链接，DSD 子模块使用该链接处理诊断请求。
+
+1. **服务表的作用**
+
+   - 不同协议支持不同的诊断服务集合
+   - 示例：
+     - **UDS 增强诊断**：支持 UDS 服务（如 0x10、0x22、0x2E、0x31 等）
+     - **OBD 协议**：支持 OBD 模式服务（如 Mode 01、Mode 03 等）
+
+2. **服务表链接机制** [SWS_Dcm_00035]
+
+   - 每次协议初始化时，DSL 子模块设置指向对应服务表的链接
+   - 配置参数：`DcmDslProtocolSIDTable`
+   - DSD 子模块使用该链接处理诊断请求
+
+3. **流程图**
+
+   ```mermaid
+   flowchart TD
+       subgraph Config[配置]
+           Proto1[协议 1<br/>UDS] --> Table1[服务表 1<br/>UDS 服务集]
+           Proto2[协议 2<br/>OBD] --> Table2[服务表 2<br/>OBD 服务集]
+       end
+
+       subgraph Init[协议初始化]
+           DSL[DSL 子模块] -->|设置链接| Link[指向对应服务表]
+       end
+
+       subgraph Processing[请求处理]
+           Request[诊断请求] --> DSD[DSD 子模块]
+           DSD -->|使用| Link
+           Link -->|查找| Service{服务<br/>有效?}
+           Service -->|是| Execute[执行服务]
+           Service -->|否| NRC[返回 NRC 0x11<br/>ServiceNotSupported]
+       end
+   ```
+
+4. **相关配置参数**
+
+   | 配置参数                 | 说明                 |
+   | ------------------------ | -------------------- |
+   | `DcmDslProtocolSIDTable` | 协议对应的服务表配置 |
+
+5. **相关规范**
+
+   | 规范            | 内容           |
+   | --------------- | -------------- |
+   | `SWS_Dcm_00035` | 服务表链接机制 |
+
+### 协议的优先级
+
+> 配置参数 `DcmDslProtocolPriority` 为每个协议分配相对优先级，允许高优先级协议抢占正在运行的协议。不同协议通过不同的 `DcmDslProtocolRxPduId`（接收 PDU ID）来区分，例如车辆内部增强诊断与 OBD-II/WWH-OBD 通信，后者通常需更高优先级。
+
+1. **优先级的作用**
+
+   - 为每个协议分配相对优先级
+   - 允许高优先级协议**抢占**正在运行的低优先级协议
+   - 典型场景：OBD-II/WWH-OBD 通信优先级高于增强诊断
+
+2. **抢占机制** [SWS_Dcm_00015]
+
+   - 高优先级协议可**抢占**已运行的协议
+   - 确保关键诊断请求（如 OBD）及时处理
+
+3. **协议区分方式**
+
+   - 不同协议使用不同的 `DcmDslProtocolRxPduId`（接收 PDU ID）
+   - 通过配置参数 `DcmDslProtocolRxPduRef` 引用
+
+4. **流程图**
+
+   ```mermaid
+   flowchart TD
+       subgraph Protocols[协议配置]
+           Proto1[协议 1<br/>增强诊断<br/>优先级: 低] --> PduId1[RxPduId: 0x100]
+           Proto2[协议 2<br/>OBD-II<br/>优先级: 高] --> PduId2[RxPduId: 0x200]
+       end
+
+       subgraph Processing[处理流程]
+           Start[接收到诊断请求] --> CheckPduId[检查 RxPduId]
+           CheckPduId -->|0x100| LowPriority[低优先级协议]
+           CheckPduId -->|0x200| HighPriority[高优先级协议]
+           HighPriority --> Preempt{当前协议<br/>正在运行?}
+           Preempt -->|是| PreemptAction[抢占当前协议]
+           Preempt -->|否| Process[正常处理]
+       end
+   ```
+
+5. **相关配置参数**
+
+   | 配置参数                 | 说明                 |
+   | ------------------------ | -------------------- |
+   | `DcmDslProtocolPriority` | 协议优先级           |
+   | `DcmDslProtocolRxPduRef` | 协议接收 PDU ID 引用 |
+
+6. **相关规范**
+
+   | 规范            | 内容           |
+   | --------------- | -------------- |
+   | `SWS_Dcm_00015` | 优先级抢占机制 |
+   | `RS_Diag_04021` | 上游需求       |
+
+### 协议的抢占
+
+> 当高优先级协议需要处理时，DCM 支持抢占正在运行的低优先级协议。抢占过程中会取消所有外部挂起操作（含响应传输、接收），停止协议并清理上下文。被抢占的请求可选择返回 NRC 0x21（BusyRepeatRequest）或静默忽略。
+
+1. **抢占触发条件** [SWS_Dcm_00015]
+
+   - 高优先级协议收到请求时，可抢占正在运行的低优先级协议
+
+2. **抢占处理流程**
+
+   - **取消响应传输** [SWS_Dcm_00079]：若有挂起的响应，调用 `PduR_DcmCancelTransmit()` 取消
+   - **取消接收** [SWS_Dcm_00575]：若有挂起的接收，调用 `PduR_DcmCancelReceive()` 取消
+   - **停止当前协议** [SWS_Dcm_00460][SWS_Dcm_00576]：若取消失败（返回 `E_NOT_OK`），仍停止当前协议
+   - **取消外部操作** [SWS_Dcm_01046]：调用 `Dcm_OpStatus = DCM_CANCEL` 取消所有外部挂起操作
+
+3. **DEM 操作处理** [SWS_Dcm_01047]
+
+   - 若当前协议有挂起的 DEM 操作，且新请求也需要与 DEM 交互
+   - DCM **接受新请求**，并使用新请求的参数调用对应的 DEM API
+
+4. **被抢占请求的响应**
+
+   | `DcmDslDiagRespOnSecondDeclinedRequest` | 行为                                   |
+   | --------------------------------------- | -------------------------------------- |
+   | `TRUE`                                  | 发送 NRC **0x21**（BusyRepeatRequest） |
+   | `FALSE`                                 | **忽略请求**，不生成任何响应           |
+
+5. **多客户端同协议处理** [SWS_Dcm_00729]
+
+   - 同一协议多个客户端（不同 RxPduId）同时请求时，第二个请求不被处理
+   - 响应行为同第 4 点（由 `DcmDslDiagRespOnSecondDeclinedRequest` 控制）
+   - 注意：UDS 合规场景下，应为每个测试仪配置独立的 `DcmDslProtocol` 实例
+
+6. **并行请求处理** [SWS_Dcm_01050]
+
+   - 若新请求优先级**相同或更低**，不调用 ComM 的 `ActiveDiagnostic/InactiveDiagnostic` API
+   - 即不会激活/停用通信管理器状态
+
+7. **抢占时序图**
+
+   ```mermaid
+   sequenceDiagram
+       participant Low as 低优先级协议
+       participant High as 高优先级协议
+       participant DCM as DCM
+       participant PduR as PduR
+
+       Low->>DCM: 正在处理请求...
+       High->>DCM: 高优先级请求到达
+       DCM->>DCM: 检测到优先级抢占
+
+       par 取消当前操作
+           DCM->>PduR: PduR_DcmCancelTransmit()
+           DCM->>PduR: PduR_DcmCancelReceive()
+           DCM->>Low: Dcm_OpStatus = DCM_CANCEL
+       end
+
+       DCM->>High: 接受并处理高优先级请求
+
+       alt 被抢占请求需要响应
+           DCM->>Low: NRC 0x21（BusyRepeatRequest）
+       else 被抢占请求静默忽略
+           Note over DCM,Low: 不发送任何响应
+       end
+   ```
+
+8. **相关配置参数**
+
+   | 配置参数                                | 说明                           |
+   | --------------------------------------- | ------------------------------ |
+   | `DcmDslProtocolPriority`                | 协议优先级                     |
+   | `DcmDslDiagRespOnSecondDeclinedRequest` | 被抢占/拒绝时是否发送 NRC 0x21 |
+   | `DcmDslProtocolRxPduRef`                | 协议接收 PDU ID 引用           |
+
+9. **相关规范**
+
+   | 规范            | 内容               |
+   | --------------- | ------------------ |
+   | `SWS_Dcm_00079` | 取消响应传输       |
+   | `SWS_Dcm_00460` | 取消失败时停止协议 |
+   | `SWS_Dcm_01046` | 取消外部挂起操作   |
+   | `SWS_Dcm_01047` | DEM 操作处理       |
+   | `SWS_Dcm_00575` | 取消接收           |
+   | `SWS_Dcm_00576` | 取消失败时停止协议 |
+   | `SWS_Dcm_00727` | 返回 NRC 0x21      |
+   | `SWS_Dcm_01605` | 静默忽略           |
+   | `SWS_Dcm_00729` | 多客户端同协议处理 |
+   | `SWS_Dcm_01050` | 并行请求 ComM 处理 |
+
+
+
+### 并行诊断协议处理
+
+> DCM 支持并行诊断服务处理，以减少多测试仪并发请求之间的干扰。在**默认会话**中可并行处理请求，在**非默认会话**中仅允许来自一个测试仪的诊断通信。OBD-II 请求可与 UDS 请求并行处理，无需协议优先级检查。高优先级协议可抢占低优先级协议，若低优先级处于非默认会话则抢占后会回退默认会话。
+
+1. **并行处理的基本规则**
+
+   | 场景           | 是否支持并行                                         |
+   | -------------- | ---------------------------------------------------- |
+   | **默认会话**   | ✅ 支持并行处理 [SWS_Dcm_01602]                       |
+   | **非默认会话** | ❌ 仅允许单一测试仪通信，新请求被拒绝 [SWS_Dcm_01603] |
+
+2. **OBD-II 并行处理** [SWS_Dcm_01367]
+
+   - OBD-II 请求可与正在运行的 UDS 请求**并行处理**
+   - **跳过**协议优先级检查（`SWS_Dcm_00015`）
+   - **不执行**协议抢占
+   - 实现约束：仅支持一个 OBD 协议，且为最高优先级
+
+   | 配置约束                                | 说明                                           |
+   | --------------------------------------- | ---------------------------------------------- |
+   | `DcmDslProtocolType = DCM_OBD_ON_<XYZ>` | 仅支持一个 OBD 协议实例 [SWS_Dcm_CONSTR_06102] |
+   | OBD 协议为最高优先级                    | OBD 协议优先级最高 [SWS_Dcm_CONSTR_06103]      |
+
+3. **同一应用接口的串行化** [SWS_Dcm_01604][SWS_Dcm_01370]
+
+   - 若新请求需要调用**正在处理中的同一应用接口**，DCM 延迟该调用
+   - 等待当前操作完成后处理
+   - 延迟期间，标准 $P2$ 定时和 NRC 0x78 机制生效
+   - 外部视角：应用本身执行时间延长
+
+4. **DEM 客户端标识** [SWS_Dcm_01369]
+
+   - 处理诊断请求时，DCM 确定对应协议的 `DcmDemClientRef`
+   - 在所有需要 `ClientId` 参数的 DEM API 调用中使用该值
+   - 作用：让 DEM 区分并发调用
+
+5. **高优先级抢占与会话回退** [SWS_Dcm_01371][SWS_Dcm_01372]
+
+   - 若高优先级协议请求到达，且当前正在处理**非默认会话**中的诊断服务
+   - DCM 行为：
+     1. 取消当前运行的诊断请求
+     2. 转换到默认会话
+     3. 处理新的高优先级请求
+   - 若高优先级协议在默认会话中处理时收到非默认会话切换请求，延迟切换直至高优先级服务完成
+
+6. **命名规范约束** [SWS_Dcm_CONSTR_06000][SWS_Dcm_CONSTR_06001]
+
+   - `DcmDspSessionRow` 的短名称需与 `Dcm_SesCtrlType` 和 `DcmDiagnosticSessionControl` 模式声明名称一致，且必须带 `DCM_` 前缀
+   - ISO 标准诊断会话使用固定短名称：
+
+   | 值   | 短名称                                 |
+   | ---- | -------------------------------------- |
+   | 1    | `DCM_DEFAULT_SESSION`                  |
+   | 2    | `DCM_PROGRAMMING_SESSION`              |
+   | 3    | `DCM_EXTENDED_DIAGNOSTIC_SESSION`      |
+   | 4    | `DCM_SAFETY_SYSTEM_DIAGNOSTIC_SESSION` |
+
+7. **并行处理决策流程图**
+
+   ```mermaid
+   flowchart TD
+       Start[收到诊断请求] --> OBD{是否为<br/>OBD-II 请求?}
+       OBD -->|是| Parallel[并行处理<br/>跳过优先级检查]
+       
+       OBD -->|否| NonDefault{有其他协议<br/>处于非默认会话?}
+       NonDefault -->|否| Accept[接受并处理]
+       NonDefault -->|是| Priority{当前协议<br/>优先级更高?}
+       
+       Priority -->|是| Process[继续处理当前请求<br/>新请求被拒绝/延迟]
+       Priority -->|否| Preempt[抢占当前协议]
+       Preempt --> Cancel[取消当前请求]
+       Cancel --> Switch[回退默认会话]
+       Switch --> Accept2[处理新请求]
+   ```
+
+8. **相关配置参数**
+
+   | 配置参数                                | 说明                    |
+   | --------------------------------------- | ----------------------- |
+   | `DcmDslProtocolPriority`                | 协议优先级              |
+   | `DcmDemClientRef`                       | DEM 客户端引用          |
+   | `DcmDslProtocolType`                    | 协议类型（OBD/UDS）     |
+   | `DcmDslDiagRespOnSecondDeclinedRequest` | 拒绝时是否发送 NRC 0x21 |
+
+9. **相关规范**
+
+   | 规范                         | 内容                 |
+   | ---------------------------- | -------------------- |
+   | `SWS_Dcm_01602`              | 默认会话并行处理     |
+   | `SWS_Dcm_01603`              | 非默认会话拒绝新请求 |
+   | `SWS_Dcm_01604`              | 同一接口串行化       |
+   | `SWS_Dcm_01367`              | OBD-II 并行处理      |
+   | `SWS_Dcm_01369`              | DEM 客户端标识       |
+   | `SWS_Dcm_01370`              | 异步接口串行化       |
+   | `SWS_Dcm_01371`              | 非默认会话抢占回退   |
+   | `SWS_Dcm_01372`              | 默认会话延迟切换     |
+   | `SWS_Dcm_CONSTR_06102/06103` | OBD 协议约束         |
+   | `SWS_Dcm_CONSTR_06000/06001` | 命名规范约束         |
+
+## 资源管理
+
+> 由于资源有限，DCM 模块在设计时需考虑以下资源管理策略：仅分配一个诊断缓冲区用于请求和响应处理，NRC 0x78 使用独立缓冲区发送，分段响应使用分页缓冲区机制。
+
+1. **单一诊断缓冲区**
+
+   - 仅分配**一个**诊断缓冲区
+   - 该缓冲区用于处理诊断请求和响应
+   - 目的：节省内存资源
+
+2. **NRC 0x78 独立缓冲区**
+
+   - NRC 0x78（Response pending）响应使用**独立缓冲区**发送
+   - 避免覆盖正在处理的请求/响应内容
+
+3. **分页缓冲区（Paged-Buffer）**
+
+   - 用于分段响应发送（参见 `SWS_Dcm_00028`）
+   - 允许发送大于配置缓冲区的响应
+
+4. **资源分配示意**
+
+   ```mermaid
+   flowchart LR
+       subgraph DCM[诊断缓冲区]
+           MainBuffer[主诊断缓冲区<br/>请求/响应处理]
+       end
+
+       subgraph Independent[独立缓冲区]
+           NRC78[NRC 0x78 缓冲区]
+           Paged[分页缓冲区<br/>分段响应]
+       end
+   ```
+
+5. **相关规范**
+
+   | 规范            | 内容                |
+   | --------------- | ------------------- |
+   | `SWS_Dcm_00028` | 分页缓冲区机制      |
+   | `SWS_Dcm_00119` | NRC 0x78 独立缓冲区 |
+
+## 通信模式处理
+
+> 通信模式处理是 DCM 与 ComM 之间的接口。ComM 向 DCM 通知通道的当前通信状态，DCM 调用 ComM 报告诊断活动状态，以防止 ECU 休眠/关机。应用层可通过 API 修改诊断活动状态。
+
+1. **ActiveDiagnostic 状态**
+
+   | 状态值                | 说明                                   |
+   | --------------------- | -------------------------------------- |
+   | `DCM_COMM_ACTIVE`     | 诊断请求应保持 ECU 唤醒，防止休眠/关机 |
+   | `DCM_COMM_NOT_ACTIVE` | 诊断请求不阻止 ECU 休眠/关机           |
+
+2. **初始化状态** [SWS_Dcm_01069]
+
+   - `Dcm_Init` 后，ActiveDiagnostic 设置为 `DCM_COMM_ACTIVE`
+
+3. **应用层修改** [SWS_Dcm_01070][SWS_Dcm_01071][SWS_Dcm_CONSTR_06027]
+
+   - 应用层通过 `Xxx_SetActiveDiagnostic()` 修改 ActiveDiagnostic 状态
+   - `false` → `DCM_COMM_NOT_ACTIVE`
+   - `true` → `DCM_COMM_ACTIVE`
+
+4. **完全通信模式等待** [SWS_Dcm_01142]
+
+   - DCM 在发送诊断响应前，需等待 ComM 的完全通信模式指示（`Dcm_ComM_FullComModeEntered`）
+   - 等待时间不得超过 `P2ServerMax`（从收到请求时计算）
+
+5. **静默通信模式错误处理** [SWS_Dcm_01143]
+
+   - 若因 `SWS_Dcm_01142` 导致无法确认响应挂起传输（`DCM_E_FORCE_RCRRP`）
+   - DCM 触发 DET 错误 `DCM_E_FORCE_RCRRP_IN_SILENT_COMM`
+   - 注意：静默通信模式下，分段传输的请求可能丢失
+
+6. **通信模式交互流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant App as 应用层
+       participant DCM as DCM
+       participant ComM as ComM
+
+       Note over App,ComM: 初始化
+       DCM->>DCM: ActiveDiagnostic = DCM_COMM_ACTIVE
+
+       Note over App,ComM: 应用层控制
+       App->>DCM: Xxx_SetActiveDiagnostic(false)
+       DCM->>DCM: ActiveDiagnostic = DCM_COMM_NOT_ACTIVE
+
+       Note over App,ComM: 诊断请求处理
+       DCM->>ComM: 等待 FullComModeEntered
+       ComM-->>DCM: 完全通信模式指示
+       DCM->>App: 发送诊断响应
+   ```
+
+7. **相关配置/接口**
+
+   | 接口/参数                          | 说明                      |
+   | ---------------------------------- | ------------------------- |
+   | `Xxx_SetActiveDiagnostic()`        | 应用层设置诊断活动状态    |
+   | `Dcm_ComM_FullComModeEntered`      | ComM 通知完全通信模式     |
+   | `DCM_E_FORCE_RCRRP_IN_SILENT_COMM` | 静默通信模式下的 DET 错误 |
+
+8. **相关规范**
+
+   | 规范                   | 内容             |
+   | ---------------------- | ---------------- |
+   | `SWS_Dcm_01069`        | 初始化状态       |
+   | `SWS_Dcm_01070`        | 设置为非活动     |
+   | `SWS_Dcm_01071`        | 设置为活动       |
+   | `SWS_Dcm_01142`        | 完全通信模式等待 |
+   | `SWS_Dcm_01143`        | 静默通信错误处理 |
+   | `SWS_Dcm_CONSTR_06027` | 应用层接口       |
+
+### 无通信模式
+
+> ComM 通过调用 `Dcm_ComM_NoComModeEntered` 向 DCM 指示进入无通信模式。DCM 响应后立即禁用所有类型的通信传输（接收和发送），包括事件响应、周期传输和普通传输。若 NetworkId 对应的 ComM 通道未在 DCM 中引用，则不做任何处理。
+
+1. **无通信模式的触发**
+
+   - ComM 调用 `Dcm_ComM_NoComModeEntered` 指示进入无通信模式
+
+2. **禁用所有通信** [SWS_Dcm_00148]
+
+   - **接收和发送**全部关闭
+   - 消息接收和消息发送均不可用
+
+3. **禁用具体传输类型** [SWS_Dcm_00149][SWS_Dcm_00150][SWS_Dcm_00151]
+
+   | 传输类型                 | 说明                                     |
+   | ------------------------ | ---------------------------------------- |
+   | **ResponseOnEvent 传输** | 事件响应传输                             |
+   | **PeriodicId 传输**      | 周期传输（ReadDataByPeriodicIdentifier） |
+   | **正常传输**             | 常规诊断响应传输                         |
+
+4. **禁止 PduR 传输** [SWS_Dcm_00152]
+
+   - `Dcm_ComM_NoComModeEntered` 调用后，DCM 不得调用 `PduR_DcmTransmit()`
+
+5. **无效 NetworkId 处理** [SWS_Dcm_01324]
+
+   - 若 `Dcm_ComM_NoComModeEntered` 传入的 NetworkId 对应的 ComM 通道未在 DCM 中引用（`DcmDslProtocolComMChannelRef`）
+   - DCM **直接返回**，不执行任何进一步操作
+
+6. **无通信模式流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant ComM as ComM
+       participant DCM as DCM
+       participant PduR as PduR
+
+       ComM->>DCM: Dcm_ComM_NoComModeEntered(NetworkId)
+
+       alt NetworkId 在 DCM 中引用
+           DCM->>DCM: 禁用所有通信
+           DCM->>DCM: 禁用 ResponseOnEvent
+           DCM->>DCM: 禁用 PeriodicId 传输
+           DCM->>DCM: 禁用正常传输
+           DCM->>PduR: 不得调用 PduR_DcmTransmit()
+       else NetworkId 未引用
+           DCM->>DCM: 直接返回，无操作
+       end
+   ```
+
+7. **相关配置参数**
+
+   | 配置参数                       | 说明                 |
+   | ------------------------------ | -------------------- |
+   | `DcmDslProtocolComMChannelRef` | DCM 引用的 ComM 通道 |
+
+8. **相关规范**
+
+   | 规范            | 内容                 |
+   | --------------- | -------------------- |
+   | `SWS_Dcm_00148` | 禁用所有通信         |
+   | `SWS_Dcm_00149` | 禁用 ResponseOnEvent |
+   | `SWS_Dcm_00150` | 禁用周期传输         |
+   | `SWS_Dcm_00151` | 禁用正常传输         |
+   | `SWS_Dcm_00152` | 禁止 PduR 传输       |
+   | `SWS_Dcm_01324` | 无效 NetworkId 处理  |
+
+
+
+### 静默通信模式
+
+> ComM 通过调用 `Dcm_ComM_SilentComModeEntered` 向 DCM 指示进入静默通信模式。DCM 响应后立即禁用所有发送传输（接收仍保持启用），包括事件响应、周期传输和普通传输。若 NetworkId 对应的 ComM 通道未在 DCM 中引用，则不做任何处理。
+
+1. **静默通信模式的触发**
+
+   - ComM 调用 `Dcm_ComM_SilentComModeEntered` 指示进入静默通信模式
+
+2. **禁用所有发送** [SWS_Dcm_00153]
+
+   - **消息发送**全部关闭
+   - **接收保持启用**（与无通信模式的区别）
+
+3. **禁用具体传输类型** [SWS_Dcm_00154][SWS_Dcm_00155][SWS_Dcm_00156]
+
+   | 传输类型                 | 说明                                     |
+   | ------------------------ | ---------------------------------------- |
+   | **ResponseOnEvent 传输** | 事件响应传输                             |
+   | **PeriodicId 传输**      | 周期传输（ReadDataByPeriodicIdentifier） |
+   | **正常传输**             | 常规诊断响应传输                         |
+
+4. **无效 NetworkId 处理** [SWS_Dcm_01325]
+
+   - 若传入的 NetworkId 对应的 ComM 通道未在 DCM 中引用（`DcmDslProtocolComMChannelRef`）
+   - DCM **直接返回**，不执行任何进一步操作
+
+5. **无通信模式 vs 静默通信模式**
+
+   | 对比项       | 无通信模式                  | 静默通信模式                    |
+   | ------------ | --------------------------- | ------------------------------- |
+   | **发送**     | ❌ 禁用                      | ❌ 禁用                          |
+   | **接收**     | ❌ 禁用                      | ✅ **保持启用**                  |
+   | **触发函数** | `Dcm_ComM_NoComModeEntered` | `Dcm_ComM_SilentComModeEntered` |
+
+6. **静默通信模式流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant ComM as ComM
+       participant DCM as DCM
+
+       ComM->>DCM: Dcm_ComM_SilentComModeEntered(NetworkId)
+
+       alt NetworkId 在 DCM 中引用
+           DCM->>DCM: 禁用所有发送
+           DCM->>DCM: 禁用 ResponseOnEvent
+           DCM->>DCM: 禁用 PeriodicId 传输
+           DCM->>DCM: 禁用正常传输
+           Note over DCM: 接收仍保持启用
+       else NetworkId 未引用
+           DCM->>DCM: 直接返回，无操作
+       end
+   ```
+
+7. **相关配置参数**
+
+   | 配置参数                       | 说明                 |
+   | ------------------------------ | -------------------- |
+   | `DcmDslProtocolComMChannelRef` | DCM 引用的 ComM 通道 |
+
+8. **相关规范**
+
+   | 规范            | 内容                 |
+   | --------------- | -------------------- |
+   | `SWS_Dcm_00153` | 禁用所有发送         |
+   | `SWS_Dcm_00154` | 禁用 ResponseOnEvent |
+   | `SWS_Dcm_00155` | 禁用周期传输         |
+   | `SWS_Dcm_00156` | 禁用正常传输         |
+   | `SWS_Dcm_01325` | 无效 NetworkId 处理  |
+
+### 完全通信模式
+
+> ComM 通过调用 `Dcm_ComM_FullComModeEntered` 向 DCM 指示进入完全通信模式。DCM 响应后启用所有类型的通信（接收和发送），包括事件响应、周期传输和普通传输。若 NetworkId 对应的 ComM 通道未在 DCM 中引用，则不做任何处理。
+
+1. **完全通信模式的触发**
+
+   - ComM 调用 `Dcm_ComM_FullComModeEntered` 指示进入完全通信模式
+
+2. **启用所有通信** [SWS_Dcm_00157]
+
+   - **消息接收和发送**全部启用
+
+3. **启用具体传输类型** [SWS_Dcm_00159][SWS_Dcm_00160][SWS_Dcm_00161]
+
+   | 传输类型                 | 说明                                     |
+   | ------------------------ | ---------------------------------------- |
+   | **ResponseOnEvent 传输** | 事件响应传输                             |
+   | **PeriodicId 传输**      | 周期传输（ReadDataByPeriodicIdentifier） |
+   | **正常传输**             | 常规诊断响应传输                         |
+
+4. **无限制处理** [SWS_Dcm_00162]
+
+   - 完全通信模式启用后，DCM 可**无限制**处理：
+     - `DslInternal_ResponseOnOneDataByPeriodicId()`
+     - `DslInternal_ResponseOnOneEvent()`
+
+5. **无效 NetworkId 处理** [SWS_Dcm_01326]
+
+   - 若传入的 NetworkId 对应的 ComM 通道未在 DCM 中引用（`DcmDslProtocolComMChannelRef`）
+   - DCM **直接返回**，不执行任何进一步操作
+
+6. **三种通信模式对比**
+
+   | 对比项       | 无通信模式         | 静默通信模式           | 完全通信模式         |
+   | ------------ | ------------------ | ---------------------- | -------------------- |
+   | **发送**     | ❌ 禁用             | ❌ 禁用                 | ✅ **启用**           |
+   | **接收**     | ❌ 禁用             | ✅ **启用**             | ✅ **启用**           |
+   | **触发函数** | `NoComModeEntered` | `SilentComModeEntered` | `FullComModeEntered` |
+
+7. **完全通信模式流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant ComM as ComM
+       participant DCM as DCM
+
+       ComM->>DCM: Dcm_ComM_FullComModeEntered(NetworkId)
+
+       alt NetworkId 在 DCM 中引用
+           DCM->>DCM: 启用所有通信
+           DCM->>DCM: 启用 ResponseOnEvent
+           DCM->>DCM: 启用 PeriodicId 传输
+           DCM->>DCM: 启用正常传输
+           Note over DCM: 接收和发送均启用
+           DCM->>DCM: 无限制处理周期/事件请求
+       else NetworkId 未引用
+           DCM->>DCM: 直接返回，无操作
+       end
+   ```
+
+8. **相关配置参数**
+
+   | 配置参数                       | 说明                 |
+   | ------------------------------ | -------------------- |
+   | `DcmDslProtocolComMChannelRef` | DCM 引用的 ComM 通道 |
+
+9. **相关规范**
+
+   | 规范            | 内容                 |
+   | --------------- | -------------------- |
+   | `SWS_Dcm_00157` | 启用所有通信         |
+   | `SWS_Dcm_00159` | 启用 ResponseOnEvent |
+   | `SWS_Dcm_00160` | 启用周期传输         |
+   | `SWS_Dcm_00161` | 启用正常传输         |
+   | `SWS_Dcm_00162` | 无限制处理周期/事件  |
+   | `SWS_Dcm_01326` | 无效 NetworkId 处理  |
+
+
+
+### 诊断激活状态
+
+> DCM 通过 ComM 接口通知每个网络的诊断激活状态。'active' 状态表示正在处理诊断请求或处于非默认会话；'inactive' 状态表示处于默认会话且无诊断请求处理。DCM 根据请求接收、会话切换、S3 超时等事件自动更新状态，并通过 ComM_DCM_ActiveDiagnostic/InactiveDiagnostic 接口通知 ComM。
+
+1. **诊断激活状态定义**
+
+   | 状态           | 条件                                             |
+   | -------------- | ------------------------------------------------ |
+   | **'active'**   | DCM 正在处理一个或多个诊断请求，或处于非默认会话 |
+   | **'inactive'** | DCM 处于默认会话，且该网络上无正在处理的诊断请求 |
+
+2. **进入 'active' 状态的条件** [SWS_Dcm_01373]
+
+   - 该网络上收到诊断请求
+   - 会话切换到任何非默认会话
+
+3. **进入 'inactive' 状态的条件** [SWS_Dcm_01374]
+
+   - 当前诊断请求处理完成
+   - 该网络上无其他协议的诊断请求正在处理
+   - DCM 处于默认会话
+
+4. **S3 超时强制回退** [SWS_Dcm_01375]
+
+   - S3Server 超时发生且 DCM 转换到默认会话时
+   - **所有网络**进入 'inactive' 状态
+
+5. **通知 ComM 机制** [SWS_Dcm_01376][SWS_Dcm_01377]
+
+   - **进入 active**：调用 `ComM_DCM_ActiveDiagnostic(NetworkId)`（前提：`ActiveDiagnostic = DCM_COMM_ACTIVE`）
+   - **进入 inactive**：调用 `ComM_DCM_InactiveDiagnostic(NetworkId)`
+   - NetworkId 来自 `DcmDslProtocolComMChannelRef`
+
+6. **请求完成定义** [SWS_Dcm_01378]
+
+   以下情况视为请求处理完成：
+
+   - DCM 已发送肯定响应或非 0x78 的否定响应，并收到 `Dcm_TpTxConfirmation`
+   - 服务处理完成且 SPRMIB=true，肯定响应被抑制
+   - 功能寻址场景下，服务处理完成且否定响应被抑制
+
+7. **状态转换图**
+
+   ```mermaid
+   stateDiagram-v2
+       [*] --> Inactive: 初始化 / 默认会话
+
+       Inactive --> Active: 收到诊断请求 / 进入非默认会话
+       Active --> Active: 处理中 / 保持非默认会话
+       Active --> Inactive: 请求完成 + 默认会话 + 无其他处理
+       Active --> Inactive: S3 超时 → 默认会话
+   ```
+
+8. **诊断激活状态流程**
+
+   ```mermaid
+   sequenceDiagram
+       participant DCM as DCM
+       participant ComM as ComM
+
+       Note over DCM,ComM: 进入 Active
+       DCM->>DCM: 收到请求或进入非默认会话
+       DCM->>ComM: ComM_DCM_ActiveDiagnostic(NetworkId)
+
+       Note over DCM,ComM: 请求处理中...
+       DCM->>DCM: 处理诊断请求
+
+       Note over DCM,ComM: 进入 Inactive
+       DCM->>DCM: 请求完成 + 默认会话 + 无其他处理
+       DCM->>ComM: ComM_DCM_InactiveDiagnostic(NetworkId)
+   ```
+
+9. **相关配置参数**
+
+   | 配置参数                       | 说明                     |
+   | ------------------------------ | ------------------------ |
+   | `DcmDslProtocolComMChannelRef` | 协议关联的 ComM 通道     |
+   | `ActiveDiagnostic`             | 应用层控制的诊断激活状态 |
+
+10. **相关规范**
+
+    | 规范                  | 内容                   |
+    | --------------------- | ---------------------- |
+    | `SWS_Dcm_01373`       | 进入 active 状态       |
+    | `SWS_Dcm_01374`       | 进入 inactive 状态     |
+    | `SWS_Dcm_01375`       | S3 超时回退所有网络    |
+    | `SWS_Dcm_01376`       | 通知 active 状态       |
+    | `SWS_Dcm_01377`       | 通知 inactive 状态     |
+    | `SWS_Dcm_01378`       | 请求完成定义           |
+    | `SWS_Dcm_01070/01071` | 应用层控制诊断激活状态 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # DSD：诊断调度服务
 

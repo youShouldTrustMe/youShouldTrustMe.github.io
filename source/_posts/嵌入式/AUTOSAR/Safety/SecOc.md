@@ -7,7 +7,11 @@ tags:
   - AUTOSAR
 ---
 
+# 参考链接
 
+https://blog.csdn.net/m0_58346868/article/details/149842070
+
+https://blog.csdn.net/weixin_42108533/article/details/159755674
 
 # 概述
 
@@ -142,7 +146,7 @@ tags:
 3. **规范的组织方式**
 
    - 主要描述：使用**对称机制**的技术方法，使用对称原语的常用术语
-   - 异步适配：非对称方法的适配在 **7.1.4** 章节中单独给出
+     - 异步适配：非对称方法的适配在后面章节中单独给出
 
 4. **对称方法的核心流程**
 
@@ -192,7 +196,6 @@ tags:
 
 7. **相关规范**
 
-   - 7.1.4：非对称方法的适配说明
    - `SWS_SecOC_001` 系列：对称方法的具体实现规范
    - 后续章节：详细的密钥管理、新鲜度值管理等
 
@@ -2317,3 +2320,340 @@ tags:
    - JASPAR：日本汽车软件平台与架构标准
    - `UC_SecOC_00202`：JasPar 新鲜度值构造方式
    - SWS_SecOC_00194：Profile 3 配置定义
+
+# FVM
+
+AUTOSAR把新鲜度管理完全交给应用层，让FvM成为一个可插拔、可定制的SWC。OEM可以自由实现：
+
+- 单计数器（每次发送自增）
+- 时间戳（基于全局时间）
+- 多级计数器（Trip + Reset + Message，主从同步）
+
+FvM的核心任务是“新鲜度值的全生命周期管理”，包括：
+
+1. **提供新鲜度值**：当SecOC需要时（发送或接收），FvM必须返回一个新鲜度值。
+   1. 对于发送，通常返回当前计数器值；
+   2. 对于接收，FvM可能需要根据收到的截断值推测完整值（例如，尝试多种可能性，直到MAC验证通过）。
+2. **维护计数器状态**：维护每个安全信道（FreshnessValueID）的计数器，确保单调递增。计数器可以放在RAM中，必要时同步到NVM。
+3. **处理同步**：如果采用主从同步，FvM需要处理同步报文（TripResetSyncMsg），更新本地的Trip Counter、Reset Counter。
+4. **通知与故障处理**：接收SecOC的验证结果通知，如果连续失败，可能触发同步或报故障。
+
+FvM的实现没有“标准模板”，但标准附录提供了三种典型用例作为参考
+
+1. `UC_SecOC_00200`：单计数器（Freshness Counter），每次发送递增，接收时通过截断值推测完整值。
+2. `UC_SecOC_00201`：单时间戳（Freshness Timestamp），使用全局同步时间，接收时检查是否在允许窗口内。
+3. `UC_SecOC_00202`：多计数器主从同步（Trip + Reset + Message），用于扩展规范，需要周期性同步报文。
+
+OEM可以根据需求选择其一，或自行创新。
+
+> [!tip]
+>
+> 在战场上有两个通信兵，这两个通信兵互不认识且来自不同的指挥部，他们要给同一个远方的阵地传达一份完整的情报。
+>
+> - 通信兵A只知道行动的时间计划， 
+> - 通信兵B只知道行动的人员安排。
+>
+> 他们两个来自不同的地方、来自不同的时间，去向相同的目的地，也不是同时到达。到了目的阵地，将军们要想获取完整的作战              部署，就要把A+B的信息整合到一起才有意义，这里面：
+>
+> **通信兵A -- 同步报文(SyncMsg)**
+>
+> **通信兵B--安全报文(SecuredMsg)**
+>
+> **完整的作战部署---新鲜值(Freshness Value)**
+>
+> **整合A、B信息的那个部门/个人----新鲜值管理(FVM)。**
+>
+> **FVM最重要的作用就是从分散的报文中恢复/补齐出一个完整的FV！**
+
+
+
+## SecOc和Fvm的交互：
+
+SecOC需要获取新鲜度值时，必须通过一种方式“呼叫”FvM。AUTOSAR定义了两种互斥的机制，通过配置参数SecOCQueryFreshnessValue选择：
+
+| 模式      | 配置值 | 交互方式                                                     | 适用场景                                        |
+| --------- | ------ | ------------------------------------------------------------ | ----------------------------------------------- |
+| CFUNC模式 | CFUNC  | SecOC直接调用C函数，函数名固定（如`SecOC_GetTxFreshness `）FvM作为Callout实现这些函数，通常编译进同一个二进制文件 | 轻量化，FvM逻辑简单，无需RTE，适用于小型ECU.    |
+| RTE模式   | RTE    | SecOC通过RTE调用SWC端口服务（如 `FreshnessManagement_GetTxFreshness`）。FvM实现该SWC，提供端口。 | 符合标准分层，FvM可以与其他SWC通信，适合大型ECU |
+
+
+
+这两种模式是并行可选的，但一个系统只能选其一。如果你选择了CFUNC，就不能再用RTE；反之亦然。它们的核心区别在于“谁来负责函数名映射”——CFUNC是直接函数调用，RTE是通过RTE生成的标准接口。
+
+无论选择哪种模式，SecOC需要的功能是相同的。下表列出了所有SecOC需要从FvM获得的“服务”以及对应的CFUNC函数名和RTE服务操作名。
+
+| 服务功能                           | CFUNC函数名 （FvM实现）           | RTE服务操作名（FvM实现）                      |
+| ---------------------------------- | --------------------------------- | --------------------------------------------- |
+| 获取发送新鲜度（完整值）           | `SecOC_GetTxFreshness`            | `FreshnessManagement_GetTxFreshness`          |
+| 获取发送新鲜度（同时返回截断值     | `SecOC_GetTxFreshnessTruncData`   | `FreshnessManagement_GetTxFreshnessTruncData` |
+| 获取接收验证新鲜度                 | `SecOC_GetRxFreshness`            | `FreshnessManagement_GetRxFreshness`          |
+| 获取接收验证新鲜度（传入部分数据） | `SecOC_GetRxFreshnessAuthData`    | `FreshnessManagement_GetRxFreshnessAuthData`  |
+| 通知发送完成                       | `SecOC_SPduTxConfirmation`        | `FreshnessManagement_SPduTxConfirmation`      |
+| 通知验证结果                       | `SecOc_VerificationStatusCallout` | `VerificationStatus`（S/R接口）               |
+
+这些接口的参数在标准中都有详细定义。例如，SecOC_GetTxFreshnessTruncData除了返回完整新鲜度值，还会返回 截断 值（即要放到报文中的那部分），这样FvM可以灵活决定截断规则（标准要求从LSB侧截取，但FvM也可以自己决定）。
+
+状态通知：验证结果如何“广播”？
+
+SecOC每次验证后，都需要将结果告知外部，特别是FvM（因为它需要根据结果决定是否更新计数器）。标准提供了两种通知方式：
+
+- Callout函数：SecOC_VerificationStatusCallout，由FvM实现，每次验证后调用。
+- Sender-Receiver接口：VerificationStatus，SecOC提供ProvidePort，任意SWC（包括FvM）可以Require该端口接收状态。
+
+如果选择了RTE模式，通常使用S/R接口；如果选择了CFUNC模式，则使用Callout。两者同样可以互斥选择，但标准允许同时使用（例如，同时通知FvM和应用层监控）。
+
+通知的数据结构SecOC_VerificationStatusType包含：
+
+- `freshnessValueID`：哪个新鲜度值ID对应的验证。
+- `verificationStatus`：枚举值，包括SECOC_VERIFICATIONSUCCESS、SECOC_VERIFICATIONFAILURE、SECOC_FRESHNESSFAILURE等。
+- `secOCDataId`：对应的DataID。
+
+FvM收到失败通知后，可以执行同步逻辑；收到成功通知后，可以更新“上次成功接收的计数器值”。
+CFUNC模式时序图为：
+
+
+
+```mermaid
+sequenceDiagram
+    participant App as 上层应用 (ASW)
+    participant PduR as PduR
+    participant SecOC as SecOC (BSW)
+    participant FvM as FvM (ASW Callout)
+    participant CSM as CSM (BSW)
+    participant Bus as 通信总线
+
+    Note over SecOC, FvM: 配置: SecOCQueryFreshnessValue = CFUNC
+
+    App ->> PduR: PduR_<Up>Transmit (Authentic I-PDU)
+    PduR ->> SecOC: SecOC_IfTransmit / TpTransmit
+    SecOC -->> PduR: E_OK (缓冲复制)
+    PduR -->> App: E_OK
+
+    Note over SecOC: 下一周期 MainFunctionTx
+
+    SecOC ->> FvM: SecOC_GetTxFreshnessTruncData (FV ID)
+    FvM -->> SecOC: 完整FV + 截断FV
+
+    SecOC ->> CSM: Csm_MacGenerate (DataID | Authentic | 完整FV)
+    CSM -->> SecOC: MAC
+    SecOC ->> SecOC: 截取MAC (MSB)
+
+    SecOC ->> PduR: PduR_SecOCTransmit (Secured I-PDU)
+    PduR ->> Bus: 发送报文
+
+    Bus -->> PduR: SecOC_SPduTxConfirmation (FV ID)
+    PduR ->> SecOC: SecOC_RxIndication (Secured I-PDU)
+    SecOC -->> PduR: 缓冲复制
+
+    Note over SecOC: 下一周期 MainFunctionRx
+
+    SecOC ->> FvM: SecOC_GetRxFreshness (FV ID, 截断FV, ...)
+    FvM -->> SecOC: 完整FV候选
+
+    SecOC ->> CSM: Csm_MacVerify (DataID | Authentic | 完整FV)
+    CSM -->> SecOC: 验证结果
+
+    SecOC ->> FvM: SecOC_VerificationStatusCallout (状态)
+
+    alt 验证成功
+        SecOC ->> PduR: PduR_SecOCIfRxIndication (Authentic I-PDU)
+        PduR ->> App: 转发给上层
+    else 验证失败
+        SecOC ->> SecOC: 丢弃报文
+    end
+    
+    
+```
+
+RTE模式时序图为：
+
+
+
+
+
+```mermaid
+sequenceDiagram
+    participant App as 上层应用 (ASW)
+    participant PduR as PduR
+    participant SecOC as SecOC (BSW)
+    participant RTE as RTE
+    participant FvM as FvM SWC (ASW)
+    participant CSM as CSM (BSW)
+    participant Bus as 通信总线
+
+    Note over SecOC, FvM: 配置: SecOCQueryFreshnessValue = RTE
+
+    App ->> PduR: PduR_<Up>Transmit (Authentic I-PDU)
+    PduR ->> SecOC: SecOC_IfTransmit / TpTransmit
+    SecOC -->> PduR: E_OK (缓冲复制)
+    PduR -->> App: E_OK
+
+    Note over SecOC: 下一周期 MainFunctionTx
+
+    SecOC ->> RTE: Rte_Call_FreshnessManagement_GetTxFreshnessTruncData (FV ID)
+    RTE ->> FvM: FreshnessManagement_GetTxFreshnessTruncData (端口调用)
+    FvM -->> RTE: 完整FV + 截断FV
+    RTE -->> SecOC: 返回数据
+
+    SecOC ->> CSM: Csm_MacGenerate (DataID | Authentic | 完整FV)
+    CSM -->> SecOC: MAC
+    SecOC ->> SecOC: 截取MAC (MSB)
+
+    SecOC ->> PduR: PduR_SecOCTransmit (Secured I-PDU)
+    PduR ->> Bus: 发送报文
+
+    Bus -->> PduR: SecOC_SPduTxConfirmation (FV ID)
+    PduR ->> SecOC: SecOC_RxIndication (Secured I-PDU)
+    SecOC -->> PduR: 缓冲复制
+
+    Note over SecOC: 下一周期 MainFunctionRx
+
+    SecOC ->> RTE: Rte_Call_FreshnessManagement_GetRxFreshness (FV ID, 截断FV, ...)
+    RTE ->> FvM: FreshnessManagement_GetRxFreshness (端口调用)
+    FvM -->> RTE: 完整FV候选
+    RTE -->> SecOC: 返回数据
+
+    SecOC ->> CSM: Csm_MacVerify (DataID | Authentic | 完整FV)
+    CSM -->> SecOC: 验证结果
+
+    SecOC ->> RTE: Rte_Send_VerificationStatus (状态)   [Sender-Receiver 接口]
+    RTE ->> FvM: 状态广播 (如 FvM 订阅了该端口)
+
+    alt 验证成功
+        SecOC ->> PduR: PduR_SecOCIfRxIndication (Authentic I-PDU)
+        PduR ->> App: 转发给上层
+    else 验证失败
+        SecOC ->> SecOC: 丢弃报文
+    end
+```
+
+两种模式的对比为：
+
+| 特性       | CFUNC模式                               | RTE模式                                   |
+| ---------- | --------------------------------------- | ----------------------------------------- |
+| 调用方式   | SecOC直接调用C函数 （函数名固定）       | SecOC通过RTE调用SWC端口服务               |
+| FVM形态    | 一组Callout函数， 通常与SecOC同编译单元 | 独立的AUTOSAR SWC， 通过RTE连接           |
+| 配置参数   | `SecOCQueryFreshnessValue`=CFUNC        | `SecOCQueryFreshnessValue` =RTE           |
+| 适用场景   | 轻量化、 小型ECU、无需复杂SWC交互       | 大型ECU、 需要与其他ASW通信、符合标准分层 |
+| 状态通知   | `SecOc_VerificationStatusCallout`       | `VerificationStatus` Sender-Receiver 接口 |
+| 标准化程序 | 函数接口固定，但实现可自由              | 完全符合AUTOSAR方法论，工具链自动生成RTE  |
+
+## FV构成
+
+FVM分为三类：
+
+1. 基于Counter的
+2. 基于时间戳计数器的
+3. 复合多计数器的。
+
+FV的构成为：
+
+![FV的构成](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804130534549.png)
+
+
+
+
+
+完整的FV包含:
+
+- 里程计数器(Trip Counter): 变化最慢，递增条件：复位，开始新点火循环，到最大值之后会重置，它的变化会重置Reset Counter。
+- 复位计数器(Reset Counter):周期性(秒级)递增，到达最大值后会保持，它的递增会重置Message Counter。
+- 消息计数器(Message Counter):在报文收发成功后会自增，到达最大值后会保持。它分为MsgCnt_Hi和MsgCnt_Lo两部分。
+- 复位标志(Reset Flag):它就是复位计数器(Reset Counter)低2位的影子。
+
+## 同步报文
+
+同步报文是由FVM主机发给FVM从机的报文，同步报文在FVM主机和构建的时候，采用CANID + TripCnt|ResetCnt+用Key生成较长长度的MAC，比如16Byte。但是在总线上传输的时候，为了节省带宽，只在总线上传输TripCnt|ResetCnt+裁剪的MAC(比如11Byte)。
+
+![同步报文](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131316851.png)
+
+原来的DataID和Key为可以简单理解为双方提前约定，故而不在总线上传输(不是很准确，因为key的首次注入也是在总线上完成的，此处不表，忽略之)。
+
+从机接收到同步报文后，会根据裁剪的新鲜值TripCnt|ResetCnt和本地的key，去逆向计算出一个MAC_Local(这个是在HSM中做的，实际的host Core看不到)，然后调用Csm_MacVerify(MAC)给HSM用于和MAC_Local做对比。对比通过后，FVM会用最新的同步报文里面的信息去更新本地维护的新鲜值FV。
+
+## 安全报文
+
+安全报文是由安全报文的Sender发给receiver的报文，安全报文在本地和构建的时候，采用CANID + 完整的FV+用Key生成较长长度的MAC，比如16Byte。
+
+但是在总线上传输的时候，为了节省带宽，只在总线上传输Data+MsgCnt_Lo|ResetFlag+裁剪的MAC_Trim（比如2Byte）。
+
+![安全报文](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131653337.png)
+
+原来的DataID和Key为可以简单理解为双方提前约定，故而不在总线上传输。
+
+receiver接收到安全报文后，要校验这个不完整的MAC值是否正确，肯定首先要逆向一个完整的算子，DataID和Key为事先约定，那么FV如何获取？这个时候SecOC会调用FVM的接口，比如FVM_GetFV()来获取本地维护的完整的FV，然后再采用和Sender一样的方式采用CANID + 完整的FV+用Key生成较长长度的MAC_Local。裁剪后为MAC_Local_Trim。
+
+然后receiver调用Csm_MacVerify(MAC_Local_Trim)给HSM用于和MAC_Trim做对比。对比通过后，FVM会用最新的安全报文里面的信息去更新本地维护的新鲜值FV。
+
+## 关键值
+
+![报文接收和发送](https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131953093.png)
+
+
+
+
+
+
+
+在报文发送接受过程中有三个重要的值：
+
+1. **先前值**：是指上次安全报文验证成功时各计数器的值。
+
+   更新时机：安全报文验证通过后，即SecOC在接受到安全报文后
+
+   1. 调用FVM_GetFV获取完整的新鲜值。
+   2. SecOC验证通过后会通过一个接口比如SecOC_VerifyPass()通知FVM，我这个报文是有效的。
+   3. FVM收到通知后，根据一定的策略，决定是否采纳该值。具体策略见下文。
+
+2. **最新值**：是指从节点接收到的同步报文中新鲜度计数器值。
+
+   更新时机：从节点对接收的同步报文验证通过后。
+
+3. **接收值**：是指当前接收到的安全报文中各计数器的值。
+
+   更新时机：即SecOC在接受到安全报文后，调用FVM_GetFV(uint8* truncatedFreshnessValue......)获取完整的新鲜值时，在实参中传递过来的部分计数器就是接收值。
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,6 +5,10 @@ categories:
   - 软件及工具
 ---
 
+
+
+
+
 # 快捷键
 
 ## 常用快捷键
@@ -308,10 +312,6 @@ categories:
 
 https://blog.csdn.net/luobeihai/article/details/127044565
 
-![iar安装教程](https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/17_13_32_48_202412171332982.png)
-
-
-
 # 使用技巧
 
 ## Settings文件
@@ -508,12 +508,11 @@ https://blog.csdn.net/luobeihai/article/details/127044565
 
 ### 生成方式
 
-#### 方式1：VSCode 自动生成
-- 按 `Ctrl+Shift+P` → 输入 `Tasks: Configure Task` → 选择模板
-
-#### 方式2：手动创建
-- 在项目根目录创建 `.vscode` 文件夹
-- 新建 `tasks.json` 文件，手动编写配置
+1. VSCode 自动生成
+   1. 按 `Ctrl+Shift+P` → 输入 `Tasks: Configure Task` → 选择模板
+2. 手动创建
+   1. 在项目根目录创建 `.vscode` 文件夹
+   2. 新建 `tasks.json` 文件，手动编写配置
 
 ### 触发方式
 
@@ -522,10 +521,6 @@ https://blog.csdn.net/luobeihai/article/details/127044565
 | `Ctrl+Shift+B`              | 运行默认构建任务（标记了 `isDefault: true` 的任务） |
 | `Ctrl+Shift+P` → `Run Task` | 选择并运行任意任务                                  |
 | 状态栏点击（需插件）        | 一键运行                                            |
-
-
-
-
 
 
 

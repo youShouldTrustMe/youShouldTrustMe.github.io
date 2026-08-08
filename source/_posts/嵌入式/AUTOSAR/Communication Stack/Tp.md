@@ -11,7 +11,7 @@ tags:
 
 > [!tip] 
 >
-> 可参见http://main.weike-iot.com:2211/ebooks/can/%E8%BD%A6%E8%BD%BD%E8%AF%8A%E6%96%AD%E6%A0%87%E5%87%86ISO_15765-2_cn.pdf
+> 可参见https://www.autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_SWS_CANTransportLayer.pdf
 
 # CanTp
 
@@ -221,49 +221,7 @@ STmin的度量是在一个连续帧发送完开始到请求下一个连续帧时
 - N_WFTmax参数仅由接收网络实体在接收信息的时候使用。
 - 如果N_WFTmax参数值设置为0,流控应当继续仅使用FC N_PDU CTS。流控等待(FC N_PDU WT)不应再该网络实体中使用。
 
-# 数据传输
 
-**单帧传输**
-
-```mermaid
-sequenceDiagram
-    participant Sender
-    participant Receiver
-    
-    Note over Sender,Receiver: SingleFrame (SF) 传输流程
-    Sender->>Receiver: SingleFrame (SF)
-```
-
-**多帧传输**
-
-```mermaid
-sequenceDiagram
-    participant Sender
-    participant Receiver
-    
-    Note over Sender,Receiver: 多帧传输流程（ISO-TP/AUTOSAR TP协议）
-    
-    Sender->>Receiver: FirstFrame (FF)
-    Receiver-->>Sender: FlowControl frame (FC)
-    
-    Sender->>Receiver: ConsecutiveFrame (CF)
-    Sender->>Receiver: ConsecutiveFrame (CF)
-    Sender->>Receiver: ConsecutiveFrame (CF)
-    
-    Receiver-->>Sender: FlowControl frame (FC)
-    
-    Sender->>Receiver: ConsecutiveFrame (CF)
-    Sender->>Receiver: ConsecutiveFrame (CF)
-    
-```
-
-> [!tip] 
->
-> 多帧传输过程为：
->
-> 首帧-->流控(其中需要传入bs参数)-->连续帧发送bs大小-->流控（传入接下来的bs大小）-->连续帧...以此类推
->
-> 当bs为0的时候表示中间不需要流控，可以一直发送。 
 
 # 时间参数
 
@@ -387,7 +345,124 @@ sequenceDiagram
 | N_As | 发送方没有及时发送N_PDU                                      | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_A的N_USData.confirm指示 |
 | N_Ar | 接收方没有及时发送N_PDU                                      | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_A 的N_USData.confirm指示 |
 | N_Bs | 发送方没有接收到流控帧（丢失， 覆盖）或在首帧前收到，或连续 帧没有被接收方接收到。 | 放弃信息的发送并传递< N_Result>= N_TIMEOUT_Bs的N_USData.confirm指示 |
-| N_Cr | 接收方没有收到连续帧或之前流 控帧未被发送方收到。            | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_Cr的N_USData.confirm指示 |
+| N_Cr | 接收方没有收到连续帧或之前流控帧未被发送方收到。             | 放弃信息的接收并传递< N_Result>= N_TIMEOUT_Cr的N_USData.confirm指示 |
+
+# 数据传输
+
+**单帧传输**
+
+```mermaid
+sequenceDiagram
+    participant Sender
+    participant Receiver
+    
+    Note over Sender,Receiver: SingleFrame (SF) 传输流程
+    Sender->>Receiver: SingleFrame (SF)
+```
+
+**多帧传输**
+
+```mermaid
+sequenceDiagram
+    participant Sender
+    participant Receiver
+    
+    Note over Sender,Receiver: 多帧传输流程（ISO-TP/AUTOSAR TP协议）
+    
+    Sender->>Receiver: FirstFrame (FF)
+    Receiver-->>Sender: FlowControl frame (FC)
+    
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    
+    Receiver-->>Sender: FlowControl frame (FC)
+    
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    Sender->>Receiver: ConsecutiveFrame (CF)
+    
+```
+
+> [!tip]  
+>
+> 多帧传输过程为：
+>
+> 首帧-->流控(其中需要传入bs参数)-->连续帧发送bs大小-->流控（传入接下来的bs大小）-->连续帧...以此类推
+>
+> 当bs为0的时候表示中间不需要流控，可以一直发送。 
+
+接收端长帧处理：
+
+```mermaid
+sequenceDiagram
+    participant CanIf as CanIf (下层)
+    participant CanTp as CanTp (传输层)
+    participant PduR as PduR (路由)
+    participant Upper as 上层 (如DCM)
+
+    CanIf->>CanTp: 1. CanTp_RxIndication(FF)
+    Note over CanTp: 识别为FF，提取总长度FF_DL
+    CanTp->>PduR: 2. PduR_CanTpStartOfReception(FF_DL)
+    PduR->>Upper: 请求并锁定Buffer
+    Upper-->>PduR: 返回可用Buffer大小
+    PduR-->>CanTp: 返回BUFREQ_OK及Buffer大小
+    Note over CanTp: 根据Buffer大小计算BS等流控参数
+    CanTp->>CanIf: 3. CanIf_Transmit(FC, FS=CTS, BS, STmin)
+    CanIf-->>CanTp: CanTp_TxConfirmation(FC)
+
+    loop 每个连续帧(CF)
+        CanIf->>CanTp: 4. CanTp_RxIndication(CF, SN)
+        Note over CanTp: 校验SN，提取数据
+        CanTp->>PduR: 5. PduR_CanTpCopyRxData(数据)
+        PduR->>Upper: 拷贝数据到Buffer
+    end
+
+    Note over CanTp: 所有数据接收完成
+    CanTp->>PduR: 6. PduR_CanTpRxIndication(E_OK)
+    PduR->>Upper: 通知接收完成，解锁Buffer
+```
+
+发送方长帧处理：
+
+```mermaid
+sequenceDiagram
+    participant Upper as 上层 (如DCM)
+    participant PduR as PduR (路由)
+    participant CanTp as CanTp (传输层)
+    participant CanIf as CanIf (下层)
+
+    Upper->>PduR: 发送请求(长数据)
+    PduR->>CanTp: 1. CanTp_Transmit(长度信息)
+    Note over CanTp: 判断为长帧，准备分段
+    CanTp->>PduR: 2. PduR_CanTpCopyTxData(获取FF数据)
+    PduR-->>CanTp: 返回FF数据负载
+    CanTp->>CanIf: 3. CanIf_Transmit(FF)
+    CanIf-->>CanTp: CanTp_TxConfirmation(FF) [N_As超时监控]
+
+    loop 等待并处理FC
+        CanIf->>CanTp: 4. CanTp_RxIndication(FC)
+        Note over CanTp: 解析FC参数(FS, BS, STmin)
+        alt FS == CTS (继续发送)
+            loop 发送一个Block的CF帧 (BS控制数量)
+                CanTp->>PduR: 5. PduR_CanTpCopyTxData(获取CF数据)
+                PduR-->>CanTp: 返回CF数据负载
+                CanTp->>CanIf: 6. CanIf_Transmit(CF, SN)
+                CanIf-->>CanTp: CanTp_TxConfirmation(CF)
+                Note over CanTp: 按STmin间隔发送下一帧
+            end
+        else FS == WT (等待)
+            Note over CanTp: 停止发送，等待新的FC
+        else FS == OVFLW (溢出)
+            Note over CanTp: 发送失败，终止会话
+        end
+    end
+
+    Note over CanTp: 所有数据发送完成
+    CanTp->>PduR: 7. PduR_CanTpTxConfirmation(E_OK)
+    PduR->>Upper: 通知发送完成，解锁Buffer
+```
+
+
 
 # 地址映射
 
