@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@traptitech/markdown-it-katex": "^3.6.0",
-    "hexo": "^7.3.0",
+    "hexo": "^8.1.2",
     "hexo-butterfly-article-double-row": "^1.0.2",
     "hexo-butterfly-categories-card": "^1.0.0",
     "hexo-butterfly-swiper": "^1.0.12",
