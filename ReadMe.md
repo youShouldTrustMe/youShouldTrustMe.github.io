@@ -1,0 +1,1 @@
+换机器或重新 clone 后，需要在仓库根目录执行一次 git config core.hooksPath githooks（.git 目录不进版本库，这个配置是本地的）。

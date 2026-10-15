@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: USART
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_11_51_52_202407091151823.png

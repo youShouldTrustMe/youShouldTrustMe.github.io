@@ -1,0 +1,2 @@
+# pre-commit 钩子是 sh 脚本，必须保持 LF，否则 #!/bin/sh 带 \r 会执行失败
+githooks/pre-commit text eol=lf

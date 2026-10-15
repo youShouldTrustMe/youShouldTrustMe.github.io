@@ -1067,6 +1067,8 @@ inject:
     - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
   bottom:
     - <script src="/js/toc-fix.js"></script>
+    # 标题自动编号（CSS counter 链式 reset 在部分浏览器失效，改用 JS）
+    - <script src="/js/heading-number.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work

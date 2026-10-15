@@ -1,4 +1,5 @@
 ---
+date: 2026-07-07 15:40:22
 title: WdogM
 draft: true
 categories:

@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: WDG
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/07/9_15_19_57_202407091519564.png

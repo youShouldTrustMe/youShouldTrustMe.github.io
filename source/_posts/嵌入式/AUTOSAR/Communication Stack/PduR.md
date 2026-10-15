@@ -1,4 +1,5 @@
 ---
+date: 2026-06-24 09:21:41
 title: PduR
 draft: true
 categories:

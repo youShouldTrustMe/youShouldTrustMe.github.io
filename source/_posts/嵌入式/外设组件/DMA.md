@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: DMA
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/10_17_20_58_202409101720528.png

@@ -101,6 +101,9 @@ markdown:
   anchors:
     # 默认 2，即 h1 不生成 id，会导致目录里的一级目录链接没有 href
     level: 1
+  plugins:
+    # 支持 ==高亮== 语法（Typora 习惯），渲染为 <mark>
+    - markdown-it-mark
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/

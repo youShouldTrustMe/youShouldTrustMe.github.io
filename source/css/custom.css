@@ -65,79 +65,113 @@
   left: -105px;
 }
 
-/***************************************  页脚设置 ****************************************/
-/* 1. 引入 VLOOK 的核心颜色变量（确保编号颜色和 OWL 主题一致） */
+/*********************** 文章标题：居中 + 自动编号（风格参考 VLOOK） ***********************/
 :root {
-    --v-t1: #7735cc; /* VLOOK OWL 的经典紫色 */
+  --post-num-c: #2082f0; /* 编号色：VLOOK 强调蓝 */
 }
 
-/* 2. 重置文章内的计数器 */
-#article-container {
-    counter-reset: h1-count;
-}
-
-/* 3. 标题居中 */
-#article-container h2, 
-#article-container h3, 
+/* 标题居中 */
+#article-container h1,
+#article-container h2,
+#article-container h3,
 #article-container h4 {
-    text-align: center !important;
-    display: block !important;
+  text-align: center;
+  display: block;
 }
 
-/* 4. 彻底隐藏 Butterfly 默认的标题前缀（这是“没有反应”的主要原因） */
+/* 编号由 source/js/heading-number.js 计算后写入 --h-num 变量
+   （CSS counter 的链式 reset 在部分浏览器上不生效，故改用 JS） */
+#article-container h1::before,
 #article-container h2::before,
 #article-container h3::before,
 #article-container h4::before {
-    content: none !important; /* 先清除掉主题自带的 # 符号或图标 */
+  content: var(--h-num, "") !important;
+  color: var(--post-num-c);
+  font-weight: bold;
+  margin-right: 6px;
 }
 
-/* 5. 重新定义 VLOOK 风格的自动编号 */
-
-/* H2 编号 (1, 2, 3...) */
-#article-container h2 {
-    counter-increment: h1-count;
-}
-#article-container h2::before {
-    content: counter(h1-count) ". " !important;
-    counter-reset: h2-count;
-    color: var(--v-t1) !important;
-    font-weight: bold;
-    margin-right: 8px;
-}
-
-/* H3 编号 (1.1, 1.2...) */
-#article-container h3 {
-    counter-increment: h2-count;
-}
-#article-container h3::before {
-    content: counter(h1-count) "." counter(h2-count) " " !important;
-    counter-reset: h3-count;
-    color: var(--v-t1) !important;
-    font-size: 0.9em;
-    margin-right: 6px;
-}
-
-/* H4 编号 (1.1.1...) */
-#article-container h4 {
-    counter-increment: h3-count;
-}
-#article-container h4::before {
-    content: counter(h1-count) "." counter(h2-count) "." counter(h3-count) " " !important;
-    color: var(--v-t1) !important;
-    font-size: 0.8em;
-    margin-right: 4px;
-}
-
-/* 6. 可选：增加 VLOOK 特有的下划线装饰 */
+/* H2 下方的短横线装饰 */
 #article-container h2::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 3px;
-    background: var(--v-t1);
-    margin: 8px auto 0;
-    border-radius: 2px;
-    opacity: 0.3;
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: var(--post-num-c);
+  margin: 8px auto 0;
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+/*********************** ==高亮== 语法（markdown-it-mark 输出 <mark>） ***********************/
+/* 参考 VLOOK 的马克笔效果：文字下半部分涂色 */
+#article-container mark {
+  background: transparent;
+  color: inherit;
+  box-shadow: 0 -0.62em 0 0 rgba(250, 194, 8, 0.38) inset;
+  padding: 0 0.12em;
+  font-weight: 500;
+}
+
+/*********************** GitHub 风格警示框 > [!TIP] 等（配色取自 VLOOK 强调色） ***********************/
+#article-container blockquote.markdown-alert {
+  --alert-c: #2082f0;
+  --alert-bg: rgba(32, 130, 240, 0.08);
+  margin: 1.2em 0;
+  padding: 1em 1em 0.2em;
+  border: none;
+  border-left: 4px solid var(--alert-c);
+  border-radius: 6px;
+  background: var(--alert-bg);
+}
+#article-container blockquote.markdown-alert > :first-child {
+  margin-top: 0;
+}
+#article-container blockquote.markdown-alert > :last-child {
+  margin-bottom: 0.2em;
+}
+/* 标题行（[*XXX*] 标记本身已被渲染插件去掉） */
+#article-container blockquote.markdown-alert::before {
+  content: "说明";
+  display: block;
+  font-weight: 700;
+  color: var(--alert-c);
+  margin-bottom: 0.4em;
+}
+#article-container blockquote.markdown-alert-note {
+  --alert-c: #2082f0;
+  --alert-bg: rgba(32, 130, 240, 0.08);
+}
+#article-container blockquote.markdown-alert-tip {
+  --alert-c: #29a953;
+  --alert-bg: rgba(41, 169, 83, 0.1);
+}
+#article-container blockquote.markdown-alert-important {
+  --alert-c: #735de0;
+  --alert-bg: rgba(115, 93, 224, 0.1);
+}
+#article-container blockquote.markdown-alert-warning {
+  --alert-c: #f38019;
+  --alert-bg: rgba(243, 128, 25, 0.1);
+}
+#article-container blockquote.markdown-alert-caution {
+  --alert-c: #d01010;
+  --alert-bg: rgba(208, 16, 16, 0.09);
+}
+#article-container blockquote.markdown-alert-note::before {
+  content: "说明";
+}
+#article-container blockquote.markdown-alert-tip::before {
+  content: "提示";
+}
+#article-container blockquote.markdown-alert-important::before {
+  content: "重要";
+}
+#article-container blockquote.markdown-alert-warning::before {
+  content: "警告";
+}
+#article-container blockquote.markdown-alert-caution::before {
+  content: "当心";
 }
 
 /*********************** 菜单 iconfont 图标（官方版只输出 <i class="icon-xxx">） ***********************/

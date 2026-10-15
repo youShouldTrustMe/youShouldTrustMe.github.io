@@ -1,4 +1,5 @@
 ---
+date: 2025-09-13 12:01:12
 title: ASPICE
 
 draft: true

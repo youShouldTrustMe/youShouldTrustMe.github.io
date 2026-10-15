@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: SPI
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/14_13_52_58_202409141352788.png

@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: Bluetooth
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/12/9_14_8_59_202412091408388.png
