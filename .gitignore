@@ -6,3 +6,5 @@ node_modules/
 public/
 .deploy*/
 _multiconfig.yml
+# 主题由 npm 管理，不要提交本地副本
+themes/*/

@@ -1062,9 +1062,11 @@ css_prefix: true
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-     - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
+    # 阿里 iconfont（菜单图标字体，font-class 方式）
+    - <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_5020701_ump6lop7tzm.css">
+    - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
   bottom:
-    - <script async src="//at.alicdn.com/t/c/font_5020701_ump6lop7tzm.js"></script>
+    - <script src="/js/toc-fix.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
@@ -1084,6 +1086,11 @@ CDN:
   custom_format:
 
   option:
+    # cdnjs 上的 sharejs 包没有收录字体文件（fonts/iconfont.woff2 → 404），改用 unpkg
+    sharejs: https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js
+    sharejs_css: https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css
+    # cdnjs 上缺失 @mathjax/mathjax-mhchem-font-extension（MathJax 会报错），改用 unpkg
+    mathjax: https://unpkg.com/mathjax@4.1.3/tex-mml-chtml.js
      # abcjs_basic_js:
     # activate_power_mode: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js
     # algolia_js: https://cdn1.tianli0.top/npm/js-heo@1.0.11/algolia/algolia.js

@@ -724,7 +724,6 @@ partition "**process** HelloWorld" {
 | ---- | ------------------------------------------------------------ |
 | <br> | `@startuml skinparam ArrowHeadColor none start repeat :Enter data; :Submit; backward :Warning; repeat while (Valid?) is (No) not (Yes) stop @enduml`<br><br>![](https://plantuml.com/imgw/img-2f4c4f550acf16344be8105645adb02a.png) |
 
-## 
 
 
 
@@ -738,7 +737,6 @@ partition "**process** HelloWorld" {
 | ---- | ------------------------------------------------------------ |
 | <br> | `@startuml :foo1; -> You can put text on arrows; if (test) then   -[#blue]->   :foo2;   -[#green,dashed]-> The text can   also be on several lines   and **very** long...;   :foo3; else   -[#black,dotted]->   :foo4; endif -[#gray,bold]-> :foo5; @enduml`<br><br>![](https://plantuml.com/imgw/img-6dbfe26c10d234b18e13996e3c1c33a5.png) |
 
-## 
 
 
 
@@ -752,7 +750,6 @@ You can use multiple colored arrow.
 
 _[Ref. [QA-4411](https://forum.plantuml.net/4411)]_
 
-## 
 
 
 
@@ -770,7 +767,6 @@ WARNING
 
 WARNING
 
-## 
 
 
 
@@ -792,7 +788,6 @@ WARNING
 
 WARNING
 
-## 
 
 
 
@@ -842,7 +837,6 @@ _[参考: [QA-542](https://forum.plantuml.net/542/ability-to-define-hyperlink-o
 | ---- | ------------------------------------------------------------ |
 | <br> | `@startuml start group 分组   :Activity; end group floating note: 分组备注  partition 分区 {   :Activity; } floating note: 分区备注  package 包 {   :Activity; } floating note: 包备注  rectangle 矩形 {   :Activity; } floating note: 矩形备注  card 卡片式 {   :Activity; } floating note: 卡片式备注 end @enduml`<br><br>![](https://plantuml.com/imgw/img-640030fb3c783456a3ee87d9c3c8ec14.png) |
 
-## 
 
 
 
@@ -872,7 +866,6 @@ _[参考: [QA-542](https://forum.plantuml.net/542/ability-to-define-hyperlink-o
 
 _[参考: [QA-2681](https://forum.plantuml.net/2681/possible-define-alias-swimlane-place-alias-everywhere-else?show=2685#a2685)]_
 
-## 
 
 
 
@@ -892,7 +885,6 @@ _[参考: [QA-2681](https://forum.plantuml.net/2681/possible-define-alias-swiml
 | ---- | ------------------------------------------------------------ |
 | <br> | `@startuml  :start;  fork    :foo1;    :foo2;  fork again    :foo3;    kill  endfork  if (foo4) then    :foo5;    kill  endif  :foo6;  kill  :foo7;  stop @enduml`<br><br>![](https://plantuml.com/imgw/img-f8d0eeff06a3e20a118cd8e81ebddfe4.png) |
 
-## 
 
 
 
@@ -945,7 +937,6 @@ WARNING
 
 WARNING
 
-## 
 
 
 
@@ -973,7 +964,6 @@ _[Ref. [GH-2185](https://github.com/plantuml/plantuml/pull/2185)]_
 
 _[Ref. [GH-2185](https://github.com/plantuml/plantuml/pull/2185), [QA-16558](https://forum.plantuml.net/16558), [GH-1659](https://github.com/plantuml/plantuml/issues/1659)]_
 
-## 
 
 
 
@@ -983,7 +973,6 @@ _[Ref. [GH-2185](https://github.com/plantuml/plantuml/pull/2185), [QA-16558](h
 | ---- | ------------------------------------------------------------ |
 | <br> | `@startuml  start :ClickServlet.handleRequest(); :new page; if (Page.onSecurityCheck) then (true)   :Page.onInit();   if (isForward?) then (no)     :Process controls;     if (continue processing?) then (no)       stop     endif      if (isPost?) then (yes)       :Page.onPost();     else (no)       :Page.onGet();     endif     :Page.onRender();   endif else (false) endif  if (do redirect?) then (yes)   :redirect process; else   if (do forward?) then (yes)     :Forward request;   else (no)     :Render page template;   endif endif  stop  @enduml`<br><br>![](https://plantuml.com/imgw/img-927abd61d77e96a154444d21ee37c9d1.png) |
 
-## 
 
 
 
@@ -1017,7 +1006,6 @@ _[Ref. [GH-2185](https://github.com/plantuml/plantuml/pull/2185), [QA-16558](h
 
 _[参考: [QA-1290](https://forum.plantuml.net/1290/plantuml-condition-rendering) and [#400](https://github.com/plantuml/plantuml/issues/400#issuecomment-721287124)]_
 
-## 
 
 
 
@@ -1053,7 +1041,6 @@ _[参考: [QA-1290](https://forum.plantuml.net/1290/plantuml-condition-renderin
 
 _[Ref. [QA-4015](https://forum.plantuml.net/4015/its-possible-to-draw-if-else-endif-without-merge-symbol)]_
 
-## 
 
 
 
@@ -1073,7 +1060,6 @@ _[Ref. [QA-4015](https://forum.plantuml.net/4015/its-possible-to-draw-if-else-e
 | ---- | ------------------------------------------------------------ |
 | <br> | `@startuml <style> activityDiagram {   BackgroundColor #33668E   BorderColor #33668E   FontColor #888   FontName arial    diamond {     BackgroundColor #ccf     LineColor #00FF00     FontColor green     FontName arial     FontSize 15   }   arrow {     FontColor gold     FontName arial     FontSize 15   }   partition {     LineColor red     FontColor green     RoundCorner 10     BackgroundColor PeachPuff   }   note {     FontColor Blue     LineColor Navy     BackgroundColor #ccf   } } document {    BackgroundColor transparent } </style> start :init; -> test of color; if (color?) is (<color:red>red) then :print red; else  :print not red; note right: no color endif partition End { :end; } -> this is the end; end @enduml`<br><br>![](https://plantuml.com/imgw/img-b71393d6d49d2c3da72d33eed85268c6.png) |
 
-## 
 
 
 

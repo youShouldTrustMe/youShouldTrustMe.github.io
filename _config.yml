@@ -95,6 +95,13 @@ include:
 exclude:
 ignore:
 
+# Markdown 渲染器（hexo-renderer-markdown-it）
+# 注意：必须写在站点 _config.yml，写在 _config.butterfly.yml 里不生效
+markdown:
+  anchors:
+    # 默认 2，即 h1 不生成 id，会导致目录里的一级目录链接没有 href
+    level: 1
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/

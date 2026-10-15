@@ -139,3 +139,28 @@
     border-radius: 2px;
     opacity: 0.3;
 }
+
+/*********************** 菜单 iconfont 图标（官方版只输出 <i class="icon-xxx">） ***********************/
+/* iconfont 官方 CSS 仅在 .iconfont 上定义字体，这里让 icon-xxx 单独使用也能生效 */
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: "iconfont" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.menus_items .menus_item i[class^="icon-"] {
+  font-size: 17px;
+  width: 1.3em;
+}
+/* 还原菜单配置里第三个字段 faa-tada 的悬停抖动效果 */
+.menus_items .menus_item a.site-page:hover i[class^="icon-"] {
+  animation: menu-tada 1s linear infinite;
+}
+@keyframes menu-tada {
+  0%   { transform: scale(1); }
+  10%, 20% { transform: scale(0.9) rotate(-3deg); }
+  30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+  40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
