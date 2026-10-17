@@ -56,8 +56,94 @@ function githubAlerts (md) {
   })
 }
 
+/**
+ * 表格单元格合并（VLOOK 在 Typora 导出时的语法）
+ *   单元格内容恰好是 "=="   -> 与左侧单元格合并（colspan）
+ *   单元格内容恰好是 ":" "：" -> 与上方单元格合并（rowspan）
+ * 只有「整个单元格」等于这些标记才生效，含冒号的普通文本（URL、[31:16] 等）不受影响。
+ */
+function tableMerge (md) {
+  md.core.ruler.after('inline', 'vlook_table_merge', state => {
+    const tokens = state.tokens
+    const del = new Set() // 要删除的 token 下标（最后统一删除，避免索引错乱）
+
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i].type !== 'table_open') continue
+
+      let end = i + 1
+      while (end < tokens.length && tokens[end].type !== 'table_close') end++
+      if (end >= tokens.length) continue
+
+      // 收集表格的行与单元格
+      const rows = []
+      let cur = null
+      for (let j = i + 1; j < end; j++) {
+        const t = tokens[j]
+        if (t.type === 'tr_open') { cur = { cells: [] }; rows.push(cur) }
+        else if (t.type === 'tr_close') { cur = null }
+        else if (t.type === 'th_open' || t.type === 'td_open') {
+          const inline = tokens[j + 1]
+          cur && cur.cells.push({
+            open: j,
+            text: inline && inline.type === 'inline' ? String(inline.content).trim() : ''
+          })
+        }
+      }
+      if (!rows.length) continue
+
+      const span = rows.map(r => r.cells.map(() => ({ cs: 1, rs: 1 })))
+      const alive = rows.map(r => r.cells.map(() => true))
+
+      for (let r = 0; r < rows.length; r++) {
+        for (let c = 0; c < rows[r].cells.length; c++) {
+          const cell = rows[r].cells[c]
+
+          if (cell.text === '==') {
+            // 向左合并：找左侧最近的存活单元格
+            let left = c - 1
+            while (left >= 0 && !alive[r][left]) left--
+            if (left >= 0) {
+              span[r][left].cs += 1
+              removeCell(rows[r].cells[c], alive, r, c, del)
+            }
+          } else if (cell.text === ':' || cell.text === '：') {
+            // 向上合并：找上方同列最近的存活单元格
+            let up = r - 1
+            while (up >= 0 && (c >= alive[up].length || !alive[up][c])) up--
+            if (up >= 0) {
+              span[up][c].rs += 1
+              removeCell(rows[r].cells[c], alive, r, c, del)
+            }
+          }
+        }
+      }
+
+      // 写回 colspan / rowspan
+      for (let r = 0; r < rows.length; r++) {
+        for (let c = 0; c < rows[r].cells.length; c++) {
+          if (!alive[r][c]) continue
+          const t = tokens[rows[r].cells[c].open]
+          if (span[r][c].cs > 1) t.attrSet('colspan', String(span[r][c].cs))
+          if (span[r][c].rs > 1) t.attrSet('rowspan', String(span[r][c].rs))
+        }
+      }
+    }
+
+    if (del.size) state.tokens = tokens.filter((t, idx) => !del.has(idx))
+  })
+
+  // 删除被合并掉的单元格：th/td_open — inline — th/td_close 三个 token
+  function removeCell (cell, alive, row, col, del) {
+    alive[row][col] = false
+    del.add(cell.open)
+    del.add(cell.open + 1)
+    del.add(cell.open + 2)
+  }
+}
+
 hexo.extend.filter.register('markdown-it:renderer', parser => {
   parser.use(githubAlerts)
+  parser.use(tableMerge)
 })
 
 /**
@@ -86,3 +172,25 @@ hexo.extend.filter.register('before_post_render', data => {
   if (detectMath(data.content || data.raw || '')) data.mathjax = true
   return data
 })
+
+/**
+ * 输出本地 mermaid 库：/js/mermaid.min.js
+ * 直接放在 source/js/ 下会被 hexo 尝试解析 front-matter（库内含 "---"）而报 js-yaml 错，
+ * 所以这里从 node_modules 生成静态路由；同时避免把 3.4MB 的库塞进仓库。
+ */
+const fs = require('fs')
+const path = require('path')
+
+try {
+  const lib = path.join(path.dirname(require.resolve('mermaid/package.json')), 'dist/mermaid.min.js')
+  if (fs.existsSync(lib)) {
+    hexo.extend.generator.register('mermaid-asset', () => ({
+      path: 'js/mermaid.min.js',
+      data: () => fs.createReadStream(lib)
+    }))
+  } else {
+    hexo.log.warn('未找到 mermaid 库：' + lib)
+  }
+} catch (e) {
+  hexo.log.warn('mermaid 未安装，图表将不会渲染（执行 npm i mermaid 安装）')
+}

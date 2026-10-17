@@ -946,7 +946,8 @@ abcjs:
 # https://github.com/mermaid-js/mermaid
 mermaid:
   enable: true
-  # Write Mermaid diagrams using code blocks
+  # Write Mermaid diagrams using code blocks（必须为 true：
+  # 主题脚本编译后是 if (true) codeToMermaid()，会把 pre>code.mermaid 转成 .mermaid-wrap 再渲染）
   code_write: true
   # built-in themes: default / forest / dark / neutral
   theme:
@@ -1062,8 +1063,9 @@ css_prefix: true
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-    # 阿里 iconfont（菜单图标字体，font-class 方式）
-    - <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_5020701_ump6lop7tzm.css">
+    # 阿里 iconfont（菜单图标字体，font-class 方式）已本地化：source/css/iconfont.css + source/font/iconfont.woff2
+    # 之前用 alicdn 的 CSS 时彩色 woff2 偶发加载失败，会回退到单色 woff/ttf 导致图标变灰
+    - <link rel="stylesheet" href="/css/iconfont.css">
     - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
   bottom:
     - <script src="/js/toc-fix.js"></script>
@@ -1093,6 +1095,9 @@ CDN:
     sharejs_css: https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css
     # cdnjs 上缺失 @mathjax/mathjax-mhchem-font-extension（MathJax 会报错），改用 unpkg
     mathjax: https://unpkg.com/mathjax@4.1.3/tex-mml-chtml.js
+    # cdnjs 上 mermaid 11.16.0 没有 UMD 版 mermaid.min.js（404），
+    # 且 unpkg/jsdelivr 在国内不稳定，这里直接用仓库内的本地文件（source/js/mermaid.min.js，v11.16.0）
+    mermaid: /js/mermaid.min.js
      # abcjs_basic_js:
     # activate_power_mode: https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js
     # algolia_js: https://cdn1.tianli0.top/npm/js-heo@1.0.11/algolia/algolia.js

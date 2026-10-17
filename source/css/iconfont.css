@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 5020701 */
+  /* Color fonts：本地化，避免阿里 CDN 偶发失败回退到单色 woff/ttf */
+  src: url('/font/iconfont.woff2') format('woff2');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icon-test:before {
+  content: "\e673";
+}
+
+.icon-guanyuwomen:before {
+  content: "\e634";
+}
+
+.icon-fenlei-:before {
+  content: "\e602";
+}
+
+.icon-lianjie:before {
+  content: "\e706";
+}
+
+.icon-a-07biaoqian:before {
+  content: "\edba";
+}
+
+.icon-a-folderyellow:before {
+  content: "\e98b";
+}
+
+.icon-a-jiafangzijianzhu:before {
+  content: "\e60c";
+}
+

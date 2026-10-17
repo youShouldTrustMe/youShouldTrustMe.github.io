@@ -3,5 +3,5 @@
 # 未改动的文章保持原日期。
 # 用法：仓库根目录执行  git config core.hooksPath githooks
 
-node "$(git rev-parse --show-toplevel)/scripts/update-post-date.js"
+node "$(git rev-parse --show-toplevel)/tools/update-post-date.js"
 exit 0

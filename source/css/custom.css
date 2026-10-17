@@ -198,3 +198,10 @@
   40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
   100% { transform: scale(1) rotate(0); }
 }
+/*********************** 统一“分类”图标 ***********************/
+/* 主题两套模板硬编码了不同图标：侧栏分类卡片用 fa-folder-open，文章卡片/文章页 meta 用 fa-inbox。
+   这里把所有 fa-inbox 的字形换成 folder-open（FA7 用 --fa 变量定义字形），全站保持一致。
+   想反过来统一成 inbox 的话，把下面的 \f07c 改成 \f01c 即可。 */
+.fa-inbox {
+  --fa: "\f07c";
+}
