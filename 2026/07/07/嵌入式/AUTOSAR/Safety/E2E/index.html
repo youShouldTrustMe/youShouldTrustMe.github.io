@@ -1,0 +1,3811 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>E2E | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述  官方标准手册请参见https:&#x2F;&#x2F;www.autosar.org&#x2F;fileadmin&#x2F;standards&#x2F;R25-11&#x2F;FO&#x2F;AUTOSAR_FO_PRS_E2EProtocol.pdf   E2E（End-to-End）通信保护旨在运行时保护安全相关数据在通信链路上传输时免受故障影响。它在发送端为数据添加控制信息，在接收端进行验证，从而检测并处理通信过程中可能发生的各种故障。     背">
+<meta property="og:type" content="article">
+<meta property="og:title" content="E2E">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="概述  官方标准手册请参见https:&#x2F;&#x2F;www.autosar.org&#x2F;fileadmin&#x2F;standards&#x2F;R25-11&#x2F;FO&#x2F;AUTOSAR_FO_PRS_E2EProtocol.pdf   E2E（End-to-End）通信保护旨在运行时保护安全相关数据在通信链路上传输时免受故障影响。它在发送端为数据添加控制信息，在接收端进行验证，从而检测并处理通信过程中可能发生的各种故障。     背">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg">
+<meta property="article:published_time" content="2026-07-07T15:40:22.000Z">
+<meta property="article:modified_time" content="2026-10-17T11:52:30.284Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "E2E",
+  "url": "https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_4.jpg",
+  "datePublished": "2026-07-07T15:40:22.000Z",
+  "dateModified": "2026-10-17T11:52:30.284Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.13.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'E2E',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_4.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">E2E</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">E2E</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-07T15:40:22.000Z" title="发表于 2026-07-07 15:40:22">2026-07-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-17T11:52:30.284Z" title="更新于 2026-10-17 11:52:30">2026-10-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">11.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>40分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="概述">概述</h1>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p>官方标准手册请参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R25-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf">https://www.autosar.org/fileadmin/standards/R25-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf</a></p>
+</blockquote>
+<blockquote>
+<p>E2E（End-to-End）通信保护旨在运行时保护<strong>安全相关数据</strong>在通信链路上传输时免受故障影响。它在发送端为数据添加控制信息，在接收端进行验证，从而检测并处理通信过程中可能发生的各种故障。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260629102038075.png" alt="通信过程" loading='lazy'></p>
+<ol>
+<li>
+<p>背景与动机</p>
+<p>安全相关的数据交换需要在运行时针对通信链路故障进行保护。E2E 保护可以检测到的故障包括：</p>
+<table>
+<thead>
+<tr>
+<th>故障类型</th>
+<th>来源</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>系统性软件故障</strong></td>
+<td>发送方或接收方的低层通信软件</td>
+<td>RTE、IOC、COM、网络协议栈中的错误</td>
+</tr>
+<tr>
+<td><strong>随机硬件故障</strong></td>
+<td>MCU 硬件、通信外设、收发器</td>
+<td>CAN 收发器寄存器损坏</td>
+</tr>
+<tr>
+<td><strong>干扰</strong></td>
+<td>外部环境</td>
+<td>EMC 电磁干扰</td>
+</tr>
+<tr>
+<td><strong>基础设施故障</strong></td>
+<td>通信线路</td>
+<td>线束损坏、连接器故障</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Sender[发送端]
+        App_S[应用层数据]
+        E2E_S[E2E 保护添加控制数据]
+        Low_S[低层通信栈]
+    end
+    
+    subgraph CommLink[通信链路]
+        Faults[故障]
+        HW[随机硬件故障]
+        EMI[电磁干扰]
+        SW[软件故障]
+    end
+    
+    subgraph Receiver[接收端]
+        Low_R[低层通信栈]
+        E2E_R[E2E 验证]
+        App_R[应用层接收数据]
+        Result[检查结果 + 错误处理]
+    end
+    
+    App_S --&gt; E2E_S --&gt; Low_S
+    Low_S --&gt;|传输| CommLink
+    CommLink --&gt;|受故障影响| Low_R
+    Low_R --&gt; E2E_R
+    E2E_R --&gt;|有效| App_R
+    E2E_R --&gt; Result</code></pre>
+</li>
+<li>
+<p>E2E 保护的三大功能</p>
+<ol>
+<li><strong>保护待发送数据</strong>：在发送端为安全相关数据添加控制数据（CRC、计数器等）</li>
+<li><strong>验证接收数据</strong>：在接收端使用控制数据验证接收到的数据</li>
+<li><strong>提供检查结果</strong>：将验证结果传递给接收方，由接收方进行适当处理</li>
+</ol>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Sender[发送端]
+        Data[安全数据] --&gt; Protect[添加控制数据]
+        Protect --&gt; Send[发送受保护数据]
+    end
+    
+    subgraph Receiver[接收端]
+        Recv[接收数据] --&gt; Check[验证控制数据]
+        Check --&gt; Result&#123;检查结果&#125;
+        Result --&gt;|有效| Process[处理安全数据]
+        Result --&gt;|无效| Error[错误处理]
+    end
+    
+    Send --&gt;|通信链路| Recv</code></pre>
+</li>
+<li>
+<p>E2E Profile</p>
+<p>AUTOSAR 指定了一组灵活的 E2E Profile，每个 Profile 实现了 E2E 保护机制的组合。</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>特点</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Profile 1</strong></td>
+<td>基础保护，CRC + 计数器</td>
+<td>简单安全通信</td>
+</tr>
+<tr>
+<td><strong>Profile 4</strong></td>
+<td>扩展保护，含 Data ID</td>
+<td>AUTOSAR 经典平台常用</td>
+</tr>
+<tr>
+<td><strong>Profile 5</strong></td>
+<td>轻量级保护</td>
+<td>资源受限系统</td>
+</tr>
+<tr>
+<td><strong>Profile 7</strong></td>
+<td>多帧保护</td>
+<td>大消息通信</td>
+</tr>
+<tr>
+<td><strong>Profile 11</strong></td>
+<td>基于 CRC-64</td>
+<td>高可靠性需求</td>
+</tr>
+<tr>
+<td><strong>Profile 22</strong></td>
+<td>DoIP 专用</td>
+<td>基于 IP 的诊断通信</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph E2EProfiles [E2E Profiles]
+        P1[Profile 1]
+        P4[Profile 4]
+        P5[Profile 5]
+        P7[Profile 7]
+        P11[Profile 11]
+        P22[Profile 22]
+    end
+    
+    subgraph Mechanisms [保护机制组合]
+        CRC[CRC 校验]
+        Counter[计数器]
+        DataID[Data ID]
+        Length[长度检查]
+        Timeout[超时检测]
+    end
+    
+    P1 --&gt; Mechanisms
+    P4 --&gt; Mechanisms
+    P5 --&gt; Mechanisms
+    P7 --&gt; Mechanisms
+    P11 --&gt; Mechanisms
+    P22 --&gt; Mechanisms</code></pre>
+<p><strong>每个 Profile 的特点</strong>：</p>
+<ul>
+<li><strong>固定的保护机制组合</strong>：哪些机制被使用是固定的</li>
+<li><strong>可配置的选项</strong>：协议头布局、接收端状态评估方式可配置</li>
+</ul>
+</li>
+<li>
+<p>E2E Supervision 的调用方式</p>
+<p>E2E Supervision 可以从多种上下文中调用：</p>
+<table>
+<thead>
+<tr>
+<th>调用方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Adaptive Platform</strong></td>
+<td>通过 <code>ara::com</code> 通信中间件</td>
+</tr>
+<tr>
+<td><strong>Classic Platform</strong></td>
+<td>通过 RTE（运行时环境）</td>
+</tr>
+<tr>
+<td><strong>非标准化方式</strong></td>
+<td>从其他软件调用，如 NVM 管理器、本地 IPC、ECU 内部总线协议栈</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Callers [调用者]
+        RTE_CP[Classic RTE]
+        ARA_COM[Adaptive ara::com]
+        Other[其他软件&lt;br/&gt;NVM/IPC/内部总线]
+    end
+    
+    subgraph E2E [E2E Supervision]
+        Protect[保护 API]
+        Check[验证 API]
+        CRC[CRC 计算]
+    end
+    
+    RTE_CP --&gt; Protect
+    RTE_CP --&gt; Check
+    ARA_COM --&gt; Protect
+    ARA_COM --&gt; Check
+    Other --&gt; Protect
+    Other --&gt; Check</code></pre>
+</li>
+<li>
+<p>正确使用 E2E 的职责</p>
+<p>E2E Supervision 的调用者负责：</p>
+<ul>
+<li><strong>正确使用</strong> E2E Supervision</li>
+<li><strong>提供正确的参数</strong>给 E2E Supervision 例程</li>
+</ul>
+<blockquote>
+<p>调用者是使用 E2E 的<strong>责任方</strong>，必须确保参数配置正确以实现预期的保护效果。</p>
+</blockquote>
+</li>
+<li>
+<p>Profile 选择的考量因素</p>
+<p>选择特定的 E2E Profile 需要证明其提供足够的错误检测能力：</p>
+<table>
+<thead>
+<tr>
+<th>考量因素</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>硬件故障率</strong></td>
+<td>MCU、收发器的失效率</td>
+</tr>
+<tr>
+<td><strong>比特错误率</strong></td>
+<td>通信链路的 BER</td>
+</tr>
+<tr>
+<td><strong>网络节点数</strong></td>
+<td>总线上的节点数量</td>
+</tr>
+<tr>
+<td><strong>消息重复率</strong></td>
+<td>消息的发送频率</td>
+</tr>
+<tr>
+<td><strong>网关使用</strong></td>
+<td>是否经过网关转发</td>
+</tr>
+<tr>
+<td><strong>潜在软件故障</strong></td>
+<td>通信通道上的软件错误</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    ProfileSelection[Profile 选择] --&gt; Consider[考量因素]
+    
+    Consider --&gt; HW[硬件故障率]
+    Consider --&gt; BER[比特错误率]
+    Consider --&gt; Nodes[网络节点数]
+    Consider --&gt; Freq[消息重复率]
+    Consider --&gt; Gateway[网关使用]
+    Consider --&gt; SW[潜在软件故障]
+    
+    Consider --&gt; Validate[验证：选定的 Profile&lt;br/&gt;提供足够的错误检测能力]</code></pre>
+</li>
+<li>
+<p>检测到故障后的反应</p>
+<p>接收方检测到故障后必须进行适当处理：</p>
+<table>
+<thead>
+<tr>
+<th>反应措施</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>撤销重复消息</strong></td>
+<td>忽略重复的无效消息</td>
+</tr>
+<tr>
+<td><strong>检测通信超时</strong></td>
+<td>识别通信中断</td>
+</tr>
+<tr>
+<td><strong>启动安全反应</strong></td>
+<td>针对损坏消息触发安全机制</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>CRC 计算例程</p>
+<ol>
+<li>
+<p>支持的 CRC 类型</p>
+<table>
+<thead>
+<tr>
+<th>CRC 类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CRC8</strong></td>
+<td>SAE J1850</td>
+</tr>
+<tr>
+<td><strong>CRC8H2F</strong></td>
+<td>CRC8 0x2F 多项式</td>
+</tr>
+<tr>
+<td><strong>CRC16</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>CRC32</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>CRC32P4</strong></td>
+<td>CRC32 0xF4ACFB13 多项式</td>
+</tr>
+<tr>
+<td><strong>CRC64</strong></td>
+<td>CRC-64-ECMA</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>计算方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>查表计算</strong></td>
+<td>执行速度快</td>
+<td>代码体积大（需 ROM 表）</td>
+</tr>
+<tr>
+<td><strong>运行时计算</strong></td>
+<td>代码体积小（无 ROM 表）</td>
+<td>执行速度慢</td>
+</tr>
+<tr>
+<td><strong>硬件支持计算</strong></td>
+<td>执行速度快、CPU 占用少</td>
+<td>设备相关</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键特性</strong>：</p>
+<ul>
+<li>所有例程都是<strong>可重入的</strong></li>
+<li>可供多个应用<strong>同时使用</strong></li>
+<li>未来可能支持更多设备的硬件加速 CRC 计算</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>E2E 保护适用的安全等级</p>
+<p>E2E Supervision 提供的保护机制适用于<strong>最高 ASIL D</strong> 的安全相关通信需求。</p>
+</li>
+<li>
+<p>E2E 保护在 AUTOSAR 架构中的位置</p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Application[应用层]
+        SWC[软件组件]
+    end
+    
+    subgraph RTE[RTE]
+        E2E_Protect[E2E Protect]
+        E2E_Check[E2E Check]
+    end
+    
+    subgraph COM[COM 层]
+        Signal[信号/PDU]
+    end
+    
+    SWC --&gt;|发送数据| E2E_Protect
+    E2E_Protect --&gt;|受保护数据| Signal
+    Signal --&gt;|接收数据| E2E_Check
+    E2E_Check --&gt;|验证后数据| SWC</code></pre>
+</li>
+<li>
+<p>典型配置参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DataID</code></td>
+<td>数据标识符，用于 CRC 计算</td>
+</tr>
+<tr>
+<td><code>Counter</code></td>
+<td>消息计数器，检测丢失/重复</td>
+</tr>
+<tr>
+<td><code>CRC</code></td>
+<td>循环冗余校验，检测数据损坏</td>
+</tr>
+<tr>
+<td><code>Timeout</code></td>
+<td>通信超时阈值</td>
+</tr>
+<tr>
+<td><code>Profile</code></td>
+<td>选用的 E2E Profile</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="E2E-Profile">E2E Profile</h1>
+<ol>
+<li>
+<p>核心理念：标准化 + 灵活性</p>
+<p>E2E 保护的灵活性是通过 <strong>E2E Profile（配置文件）</strong> 来实现的。每个 Profile 实际上是一个“套餐”，它定义了：</p>
+<ul>
+<li><strong>组合了哪些保护机制</strong>（比如 CRC 校验 + 计数器 + 数据ID）</li>
+<li><strong>消息格式</strong>（控制字段放在哪里，多长）</li>
+<li><strong>一组配置参数</strong>（比如 CRC 的初始值、多项式、计数器位宽等）</li>
+</ul>
+</li>
+<li>
+<p>什么是 E2E Variant（变体）？</p>
+<p>有些 Profile（比如 Profile 1）会定义<strong>标准变体（Variants）</strong> ，比如 <code>1A</code>。</p>
+<ul>
+<li>变体本质上就是 <strong>一套预设好的配置参数组合</strong>。</li>
+<li>举个例子：Profile 1 允许你灵活配置 CRC 和 Counter 的起始位，但 <strong>Variant 1A 规定死了：CRC 必须从 Bit 0 开始，Counter 必须从 Bit 8 开始</strong>。用变体就不用自己调参数了，直接用标准定义。</li>
+</ul>
+</li>
+<li>
+<p>发送端和接收端各干什么？</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发送端（Sender）</strong></td>
+<td>在要发送的<strong>有效数据（Data）</strong> 后面或指定位置，<strong>添加控制字段（Control Fields）</strong> ，比如 <strong>CRC 校验值</strong>和 <strong>Counter 计数器</strong>，组成完整的 E2E Header。</td>
+</tr>
+<tr>
+<td><strong>接收端（Receiver）</strong></td>
+<td>从收到的数据中<strong>提取出控制字段</strong>，然后<strong>自行计算 CRC</strong>（基于收到的数据载荷），再把计算出来的 CRC 值与收到的 CRC 值做<strong>比对（比较）</strong>，同时检查 Counter 是否符合预期（比如是否按顺序递增），以此判断通信是否出错。</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260629104922722.png" alt="安全控制概念" loading='lazy'></p>
+</li>
+<li>
+<p>每个 Profile 的特性</p>
+<p>每个 Profile 都有：</p>
+<ul>
+<li><strong>特定的控制字段集合</strong>（比如有的有 Counter，有的没有；有的 DataID 是显式带在报文里的，有的是隐式配置的）</li>
+<li><strong>特定的功能行为</strong>（比如 CRC 覆盖范围不同、Counter 的回卷处理不同）</li>
+<li><strong>特定的故障检测能力</strong>（能检测出哪些通信故障：数据损坏、丢失、重复、插入、错序、延迟等）</li>
+</ul>
+</li>
+</ol>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li><strong>选 Profile 就是选“保护套餐”</strong>：你得根据安全等级（ASIL）和通信类型（信号/事件/C/S）来选合适的 Profile（比如 Profile 1/2/4/5/6/7/11/22 等）。</li>
+<li><strong>变体是“傻瓜式配置”</strong>：如果你不熟悉参数细节，直接用变体（如 1A、1B、1C）可以省去调参的麻烦，也符合标准。</li>
+<li><strong>Header 布局不是乱定的</strong>：不管是自己配置还是用变体，发送端和接收端的 <strong>CRC 位置、Counter 位置、DataID 位置必须完全一致</strong>，否则接收端会一直报 CRC 错误。</li>
+</ol>
+</blockquote>
+<h2 id="E2E-Profile概述">E2E Profile概述</h2>
+<blockquote>
+<p>E2E Profiles 提供了一套<strong>一致的数据保护机制</strong>，旨在抵御故障模型中考虑的各类故障。每个 Profile 通过不同的算法组合提供替代的保护方案，但所有 Profile 具有<strong>相似的接口和行为</strong>。</p>
+</blockquote>
+<ol>
+<li>
+<p>E2E Profile 的核心特点</p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>一致的机制组合</strong></td>
+<td>每个 Profile 提供一组固定的数据保护机制</td>
+</tr>
+<tr>
+<td><strong>替代性</strong></td>
+<td>不同 Profile 使用不同算法提供保护</td>
+</tr>
+<tr>
+<td><strong>统一接口</strong></td>
+<td>所有 Profile 具有相似的接口和行为</td>
+</tr>
+<tr>
+<td><strong>灵活选择</strong></td>
+<td>用户根据系统需求选择合适的 Profile</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>数据保护机制清单</p>
+<p>E2E Profile 使用以下保护机制的子集：</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>保护机制</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>CRC</strong></td>
+<td>由 CRC Supervision 提供</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>序列计数器 (Sequence Counter)</strong></td>
+<td>每次发送请求时递增，接收端检查递增是否正确</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>活跃计数器 (Alive Counter)</strong></td>
+<td>每次发送请求时递增，接收端仅检查是否变化，不检查递增是否正确</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>端口特定 ID (Data ID)</strong></td>
+<td>每个端口数据元素或消息组的特定 ID（全局系统唯一）</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>源特定 ID (Source ID)</strong></td>
+<td>每个数据元素或消息组的源特定 ID</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>消息类型 (Message Type)</strong></td>
+<td>用于方法的请求/响应区分</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td><strong>消息结果 (Message Result)</strong></td>
+<td>用于方法的正常/错误响应区分</td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td><strong>超时检测</strong></td>
+<td>(a) 接收端通信超时<br/>(b) 发送端确认超时</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Mechanisms [E2E 保护机制]
+        direction TB
+        CRC[CRC 校验&lt;br/&gt;CRC Supervision]
+        SeqCounter[序列计数器&lt;br/&gt;正确递增检查]
+        AliveCounter[活跃计数器&lt;br/&gt;变化检查]
+        DataID[端口特定 ID&lt;br/&gt;Data ID]
+        SourceID[源特定 ID&lt;br/&gt;Source ID]
+        MsgType[消息类型&lt;br/&gt;请求/响应]
+        MsgResult[消息结果&lt;br/&gt;正常/错误]
+        Timeout[超时检测&lt;br/&gt;接收端/发送端]
+    end</code></pre>
+</li>
+<li>
+<p>序列计数器 vs 活跃计数器</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>序列计数器</th>
+<th>活跃计数器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>递增方式</strong></td>
+<td>每次发送请求递增</td>
+<td>每次发送请求递增</td>
+</tr>
+<tr>
+<td><strong>接收端检查</strong></td>
+<td>✅ 检查递增是否正确</td>
+<td>❌ 仅检查是否变化</td>
+</tr>
+<tr>
+<td><strong>可检测故障</strong></td>
+<td>丢失、重复、乱序</td>
+<td>数据块丢失</td>
+</tr>
+<tr>
+<td><strong>典型用途</strong></td>
+<td>强保护需求</td>
+<td>轻量级保护</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph SeqCounter[序列计数器]
+        TX_S[发送: 1 → 2 → 3 → 4]
+        RX_S[接收检查: +1 递增]
+        RX_S --&gt; Valid_S[✅ 正确递增]
+        RX_S --&gt; Invalid_S[❌ 跳跃/重复/乱序]
+    end
+    
+    subgraph AliveCounter[活跃计数器]
+        TX_A[发送: 1 → 2 → 3 → 4]
+        RX_A[接收检查: 值已变化]
+        RX_A --&gt; Valid_A[✅ 已变化]
+        RX_A --&gt; Invalid_A[❌ 未变化]
+    end</code></pre>
+</li>
+<li>
+<p>Profile 的适用通信场景</p>
+</li>
+</ol>
+<p>E2E Profiles 可用于：</p>
+<table>
+<thead>
+<tr>
+<th>通信场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ECU 间通信</strong></td>
+<td>不同 ECU 之间的通信</td>
+</tr>
+<tr>
+<td><strong>ECU 内通信</strong></td>
+<td>同一 ECU 内的通信</td>
+</tr>
+</tbody>
+</table>
+<p><strong>支持的通信基础设施</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>通信技术</th>
+<th>支持</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CAN</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>CAN FD</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>FlexRay</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>LIN</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Ethernet</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<ol start="5">
+<li>
+<p>Profile 选择流程</p>
+<pre><code class="highlight mermaid">flowchart TD
+    System[系统需求] --&gt; Consider[考量因素]
+    
+    Consider --&gt; Safety[安全等级 ASIL]
+    Consider --&gt; Network[通信网络 CAN/FlexRay/Eth]
+    Consider --&gt; Data[数据大小/频率]
+    Consider --&gt; Resource[资源限制]
+    
+    Consider --&gt; Select[选择合适的 E2E Profile]
+    
+    Select --&gt; Profile1[Profile 1]
+    Select --&gt; Profile4[Profile 4]
+    Select --&gt; Profile5[Profile 5]
+    Select --&gt; Profile7[Profile 7]
+    Select --&gt; Profile11[Profile 11]
+    Select --&gt; Profile22[Profile 22]</code></pre>
+</li>
+<li>
+<p>保护机制的实现位置</p>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>实现位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>序列计数器</td>
+<td>E2E Supervision 内部</td>
+</tr>
+<tr>
+<td>活跃计数器</td>
+<td>E2E Supervision 内部</td>
+</tr>
+<tr>
+<td>CRC</td>
+<td>CRC Supervision</td>
+</tr>
+<tr>
+<td>Data ID</td>
+<td>E2E Supervision 内部</td>
+</tr>
+<tr>
+<td>超时检测</td>
+<td>E2E Supervision 内部</td>
+</tr>
+</tbody>
+</table>
+<p><strong>重要说明</strong>：虽然部分机制也可以在 RTE、COM 或通信协议栈中实现，但为了<strong>减少或避免将安全需求分配给这些模块</strong>，E2E Supervision 在内部提供了所有机制（仅 CRC 使用 CRC Supervision）。</p>
+</li>
+<li>
+<p>典型 E2E Profile 对比</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>计数器</th>
+<th>CRC</th>
+<th>Data ID</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Profile 1</strong></td>
+<td>序列计数器</td>
+<td>CRC8</td>
+<td>可选</td>
+<td>CAN 消息保护</td>
+</tr>
+<tr>
+<td><strong>Profile 4</strong></td>
+<td>序列计数器</td>
+<td>CRC16</td>
+<td>必选</td>
+<td>AUTOSAR 标准保护</td>
+</tr>
+<tr>
+<td><strong>Profile 5</strong></td>
+<td>活跃计数器</td>
+<td>CRC8</td>
+<td>可选</td>
+<td>轻量级保护</td>
+</tr>
+<tr>
+<td><strong>Profile 7</strong></td>
+<td>序列计数器</td>
+<td>CRC32</td>
+<td>必选</td>
+<td>大消息保护</td>
+</tr>
+<tr>
+<td><strong>Profile 11</strong></td>
+<td>序列计数器</td>
+<td>CRC64</td>
+<td>必选</td>
+<td>高可靠性需求</td>
+</tr>
+<tr>
+<td><strong>Profile 22</strong></td>
+<td>序列计数器</td>
+<td>CRC32P4</td>
+<td>必选</td>
+<td>DoIP 通信</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="错误检测">错误检测</h2>
+<blockquote>
+<p>E2E Supervision 的内部错误检测和报告机制按照本文档中预定义的 E2E Profile 实现。错误处理使用标准化的错误码，涵盖参数校验和功能执行结果。</p>
+</blockquote>
+<ol>
+<li>
+<p>错误检测机制 [PRS_E2E_00012]</p>
+<blockquote>
+<p>内部 Supervision 机制的<strong>错误检测和报告</strong>应按照本文档中预定义的 E2E Profile 实现。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph E2ESupervision [E2E Supervision]
+        Protect[保护功能&lt;br/&gt;E2E_PXXProtect]
+        Check[验证功能&lt;br/&gt;E2E_PXXCheck]
+        CRC[CRC 计算]
+    end
+    
+    subgraph ErrorDetection [错误检测]
+        ParamCheck[参数校验]
+        CRCVerify[CRC 验证]
+        CounterCheck[计数器检查]
+        TimeoutCheck[超时检测]
+    end
+    
+    Protect --&gt; ParamCheck
+    Protect --&gt; CRCVerify
+    Check --&gt; ParamCheck
+    Check --&gt; CRCVerify
+    Check --&gt; CounterCheck
+    Check --&gt; TimeoutCheck
+    
+    ParamCheck --&gt; Report[错误报告]
+    CRCVerify --&gt; Report
+    CounterCheck --&gt; Report
+    TimeoutCheck --&gt; Report</code></pre>
+</li>
+<li>
+<p>错误码定义 [PRS_E2E_00673]</p>
+<p>AUTOSAR E2E 协议应使用 [PRS_E2E_00855] 中定义的错误码。</p>
+</li>
+<li>
+<p>错误码列表 [PRS_E2E_00855]</p>
+<table>
+<thead>
+<tr>
+<th>错误类型/状态</th>
+<th>相关错误码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>至少一个指针参数为空指针</strong></td>
+<td><code>E2E_E_INPUTERR_NULL</code></td>
+<td>传入的指针参数为 NULL</td>
+</tr>
+<tr>
+<td><strong>至少一个输入参数错误</strong></td>
+<td><code>E2E_E_INPUTERR_WRONG</code></td>
+<td>参数值超出范围或无效</td>
+</tr>
+<tr>
+<td><strong>函数执行成功</strong></td>
+<td><code>E2E_E_OK</code></td>
+<td>操作完成，无错误</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph ErrorCodes [E2E 错误码]
+        NULL[E2E_E_INPUTERR_NULL&lt;br/&gt;空指针]
+        WRONG[E2E_E_INPUTERR_WRONG&lt;br/&gt;参数错误]
+        OK[E2E_E_OK&lt;br/&gt;执行成功]
+    end
+    
+    subgraph Scenarios [触发场景]
+        S1[传入 NULL 指针]
+        S2[参数值超出范围]
+        S3[操作正常完成]
+    end
+    
+    S1 --&gt; NULL
+    S2 --&gt; WRONG
+    S3 --&gt; OK</code></pre>
+</li>
+<li>
+<p>错误检测流程</p>
+<pre><code class="highlight mermaid">flowchart TD
+    Entry[E2E API 调用] --&gt; CheckPtr&#123;指针参数&lt;br/&gt;NULL?&#125;
+    
+    CheckPtr --&gt;|是| ReturnNULL[返回 E2E_E_INPUTERR_NULL]
+    CheckPtr --&gt;|否| CheckParam&#123;参数值&lt;br/&gt;有效?&#125;
+    
+    CheckParam --&gt;|否| ReturnWrong[返回 E2E_E_INPUTERR_WRONG]
+    CheckParam --&gt;|是| Execute[执行功能]
+    
+    Execute --&gt; Result&#123;执行结果&#125;
+    
+    Result --&gt;|成功| ReturnOK[返回 E2E_E_OK]
+    Result --&gt;|失败| ReturnError[返回具体错误码]</code></pre>
+</li>
+</ol>
+<h2 id="E2E-Profile-公共类型">E2E Profile 公共类型</h2>
+<h3 id="Profile-Xm-消息公共枚举">Profile Xm 消息公共枚举</h3>
+<blockquote>
+<p>部分 E2E Profile 使用在不同 Profile 之间<strong>共享的公共数据类型</strong>。这些类型在本文档中单独定义，而非在各个 Profile 章节中重复描述。</p>
+</blockquote>
+<ol>
+<li>
+<p>设计目的</p>
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>避免重复</strong></td>
+<td>公共类型在各 Profile 中复用，无需重复定义</td>
+</tr>
+<tr>
+<td><strong>保持一致</strong></td>
+<td>确保所有 Profile 对同一概念使用相同的类型定义</td>
+</tr>
+<tr>
+<td><strong>便于维护</strong></td>
+<td>类型定义集中管理，变更影响范围可控</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph CommonTypes[公共类型定义]
+        ConfigType[配置结构体类型]
+        StatusType[状态结构体类型]
+        ReturnType[返回值类型]
+    end
+    
+    subgraph Profiles[各 E2E Profile]
+        P1[Profile 1]
+        P4[Profile 4]
+        P5[Profile 5]
+        P7[Profile 7]
+        P11[Profile 11]
+        P22[Profile 22]
+    end
+    
+    CommonTypes --&gt; P1
+    CommonTypes --&gt; P4
+    CommonTypes --&gt; P5
+    CommonTypes --&gt; P7
+    CommonTypes --&gt; P11
+    CommonTypes --&gt; P22</code></pre>
+</li>
+<li>
+<p>公共类型示例</p>
+<p>根据 E2E 规范的典型结构，公共类型通常包括以下几类：</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph CommonTypes [公共类型]
+        direction TB
+        
+        subgraph Config [配置类型]
+            ProfileConfig[Profile 配置结构体&lt;br/&gt;如 E2E_P01ConfigType]
+        end
+        
+        subgraph Status [状态类型]
+            ProfileStatus[Profile 状态结构体&lt;br/&gt;如 E2E_P01StatusType]
+        end
+        
+        subgraph Return [返回类型]
+            ReturnType[通用返回值类型&lt;br/&gt;E2E_ReturnType]
+        end
+        
+        subgraph Data [数据类型]
+            DataType[受保护数据结构体&lt;br/&gt;如 E2E_P01ProtectDataType]
+        end
+    end</code></pre>
+</li>
+<li>
+<p>配置类型（Config Type）</p>
+<p>用于在初始化和运行时配置 E2E Profile 的行为。</p>
+<table>
+<thead>
+<tr>
+<th>典型字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DataID</code></td>
+<td>数据标识符</td>
+</tr>
+<tr>
+<td><code>DataIDMode</code></td>
+<td>Data ID 包含模式（包含/不包含/交替）</td>
+</tr>
+<tr>
+<td><code>CounterOffset</code></td>
+<td>计数器在数据中的位偏移</td>
+</tr>
+<tr>
+<td><code>CRCOffset</code></td>
+<td>CRC 在数据中的位偏移</td>
+</tr>
+<tr>
+<td><code>MinDeltaCounter</code></td>
+<td>计数器最小增量值</td>
+</tr>
+<tr>
+<td><code>MaxDeltaCounter</code></td>
+<td>计数器最大增量值</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置结构体示例（概念性） --&gt;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="type">uint32_t</span> DataID;           <span class="comment">/* 数据标识符 */</span></span><br><span class="line">    <span class="type">uint8_t</span>  CounterOffset;    <span class="comment">/* 计数器偏移 */</span></span><br><span class="line">    <span class="type">uint8_t</span>  CRCOffset;        <span class="comment">/* CRC 偏移 */</span></span><br><span class="line">    <span class="type">uint16_t</span> MinDeltaCounter;  <span class="comment">/* 最小增量 */</span></span><br><span class="line">    <span class="type">uint16_t</span> MaxDeltaCounter;  <span class="comment">/* 最大增量 */</span></span><br><span class="line">    <span class="type">uint8_t</span>  DataIDMode;       <span class="comment">/* Data ID 模式 */</span></span><br><span class="line">&#125; E2E_PXXConfigType;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>状态类型（Status Type）</p>
+<p>用于存储 E2E 验证的运行状态和结果。</p>
+<table>
+<thead>
+<tr>
+<th>典型字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Counter</code></td>
+<td>接收到的计数器值</td>
+</tr>
+<tr>
+<td><code>Status</code></td>
+<td>检查结果状态</td>
+</tr>
+<tr>
+<td><code>ErrorCode</code></td>
+<td>最后错误码</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph StatusType [状态类型]
+        Counter[计数器值]
+        Status[验证状态&lt;br/&gt;有效/无效/重复/丢失]
+        LastError[最后错误码]
+    end</code></pre>
+</li>
+<li>
+<p>返回值类型（Return Type）</p>
+<p>所有 E2E API 函数返回的通用错误码。</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>E2E_E_OK</code></td>
+<td>操作成功</td>
+</tr>
+<tr>
+<td><code>E2E_E_INPUTERR_NULL</code></td>
+<td>空指针参数</td>
+</tr>
+<tr>
+<td><code>E2E_E_INPUTERR_WRONG</code></td>
+<td>参数错误</td>
+</tr>
+<tr>
+<td><code>E2E_E_INTERR</code></td>
+<td>内部错误</td>
+</tr>
+<tr>
+<td><code>E2E_E_NOTAVAILABLE</code></td>
+<td>功能不可用</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>受保护数据类型（Protect Data Type）</p>
+<p>用于在发送和接收端传递的受保护数据。</p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph ProtectedData [受保护数据]
+        UserData[用户数据&lt;br/&gt;Payload]
+        Header[E2E 头部&lt;br/&gt;Counter/Data ID]
+        CRC[E2E CRC&lt;br/&gt;校验值]
+    end</code></pre>
+</li>
+</ol>
+<h3 id="Profile-Xm-消息结果枚举">Profile Xm 消息结果枚举</h3>
+<blockquote>
+<p>在 E2E Profile <strong>Xm</strong> 中，<code>MessageResult</code> 参数用于区分响应消息是<strong>正常结果</strong>还是<strong>错误结果</strong>。该枚举值在保护、转发和检查函数中作为参数传入，确保 E2E 能够对正常和错误响应进行区分保护。</p>
+</blockquote>
+<ol>
+<li>
+<p>消息结果枚举定义 [PRS_E2E_00857]</p>
+<table>
+<thead>
+<tr>
+<th>枚举值</th>
+<th>数值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>STD_MESSAGERESULT_OK</code></strong></td>
+<td>0</td>
+<td>响应消息的结果为<strong>正常结果</strong>（即非错误）。此值也用于<strong>请求消息</strong>，该字段固定为此值</td>
+</tr>
+<tr>
+<td><strong><code>STD_MESSAGERESULT_ERROR</code></strong></td>
+<td>1</td>
+<td>响应消息的结果为<strong>错误结果</strong></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>使用场景 [PRS_E2E_00743]</p>
+<p>以下函数的 <code>MessageResult</code> 参数应设置为上述枚举值之一：</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+<th>MessageResult 设置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>E2E_PXXmProtect</code></strong></td>
+<td>发送端保护数据</td>
+<td>响应：OK 或 ERROR；请求：固定为 OK</td>
+</tr>
+<tr>
+<td><strong><code>E2E_PXXmForward</code></strong></td>
+<td>转发时更新保护信息</td>
+<td>保持原始值</td>
+</tr>
+<tr>
+<td><strong><code>E2E_PXXmCheck</code></strong></td>
+<td>接收端验证数据</td>
+<td>验证时检查该值</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Client as 客户端
+    participant Server as 服务端
+    participant E2E as E2E 保护
+
+    Note over Client,Server: 请求（MessageResult 固定为 OK）
+    Client-&gt;&gt;E2E: E2E_PXXmProtect&lt;br/&gt;MessageResult = OK
+    E2E-&gt;&gt;Server: 受保护请求
+
+    Note over Client,Server: 正常响应
+    Server-&gt;&gt;E2E: E2E_PXXmProtect&lt;br/&gt;MessageResult = OK
+    E2E-&gt;&gt;Client: 受保护响应（正常）
+
+    Note over Client,Server: 错误响应
+    Server-&gt;&gt;E2E: E2E_PXXmProtect&lt;br/&gt;MessageResult = ERROR
+    E2E-&gt;&gt;Client: 受保护响应（错误）</code></pre>
+</li>
+<li>
+<p>请求消息的特殊规则</p>
+<table>
+<thead>
+<tr>
+<th>消息方向</th>
+<th>MessageResult 值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>请求（客户端 → 服务端）</strong></td>
+<td>固定为 <code>STD_MESSAGERESULT_OK</code></td>
+<td>请求消息不区分结果类型，字段固定</td>
+</tr>
+<tr>
+<td><strong>响应（服务端 → 客户端）</strong></td>
+<td>OK 或 ERROR</td>
+<td>根据实际响应结果设置</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Request[请求消息]
+        Req[请求] --&gt; Fixed[MessageResult = OK&lt;br/&gt;固定值]
+    end
+    
+    subgraph Response[响应消息]
+        Resp[响应] --&gt; Decision&#123;服务端处理&lt;br/&gt;结果?&#125;
+        Decision --&gt;|成功| RespOK[MessageResult = OK]
+        Decision --&gt;|失败| RespError[MessageResult = ERROR]
+    end</code></pre>
+</li>
+<li>
+<p>安全意义</p>
+<table>
+<thead>
+<tr>
+<th>消息结果</th>
+<th>用途</th>
+<th>防止的故障</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OK</strong></td>
+<td>标识正常结果响应</td>
+<td>确保正常响应未被篡改为错误类型</td>
+</tr>
+<tr>
+<td><strong>ERROR</strong></td>
+<td>标识错误结果响应</td>
+<td>确保错误响应未被篡改为正常类型</td>
+</tr>
+<tr>
+<td><strong>请求固定</strong></td>
+<td>请求消息不携带结果信息</td>
+<td>简化保护逻辑，减少攻击面</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Attack[篡改攻击]
+        Attacker[攻击者] --&gt;|拦截| Intercept[捕获响应]
+        Intercept --&gt;|修改| Modify[将 OK 改为 ERROR]
+        Modify --&gt; Client[客户端]
+    end
+    
+    subgraph Protection[保护机制]
+        ResponseOK[正常响应&lt;br/&gt;MessageResult=OK]
+        ResponseError[错误响应&lt;br/&gt;MessageResult=ERROR]
+        
+        ResponseOK --&gt; CRC_OK[CRC 计算包含结果值]
+        ResponseError --&gt; CRC_Error[CRC 计算包含结果值]
+        
+        CRC_OK --&gt; VerifyOK[验证时要求匹配]
+        CRC_Error --&gt; VerifyError[验证时要求匹配]
+    end
+    
+    Modify -.-&gt;|CRC 不匹配| Rejected[❌ 验证失败]</code></pre>
+</li>
+<li>
+<p>消息类型 vs 消息结果</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>MessageType</th>
+<th>MessageResult</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>作用</strong></td>
+<td>区分请求/响应方向</td>
+<td>区分响应中的正常/错误结果</td>
+</tr>
+<tr>
+<td><strong>适用消息</strong></td>
+<td>请求 + 响应</td>
+<td>请求（固定OK）+ 响应（OK/ERROR）</td>
+</tr>
+<tr>
+<td><strong>枚举值</strong></td>
+<td>REQUEST / RESPONSE</td>
+<td>OK / ERROR</td>
+</tr>
+<tr>
+<td><strong>安全目的</strong></td>
+<td>防止消息方向混淆</td>
+<td>防止结果类型篡改</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Request[请求消息]
+        RT[MessageType = REQUEST]
+        RR[MessageResult = OK&lt;br/&gt;固定值]
+    end
+    
+    subgraph Response[响应消息]
+        ResT[MessageType = RESPONSE]
+        ResR[MessageResult = OK 或 ERROR]
+    end</code></pre>
+</li>
+<li>
+<p>E2E Profile Xm 完整字段</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>请求</th>
+<th>响应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sequence Counter</strong></td>
+<td>计数器</td>
+<td>✅ 递增</td>
+<td>✅ 递增</td>
+</tr>
+<tr>
+<td><strong>Message Type</strong></td>
+<td>REQUEST / RESPONSE</td>
+<td>REQUEST</td>
+<td>RESPONSE</td>
+</tr>
+<tr>
+<td><strong>Message Result</strong></td>
+<td>OK / ERROR</td>
+<td>OK（固定）</td>
+<td>OK 或 ERROR</td>
+</tr>
+<tr>
+<td><strong>Data ID</strong></td>
+<td>数据标识符</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>CRC</strong></td>
+<td>校验值</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="E2E-Profile-的通用功能">E2E Profile 的通用功能</h2>
+<blockquote>
+<p>每个 E2E Profile 提供三种核心功能：<strong>Protect</strong>（保护）、<strong>Forward</strong>（转发）和 <strong>Check</strong>（检查）。Protect 用于发送端添加 E2E 头部，Forward 用于信号服务转换时复制 E2E 状态，Check 用于接收端评估头部并检测通信故障。此外，E2E 状态机会对返回的状态进行长期评估。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>三种核心功能</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>说明</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Protect</strong></td>
+<td>创建 E2E 头部，保护待发送数据</td>
+<td>发送端</td>
+</tr>
+<tr>
+<td><strong>Forward</strong></td>
+<td>类似 Protect，但允许复制接收到的 E2E 状态</td>
+<td>信号服务转换（Signal-Service-Translation）</td>
+</tr>
+<tr>
+<td><strong>Check</strong></td>
+<td>评估接收消息的 E2E 头部，检测通信故障</td>
+<td>接收端</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Protect 功能</strong></p>
+<ul>
+<li>在发送端执行</li>
+<li>根据 Profile 配置生成 E2E 头部</li>
+<li>将控制数据（CRC、计数器、Data ID 等）添加到待发送数据中</li>
+<li>输出受保护的数据</li>
+</ul>
+</li>
+<li>
+<p><strong>Forward 功能</strong></p>
+<ul>
+<li>与 Protect 类似，但增加了状态复制能力</li>
+<li><strong>主要用例</strong>：信号服务转换（Signal-Service-Translation）</li>
+<li>场景示例：接收到一个 E2E 保护的信号，需要将 E2E 状态复制到发送端（如网关转发或协议转换场景）</li>
+<li>保证状态信息在转换过程中不丢失</li>
+</ul>
+</li>
+<li>
+<p><strong>Check 功能</strong></p>
+<ul>
+<li>在接收端执行</li>
+<li>评估接收消息的 E2E 头部</li>
+<li>检测通信故障：数据损坏、丢失、重复、乱序、超时等</li>
+<li>检测到的故障通过返回的 <strong>E2E State</strong> 体现</li>
+</ul>
+</li>
+<li>
+<p><strong>E2E 状态机</strong></p>
+<ul>
+<li>对单个 Check 返回的 E2E State 进行<strong>长期评估</strong></li>
+<li>综合多次检查结果，输出稳定的状态判断</li>
+<li>避免单次偶发错误导致误判</li>
+</ul>
+</li>
+<li>
+<p><strong>三种功能的关联</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Sender[发送方]
+        Data[原始数据] --&gt; Protect[Protect 功能&lt;br/&gt;添加 E2E 头部]
+        Protect --&gt; Send[发送]
+    end
+
+    subgraph Gateway[网关/转换节点]
+        RecvG[接收] --&gt; Forward[Forward 功能&lt;br/&gt;复制 E2E 状态]
+        Forward --&gt; SendG[发送]
+    end
+
+    subgraph Receiver[接收方]
+        Recv[接收] --&gt; Check[Check 功能&lt;br/&gt;检测故障]
+        Check --&gt; State[E2E State]
+        State --&gt; SM[E2E 状态机&lt;br/&gt;长期评估]
+    end
+
+    Send --&gt; RecvG
+    SendG --&gt; Recv</code></pre>
+</li>
+<li>
+<p><strong>E2E State 典型值</strong></p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>E2E_OK</code></td>
+<td>数据有效，无故障</td>
+</tr>
+<tr>
+<td><code>E2E_E_WRONG</code></td>
+<td>数据错误（CRC 不匹配）</td>
+</tr>
+<tr>
+<td><code>E2E_E_REPEATED</code></td>
+<td>重复消息</td>
+</tr>
+<tr>
+<td><code>E2E_E_LOST</code></td>
+<td>消息丢失</td>
+</tr>
+<tr>
+<td><code>E2E_E_SEQUENCE</code></td>
+<td>消息乱序</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关章节</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>相关章节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Protect</td>
+<td>各 Profile 的 Protect 函数描述</td>
+</tr>
+<tr>
+<td>Forward</td>
+<td>各 Profile 的 Forward 函数描述</td>
+</tr>
+<tr>
+<td>Check</td>
+<td>各 Profile 的 Check 函数描述</td>
+</tr>
+<tr>
+<td>E2E 状态机</td>
+<td>E2E Protocol Specification 相关章节</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="Counter-的功能">Counter 的功能</h3>
+<blockquote>
+<p>在接收端，E2E Supervision 通过将接收数据的计数器与之前接收数据的计数器进行比较，检测重复、正常（无丢失或少量丢失）以及超量丢失（错误）三种情况。这些检测结果分别对应活跃计数器检查失败（重复）和序列计数器检查失败（超量丢失）。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>计数器比较的三种结果</strong></p>
+<table>
+<thead>
+<tr>
+<th>结果分类</th>
+<th>检测条件</th>
+<th>说明</th>
+<th>对应检查失败类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>重复（Repetition）</strong></td>
+<td>计数器未变化</td>
+<td>无新数据到达，或数据被重复发送</td>
+<td>活跃计数器检查失败</td>
+</tr>
+<tr>
+<td><strong>正常（OK）</strong></td>
+<td>计数器增量 ≥ 1，且在允许范围内</td>
+<td>数据连续或少量丢失，仍可接受</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>错误（Error）</strong></td>
+<td>计数器增量超出允许范围</td>
+<td>数据丢失过多，不可接受</td>
+<td>序列计数器检查失败</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>重复（Repetition）</strong></p>
+<ul>
+<li>条件：自上次 E2E Supervision 检查函数调用以来，<strong>无新数据到达</strong></li>
+<li>表现：收到的数据是<strong>重复的</strong></li>
+<li>对应：<strong>活跃计数器（Alive Counter）检查失败</strong></li>
+<li>检测目的：识别消息重传攻击或发送端未更新数据</li>
+</ul>
+</li>
+<li>
+<p><strong>正常（OK）</strong></p>
+<ul>
+<li><strong>情况 a</strong>：计数器增量 = 1
+<ul>
+<li>无数据丢失，通信正常</li>
+</ul>
+</li>
+<li><strong>情况 b</strong>：计数器增量 &gt; 1，但 ≤ 允许最大值
+<ul>
+<li>有数据丢失，但仍在允许范围内</li>
+<li>部分数据丢失可容忍（如非关键数据）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>错误（Error）</strong></p>
+<ul>
+<li>条件：计数器增量 &gt; 允许最大值</li>
+<li>表现：数据丢失过多</li>
+<li>对应：<strong>序列计数器（Sequence Counter）检查失败</strong></li>
+<li>检测目的：识别严重通信故障或攻击</li>
+</ul>
+</li>
+<li>
+<p><strong>计数器增量与检测结果对应关系</strong></p>
+<table>
+<thead>
+<tr>
+<th>计数器增量</th>
+<th>检测结果</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>重复</td>
+<td>活跃计数器检查失败</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>OK（无丢失）</td>
+<td>正常递增</td>
+</tr>
+<tr>
+<td><code>2 ~ MaxDelta</code></td>
+<td>OK（有丢失）</td>
+<td>丢失数量在允许范围内</td>
+</tr>
+<tr>
+<td><code>&gt; MaxDelta</code></td>
+<td>错误</td>
+<td>序列计数器检查失败</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>两种计数器检查的区分</strong></p>
+<table>
+<thead>
+<tr>
+<th>检查类型</th>
+<th>检测结果</th>
+<th>对应情况</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>活跃计数器（Alive Counter）</strong></td>
+<td>重复（Repetition）</td>
+<td>计数器未变化</td>
+</tr>
+<tr>
+<td><strong>序列计数器（Sequence Counter）</strong></td>
+<td>错误（Error）</td>
+<td>计数器增量超出允许范围</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关章节</strong></p>
+<ul>
+<li>各 Profile 的 Check 函数 UML 图</li>
+<li>E2E Protocol Specification 中的计数器检测逻辑</li>
+</ul>
+</li>
+</ol>
+<h3 id="超时检测">超时检测</h3>
+<blockquote>
+<p>当接收端独立于数据传输运行时（即不阻塞等待数据），通过计数器检测通信丢失和超时。接收端检查是否有新数据可用，结合计数器判断数据是否更新。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>超时检测的两种条件</strong></p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>含义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>State-&gt;NewDataAvailable == FALSE</code></td>
+<td>传输介质（如 RTE）报告<strong>无新数据元素可用</strong></td>
+<td>数据未到达</td>
+</tr>
+<tr>
+<td><code>State-&gt;Status == E2E_PXXSTATUS_REPEATED</code></td>
+<td>传输介质提供了新数据，但计数器<strong>与上一个有效数据相同</strong></td>
+<td>数据重复</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>两种条件的共同含义</strong></p>
+<ul>
+<li>自上次检查以来，<strong>没有更新过的有效数据可用</strong></li>
+<li>代表通信丢失或超时</li>
+</ul>
+</li>
+<li>
+<p><strong>检测流程</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Check[接收端检查数据] --&gt; Available&#123;新数据&lt;br/&gt;可用?&#125;
+    Available --&gt;|否| Timeout1[超时检测触发&lt;br/&gt;无新数据]
+    Available --&gt;|是| Counter&#123;计数器&lt;br/&gt;已变化?&#125;
+    Counter --&gt;|否| Timeout2[超时检测触发&lt;br/&gt;数据重复]
+    Counter --&gt;|是| Valid[数据有效&lt;br/&gt;正常处理]</code></pre>
+</li>
+<li>
+<p><strong>与 Profile 5 的关联</strong></p>
+<ul>
+<li>此机制在 <strong>Profile 5</strong> 中实现</li>
+<li>Profile 5 同时使用 CRC、Counter 和 Data ID 检查数据有效性</li>
+<li>超时检测是 Profile 5 的重要补充机制</li>
+</ul>
+</li>
+<li>
+<p><strong>区分重复与超时</strong></p>
+<table>
+<thead>
+<tr>
+<th>情况</th>
+<th>NewDataAvailable</th>
+<th>Counter 变化</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无新数据</td>
+<td><code>FALSE</code></td>
+<td>—</td>
+<td>通信超时</td>
+</tr>
+<tr>
+<td>数据重复</td>
+<td><code>TRUE</code></td>
+<td>未变化</td>
+<td>重复数据（可能为攻击或发送端未更新）</td>
+</tr>
+<tr>
+<td>数据更新</td>
+<td><code>TRUE</code></td>
+<td>已变化</td>
+<td>正常通信</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关机制</strong></p>
+<ul>
+<li>接收端<strong>不阻塞等待</strong>数据</li>
+<li>周期性检查当前可用数据</li>
+<li>配合计数器检测通信丢失和超时</li>
+</ul>
+</li>
+</ol>
+<h3 id="循环冗余校验（CRC）">循环冗余校验（CRC）</h3>
+<blockquote>
+<p>CRC 用于检测消息在传输过程中是否发生比特翻转。与计数器错误不同，CRC 错误极不可能产生“误报”（使用良好 CRC 多项式时，检测到的 CRC 错误几乎确定表示数据损坏）。因此，对 CRC 错误应采取更严格的反应机制。接收端容忍的 CRC 错误次数应有限制，因为连续收到多个未被检测到的错误消息的概率不可忽略。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>CRC 的作用</strong></p>
+<ul>
+<li>检测消息在传输过程中的<strong>比特翻转</strong></li>
+<li>提供数据完整性保护</li>
+</ul>
+</li>
+<li>
+<p><strong>CRC 错误与计数器错误的对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>CRC 错误</th>
+<th>计数器错误</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>误报可能性</strong></td>
+<td>极低（使用良好多项式时）</td>
+<td>较高（可能因时序导致）</td>
+</tr>
+<tr>
+<td><strong>检测到错误的意义</strong></td>
+<td>几乎确定数据损坏发生</td>
+<td>可能为时序或配置问题</td>
+</tr>
+<tr>
+<td><strong>反应策略</strong></td>
+<td>更严格</td>
+<td>相对宽松</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>CRC 错误的严格反应</strong></p>
+<ul>
+<li>检测到 CRC 错误后，后续数据流中可能包含大量<strong>未检测到的损坏数据</strong></li>
+<li>需要限制接收端容忍的 CRC 错误<strong>最大次数</strong></li>
+<li>概率考量：在错误检测和定时间隔内，收到多个未被检测到的错误消息的概率不可忽略</li>
+</ul>
+</li>
+<li>
+<p><strong>设计影响</strong></p>
+<ul>
+<li>错误的 CRC 指示通信通道的完整性受到影响</li>
+<li>接收端设计的容错能力（见 <code>UC_E2E_00170</code>）可能因此被超出</li>
+<li>需要采取适当的安全措施（如降级、报警、重启通信）</li>
+</ul>
+</li>
+<li>
+<p><strong>反应策略建议</strong></p>
+<table>
+<thead>
+<tr>
+<th>CRC 错误次数</th>
+<th>建议反应</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 次</td>
+<td>记录错误，继续监控</td>
+</tr>
+<tr>
+<td>达到阈值</td>
+<td>触发安全反应（如降级模式、报警）</td>
+</tr>
+<tr>
+<td>持续错误</td>
+<td>认定通信通道受损，采取更严厉措施</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关用例</strong></p>
+<ul>
+<li><code>UC_E2E_00170</code>：接收端容错设计的相关用例</li>
+</ul>
+</li>
+</ol>
+<h1 id="E2E-Profile-通用部分">E2E Profile 通用部分</h1>
+<blockquote>
+<p>本章包含多个 E2E Profile 共用的规范内容，使用占位符（如 <code>XX</code>）表示 Profile 特定的值。通过 CRC、计数器、Data ID 等安全机制，E2E 能够检测多种通信故障，包括重复、丢失、延迟、插入、伪装、寻址错误、乱序、数据损坏及非对称通信问题。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>通用部分的范围</strong></p>
+<ul>
+<li>适用于多个 E2E Profile 共用的规范</li>
+<li>使用占位符 <code>XX</code> 表示 Profile 特定内容</li>
+<li><strong>不适用于</strong> Method Profiles（方法配置文件）</li>
+<li>适用于 DataID 和 Length 作为 Profile 头部字段的 Profile</li>
+</ul>
+</li>
+<li>
+<p><strong>可检测的故障类型与对应的安全机制</strong></p>
+<table>
+<thead>
+<tr>
+<th>故障/影响</th>
+<th>主要安全机制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信息重复（Repetition of information）</td>
+<td>计数器（Counter）</td>
+</tr>
+<tr>
+<td>信息丢失（Loss of information）</td>
+<td>计数器（Counter）</td>
+</tr>
+<tr>
+<td>信息延迟（Delay of information）</td>
+<td>计数器（Counter）</td>
+</tr>
+<tr>
+<td>信息插入（Insertion of information）</td>
+<td>Data ID</td>
+</tr>
+<tr>
+<td>伪装（Masquerading）</td>
+<td>Data ID, CRC</td>
+</tr>
+<tr>
+<td>寻址错误（Incorrect addressing）</td>
+<td>Data ID</td>
+</tr>
+<tr>
+<td>信息顺序错误（Incorrect sequence of information）</td>
+<td>计数器（Counter）</td>
+</tr>
+<tr>
+<td>信息损坏（Corruption of information）</td>
+<td>CRC</td>
+</tr>
+<tr>
+<td>单发多收中的非对称信息</td>
+<td>CRC（检测任一接收端的数据损坏）</td>
+</tr>
+<tr>
+<td>仅部分接收端收到信息</td>
+<td>计数器（特定接收端的丢失检测）</td>
+</tr>
+<tr>
+<td>通信通道访问阻塞</td>
+<td>计数器（丢失或超时检测）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>安全机制与故障的对应关系</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Mechanisms[安全机制]
+        Counter[计数器]
+        DataID[Data ID]
+        CRC[CRC]
+    end
+
+    subgraph Faults[故障类型]
+        Rep[重复]
+        Loss[丢失]
+        Delay[延迟]
+        Insert[插入]
+        Mask[伪装]
+        Addr[寻址错误]
+        Seq[顺序错误]
+        Corrupt[数据损坏]
+    end
+
+    Counter --&gt; Rep
+    Counter --&gt; Loss
+    Counter --&gt; Delay
+    Counter --&gt; Seq
+    DataID --&gt; Insert
+    DataID --&gt; Mask
+    DataID --&gt; Addr
+    CRC --&gt; Mask
+    CRC --&gt; Corrupt</code></pre>
+</li>
+<li>
+<p><strong>关键故障类型的详细说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>故障</th>
+<th>说明</th>
+<th>检测机制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>重复</strong></td>
+<td>相同消息被多次接收</td>
+<td>计数器未变化</td>
+</tr>
+<tr>
+<td><strong>丢失</strong></td>
+<td>消息未到达接收端</td>
+<td>计数器跳跃（超出允许范围）</td>
+</tr>
+<tr>
+<td><strong>延迟</strong></td>
+<td>消息到达时间晚于预期</td>
+<td>计数器与超时结合</td>
+</tr>
+<tr>
+<td><strong>插入</strong></td>
+<td>未授权消息被注入通信</td>
+<td>Data ID 不匹配</td>
+</tr>
+<tr>
+<td><strong>伪装</strong></td>
+<td>消息来源被伪造</td>
+<td>Data ID + CRC 验证</td>
+</tr>
+<tr>
+<td><strong>寻址错误</strong></td>
+<td>消息被发送到错误的接收端</td>
+<td>Data ID 不匹配</td>
+</tr>
+<tr>
+<td><strong>顺序错误</strong></td>
+<td>消息到达顺序错误</td>
+<td>计数器非递增</td>
+</tr>
+<tr>
+<td><strong>数据损坏</strong></td>
+<td>消息内容被篡改</td>
+<td>CRC 校验失败</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>占位符说明</strong></p>
+<ul>
+<li><code>XX</code>：表示 Profile 特定值（如 Profile 编号 <code>P01</code>、<code>P04</code> 等）</li>
+<li>具体值在对应 Profile 的子章节中定义</li>
+<li>示例：<code>E2E_PXXProtect</code> → <code>E2E_P01Protect</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="计数器（Counter）">计数器（Counter）</h2>
+<blockquote>
+<p>在 E2E Profile 中，计数器的初始化、递增、重置和检查均由 E2E Profile 自身完成，调用方不操纵或使用计数器。发送端首次发送时将计数器初始化为 0，后续每次发送递增 1，达到最大值后回绕到 0 重新开始。最大值取决于计数器位宽。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>计数器的管理</strong></p>
+<ul>
+<li>E2E Profile 负责计数器的<strong>完整生命周期管理</strong>：
+<ul>
+<li>初始化（Initialization）</li>
+<li>递增（Increment）</li>
+<li>重置（Reset）</li>
+<li>检查（Check）</li>
+</ul>
+</li>
+<li>调用方（上层应用）<strong>不操纵</strong>计数器，也<strong>不使用</strong>计数器值</li>
+</ul>
+</li>
+<li>
+<p><strong>发送端行为</strong> [PRS_E2E_01205]</p>
+<ul>
+<li><strong>首次发送请求</strong>：计数器初始化为 <strong>0</strong></li>
+<li><strong>后续每次发送请求</strong>：计数器<strong>递增 1</strong></li>
+<li><strong>达到最大值后</strong>：回绕到 <strong>0</strong> 重新开始</li>
+</ul>
+</li>
+<li>
+<p><strong>计数器最大值（按位宽）</strong></p>
+<table>
+<thead>
+<tr>
+<th>计数器位宽</th>
+<th>最大值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>8 位</strong></td>
+<td><code>0xFF</code>（255）</td>
+<td>8-bit 计数器</td>
+</tr>
+<tr>
+<td><strong>16 位</strong></td>
+<td><code>0xFFFF</code>（65535）</td>
+<td>16-bit 计数器</td>
+</tr>
+<tr>
+<td><strong>32 位</strong></td>
+<td><code>0xFFFFFFFF</code>（4294967295）</td>
+<td>32-bit 计数器</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>计数器生命周期</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    Init[首次发送&lt;br/&gt;计数器 = 0] --&gt; Send1[发送]
+    Send1 --&gt; Inc1[递增 +1&lt;br/&gt;计数器 = 1]
+    Inc1 --&gt; Send2[发送]
+    Send2 --&gt; IncN[递增 +1&lt;br/&gt;...]
+    IncN --&gt; Max[达到最大值]
+    Max --&gt; Wrap[回绕到 0]
+    Wrap --&gt; SendN[继续发送]</code></pre>
+</li>
+<li>
+<p><strong>计数器回绕示例</strong></p>
+<table>
+<thead>
+<tr>
+<th>发送次数</th>
+<th>8-bit 计数器值</th>
+<th>16-bit 计数器值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0x00</td>
+<td>0x0000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0x01</td>
+<td>0x0001</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>256</td>
+<td>0xFF</td>
+<td>0x00FF</td>
+</tr>
+<tr>
+<td>257</td>
+<td><strong>0x00</strong>（回绕）</td>
+<td>0x0100</td>
+</tr>
+<tr>
+<td>65536</td>
+<td>0xFF</td>
+<td>0xFFFF</td>
+</tr>
+<tr>
+<td>65537</td>
+<td>0x00（回绕）</td>
+<td><strong>0x0000</strong>（回绕）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>接收端行为（补充说明）</strong></p>
+<ul>
+<li>接收端通过比较当前计数器与上次接收的计数器值进行检测：
+<ul>
+<li><code>增量 = 0</code> → 重复（Repetition）</li>
+<li><code>增量 = 1</code> → 正常（无丢失）</li>
+<li><code>1 &lt; 增量 ≤ 允许最大值</code> → 正常（有丢失）</li>
+<li><code>增量 &gt; 允许最大值</code> → 错误（丢失过多）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li><code>RS_E2E_08539</code>：计数器相关需求</li>
+<li><code>PRS_E2E_01205</code>：计数器初始化与递增规则</li>
+</ul>
+</li>
+</ol>
+<h2 id="Data-ID">Data ID</h2>
+<blockquote>
+<p>Data ID 用于验证每个传输的安全相关数据元素的<strong>身份唯一性</strong>。在 E2E Profiles 中，Data ID 应在通信系统的网络中全局唯一。无论是通过 RTE 保护数据元素（1:1 或 1:N 通信），还是通过 COM 保护消息，接收端均使用 Data ID 来验证收到的数据是否来自预期的发送方。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>Data ID 的作用</strong></p>
+<ul>
+<li>验证每个安全相关数据元素的<strong>身份</strong></li>
+<li>防止伪装（Masquerading）、插入（Insertion）和寻址错误（Incorrect addressing）</li>
+<li>确保接收端收到的数据来自<strong>预期的发送方</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Data ID 的唯一性要求</strong> [PRS_E2E_01438]</p>
+<ul>
+<li>Data ID 应在通信系统的网络中<strong>全局唯一</strong></li>
+<li>网络由多个 ECU 组成，每个 ECU 发送不同的数据</li>
+<li>唯一性确保不会将不同来源的数据混淆</li>
+</ul>
+</li>
+<li>
+<p><strong>Data ID 的使用场景</strong></p>
+<table>
+<thead>
+<tr>
+<th>使用场景</th>
+<th>调用层</th>
+<th>验证方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>保护数据元素</strong></td>
+<td>RTE</td>
+<td>消费者期望特定数据元素，通过 Data ID 验证</td>
+</tr>
+<tr>
+<td><strong>保护消息</strong></td>
+<td>COM</td>
+<td>接收端期望特定消息，通过 Data ID 验证</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>数据元素保护（RTE 调用）</strong></p>
+<ul>
+<li>通信方式：1:1（点对点）或 1:N（一对多）</li>
+<li>消费者只期望收到<strong>特定的数据元素</strong></li>
+<li>E2E Supervision 通过 Data ID 检查数据元素身份</li>
+</ul>
+</li>
+<li>
+<p><strong>消息保护（COM 调用）</strong></p>
+<ul>
+<li>接收端在接收时只期望<strong>特定的消息</strong></li>
+<li>E2E Supervision 通过 Data ID 检查消息身份</li>
+</ul>
+</li>
+<li>
+<p><strong>Data ID 与其他安全机制的关系</strong></p>
+<table>
+<thead>
+<tr>
+<th>安全机制</th>
+<th>防护目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data ID</strong></td>
+<td>插入、伪装、寻址错误</td>
+</tr>
+<tr>
+<td><strong>CRC</strong></td>
+<td>数据损坏</td>
+</tr>
+<tr>
+<td><strong>Counter</strong></td>
+<td>重复、丢失、延迟、顺序错误</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Data ID 与 CRC 的联合保护</strong></p>
+<ul>
+<li>Data ID 参与 <strong>CRC 计算</strong>（如 Profile 4、Profile 7 等）</li>
+<li>确保伪装和损坏同时被检测</li>
+</ul>
+</li>
+<li>
+<p><strong>全局唯一性的必要性</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Network[网络]
+        ECU1[ECU A&lt;br/&gt;Data ID = 1]
+        ECU2[ECU B&lt;br/&gt;Data ID = 2]
+        ECU3[ECU C&lt;br/&gt;Data ID = 3]
+    end
+
+    subgraph Receiver[接收端]
+        Check[验证 Data ID]
+        Check --&gt;|匹配| Accept[接受]
+        Check --&gt;|不匹配| Reject[拒绝]
+    end</code></pre>
+<ul>
+<li>多个 ECU 发送不同数据，Data ID 必须全局唯一</li>
+<li>避免将一个 ECU 的数据误认为另一个 ECU 的数据</li>
+</ul>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li><code>RS_E2E_08539</code>：Data ID 相关需求</li>
+<li><code>PRS_E2E_01438</code>：Data ID 全局唯一性要求</li>
+</ul>
+</li>
+</ol>
+<h2 id="Length-字段">Length 字段</h2>
+<blockquote>
+<p>Length 字段用于支持<strong>可变长度</strong>的数据。存储序列化数据的 <code>Data[]</code> 数组在每个周期中可能具有不同的长度。Length 字段涵盖了<strong>用户数据 + E2E 头部</strong>（包含 CRC、计数器、Length 和 Data ID）的完整长度信息。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>Length 字段的作用</strong></p>
+<ul>
+<li>支持<strong>可变长度</strong>的数据（动态长度）</li>
+<li>指示当前数据元素的<strong>完整长度</strong>（用户数据 + E2E 头部）</li>
+<li>允许接收端根据 Length 字段动态解析数据</li>
+</ul>
+</li>
+<li>
+<p><strong>Length 覆盖的范围</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Length = 用户数据 + E2E 头部</span><br></pre></td></tr></table></figure>
+<p>E2E 头部包含：</p>
+<ul>
+<li>CRC</li>
+<li>计数器（Counter）</li>
+<li>Length</li>
+<li>Data ID</li>
+</ul>
+</li>
+<li>
+<p><strong>适用场景</strong></p>
+<ul>
+<li><code>Data[]</code> 数组长度在每个周期可能不同</li>
+<li>需要接收端知道当前数据的实际长度才能正确解析</li>
+<li>常见于动态长度信号或消息</li>
+</ul>
+</li>
+<li>
+<p><strong>E2E 头部完整结构</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph E2EHeader[E2E Header]
+        DataID[Data ID]
+        Length[Length]
+        Counter[Counter]
+        CRC[CRC]
+    end
+
+    subgraph DataArray[Data 数组]
+        UserData[用户数据]
+    end
+
+    subgraph Complete[完整 E2E 消息]
+        Header[E2E Header]
+        Data[用户数据]
+    end</code></pre>
+</li>
+<li>
+<p><strong>Length 字段的典型布局</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>典型位宽</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data ID</td>
+<td>8/16/32 位</td>
+<td>数据标识符</td>
+</tr>
+<tr>
+<td><strong>Length</strong></td>
+<td>8/16 位</td>
+<td>长度字段</td>
+</tr>
+<tr>
+<td>Counter</td>
+<td>4/8/16 位</td>
+<td>计数器</td>
+</tr>
+<tr>
+<td>CRC</td>
+<td>8/16/32 位</td>
+<td>校验值</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>使用 Length 的优势</strong></p>
+<ul>
+<li>支持动态长度数据，无需固定长度</li>
+<li>节省带宽（短数据时减少传输量）</li>
+<li>接收端无需预知数据长度</li>
+</ul>
+</li>
+<li>
+<p><strong>相关 Profile</strong></p>
+<ul>
+<li>支持 Length 字段的 E2E Profile（如 Profile 7 等）</li>
+<li>Profile 具体布局参见各 Profile 详细定义</li>
+</ul>
+</li>
+</ol>
+<h2 id="CRC（循环冗余校验）">CRC（循环冗余校验）</h2>
+<blockquote>
+<p>E2E Profiles 根据消息长度使用不同长度的 CRC，以确保高检测率和高汉明距离。CRC 的计算覆盖<strong>整个 E2E 头部（不包括 CRC 字段自身）和用户数据</strong>。使用的 CRC 函数包括 CRC8、CRC8H2F、CRC16、CRC32、CRC32P4 和 CRC64 等。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p><strong>CRC 的作用</strong></p>
+<ul>
+<li>检测数据在传输过程中的<strong>损坏（Corruption）</strong></li>
+<li>确保高<strong>检测率</strong>和<strong>高汉明距离</strong></li>
+<li>CRC 长度根据消息长度灵活选择</li>
+</ul>
+</li>
+<li>
+<p><strong>支持的 CRC 函数</strong> [PRS_E2E_01206]</p>
+<table>
+<thead>
+<tr>
+<th>CRC 类型</th>
+<th>说明</th>
+<th>相关章节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRC8</td>
+<td>SAE J1850</td>
+<td>Chapter 6.7</td>
+</tr>
+<tr>
+<td>CRC8H2F</td>
+<td>CRC8 0x2F 多项式</td>
+<td>Chapter 6.10</td>
+</tr>
+<tr>
+<td>CRC16</td>
+<td>16 位 CRC</td>
+<td>Chapter 6.11</td>
+</tr>
+<tr>
+<td>CRC32</td>
+<td>32 位 CRC</td>
+<td>Chapter 6.14</td>
+</tr>
+<tr>
+<td>CRC32P4</td>
+<td>CRC32 0xF4ACFB13 多项式</td>
+<td>Chapter 6.14</td>
+</tr>
+<tr>
+<td>CRC64</td>
+<td>CRC-64-ECMA</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>CRC 计算范围</strong> [PRS_E2E_01207]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CRC 计算范围 = E2E 头部（不含 CRC 字段）+ 用户数据</span><br></pre></td></tr></table></figure>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph E2EMessage[E2E 消息]
+        Header[E2E Header&lt;br/&gt;含 DataID/Length/Counter]
+        CRC_Field[CRC 字段]
+        UserData[用户数据]
+    end
+
+    subgraph CRCRange[CRC 计算范围]
+        Header --&gt; Include[✅ 包含]
+        UserData --&gt; Include
+        CRC_Field --&gt; Exclude[❌ 不包含]
+    end</code></pre>
+</li>
+<li>
+<p><strong>CRC32P4 的特殊说明</strong></p>
+<ul>
+<li>与 FlexRay、CAN 和 TCP/IP 使用的 32 位 CRC <strong>不同</strong></li>
+<li>由 <strong>CRC Supervision</strong> 提供（而非通信控制器或通信协议栈软件）</li>
+<li>来源：不同的软件模块</li>
+</ul>
+</li>
+<li>
+<p><strong>CRC 选择依据</strong></p>
+<table>
+<thead>
+<tr>
+<th>消息长度</th>
+<th>推荐 CRC 类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>短消息</td>
+<td>CRC8 / CRC8H2F</td>
+<td>低开销</td>
+</tr>
+<tr>
+<td>中等长度</td>
+<td>CRC16</td>
+<td>平衡检测率与开销</td>
+</tr>
+<tr>
+<td>长消息</td>
+<td>CRC32 / CRC32P4 / CRC64</td>
+<td>高检测率</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>CRC 在 E2E 头部中的位置</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph E2EHeader[E2E Header 结构]
+        DataID[Data ID] --&gt; Length[Length] --&gt; Counter[Counter] --&gt; CRC_Field[CRC&lt;br/&gt;不参与自身计算]
+    end
+    Note[CRC 计算范围: Data ID + Length + Counter + 用户数据]</code></pre>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li><code>RS_E2E_08528</code>：E2E 基础需求</li>
+<li><code>RS_E2E_08539</code>：E2E Profile 需求</li>
+<li><code>RS_E2E_08531</code>：CRC 计算范围需求</li>
+<li>Chapter 6.7 / 6.10 / 6.11 / 6.14：各 CRC 函数详细定义</li>
+</ul>
+</li>
+</ol>
+<h2 id="超时检测-2">超时检测</h2>
+<blockquote>
+<p>通过前述机制（CRC、Counter、Data ID、Length），当接收端独立于数据传输运行时（即非阻塞等待，而是主动检查当前可用数据），借助计数器可检测通信丢失和超时。超时可能源于接收端未获取新数据或数据重复。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p><strong>超时检测的适用条件</strong></p>
+<ul>
+<li>接收端<strong>不阻塞等待</strong>数据</li>
+<li>接收端<strong>周期性检查</strong>当前是否有新数据可用</li>
+<li>通过计数器检测通信状态</li>
+</ul>
+</li>
+<li>
+<p><strong>超时检测的两种场景</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>检测方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>无新数据</strong></td>
+<td><code>State-&gt;NewDataAvailable == FALSE</code></td>
+<td>传输介质报告无新数据元素</td>
+</tr>
+<tr>
+<td><strong>数据重复</strong></td>
+<td><code>State-&gt;Status == E2E_PXXSTATUS_REPEATED</code></td>
+<td>数据计数器与上次相同</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>检测流程</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Rx[接收端执行检查] --&gt; Check&#123;有&lt;br/&gt;新数据?&#125;
+    Check --&gt;|否| Timeout[超时/通信丢失]
+    Check --&gt;|是| Counter&#123;计数器&lt;br/&gt;已变化?&#125;
+    Counter --&gt;|否| Repeat[数据重复&lt;br/&gt;可视为超时]
+    Counter --&gt;|是| Valid[通信正常]</code></pre>
+</li>
+<li>
+<p><strong>配套机制的作用</strong></p>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>在超时检测中的角色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CRC</strong></td>
+<td>确保数据完整性（损坏时丢弃）</td>
+</tr>
+<tr>
+<td><strong>Counter</strong></td>
+<td>检测通信丢失和超时的核心机制</td>
+</tr>
+<tr>
+<td><strong>Data ID</strong></td>
+<td>确保数据来源正确</td>
+</tr>
+<tr>
+<td><strong>Length</strong></td>
+<td>确保数据长度正确</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关状态</strong></p>
+<ul>
+<li><code>State-&gt;NewDataAvailable</code>：表示是否有新数据元素可用</li>
+<li><code>State-&gt;Status</code>：数据状态（如 <code>E2E_PXXSTATUS_REPEATED</code> 表示重复）</li>
+</ul>
+</li>
+</ol>
+<h2 id="E2E-头部的创建">E2E 头部的创建</h2>
+<h3 id="E2E-PXXProtect">E2E_PXXProtect()</h3>
+<blockquote>
+<p><code>E2E_PXXProtect()</code> 函数按照本节图中的步骤创建 E2E 头部。该函数执行输入验证、偏移计算、Length 写入、Counter 写入、DataID 写入、CRC 计算与写入，以及 Counter 递增等操作。这些步骤的具体行为由对应的图定义。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong><code>E2E_PXXProtect()</code> 函数整体行为</strong> [PRS_E2E_01209]</p>
+<ul>
+<li>
+<p>总体流程执行如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707132417475.png" alt="E2E_PXXProtect函数行为" loading='lazy'></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>E2E_PXXProtect()</code> 的执行步骤</strong></p>
+<ol>
+<li>
+<p>验证 Protect 函数的输入：检查输入参数的有效性[PRS_E2E_01210]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707132619443.png" alt="验证输入" loading='lazy'></p>
+</li>
+<li>
+<p>计算偏移量：计算 E2E 头部中各字段的位置偏移[PRS_E2E_01211]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707132728192.png" alt="计算偏移量" loading='lazy'></p>
+</li>
+<li>
+<p>写入 Length：将长度信息写入 E2E 头部[PRS_E2E_01212]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707132839167.png" alt="写入长度" loading='lazy'></p>
+</li>
+<li>
+<p>写入 Counter：将当前计数器值写入 E2E 头部[PRS_E2E_01213]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707133020221.png" alt="写入Counter" loading='lazy'></p>
+</li>
+<li>
+<p>写入 DataID：将 Data ID 写入 E2E 头部[PRS_E2E_01214]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707133114786.png" alt="写DataId" loading='lazy'></p>
+</li>
+<li>
+<p>计算 CRC：计算 E2E 头部（不含 CRC）和用户数据的CRC[PRS_E2E_01215]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707133223411.png" alt="计算CRC" loading='lazy'></p>
+</li>
+<li>
+<p>写入 CRC：将计算出的 CRC 写入 E2E 头部[PRS_E2E_01216]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707133326623.png" alt="写入CRC" loading='lazy'></p>
+</li>
+<li>
+<p>递增 Counter：为下一次发送递增计数器[PRS_E2E_01217]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707133425914.png" alt="递增Counter" loading='lazy'></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong><code>E2E_PXXForward()</code> 共用步骤</strong></p>
+<ul>
+<li><strong>计算偏移量</strong></li>
+<li><strong>写入 Length</strong></li>
+<li><strong>计算 CRC</strong></li>
+<li><strong>写入 CRC</strong></li>
+<li><strong>递增 Counter</strong></li>
+</ul>
+</li>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 共用步骤</strong></p>
+<ul>
+<li><strong>计算偏移量</strong></li>
+<li><strong>计算 CRC</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>函数与步骤的对应关系</strong></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th style="text-align:center">Protect</th>
+<th style="text-align:center">Forward</th>
+<th style="text-align:center">Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证输入</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>计算偏移量</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>写入 Length</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>写入 Counter</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>写入 DataID</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>计算 CRC</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>写入 CRC</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">—</td>
+</tr>
+<tr>
+<td>递增 Counter</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">—</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>E2E 头部创建流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[E2E_PXXProtect 调用] --&gt; Validate[验证输入]
+    Validate --&gt; Offset[计算偏移量]
+    Offset --&gt; WriteLen[写入 Length]
+    WriteLen --&gt; WriteCounter[写入 Counter]
+    WriteCounter --&gt; WriteDataID[写入 DataID]
+    WriteDataID --&gt; CalcCRC[计算 CRC]
+    CalcCRC --&gt; WriteCRC[写入 CRC]
+    WriteCRC --&gt; IncCounter[递增 Counter]
+    IncCounter --&gt; Done[完成]</code></pre>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RS_E2E_08539</code></td>
+<td>E2E Profile 需求</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01209</code></td>
+<td>Protect 函数总体行为</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01210</code></td>
+<td>输入验证步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01211</code></td>
+<td>偏移量计算步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01212</code></td>
+<td>Length 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01213</code></td>
+<td>Counter 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01214</code></td>
+<td>DataID 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01215</code></td>
+<td>CRC 计算步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01216</code></td>
+<td>CRC 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01217</code></td>
+<td>Counter 递增步骤</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="E2E-PXXForward">E2E_PXXForward()</h3>
+<blockquote>
+<p><code>E2E_PXXForward()</code> 函数由 SW-C 调用，用于保护应用数据并转发接收到的 E2E 状态，适用于<strong>基于信号的通信向面向服务的通信转换</strong>（Signal-Service-Translation）等场景。若接收到的 E2E 状态为 <code>E2E_P_OK</code>，则其行为与 <code>E2E_PXXProtect()</code> 相同。该函数按本节图中指定的步骤执行。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong><code>E2E_PXXForward()</code> 的核心用途</strong></p>
+<ul>
+<li>保护待发送的应用数据</li>
+<li><strong>转发</strong>接收到的 E2E 状态</li>
+<li>典型场景：<strong>信号到服务通信的转换</strong>（Signal-Service-Translation）</li>
+</ul>
+</li>
+<li>
+<p><strong>整体行为</strong> [PRS_E2E_01218]</p>
+<ul>
+<li>
+<p>按下图定义的总体流程执行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707133958282.png" alt="E2E_PXXForward函数执行过程" loading='lazy'></p>
+</li>
+<li>
+<p>若接收到的 E2E 状态为 <code>E2E_P_OK</code>，则行为与 <code>E2E_PXXProtect()</code> <strong>相同</strong></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>E2E_PXXForward()</code> 的执行步骤</strong></p>
+<ol>
+<li>
+<p>验证 Forward 函数的输入：检查输入参数的有效性[PRS_E2E_01228]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707134322432.png" alt="验证输入" loading='lazy'></p>
+</li>
+<li>
+<p>计算偏移量：计算 E2E 头部中各字段的位置偏移[PRS_E2E_01211]，参见<code>E2E_PXXProtect</code>函数流程图</p>
+</li>
+<li>
+<p>写入 Length：将长度信息写入 E2E 头部[PRS_E2E_01212]，参见<code>E2E_PXXProtect</code>函数流程图</p>
+</li>
+<li>
+<p>写入 Counter：将当前计数器值写入 E2E 头部[PRS_E2E_01219]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707134632452.png" alt="写入Counter" loading='lazy'></p>
+</li>
+<li>
+<p>写入 DataID：将 Data ID 写入 E2E 头部[PRS_E2E_01220]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707134724443.png" alt="写入DataId" loading='lazy'></p>
+</li>
+<li>
+<p>计算 CRC：计算 E2E 头部（不含 CRC）和用户数据的 CRC[PRS_E2E_01215]，参见<code>E2E_PXXProtect</code>函数流程图</p>
+</li>
+<li>
+<p>写入 CRC：将计算出的 CRC 写入 E2E 头部[PRS_E2E_01216]，参见<code>E2E_PXXProtect</code>函数流程图</p>
+</li>
+<li>
+<p>递增 Counter：为下一次发送递增计数器[PRS_E2E_01217]，参见<code>E2E_PXXProtect</code>函数流程图</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>与 <code>E2E_PXXProtect()</code> 的差异</strong></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证输入</td>
+<td>不同验证逻辑</td>
+</tr>
+<tr>
+<td>写入 Counter</td>
+<td>可能根据转发状态调整</td>
+</tr>
+<tr>
+<td>写入 DataID</td>
+<td>可能根据转发状态调整</td>
+</tr>
+<tr>
+<td>其他步骤</td>
+<td>偏移量、Length、CRC 计算与写入、Counter 递增</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>状态依赖行为</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    Input[输入 E2E 状态] --&gt; Check&#123;状态 ==&lt;br/&gt;E2E_P_OK?&#125;
+    Check --&gt;|是| Protect[与 Protect 相同&lt;br/&gt;正常保护]
+    Check --&gt;|否| Forward[按转发逻辑执行]</code></pre>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RS_E2E_08539</code></td>
+<td>E2E Profile 需求</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01218</code></td>
+<td>Forward 函数总体行为</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01228</code></td>
+<td>输入验证步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01219</code></td>
+<td>Counter 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01220</code></td>
+<td>DataID 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01211</code></td>
+<td>偏移量计算步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01212</code></td>
+<td>Length 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01215</code></td>
+<td>CRC 计算步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01216</code></td>
+<td>CRC 写入步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01217</code></td>
+<td>Counter 递增步骤</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="E2E-头部的评估">E2E 头部的评估</h2>
+<h3 id="E2E-PXXCheck（）">E2E_PXXCheck（）</h3>
+<blockquote>
+<p><code>E2E_PXXCheck()</code> 函数按照指定的步骤执行 E2E 头部的评估。该函数验证输入、读取 Length、Counter、DataID 和 CRC，执行各项检查，并返回 E2E 状态。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 的整体行为</strong> [PRS_E2E_01221]</p>
+<ul>
+<li>
+<p>按下图定义的总体流程执行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707140239395.png" alt="E2E_PXXCheck执行过程" loading='lazy'></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 的执行步骤</strong></p>
+<ol>
+<li>
+<p>验证 Check 函数的输入：检查输入参数的有效性[PRS_E2E_01222]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707140600192.png" alt="验证函数输入" loading='lazy'></p>
+</li>
+<li>
+<p>计算偏移量：计算 E2E 头部中各字段的位置偏移[PRS_E2E_01211]</p>
+</li>
+<li>
+<p>读取 Length：从 E2E 头部读取长度信息[PRS_E2E_01223]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707140628231.png" alt="读取长度" loading='lazy'></p>
+</li>
+<li>
+<p>读取 Counter：从 E2E 头部读取计数器值[PRS_E2E_01224]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707140655827.png" alt="读取Counter" loading='lazy'></p>
+</li>
+<li>
+<p>读取 DataID：从 E2E 头部读取 Data ID[PRS_E2E_01225]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707140724367.png" alt="读取DataId" loading='lazy'></p>
+</li>
+<li>
+<p>读取 CRC：从 E2E 头部读取 CRC 值[PRS_E2E_01226]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707140808921.png" alt="读取CRC" loading='lazy'></p>
+</li>
+<li>
+<p>计算 CRC：计算 E2E 头部（不含 CRC）和用户数据的 CRC[PRS_E2E_01215]</p>
+</li>
+<li>
+<p>执行检查：执行各项故障检测检查[PRS_E2E_01227]</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707141133575.png" alt="执行检查" loading='lazy'></p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[E2E_PXXCheck 调用] --&gt; Validate[验证输入]
+    Validate --&gt; Offset[计算偏移量]
+    Offset --&gt; ReadLen[读取 Length]
+    ReadLen --&gt; ReadCounter[读取 Counter]
+    ReadCounter --&gt; ReadDataID[读取 DataID]
+    ReadDataID --&gt; ReadCRC[读取 CRC]
+    ReadCRC --&gt; CalcCRC[计算 CRC]
+    CalcCRC --&gt; DoChecks[执行检查]
+    DoChecks --&gt; Return[返回 E2E 状态]</code></pre>
+</li>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 与其他函数的共用步骤</strong></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th style="text-align:center">Protect</th>
+<th style="text-align:center">Forward</th>
+<th style="text-align:center">Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>计算偏移量</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td>计算 CRC</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 的输入验证</strong> [PRS_E2E_01222]</p>
+<ul>
+<li>检查输入参数的有效性（如指针非空、配置参数有效等）</li>
+</ul>
+</li>
+<li>
+<p><strong><code>E2E_PXXCheck()</code> 执行检查</strong> [PRS_E2E_01227]</p>
+<ul>
+<li>检测的故障类型：
+<ul>
+<li>重复（Repetition）</li>
+<li>丢失（Loss）</li>
+<li>延迟（Delay）</li>
+<li>插入（Insertion）</li>
+<li>伪装（Masquerading）</li>
+<li>寻址错误（Incorrect addressing）</li>
+<li>顺序错误（Incorrect sequence）</li>
+<li>数据损坏（Corruption）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>返回状态</strong></p>
+<ul>
+<li>返回 E2E 状态（如 <code>E2E_P_OK</code>、<code>E2E_P_WRONG</code>、<code>E2E_P_REPEATED</code> 等）</li>
+<li>状态用于 E2E 状态机的长期评估</li>
+</ul>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RS_E2E_08539</code></td>
+<td>E2E Profile 需求</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01221</code></td>
+<td>Check 函数总体行为</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01222</code></td>
+<td>输入验证步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01223</code></td>
+<td>读取 Length 步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01224</code></td>
+<td>读取 Counter 步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01225</code></td>
+<td>读取 DataID 步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01226</code></td>
+<td>读取 CRC 步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01227</code></td>
+<td>执行检查步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01211</code></td>
+<td>偏移量计算步骤</td>
+</tr>
+<tr>
+<td><code>PRS_E2E_01215</code></td>
+<td>CRC 计算步骤</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/">https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/" title="SecOc"><img class="cover" src="/img/RandomCoverImage/random_2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">SecOc</div></div><div class="info-2"><div class="info-item-1">参考链接 https://blog.csdn.net/m0_58346868/article/details/149842070 https://blog.csdn.net/weixin_42108533/article/details/159755674 概述  标准文件请参见https:/...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/System%20Service/BswM/" title="BswM"><img class="cover" src="/img/RandomCoverImage/random_1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">BswM</div></div><div class="info-2"><div class="info-item-1">概述 上一节介绍了一个非常夸张的EcuM模块，其中多次提到了BswM模块，这两个模块通常狼狈为奸，共同策划且并操作了整个ECU的状态切换。细细研究EcuM模块后就会发现它是比较别动的，都是当一些条件满足或者事件发生时，EcuM才会控制系统进行状态切换，它更像是一个大兵，只会吭哧吭哧干活，而这一...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/" title="ComM"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">ComM</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是ComM模块。...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanTsyn/" title="CanTsyn"><img class="cover" src="/img/RandomCoverImage/random_1.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanTsyn</div></div><div class="info-2"><div class="info-item-1">时间同步的引入 时间同步有啥用呢？就拿现在爆火的ADAS来说，域控制器需要融合雷达，摄像头等传感器的数据，然后进行算法融合所有传感器的数据后最终才能进行判断和执行，这个时候就存在一个问题，因为传感器数据并不都是来源于同一个ECU，所以就需要一个手段来保证域控融合的所有传感器数据都是产自同一时刻...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Tp/" title="Tp"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Tp</div></div><div class="info-2"><div class="info-item-1">概述  可参见https://www.autosar.org/fileadmin/standards/R19-11/CP/AUTOSAR_SWS_CANTransportLayer.pdf  CanTp CanTp位于CanIf与PDUR之间，主要目的是对大于8字节的CAN I-PDU，大于6...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/MemIf/" title="MemIf"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">MemIf</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参见Specification of Memory Abstraction Interface (autosar.org)  </div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Communication%20stack%E6%A6%82%E8%BF%B0/" title="Communication Stack概述"><img class="cover" src="/img/RandomCoverImage/random_2.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Communication Stack概述</div></div><div class="info-2"><div class="info-item-1">概述 Communication stack包括以下三个大模块：  Communication Service Communication Hardware Abstraction Communication Drivers  Communication Stack主要承载了ECU的通信功能，...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/System%20Service/EcuM/" title="EcuM"><img class="cover" src="/img/RandomCoverImage/random_2.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">EcuM</div></div><div class="info-2"><div class="info-item-1">概述 EcuM（ECU State Manager）模块它所管理的ECU状态特指ECU的上下电状态，因为在汽车电子中对ECU的上下电时序要求非常严格，AUTOSAR则特地为此整了一个EcuM模块来系列化这个过程。EcuM 模块位于 AUTOSAR 的系统服务层，透过 RTE 与用户直接交互，在...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#E2E-Profile"><span class="toc-number">2.</span> <span class="toc-text">E2E Profile</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#E2E-Profile%E6%A6%82%E8%BF%B0"><span class="toc-number">2.1.</span> <span class="toc-text">E2E Profile概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%A3%80%E6%B5%8B"><span class="toc-number">2.2.</span> <span class="toc-text">错误检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E2E-Profile-%E5%85%AC%E5%85%B1%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">E2E Profile 公共类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Profile-Xm-%E6%B6%88%E6%81%AF%E5%85%AC%E5%85%B1%E6%9E%9A%E4%B8%BE"><span class="toc-number">2.3.1.</span> <span class="toc-text">Profile Xm 消息公共枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Profile-Xm-%E6%B6%88%E6%81%AF%E7%BB%93%E6%9E%9C%E6%9E%9A%E4%B8%BE"><span class="toc-number">2.3.2.</span> <span class="toc-text">Profile Xm 消息结果枚举</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E2E-Profile-%E7%9A%84%E9%80%9A%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="toc-number">2.4.</span> <span class="toc-text">E2E Profile 的通用功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Counter-%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">2.4.1.</span> <span class="toc-text">Counter 的功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E6%A3%80%E6%B5%8B"><span class="toc-number">2.4.2.</span> <span class="toc-text">超时检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C%EF%BC%88CRC%EF%BC%89"><span class="toc-number">2.4.3.</span> <span class="toc-text">循环冗余校验（CRC）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#E2E-Profile-%E9%80%9A%E7%94%A8%E9%83%A8%E5%88%86"><span class="toc-number">3.</span> <span class="toc-text">E2E Profile 通用部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E6%95%B0%E5%99%A8%EF%BC%88Counter%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">计数器（Counter）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Data-ID"><span class="toc-number">3.2.</span> <span class="toc-text">Data ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Length-%E5%AD%97%E6%AE%B5"><span class="toc-number">3.3.</span> <span class="toc-text">Length 字段</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CRC%EF%BC%88%E5%BE%AA%E7%8E%AF%E5%86%97%E4%BD%99%E6%A0%A1%E9%AA%8C%EF%BC%89"><span class="toc-number">3.4.</span> <span class="toc-text">CRC（循环冗余校验）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E6%A3%80%E6%B5%8B-2"><span class="toc-number">3.5.</span> <span class="toc-text">超时检测</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E2E-%E5%A4%B4%E9%83%A8%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">3.6.</span> <span class="toc-text">E2E 头部的创建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#E2E-PXXProtect"><span class="toc-number">3.6.1.</span> <span class="toc-text">E2E_PXXProtect()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#E2E-PXXForward"><span class="toc-number">3.6.2.</span> <span class="toc-text">E2E_PXXForward()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#E2E-%E5%A4%B4%E9%83%A8%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="toc-number">3.7.</span> <span class="toc-text">E2E 头部的评估</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#E2E-PXXCheck%EF%BC%88%EF%BC%89"><span class="toc-number">3.7.1.</span> <span class="toc-text">E2E_PXXCheck（）</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/08/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/A2L%E6%96%87%E4%BB%B6/" title="A2L文件">A2L文件</a><time datetime="2026-08-08T08:24:41.000Z" title="发表于 2026-08-08 08:24:41">2026-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/08/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Davinci%20Configurator/" title="Davinci Configurator">Davinci Configurator</a><time datetime="2026-08-08T08:24:41.000Z" title="发表于 2026-08-08 08:24:41">2026-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/08/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Davinci%20Developer/" title="Davinci Developer">Davinci Developer</a><time datetime="2026-08-08T08:24:41.000Z" title="发表于 2026-08-08 08:24:41">2026-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/" title="E2E">E2E</a><time datetime="2026-07-07T15:40:22.000Z" title="发表于 2026-07-07 15:40:22">2026-07-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/" title="SecOc">SecOc</a><time datetime="2026-07-07T15:40:22.000Z" title="发表于 2026-07-07 15:40:22">2026-07-07</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_4.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const changeScriptToMath = article => {
+    article.querySelectorAll('script[type^="math/tex"]').forEach(el => {
+      const display = /mode=display/.test(el.type)
+      const node = document.createElement(display ? 'div' : 'span')
+      node.textContent = display
+        ? `$$${el.textContent}$$`
+        : `$${el.textContent}$`
+      el.parentNode.replaceChild(node, el)
+    })
+  }
+
+  const loadMathjax = () => {
+    const article = document.getElementById('article-container')
+    if (!article || article.querySelector('.hbe-container')) return
+    changeScriptToMath(article)
+
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem',
+            'ui/lazy'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          lazyMargin: '200px',
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/mathjax@4.1.3/tex-mml-chtml.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.typesetClear()
+      MathJax.typesetPromise([ article ])
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (true) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/js/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/toc-fix.js"></script><script src="/js/heading-number.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([data-fancybox])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      if (!item.parentNode) return
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || ''
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    const responseURL = e.request && e.request.responseURL
+    if (e.request && e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : responseURL && (window.location.href = responseURL)
+    } else if (responseURL) {
+      window.location.href = responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

@@ -1,0 +1,5652 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>SecOc | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 https:&#x2F;&#x2F;blog.csdn.net&#x2F;m0_58346868&#x2F;article&#x2F;details&#x2F;149842070 https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42108533&#x2F;article&#x2F;details&#x2F;159755674 概述  标准文件请参见https:&#x2F;&#x2F;www.autosar.org&#x2F;fileadmin&#x2F;standards&#x2F;R22-11&#x2F;CP&#x2F;AUTOSA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SecOc">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 https:&#x2F;&#x2F;blog.csdn.net&#x2F;m0_58346868&#x2F;article&#x2F;details&#x2F;149842070 https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42108533&#x2F;article&#x2F;details&#x2F;159755674 概述  标准文件请参见https:&#x2F;&#x2F;www.autosar.org&#x2F;fileadmin&#x2F;standards&#x2F;R22-11&#x2F;CP&#x2F;AUTOSA">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg">
+<meta property="article:published_time" content="2026-07-07T15:40:22.000Z">
+<meta property="article:modified_time" content="2026-10-17T11:52:30.285Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "SecOc",
+  "url": "https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg",
+  "datePublished": "2026-07-07T15:40:22.000Z",
+  "dateModified": "2026-10-17T11:52:30.285Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.13.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SecOc',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">SecOc</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">SecOc</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-07T15:40:22.000Z" title="发表于 2026-07-07 15:40:22">2026-07-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-17T11:52:30.285Z" title="更新于 2026-10-17 11:52:30">2026-10-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">21.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>77分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接">参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_58346868/article/details/149842070">https://blog.csdn.net/m0_58346868/article/details/149842070</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42108533/article/details/159755674">https://blog.csdn.net/weixin_42108533/article/details/159755674</a></p>
+<h1 id="概述">概述</h1>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p>标准文件请参见<a target="_blank" rel="noopener" href="https://www.autosar.org/fileadmin/standards/R22-11/CP/AUTOSAR_SWS_SecureOnboardCommunication.pdf">https://www.autosar.org/fileadmin/standards/R22-11/CP/AUTOSAR_SWS_SecureOnboardCommunication.pdf</a></p>
+</blockquote>
+<blockquote>
+<p>SecOC（Secure Onboard Communication）模块是 AUTOSAR 基础软件中负责安全车载通信的组件，旨在为 PDU 级别的关键数据提供资源高效且实用的认证机制。它无缝集成于 AUTOSAR 通信栈中，与 PduR、CSM 和 RTE 协作，实现消息的认证与新鲜度验证。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>模块在 AUTOSAR 通信栈中的位置</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707085250041.png" alt="SecOc在协议栈中的位置" loading='lazy'></p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Application[应用层]
+        SWC[软件组件 SW-C]
+    end
+
+    subgraph RTE[RTE]
+        RTE_Box[RTE]
+    end
+
+    subgraph COM[COM 层]
+        COM_Box[COM]
+    end
+
+    subgraph PduR[PDU 路由器]
+        PduR_Box[PduR]
+    end
+
+    subgraph SecOC[SecOC 模块]
+        SecOC_Box[SecOC&lt;br/&gt;认证/新鲜度处理]
+    end
+
+    subgraph Crypto[加密服务]
+        CSM[Crypto Service Manager]
+    end
+
+    subgraph Transport[传输层]
+        TP[传输协议]
+        IF[通信接口]
+    end
+
+    SWC --&gt; RTE_Box
+    RTE_Box --&gt; COM_Box
+    COM_Box --&gt; PduR_Box
+    PduR_Box --&gt; SecOC_Box
+    PduR_Box --&gt; TP
+    PduR_Box --&gt; IF
+    SecOC_Box --&gt; CSM
+    SecOC_Box --&gt; RTE_Box</code></pre>
+</li>
+<li>
+<p><strong>PduR 集成与交互</strong></p>
+<ul>
+<li>
+<p><strong>发送方向</strong>：</p>
+<ul>
+<li>PduR 将需要保护的 I-PDU 路由给 SecOC</li>
+<li>SecOC 添加安全相关信息（MAC、FV 等）后生成 Secured I-PDU</li>
+<li>返回给 PduR 进行后续路由和发送</li>
+</ul>
+</li>
+<li>
+<p><strong>接收方向</strong>：</p>
+<ul>
+<li>PduR 将收到的 Secured I-PDU 路由给 SecOC</li>
+<li>SecOC 验证 MAC 和新鲜度值</li>
+<li>验证通过后，将 Authentic I-PDU 返回给 PduR 继续路由</li>
+</ul>
+</li>
+</ul>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Send[发送方向]
+        PduR1[PduR] --&gt;|I-PDU| SecOC_S[SecOC]
+        SecOC_S --&gt;|Secured I-PDU| PduR1
+        PduR1 --&gt;|发送| Bus[总线]
+    end
+
+    subgraph Receive[接收方向]
+        Bus2[总线] --&gt;|接收| PduR2[PduR]
+        PduR2 --&gt;|Secured I-PDU| SecOC_R[SecOC]
+        SecOC_R --&gt;|I-PDU| PduR2
+    end</code></pre>
+</li>
+<li>
+<p><strong>与其他模块的交互</strong></p>
+<table>
+<thead>
+<tr>
+<th>交互模块</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PduR</strong></td>
+<td>路由安全相关的 I-PDU</td>
+</tr>
+<tr>
+<td><strong>CSM（加密服务管理器）</strong></td>
+<td>使用加密服务（MAC 计算、验证等）</td>
+</tr>
+<tr>
+<td><strong>RTE</strong></td>
+<td>密钥管理和计数器管理</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>支持的通信场景</strong></p>
+<ul>
+<li>PduR 支持的所有通信范式和原则，SecOC 均支持：
+<ul>
+<li><strong>多播通信</strong>（Multicast）</li>
+<li><strong>传输协议</strong>（Transport Protocols）</li>
+<li><strong>PduR 网关</strong>（PduR Gateway）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>规范涵盖内容</strong></p>
+<ul>
+<li>SecOC 接口的详细规范</li>
+<li>功能描述</li>
+<li>配置参数</li>
+</ul>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>文档</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AUTOSAR_SWS_SecureOnboardCommunication.pdf</code></td>
+<td>SecOC 软件规范（本文）</td>
+</tr>
+<tr>
+<td><code>AUTOSAR_SRS_SecureOnboardCommunication.pdf</code></td>
+<td>SecOC 需求规范</td>
+</tr>
+<tr>
+<td><code>AUTOSAR_SWS_CryptoServiceManager.pdf</code></td>
+<td>CSM 模块规范</td>
+</tr>
+<tr>
+<td><code>AUTOSAR_SWS_PDURouter.pdf</code></td>
+<td>PduR 模块规范</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<blockquote>
+<p>对敏感数据进行认证和完整性保护对于确保车辆系统的正确和安全功能至关重要——这保证了接收到的数据来自正确的 ECU 且值正确。SecOC 模块旨在 PDU 级别为敏感数据提供资源高效且实用的认证机制。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>认证与完整性保护的必要性</strong></p>
+<ul>
+<li>确保接收到的数据<strong>来源正确</strong>（来自合法的 ECU）</li>
+<li>确保接收到的数据<strong>值正确</strong>（未被篡改）</li>
+<li>保护车辆系统的正确和安全功能</li>
+</ul>
+</li>
+<li>
+<p><strong>支持的方法</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>目的</th>
+<th>认证者术语</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>对称方法</strong></td>
+<td>真实性与完整性保护</td>
+<td>消息认证码（MAC）</td>
+</tr>
+<tr>
+<td><strong>非对称方法</strong></td>
+<td>真实性与完整性保护</td>
+<td>数字签名（Signature）</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>两种方法在概念上高度相似，目标一致</li>
+<li>底层原语的技术特性不同导致存在差异</li>
+</ul>
+</li>
+<li>
+<p><strong>规范的组织方式</strong></p>
+<ul>
+<li>主要描述：使用<strong>对称机制</strong>的技术方法，使用对称原语的常用术语
+<ul>
+<li>异步适配：非对称方法的适配在后面章节中单独给出</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>对称方法的核心流程</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Sender[发送方]
+        Data[原始数据] --&gt; MAC[MAC 计算]
+        Key_S[密钥] --&gt; MAC
+        MAC --&gt; Send[发送: 数据 + MAC]
+    end
+
+    subgraph Receiver[接收方]
+        Recv[接收: 数据 + MAC] --&gt; Verify[MAC 验证]
+        Key_R[密钥] --&gt; Verify
+        Verify --&gt; Valid[✅ 有效&lt;br/&gt;数据来自正确 ECU&lt;br/&gt;且未被篡改]
+        Verify --&gt; Invalid[❌ 无效&lt;br/&gt;拒绝数据]
+    end</code></pre>
+</li>
+<li>
+<p><strong>非对称方法的核心流程</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Sender_Asym[发送方]
+        Data_A[原始数据] --&gt; Sign[数字签名]
+        PrivKey[私钥] --&gt; Sign
+        Sign --&gt; Send_A[发送: 数据 + 签名]
+    end
+
+    subgraph Receiver_Asym[接收方]
+        Recv_A[接收: 数据 + 签名] --&gt; Verify_A[签名验证]
+        PubKey[公钥] --&gt; Verify_A
+        Verify_A --&gt; Valid_A[✅ 有效&lt;br/&gt;数据来自正确 ECU&lt;br/&gt;且未被篡改]
+        Verify_A --&gt; Invalid_A[❌ 无效&lt;br/&gt;拒绝数据]
+    end</code></pre>
+</li>
+<li>
+<p><strong>对称 vs 非对称对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>对称方法（MAC）</th>
+<th>非对称方法（数字签名）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>密钥</strong></td>
+<td>相同密钥</td>
+<td>公钥 + 私钥</td>
+</tr>
+<tr>
+<td><strong>密钥管理</strong></td>
+<td>需安全分发共享密钥</td>
+<td>公钥可公开，私钥保密</td>
+</tr>
+<tr>
+<td><strong>计算开销</strong></td>
+<td>较低</td>
+<td>较高</td>
+</tr>
+<tr>
+<td><strong>密钥大小</strong></td>
+<td>较小</td>
+<td>较大</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>资源受限的 ECU</td>
+<td>需要非否认性的场景</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li><code>SWS_SecOC_001</code> 系列：对称方法的具体实现规范</li>
+<li>后续章节：详细的密钥管理、新鲜度值管理等</li>
+</ul>
+</li>
+</ol>
+<h1 id="安全解决方案">安全解决方案</h1>
+<blockquote>
+<p>SecOC 模块提供验证车内 ECU 之间基于 PDU 通信的真实性和新鲜度所需的功能。发送方和接收方 ECU 均需实现 SecOC 模块，通过 PduR API 集成，并与外部新鲜度管理器交互，在 PDU 级别实现安全保护。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>模块部署要求</strong></p>
+<ul>
+<li>发送方 ECU 和接收方 ECU <strong>均需实现</strong> SecOC 模块</li>
+<li>两端 SecOC 模块通过 PduR API 与上下层集成</li>
+<li>发送方和接收方的 SecOC 模块都与 <strong>PduR 模块</strong>交互</li>
+</ul>
+</li>
+<li>
+<p><strong>新鲜度管理</strong></p>
+<ul>
+<li>新鲜度由<strong>外部新鲜度管理器</strong>（Freshness Manager）提供</li>
+<li>每个可唯一标识的 Secured I-PDU（即每个安全通信链路）拥有独立的新鲜度值</li>
+<li>新鲜度值类型：
+<ul>
+<li><strong>计数器</strong>（Counter）：使用前应由新鲜度管理器递增</li>
+<li><strong>时间戳</strong>（Timestamp）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>发送方行为</strong></p>
+<ul>
+<li>创建 Secured I-PDU：在 Authentic I-PDU 中添加认证信息</li>
+<li>认证信息组成：
+<ul>
+<li><strong>Authenticator</strong>（如 MAC，消息认证码）</li>
+<li><strong>Freshness Value</strong>（新鲜度值，可选包含在 PDU 负载中）</li>
+</ul>
+</li>
+<li>无论新鲜度值是否包含在 Secured I-PDU 负载中，<strong>生成 Authenticator 时均需考虑该值</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>接收方行为</strong></p>
+<ul>
+<li>验证 Secured I-PDU 的新鲜度和真实性</li>
+<li>验证所需条件：
+<ul>
+<li>接收到的 Secured I-PDU 应与发送方提供的相同</li>
+<li>接收方需知道发送方创建 Authenticator 时使用的<strong>新鲜度值</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>完整数据流</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707090634342.png" alt="报文视角信息流" loading='lazy'></p>
+<pre><code class="highlight mermaid">flowchart TB
+    subgraph Sender[发送方 ECU]
+        A1[Authentic I-PDU] --&gt; A2[SecOC 模块]
+        FM1[Freshness Manager] --&gt;|提供新鲜度值| A2
+        A2 --&gt;|添加认证信息| A3[Secured I-PDU]
+        A3 --&gt; A4[PduR → 总线]
+    end
+
+    subgraph Receiver[接收方 ECU]
+        B1[总线 → PduR] --&gt; B2[Secured I-PDU]
+        B2 --&gt; B3[SecOC 模块]
+        FM2[Freshness Manager] --&gt;|提供新鲜度值| B3
+        B3 --&gt;|验证| B4&#123;验证结果&#125;
+        B4 --&gt;|通过| B5[Authentic I-PDU → 上层]
+        B4 --&gt;|失败| B6[丢弃/安全反应]
+    end</code></pre>
+</li>
+<li>
+<p><strong>关键设计要求</strong></p>
+<table>
+<thead>
+<tr>
+<th>要求</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PDU 一致性</strong></td>
+<td>接收方收到的 Secured I-PDU 应与发送方提供的一致</td>
+</tr>
+<tr>
+<td><strong>新鲜度同步</strong></td>
+<td>接收方需知道发送方使用的相同新鲜度值</td>
+</tr>
+<tr>
+<td><strong>认证器计算</strong></td>
+<td>新鲜度值始终参与认证器计算</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>核心安全目的</strong></p>
+<ul>
+<li>验证通信的<strong>真实性</strong>（Authenticity）</li>
+<li>验证通信的<strong>新鲜度</strong>（Freshness）</li>
+<li>在 PDU 级别实现安全保护</li>
+</ul>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li>外部 Freshness Manager 接口规范</li>
+<li>PduR 模块集成规范</li>
+<li>CSM 加密服务规范</li>
+<li>SecOC 配置规范</li>
+</ul>
+</li>
+</ol>
+<h2 id="基本组成">基本组成</h2>
+<h3 id="Authentic-I-PDU-与-Secured-I-PDU">Authentic I-PDU 与 Secured I-PDU</h3>
+<blockquote>
+<p><strong>Authentic I-PDU</strong> 是需要防止未授权篡改和重放攻击的 AUTOSAR I-PDU。<strong>Secured I-PDU</strong> 由 Authentic I-PDU 和认证信息（Authenticator）组成，可选包含新鲜度值。SecOC 模块通过对 Authenticator 进行截断来适配不同长度的 PDU。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>Authentic I-PDU（原始安全 PDU）</strong></p>
+<ul>
+<li>需要保护的原始 AUTOSAR I-PDU</li>
+<li>保护目标：防止未授权篡改和重放攻击</li>
+</ul>
+</li>
+<li>
+<p><strong>Secured I-PDU（安全 PDU）</strong></p>
+<ul>
+<li>由以下几部分按顺序组成：
+<ul>
+<li><strong>Authentic I-PDU</strong></li>
+<li><strong>Authenticator</strong>（如 MAC）—— 可选截断</li>
+<li><strong>Freshness Value</strong>（新鲜度值）—— 可选包含</li>
+</ul>
+</li>
+</ul>
+<p><strong>结构示意</strong>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707091333037.png" alt="Secured I-PDU内容" loading='lazy'></p>
+</li>
+<li>
+<p><strong>组成部分长度</strong></p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Authentic I-PDU</strong> 长度</td>
+<td>不同 Secured I-PDU 间可不同</td>
+</tr>
+<tr>
+<td><strong>Freshness Value</strong> 长度</td>
+<td>不同 Secured I-PDU 间可不同</td>
+</tr>
+<tr>
+<td><strong>Authenticator</strong> 长度</td>
+<td>不同 Secured I-PDU 间可不同</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Authenticator 生成</strong></p>
+<ul>
+<li>
+<p><strong>输入要素</strong>：</p>
+<ul>
+<li>密钥（Key）</li>
+<li>Secured I-PDU 的数据标识符（Data Identifier）</li>
+<li>Authentic Payload</li>
+<li>Freshness Value</li>
+</ul>
+</li>
+<li>
+<p><strong>作用</strong>：</p>
+<ul>
+<li>高度可信地证明数据来自合法源</li>
+<li>在预期时间内到达接收方 ECU</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Authenticator 截断</strong></p>
+<ul>
+<li><strong>背景</strong>：认证算法生成的 Authenticator 可能较长（如完整 MAC）</li>
+<li><strong>目的</strong>：当消息负载长度受限、无法容纳完整 Authenticator 时使用</li>
+<li><strong>配置参数</strong>：<code>SecOCAuthInfoTruncLength</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>配置方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>按 Secured I-PDU 单独配置</strong></td>
+<td>每个 Secured I-PDU 可独立配置截断长度</td>
+</tr>
+<tr>
+<td><strong>截断方向</strong></td>
+<td>仅保留 Authenticator 的<strong>最高有效位</strong>（Most Significant Bits）</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707091635915.png" alt="截断例子" loading='lazy'></p>
+</li>
+<li>
+<p><strong>头信息（Secured I-PDU Header）</strong> [SWS_SecOC_00261]</p>
+<ul>
+<li><strong>作用</strong>：指示 Authentic I-PDU 的长度（字节数）</li>
+<li><strong>配置参数</strong>：<code>SecOCAuthPduHeaderLength</code></li>
+<li><strong>支持场景</strong>：
+<ul>
+<li>安全 PDU 集合（Secured PDU Collection）</li>
+<li>动态长度的 Authentic I-PDU</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>字节序要求</strong> [SWS_SecOC_00011]</p>
+<blockquote>
+<p>所有 SecOC 数据（新鲜度值、Authenticator、数据标识符、SecOC 消息链路数据等）在传输时，应使用 <strong>大端字节序</strong> 编码，确保不同 ECU 的 SecOC 模块按相同方式解析数据。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>对称认证方法建议</strong></p>
+<ul>
+<li>推荐使用 MAC（消息认证码）作为认证基础</li>
+<li>建议：AES基础上的 CMAC，密钥长度 ≥ 128 bit</li>
+<li>MAC 截断：可降低安全性，但可节省带宽；需安全专家评估</li>
+<li>通用指导：64 bit 及以上 MAC 大小被认为足以防止猜测攻击（NIST）</li>
+</ul>
+</li>
+<li>
+<p><strong>相关参数速查</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCTxAuthServiceConfigRef</code></td>
+<td>发送方认证算法配置</td>
+</tr>
+<tr>
+<td><code>SecOCRxAuthServiceConfigRef</code></td>
+<td>接收方认证算法配置</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td>Authenticator 截断长度</td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td>新鲜度值截断长度</td>
+</tr>
+<tr>
+<td><code>SecOCAuthPduHeaderLength</code></td>
+<td>Secured I-PDU 头部长度</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="Authenticator-覆盖的数据">Authenticator 覆盖的数据</h3>
+<blockquote>
+<p>Authenticator 的计算数据由 <strong>Data Identifier</strong>（数据标识符）、<strong>Authentic I-PDU 数据</strong>和<strong>完整新鲜度值</strong>三部分按顺序拼接而成，作为输入传递给认证算法。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>Authenticator 计算的输入数据构成</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataToAuthenticator = Data Identifier | Authentic I-PDU 数据 | 完整新鲜度值</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“|” 表示拼接（Concatenation）</p>
+</blockquote>
+</li>
+<li>
+<p><strong>组成部分说明</strong></p>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>来源</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Identifier</strong></td>
+<td>配置参数 <code>SecOCDataId</code></td>
+<td>唯一标识 Secured I-PDU，防止跨 PDU 的重放攻击</td>
+</tr>
+<tr>
+<td><strong>Authentic I-PDU 数据</strong></td>
+<td>Authentic I-PDU 的<strong>安全部分</strong>（Secured Part）</td>
+<td>实际需要保护的数据负载</td>
+</tr>
+<tr>
+<td><strong>完整新鲜度值</strong></td>
+<td>Freshness Manager</td>
+<td>完整的 Freshness Value，非截断版本</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>数据拼接顺序</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    DID[Data Identifier&lt;br/&gt;SecOCDataId] --&gt; Concat[拼接]
+    Payload[Authentic I-PDU 数据&lt;br/&gt;安全部分] --&gt; Concat
+    FV[完整新鲜度值&lt;br/&gt;Complete Freshness Value] --&gt; Concat
+    Concat --&gt; AuthAlg[认证算法&lt;br/&gt;生成/验证 Authenticator]</code></pre>
+</li>
+<li>
+<p><strong>关键安全设计点</strong></p>
+<ul>
+<li><strong>Data Identifier 的作用</strong>：即使两个不同的 Secured I-PDU 具有相同的 Authentic I-PDU 数据和新鲜度值，由于 Data Identifier 不同，生成的 Authenticator 也不同，防止跨 PDU 的消息重放。</li>
+<li><strong>完整新鲜度值</strong>：Authenticator 计算时使用<strong>完整</strong>新鲜度值，而非截断版本，确保接收方使用相同完整值进行验证。</li>
+</ul>
+</li>
+<li>
+<p><strong>接收方验证时的数据对齐</strong></p>
+<table>
+<thead>
+<tr>
+<th>发送方</th>
+<th>接收方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data Identifier（配置）</td>
+<td>Data Identifier（配置）</td>
+</tr>
+<tr>
+<td>Authentic I-PDU 数据</td>
+<td>从 Secured I-PDU 中提取</td>
+</tr>
+<tr>
+<td>完整新鲜度值</td>
+<td>从 Freshness Manager 获取</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCDataId</code></td>
+<td>Secured I-PDU 的数据标识符</td>
+</tr>
+<tr>
+<td><code>SecOCTxAuthServiceConfigRef</code></td>
+<td>发送方认证算法配置</td>
+</tr>
+<tr>
+<td><code>SecOCRxAuthServiceConfigRef</code></td>
+<td>接收方认证算法配置</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="新鲜度值（Freshness-Values）">新鲜度值（Freshness Values）</h3>
+<blockquote>
+<p>每个 Secured I-PDU 配置至少一个新鲜度值，用于确保消息的新鲜性，防止重放攻击。新鲜度值由外部 Freshness Manager 提供，可以是单调计数器（Freshness Counter）或时间戳（Freshness Timestamp）。SecOC 支持多种获取方式，并具备完整的重试和失败处理机制。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p><strong>新鲜度值的类型与来源</strong></p>
+<ul>
+<li><strong>定义</strong>：单调计数器，用于确保 Secured I-PDU 的新鲜性</li>
+<li><strong>实现方式</strong>：
+<ul>
+<li>新鲜度计数器（Freshness Counter）：逐条消息递增</li>
+<li>新鲜度时间戳（Freshness Timestamp）：基于时间</li>
+</ul>
+</li>
+<li><strong>来源</strong>：由 Freshness Manager 提供</li>
+</ul>
+</li>
+<li>
+<p><strong>新鲜度值在 Secured I-PDU 中的包含规则</strong> [SWS_SecOC_00094]</p>
+<ul>
+<li>若 <code>SecOCFreshnessValueTruncLength</code> 配置为<strong>小于</strong>实际新鲜度值的长度 → 仅包含<strong>最低有效位</strong>（LSB）到指定长度</li>
+<li>若 <code>SecOCFreshnessValueTruncLength</code> 配置为 <strong>0</strong> → 新鲜度值<strong>不包含</strong>在 Secured I-PDU 中</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>配置值</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0 &lt; TruncLen &lt; 实际长度</code></td>
+<td>仅包含最低有效位</td>
+</tr>
+<tr>
+<td><code>TruncLen = 0</code></td>
+<td>不包含在 PDU 中</td>
+</tr>
+<tr>
+<td><code>TruncLen &gt;= 实际长度</code></td>
+<td>包含完整值</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>从 Authentic I-PDU 中提取新鲜度值</strong> [SWS_SecOC_00219]</p>
+<blockquote>
+<p>当 <code>SecOCUseAuthDataFreshness = TRUE</code> 时，SecOC 使用 Authentic I-PDU 的一部分作为新鲜度值。</p>
+</blockquote>
+<ul>
+<li><code>SecOCAuthDataFreshnessStartPosition</code>：新鲜度在 Authentic I-PDU 中的起始位位置</li>
+<li><code>SecOCAuthDataFreshnessLen</code>：新鲜度的长度（bit）</li>
+</ul>
+<p><strong>示例</strong>：<code>StartPosition = 11</code>，<code>Length = 4</code>，PDU 为 <code>AB CD</code>（十六进制）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Byte 0:  A (1010) B (1011)  →  bits 7-0: 1010 1011</span><br><span class="line">Byte 1:  C (1100) D (1101)  →  bits 15-8: 1100 1101</span><br><span class="line"></span><br><span class="line">起始位置 bit 11，长度 4 bit → bit 11 到 bit 8 → 1101 (二进制)</span><br><span class="line">结果：新鲜度 = 1101 (bin)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>新鲜度值的字节数组表示</strong> [SWS_SecOC_00220]</p>
+<ul>
+<li>Freshness Manager 以<strong>字节数组</strong>形式提供/接收新鲜度信息</li>
+<li>新鲜度始终<strong>对齐到数组中第一个字节的 MSB</strong></li>
+<li>未使用的位必须设置为 <strong>0</strong></li>
+<li>长度信息以 <strong>bit</strong> 为单位</li>
+</ul>
+<p><strong>示例</strong>：10-bit 新鲜度 <code>001101011</code>（二进制），位于 2 字节数组中：</p>
+<table>
+<thead>
+<tr>
+<th>二进制</th>
+<th>十六进制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>00110101 10000000</code></td>
+<td><code>35 80</code></td>
+</tr>
+<tr>
+<td>长度值</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>发送方新鲜度获取方式</strong></p>
+<p>根据配置组合，SecOC 通过不同方式获取发送方新鲜度：</p>
+<table>
+<thead>
+<tr>
+<th><code>SecOCQueryFreshnessValue</code></th>
+<th><code>SecOCProvideTxTruncatedFreshnessValue</code></th>
+<th>调用的接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CFUNC</code></td>
+<td><code>TRUE</code></td>
+<td><code>SecOC_GetTxFreshnessTruncData()</code> [SWS_SecOC_00221]</td>
+</tr>
+<tr>
+<td><code>CFUNC</code></td>
+<td><code>FALSE</code></td>
+<td><code>SecOC_GetTxFreshness()</code> [SWS_SecOC_00222]</td>
+</tr>
+<tr>
+<td><code>RTE</code></td>
+<td><code>TRUE</code></td>
+<td><code>FreshnessManagement_GetTxFreshnessTruncData</code> [SWS_SecOC_00223]</td>
+</tr>
+<tr>
+<td><code>RTE</code></td>
+<td><code>FALSE</code></td>
+<td><code>FreshnessManagement_GetTxFreshness</code> [SWS_SecOC_00224]</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>接收方新鲜度获取方式</strong></p>
+<table>
+<thead>
+<tr>
+<th><code>SecOCQueryFreshnessValue</code></th>
+<th><code>SecOCUseAuthDataFreshness</code></th>
+<th>调用的接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RTE</code></td>
+<td><code>TRUE</code></td>
+<td><code>FreshnessManagement_GetRxFreshnessAuthData</code> [SWS_SecOC_00244]</td>
+</tr>
+<tr>
+<td><code>RTE</code></td>
+<td><code>FALSE</code></td>
+<td><code>FreshnessManagement_GetRxFreshness</code> [SWS_SecOC_00245]</td>
+</tr>
+<tr>
+<td><code>CFUNC</code></td>
+<td><code>TRUE</code></td>
+<td><code>SecOC_GetRxFreshnessAuthData()</code> [SWS_SecOC_00246]</td>
+</tr>
+<tr>
+<td><code>CFUNC</code></td>
+<td><code>FALSE</code></td>
+<td><code>SecOC_GetRxFreshness()</code> [SWS_SecOC_00247]</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>认证构建计数器（发送方）</strong></p>
+<ul>
+<li><strong>维护</strong>：每个入队到 SecOC 的发送请求维护一个认证构建计数器 [SWS_SecOC_00225]</li>
+<li><strong>初始值</strong>：首次处理发送请求时设为 <strong>0</strong> [SWS_SecOC_00226]</li>
+<li><strong>递增条件</strong> [SWS_SecOC_00227]：
+<ul>
+<li>新鲜度查询返回 <code>E_BUSY</code></li>
+<li>Authenticator 计算返回 <code>E_BUSY</code>、<code>QUEUE_FULL</code> 或其他可恢复错误</li>
+</ul>
+</li>
+<li><strong>重试机制</strong> [SWS_SecOC_00228]：
+<ul>
+<li>若认证构建失败且计数器未达到 <code>SecOCAuthenticationBuildAttempts</code> → 下次 Tx Main Function 时重试</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>认证验证计数器（接收方）</strong></p>
+<ul>
+<li><strong>维护</strong>：每个接收到的 Secured I-PDU 维护认证构建计数器和认证验证尝试计数器 [SWS_SecOC_00234]</li>
+<li><strong>初始值</strong>：首次处理接收的 Secured I-PDU 时均设为 <strong>0</strong> [SWS_SecOC_00235]</li>
+<li><strong>构建失败递增</strong> [SWS_SecOC_00236][SWS_SecOC_00237]：
+<ul>
+<li>新鲜度查询返回 <code>E_BUSY</code> → 构建计数器 +1，不执行验证</li>
+<li>验证返回可恢复错误 → 构建计数器 +1</li>
+</ul>
+</li>
+<li><strong>验证失败处理</strong> [SWS_SecOC_00239]：
+<ul>
+<li>验证执行成功但失败（MAC 不匹配等）→ 验证尝试计数器 +1，构建计数器重置为 0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>发送方默认认证信息（降级模式）</strong> [SWS_SecOC_00229]</p>
+<p>当以下情况发生时，SecOC 可使用默认认证信息：</p>
+<ul>
+<li>认证构建计数器达到 <code>SecOCAuthenticationBuildAttempts</code></li>
+<li>新鲜度查询返回 <code>E_NOT_OK</code></li>
+<li>Authenticator 计算返回非可恢复错误（<code>E_NOT_OK</code>、<code>KEY_FAILURE</code>）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>发送默认认证信息<strong>启用</strong></td>
+<td>使用 <code>SecOCDefaultAuthenticationInformationPattern</code> 填充所有字节，构造认证信息</td>
+</tr>
+<tr>
+<td>发送默认认证信息<strong>未启用</strong></td>
+<td>从内部缓冲区移除 Authentic I-PDU，<strong>取消发送请求</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>示例</strong>：</p>
+<ul>
+<li><code>SecOCFreshnessValueTxLength = 4 bits</code></li>
+<li><code>SecOCAuthInfoTxLength = 20 bits</code></li>
+<li><code>SecOCDefaultAuthenticatorValue = 0xA5</code></li>
+</ul>
+<p>结果默认认证信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x05 (截断新鲜度值) | 0xA5A5A0 (截断 Authenticator)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>接收方失败处理</strong></p>
+<table>
+<thead>
+<tr>
+<th>失败类型</th>
+<th>处理方式</th>
+<th>相关规范</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>构建计数器达到 <code>SecOCAuthenticationBuildAttempts</code></td>
+<td>丢弃消息，设置 <code>SECOC_AUTHENTICATIONBUILDFAILURE</code></td>
+<td>[SWS_SecOC_00240]</td>
+</tr>
+<tr>
+<td>新鲜度查询返回 <code>E_NOT_OK</code></td>
+<td>丢弃消息，设置 <code>SECOC_FRESHNESSFAILURE</code></td>
+<td>[SWS_SecOC_00256]</td>
+</tr>
+<tr>
+<td>验证计数器达到 <code>SecOCAuthenticationVerifyAttempts</code> 或非可恢复错误</td>
+<td>丢弃消息，设置 <code>SECOC_VERIFICATIONFAILURE</code></td>
+<td>[SWS_SecOC_00241]</td>
+</tr>
+<tr>
+<td>验证成功</td>
+<td>设置 <code>SECOC_VERIFICATIONSUCCESS</code></td>
+<td>[SWS_SecOC_00242]</td>
+</tr>
+<tr>
+<td>Rx 新鲜度请求返回 <code>E_NOT_OK</code></td>
+<td>视为失败，递增计数器，达到尝试次数后丢弃，上报 <code>SECOC_E_FRESHNESS_FAILURE</code> 到 DET</td>
+<td>[SWS_SecOC_00248]</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>发送确认通知</strong> [SWS_SecOC_00232][SWS_SecOC_00233]</p>
+<ul>
+<li><strong>目的</strong>：通知 Freshness Manager，Secured I-PDU 已成功发起传输</li>
+<li><strong>时机</strong>：传输请求成功提交给 PduR 后（非实际出现在总线上）</li>
+<li><strong>调用方式</strong>：
+<ul>
+<li><code>CFUNC</code> → 调用 <code>SecOC_TxConfirmation</code> 函数</li>
+<li><code>RTE</code> → 调用 <code>FreshnessManagement_SPduTxConfirmation</code> 服务操作</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>验证状态回调通知</strong> [SWS_SecOC_00243]</p>
+<ul>
+<li>Freshness Management 通过 <code>SWS_SECOC_00119</code> 回调函数获取验证结果</li>
+<li>用途：同步额外的新鲜度尝试、计数器递增等</li>
+<li><strong>注意</strong>：若同时使用状态覆盖功能（<code>SWS_SECOC_00142</code>），可能导致 Freshness Management 冲突</li>
+</ul>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td>新鲜度值截断长度（bit），0 表示不包含</td>
+</tr>
+<tr>
+<td><code>SecOCUseAuthDataFreshness</code></td>
+<td>是否从 Authentic I-PDU 中提取新鲜度</td>
+</tr>
+<tr>
+<td><code>SecOCAuthDataFreshnessStartPosition</code></td>
+<td>在 Authentic I-PDU 中的起始位</td>
+</tr>
+<tr>
+<td><code>SecOCAuthDataFreshnessLen</code></td>
+<td>从 Authentic I-PDU 中提取的新鲜度长度</td>
+</tr>
+<tr>
+<td><code>SecOCQueryFreshnessValue</code></td>
+<td>获取方式：<code>CFUNC</code> 或 <code>RTE</code></td>
+</tr>
+<tr>
+<td><code>SecOCProvideTxTruncatedFreshnessValue</code></td>
+<td>是否向发送方提供截断新鲜度</td>
+</tr>
+<tr>
+<td><code>SecOCAuthenticationBuildAttempts</code></td>
+<td>认证构建最大尝试次数</td>
+</tr>
+<tr>
+<td><code>SecOCAuthenticationVerifyAttempts</code></td>
+<td>认证验证最大尝试次数</td>
+</tr>
+<tr>
+<td><code>SecOCDefaultAuthenticatorValue</code></td>
+<td>默认认证信息填充值</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="I-PDU-的认证">I-PDU 的认证</h2>
+<blockquote>
+<p>SecOC 模块通过六个步骤完成 Authentic I-PDU 的认证并生成 Secured I-PDU：准备缓冲区、构造认证数据、生成 Authenticator、截断、组装 Secured I-PDU、递增新鲜度计数器并发送。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>认证的六个步骤</strong> [SWS_SecOC_00031]</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Prepare Secured I-PDU</td>
+<td>准备 Secured I-PDU，分配所需缓冲区</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Construct Data for Authenticator</td>
+<td>构造认证数据（DataToAuthenticator）</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Generate Authenticator</td>
+<td>调用认证算法生成 Authenticator</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Construct Secured I-PDU</td>
+<td>组装 Secured I-PDU</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Increment Freshness Counter</td>
+<td>递增新鲜度计数器</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>Broadcast Secured I-PDU</td>
+<td>发送 Secured I-PDU</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>步骤 1：准备 Secured I-PDU</strong> [SWS_SecOC_00033]</p>
+<ul>
+<li>分配必要的缓冲区</li>
+<li>用于保存认证过程的中间结果和最终结果</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 2：构造认证数据（DataToAuthenticator）</strong> [SWS_SecOC_00034]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataToAuthenticator = Data Id | Authentic I-PDU 的安全部分 | 完整新鲜度值</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Data Id</strong>：完整 16 bit 表示（参数 <code>SecOCDataId</code>），大端编码</li>
+<li><strong>Authentic I-PDU 的安全部分</strong>：需要保护的数据负载</li>
+<li><strong>完整新鲜度值</strong>：对应 <code>SecOCFreshnessValueID</code> 的完整新鲜度值，大端编码</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 3：生成 Authenticator</strong> [SWS_SecOC_00035]</p>
+<ul>
+<li>将 <code>DataToAuthenticator</code> 和其长度传入认证算法</li>
+<li>认证算法由 <code>SecOCTxAuthServiceConfigRef</code> 配置指定</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 4：构造 Secured I-PDU</strong> [SWS_SecOC_00036][SWS_SecOC_00037]</p>
+<ul>
+<li>先截断 Authenticator：按 <code>SecOCAuthInfoTruncLength</code> 截断</li>
+<li>然后按以下顺序组装：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecuredPDU = SecuredIPDUHeader (可选) | AuthenticIPDU | FreshnessValue (可选) | Authenticator (截断后)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>组成部分</th>
+<th>是否可选</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SecuredIPDUHeader</td>
+<td>可选</td>
+<td>头部信息</td>
+</tr>
+<tr>
+<td>AuthenticIPDU</td>
+<td>必选</td>
+<td>原始数据</td>
+</tr>
+<tr>
+<td>FreshnessValue</td>
+<td>可选</td>
+<td>由 <code>SecOCFreshnessValueTruncLength</code> 控制（0 表示不包含）</td>
+</tr>
+<tr>
+<td>Authenticator</td>
+<td>必选</td>
+<td>按 <code>SecOCAuthInfoTruncLength</code> 截断后</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>步骤 5：递增新鲜度计数器</strong></p>
+<ul>
+<li>由 Freshness Manager 负责递增</li>
+<li>确保下次发送使用新的新鲜度值</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 6：发送 Secured I-PDU</strong></p>
+<ul>
+<li>通过 PduR 发送到总线上</li>
+</ul>
+</li>
+<li>
+<p><strong>完整认证流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Step1[步骤 1: 准备缓冲区] --&gt; Step2
+    Step2[步骤 2: 构造认证数据&lt;br/&gt;DataId + Authentic数据 + 完整新鲜度] --&gt; Step3
+    Step3[步骤 3: 生成 Authenticator&lt;br/&gt;调用认证算法] --&gt; Step4
+    Step4[步骤 4: 截断并组装 Secured PDU&lt;br/&gt;头部（可选） + Authentic数据 + 新鲜度（可选） + Authenticator] --&gt; Step5
+    Step5[步骤 5: 递增新鲜度计数器] --&gt; Step6
+    Step6[步骤 6: 通过 PduR 发送]</code></pre>
+</li>
+<li>
+<p><strong>关键设计要点</strong></p>
+<ul>
+<li><strong>新鲜度值可包含在 PDU 中</strong>：通过 <code>SecOCFreshnessValueTruncLength</code> 控制，0 表示不包含</li>
+<li><strong>Authenticator 可截断</strong>：通过 <code>SecOCAuthInfoTruncLength</code> 控制，节省带宽</li>
+<li><strong>Data Id 和新鲜度值均使用大端编码</strong>：确保跨 ECU 一致性</li>
+<li><strong>新鲜度值可来自 Authentic I-PDU 内部</strong>：参见 [SWS_SecOC_00219]</li>
+</ul>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCDataId</code></td>
+<td>Data Identifier（16 bit）</td>
+</tr>
+<tr>
+<td><code>SecOCTxAuthServiceConfigRef</code></td>
+<td>发送方认证算法配置</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td>Authenticator 截断长度（bit）</td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td>新鲜度值截断长度（bit），0 表示不包含</td>
+</tr>
+<tr>
+<td><code>SecOCAuthPduHeaderLength</code></td>
+<td>Secured I-PDU 头部长度</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="I-PDU-的验证">I-PDU 的验证</h2>
+<blockquote>
+<p>SecOC 模块通过六个步骤完成 Secured I-PDU 的验证：解析提取数据、从 Freshness Manager 获取新鲜度值、构造认证数据、验证 Authenticator、发送确认给 Freshness Manager、将 Authentic I-PDU 传递给上层。对于分片接收的 Secured PDU，需等待完整接收后才进行验证。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>验证的六个步骤</strong> [SWS_SecOC_00040]</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Parse Authentic I-PDU, Freshness Value and Authenticator</td>
+<td>从 Secured I-PDU 中解析提取各部分</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Get Freshness Value from Freshness Manager</td>
+<td>从 Freshness Manager 获取当前新鲜度值</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Construct Data to Authentication</td>
+<td>构造认证数据（DataToAuthenticator）</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Verify Authentication Information</td>
+<td>验证 Authenticator</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Send Confirmation to Freshness Manager</td>
+<td>发送确认给 Freshness Manager</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>Pass Authentic I-PDU to upper layer</td>
+<td>将验证通过的 Authentic I-PDU 传递给上层</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>分片 Secured PDU 的处理（SecOCRxSecuredPduCollection）</strong> [SWS_SecOC_00203][SWS_SecOC_00211]</p>
+<blockquote>
+<p>当使用 <code>SecOCRxSecuredPduCollection</code> 时，SecOC 在收到构成 Secured I-PDU 的 <strong>Authentic I-PDU</strong> 和 <strong>Cryptographic I-PDU</strong> 两者之前，不执行任何验证。只有两者都收到后才尝试验证。</p>
+</blockquote>
+<ul>
+<li>通过 <strong>Message Linker</strong> 值匹配 Authentic I-PDU 和 Cryptographic I-PDU</li>
+<li>若 <code>SecOCUseMessageLink</code> 多重性为 0 → <code>SecOCMessageLinkLen = 0</code>，Message Linker 值始终匹配</li>
+</ul>
+<pre><code class="highlight mermaid">flowchart TD
+    Recv1[接收 Authentic I-PDU] --&gt; Buffer[缓冲存储]
+    Recv2[接收 Cryptographic I-PDU] --&gt; Buffer
+    Buffer --&gt; Match&#123;Message Linker&lt;br/&gt;匹配?&#125;
+    Match --&gt;|是| Verify[执行验证]
+    Match --&gt;|否| Wait[继续等待]</code></pre>
+</li>
+<li>
+<p><strong>步骤 1：解析 Secured I-PDU</strong> [SWS_SecOC_00042]</p>
+<ul>
+<li>从接收到的 Secured I-PDU 中解析提取：
+<ul>
+<li>Authentic I-PDU</li>
+<li>Freshness Value（新鲜度值）</li>
+<li>Authenticator</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 3：构造认证数据（DataToAuthenticator）</strong> [SWS_SecOC_00046]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataToAuthenticator = SecOCDataId | AuthenticIPDU | FreshnessVerifyValue</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接收方使用相同的 Data Id（<code>SecOCDataId</code>）</li>
+<li>从收到的 Secured I-PDU 中提取 AuthenticIPDU</li>
+<li>从 Freshness Manager 获取 FreshnessVerifyValue</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 4：验证 Authenticator</strong> [SWS_SecOC_00047]</p>
+<ul>
+<li>将以下参数传入认证算法（由 <code>SecOCRxAuthServiceConfigRef</code> 配置）：
+<ul>
+<li>DataToAuthenticator</li>
+<li>DataToAuthenticator 的长度</li>
+<li>从 Secured I-PDU 中解析的 Authenticator</li>
+<li><code>SecOCAuthInfoTruncLength</code>（截断长度）</li>
+</ul>
+</li>
+<li>验证过程支持重试（参见文档第 9.2 章）</li>
+</ul>
+</li>
+<li>
+<p><strong>验证结果报告</strong> [SWS_SecOC_00048][SWS_SecOC_00271]</p>
+<p>通过两种方式报告验证状态：</p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>值</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCVerificationStatusPropagationMode</code></td>
+<td><code>BOTH</code></td>
+<td>通过 callout 函数和接口双路报告</td>
+</tr>
+<tr>
+<td><code>SecOCVerificationStatusPropagationMode</code></td>
+<td><code>FAILURE_ONLY</code></td>
+<td>仅失败时报告</td>
+</tr>
+<tr>
+<td><code>SecOCVerificationStatusPropagationMode</code></td>
+<td><code>NONE</code></td>
+<td>不报告</td>
+</tr>
+<tr>
+<td><code>SecOCClientServerVerificationStatusPropagationMode</code></td>
+<td><code>BOTH</code></td>
+<td>通过服务接口双路报告</td>
+</tr>
+<tr>
+<td><code>SecOCClientServerVerificationStatusPropagationMode</code></td>
+<td><code>FAILURE_ONLY</code></td>
+<td>仅失败时报告</td>
+</tr>
+<tr>
+<td><code>SecOCClientServerVerificationStatusPropagationMode</code></td>
+<td><code>NONE</code></td>
+<td>不报告</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>最终状态报告控制</strong> [SWS_SecOC_00272]</p>
+<table>
+<thead>
+<tr>
+<th><code>SecOCPropagateOnlyFinalVerificationStatus</code></th>
+<th>报告行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TRUE</code></td>
+<td><strong>仅报告最终状态</strong></td>
+</tr>
+<tr>
+<td><code>FALSE</code></td>
+<td>报告<strong>每次</strong>验证状态（最终状态 + 之前所有失败状态）</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="highlight mermaid">flowchart LR
+    Attempt1[第1次验证尝试: 失败] --&gt; Log1[报告失败1]
+    Attempt2[第2次验证尝试: 失败] --&gt; Log2[报告失败2]
+    Attempt3[第3次验证尝试: 成功] --&gt; Log3&#123;传播模式&#125;
+    
+    Log3 --&gt;|仅最终| Final[仅报告最终成功]
+    Log3 --&gt;|全部| All[报告失败1 + 失败2 + 成功]</code></pre>
+</li>
+<li>
+<p><strong>验证流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Recv[接收 Secured I-PDU] --&gt; Parse[步骤 1: 解析&lt;br/&gt;提取 Authentic PDU + 新鲜度 + Authenticator]
+    Parse --&gt; GetFV[步骤 2: 从 Freshness Manager&lt;br/&gt;获取新鲜度值]
+    GetFV --&gt; Build[步骤 3: 构造认证数据&lt;br/&gt;DataId + Authentic PDU + 新鲜度值]
+    Build --&gt; Verify[步骤 4: 验证 Authenticator&lt;br/&gt;调用认证算法]
+    Verify --&gt; Success&#123;验证&lt;br/&gt;成功?&#125;
+    Success --&gt;|是| Confirm[步骤 5: 发送确认给 Freshness Manager]
+    Success --&gt;|否| ReportFail[报告失败]
+    Confirm --&gt; ReportSucc[报告验证状态]
+    ReportSucc --&gt; Pass[步骤 6: 传递 Authentic I-PDU&lt;br/&gt;给上层]
+    ReportFail --&gt; Drop[丢弃消息]</code></pre>
+</li>
+<li>
+<p><strong>发送方 vs 接收方对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>发送方（认证）</th>
+<th>接收方（验证）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据来源</td>
+<td>应用层数据</td>
+<td>总线接收数据</td>
+</tr>
+<tr>
+<td>新鲜度值来源</td>
+<td>Freshness Manager</td>
+<td>Freshness Manager（验证用）</td>
+</tr>
+<tr>
+<td>认证数据构造</td>
+<td>DataId + Authentic数据 + 完整新鲜度</td>
+<td>DataId + Authentic数据 + 验证新鲜度</td>
+</tr>
+<tr>
+<td>算法配置</td>
+<td><code>SecOCTxAuthServiceConfigRef</code></td>
+<td><code>SecOCRxAuthServiceConfigRef</code></td>
+</tr>
+<tr>
+<td>结果处理</td>
+<td>发送 Secured PDU</td>
+<td>验证通过 → 上层；失败 → 丢弃</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCRxSecuredPduCollection</code></td>
+<td>是否启用分片接收</td>
+</tr>
+<tr>
+<td><code>SecOCMessageLinkLen</code></td>
+<td>Message Linker 长度</td>
+</tr>
+<tr>
+<td><code>SecOCRxAuthServiceConfigRef</code></td>
+<td>接收方认证算法配置</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td>Authenticator 截断长度</td>
+</tr>
+<tr>
+<td><code>SecOCVerificationStatusPropagationMode</code></td>
+<td>验证状态传播模式（BOTH / FAILURE_ONLY / NONE）</td>
+</tr>
+<tr>
+<td><code>SecOCClientServerVerificationStatusPropagationMode</code></td>
+<td>服务接口验证状态传播模式</td>
+</tr>
+<tr>
+<td><code>SecOCPropagateOnlyFinalVerificationStatus</code></td>
+<td>是否仅报告最终状态</td>
+</tr>
+<tr>
+<td><code>SecOC_VerifyStatusOverride</code></td>
+<td>验证状态覆盖</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="I-PDU-验证成功">I-PDU 验证成功</h3>
+<blockquote>
+<p>当 Secured I-PDU 验证成功或状态覆盖被相应设置时，SecOC 模块应通过 PduR 的下层接口将 Authentic I-PDU 传递给上层通信模块。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p><strong>验证成功的处理</strong> [SWS_SecOC_00050]</p>
+<ul>
+<li>验证成功 → 将 Authentic I-PDU 传递给上层</li>
+<li>状态覆盖（<code>SecOC_VerifyStatusOverride</code>）设置为成功 → 同样传递给上层</li>
+</ul>
+</li>
+<li>
+<p><strong>数据流向</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    SecOC[SecOC 模块] --&gt;|验证成功| PduR[PduR 模块]
+    PduR --&gt;|路由| COM[COM 模块]
+    COM --&gt;|RTE| SWC[应用层 SW-C]</code></pre>
+</li>
+<li>
+<p><strong>与验证失败对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>结果</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>验证成功</strong></td>
+<td>通过 PduR 将 Authentic I-PDU 传递给上层</td>
+</tr>
+<tr>
+<td><strong>验证失败（无覆盖）</strong></td>
+<td>丢弃 Authentic I-PDU，不上传</td>
+</tr>
+<tr>
+<td><strong>验证失败 + 状态覆盖为成功</strong></td>
+<td>传递给上层（按覆盖值处理）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOC_VerifyStatusOverride</code></td>
+<td>验证状态覆盖，可强制指定验证结果为成功或失败</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="非对称方法的适配">非对称方法的适配</h2>
+<blockquote>
+<p>虽然本文档统一使用对称密码学的术语和概念，但 SecOC 模块支持配置为使用对称或非对称加密算法。当使用数字签名替代 MAC 时，需要关注以下几点差异。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p><strong>密钥模型差异</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>对称方法（MAC）</th>
+<th>非对称方法（数字签名）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>密钥类型</strong></td>
+<td>共享密钥（发送方和所有接收方相同）</td>
+<td>密钥对（公钥 + 私钥）</td>
+</tr>
+<tr>
+<td><strong>发送方使用</strong></td>
+<td>共享密钥生成 MAC</td>
+<td><strong>私钥</strong>生成签名</td>
+</tr>
+<tr>
+<td><strong>接收方使用</strong></td>
+<td>共享密钥验证 MAC</td>
+<td><strong>公钥</strong>验证签名</td>
+</tr>
+<tr>
+<td><strong>密钥可访问性</strong></td>
+<td>所有通信方均可访问</td>
+<td>私钥不可被接收方获取，且不可从公钥计算得出</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Authenticator 截断限制</strong></p>
+<blockquote>
+<p>在非对称方法中，<strong>不支持截断</strong>。接收方需要访问完整的签名输出才能进行验证，因此 <code>SecOCAuthInfoTruncLength</code> 必须设置为签名的完整长度。</p>
+</blockquote>
+<pre><code class="highlight mermaid">flowchart LR
+    Sym[对称 MAC] --&gt;|可截断| Trunc[截断后传输&lt;br/&gt;节省带宽]
+    Asym[非对称签名] --&gt;|不可截断| Full[完整传输&lt;br/&gt;`SecOCAuthInfoTruncLength` = 完整长度]</code></pre>
+</li>
+<li>
+<p><strong>验证算法差异</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>对称方法（MAC）</th>
+<th>非对称方法（数字签名）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发送方操作</strong></td>
+<td>生成 MAC</td>
+<td>生成签名</td>
+</tr>
+<tr>
+<td><strong>接收方操作</strong></td>
+<td>重新计算 MAC 并与接收值比较</td>
+<td>运行验证算法，输入 DataToAuthenticator + 签名，输出布尔值</td>
+</tr>
+<tr>
+<td><strong>验证输入</strong></td>
+<td>DataToAuthenticator + 收到的 MAC</td>
+<td>DataToAuthenticator（含完整计数器）+ 收到的签名</td>
+</tr>
+<tr>
+<td><strong>验证输出</strong></td>
+<td>匹配/不匹配</td>
+<td>通过/失败（布尔值）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>非对称验证流程</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Sender[发送方]
+        Data[DataToAuthenticator] --&gt; Sign[私钥签名]
+        Sign --&gt; Send[发送: 数据 + 签名]
+    end
+
+    subgraph Receiver[接收方]
+        Recv[接收: 数据 + 签名] --&gt; Verify[验证算法]
+        Data2[DataToAuthenticator] --&gt; Verify
+        PubKey[公钥] --&gt; Verify
+        Verify --&gt; Result&#123;布尔值&#125;
+        Result --&gt;|True| Pass[✅ 验证通过]
+        Result --&gt;|False| Fail[❌ 验证失败]
+    end</code></pre>
+</li>
+<li>
+<p><strong>参数配置差异</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>对称方法</th>
+<th>非对称方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td>可截断（按需配置）</td>
+<td><strong>必须设置为签名完整长度</strong></td>
+</tr>
+<tr>
+<td>密钥配置</td>
+<td>共享密钥</td>
+<td>公钥 + 私钥对</td>
+</tr>
+<tr>
+<td>认证算法</td>
+<td>MAC 生成/验证算法</td>
+<td>签名生成/验证算法</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<ul>
+<li><code>SecOCAuthInfoTruncLength</code>：非对称方法中必须设为签名完整长度</li>
+<li><code>SecOCTxAuthServiceConfigRef</code> / <code>SecOCRxAuthServiceConfigRef</code>：指向签名算法配置</li>
+</ul>
+</li>
+</ol>
+<h1 id="与-PduR-的关系">与 PduR 的关系</h1>
+<blockquote>
+<p>SecOC 模块在 AUTOSAR 分层架构中位于 PDU 路由器（PduR）旁边。SecOC 模块的设计使其不依赖其他模块，且在不使用时可从系统中移除，不影响系统构建。同时，SecOC 确保元数据在 Authentic PDU 与 Secured PDU 之间无损传递。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>架构位置</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260707094332237.png" alt="SecOc与Pdur的关系" loading='lazy'></p>
+<ul>
+<li>SecOC 位于 PduR 旁边，与 PduR 协同工作</li>
+<li>发送时：PduR 将需要保护的 I-PDU 路由给 SecOC，SecOC 添加安全信息后返回 PduR</li>
+<li>接收时：PduR 将 Secured I-PDU 路由给 SecOC，SecOC 验证后返回 Authentic I-PDU 给 PduR</li>
+</ul>
+</li>
+<li>
+<p><strong>模块独立性</strong> [SWS_SecOC_00153]</p>
+<blockquote>
+<p>SecOC 模块的实现应确保其他模块<strong>不依赖</strong>于它，且如果不需要 SecOC 功能，可以构建一个<strong>不含 SecOC 模块</strong>的系统。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>无强制依赖</strong></td>
+<td>其他模块（如 COM、PduR）可在无 SecOC 时正常工作</td>
+</tr>
+<tr>
+<td><strong>可选构建</strong></td>
+<td>系统可不包含 SecOC 模块进行构建</td>
+</tr>
+<tr>
+<td><strong>安全保护为附加功能</strong></td>
+<td>不强制要求所有系统都使用安全通信</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>元数据传递</strong> [SWS_SecOC_00212]</p>
+<blockquote>
+<p>SecOC 应确保在 Authentic PDU 中接收的元数据在对应的 Secured PDU 中<strong>保持不变</strong>，反之亦然。</p>
+</blockquote>
+<ul>
+<li>方向：Authentic PDU ↔ Secured PDU 双向传递</li>
+<li>要求：元数据内容不变</li>
+<li>场景：
+<ul>
+<li>发送方向：Authentic PDU 中的元数据 → Secured PDU</li>
+<li>接收方向：Secured PDU 中的元数据 → Authentic PDU</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>数据流与元数据传递</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Send[发送方向]
+        COM_S[COM] --&gt;|Authentic I-PDU + MetaData| PduR1[PduR]
+        PduR1 --&gt;|Authentic I-PDU + MetaData| SecOC_S[SecOC]
+        SecOC_S --&gt;|Secured I-PDU + MetaData| PduR1
+        PduR1 --&gt;|发送| IF_S[通信接口]
+    end
+
+    subgraph Recv[接收方向]
+        IF_R[通信接口] --&gt;|接收| PduR2[PduR]
+        PduR2 --&gt;|Secured I-PDU + MetaData| SecOC_R[SecOC]
+        SecOC_R --&gt;|Authentic I-PDU + MetaData| PduR2
+        PduR2 --&gt;|COM| COM_R[COM]
+    end</code></pre>
+</li>
+<li>
+<p><strong>与 PduR 的交互总结</strong></p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>输入</th>
+<th>输出</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>发送</strong></td>
+<td>Authentic I-PDU + MetaData</td>
+<td>Secured I-PDU + MetaData</td>
+<td>添加认证信息</td>
+</tr>
+<tr>
+<td><strong>接收</strong></td>
+<td>Secured I-PDU + MetaData</td>
+<td>Authentic I-PDU + MetaData</td>
+<td>验证并移除认证信息</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCPduRef</code></td>
+<td>SecOC 引用的 PDU 配置</td>
+</tr>
+<tr>
+<td>PduR 路由表</td>
+<td>配置哪些 PDU 需要路由到 SecOC</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="初始化">初始化</h1>
+<blockquote>
+<p>SecOC 模块提供 <code>SecOC_Init</code> 函数，用于初始化所有内部全局变量和存储 SecOC I-PDU 及中间结果的缓冲区。环境必须在调用除 <code>SecOC_GetVersionInfo</code> 外的任何 SecOC 函数之前调用该函数。未初始化时调用 API 应返回 <code>SecOC_E_UNINIT</code>（开发模式）。此外，发送 PDU 中未使用的区域应填充可配置的默认值。</p>
+</blockquote>
+<hr>
+<ol>
+<li>
+<p><strong>初始化函数的作用</strong></p>
+<ul>
+<li>初始化所有内部全局变量</li>
+<li>初始化用于存储 SecOC I-PDU 的缓冲区</li>
+<li>初始化用于存储中间结果的缓冲区</li>
+</ul>
+</li>
+<li>
+<p><strong>调用规则</strong></p>
+<ul>
+<li><code>SecOC_Init</code> 必须在调用其他 SecOC API 之前调用</li>
+<li>例外：<code>SecOC_GetVersionInfo</code>（可在初始化前调用）</li>
+<li>未初始化时调用 API 应返回 <code>SecOC_E_UNINIT</code>（开发模式）</li>
+</ul>
+</li>
+<li>
+<p><strong>缓冲区初始化的必要性</strong></p>
+<ul>
+<li>数据路径需要内部缓冲区</li>
+<li>缓冲区可能在上下层通信模块完全填充数据之前被发送</li>
+<li>因此缓冲区必须被正确初始化（防止发送未定义数据）</li>
+</ul>
+</li>
+<li>
+<p><strong>未使用区域填充</strong> [SWS_SecOC_00269]</p>
+<blockquote>
+<p>SecOC 模块应将发送的 Secured PDU 或 Cryptographic PDU 中<strong>未使用的区域</strong>填充为由配置参数 <code>SecOCTxPduUnusedAreasDefault</code> 指定的值（例如 <code>0xFF</code>）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCTxPduUnusedAreasDefault</code></td>
+<td>未使用区域的填充值，如 <code>0xFF</code></td>
+</tr>
+<tr>
+<td>适用范围</td>
+<td>Secured PDU 和 Cryptographic PDU</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SWS_SecOC_00106</code></td>
+<td><code>SecOC_Init</code> API 定义</td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00054</code></td>
+<td>初始化内部变量和缓冲区</td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00269</code></td>
+<td>未使用区域填充</td>
+</tr>
+<tr>
+<td><code>ECUC_SecOC_00101</code></td>
+<td><code>SecOCTxPduUnusedAreasDefault</code> 配置参数</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="传出-PDU-的认证">传出 PDU 的认证</h1>
+<blockquote>
+<p>认证是指通过向 Authentic I-PDU 添加认证信息来创建 Secured I-PDU 的过程。SecOC 模块与 PduR 模块的交互遵循特定步骤，以支持不同总线接口和传输协议。发送时，SecOC 将 Authentic I-PDU 复制到内部缓冲区并立即返回，实际认证和发送在后续主函数中完成。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>认证过程的六步流程</strong></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>上层模块调用 <code>PduR_&lt;Up&gt;Transmit</code></td>
+<td>上层发起传输请求</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>PduR 路由到 SecOC，调用 <code>SecOC_[If|Tp]Transmit</code></td>
+<td>请求转发至 SecOC</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>SecOC 复制 Authentic I-PDU 到内部缓冲区，立即返回</td>
+<td>不阻塞上层</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>下次主函数调用时，SecOC 计算认证信息，通过 PduR 下发</td>
+<td>实际认证在后台执行</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>SecOC 作为上层模块，响应下层所有复制数据的请求</td>
+<td>提供 Secured I-PDU 数据</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>SecOC 将发送确认转发给上层</td>
+<td>确认透传</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>完整数据流（发送方向）</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Step1[上层调用 PduR_UpTransmit] --&gt; Step2[PduR 路由到 SecOC]
+    Step2 --&gt; Step3[SecOC 复制到内部缓冲区]
+    Step3 --&gt; Step4[主函数触发认证计算]
+    Step4 --&gt; Step5[构造 Secured I-PDU]
+    Step5 --&gt; Step6[通过 PduR 下发到下层]</code></pre>
+</li>
+<li>
+<p><strong>内部缓冲区管理</strong> [SWS_SecOC_00057][SWS_SecOC_00146]</p>
+<ul>
+<li>SecOC 提供足够的缓冲区存储：
+<ul>
+<li>传入的 Authentic I-PDU</li>
+<li>传出的 Secured I-PDU</li>
+<li>认证过程中的所有中间数据</li>
+</ul>
+</li>
+<li><strong>分离缓冲区</strong>：Authentic I-PDU 和 Secured I-PDU 使用<strong>独立缓冲区</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>缓冲区覆盖规则</strong> [SWS_SecOC_00110]</p>
+<blockquote>
+<p>上层模块的任何传输请求应<strong>覆盖</strong>包含 Authentic I-PDU 的缓冲区，但<strong>不影响</strong>对应 Secured I-PDU 的缓冲区。</p>
+</blockquote>
+<ul>
+<li>上层更新 Authentic I-PDU 时不影响正在进行的安全 PDU 发送</li>
+<li>解耦上下层交互，提高并发效率</li>
+</ul>
+</li>
+<li>
+<p><strong>分片发送支持（SecOCTxSecuredPduCollection）</strong> [SWS_SecOC_00201]</p>
+<blockquote>
+<p>当使用 <code>SecOCTxSecuredPduCollection</code> 时，SecOC 将 Secured I-PDU 作为<strong>两条消息</strong>发送：</p>
+</blockquote>
+<ul>
+<li><strong>Authentic I-PDU</strong>（原始数据）</li>
+<li><strong>Cryptographic I-PDU</strong>（包含所有认证信息）</li>
+</ul>
+<pre><code class="highlight mermaid">flowchart LR
+    Secured[Secured I-PDU] --&gt; Split[拆分]
+    Split --&gt; Auth[Authentic I-PDU]
+    Split --&gt; Crypto[Cryptographic I-PDU&lt;br/&gt;认证信息 + Message Linker]</code></pre>
+</li>
+<li>
+<p><strong>Message Linker 机制</strong> [SWS_SecOC_00209][SWS_SecOC_00210]</p>
+<blockquote>
+<p>当使用 <code>SecOCTxSecuredPduCollection</code> 时，SecOC 在 Cryptographic I-PDU 中<strong>重复 Authentic I-PDU 的一部分</strong>作为 Message Linker，用于接收方匹配两条消息。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cryptographic I-PDU = Authentication Data | Message Linker</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Message Linker</strong>：从 Authentic I-PDU 的 <code>SecOCMessageLinkPos</code> 位置提取，长度 <code>SecOCMessageLinkLen</code> bits</li>
+<li><strong>目的</strong>：接收方通过 Message Linker 匹配 Authentic I-PDU 和 Cryptographic I-PDU</li>
+</ul>
+</li>
+<li>
+<p><strong>发送确认转发</strong> [SWS_SecOC_00270]</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>上传确认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentic I-PDU 和 Cryptographic I-PDU 均确认成功</td>
+<td><code>E_OK</code></td>
+</tr>
+<tr>
+<td>任一确认失败</td>
+<td><code>E_NOT_OK</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Secured I-PDU 头部（动态长度支持）</strong> [SWS_SecOC_00262]</p>
+<blockquote>
+<p>对于 <code>SecOCAuthPduHeaderLength &gt; 0</code> 的 Secured I-PDU，SecOC 在 Secured I-PDU 中添加头部，指示 Authentic I-PDU 的长度，以处理<strong>动态长度的 Authentic I-PDU</strong>。</p>
+</blockquote>
+<ul>
+<li><strong>主要用途</strong>：指示新鲜度值和 Authenticator 在 Secured I-PDU 中的位置</li>
+<li><strong>适用场景</strong>：
+<ul>
+<li>CAN FD / FlexRay：无法选择任意 L-PDU 长度，且下层可能添加总线特定填充</li>
+<li>动态长度 Authentic I-PDU：填充位置不确定</li>
+</ul>
+</li>
+</ul>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph PDU[Secured I-PDU]
+        Header[Secured I-PDU Header] --&gt; Auth[Authentic I-PDU]
+        Auth --&gt; FV[Freshness Value]
+        FV --&gt; AuthInfo[Authenticator]
+    end
+    AuthInfo --&gt; Padding[总线特定填充&lt;br/&gt;由下层添加]</code></pre>
+</li>
+<li>
+<p><strong>与 PduR 的交互总结</strong></p>
+<table>
+<thead>
+<tr>
+<th>方向</th>
+<th>调用接口</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上层→PduR</td>
+<td><code>PduR_&lt;Up&gt;Transmit</code></td>
+<td>上层发起传输</td>
+</tr>
+<tr>
+<td>PduR→SecOC</td>
+<td><code>SecOC_[If|Tp]Transmit</code></td>
+<td>路由到 SecOC</td>
+</tr>
+<tr>
+<td>SecOC→PduR</td>
+<td><code>PduR_[If|Tp]Transmit</code></td>
+<td>下发 Secured I-PDU</td>
+</tr>
+<tr>
+<td>PduR→SecOC</td>
+<td><code>SecOC_[If|Tp]TxConfirmation</code></td>
+<td>发送确认</td>
+</tr>
+<tr>
+<td>SecOC→上层</td>
+<td>透传确认</td>
+<td>转发给上层</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCTxSecuredPduCollection</code></td>
+<td>是否启用分片发送</td>
+</tr>
+<tr>
+<td><code>SecOCMessageLinkPos</code></td>
+<td>Message Linker 在 Authentic I-PDU 中的起始位</td>
+</tr>
+<tr>
+<td><code>SecOCMessageLinkLen</code></td>
+<td>Message Linker 长度（bit）</td>
+</tr>
+<tr>
+<td><code>SecOCUseMessageLink</code></td>
+<td>是否启用 Message Linker</td>
+</tr>
+<tr>
+<td><code>SecOCAuthPduHeaderLength</code></td>
+<td>Secured I-PDU 头部长度（字节）</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="直接传输期间的认证">直接传输期间的认证</h2>
+<blockquote>
+<p>对于使用支持即时传输的总线接口（如 CanIf）发送 Authentic I-PDU 时，PduR 触发 SecOC 的传输操作。SecOC 分配缓冲区并复制 Authentic I-PDU 后立即返回，实际认证和 Secured I-PDU 的创建在后续主函数中完成。发送确认最终透传给上层。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>直接传输的流程</strong></p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Upper as 上层模块
+    participant PduR as PduR
+    participant SecOC as SecOC
+    participant Lower as 下层模块
+
+    Upper-&gt;&gt;PduR: ① PduR_UpTransmit
+    PduR-&gt;&gt;SecOC: ② SecOC_IfTransmit
+    SecOC-&gt;&gt;SecOC: ③ 分配缓冲区，复制 Authentic I-PDU
+    SecOC--&gt;&gt;PduR: 立即返回
+
+    Note over SecOC: 下次主函数调用时
+
+    SecOC-&gt;&gt;SecOC: ④ 计算 Authenticator
+    SecOC-&gt;&gt;SecOC: ⑤ 构造 Secured I-PDU
+    SecOC-&gt;&gt;PduR: ⑥ PduR_SecOCTransmit
+    PduR-&gt;&gt;Lower: 发送
+
+    Lower-&gt;&gt;PduR: 发送确认
+    PduR-&gt;&gt;SecOC: ⑦ SecOC_TxConfirmation
+    SecOC-&gt;&gt;PduR: ⑧ PduR_SecOC_TxConfirmation
+    PduR-&gt;&gt;Upper: 透传确认</code></pre>
+</li>
+<li>
+<p><strong>步骤 1-3：传输请求与缓冲区分配</strong> [SWS_SecOC_00058]</p>
+<ul>
+<li>上层通过 <code>PduR_&lt;Up&gt;Transmit</code> 发起传输</li>
+<li>PduR 路由到 SecOC，调用 <code>SecOC_[If\|Tp]Transmit</code></li>
+<li>SecOC 在连续内存位置分配缓冲区，存储：
+<ul>
+<li>Authentic I-PDU</li>
+<li>认证信息（后续计算后填充）</li>
+</ul>
+</li>
+<li>复制 Authentic I-PDU 到本地缓冲区后立即返回</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 4-6：主函数中的认证与发送</strong> [SWS_SecOC_00060][SWS_SecOC_00061][SWS_SecOC_00062]</p>
+<p>在下次 <code>SecOC_MainFunction</code> 调用时：</p>
+<ul>
+<li>根据 SWS_SecOC_00031 计算 Authenticator</li>
+<li>在 Authentic I-PDU 之后连续添加认证信息：
+<ul>
+<li>Authenticator（可能截断）</li>
+<li>Freshness Value（可能截断）</li>
+</ul>
+</li>
+<li>调用 <code>PduR_SecOCTransmit</code> 触发发送</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 7-8：发送确认透传</strong> [SWS_SecOC_00063]</p>
+<ul>
+<li>下层通过 <code>PduR</code> 调用 <code>SecOC_[If\|Tp]TxConfirmation</code> 通知 SecOC</li>
+<li>SecOC 通过 <code>PduR_SecOC[If\|Tp]TxConfirmation</code> 将结果透传给上层</li>
+<li>透传内容：成功或失败状态</li>
+</ul>
+</li>
+<li>
+<p><strong>缓冲区释放</strong> [SWS_SecOC_00064]</p>
+<ul>
+<li>当 <code>SecOC_TxConfirmation</code> 被调用时，SecOC 释放包含 Secured I-PDU 的缓冲区</li>
+<li>触发条件：Secured I-PDU 发送完成（成功或失败）</li>
+</ul>
+</li>
+<li>
+<p><strong>关键特性</strong></p>
+<ul>
+<li>认证计算在 <strong>主函数上下文</strong> 中执行，不在传输请求上下文中</li>
+<li>上层调用 <strong>不阻塞</strong>，立即返回</li>
+<li>支持异步处理，与即时通信总线（如 CAN）配合</li>
+</ul>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SWS_SecOC_00058</code></td>
+<td>连续内存缓冲区分配</td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00060</code></td>
+<td>主函数中计算 Authenticator</td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00061</code></td>
+<td>主函数中创建 Secured I-PDU</td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00062</code></td>
+<td>调用 <code>PduR_SecOCTransmit</code></td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00063</code></td>
+<td>发送确认透传</td>
+</tr>
+<tr>
+<td><code>SWS_SecOC_00064</code></td>
+<td>缓冲区释放</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="触发传输期间的认证">触发传输期间的认证</h2>
+<blockquote>
+<p>对于使用支持触发传输的总线接口（如 FrIf）发送 Authentic I-PDU 时，上层通过调用 <code>PduR_&lt;Up&gt;Transmit</code> 发起传输。SecOC 分配缓冲区、复制 Authentic I-PDU 后立即返回，实际认证在后续主函数中完成。之后 SecOC 作为数据提供者，响应下层的 <code>TriggerTransmit</code> 请求，并在发送确认后决定是否重新认证。注意：触发传输仅支持上层显式调用 <code>PduR_&lt;Up&gt;Transmit</code> 发起的模式，不支持 <code>AlwaysTransmit</code> 模式。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>触发传输与直接传输的关键差异</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>直接传输（如 CAN）</th>
+<th>触发传输（如 FlexRay）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>数据传输方式</strong></td>
+<td>上层主动下发</td>
+<td>下层主动请求数据</td>
+</tr>
+<tr>
+<td><strong>SecOC 角色</strong></td>
+<td>主动发送方</td>
+<td><strong>数据提供者</strong></td>
+</tr>
+<tr>
+<td><strong>主函数认证</strong></td>
+<td>✅ 同样在主函数中完成</td>
+<td>✅ 同样在主函数中完成</td>
+</tr>
+<tr>
+<td><strong>重新认证支持</strong></td>
+<td>不适用</td>
+<td>✅ 支持（可配置）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>触发传输的完整流程</strong></p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Upper as 上层模块
+    participant PduR as PduR
+    participant SecOC as SecOC
+    participant Lower as 下层模块
+
+    Upper-&gt;&gt;PduR: ① PduR_UpTransmit
+    PduR-&gt;&gt;SecOC: ② SecOC_IfTransmit
+    SecOC-&gt;&gt;SecOC: ③ 分配缓冲区，复制 Authentic I-PDU
+    SecOC--&gt;&gt;PduR: 立即返回
+
+    Note over SecOC: 下次主函数调用时
+
+    SecOC-&gt;&gt;SecOC: ④ 计算 Authenticator
+    SecOC-&gt;&gt;SecOC: ⑤ 构造 Secured I-PDU
+    SecOC-&gt;&gt;PduR: ⑥ PduR_SecOCTransmit
+    Note over PduR: 准备就绪，等待下层请求
+
+    Lower-&gt;&gt;PduR: ⑦ PduR_LoTriggerTransmit
+    PduR-&gt;&gt;SecOC: ⑧ SecOC_TriggerTransmit
+    SecOC-&gt;&gt;Lower: ⑨ 拷贝 Secured I-PDU
+
+    Lower-&gt;&gt;PduR: 发送确认
+    PduR-&gt;&gt;SecOC: ⑩ SecOC_TxConfirmation
+    
+    alt 重新认证启用
+        SecOC-&gt;&gt;SecOC: ⑪ 重新认证 Authentic I-PDU
+    else 重新认证禁用
+        Note over SecOC: 保留 Authentic I-PDU，不重新认证
+    end
+
+    SecOC-&gt;&gt;PduR: 透传确认
+    PduR-&gt;&gt;Upper: 透传确认</code></pre>
+</li>
+<li>
+<p><strong>步骤 1-3：传输请求与缓冲区分配</strong></p>
+<ul>
+<li>上层通过 <code>PduR_&lt;Up&gt;Transmit</code> 发起传输（与直接传输相同）</li>
+<li>PduR 路由到 SecOC，调用 <code>SecOC_IfTransmit</code></li>
+<li>至少需要<strong>一次</strong> <code>SecOC_IfTransmit</code> 调用，SecOC 才能通过触发传输接口提供数据</li>
+<li>若 <code>SecOC_TriggerTransmit</code> 被调用但无数据可提供，返回 <code>E_NOT_OK</code></li>
+<li>⚠️ <strong>不支持 <code>AlwaysTransmit</code> 模式</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 4-6：主函数中的认证</strong> [SWS_SecOC_00065][SWS_SecOC_00066][SWS_SecOC_00067]</p>
+<p>在下次 <code>SecOC_MainFunction</code> 调用时：</p>
+<ul>
+<li>根据 SWS_SecOC_00031 计算 Authenticator</li>
+<li>构造 Secured I-PDU</li>
+<li>调用 <code>PduR_SecOCTransmit</code> 向 PduR 指示传输请求</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 7-9：触发传输响应</strong> [SWS_SecOC_00068][SWS_SecOC_00150]</p>
+<ul>
+<li>下层准备就绪时，通过 <code>PduR_&lt;Lo&gt;TriggerTransmit</code> 请求数据</li>
+<li>PduR 转发给 SecOC，调用 <code>SecOC_TriggerTransmit</code></li>
+<li>SecOC 将<strong>完整的 Secured I-PDU</strong> 拷贝到下层</li>
+<li><strong>重要</strong>：SecOC <strong>不</strong>将触发传输请求转发给上层，而是自己作为上层角色</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 10：发送确认与缓冲区管理</strong> [SWS_SecOC_00069]</p>
+<ul>
+<li>下层通过 <code>PduR_&lt;Lo&gt;TxConfirmation</code> 确认发送</li>
+<li>PduR 调用 <code>SecOC_TxConfirmation</code> 通知 SecOC</li>
+<li>缓冲区管理：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>释放</strong></td>
+<td>包含认证信息（Authenticator + Freshness）的缓冲区</td>
+</tr>
+<tr>
+<td><strong>保留</strong></td>
+<td>包含 Authentic I-PDU 的缓冲区</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>重新认证控制：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>SecOCReAuthenticateAfterTriggerTransmit</code></th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TRUE</code></td>
+<td>Authentic I-PDU 被视为上层新设置，下次 <code>SecOC_MainFunctionTx</code> 时重新认证</td>
+</tr>
+<tr>
+<td><code>FALSE</code></td>
+<td>不重新认证</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>上下层更新速率差异处理</strong></p>
+<ul>
+<li>下层可能在上层更新之前请求发送新的 Secured I-PDU</li>
+<li>SecOC 支持<strong>重复发送</strong> Authentic I-PDU（通过更新 Secured I-PDU）</li>
+<li>保留 Authentic I-PDU 直到收到 <code>SecOC_TxConfirmation</code> 确认</li>
+</ul>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCReAuthenticateAfterTriggerTransmit</code></td>
+<td>触发传输确认后是否重新认证</td>
+</tr>
+<tr>
+<td><code>SecOC_TriggerTransmit</code></td>
+<td>SecOC 的触发传输接口</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="传输协议传输期间的认证">传输协议传输期间的认证</h2>
+<blockquote>
+<p>对于使用传输协议（如 CanTP、FrTp）发送 Authentic I-PDU 时，PduR 触发 SecOC 的传输操作。SecOC 分配缓冲区并复制 Authentic I-PDU 后立即返回。与直接传输和触发传输不同，传输协议的认证在后续主函数中完成，但新鲜度值的获取被推迟到消息即将发送到总线时，以确保传输协议长时间传输时仍使用最新值。SecOC 通过 <code>PduR_SecOCTpStartOfReception</code> 通知下层，并通过 <code>SecOC_CopyTxData</code> 响应下层的分段数据请求。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>传输协议传输的完整流程</strong></p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant Upper as 上层模块
+    participant PduR as PduR
+    participant SecOC as SecOC
+    participant TP as 传输协议层
+    participant Lower as 下层模块
+
+    Upper-&gt;&gt;PduR: ① PduR_UpTransmit
+    PduR-&gt;&gt;SecOC: ② SecOC_TpTransmit
+    SecOC-&gt;&gt;SecOC: ③ 分配缓冲区，复制 Authentic I-PDU
+    SecOC--&gt;&gt;PduR: 立即返回
+
+    Note over SecOC: 下次主函数调用时
+
+    SecOC-&gt;&gt;SecOC: ④ 计算 Authenticator&lt;br/&gt;（新鲜度值推迟获取）
+    SecOC-&gt;&gt;SecOC: ⑤ 构造 Secured I-PDU
+    SecOC-&gt;&gt;PduR: ⑥ PduR_SecOCTpStartOfReception
+    Note over PduR: 通知传输层准备接收
+
+    TP-&gt;&gt;PduR: ⑦ 请求数据
+    PduR-&gt;&gt;SecOC: ⑧ SecOC_CopyTxData
+    SecOC-&gt;&gt;TP: ⑨ 拷贝 NPDU 数据
+    
+    loop 每个 NPDU
+        TP-&gt;&gt;PduR: 请求下一段数据
+        PduR-&gt;&gt;SecOC: SecOC_CopyTxData
+        SecOC-&gt;&gt;TP: 拷贝 NPDU 数据
+    end
+
+    Lower-&gt;&gt;PduR: 发送确认
+    PduR-&gt;&gt;SecOC: ⑩ SecOC_TpTxConfirmation
+    SecOC-&gt;&gt;PduR: ⑪ 透传确认
+    PduR-&gt;&gt;Upper: 透传确认</code></pre>
+</li>
+<li>
+<p><strong>步骤 1-3：传输请求与缓冲区分配</strong> [SWS_SecOC_00253]</p>
+<ul>
+<li>当 <code>SecOCPduType</code> 配置为 <code>SECOC_TPPDU</code> 时，<code>SecOC_TpTransmit</code> 触发传输操作</li>
+<li>SecOC 分配缓冲区并复制 Authentic I-PDU 后立即返回</li>
+<li>SecOC 通过调用 <code>PduR_SecOCTpCopyTxData</code> 指示上层将 I-PDU 的下一部分拷贝到本地 SecOC 缓冲区 [SWS_SecOC_00254]</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 4-6：主函数中的认证</strong> [SWS_SecOC_00070][SWS_SecOC_00071][SWS_SecOC_00072]</p>
+<ul>
+<li>在 <code>SecOC_MainFunction</code> 中计算 Authenticator 并构造 Secured I-PDU</li>
+<li><strong>特殊处理</strong>：新鲜度值<strong>尽可能晚地获取</strong>，即在消息即将发送到总线的下一部分时获取 [SWS_SecOC_00070]</li>
+<li>调用 <code>PduR_SecOCTransmit</code> 指示完整的 Secured I-PDU 传输请求</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 7-9：数据提供者角色</strong> [SWS_SecOC_00073]</p>
+<ul>
+<li>PduR 通过 <code>SecOC_CopyTxData</code> 轮询 SecOC，逐段获取 Secured I-PDU 的 NPDU 数据</li>
+<li>SecOC 将请求的 NPDU 拷贝到传输协议模块的缓冲区</li>
+<li>每次拷贝完成后返回</li>
+</ul>
+</li>
+<li>
+<p><strong>步骤 10-11：发送确认</strong> [SWS_SecOC_00074]</p>
+<ul>
+<li>下层通过 <code>PduR_&lt;Lo&gt;TxConfirmation</code> 确认发送</li>
+<li>PduR 调用 <code>SecOC_TpTxConfirmation</code> 通知 SecOC</li>
+<li>SecOC 根据 <code>SecOCPduType</code> 配置，通过对应的确认接口透传结果：
+<ul>
+<li><code>SECOC_IFPDU</code> → <code>PduR_SecOCIfTxConfirmation</code></li>
+<li><code>SECOC_TPPDU</code> → <code>PduR_SecOCTpTxConfirmation</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>缓冲区释放</strong> [SWS_SecOC_00075]</p>
+<ul>
+<li>仅当 <code>SecOC_TpTxConfirmation</code> 被调用时才释放 Secured I-PDU 缓冲区</li>
+<li>确保传输协议完全完成发送后才释放资源</li>
+</ul>
+</li>
+<li>
+<p><strong>直接传输 vs 触发传输 vs 传输协议传输</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>直接传输（CAN）</th>
+<th>触发传输（FlexRay）</th>
+<th>传输协议（CanTP/FrTp）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>传输触发方式</strong></td>
+<td>上层下发</td>
+<td>下层请求</td>
+<td>上层下发 + 分段请求</td>
+</tr>
+<tr>
+<td><strong>SecOC 角色</strong></td>
+<td>发送方</td>
+<td>数据提供者</td>
+<td>数据提供者</td>
+</tr>
+<tr>
+<td><strong>认证时机</strong></td>
+<td>主函数</td>
+<td>主函数</td>
+<td>主函数</td>
+</tr>
+<tr>
+<td><strong>新鲜度获取</strong></td>
+<td>认证时获取</td>
+<td>认证时获取</td>
+<td><strong>推迟到发送前</strong></td>
+</tr>
+<tr>
+<td><strong>数据传输接口</strong></td>
+<td>一次性</td>
+<td>一次性</td>
+<td>分段（<code>CopyTxData</code>）</td>
+</tr>
+<tr>
+<td><strong>确认接口</strong></td>
+<td><code>TxConfirmation</code></td>
+<td><code>TxConfirmation</code></td>
+<td><code>TpTxConfirmation</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCPduType</code></td>
+<td>PDU 类型（<code>SECOC_IFPDU</code> / <code>SECOC_TPPDU</code>）</td>
+</tr>
+<tr>
+<td><code>SecOC_TpTransmit</code></td>
+<td>触发传输协议传输的接口</td>
+</tr>
+<tr>
+<td><code>PduR_SecOCTpCopyTxData</code></td>
+<td>指示上层拷贝数据到 SecOC</td>
+</tr>
+<tr>
+<td><code>PduR_SecOCTpStartOfReception</code></td>
+<td>通知下层准备接收</td>
+</tr>
+<tr>
+<td><code>SecOC_CopyTxData</code></td>
+<td>响应下层数据请求，拷贝 NPDU</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="错误处理与传输取消">错误处理与传输取消</h2>
+<blockquote>
+<p>SecOC 模块提供了完整的错误处理和传输取消机制。当上层请求取消传输时，SecOC 立即通知下层取消并释放所有相关缓冲区。对于发送失败、CSM 可恢复错误、CopyTxData 返回繁忙等场景，SecOC 具备重试机制。当重试次数达到配置上限时，向 DET 报告错误。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>传输取消（发送方向）</strong> [SWS_SecOC_00076]</p>
+<blockquote>
+<p>当上层通过 <code>SecOC_[If\|Tp]CancelTransmit</code> 请求取消正在进行的 Authentic I-PDU 传输时，SecOC 应：</p>
+</blockquote>
+<ul>
+<li>立即通知下层传输协议取消 Secured I-PDU 的传输</li>
+<li>停止所有与 Authentic I-PDU 相关的内部操作</li>
+<li>释放所有相关缓冲区</li>
+</ul>
+</li>
+<li>
+<p><strong>传输取消（接收方向）</strong> [SWS_SecOC_00217]</p>
+<blockquote>
+<p>当上层通过 <code>SecOC_TpCancelReceive</code> 请求取消正在进行的接收时，SecOC 应：</p>
+</blockquote>
+<ul>
+<li>立即通知下层传输协议取消 Secured I-PDU 的接收</li>
+<li>停止所有与 Authentic I-PDU 相关的内部操作</li>
+<li>释放所有相关缓冲区</li>
+</ul>
+</li>
+<li>
+<p><strong>PduR_SecOCTransmit 发送重试</strong> [SWS_SecOC_00277]</p>
+<blockquote>
+<p>当 <code>PduR_SecOCTransmit</code> 返回非 <code>E_OK</code> 时，SecOC 应在后续主函数中重试失败的传输，最多重试 <code>SecOCMaxTransmitRetries</code> 次。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>下层传输错误处理</strong> [SWS_SecOC_00077]</p>
+<blockquote>
+<p>当下层传输协议在 Secured I-PDU 传输期间报告错误（返回 <code>E_NOT_OK</code>）时，SecOC <strong>不执行任何错误处理</strong>，仅跳过向上层确认对应 Authentic I-PDU 的传输请求。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>CSM 可恢复错误处理</strong> [SWS_SecOC_00151]</p>
+<blockquote>
+<p>当 CSM 在认证 Authentic I-PDU 期间报告可恢复错误（如 <code>E_BUSY</code>、<code>QUEUE_FULL</code>）时：</p>
+</blockquote>
+<ul>
+<li>SecOC <strong>不向下层提供</strong> Secured I-PDU</li>
+<li>保留该 Authentic I-PDU（除非被同类型新数据覆盖）</li>
+<li>在下次主函数调用时重新尝试认证</li>
+<li>直到尝试次数达到配置上限</li>
+</ul>
+</li>
+<li>
+<p><strong>认证尝试次数超限</strong> [SWS_SecOC_00155]</p>
+<blockquote>
+<p>当 Authentic I-PDU 的尝试次数达到 <code>SecOCAuthenticationBuildAttempts</code>（Freshness Manager 可提供的新鲜度值最大次数）时，SecOC 向 DET 报告 <code>SECOC_E_CRYPTO_FAILURE</code>。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>内部错误处理</strong> [SWS_SecOC_00108]</p>
+<blockquote>
+<p>如果 SecOC 因任意内部错误无法服务上层或下层请求，应返回 <code>E_NOT_OK</code>。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>CopyTxData 错误处理</strong> [SWS_SecOC_00260][SWS_SecOC_00266]</p>
+<table>
+<thead>
+<tr>
+<th>返回码</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BUFREQ_E_BUSY</code></td>
+<td>在下次主函数调用时<strong>重试</strong></td>
+</tr>
+<tr>
+<td><code>BUFREQ_E_NOT_OK</code></td>
+<td><strong>立即中止</strong>传输，调用 <code>PduR_SecOCTpTxConfirmation(E_NOT_OK)</code>，停止内部操作，释放缓冲区</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>错误处理汇总</strong></p>
+<table>
+<thead>
+<tr>
+<th>错误场景</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上层请求取消传输</td>
+<td>立即取消，释放缓冲区</td>
+</tr>
+<tr>
+<td><code>PduR_SecOCTransmit</code> 失败</td>
+<td>重试（最多 <code>SecOCMaxTransmitRetries</code> 次）</td>
+</tr>
+<tr>
+<td>下层报告 <code>E_NOT_OK</code></td>
+<td>跳过确认，不进行错误处理</td>
+</tr>
+<tr>
+<td>CSM 可恢复错误</td>
+<td>保留数据，下次主函数重试</td>
+</tr>
+<tr>
+<td>认证尝试次数超限</td>
+<td>报告 <code>SECOC_E_CRYPTO_FAILURE</code> 到 DET</td>
+</tr>
+<tr>
+<td>内部错误</td>
+<td>返回 <code>E_NOT_OK</code></td>
+</tr>
+<tr>
+<td><code>BUFREQ_E_BUSY</code></td>
+<td>下次主函数重试</td>
+</tr>
+<tr>
+<td><code>BUFREQ_E_NOT_OK</code></td>
+<td>立即中止传输，释放缓冲区</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCMaxTransmitRetries</code></td>
+<td><code>PduR_SecOCTransmit</code> 最大重试次数</td>
+</tr>
+<tr>
+<td><code>SecOCAuthenticationBuildAttempts</code></td>
+<td>认证构建最大尝试次数</td>
+</tr>
+<tr>
+<td><code>SecOC_[If|Tp]CancelTransmit</code></td>
+<td>发送取消接口</td>
+</tr>
+<tr>
+<td><code>SecOC_TpCancelReceive</code></td>
+<td>接收取消接口</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="传入-PDU-的验证">传入 PDU 的验证</h1>
+<blockquote>
+<p>验证是指将 Secured I-PDU 中包含的认证信息与本地基于 Data Identifier、Freshness Value 和 Authentic I-PDU 计算出的认证信息进行比较的过程。SecOC 模块在接收方向扮演上层模块的角色，完整接收 Secured I-PDU 后，在主函数中进行验证，并根据结果决定是丢弃还是将 Authentic I-PDU 传递给上层。同时提供了接收溢出策略和分片接收的详细处理机制。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>验证过程的六步流程</strong></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>接收 Secured I-PDU</td>
+<td>SecOC 扮演上层模块，响应下层请求接收完整 PDU</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>拷贝到内部缓冲区</td>
+<td>将 Secured I-PDU 复制到 SecOC 本地内存</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>主函数中验证</td>
+<td>在下一次主函数调用时验证内容</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>验证失败处理</td>
+<td>若失败且未配置忽略，丢弃 Secured I-PDU</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>验证成功处理</td>
+<td>若成功，调用 <code>PduR_SecOC[If|Tp]RxIndication</code> 传递 Authentic I-PDU</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>报告验证结果</td>
+<td>根据配置报告验证状态</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>接收溢出策略</strong> [SWS_SecOC_00214][SWS_SecOC_00215][SWS_SecOC_00216]</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>REPLACE</strong></td>
+<td>如果已启动接收同一 Pdu Identifier 的 Secured I-PDU，释放所有相关缓冲区，用新数据替换</td>
+</tr>
+<tr>
+<td><strong>REJECT</strong></td>
+<td>如果 SecOC 正忙于处理同一 Secured I-PDU，忽略后续调用，<code>SecOC_RxIndication</code> 返回 <code>BUFREQ_E_NOT_OK</code></td>
+</tr>
+<tr>
+<td><strong>QUEUE</strong></td>
+<td>如果 SecOC 正忙于处理同一 Secured I-PDU，额外接收并排队，超过 <code>SecOCReceptionQueueSize</code> 限制则拒绝后续接收</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>缓冲区分离</strong> [SWS_SecOC_00204]</p>
+<blockquote>
+<p>SecOC 为传入的 Secured I-PDU、Cryptographic I-PDU 和生成的 Authentic I-PDU 提供<strong>独立缓冲区</strong>。</p>
+</blockquote>
+<ul>
+<li>下层更新 Secured I-PDU 不影响向上层传递 Authentic I-PDU</li>
+</ul>
+</li>
+<li>
+<p><strong>分片接收处理（SecOCRxSecuredPduCollection）</strong> [SWS_SecOC_00205][SWS_SecOC_00206]</p>
+<blockquote>
+<p>当配置了 <code>SecOCRxSecuredPduCollection</code> 时：</p>
+</blockquote>
+<ul>
+<li>SecOC <strong>仅缓冲最后接收</strong>的 Authentic I-PDU 和 Cryptographic I-PDU</li>
+<li>新 I-PDU 覆盖旧 I-PDU</li>
+<li>Authentic I-PDU 和 Cryptographic I-PDU 必须在<strong>直接顺序</strong>中接收，但顺序不限</li>
+<li>收到两者后<strong>立即构造</strong> Secured I-PDU 并进行验证</li>
+</ul>
+</li>
+<li>
+<p><strong>验证成功后的缓冲区清理</strong> [SWS_SecOC_00207]</p>
+<blockquote>
+<p>验证成功后，SecOC 清除 Authentic I-PDU 和 Cryptographic I-PDU 的缓冲区。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>动态长度处理</strong> [SWS_SecOC_00257][SWS_SecOC_00258][SWS_SecOC_00259]</p>
+<table>
+<thead>
+<tr>
+<th><code>SecOCAuthPduHeaderLength</code></th>
+<th><code>SecOCDynamicRuntimeLengthHandling</code></th>
+<th>提取 Authentic I-PDU 方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code> 或未配置</td>
+<td><code>FALSE</code></td>
+<td>使用配置的全局 PDU 长度</td>
+</tr>
+<tr>
+<td><code>0</code> 或未配置</td>
+<td><code>TRUE</code></td>
+<td>使用下层提供的长度</td>
+</tr>
+<tr>
+<td><code>&gt; 0</code></td>
+<td>—</td>
+<td>使用 Secured I-PDU 头部中运行时提供的长度</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>完整接收验证流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Recv[接收 Secured I-PDU] --&gt; Strategy&#123;接收溢出策略&#125;
+    Strategy --&gt;|REPLACE| Replace[替换现有缓冲区]
+    Strategy --&gt;|REJECT| Reject&#123;正忙?&#125;
+    Reject --&gt;|是| RejectMsg[返回 BUFREQ_E_NOT_OK]
+    Reject --&gt;|否| Copy
+    Strategy --&gt;|QUEUE| Queue&#123;正忙?&#125;
+    Queue --&gt;|是| QueueBuf[排队&lt;br/&gt;超限则拒绝]
+    Queue --&gt;|否| Copy
+
+    Replace --&gt; Copy
+    QueueBuf --&gt; Copy
+    Copy[拷贝到内部缓冲区] --&gt; Main[主函数中验证]
+
+    Main --&gt; Check&#123;验证&lt;br/&gt;通过?&#125;
+    Check --&gt;|是| Pass[传递 Authentic I-PDU&lt;br/&gt;到上层]
+    Check --&gt;|否| Ignore&#123;忽略验证结果&lt;br/&gt;配置?&#125;
+    Ignore --&gt;|TRUE| Pass
+    Ignore --&gt;|FALSE| Drop[丢弃 PDU]</code></pre>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCReceptionOverflowStrategy</code></td>
+<td>接收溢出策略（REPLACE / REJECT / QUEUE）</td>
+</tr>
+<tr>
+<td><code>SecOCReceptionQueueSize</code></td>
+<td>接收队列大小（QUEUE 策略时）</td>
+</tr>
+<tr>
+<td><code>SecOCRxSecuredPduCollection</code></td>
+<td>是否启用分片接收</td>
+</tr>
+<tr>
+<td><code>SecOCAuthPduHeaderLength</code></td>
+<td>Secured I-PDU 头部长度</td>
+</tr>
+<tr>
+<td><code>SecOCDynamicRuntimeLengthHandling</code></td>
+<td>是否使用动态长度处理</td>
+</tr>
+<tr>
+<td><code>SecOCIgnoreVerificationResult</code></td>
+<td>是否忽略验证结果（始终传递）</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="总线接口接收期间的验证">总线接口接收期间的验证</h2>
+<blockquote>
+<p>当 Secured I-PDU 通过下层总线接口（如 CanIf、FrIf）接收时，PduR 调用 <code>SecOC_RxIndication</code> 通知 SecOC。SecOC 将 I-PDU 拷贝到内部缓冲区，实际验证在后续主函数中执行。验证成功或配置为忽略验证结果时，通过 <code>PduR_SecOC[If|Tp]RxIndication</code> 将 Authentic I-PDU 传递给上层；验证失败则丢弃。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>接收流程</strong></p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>PduR 调用 <code>SecOC_RxIndication</code></td>
+<td>通知 SecOC 收到 Secured I-PDU</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>SecOC 拷贝 I-PDU 到缓冲区</td>
+<td>根据最小长度拷贝，防止缓冲区溢出</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>主函数中验证</td>
+<td>下次 <code>SecOC_MainFunction</code> 调用时执行</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>验证成功或忽略验证结果</td>
+<td>调用 <code>PduR_SecOC[If|Tp]RxIndication</code> 传递 Authentic I-PDU</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>验证失败（且未配置忽略）</td>
+<td>丢弃 PDU，不调用 <code>RxIndication</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>静态长度 I-PDU 的长度校验</strong> [SWS_SecOC_00268]</p>
+<blockquote>
+<p>当接收静态长度 I-PDU（<code>SecOCDynamicRuntimeLengthHandling = FALSE</code>）且接收长度小于配置长度时，SecOC 应<strong>静默丢弃</strong>该 I-PDU。</p>
+</blockquote>
+<ul>
+<li>原因：静态 PDU 通常以配置长度发送，长度不匹配视为错误场景</li>
+<li>静态 PDU 不包含头部长度信息，短长度结合填充字节可能导致错误</li>
+</ul>
+</li>
+<li>
+<p><strong>数据拷贝规则</strong> [SWS_SecOC_00078]</p>
+<blockquote>
+<p>SecOC 根据<strong>接收长度和配置长度的较小值</strong>拷贝 I-PDU，拷贝长度用于后续所有接收处理。</p>
+</blockquote>
+<ul>
+<li>确保缓冲区不会被覆盖</li>
+<li>丢弃非预期数据（可能因填充添加）</li>
+<li>动态长度 PDU 长度较短时，仅拷贝提供的长度</li>
+</ul>
+</li>
+<li>
+<p><strong>验证与结果传递</strong> [SWS_SecOC_00079][SWS_SecOC_00080][SWS_SecOC_00081]</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证成功</td>
+<td>调用 <code>PduR_SecOC[If|Tp]RxIndication</code> 传递 Authentic I-PDU</td>
+</tr>
+<tr>
+<td>验证失败 + <code>SecOCIgnoreVerificationResult = TRUE</code></td>
+<td>调用 <code>PduR_SecOC[If|Tp]RxIndication</code>（忽略验证结果）</td>
+</tr>
+<tr>
+<td>验证失败 + <code>SecOCIgnoreVerificationResult = FALSE</code></td>
+<td><strong>不调用</strong> <code>RxIndication</code>，丢弃 PDU</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>完整接收验证流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Recv[PduR 调用 SecOC_RxIndication] --&gt; CheckLen&#123;PDU 类型&#125;
+    CheckLen --&gt;|静态长度| LenCheck&#123;接收长度&lt;br/&gt;&lt; 配置长度?&#125;
+    LenCheck --&gt;|是| Drop[静默丢弃]
+    LenCheck --&gt;|否| Copy
+    CheckLen --&gt;|动态长度| Copy
+
+    Copy[拷贝 I-PDU 到缓冲区&lt;br/&gt;按较小值拷贝] --&gt; Main[主函数中验证]
+
+    Main --&gt; Verify&#123;验证结果&#125;
+    Verify --&gt;|成功| Pass[调用 PduR_SecOC_RxIndication&lt;br/&gt;传递 Authentic I-PDU]
+    Verify --&gt;|失败| Ignore&#123;忽略验证结果?&#125;
+    Ignore --&gt;|TRUE| Pass
+    Ignore --&gt;|FALSE| Discard[丢弃 PDU&lt;br/&gt;不调用 RxIndication]</code></pre>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCDynamicRuntimeLengthHandling</code></td>
+<td>是否启用动态长度处理</td>
+</tr>
+<tr>
+<td><code>SecOCIgnoreVerificationResult</code></td>
+<td>是否忽略验证结果（TRUE 时即使失败也传递）</td>
+</tr>
+<tr>
+<td><code>SecOC_RxIndication</code></td>
+<td>PduR 调用通知 SecOC 接收</td>
+</tr>
+<tr>
+<td><code>PduR_SecOC[If|Tp]RxIndication</code></td>
+<td>SecOC 通知 PduR 接收 Authentic I-PDU</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="传输协议接收期间的验证">传输协议接收期间的验证</h2>
+<blockquote>
+<p>当 Secured I-PDU 通过下层传输协议接口（如 CanTp、FrTp）接收时，PduR 通过 <code>SecOC_StartOfReception</code>、<code>SecOC_CopyRxData</code> 和 <code>SecOC_TpRxIndication</code> 分阶段通知 SecOC。SecOC 在接收完成后于主函数中执行验证，并根据结果将 Authentic I-PDU 传递给上层或丢弃。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>接收流程的四个阶段</strong></p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>操作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><code>SecOC_StartOfReception</code></td>
+<td>通知接收即将开始，分配缓冲区</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><code>SecOC_CopyRxData</code>（多次）</td>
+<td>逐段拷贝 NPDU 数据到 SecOC 缓冲区</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><code>SecOC_TpRxIndication</code></td>
+<td>通知完整接收完成</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>主函数中验证</td>
+<td>下次主函数调用时执行验证</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>阶段 1：StartOfReception</strong> [SWS_SecOC_00082]</p>
+<ul>
+<li>PduR 调用 <code>SecOC_StartOfReception</code> 通知接收即将开始</li>
+<li>SecOC 分配存储完整 Secured I-PDU 的缓冲区</li>
+<li>若 <code>SecOCPduType = SECOC_TPPDU</code>，转发调用 <code>PduR_SecOCTpStartOfReception</code></li>
+<li>若上层不接受接收，SecOC 也不应接受</li>
+</ul>
+</li>
+<li>
+<p><strong>阶段 2：CopyRxData</strong> [SWS_SecOC_00083]</p>
+<ul>
+<li>下层逐段调用 <code>SecOC_CopyRxData</code> 指示 NPDU 数据</li>
+<li>SecOC 将 NPDU 拷贝到自己的缓冲区</li>
+<li>每次拷贝完成后返回</li>
+</ul>
+</li>
+<li>
+<p><strong>阶段 3：TpRxIndication</strong> [SWS_SecOC_00084]</p>
+<ul>
+<li>下层通过 <code>SecOC_TpRxIndication</code> 确认完整接收</li>
+<li>SecOC 立即返回，<strong>不进行任何进一步处理</strong></li>
+<li>实际验证推迟到下次主函数调用</li>
+</ul>
+</li>
+<li>
+<p><strong>阶段 4：主函数验证</strong> [SWS_SecOC_00085]</p>
+<ul>
+<li>在 <code>SecOC_MainFunction</code> 中验证 Secured I-PDU 内容</li>
+</ul>
+</li>
+<li>
+<p><strong>验证成功/失败处理</strong> [SWS_SecOC_00086][SWS_SecOC_00088]</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>结果</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证成功</td>
+<td>—</td>
+<td>传递 Authentic I-PDU 给上层</td>
+</tr>
+<tr>
+<td>验证失败 + <code>SecOCIgnoreVerificationResult = TRUE</code></td>
+<td>—</td>
+<td>传递 Authentic I-PDU（忽略验证结果）</td>
+</tr>
+<tr>
+<td>验证失败 + <code>SecOCIgnoreVerificationResult = FALSE</code></td>
+<td>—</td>
+<td>丢弃 PDU，取消上层接收</td>
+</tr>
+</tbody>
+</table>
+<p><strong>传递方式</strong>：</p>
+<table>
+<thead>
+<tr>
+<th><code>SecOCPduType</code></th>
+<th>调用方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SECOC_IFPDU</code></td>
+<td><code>PduR_SecOCIfRxIndication</code></td>
+</tr>
+<tr>
+<td><code>SECOC_TPPDU</code></td>
+<td>先 <code>PduR_SecOCTpCopyRxData</code>，后 <code>PduR_SecOCTpRxIndication</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>缓冲区释放时机</strong> [SWS_SecOC_00087]</p>
+<table>
+<thead>
+<tr>
+<th>释放条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已通过 <code>PduR_SecOC[If|Tp]RxIndication</code> 传递 Authentic I-PDU</td>
+<td>正常完成</td>
+</tr>
+<tr>
+<td>验证最终失败</td>
+<td>丢弃 PDU</td>
+</tr>
+<tr>
+<td>传输被上层或下层取消</td>
+<td>取消操作</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>完整接收验证流程图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Start[下层开始接收] --&gt; Stage1[SecOC_StartOfReception&lt;br/&gt;分配缓冲区]
+    Stage1 --&gt; Stage2[SecOC_CopyRxData&lt;br/&gt;逐段拷贝 NPDU]
+    Stage2 --&gt; Stage3[SecOC_TpRxIndication&lt;br/&gt;接收完成确认]
+    Stage3 --&gt; Main[主函数验证]
+
+    Main --&gt; Verify&#123;验证&lt;br/&gt;通过?&#125;
+    Verify --&gt;|是| Pass[传递 Authentic I-PDU&lt;br/&gt;到上层]
+    Verify --&gt;|否| Ignore&#123;忽略验证结果?&#125;
+    Ignore --&gt;|TRUE| Pass
+    Ignore --&gt;|FALSE| Drop[丢弃 PDU&lt;br/&gt;取消上层接收]
+
+    Pass --&gt; Free1[释放缓冲区]
+    Drop --&gt; Free2[释放缓冲区]</code></pre>
+</li>
+<li>
+<p><strong>传输协议接收 vs 总线接口接收</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>总线接口接收</th>
+<th>传输协议接收</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>通知方式</strong></td>
+<td><code>SecOC_RxIndication</code>（一次性）</td>
+<td><code>StartOfReception</code> + <code>CopyRxData</code> + <code>TpRxIndication</code></td>
+</tr>
+<tr>
+<td><strong>数据拷贝</strong></td>
+<td>一次性拷贝完整 PDU</td>
+<td>逐段拷贝 NPDU</td>
+</tr>
+<tr>
+<td><strong>验证时机</strong></td>
+<td>主函数</td>
+<td>主函数</td>
+</tr>
+<tr>
+<td><strong>上层传递</strong></td>
+<td><code>PduR_SecOC[If|Tp]RxIndication</code></td>
+<td>IF: 直接传递；TP: 先 Copy 后 Indication</td>
+</tr>
+<tr>
+<td><strong>取消接收</strong></td>
+<td>—</td>
+<td><code>PduR_SecOCTpRxIndication</code>（负向确认）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCPduType</code></td>
+<td>PDU 类型（<code>SECOC_IFPDU</code> / <code>SECOC_TPPDU</code>）</td>
+</tr>
+<tr>
+<td><code>SecOCIgnoreVerificationResult</code></td>
+<td>是否忽略验证结果</td>
+</tr>
+<tr>
+<td><code>SecOC_StartOfReception</code></td>
+<td>接收开始通知接口</td>
+</tr>
+<tr>
+<td><code>SecOC_CopyRxData</code></td>
+<td>拷贝 NPDU 数据接口</td>
+</tr>
+<tr>
+<td><code>SecOC_TpRxIndication</code></td>
+<td>接收完成通知接口</td>
+</tr>
+<tr>
+<td><code>PduR_SecOCIfRxIndication</code></td>
+<td>IF PDU 上层传递接口</td>
+</tr>
+<tr>
+<td><code>PduR_SecOCTpCopyRxData</code> / <code>PduR_SecOCTpRxIndication</code></td>
+<td>TP PDU 上层传递接口</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="在-SecOC-中跳过对-Secured-I-PDU-的认证">在 SecOC 中跳过对 Secured I-PDU 的认证</h2>
+<blockquote>
+<p>对于配置了 <code>SecOCSecuredRxPduVerification = false</code> 的接收 Secured I-PDU，SecOC 模块应<strong>不进行认证</strong>，直接提取 Authentic I-PDU。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>功能说明</strong> [SWS_SecOC_00265]</p>
+<ul>
+<li>当 <code>SecOCSecuredRxPduVerification = false</code> 时，SecOC <strong>跳过</strong>认证流程</li>
+<li>直接从 Secured I-PDU 中提取 Authentic I-PDU</li>
+<li>不执行任何 MAC 验证或新鲜度检查</li>
+</ul>
+</li>
+<li>
+<p><strong>适用场景</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>调试/测试</strong></td>
+<td>开发阶段跳过认证，便于问题排查</td>
+</tr>
+<tr>
+<td><strong>性能优化</strong></td>
+<td>对非关键信号降低处理开销</td>
+</tr>
+<tr>
+<td><strong>兼容模式</strong></td>
+<td>与不支持 SecOC 的旧节点通信</td>
+</tr>
+<tr>
+<td><strong>混合安全策略</strong></td>
+<td>部分 PDU 需要保护，部分不需要</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>配置方式</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>值</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCSecuredRxPduVerification</code></td>
+<td><code>true</code>（默认）</td>
+<td>执行完整认证流程</td>
+</tr>
+<tr>
+<td><code>SecOCSecuredRxPduVerification</code></td>
+<td><code>false</code></td>
+<td><strong>跳过认证</strong>，直接提取</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>处理流程对比</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph WithAuth[认证启用（默认）]
+        Recv1[接收 Secured I-PDU] --&gt; Parse1[解析 PDU]
+        Parse1 --&gt; Verify[验证 MAC 和新鲜度]
+        Verify --&gt; Pass&#123;通过?&#125;
+        Pass --&gt;|是| Extract1[提取 Authentic I-PDU]
+        Pass --&gt;|否| Drop[丢弃]
+    end
+
+    subgraph WithoutAuth[认证跳过]
+        Recv2[接收 Secured I-PDU] --&gt; Extract2[直接提取&lt;br/&gt;不验证]
+        Extract2 --&gt; Pass2[传递给上层]
+    end</code></pre>
+</li>
+<li>
+<p><strong>安全注意事项</strong></p>
+<ul>
+<li>仅在<strong>非生产环境</strong>或<strong>明确安全评估</strong>后使用</li>
+<li>生产环境中禁用认证会<strong>破坏安全保护</strong>，允许：
+<ul>
+<li>消息伪造（无 MAC 验证）</li>
+<li>重放攻击（无新鲜度检查）</li>
+<li>数据篡改（无完整性校验）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCSecuredRxPduVerification</code></td>
+<td>是否对该 PDU 执行接收认证</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="接收的错误处理与丢弃">接收的错误处理与丢弃</h2>
+<blockquote>
+<p>SecOC 模块在接收方向提供了完善的错误处理机制。当下层传输协议报告错误、CSM 验证失败、PDU 头部长度异常或内部错误发生时，SecOC 会相应地丢弃 PDU、释放缓冲区、重试验证或中止接收流程。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>下层传输协议错误</strong> [SWS_SecOC_00089]</p>
+<blockquote>
+<p>当 <code>SecOC_TpRxIndication</code> 返回非 <code>E_OK</code> 时，SecOC 应丢弃 Secured I-PDU 并释放所有对应缓冲区。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>CSM 验证错误</strong> [SWS_SecOC_00121]</p>
+<blockquote>
+<p>当 CSM 在验证期间报告错误（验证尝试返回 <code>E_NOT_OK</code>）时：</p>
+</blockquote>
+<ul>
+<li>SecOC <strong>不提供</strong> Authentic I-PDU 给上层</li>
+<li>保留 Secured I-PDU（除非被同类型新数据覆盖）</li>
+<li>下次主函数调用时重新尝试验证</li>
+</ul>
+</li>
+<li>
+<p><strong>分片接收验证失败重试</strong> [SWS_SecOC_00208]</p>
+<blockquote>
+<p>对于分片接收（<code>SecOCRxSecuredPduCollection</code>），当 Authentic I-PDU 和 Cryptographic PDU 均已收到但验证失败时：</p>
+</blockquote>
+<ul>
+<li>Authentic 和 Cryptographic I-PDU <strong>保持缓冲</strong></li>
+<li>每次收到任一 PDU 的新数据时<strong>重新尝试验证</strong></li>
+<li>确保即使某一 PDU 在传输中丢失，收到后续匹配的 PDU 后仍能正常工作</li>
+</ul>
+</li>
+<li>
+<p><strong>内部错误</strong> [SWS_SecOC_00109]</p>
+<blockquote>
+<p>如果 SecOC 因任意内部错误无法服务上层或下层请求，应返回 <code>E_NOT_OK</code>。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>头部长度异常处理</strong> [SWS_SecOC_00263]</p>
+<blockquote>
+<p>对于 <code>SecOCAuthPduHeaderLength &gt; 0</code> 的接收 Secured I-PDU：</p>
+</blockquote>
+<ul>
+<li>若头部中 Authentic I-PDU 长度<strong>大于</strong>配置长度，SecOC 应<strong>丢弃</strong>该 I-PDU</li>
+<li>在 <code>SecOC_StartOfReception</code> 中返回 <code>BUFREQ_E_NOT_OK</code></li>
+</ul>
+</li>
+<li>
+<p><strong>PDU 解析与字节丢弃</strong> [SWS_SecOC_00264]</p>
+<blockquote>
+<p>对于 <code>SecOCAuthPduHeaderLength &gt; 0</code> 的接收 Secured I-PDU，SecOC 处理以下部分，其余字节<strong>丢弃</strong>：</p>
+</blockquote>
+<ul>
+<li>Secured I-PDU Header</li>
+<li>Authentic I-PDU（按头部指定长度）</li>
+<li>Freshness Value</li>
+<li>Authenticator</li>
+</ul>
+<blockquote>
+<p>静态 PDU（无头部）且来自会添加填充的总线（CAN FD、FlexRay）时，使用配置的 <code>SduLength</code> 确定新鲜度/Authenticator 位置。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>CopyRxData 错误处理</strong> [SWS_SecOC_00267]</p>
+<blockquote>
+<p>当上层传输协议在 <code>PduR_SecOCTpCopyRxData</code> 调用中报告 <code>BUFREQ_E_NOT_OK</code> 时，SecOC 应：</p>
+</blockquote>
+<ul>
+<li><strong>立即中止</strong>接收</li>
+<li>调用 <code>PduR_SecOCTpRxIndication(E_NOT_OK)</code></li>
+<li>停止所有与 Secured I-PDU 相关的内部操作</li>
+<li>释放所有相关缓冲区</li>
+</ul>
+</li>
+<li>
+<p><strong>接收错误处理汇总</strong></p>
+<table>
+<thead>
+<tr>
+<th>错误场景</th>
+<th>处理方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>下层 <code>SecOC_TpRxIndication</code> 返回非 <code>E_OK</code></td>
+<td>丢弃 PDU，释放缓冲区</td>
+</tr>
+<tr>
+<td>CSM 验证返回 <code>E_NOT_OK</code></td>
+<td>保留 PDU，下次主函数重试</td>
+</tr>
+<tr>
+<td>分片接收验证失败</td>
+<td>保持缓冲，收到新数据时重试</td>
+</tr>
+<tr>
+<td>内部错误</td>
+<td>返回 <code>E_NOT_OK</code></td>
+</tr>
+<tr>
+<td>头部长度 &gt; 配置长度</td>
+<td>丢弃 PDU，返回 <code>BUFREQ_E_NOT_OK</code></td>
+</tr>
+<tr>
+<td><code>BUFREQ_E_NOT_OK</code>（CopyRxData）</td>
+<td>立即中止接收，释放缓冲区</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCAuthPduHeaderLength</code></td>
+<td>Secured I-PDU 头部长度</td>
+</tr>
+<tr>
+<td><code>SecOCDynamicRuntimeLengthHandling</code></td>
+<td>是否启用动态长度处理</td>
+</tr>
+<tr>
+<td><code>SecOCRxSecuredPduCollection</code></td>
+<td>是否启用分片接收</td>
+</tr>
+<tr>
+<td><code>SecOC_TpRxIndication</code></td>
+<td>传输协议接收确认接口</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="网关功能">网关功能</h1>
+<blockquote>
+<p>SecOC 模块支持对从一个源总线路由到一个或多个目标总线的 I-PDU 进行认证和验证。这允许实现<strong>重认证网关</strong>，用于连接具有不同安全区域或属性的网络。入向验证和出向认证需要分别配置。SecOC <strong>不支持“即时网关”</strong>（Gatewaying-on-the-fly）。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>支持的网关功能</strong></p>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>出向 I-PDU 认证</strong></td>
+<td>为路由到目标总线的 I-PDU 添加认证信息</td>
+</tr>
+<tr>
+<td><strong>入向 I-PDU 验证</strong></td>
+<td>验证从源总线接收的 I-PDU</td>
+</tr>
+<tr>
+<td><strong>重认证网关</strong></td>
+<td>入向验证 + 立即重新认证，然后路由到另一下层模块</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>配置方式</strong></p>
+<ul>
+<li>每个 I-PDU 的认证和验证过程需<strong>分别配置</strong></li>
+<li>出向认证：按照 7.4 节配置</li>
+<li>入向验证：按照 7.5 节配置</li>
+<li>重认证：入向验证与出向认证组合配置</li>
+</ul>
+</li>
+<li>
+<p><strong>重认证网关的数据流</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph Src[源总线]
+        SrcBus[源总线&lt;br/&gt;安全区域 A]
+    end
+
+    subgraph Gateway[网关节点]
+        Rx[入向验证&lt;br/&gt;7.5] --&gt; Tx[出向认证&lt;br/&gt;7.4]
+    end
+
+    subgraph Dst[目标总线]
+        DstBus[目标总线&lt;br/&gt;安全区域 B]
+    end
+
+    SrcBus --&gt;|Secured I-PDU| Rx
+    Tx --&gt;|新 Secured I-PDU| DstBus</code></pre>
+</li>
+<li>
+<p><strong>重认证网关的处理流程</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    Recv[从源总线接收 Secured I-PDU] --&gt; Verify[入向验证&lt;br/&gt;检查 MAC + 新鲜度]
+    Verify --&gt;|通过| Extract[提取 Authentic I-PDU]
+    Verify --&gt;|失败| Drop[丢弃 PDU]
+    Extract --&gt; Auth[出向认证&lt;br/&gt;生成新 MAC + 新鲜度]
+    Auth --&gt; Send[发送到目标总线]</code></pre>
+</li>
+<li>
+<p><strong>重要限制</strong></p>
+<blockquote>
+<p><strong>“即时网关”不被 SecOC 支持</strong></p>
+</blockquote>
+<ul>
+<li>不支持边接收边转发的流式处理</li>
+<li>必须<strong>完整接收</strong> Secured I-PDU 并完成验证后，才能开始认证和转发</li>
+</ul>
+</li>
+<li>
+<p><strong>关键设计要点</strong></p>
+<ul>
+<li>源总线和目标总线可使用<strong>不同的安全策略</strong>（如不同的密钥、Profile、新鲜度机制）</li>
+<li>重认证网关充当<strong>安全边界</strong>，隔离不同安全区域</li>
+<li>每个方向的认证/验证独立配置，提供最大灵活性</li>
+</ul>
+</li>
+<li>
+<p><strong>相关章节</strong></p>
+<table>
+<thead>
+<tr>
+<th>章节</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>出向 I-PDU 认证</td>
+</tr>
+<tr>
+<td>6</td>
+<td>入向 I-PDU 验证</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="多核分布">多核分布</h1>
+<blockquote>
+<p>为了实现不同分区之间的负载均衡，加密栈的不同部分可分配到不同分区。SecOC 模块支持按加密实例进行分区分配，即加密驱动实例可放置在不同的独立分区上。主执行线程（MainFunction）可拆分为多个独立的主函数（每个分区至少一个），使加密栈的流转保持在单个分区范围内，无需特殊的多分区通信机制。SecOC 与 PduR 之间的跨分区通信由 PduR 管理。每个主函数实例独立定义其时间基准，以适配不同时序要求。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>分区分配原则</strong></p>
+<ul>
+<li>加密栈的不同部分可分配到不同分区</li>
+<li>支持按<strong>加密实例</strong>进行分区分配</li>
+<li>加密驱动实例可放置在不同的独立分区上</li>
+</ul>
+</li>
+<li>
+<p><strong>MainFunction 拆分</strong></p>
+<ul>
+<li>SecOC 模块的主执行线程可拆分为<strong>多个 MainFunction</strong></li>
+<li>每个分区<strong>至少有一个</strong> MainFunction</li>
+<li>这样加密栈的数据流保持在<strong>单个分区范围</strong>内，无需特殊的多分区通信机制</li>
+</ul>
+</li>
+<li>
+<p><strong>跨分区通信</strong></p>
+<ul>
+<li>SecOC 与 PduR 之间的跨分区通信由 <strong>PduR 管理</strong></li>
+<li>每个 MainFunction 实例独立定义其<strong>时间基准</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>发送处理分配</strong> [SWS_SecOC_00276]</p>
+<blockquote>
+<p><code>SecOCTxPduProcessings</code> 在通过 <code>SecOCTxPduMainFunctionRef</code> 引用的 MainFunction 中处理。</p>
+</blockquote>
+<ul>
+<li>配置参数：<code>SecOCTxPduMainFunctionRef</code></li>
+<li>引用对应的 MainFunction 实例</li>
+<li>允许不同发送 PDU 的处理分配到不同分区</li>
+</ul>
+</li>
+<li>
+<p><strong>多核分布示意图</strong></p>
+<pre><code class="highlight mermaid">flowchart TD
+    subgraph Partition0[分区 0]
+        MF0[SecOC_MainFunction_0]
+        TX0[SecOCTxPduProcessings&lt;br/&gt;引用 MF0]
+        RX0[接收处理]
+    end
+
+    subgraph Partition1[分区 1]
+        MF1[SecOC_MainFunction_1]
+        TX1[SecOCTxPduProcessings&lt;br/&gt;引用 MF1]
+        RX1[接收处理]
+    end
+
+    subgraph Crypto[加密服务]
+        CSM0[CSM 实例 0&lt;br/&gt;分区 0]
+        CSM1[CSM 实例 1&lt;br/&gt;分区 1]
+    end
+
+    MF0 --&gt; CSM0
+    MF1 --&gt; CSM1</code></pre>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCTxPduMainFunctionRef</code></td>
+<td>引用发送 PDU 处理所在的主函数实例</td>
+</tr>
+<tr>
+<td><code>ECUC_SecOC_00111</code></td>
+<td>相关配置参数</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="安全事件">安全事件</h1>
+<blockquote>
+<p>当 SecOC 模块启用了安全事件上报（<code>SecOCEnableSecurityEventReporting = true</code>）时，相应的安全事件通过 AUTOSAR_BSWGeneral 中定义的接口上报给 IdsM（入侵检测系统管理器）。SecOC 标准化了两类安全事件及其触发条件和上下文数据。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>安全事件上报的启用</strong></p>
+<ul>
+<li>配置参数：<code>SecOCEnableSecurityEventReporting</code></li>
+<li>值为 <code>true</code> 时启用安全事件上报</li>
+<li>上报目标：IdsM（入侵检测系统管理器）</li>
+<li>上报接口：AUTOSAR_SWS_BSWGeneral 中定义</li>
+</ul>
+</li>
+<li>
+<p><strong>标准化的安全事件列表</strong> [SWS_SecOC_00115]</p>
+<table>
+<thead>
+<tr>
+<th>事件名称</th>
+<th>事件 ID</th>
+<th>描述</th>
+<th>触发条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SECOC_SEV_MAC_VERIFICATION_FAILED</code></td>
+<td>44</td>
+<td>接收到的 PDU 的 MAC 验证失败</td>
+<td>验证过程中 MAC 不匹配</td>
+</tr>
+<tr>
+<td><code>SECOC_SEV_FRESHNESS_NOT_AVAILABLE</code></td>
+<td>45</td>
+<td>无法从 FvM（Freshness Manager）获取新鲜度值</td>
+<td>新鲜度值查询失败</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>安全事件的上下文数据</strong> [SWS_SecOC_00275]</p>
+<table>
+<thead>
+<tr>
+<th>安全事件</th>
+<th>上下文数据</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SECOC_SEV_MAC_VERIFICATION_FAILED</code></td>
+<td><code>DataId</code>（2 字节）</td>
+<td>发生 MAC 验证失败的 Secured I-PDU 的数据标识符</td>
+</tr>
+<tr>
+<td><code>SECOC_SEV_FRESHNESS_NOT_AVAILABLE</code></td>
+<td>—</td>
+<td>无额外上下文数据</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>安全事件上报的价值</strong></p>
+<ul>
+<li>实时监控安全通信状态，及时发现异常</li>
+<li>为入侵检测系统提供关键输入，分析潜在攻击</li>
+<li>支持安全事件统计和后续安全响应</li>
+</ul>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCEnableSecurityEventReporting</code></td>
+<td>是否启用安全事件上报</td>
+</tr>
+<tr>
+<td><code>DataId</code></td>
+<td>安全事件关联的 Secured I-PDU 数据标识符</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<table>
+<thead>
+<tr>
+<th>规范</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AUTOSAR_SWS_BSWGeneral</code></td>
+<td>IdsM 上报接口定义</td>
+</tr>
+<tr>
+<td><code>RS_Ids_00810</code></td>
+<td>安全事件上报需求</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h1 id="安全配置文件">安全配置文件</h1>
+<h2 id="配置安全区域">配置安全区域</h2>
+<blockquote>
+<p>SecOC 模块支持通过配置安全区域（Secured Area）的偏移量和长度，限制认证计算的范围。这允许安全保护仅应用于 PDU 中的特定部分，而非整个 PDU。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>安全区域的偏移量配置</strong> [SWS_SecOC_00311]</p>
+<blockquote>
+<p>如果配置了 <code>SecOCSecuredTxPduOffset</code> 或 <code>SecOCSecuredRxPduOffset</code>，应用的安全配置文件应<strong>仅从配置的偏移量开始</strong>考虑字节。</p>
+</blockquote>
+<ul>
+<li>发送方向：<code>SecOCSecuredTxPduOffset</code></li>
+<li>接收方向：<code>SecOCSecuredRxPduOffset</code></li>
+<li>作用：跳过 PDU 开头的指定字节数，从偏移位置开始应用安全保护</li>
+</ul>
+</li>
+<li>
+<p><strong>安全区域长度配置</strong> [SWS_SecOC_00312]</p>
+<blockquote>
+<p>如果配置了 <code>SecOCSecuredTxPduLength</code> 或 <code>SecOCSecuredRxPduLength</code>，应用的安全配置文件应<strong>仅考虑配置的长度</strong>。</p>
+</blockquote>
+<ul>
+<li>发送方向：<code>SecOCSecuredTxPduLength</code></li>
+<li>接收方向：<code>SecOCSecuredRxPduLength</code></li>
+<li>作用：仅从偏移位置开始，保护指定长度的数据</li>
+</ul>
+</li>
+<li>
+<p><strong>发送方向长度校验</strong> [SWS_SecOC_00313]</p>
+<blockquote>
+<p>如果 <strong>偏移 + 长度 &gt; PduInfoPtr→SduLength</strong>（提供给 <code>SecOC_IfTransmit</code> 或 <code>SecOC_TpTransmit</code> 的 PDU 长度），该 PDU 应被<strong>丢弃</strong>并返回 <code>E_NOT_OK</code>。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>接收方向长度校验</strong> [SWS_SecOC_00314]</p>
+<blockquote>
+<p>如果 <strong>偏移 + 长度 &gt; 接收 PDU 长度</strong>，该 PDU 应被<strong>丢弃</strong>。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>安全区域配置示意图</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph PDU[PDU 结构]
+        Start[PDU 起始] --&gt; Offset[偏移量&lt;br/&gt;SecOCSecuredPduOffset]
+        Offset --&gt; Secured[安全区域&lt;br/&gt;SecOCSecuredPduLength]
+        Secured --&gt; End[PDU 结束]
+    end</code></pre>
+</li>
+<li>
+<p><strong>配置示例</strong></p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>偏移量</th>
+<th>安全区域长度</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>跳过头部</td>
+<td>4 字节</td>
+<td>8 字节</td>
+<td>保护第 5~12 字节</td>
+</tr>
+<tr>
+<td>保护尾部</td>
+<td>4 字节</td>
+<td>24 字节</td>
+<td>保护第 5~28 字节（假设总长 32 字节）</td>
+</tr>
+<tr>
+<td>保护固定区域</td>
+<td>2 字节</td>
+<td>6 字节</td>
+<td>保护第 3~8 字节</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCSecuredTxPduOffset</code></td>
+<td>发送方向安全区域起始偏移量（字节）</td>
+</tr>
+<tr>
+<td><code>SecOCSecuredTxPduLength</code></td>
+<td>发送方向安全区域长度（字节）</td>
+</tr>
+<tr>
+<td><code>SecOCSecuredRxPduOffset</code></td>
+<td>接收方向安全区域起始偏移量（字节）</td>
+</tr>
+<tr>
+<td><code>SecOCSecuredRxPduLength</code></td>
+<td>接收方向安全区域长度（字节）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>配置校验</strong></p>
+<ul>
+<li>发送方向：<code>偏移 + 长度 &gt; SduLength</code> → <strong>丢弃 PDU</strong>，返回 <code>E_NOT_OK</code></li>
+<li>接收方向：<code>偏移 + 长度 &gt; 接收长度</code> → <strong>丢弃 PDU</strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="安全配置文件概述">安全配置文件概述</h2>
+<blockquote>
+<p>SecOC 模块允许灵活配置 MAC 计算所使用的加密算法和模式，以及 MAC 和新鲜度值的截断方式。<strong>安全配置文件</strong>为这些相关配置参数提供了一组<strong>一致的值集合</strong>，简化了安全通信的配置过程。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>安全配置文件的作用</strong></p>
+<ul>
+<li>提供一组预定义的、一致的配置参数值</li>
+<li>简化 SecOC 的安全配置过程</li>
+<li>确保加密算法、密钥长度、截断长度等参数之间的兼容性</li>
+</ul>
+</li>
+<li>
+<p><strong>配置文件覆盖的配置参数</strong> [SWS_SecOC_00190]</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithmFamily</code></td>
+<td>认证算法系列（如 AES）</td>
+</tr>
+<tr>
+<td><code>algorithmMode</code></td>
+<td>算法模式（如 CMAC、CBC-MAC）</td>
+</tr>
+<tr>
+<td><code>algorithmSecondaryFamily</code></td>
+<td>辅助算法系列</td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueLength</code></td>
+<td>新鲜度值的完整长度（bit）</td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td>截断后新鲜度值的长度（bit）</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td>截断后 MAC 的长度（bit）</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>配置文件的描述信息</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>配置文件的必选参数</strong> [SWS_SecOC_00191]</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithmFamily</code></td>
+<td><code>String</code></td>
+<td>加密算法系列</td>
+</tr>
+<tr>
+<td><code>algorithmMode</code></td>
+<td><code>String</code></td>
+<td>算法运行模式</td>
+</tr>
+<tr>
+<td><code>algorithmSecondaryFamily</code></td>
+<td><code>String</code></td>
+<td>辅助算法系列</td>
+</tr>
+<tr>
+<td><code>authInfoTxLength</code></td>
+<td><code>PositiveInteger</code></td>
+<td>认证信息截断长度（bit）</td>
+</tr>
+<tr>
+<td><code>freshnessValueLength</code></td>
+<td><code>PositiveInteger</code></td>
+<td>新鲜度值完整长度（bit）</td>
+</tr>
+<tr>
+<td><code>freshnessValueTruncLength</code></td>
+<td><code>PositiveInteger</code></td>
+<td>新鲜度值截断长度（bit）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>配置文件的使用场景</strong></p>
+<ul>
+<li>发送方向：引用 <code>SecOCTxAuthServiceConfigRef</code></li>
+<li>接收方向：引用 <code>SecOCRxAuthServiceConfigRef</code></li>
+<li>通过配置文件统一管理加密相关配置，避免单点配置错误</li>
+</ul>
+</li>
+<li>
+<p><strong>配置文件与 SecOC 模块的关系</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    Profile[安全配置文件] --&gt;|引用| Tx[发送方配置&lt;br/&gt;SecOCTxAuthServiceConfigRef]
+    Profile --&gt;|引用| Rx[接收方配置&lt;br/&gt;SecOCRxAuthServiceConfigRef]
+
+    Tx --&gt;|确定| AlgoTx[加密算法]
+    Tx --&gt;|确定| TruncTx[MAC 截断长度]
+    Tx --&gt;|确定| FVTx[新鲜度值长度]
+
+    Rx --&gt;|确定| AlgoRx[加密算法]
+    Rx --&gt;|确定| TruncRx[MAC 截断长度]
+    Rx --&gt;|确定| FVRx[新鲜度值长度]</code></pre>
+</li>
+<li>
+<p><strong>相关配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>配置参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCTxAuthServiceConfigRef</code></td>
+<td>发送方认证服务配置引用</td>
+</tr>
+<tr>
+<td><code>SecOCRxAuthServiceConfigRef</code></td>
+<td>接收方认证服务配置引用</td>
+</tr>
+<tr>
+<td><code>algorithmFamily</code> / <code>algorithmMode</code></td>
+<td>CSM 加密服务原语配置</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h2 id="SecOC-Profile-1（24Bit-CMAC-8Bit-FV）">SecOC Profile 1（24Bit-CMAC-8Bit-FV）</h2>
+<blockquote>
+<p>SecOC Profile 1 使用基于 AES-128 的 CMAC 算法（依据 NIST SP 800-38B）计算 MAC。它截取 MAC 的<strong>最高 24 位</strong>作为截断 MAC，并截取新鲜度值的<strong>最低 8 位</strong>作为截断新鲜度值。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>算法配置参数</strong> [SWS_SecOC_00192]</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithmFamily</code></td>
+<td><code>CRYPTO_ALGOFAM_AES</code></td>
+<td>使用 AES 算法系列</td>
+</tr>
+<tr>
+<td><code>algorithmMode</code></td>
+<td><code>CRYPTO_ALGOMODE_CMAC</code></td>
+<td>使用 CMAC 模式</td>
+</tr>
+<tr>
+<td><code>algorithmSecondaryFamily</code></td>
+<td><code>CRYPTO_ALGOFAM_NOT_SET</code></td>
+<td>本配置文件未使用</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>长度配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCFreshnessValueLength</code></td>
+<td><code>Not Specified</code></td>
+<td>新鲜度值完整长度未指定（由外部 Freshness Manager 决定）</td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td><code>8 bits</code></td>
+<td>截断新鲜度值长度：<strong>8 位</strong>（最低有效位）</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td><code>24 bits</code></td>
+<td>截断 MAC 长度：<strong>24 位</strong>（最高有效位）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Profile 1 数据布局</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph SecuredPDU[Secured I-PDU 结构]
+        AuthPDU[Authentic I-PDU] --&gt; FV[截断新鲜度值&lt;br/&gt;8 bits]
+        FV --&gt; MAC[截断 MAC&lt;br/&gt;24 bits]
+    end</code></pre>
+</li>
+<li>
+<p><strong>MAC 截断说明</strong></p>
+<ul>
+<li>完整 MAC：AES-128 CMAC 生成 128 位 MAC</li>
+<li>截断方式：取<strong>最高 24 位</strong>（Most Significant Bits）</li>
+<li>截断后长度：24 bits = 3 bytes</li>
+</ul>
+</li>
+<li>
+<p><strong>新鲜度值截断说明</strong></p>
+<ul>
+<li>截断方式：取<strong>最低 8 位</strong>（Least Significant Bits）</li>
+<li>截断后长度：8 bits = 1 byte</li>
+</ul>
+</li>
+<li>
+<p><strong>Profile 1 特点</strong></p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>算法</strong></td>
+<td>AES-128 CMAC（NIST SP 800-38B）</td>
+</tr>
+<tr>
+<td><strong>MAC 长度</strong></td>
+<td>24 bits（3 字节）</td>
+</tr>
+<tr>
+<td><strong>新鲜度值长度</strong></td>
+<td>8 bits（1 字节）</td>
+</tr>
+<tr>
+<td><strong>安全等级</strong></td>
+<td>较低（短 MAC 适合资源受限场景）</td>
+</tr>
+<tr>
+<td><strong>带宽占用</strong></td>
+<td>低（共 4 字节认证信息）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>资源受限、带宽敏感的系统</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li>NIST SP 800-38B：CMAC 算法规范</li>
+<li>SWS_SecOC_00192：Profile 1 配置定义</li>
+<li>7.10.1：安全区域配置</li>
+<li>7.10.2：安全配置文件概述</li>
+</ul>
+</li>
+</ol>
+<h2 id="SecOC-Profile-2（24Bit-CMAC-No-FV）">SecOC Profile 2（24Bit-CMAC-No-FV）</h2>
+<blockquote>
+<p>SecOC Profile 2 使用基于 AES-128 的 CMAC 算法（依据 NIST SP 800-38B）计算 MAC，<strong>不使用任何新鲜度值</strong>，并取 MAC 的<strong>最高 24 位</strong>作为截断 MAC。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>算法配置参数</strong> [SWS_SecOC_00193]</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithmFamily</code></td>
+<td><code>CRYPTO_ALGOFAM_AES</code></td>
+<td>使用 AES 算法系列</td>
+</tr>
+<tr>
+<td><code>algorithmMode</code></td>
+<td><code>CRYPTO_ALGOMODE_CMAC</code></td>
+<td>使用 CMAC 模式</td>
+</tr>
+<tr>
+<td><code>algorithmSecondaryFamily</code></td>
+<td><code>CRYPTO_ALGOFAM_NOT_SET</code></td>
+<td>本配置文件未使用</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>长度配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCFreshnessValueLength</code></td>
+<td><code>0</code></td>
+<td>不使用新鲜度值</td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td><code>0 bits</code></td>
+<td>无新鲜度值截断</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td><code>24 bits</code></td>
+<td>截断 MAC 长度：<strong>24 位</strong>（最高有效位）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Profile 2 数据布局</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph SecuredPDU[Secured I-PDU 结构]
+        AuthPDU[Authentic I-PDU] --&gt; MAC[截断 MAC&lt;br/&gt;24 bits]
+    end</code></pre>
+<ul>
+<li><strong>无新鲜度值</strong>字段</li>
+<li>仅包含 Authentic I-PDU + 截断 MAC（3 字节）</li>
+</ul>
+</li>
+<li>
+<p><strong>使用限制</strong></p>
+<blockquote>
+<p>此配置文件<strong>仅在没有建立同步新鲜度值时使用</strong>。</p>
+</blockquote>
+<ul>
+<li>不提供防重放攻击保护</li>
+<li>仅提供数据来源认证和完整性保护</li>
+<li>无总线类型限制</li>
+</ul>
+</li>
+<li>
+<p><strong>Profile 2 特点</strong></p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>算法</strong></td>
+<td>AES-128 CMAC（NIST SP 800-38B）</td>
+</tr>
+<tr>
+<td><strong>MAC 长度</strong></td>
+<td>24 bits（3 字节）</td>
+</tr>
+<tr>
+<td><strong>新鲜度值</strong></td>
+<td>❌ <strong>不使用</strong></td>
+</tr>
+<tr>
+<td><strong>防重放攻击</strong></td>
+<td>❌ 不支持（无新鲜度值）</td>
+</tr>
+<tr>
+<td><strong>带宽占用</strong></td>
+<td>最低（仅 3 字节 MAC）</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>无同步新鲜度值、仅需来源认证和完整性保护的场景</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Profile 1 vs Profile 2</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>Profile 1</th>
+<th>Profile 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAC 截断长度</td>
+<td>24 bits</td>
+<td>24 bits</td>
+</tr>
+<tr>
+<td>新鲜度值</td>
+<td>✅ 8 bits（LSB）</td>
+<td>❌ 无</td>
+</tr>
+<tr>
+<td>认证信息总长度</td>
+<td>4 字节</td>
+<td>3 字节</td>
+</tr>
+<tr>
+<td>防重放攻击</td>
+<td>✅ 支持（基于新鲜度）</td>
+<td>❌ 不支持</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>需要防重放保护</td>
+<td>无同步新鲜度值可用</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li>NIST SP 800-38B：CMAC 算法规范</li>
+<li>SWS_SecOC_00193：Profile 2 配置定义</li>
+</ul>
+</li>
+</ol>
+<h2 id="SecOC-Profile-3（JASPAR）">SecOC Profile 3（JASPAR）</h2>
+<blockquote>
+<p>SecOC Profile 3 描述了基于 <strong>JasPar 计数器新鲜度值</strong>与<strong>主从同步方法</strong>的配置和使用方式。它使用基于 AES-128 的 CMAC 算法（依据 NIST SP 800-38B）计算 MAC，取新鲜度值的<strong>最低 4 位</strong>作为截断新鲜度值，取 MAC 的<strong>最高 28 位</strong>作为截断 MAC。此配置文件适用于 <strong>CAN</strong> 总线。</p>
+</blockquote>
+<ol>
+<li>
+<p><strong>算法配置参数</strong> [SWS_SecOC_00194]</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>algorithmFamily</code></td>
+<td><code>CRYPTO_ALGOFAM_AES</code></td>
+<td>使用 AES 算法系列</td>
+</tr>
+<tr>
+<td><code>algorithmMode</code></td>
+<td><code>CRYPTO_ALGOMODE_CMAC</code></td>
+<td>使用 CMAC 模式</td>
+</tr>
+<tr>
+<td><code>algorithmSecondaryFamily</code></td>
+<td><code>CRYPTO_ALGOFAM_NOT_SET</code></td>
+<td>本配置文件未使用</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>长度配置参数</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>配置值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SecOCFreshnessValueLength</code></td>
+<td><code>64 bits</code></td>
+<td>新鲜度值完整长度：<strong>64 位</strong></td>
+</tr>
+<tr>
+<td><code>SecOCFreshnessValueTruncLength</code></td>
+<td><code>4 bits</code></td>
+<td>截断新鲜度值长度：<strong>4 位</strong>（最低有效位）</td>
+</tr>
+<tr>
+<td><code>SecOCAuthInfoTruncLength</code></td>
+<td><code>28 bits</code></td>
+<td>截断 MAC 长度：<strong>28 位</strong>（最高有效位）</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Profile 3 数据布局</strong></p>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph SecuredPDU[Secured I-PDU 结构]
+        AuthPDU[Authentic I-PDU] --&gt; FV[截断新鲜度值&lt;br/&gt;4 bits]
+        FV --&gt; MAC[截断 MAC&lt;br/&gt;28 bits]
+    end</code></pre>
+</li>
+<li>
+<p><strong>新鲜度值说明</strong></p>
+<ul>
+<li>新鲜度值由 <strong>JasPar 计数器基础 FV</strong> 提供</li>
+<li>采用<strong>主从同步方法</strong></li>
+<li>完整长度：64 bits</li>
+<li>截断长度：4 bits（最低有效位）</li>
+<li>新鲜度值构造方式详见 <code>[UC_SecOC_00202]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Profile 3 特点</strong></p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>算法</strong></td>
+<td>AES-128 CMAC（NIST SP 800-38B）</td>
+</tr>
+<tr>
+<td><strong>MAC 长度</strong></td>
+<td>28 bits（3.5 字节）</td>
+</tr>
+<tr>
+<td><strong>新鲜度值长度</strong></td>
+<td>64 bits 完整 / 4 bits 截断</td>
+</tr>
+<tr>
+<td><strong>认证信息总长度</strong></td>
+<td>4 字节（4 bits FV + 28 bits MAC）</td>
+</tr>
+<tr>
+<td><strong>新鲜度同步</strong></td>
+<td>主从同步方法（JasPar 计数器）</td>
+</tr>
+<tr>
+<td><strong>适用总线</strong></td>
+<td><strong>CAN</strong></td>
+</tr>
+<tr>
+<td><strong>防重放攻击</strong></td>
+<td>✅ 支持</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>三个 Profile 对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>Profile 1</th>
+<th>Profile 2</th>
+<th>Profile 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAC 截断长度</td>
+<td>24 bits</td>
+<td>24 bits</td>
+<td>28 bits</td>
+</tr>
+<tr>
+<td>新鲜度值完整长度</td>
+<td>未指定</td>
+<td>0</td>
+<td>64 bits</td>
+</tr>
+<tr>
+<td>新鲜度值截断长度</td>
+<td>8 bits</td>
+<td>0</td>
+<td>4 bits</td>
+</tr>
+<tr>
+<td>认证信息总长度</td>
+<td>4 字节</td>
+<td>3 字节</td>
+<td>4 字节</td>
+</tr>
+<tr>
+<td>新鲜度同步方式</td>
+<td>未指定</td>
+<td>无</td>
+<td>主从同步（JasPar）</td>
+</tr>
+<tr>
+<td>适用总线</td>
+<td>无限制</td>
+<td>无限制</td>
+<td>CAN</td>
+</tr>
+<tr>
+<td>防重放攻击</td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>相关规范</strong></p>
+<ul>
+<li>NIST SP 800-38B：CMAC 算法规范</li>
+<li>JASPAR：日本汽车软件平台与架构标准</li>
+<li><code>UC_SecOC_00202</code>：JasPar 新鲜度值构造方式</li>
+<li>SWS_SecOC_00194：Profile 3 配置定义</li>
+</ul>
+</li>
+</ol>
+<h1 id="FVM">FVM</h1>
+<p>AUTOSAR把新鲜度管理完全交给应用层，让FvM成为一个可插拔、可定制的SWC。OEM可以自由实现：</p>
+<ul>
+<li>单计数器（每次发送自增）</li>
+<li>时间戳（基于全局时间）</li>
+<li>多级计数器（Trip + Reset + Message，主从同步）</li>
+</ul>
+<p>FvM的核心任务是“新鲜度值的全生命周期管理”，包括：</p>
+<ol>
+<li><strong>提供新鲜度值</strong>：当SecOC需要时（发送或接收），FvM必须返回一个新鲜度值。
+<ol>
+<li>对于发送，通常返回当前计数器值；</li>
+<li>对于接收，FvM可能需要根据收到的截断值推测完整值（例如，尝试多种可能性，直到MAC验证通过）。</li>
+</ol>
+</li>
+<li><strong>维护计数器状态</strong>：维护每个安全信道（FreshnessValueID）的计数器，确保单调递增。计数器可以放在RAM中，必要时同步到NVM。</li>
+<li><strong>处理同步</strong>：如果采用主从同步，FvM需要处理同步报文（TripResetSyncMsg），更新本地的Trip Counter、Reset Counter。</li>
+<li><strong>通知与故障处理</strong>：接收SecOC的验证结果通知，如果连续失败，可能触发同步或报故障。</li>
+</ol>
+<p>FvM的实现没有“标准模板”，但标准附录提供了三种典型用例作为参考</p>
+<ol>
+<li><code>UC_SecOC_00200</code>：单计数器（Freshness Counter），每次发送递增，接收时通过截断值推测完整值。</li>
+<li><code>UC_SecOC_00201</code>：单时间戳（Freshness Timestamp），使用全局同步时间，接收时检查是否在允许窗口内。</li>
+<li><code>UC_SecOC_00202</code>：多计数器主从同步（Trip + Reset + Message），用于扩展规范，需要周期性同步报文。</li>
+</ol>
+<p>OEM可以根据需求选择其一，或自行创新。</p>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p>在战场上有两个通信兵，这两个通信兵互不认识且来自不同的指挥部，他们要给同一个远方的阵地传达一份完整的情报。</p>
+<ul>
+<li>通信兵A只知道行动的时间计划，</li>
+<li>通信兵B只知道行动的人员安排。</li>
+</ul>
+<p>他们两个来自不同的地方、来自不同的时间，去向相同的目的地，也不是同时到达。到了目的阵地，将军们要想获取完整的作战              部署，就要把A+B的信息整合到一起才有意义，这里面：</p>
+<p><strong>通信兵A – 同步报文(SyncMsg)</strong></p>
+<p><strong>通信兵B–安全报文(SecuredMsg)</strong></p>
+<p><strong>完整的作战部署—新鲜值(Freshness Value)</strong></p>
+<p><strong>整合A、B信息的那个部门/个人----新鲜值管理(FVM)。</strong></p>
+<p><strong>FVM最重要的作用就是从分散的报文中恢复/补齐出一个完整的FV！</strong></p>
+</blockquote>
+<h2 id="SecOc和Fvm的交互：">SecOc和Fvm的交互：</h2>
+<p>SecOC需要获取新鲜度值时，必须通过一种方式“呼叫”FvM。AUTOSAR定义了两种互斥的机制，通过配置参数SecOCQueryFreshnessValue选择：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>配置值</th>
+<th>交互方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CFUNC模式</td>
+<td>CFUNC</td>
+<td>SecOC直接调用C函数，函数名固定（如<code>SecOC_GetTxFreshness </code>）FvM作为Callout实现这些函数，通常编译进同一个二进制文件</td>
+<td>轻量化，FvM逻辑简单，无需RTE，适用于小型ECU.</td>
+</tr>
+<tr>
+<td>RTE模式</td>
+<td>RTE</td>
+<td>SecOC通过RTE调用SWC端口服务（如 <code>FreshnessManagement_GetTxFreshness</code>）。FvM实现该SWC，提供端口。</td>
+<td>符合标准分层，FvM可以与其他SWC通信，适合大型ECU</td>
+</tr>
+</tbody>
+</table>
+<p>这两种模式是并行可选的，但一个系统只能选其一。如果你选择了CFUNC，就不能再用RTE；反之亦然。它们的核心区别在于“谁来负责函数名映射”——CFUNC是直接函数调用，RTE是通过RTE生成的标准接口。</p>
+<p>无论选择哪种模式，SecOC需要的功能是相同的。下表列出了所有SecOC需要从FvM获得的“服务”以及对应的CFUNC函数名和RTE服务操作名。</p>
+<table>
+<thead>
+<tr>
+<th>服务功能</th>
+<th>CFUNC函数名 （FvM实现）</th>
+<th>RTE服务操作名（FvM实现）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>获取发送新鲜度（完整值）</td>
+<td><code>SecOC_GetTxFreshness</code></td>
+<td><code>FreshnessManagement_GetTxFreshness</code></td>
+</tr>
+<tr>
+<td>获取发送新鲜度（同时返回截断值</td>
+<td><code>SecOC_GetTxFreshnessTruncData</code></td>
+<td><code>FreshnessManagement_GetTxFreshnessTruncData</code></td>
+</tr>
+<tr>
+<td>获取接收验证新鲜度</td>
+<td><code>SecOC_GetRxFreshness</code></td>
+<td><code>FreshnessManagement_GetRxFreshness</code></td>
+</tr>
+<tr>
+<td>获取接收验证新鲜度（传入部分数据）</td>
+<td><code>SecOC_GetRxFreshnessAuthData</code></td>
+<td><code>FreshnessManagement_GetRxFreshnessAuthData</code></td>
+</tr>
+<tr>
+<td>通知发送完成</td>
+<td><code>SecOC_SPduTxConfirmation</code></td>
+<td><code>FreshnessManagement_SPduTxConfirmation</code></td>
+</tr>
+<tr>
+<td>通知验证结果</td>
+<td><code>SecOc_VerificationStatusCallout</code></td>
+<td><code>VerificationStatus</code>（S/R接口）</td>
+</tr>
+</tbody>
+</table>
+<p>这些接口的参数在标准中都有详细定义。例如，SecOC_GetTxFreshnessTruncData除了返回完整新鲜度值，还会返回 截断 值（即要放到报文中的那部分），这样FvM可以灵活决定截断规则（标准要求从LSB侧截取，但FvM也可以自己决定）。</p>
+<p>状态通知：验证结果如何“广播”？</p>
+<p>SecOC每次验证后，都需要将结果告知外部，特别是FvM（因为它需要根据结果决定是否更新计数器）。标准提供了两种通知方式：</p>
+<ul>
+<li>Callout函数：SecOC_VerificationStatusCallout，由FvM实现，每次验证后调用。</li>
+<li>Sender-Receiver接口：VerificationStatus，SecOC提供ProvidePort，任意SWC（包括FvM）可以Require该端口接收状态。</li>
+</ul>
+<p>如果选择了RTE模式，通常使用S/R接口；如果选择了CFUNC模式，则使用Callout。两者同样可以互斥选择，但标准允许同时使用（例如，同时通知FvM和应用层监控）。</p>
+<p>通知的数据结构SecOC_VerificationStatusType包含：</p>
+<ul>
+<li><code>freshnessValueID</code>：哪个新鲜度值ID对应的验证。</li>
+<li><code>verificationStatus</code>：枚举值，包括SECOC_VERIFICATIONSUCCESS、SECOC_VERIFICATIONFAILURE、SECOC_FRESHNESSFAILURE等。</li>
+<li><code>secOCDataId</code>：对应的DataID。</li>
+</ul>
+<p>FvM收到失败通知后，可以执行同步逻辑；收到成功通知后，可以更新“上次成功接收的计数器值”。<br>
+CFUNC模式时序图为：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 上层应用 (ASW)
+    participant PduR as PduR
+    participant SecOC as SecOC (BSW)
+    participant FvM as FvM (ASW Callout)
+    participant CSM as CSM (BSW)
+    participant Bus as 通信总线
+
+    Note over SecOC, FvM: 配置: SecOCQueryFreshnessValue = CFUNC
+
+    App -&gt;&gt; PduR: PduR_&lt;Up&gt;Transmit (Authentic I-PDU)
+    PduR -&gt;&gt; SecOC: SecOC_IfTransmit / TpTransmit
+    SecOC --&gt;&gt; PduR: E_OK (缓冲复制)
+    PduR --&gt;&gt; App: E_OK
+
+    Note over SecOC: 下一周期 MainFunctionTx
+
+    SecOC -&gt;&gt; FvM: SecOC_GetTxFreshnessTruncData (FV ID)
+    FvM --&gt;&gt; SecOC: 完整FV + 截断FV
+
+    SecOC -&gt;&gt; CSM: Csm_MacGenerate (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: MAC
+    SecOC -&gt;&gt; SecOC: 截取MAC (MSB)
+
+    SecOC -&gt;&gt; PduR: PduR_SecOCTransmit (Secured I-PDU)
+    PduR -&gt;&gt; Bus: 发送报文
+
+    Bus --&gt;&gt; PduR: SecOC_SPduTxConfirmation (FV ID)
+    PduR -&gt;&gt; SecOC: SecOC_RxIndication (Secured I-PDU)
+    SecOC --&gt;&gt; PduR: 缓冲复制
+
+    Note over SecOC: 下一周期 MainFunctionRx
+
+    SecOC -&gt;&gt; FvM: SecOC_GetRxFreshness (FV ID, 截断FV, ...)
+    FvM --&gt;&gt; SecOC: 完整FV候选
+
+    SecOC -&gt;&gt; CSM: Csm_MacVerify (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: 验证结果
+
+    SecOC -&gt;&gt; FvM: SecOC_VerificationStatusCallout (状态)
+
+    alt 验证成功
+        SecOC -&gt;&gt; PduR: PduR_SecOCIfRxIndication (Authentic I-PDU)
+        PduR -&gt;&gt; App: 转发给上层
+    else 验证失败
+        SecOC -&gt;&gt; SecOC: 丢弃报文
+    end</code></pre>
+<p>RTE模式时序图为：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 上层应用 (ASW)
+    participant PduR as PduR
+    participant SecOC as SecOC (BSW)
+    participant RTE as RTE
+    participant FvM as FvM SWC (ASW)
+    participant CSM as CSM (BSW)
+    participant Bus as 通信总线
+
+    Note over SecOC, FvM: 配置: SecOCQueryFreshnessValue = RTE
+
+    App -&gt;&gt; PduR: PduR_&lt;Up&gt;Transmit (Authentic I-PDU)
+    PduR -&gt;&gt; SecOC: SecOC_IfTransmit / TpTransmit
+    SecOC --&gt;&gt; PduR: E_OK (缓冲复制)
+    PduR --&gt;&gt; App: E_OK
+
+    Note over SecOC: 下一周期 MainFunctionTx
+
+    SecOC -&gt;&gt; RTE: Rte_Call_FreshnessManagement_GetTxFreshnessTruncData (FV ID)
+    RTE -&gt;&gt; FvM: FreshnessManagement_GetTxFreshnessTruncData (端口调用)
+    FvM --&gt;&gt; RTE: 完整FV + 截断FV
+    RTE --&gt;&gt; SecOC: 返回数据
+
+    SecOC -&gt;&gt; CSM: Csm_MacGenerate (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: MAC
+    SecOC -&gt;&gt; SecOC: 截取MAC (MSB)
+
+    SecOC -&gt;&gt; PduR: PduR_SecOCTransmit (Secured I-PDU)
+    PduR -&gt;&gt; Bus: 发送报文
+
+    Bus --&gt;&gt; PduR: SecOC_SPduTxConfirmation (FV ID)
+    PduR -&gt;&gt; SecOC: SecOC_RxIndication (Secured I-PDU)
+    SecOC --&gt;&gt; PduR: 缓冲复制
+
+    Note over SecOC: 下一周期 MainFunctionRx
+
+    SecOC -&gt;&gt; RTE: Rte_Call_FreshnessManagement_GetRxFreshness (FV ID, 截断FV, ...)
+    RTE -&gt;&gt; FvM: FreshnessManagement_GetRxFreshness (端口调用)
+    FvM --&gt;&gt; RTE: 完整FV候选
+    RTE --&gt;&gt; SecOC: 返回数据
+
+    SecOC -&gt;&gt; CSM: Csm_MacVerify (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: 验证结果
+
+    SecOC -&gt;&gt; RTE: Rte_Send_VerificationStatus (状态)   [Sender-Receiver 接口]
+    RTE -&gt;&gt; FvM: 状态广播 (如 FvM 订阅了该端口)
+
+    alt 验证成功
+        SecOC -&gt;&gt; PduR: PduR_SecOCIfRxIndication (Authentic I-PDU)
+        PduR -&gt;&gt; App: 转发给上层
+    else 验证失败
+        SecOC -&gt;&gt; SecOC: 丢弃报文
+    end</code></pre>
+<p>两种模式的对比为：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>CFUNC模式</th>
+<th>RTE模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调用方式</td>
+<td>SecOC直接调用C函数 （函数名固定）</td>
+<td>SecOC通过RTE调用SWC端口服务</td>
+</tr>
+<tr>
+<td>FVM形态</td>
+<td>一组Callout函数， 通常与SecOC同编译单元</td>
+<td>独立的AUTOSAR SWC， 通过RTE连接</td>
+</tr>
+<tr>
+<td>配置参数</td>
+<td><code>SecOCQueryFreshnessValue</code>=CFUNC</td>
+<td><code>SecOCQueryFreshnessValue</code> =RTE</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>轻量化、 小型ECU、无需复杂SWC交互</td>
+<td>大型ECU、 需要与其他ASW通信、符合标准分层</td>
+</tr>
+<tr>
+<td>状态通知</td>
+<td><code>SecOc_VerificationStatusCallout</code></td>
+<td><code>VerificationStatus</code> Sender-Receiver 接口</td>
+</tr>
+<tr>
+<td>标准化程序</td>
+<td>函数接口固定，但实现可自由</td>
+<td>完全符合AUTOSAR方法论，工具链自动生成RTE</td>
+</tr>
+</tbody>
+</table>
+<h2 id="FV构成">FV构成</h2>
+<p>FVM分为三类：</p>
+<ol>
+<li>基于Counter的</li>
+<li>基于时间戳计数器的</li>
+<li>复合多计数器的。</li>
+</ol>
+<p>FV的构成为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804130534549.png" alt="FV的构成" loading='lazy'></p>
+<p>完整的FV包含:</p>
+<ul>
+<li>里程计数器(Trip Counter): 变化最慢，递增条件：复位，开始新点火循环，到最大值之后会重置，它的变化会重置Reset Counter。</li>
+<li>复位计数器(Reset Counter):周期性(秒级)递增，到达最大值后会保持，它的递增会重置Message Counter。</li>
+<li>消息计数器(Message Counter):在报文收发成功后会自增，到达最大值后会保持。它分为MsgCnt_Hi和MsgCnt_Lo两部分。</li>
+<li>复位标志(Reset Flag):它就是复位计数器(Reset Counter)低2位的影子。</li>
+</ul>
+<h2 id="同步报文">同步报文</h2>
+<p>同步报文是由FVM主机发给FVM从机的报文，同步报文在FVM主机和构建的时候，采用CANID + TripCnt|ResetCnt+用Key生成较长长度的MAC，比如16Byte。但是在总线上传输的时候，为了节省带宽，只在总线上传输TripCnt|ResetCnt+裁剪的MAC(比如11Byte)。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131316851.png" alt="同步报文" loading='lazy'></p>
+<p>原来的DataID和Key为可以简单理解为双方提前约定，故而不在总线上传输(不是很准确，因为key的首次注入也是在总线上完成的，此处不表，忽略之)。</p>
+<p>从机接收到同步报文后，会根据裁剪的新鲜值TripCnt|ResetCnt和本地的key，去逆向计算出一个MAC_Local(这个是在HSM中做的，实际的host Core看不到)，然后调用Csm_MacVerify(MAC)给HSM用于和MAC_Local做对比。对比通过后，FVM会用最新的同步报文里面的信息去更新本地维护的新鲜值FV。</p>
+<h2 id="安全报文">安全报文</h2>
+<p>安全报文是由安全报文的Sender发给receiver的报文，安全报文在本地和构建的时候，采用CANID + 完整的FV+用Key生成较长长度的MAC，比如16Byte。</p>
+<p>但是在总线上传输的时候，为了节省带宽，只在总线上传输Data+MsgCnt_Lo|ResetFlag+裁剪的MAC_Trim（比如2Byte）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131653337.png" alt="安全报文" loading='lazy'></p>
+<p>原来的DataID和Key为可以简单理解为双方提前约定，故而不在总线上传输。</p>
+<p>receiver接收到安全报文后，要校验这个不完整的MAC值是否正确，肯定首先要逆向一个完整的算子，DataID和Key为事先约定，那么FV如何获取？这个时候SecOC会调用FVM的接口，比如FVM_GetFV()来获取本地维护的完整的FV，然后再采用和Sender一样的方式采用CANID + 完整的FV+用Key生成较长长度的MAC_Local。裁剪后为MAC_Local_Trim。</p>
+<p>然后receiver调用Csm_MacVerify(MAC_Local_Trim)给HSM用于和MAC_Trim做对比。对比通过后，FVM会用最新的安全报文里面的信息去更新本地维护的新鲜值FV。</p>
+<h2 id="关键值">关键值</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131953093.png" alt="报文接收和发送" loading='lazy'></p>
+<p>在报文发送接受过程中有三个重要的值：</p>
+<ol>
+<li>
+<p><strong>先前值</strong>：是指上次安全报文验证成功时各计数器的值。</p>
+<p>更新时机：安全报文验证通过后，即SecOC在接受到安全报文后</p>
+<ol>
+<li>调用FVM_GetFV获取完整的新鲜值。</li>
+<li>SecOC验证通过后会通过一个接口比如SecOC_VerifyPass()通知FVM，我这个报文是有效的。</li>
+<li>FVM收到通知后，根据一定的策略，决定是否采纳该值。具体策略见下文。</li>
+</ol>
+</li>
+<li>
+<p><strong>最新值</strong>：是指从节点接收到的同步报文中新鲜度计数器值。</p>
+<p>更新时机：从节点对接收的同步报文验证通过后。</p>
+</li>
+<li>
+<p><strong>接收值</strong>：是指当前接收到的安全报文中各计数器的值。</p>
+<p>更新时机：即SecOC在接受到安全报文后，调用FVM_GetFV(uint8* truncatedFreshnessValue…)获取完整的新鲜值时，在实参中传递过来的部分计数器就是接收值。</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/">https://youshouldtrustme.github.io/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/WdogM/" title="WdogM"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">WdogM</div></div><div class="info-2"><div class="info-item-1">概述 在AUTOSAR架构中，看门狗的架构也是非常的简单，如下图：  服务层有WdogM（Wdog Manager)模块，主要为软件状态机，通过软件策略来实现一些监测功能，对上可汇报当前错误状态，对下可调用抽象层接口进行一系列不同类型的复位操作。ECU抽象层则有WdogIf模块，主要将各种看门...</div></div></div></a><a class="pagination-related" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/" title="E2E"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">E2E</div></div><div class="info-2"><div class="info-item-1">概述  官方标准手册请参见https://www.autosar.org/fileadmin/standards/R25-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf   E2E（End-to-End）通信保护旨在运行时保护安全相关数据在通信链路上传输时免受故障影响...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/ComM/" title="ComM"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">ComM</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参考Specification of Communication Manager (autosar.org)  前面分别介绍了ComNm和ComSM两兄弟，这一章则来看看两兄弟的老板，那就是Communication Stack中管理层中最核心的一个模块，那就是ComM模块。...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/System%20Service/Os/" title="Os"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Os</div></div><div class="info-2"><div class="info-item-1">概述 这一节来介绍一下OS的一些小点点，这一章都是文字，估计比较枯燥乏味。对OS基础不太了解的朋友，这里推荐两篇网上好文：《 AUTOSAR基础篇之OS(上) 》，《 AUTOSAR基础篇之OS(下) 》。 AUTOSAR OS为了适应各种各种样的芯片，所以它需要良好的可扩展性来做支撑，说得简...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Dem/" title="Dem"><img class="cover" src="/img/RandomCoverImage/random_1.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Dem</div></div><div class="info-2"><div class="info-item-1">概述 Dem(Diagnostic Event Manager，诊断事件管理), 用来记录和存储诊断事件的，将这些诊断事件及相关信息(冻结帧及扩展数据)记录到EEPROM。简单说其功能是：  故障事件确认前的故障消抖 故障事件确认时的故障数据存储 故障发生后的故障老化 故障替代（AUTOSAR...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/CanNm/" title="CanNm"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">CanNm</div></div><div class="info-2"><div class="info-item-1">概述  标准文件可参见Specification of CAN Network Management (autosar.org) CanNm模块还有一大堆的细节，大家如果想更深入了解CanNm模块，可参加文章《AUTOSAR CAN NM（CAN网络管理）》。再推荐一篇干货满满的文章：《AUT...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Communication%20Stack/Com/" title="Com"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">Com</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参见Specification of Communication  首先得了解一下AUTOSAT面向信号的通信理念，什么个意思呢？这里的信号可以理解成是应用层关心的实际值，比方说电压值，电流值，转速等，这些都是信号，应用层接收和发送信号的时候，它只需要调用相关信号的接口函数触...</div></div></div></a><a class="pagination-related" href="/2026/06/24/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Memory%20stack/MemIf/" title="MemIf"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-24</div><div class="info-item-2">MemIf</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参见Specification of Memory Abstraction Interface (autosar.org)  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">安全解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90"><span class="toc-number">3.1.</span> <span class="toc-text">基本组成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Authentic-I-PDU-%E4%B8%8E-Secured-I-PDU"><span class="toc-number">3.1.1.</span> <span class="toc-text">Authentic I-PDU 与 Secured I-PDU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Authenticator-%E8%A6%86%E7%9B%96%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">3.1.2.</span> <span class="toc-text">Authenticator 覆盖的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E9%B2%9C%E5%BA%A6%E5%80%BC%EF%BC%88Freshness-Values%EF%BC%89"><span class="toc-number">3.1.3.</span> <span class="toc-text">新鲜度值（Freshness Values）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-PDU-%E7%9A%84%E8%AE%A4%E8%AF%81"><span class="toc-number">3.2.</span> <span class="toc-text">I-PDU 的认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-PDU-%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-number">3.3.</span> <span class="toc-text">I-PDU 的验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-PDU-%E9%AA%8C%E8%AF%81%E6%88%90%E5%8A%9F"><span class="toc-number">3.3.1.</span> <span class="toc-text">I-PDU 验证成功</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0%E6%96%B9%E6%B3%95%E7%9A%84%E9%80%82%E9%85%8D"><span class="toc-number">3.4.</span> <span class="toc-text">非对称方法的适配</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8E-PduR-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">4.</span> <span class="toc-text">与 PduR 的关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">5.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%A0%E5%87%BA-PDU-%E7%9A%84%E8%AE%A4%E8%AF%81"><span class="toc-number">6.</span> <span class="toc-text">传出 PDU 的认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E4%BC%A0%E8%BE%93%E6%9C%9F%E9%97%B4%E7%9A%84%E8%AE%A4%E8%AF%81"><span class="toc-number">6.1.</span> <span class="toc-text">直接传输期间的认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E4%BC%A0%E8%BE%93%E6%9C%9F%E9%97%B4%E7%9A%84%E8%AE%A4%E8%AF%81"><span class="toc-number">6.2.</span> <span class="toc-text">触发传输期间的认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E4%BC%A0%E8%BE%93%E6%9C%9F%E9%97%B4%E7%9A%84%E8%AE%A4%E8%AF%81"><span class="toc-number">6.3.</span> <span class="toc-text">传输协议传输期间的认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E4%B8%8E%E4%BC%A0%E8%BE%93%E5%8F%96%E6%B6%88"><span class="toc-number">6.4.</span> <span class="toc-text">错误处理与传输取消</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%A0%E5%85%A5-PDU-%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-number">7.</span> <span class="toc-text">传入 PDU 的验证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%8E%A5%E6%94%B6%E6%9C%9F%E9%97%B4%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-number">7.1.</span> <span class="toc-text">总线接口接收期间的验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E6%8E%A5%E6%94%B6%E6%9C%9F%E9%97%B4%E7%9A%84%E9%AA%8C%E8%AF%81"><span class="toc-number">7.2.</span> <span class="toc-text">传输协议接收期间的验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8-SecOC-%E4%B8%AD%E8%B7%B3%E8%BF%87%E5%AF%B9-Secured-I-PDU-%E7%9A%84%E8%AE%A4%E8%AF%81"><span class="toc-number">7.3.</span> <span class="toc-text">在 SecOC 中跳过对 Secured I-PDU 的认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E7%9A%84%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E4%B8%8E%E4%B8%A2%E5%BC%83"><span class="toc-number">7.4.</span> <span class="toc-text">接收的错误处理与丢弃</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E5%8A%9F%E8%83%BD"><span class="toc-number">8.</span> <span class="toc-text">网关功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E6%A0%B8%E5%88%86%E5%B8%83"><span class="toc-number">9.</span> <span class="toc-text">多核分布</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E4%BA%8B%E4%BB%B6"><span class="toc-number">10.</span> <span class="toc-text">安全事件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">11.</span> <span class="toc-text">安全配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F"><span class="toc-number">11.1.</span> <span class="toc-text">配置安全区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E6%A6%82%E8%BF%B0"><span class="toc-number">11.2.</span> <span class="toc-text">安全配置文件概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOC-Profile-1%EF%BC%8824Bit-CMAC-8Bit-FV%EF%BC%89"><span class="toc-number">11.3.</span> <span class="toc-text">SecOC Profile 1（24Bit-CMAC-8Bit-FV）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOC-Profile-2%EF%BC%8824Bit-CMAC-No-FV%EF%BC%89"><span class="toc-number">11.4.</span> <span class="toc-text">SecOC Profile 2（24Bit-CMAC-No-FV）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOC-Profile-3%EF%BC%88JASPAR%EF%BC%89"><span class="toc-number">11.5.</span> <span class="toc-text">SecOC Profile 3（JASPAR）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FVM"><span class="toc-number">12.</span> <span class="toc-text">FVM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOc%E5%92%8CFvm%E7%9A%84%E4%BA%A4%E4%BA%92%EF%BC%9A"><span class="toc-number">12.1.</span> <span class="toc-text">SecOc和Fvm的交互：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FV%E6%9E%84%E6%88%90"><span class="toc-number">12.2.</span> <span class="toc-text">FV构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%8A%A5%E6%96%87"><span class="toc-number">12.3.</span> <span class="toc-text">同步报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E6%8A%A5%E6%96%87"><span class="toc-number">12.4.</span> <span class="toc-text">安全报文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%80%BC"><span class="toc-number">12.5.</span> <span class="toc-text">关键值</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/08/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/A2L%E6%96%87%E4%BB%B6/" title="A2L文件">A2L文件</a><time datetime="2026-08-08T08:24:41.000Z" title="发表于 2026-08-08 08:24:41">2026-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/08/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Davinci%20Configurator/" title="Davinci Configurator">Davinci Configurator</a><time datetime="2026-08-08T08:24:41.000Z" title="发表于 2026-08-08 08:24:41">2026-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/08/08/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/Davinci%20Developer/" title="Davinci Developer">Davinci Developer</a><time datetime="2026-08-08T08:24:41.000Z" title="发表于 2026-08-08 08:24:41">2026-08-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/E2E/" title="E2E">E2E</a><time datetime="2026-07-07T15:40:22.000Z" title="发表于 2026-07-07 15:40:22">2026-07-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/07/07/%E5%B5%8C%E5%85%A5%E5%BC%8F/AUTOSAR/Safety/SecOc/" title="SecOc">SecOc</a><time datetime="2026-07-07T15:40:22.000Z" title="发表于 2026-07-07 15:40:22">2026-07-07</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const changeScriptToMath = article => {
+    article.querySelectorAll('script[type^="math/tex"]').forEach(el => {
+      const display = /mode=display/.test(el.type)
+      const node = document.createElement(display ? 'div' : 'span')
+      node.textContent = display
+        ? `$$${el.textContent}$$`
+        : `$${el.textContent}$`
+      el.parentNode.replaceChild(node, el)
+    })
+  }
+
+  const loadMathjax = () => {
+    const article = document.getElementById('article-container')
+    if (!article || article.querySelector('.hbe-container')) return
+    changeScriptToMath(article)
+
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem',
+            'ui/lazy'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          lazyMargin: '200px',
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/mathjax@4.1.3/tex-mml-chtml.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.typesetClear()
+      MathJax.typesetPromise([ article ])
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (true) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/js/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/toc-fix.js"></script><script src="/js/heading-number.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([data-fancybox])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      if (!item.parentNode) return
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || ''
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    const responseURL = e.request && e.request.responseURL
+    if (e.request && e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : responseURL && (window.location.href = responseURL)
+    } else if (responseURL) {
+      window.location.href = responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
