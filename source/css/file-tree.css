@@ -1,0 +1,205 @@
+/* 左侧文件夹抽屉（配合 source/js/file-tree.js 与 scripts/sidebar-file-tree.js） */
+
+/* 左侧边缘的呼出按钮 */
+#ft-toggle {
+  position: fixed;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 34px;
+  height: 46px;
+  border: none;
+  border-radius: 6px;
+  background: var(--card-bg, #fff);
+  color: var(--font-color, #4c4948);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+#ft-toggle:hover {
+  color: #49b1f5;
+}
+
+/* 抽屉 */
+#file-tree {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  width: 300px;
+  max-width: 85vw;
+  height: 100vh;
+  background: var(--card-bg, #fff);
+  transform: translateX(-105%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+}
+
+html.ft-open #file-tree {
+  transform: translateX(0);
+}
+
+/* 遮罩 */
+#ft-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+html.ft-open #ft-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ft-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+  flex: none;
+}
+
+.ft-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--font-color, #4c4948);
+}
+
+.ft-title i {
+  color: #49b1f5;
+  margin-right: 6px;
+}
+
+.ft-close {
+  border: none;
+  background: transparent;
+  color: var(--font-color, #4c4948);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+}
+
+.ft-close:hover {
+  color: #49b1f5;
+}
+
+.ft-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 6px 20px;
+  font-size: 14px;
+}
+
+.ft-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ft-body::-webkit-scrollbar-thumb {
+  background: rgba(127, 127, 127, 0.35);
+  border-radius: 2px;
+}
+
+/* 目录层级缩进 */
+.ft-group details details {
+  padding-left: 16px;
+}
+
+.ft-dir summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 6px;
+  color: var(--font-color, #4c4948);
+  font-weight: 600;
+  list-style: none;
+}
+
+.ft-dir summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 展开箭头 */
+.ft-dir summary::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex: none;
+  border: solid rgba(127, 127, 127, 0.8);
+  border-width: 0 2px 2px 0;
+  padding: 2.5px;
+  transform: rotate(-45deg);
+  transition: transform 0.2s;
+}
+
+.ft-dir[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.ft-dir summary:hover {
+  background: rgba(73, 177, 245, 0.12);
+}
+
+.ft-ic {
+  color: #49b1f5;
+  flex: none;
+  font-size: 13px;
+}
+
+.ft-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ft-count {
+  flex: none;
+  font-size: 11px;
+  color: rgba(127, 127, 127, 0.8);
+  font-weight: 400;
+}
+
+.ft-file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 12px;
+  margin: 1px 0;
+  border-radius: 6px;
+  color: var(--font-color, #4c4948);
+  text-decoration: none;
+  font-weight: 400;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ft-file i {
+  flex: none;
+}
+
+.ft-file:hover {
+  background: rgba(73, 177, 245, 0.12);
+  color: #49b1f5;
+}
+
+.ft-file.ft-current {
+  background: rgba(73, 177, 245, 0.18);
+  color: #49b1f5;
+  font-weight: 600;
+}

@@ -1067,10 +1067,15 @@ inject:
     # 之前用 alicdn 的 CSS 时彩色 woff2 偶发加载失败，会回退到单色 woff/ttf 导致图标变灰
     - <link rel="stylesheet" href="/css/iconfont.css">
     - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
+    # 左侧文件夹抽屉（scripts/sidebar-file-tree.js 生成数据，file-tree.js 渲染）
+    - <link rel="stylesheet" href="/css/file-tree.css">
   bottom:
     - <script src="/js/toc-fix.js"></script>
     # 标题自动编号（CSS counter 链式 reset 在部分浏览器失效，改用 JS）
     - <script src="/js/heading-number.js"></script>
+    # 左侧文件夹抽屉：先加载数据再加载渲染逻辑
+    - <script src="/js/file-tree-data.js"></script>
+    - <script src="/js/file-tree.js"></script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work
