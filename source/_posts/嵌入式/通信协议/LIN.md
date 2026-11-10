@@ -1,5 +1,4 @@
 ---
-date: 2026-01-21 09:59:14
 title: LIN
 
 categories: 

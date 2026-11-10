@@ -1,5 +1,4 @@
 ---
-date: 2025-08-12 08:27:25
 title: CMake
 categories:
   - 编程语言

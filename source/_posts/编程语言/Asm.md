@@ -1,5 +1,4 @@
 ---
-date: 2025-08-12 08:27:25
 title: Asm
 
 cover: https://www.ruanyifeng.com/blogimg/asset/2018/bg2018012206.png

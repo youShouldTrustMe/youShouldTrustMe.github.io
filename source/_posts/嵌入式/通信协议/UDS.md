@@ -1,5 +1,4 @@
 ---
-date: 2025-08-12 08:27:25
 title: UDS
 
 cover: https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125085207933.png
@@ -623,6 +622,33 @@ DTC状态跟在DTC后面，DTC状态为1个字节，其8个bit位含义各不相
 >
 > 这里的周期指的是KL15上下电的过程
 >
+> ```mermaid
+> mindmap
+>   root((DTC Status\nBit 变化))
+>     TestFailed
+>       Bit0: 测试失败立即置1
+>       Bit0: 测试通过立即清0
+>       Bit1: 本循环内失败过置1
+>       Bit1: 循环结束清0
+>       Bit5: 自清除后失败过置1
+>       Bit5: 仅0x14清除
+>     PendingDTC
+>       Bit2: 失败后下一循环置1
+>       Bit2: 整个循环通过后清0
+>     ConfirmedDTC
+>       Bit3: 确认条件满足后置1
+>       Bit3: 恢复条件满足后清0
+>       Bit3: 仅0x14清除
+>     OperationCycle
+>       Bit6: 上电初始为1
+>       Bit6: 测试执行后清0
+>       Bit6: 循环结束置1
+>     0x14清除
+>       所有Bit清0
+>       Bit4置1
+>       Bit6置1
+> ```
+>
 > 举个例子：灯泡坏了
 >
 > 1. **刚坏的一瞬间**：Bit 0=1, Bit 1=1 (TF, TFTOC 同时亮起)。
@@ -737,7 +763,7 @@ DTC快照信息(Snapshot Record)就类似照相机一样，在故障发生的时
 | DTC aging counter                 | DTC老化计数器，处于老化中DTC的计数； 用于计算自最后一次失败后的测试循环，不包括未报告TestPassed或者TestFailed的测试循环。 |
 | Test failed counter               | 测试失败计数器，用于计算TestFailed报告的数量； 它与DTC事件计数器不同的是更加强调故障发生的次数。 |
 | DTC occurrence counter            | DTC事件计数器，用于计算报告了测试失败（Test Failed）的测试循环数量。 |
-| uncompleted testcounters          | 未完成测试计数器，用于计算最后一次完成测试之后（即自发出TestPassed或TestFailed测试报告后），剩余测试循环的数量。 |
+| uncompleted test counters         | 未完成测试计数器，用于计算最后一次完成测试之后（即自发出TestPassed或TestFailed测试报告后），剩余测试循环的数量。 |
 | DTC aged counter                  | 表示完成老化的DTC的数量。                                    |
 
 > [!tip]
