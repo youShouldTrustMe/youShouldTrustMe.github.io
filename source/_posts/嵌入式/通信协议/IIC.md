@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: IIC
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/09/13_13_59_26_202409131359673.png

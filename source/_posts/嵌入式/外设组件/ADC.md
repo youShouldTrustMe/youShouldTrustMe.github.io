@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: ADC
 
 cover: https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251201085552094.png

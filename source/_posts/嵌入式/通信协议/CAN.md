@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: CAN
 
 cover: https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures@main/Images/image-20251125132704192.png

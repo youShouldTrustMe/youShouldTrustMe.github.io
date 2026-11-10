@@ -1,6 +1,6 @@
 #!/bin/sh
-# 提交时自动更新「本次被修改/新增」的文章的 front-matter date，
-# 未改动的文章保持原日期。
+# 提交时自动把「本次被修改/新增」的文章的 front-matter date 写为该文件的初次上传时间
+#（git 中最早一次新增该文件的提交时间），未改动的文章不做处理。
 # 用法：仓库根目录执行  git config core.hooksPath githooks
 
 node "$(git rev-parse --show-toplevel)/tools/update-post-date.js"

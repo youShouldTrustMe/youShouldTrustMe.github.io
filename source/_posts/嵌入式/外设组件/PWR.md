@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: PWR
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/15_18_46_48_202410151846192.png

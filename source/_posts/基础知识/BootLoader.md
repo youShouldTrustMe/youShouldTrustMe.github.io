@@ -1,4 +1,5 @@
 ---
+date: 2025-08-12 08:27:25
 title: BootLoader
 
 cover: https://gitlab.com/18355291538/picture/-/raw/main/pictures/2024/10/11_8_56_5_202410110856024.png
