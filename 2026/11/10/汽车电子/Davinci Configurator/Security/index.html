@@ -1,0 +1,2523 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Davinci Configurator - Security | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="FVM 123456789101112131415161718FvM├── FvMFreshnessValueRxProcessings│   ├── FreshnessValueProcessing实例│   │   └── FvMFreshnessValueUseCase│   │    	└── FvMJasparAttributes│	├── FreshnessValueProcessin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Davinci Configurator - Security">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Configurator/Security/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="FVM 123456789101112131415161718FvM├── FvMFreshnessValueRxProcessings│   ├── FreshnessValueProcessing实例│   │   └── FvMFreshnessValueUseCase│   │    	└── FvMJasparAttributes│	├── FreshnessValueProcessin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg">
+<meta property="article:published_time" content="2026-11-10T19:43:42.000Z">
+<meta property="article:modified_time" content="2026-11-11T13:00:32.119Z">
+<meta property="article:author" content="ryf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Davinci Configurator - Security",
+  "url": "https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Configurator/Security/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_2.jpg",
+  "datePublished": "2026-11-10T19:43:42.000Z",
+  "dateModified": "2026-11-11T13:00:32.119Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Configurator/Security/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.13.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Davinci Configurator - Security',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/file-tree.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">Davinci Configurator - Security</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Davinci Configurator - Security</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-11T13:00:32.119Z" title="更新于 2026-11-11 13:00:32">2026-11-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E5%8F%8A%E5%B7%A5%E5%85%B7/">软件及工具</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">14.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>47分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="FVM">FVM</h1>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">FvM</span><br><span class="line">├── FvMFreshnessValueRxProcessings</span><br><span class="line">│   ├── FreshnessValueProcessing实例</span><br><span class="line">│   │   └── FvMFreshnessValueUseCase</span><br><span class="line">│   │    	└── FvMJasparAttributes</span><br><span class="line">│	├── FreshnessValueProcessing实例</span><br><span class="line">│   │   └── FvMFreshnessValueUseCase</span><br><span class="line">│   │    	└── FvMSyncMessage</span><br><span class="line">│	└── FreshnessValueProcessing实例</span><br><span class="line">│       └── FvMFreshnessValueUseCase</span><br><span class="line">│       	└── FvMJasparWithoutResetCounterAttributes</span><br><span class="line">├── FvMFreshnessValueTxProcessings</span><br><span class="line">│   └── FreshnessValueProcessing实例</span><br><span class="line">│       └── FvMFreshnessValueUseCase</span><br><span class="line">│       	└── FvMJasparAttributes</span><br><span class="line">├── FvMGeneral</span><br><span class="line">├── FvMGeneration</span><br><span class="line">└── FvMJasparGeneral</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">子容器</th>
+<th style="text-align:left">中文直译 / 惯称</th>
+<th style="text-align:left">核心功能职责</th>
+<th style="text-align:left">关键配置内容举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>FvMFreshnessValueRxProcessings</strong></td>
+<td style="text-align:left">接收方向新鲜值处理配置</td>
+<td style="text-align:left">配置 <strong>接收方向</strong> 的新鲜值处理策略，用于验证接收到的安全 PDUs 的新鲜度，防止重放攻击。</td>
+<td style="text-align:left">每个 <code>FreshnessValueProcessing</code> 实例对应一个安全 PDU 的接收新鲜值验证配置，包含 <code>FvMFreshnessValueUseCase</code>（用例配置）和 <code>FvMJasparAttributes</code>（Jaspar 属性）等子容器。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>FvMFreshnessValueTxProcessings</strong></td>
+<td style="text-align:left">发送方向新鲜值处理配置</td>
+<td style="text-align:left">配置 <strong>发送方向</strong> 的新鲜值处理策略，用于为待发送的安全 PDUs 生成新鲜值，实现防重放保护。</td>
+<td style="text-align:left">每个 <code>FreshnessValueProcessing</code> 实例对应一个安全 PDU 的发送新鲜值生成配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>FvMGeneral</strong></td>
+<td style="text-align:left">通用配置</td>
+<td style="text-align:left">配置 FvM 模块的<strong>全局行为参数</strong>，如模块开关、错误检测、主函数周期等。</td>
+<td style="text-align:left">包含模块的全局运行参数，如开发错误检测开关、主函数周期等。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>FvMGeneration</strong></td>
+<td style="text-align:left">代码生成配置</td>
+<td style="text-align:left">配置 FvM 模块的<strong>代码生成选项</strong>，控制生成代码的优化策略和数据结构。</td>
+<td style="text-align:left">控制生成代码的数据类型、内存优化策略等。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>FvMJasparGeneral</strong></td>
+<td style="text-align:left">Jaspar 通用配置</td>
+<td style="text-align:left">配置与 <strong>Jaspar 安全机制</strong> 相关的通用参数。Jaspar 是 AUTOSAR 中用于安全通信的算法集合。</td>
+<td style="text-align:left">定义 Jaspar 算法的全局参数，如算法版本、密钥管理策略等。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>FvM 模块在 AUTOSAR 安全架构中的位置</strong>：FvM（Freshness Value Manager，新鲜值管理器）是 AUTOSAR <strong>安全通信（SecOC）</strong> 架构中的核心模块，负责管理新鲜值（Freshness Value）的生成和验证。新鲜值是一种随时间变化的计数器或时间戳，用于防止重放攻击（Replay Attack）。</p>
+</li>
+<li>
+<p><strong>新鲜值的两种处理方向</strong>：</p>
+<ul>
+<li><strong>Rx Processing（接收处理）</strong>：验证接收到的 PDU 的新鲜值是否有效（在有效窗口内、未被重复使用等）。</li>
+<li><strong>Tx Processing（发送处理）</strong>：为待发送的 PDU 生成新鲜值，确保每条安全报文具有唯一的新鲜值。</li>
+</ul>
+</li>
+<li>
+<p><strong>SecOC 通信流程中的 FvM</strong>：</p>
+<ul>
+<li>发送方：FvM 生成新鲜值 → 安全模块（Crypto）计算 MAC → 发送安全 PDU。</li>
+<li>接收方：FvM 验证新鲜值 → 安全模块验证 MAC → 验证通过后处理数据。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="FvMFreshnessValueRxProcessing">FvMFreshnessValueRxProcessing</h2>
+<h3 id="FreshnessValueProcessing-实例（Rx）">FreshnessValueProcessing 实例（Rx）</h3>
+<p><code>FvMFreshnessValueRxProcessings</code> 下的每个实例用于配置 <strong>接收方向</strong> 的新鲜值处理参数，定义 FvM 如何验证接收到的安全 PDU 的新鲜值。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该新鲜值处理配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例，通常包含对应的安全 PDU 名称和方向信息（<code>_Rx</code> 表示接收方向）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Processing Ref</strong></td>
+<td style="text-align:left">处理引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>SecOC 模块</strong> 中定义的<strong>安全 PDU 处理配置实例</strong>，将该新鲜值处理配置与具体的安全 PDU 关联起来。FvM 通过此引用识别该配置属于哪个安全 PDU，并使用对应的新鲜值验证参数。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 FvM 无法确定该配置对应的安全 PDU。该引用指向 SecOC 模块中的 <code>SecOcSecuredPdu</code> 配置。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>FvM 与 SecOC 的关系</strong>：FvM 与 SecOC（Secure On-Board Communication，安全车载通信）模块紧密协作。SecOC 定义安全 PDU 的安全属性（如加密算法、认证方式），FvM 负责管理新鲜值的生成和验证。</p>
+</li>
+<li>
+<p><strong>接收方向新鲜值验证的流程</strong>：</p>
+<ul>
+<li>SecOC 接收到安全 PDU 后，提取其中的新鲜值。</li>
+<li>SecOC 调用 FvM 接口，请求验证该新鲜值是否有效。</li>
+<li>FvM 根据对应的 <code>FreshnessValueProcessing</code> 配置检查新鲜值是否在有效窗口内、是否已使用等。</li>
+<li>验证通过后，SecOC 继续处理 PDU 数据。</li>
+</ul>
+</li>
+<li>
+<p><strong>Processing Ref 的典型指向</strong>：该引用通常指向 <code>/ActiveEcuC/SecOC/...</code> 路径下的安全 PDU 配置实例，该实例已在 SecOC 模块中定义了完整的安全通信参数（如新鲜值长度、同步计数器、MAC 计算方式等）。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="FvMJasparAttributes">FvMJasparAttributes</h3>
+<p><code>FvMJasparAttributes</code> 用于配置 <strong>Jaspar 机制中的新鲜值属性参数</strong>，定义新鲜值中各字段的位宽，包括消息计数器、重置标志和行程标志。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该 Jaspar 属性配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Message Counter Bit Size</strong></td>
+<td style="text-align:left">消息计数器位宽</td>
+<td style="text-align:left">指定新鲜值中<strong>消息计数器（Message Counter）</strong> 字段的位宽，以比特为单位。消息计数器用于标识消息的序列号，防止重放攻击。</td>
+<td style="text-align:left">根据项目安全策略配置，需要在安全性和新鲜值长度之间权衡。位宽越大，防止重放攻击的能力越强，但新鲜值长度也越大。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Reset Flag Bit Size</strong></td>
+<td style="text-align:left">重置标志位宽</td>
+<td style="text-align:left">指定新鲜值中<strong>重置标志（Reset Flag）</strong> 字段的位宽，以比特为单位。重置标志用于标识 ECU 复位后新鲜值是否已重置。</td>
+<td style="text-align:left">通常为 1-2 位，用于区分不同的复位状态。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Trip Flag Bit Size</strong></td>
+<td style="text-align:left">行程标志位宽</td>
+<td style="text-align:left">指定新鲜值中<strong>行程标志（Trip Flag）</strong> 字段的位宽，以比特为单位。行程标志用于标识新的驾驶循环，通常与车辆的点火循环相关。</td>
+<td style="text-align:left">通常为 1-2 位，用于区分不同的行程状态。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>Jaspar 机制简介</strong>：Jaspar（Java-based Secure Parameter Manager）是 AUTOSAR 中用于管理安全通信参数（尤其是新鲜值）的机制。它定义了新鲜值中各字段的结构和位宽，确保发送方和接收方对新鲜值的解析一致。</p>
+</li>
+<li>
+<p><strong>新鲜值的典型结构</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">| Reset Flag | Trip Flag | Message Counter |</span><br><span class="line">| (1-2 bits) | (1-2 bits) | (N bits)        |</span><br></pre></td></tr></table></figure>
+<p>各字段的位宽由 <code>FvMJasparAttributes</code> 统一配置，确保所有安全 PDU 使用一致的新鲜值格式。</p>
+</li>
+<li>
+<p><strong>各字段的作用</strong>：</p>
+<ul>
+<li><strong>Message Counter</strong>：单调递增的计数器，每条安全 PDU 拥有唯一的计数值。接收方维护一个预期值窗口，只有落在窗口内的计数值才被认为是有效的。</li>
+<li><strong>Reset Flag</strong>：标识 ECU 复位后的状态。复位后计数器重置，接收方需要据此调整其预期值窗口。</li>
+<li><strong>Trip Flag</strong>：标识新的驾驶循环（如点火开关从 OFF 到 ON）。用于区分不同驾驶循环的计数值，防止跨循环的重放攻击。</li>
+</ul>
+</li>
+<li>
+<p><strong>位宽配置的权衡</strong>：</p>
+<ul>
+<li><strong>更大的位宽</strong>：提供更好的防重放保护，但增加新鲜值的长度，降低通信效率。</li>
+<li><strong>更小的位宽</strong>：提高通信效率，但计数器可能更快溢出，需要更频繁地重置。</li>
+<li>项目需要根据通信频率、安全等级和带宽限制综合权衡。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="FvMSyncMessage">FvMSyncMessage</h3>
+<p><code>FvMSyncMessage</code> 用于配置 <strong>新鲜值同步消息（Sync Message）</strong> 的类型，定义 FvM 在新鲜值同步过程中使用的消息类型。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该同步消息配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Sync Message Type</strong></td>
+<td style="text-align:left">同步消息类型</td>
+<td style="text-align:left">指定该同步消息的类型，用于新鲜值同步机制。</td>
+<td style="text-align:left">- <code>TRIP_RESET_SYNC_MSG</code>：行程/重置同步消息，用于同步行程标志或重置标志变化时的新鲜值状态。<br>- 其他类型根据项目具体的安全通信规范定义。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>新鲜值同步机制</strong>：在多节点安全通信中，发送方和接收方需要保持新鲜值状态的一致性。当 ECU 复位或新的驾驶循环开始时，需要通过<strong>同步消息</strong>将发送方的当前新鲜值状态通知给接收方，使接收方能够调整其预期值窗口。</p>
+</li>
+<li>
+<p><strong>TRIP_RESET_SYNC_MSG 的典型用途</strong>：</p>
+<ul>
+<li>当 ECU 复位后，发送方通过此消息告知接收方计数器已重置。</li>
+<li>当新驾驶循环开始时，发送方通过此消息告知接收方行程标志已更新。</li>
+<li>接收方收到同步消息后，调整其新鲜值验证的预期窗口，确保后续安全 PDU 的新鲜值能够被正确验证。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="FvMJasparWithoutResetCounterAttributes">FvMJasparWithoutResetCounterAttributes</h3>
+<p><code>FvMJasparWithoutResetCounterAttributes</code> 用于配置 <strong>Jaspar 机制中无重置计数器的属性参数</strong>，定义新鲜值中消息计数器的位宽。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该 Jaspar 无重置计数器属性配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Message Counter Bit Size</strong></td>
+<td style="text-align:left">消息计数器位宽</td>
+<td style="text-align:left">指定新鲜值中<strong>消息计数器（Message Counter）</strong> 字段的位宽，以比特为单位。</td>
+<td style="text-align:left">根据项目安全策略配置。位宽越大，防止重放攻击的能力越强，但新鲜值长度也越大。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>与 FvMJasparAttributes 的区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">配置类型</th>
+<th style="text-align:left">包含字段</th>
+<th style="text-align:left">适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>FvMJasparAttributes</code></td>
+<td style="text-align:left">Reset Flag + Trip Flag + Message Counter</td>
+<td style="text-align:left">完整的新鲜值结构</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>FvMJasparWithoutResetCounterAttributes</code></td>
+<td style="text-align:left">仅 Message Counter</td>
+<td style="text-align:left">不使用复位/行程计数器的场景</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>无复位计数器的使用场景</strong>：某些 ECU 可能不需要区分复位状态或行程状态，新鲜值中仅包含消息计数器。此时使用 <code>FvMJasparWithoutResetCounterAttributes</code> 简化新鲜值结构，减少通信开销。</p>
+</li>
+<li>
+<p><strong>安全考虑</strong>：虽然省去了 Reset Flag 和 Trip Flag，但仅靠 Message Counter 仍然可以防止重放攻击。然而，ECU 复位后计数器从零开始，接收方需要能够正确处理计数器重置的情况（通常通过其他机制，如同步消息或初始握手机制）。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="FreshnessValueProcessing">FreshnessValueProcessing</h2>
+<h3 id="FreshnessValueProcessing-实例（Tx）">FreshnessValueProcessing 实例（Tx）</h3>
+<p><code>FvMFreshnessValueTxProcessings</code> 下的每个实例用于配置 <strong>发送方向</strong> 的新鲜值处理参数，定义 FvM 如何为待发送的安全 PDU 生成新鲜值。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该新鲜值处理配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例，通常包含对应的安全 PDU 名称和方向信息（<code>_Tx</code> 表示发送方向）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Processing Ref</strong></td>
+<td style="text-align:left">处理引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>SecOC 模块</strong> 中定义的<strong>安全 PDU 处理配置实例</strong>，将该新鲜值处理配置与具体的安全 PDU 关联起来。FvM 通过此引用识别该配置属于哪个安全 PDU，并使用对应的新鲜值生成参数。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 FvM 无法确定该配置对应的安全 PDU。该引用指向 SecOC 模块中的 <code>SecOcSecuredPdu</code> 配置。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>发送方向新鲜值生成的流程</strong>：</p>
+<ul>
+<li>SecOC 准备发送安全 PDU 时，调用 FvM 接口请求生成新鲜值。</li>
+<li>FvM 根据对应的 <code>FreshnessValueProcessing</code> 配置，使用消息计数器等参数生成当前新鲜值。</li>
+<li>新鲜值被传递给 SecOC，嵌入到安全 PDU 中一并发送。</li>
+<li>发送完成后，FvM 更新内部状态（如递增消息计数器）。</li>
+</ul>
+</li>
+<li>
+<p><strong>Rx 与 Tx 配置的对称性</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方向</th>
+<th style="text-align:left">容器</th>
+<th style="text-align:left">职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">接收（Rx）</td>
+<td style="text-align:left"><code>FvMFreshnessValueRxProcessings</code></td>
+<td style="text-align:left">验证接收到的安全 PDU 的新鲜值</td>
+</tr>
+<tr>
+<td style="text-align:left">发送（Tx）</td>
+<td style="text-align:left"><code>FvMFreshnessValueTxProcessings</code></td>
+<td style="text-align:left">为待发送的安全 PDU 生成新鲜值</td>
+</tr>
+</tbody>
+</table>
+<p>两者通过 <code>Processing Ref</code> 关联到 SecOC 中同一个安全 PDU 配置实例，确保发送方和接收方使用一致的新鲜值参数（如计数器位宽、同步策略等）。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="FvMGeneral">FvMGeneral</h2>
+<p><code>FvMGeneral</code> 是 FvM 模块的<strong>顶层通用配置容器</strong>，用于配置 FvM 的全局行为参数，包括错误检测、任务周期、启动接受时间等功能开关。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该通用配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Dev Error Detect</strong></td>
+<td style="text-align:left">开发错误检测</td>
+<td style="text-align:left">勾选后，启用 FvM 内部的<strong>开发错误检测</strong>，当检测到参数错误、状态错误时，调用 <code>Det_ReportError</code> 报告。</td>
+<td style="text-align:left"><strong>开发阶段建议勾选</strong>，便于发现集成问题。<strong>量产阶段建议关闭</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Main Function Period [ms]</strong></td>
+<td style="text-align:left">主函数周期</td>
+<td style="text-align:left">指定 FvM <strong>主函数（FvM_MainFunction）</strong> 的执行周期，以毫秒为单位。该主函数用于处理新鲜值的周期性更新和超时管理。</td>
+<td style="text-align:left">根据项目调度周期配置，通常与 SecOC 的周期保持一致，典型值为 5-20ms。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Safe Bsw Checks</strong></td>
+<td style="text-align:left">安全 BSW 检查</td>
+<td style="text-align:left">勾选后，启用<strong>安全 BSW 检查</strong>，对关键参数进行合法性检查，用于功能安全场景。</td>
+<td style="text-align:left">在 <strong>ASIL/功能安全</strong> 项目中建议勾选，QM 项目保持关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Start Up Acceptance Time [ms]</strong></td>
+<td style="text-align:left">启动接受时间</td>
+<td style="text-align:left">指定 ECU 启动后，FvM 允许接收安全 PDU 的<strong>初始时间窗口</strong>，以毫秒为单位。在此时间内，接收方对新接收的安全 PDU 新鲜值验证采取更宽松的策略，以应对启动阶段计数器未同步的情况。</td>
+<td style="text-align:left">根据项目安全策略配置。启动接受时间过短可能导致启动阶段的安全 PDU 被丢弃；过长则可能降低安全性。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Version Info Api</strong></td>
+<td style="text-align:left">版本信息 API</td>
+<td style="text-align:left">勾选后，生成 <strong><code>FvM_GetVersionInfo</code></strong> API，用于获取 FvM 模块的版本信息。</td>
+<td style="text-align:left">建议勾选，便于版本管理和调试。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>开发 vs 量产配置建议</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">开发阶段</th>
+<th style="text-align:left">量产阶段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>Dev Error Detect</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Safe Bsw Checks</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">ASIL 项目勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Version Info Api</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>主函数周期的影响</strong>：</p>
+<ul>
+<li><code>Main Function Period</code> 决定了 FvM 更新新鲜值和检查超时的频率。</li>
+<li>如果周期过长，新鲜值更新延迟可能导致安全 PDU 被拒收。</li>
+<li>如果周期过短，增加 CPU 负载，影响系统性能。</li>
+</ul>
+</li>
+<li>
+<p><strong>启动接受时间的必要性</strong>：在 ECU 启动阶段，发送方和接收方的新鲜值计数器可能尚未同步。<code>Start Up Acceptance Time</code> 提供了一个缓冲窗口，允许接收方在此期间接收安全 PDU 而不会因新鲜值验证失败而丢弃报文，确保启动阶段的通信正常建立。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="FvMGeneration-实例">FvMGeneration 实例</h3>
+<p><code>FvMGeneration</code> 用于配置 <strong>FvM 模块代码生成</strong> 时的优化策略，控制生成代码的数据结构、内存占用和调试支持。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该代码生成配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Interfaces For Deactivated Data</strong></td>
+<td style="text-align:left">为停用数据生成接口</td>
+<td style="text-align:left">勾选后，为<strong>已停用的数据</strong>也生成 RTE 接口（即使数据未启用）。</td>
+<td style="text-align:left">仅在调试或特殊开发场景中勾选，量产版本保持关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Out Of Bounds Read Sanitizer</strong></td>
+<td style="text-align:left">越界读取清理器</td>
+<td style="text-align:left">勾选后，生成<strong>越界读取检查</strong>代码，在读取数组或缓冲区时检测是否越界。</td>
+<td style="text-align:left">仅在开发调试阶段勾选，量产版本关闭以提升性能。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Out Of Bounds Write Protection Strategy</strong></td>
+<td style="text-align:left">越界写入保护策略</td>
+<td style="text-align:left">指定<strong>越界写入保护</strong>的策略，防止写入操作超出数组或缓冲区的边界。</td>
+<td style="text-align:left">- <code>NONE</code>：不进行保护。<br>- <code>GUARD</code>：添加保护字节。<br>- <code>CHECK</code>：运行时检查。<br>ASIL 项目中建议配置，QM 项目通常选择 <code>NONE</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Out Of Bounds Write Sanitizer</strong></td>
+<td style="text-align:left">越界写入清理器</td>
+<td style="text-align:left">勾选后，生成<strong>越界写入检查</strong>代码，在写入数组或缓冲区时检测是否越界。</td>
+<td style="text-align:left">仅在开发调试阶段勾选，量产版本关闭以提升性能。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Referring Keys In Comments</strong></td>
+<td style="text-align:left">在注释中包含引用键</td>
+<td style="text-align:left">勾选后，在生成的代码注释中包含<strong>引用键（Referring Keys）</strong>，便于追溯配置来源。</td>
+<td style="text-align:left">建议勾选，便于代码与配置的追溯。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Short Symbols</strong></td>
+<td style="text-align:left">短符号</td>
+<td style="text-align:left">勾选后，生成<strong>短符号名</strong>，减少生成代码中符号的长度以节省内存。</td>
+<td style="text-align:left">仅在内存极度受限的场景中启用，一般保持默认（不勾选）。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>开发 vs 量产配置建议</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">开发阶段</th>
+<th style="text-align:left">量产阶段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>Out Of Bounds Read Sanitizer</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Out Of Bounds Write Sanitizer</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Interfaces For Deactivated Data</code></td>
+<td style="text-align:left">❌ 关闭</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Referring Keys In Comments</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Short Symbols</code></td>
+<td style="text-align:left">❌ 关闭</td>
+<td style="text-align:left">按需</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>与 PduRGeneration 的相似性</strong>：<code>FvMGeneration</code> 中的参数与 <code>PduRGeneration</code> 中的同名参数功能一致，都是 Vector 工具链中用于控制代码生成的通用选项。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="FvMJasparGeneral">FvMJasparGeneral</h2>
+<p><code>FvMJasparGeneral</code> 用于配置 <strong>Jaspar 安全机制的全局参数</strong>，定义新鲜值管理中与计数器、同步消息、超时处理等相关的核心行为。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Clear Acceptance Window</strong></td>
+<td style="text-align:left">清除接受窗口</td>
+<td style="text-align:left">指定在接收到同步消息后，<strong>清除接受窗口（Acceptance Window）</strong> 的值，用于重置接收方的新鲜值验证窗口。</td>
+<td style="text-align:left">根据项目安全策略配置，典型值为 3-5。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>E SYNC MSG TOUT</strong></td>
+<td style="text-align:left">同步消息超时错误码</td>
+<td style="text-align:left">指定当同步消息<strong>超时</strong>时返回的错误码（Error Code）。</td>
+<td style="text-align:left">通常由工具或项目预设，一般不需要手动修改。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Enable Development Mode</strong></td>
+<td style="text-align:left">启用开发模式</td>
+<td style="text-align:left">勾选后，启用 <strong>Jaspar 开发模式</strong>，在开发阶段提供更多的调试信息和宽松的检查。</td>
+<td style="text-align:left">仅在开发调试阶段勾选，量产版本<strong>必须关闭</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Master Reset Counter Cycle Time [ms]</strong></td>
+<td style="text-align:left">主复位计数器周期时间</td>
+<td style="text-align:left">指定<strong>主复位计数器（Master Reset Counter）</strong> 的<strong>周期时间</strong>，以毫秒为单位。用于周期性复位计数器。</td>
+<td style="text-align:left">仅在需要周期性复位计数器的场景中配置，通常保持默认或留空。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Reception Timeout For Transmission [ms]</strong></td>
+<td style="text-align:left">发送接收超时</td>
+<td style="text-align:left">指定<strong>发送方向上接收响应</strong>的超时时间，以毫秒为单位。</td>
+<td style="text-align:left">根据项目通信延迟要求配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Reset Counter Bit Size</strong></td>
+<td style="text-align:left">重置计数器位宽</td>
+<td style="text-align:left">指定<strong>重置计数器（Reset Counter）</strong> 的<strong>位宽</strong>，以比特为单位。重置计数器用于跟踪 ECU 复位的次数。</td>
+<td style="text-align:left">根据项目安全策略配置，通常为 8-16 位。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Reset Counter Reach Max Notification</strong></td>
+<td style="text-align:left">重置计数器达到最大值通知</td>
+<td style="text-align:left">勾选后，当<strong>重置计数器达到最大值</strong>时，FvM 会触发通知回调，便于上层模块处理。</td>
+<td style="text-align:left">建议勾选，便于监控计数器状态。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Return Value For Same Trip Counter Sync Message</strong></td>
+<td style="text-align:left">相同行程计数器同步消息返回值</td>
+<td style="text-align:left">指定当收到<strong>相同行程计数器的同步消息</strong>时，FvM 返回的值。</td>
+<td style="text-align:left">通常为 <code>E_OK</code>（表示正常处理）或 <code>E_NOT_OK</code>（表示错误）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Return Value For Same Trip Reset Counter Sync Message</strong></td>
+<td style="text-align:left">相同行程重置计数器同步消息返回值</td>
+<td style="text-align:left">指定当收到<strong>相同行程重置计数器的同步消息</strong>时，FvM 返回的值。</td>
+<td style="text-align:left">通常为 <code>E_OK</code>（表示正常处理）或 <code>E_NOT_OK</code>（表示错误）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Rx Message Counter Reach Max Notification</strong></td>
+<td style="text-align:left">接收消息计数器达到最大值通知</td>
+<td style="text-align:left">勾选后，当<strong>接收方向的消息计数器达到最大值</strong>时，FvM 会触发通知回调。</td>
+<td style="text-align:left">建议勾选，便于监控接收方向的消息计数器状态。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Sync Message Reception Timeout [ms]</strong></td>
+<td style="text-align:left">同步消息接收超时</td>
+<td style="text-align:left">指定<strong>同步消息接收的超时时间</strong>，以毫秒为单位。如果在超时时间内未收到预期的同步消息，FvM 将触发超时处理。</td>
+<td style="text-align:left">根据项目通信延迟和安全策略配置，典型值为 10-50ms。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Trip Counter Bit Size</strong></td>
+<td style="text-align:left">行程计数器位宽</td>
+<td style="text-align:left">指定<strong>行程计数器（Trip Counter）</strong> 的<strong>位宽</strong>，以比特为单位。行程计数器用于跟踪驾驶循环的次数。</td>
+<td style="text-align:left">根据项目安全策略配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Trip Counter Nv MBlock Descriptor</strong></td>
+<td style="text-align:left">行程计数器 NvM 块描述符</td>
+<td style="text-align:left">引用 <strong>NvM（非易失性存储器管理器）</strong> 中的<strong>块描述符</strong>，用于持久化存储行程计数器的值。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，确保行程计数器在 ECU 断电后能够持久保存。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Trip Counter Reach Max Notification</strong></td>
+<td style="text-align:left">行程计数器达到最大值通知</td>
+<td style="text-align:left">勾选后，当<strong>行程计数器达到最大值</strong>时，FvM 会触发通知回调。</td>
+<td style="text-align:left">建议勾选，便于监控行程计数器状态。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Message Counter Reach Max Notification</strong></td>
+<td style="text-align:left">发送消息计数器达到最大值通知</td>
+<td style="text-align:left">勾选后，当<strong>发送方向的消息计数器达到最大值</strong>时，FvM 会触发通知回调。</td>
+<td style="text-align:left">建议勾选，便于监控发送方向的消息计数器状态。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Use Default Freshness Value During Start Up</strong></td>
+<td style="text-align:left">启动时发送使用默认新鲜值</td>
+<td style="text-align:left">勾选后，在 ECU <strong>启动阶段</strong>，发送方向使用<strong>默认新鲜值</strong>，而非从 NvM 中恢复的计数器值。</td>
+<td style="text-align:left">仅在启动阶段需要快速发送安全 PDU 且不需要恢复计数器状态时启用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Default Values If Out Of Sync After Start Up Time</strong></td>
+<td style="text-align:left">启动超时后不同步时使用默认值</td>
+<td style="text-align:left">勾选后，如果在 <code>Start Up Acceptance Time</code> 超时后仍然处于<strong>不同步状态</strong>，FvM 将使用<strong>默认值</strong>继续通信。</td>
+<td style="text-align:left">根据项目安全策略配置，在可用性和安全性之间权衡。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>计数器类型及其用途</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">计数器类型</th>
+<th style="text-align:left">作用</th>
+<th style="text-align:left">典型位宽</th>
+<th style="text-align:left">持久化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Reset Counter</strong></td>
+<td style="text-align:left">跟踪 ECU 复位的次数</td>
+<td style="text-align:left">8-16 位</td>
+<td style="text-align:left">通常持久化</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Trip Counter</strong></td>
+<td style="text-align:left">跟踪驾驶循环的次数</td>
+<td style="text-align:left">8-16 位</td>
+<td style="text-align:left">必须持久化（通过 NvM）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Message Counter</strong></td>
+<td style="text-align:left">每条安全 PDU 的序列号</td>
+<td style="text-align:left">14-32 位</td>
+<td style="text-align:left">取决于具体安全策略</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>同步消息超时处理</strong>：<code>Sync Message Reception Timeout</code> 定义了接收方等待同步消息的最长时间。如果超时，接收方无法建立与发送方的新鲜值同步，可能导致安全通信中断。合理配置此值对于安全通信的可靠性至关重要。</p>
+</li>
+</ol>
+</blockquote>
+<h1 id="SecOc">SecOc</h1>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SecOC</span><br><span class="line">├── SecOCRxPduProcessings</span><br><span class="line">│   └── SecOCRxSecuredPdu实例</span><br><span class="line">│		├──	SecOCRxAuthenticPduLayer</span><br><span class="line">│		├──	SecOCRxPduSecuredArea</span><br><span class="line">│       └── SecOCRxSecuredPduLayer</span><br><span class="line">├── SecOCTxPduProcessings</span><br><span class="line">│   └── SecOCTxSecuredPdu实例</span><br><span class="line">│       └── SecOCTxSecuredPduLayer</span><br><span class="line">├── SecOCGeneral</span><br><span class="line">└── SecOCGeneration</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">子容器</th>
+<th style="text-align:left">中文直译 / 惯称</th>
+<th style="text-align:left">核心功能职责</th>
+<th style="text-align:left">关键配置内容举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>SecOCRxPduProcessings</strong></td>
+<td style="text-align:left">接收方向安全 PDU 处理配置</td>
+<td style="text-align:left">配置 <strong>接收方向</strong> 的安全 PDU 处理参数，定义 SecOC 如何对接收到的安全 PDU 进行认证和新鲜值验证。</td>
+<td style="text-align:left">每个 <code>SecOCRxSecuredPdu</code> 实例对应一个接收安全 PDU，包含认证算法、密钥引用、新鲜值验证参数等，其下的 <code>SecOCRxSecuredPduLayer</code> 包含具体的安全处理层配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SecOCTxPduProcessings</strong></td>
+<td style="text-align:left">发送方向安全 PDU 处理配置</td>
+<td style="text-align:left">配置 <strong>发送方向</strong> 的安全 PDU 处理参数，定义 SecOC 如何为待发送的安全 PDU 生成认证信息（MAC）和新鲜值。</td>
+<td style="text-align:left">每个 <code>SecOCTxSecuredPdu</code> 实例对应一个发送安全 PDU，包含认证算法、密钥引用、新鲜值生成参数等，其下的 <code>SecOCTxSecuredPduLayer</code> 包含具体的安全处理层配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SecOCGeneral</strong></td>
+<td style="text-align:left">通用配置</td>
+<td style="text-align:left">配置 SecOC 模块的<strong>全局行为参数</strong>，如模块开关、错误检测、主函数周期等。</td>
+<td style="text-align:left">包含模块的全局运行参数，如开发错误检测开关、主函数周期、安全 PDU 处理超时等。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SecOCGeneration</strong></td>
+<td style="text-align:left">代码生成配置</td>
+<td style="text-align:left">配置 SecOC 模块的<strong>代码生成选项</strong>，控制生成代码的优化策略和数据结构。</td>
+<td style="text-align:left">控制生成代码的数据类型、内存优化策略、调试支持等。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>SecOC 模块在 AUTOSAR 安全架构中的位置</strong>：SecOC（Secure On-Board Communication，安全车载通信）是 AUTOSAR 中实现<strong>安全通信</strong>的核心模块。它在 PDU 层面提供<strong>认证（Authentication）</strong> 和<strong>新鲜度（Freshness）</strong> 保护，防止消息被篡改、伪造或重放。SecOC 位于通信栈的中间层，与 PduR、CanIf 和 FvM 等模块紧密协作。</p>
+</li>
+<li>
+<p><strong>SecOC 与 FvM 的协作</strong>：</p>
+<ul>
+<li><strong>FvM</strong>：负责新鲜值（Freshness Value）的生成和验证。</li>
+<li><strong>SecOC</strong>：负责安全 PDU 的加密/认证处理（MAC 计算和验证）。</li>
+<li>协作流程：SecOC 调用 FvM 获取新鲜值 → 计算 MAC → 组装安全 PDU（发送方向）；或提取新鲜值 → 调用 FvM 验证 → 验证 MAC（接收方向）。</li>
+</ul>
+</li>
+<li>
+<p><strong>安全 PDU 的处理方向</strong>：</p>
+<ul>
+<li><strong>Rx PDU（接收方向）</strong>：从总线上接收安全 PDU → 提取新鲜值并验证 → 验证 MAC → 验证通过后将数据传递给上层。</li>
+<li><strong>Tx PDU（发送方向）</strong>：从上层接收数据 → 生成新鲜值 → 计算 MAC → 组装安全 PDU → 发送到总线上。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="SecOCRxPduProcessings">SecOCRxPduProcessings</h2>
+<h3 id="SecOCRxSecuredPdu-实例">SecOCRxSecuredPdu 实例</h3>
+<p><code>SecOCRxPduProcessings</code> 下的每个实例用于配置 <strong>接收方向的安全 PDU 处理参数</strong>，定义 SecOC 如何对接收到的安全 PDU 进行认证和新鲜值验证。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该接收安全 PDU 配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例，通常包含对应的安全 PDU 名称和方向信息（<code>_Rx</code> 表示接收方向）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Async CSM Job Timeout [ms]</strong></td>
+<td style="text-align:left">异步 CSM 作业超时</td>
+<td style="text-align:left">指定 <strong>异步 CSM（Crypto Service Manager，加密服务管理器）</strong> 作业的<strong>超时时间</strong>，以毫秒为单位。若加密作业在超时时间内未完成，SecOC 将触发超时处理。</td>
+<td style="text-align:left">根据系统实时性要求和加密运算耗时配置。配置过短可能导致合法报文被丢弃，配置过长可能影响系统响应。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Auth Data Freshness Len</strong></td>
+<td style="text-align:left">认证数据新鲜值长度</td>
+<td style="text-align:left">指定<strong>认证数据中新鲜值字段的长度</strong>，以字节为单位。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置，通常与 <code>Freshness Value Length</code> 一致。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Auth Data Freshness Start Position</strong></td>
+<td style="text-align:left">认证数据新鲜值起始位置</td>
+<td style="text-align:left">指定新鲜值在<strong>认证数据（Authenticated Data）</strong> 中的<strong>起始字节位置</strong>。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置，确保接收方能够正确提取新鲜值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Auth Info Tx Length</strong></td>
+<td style="text-align:left">认证信息发送长度</td>
+<td style="text-align:left">指定<strong>认证信息（Auth Info）</strong> 在发送方向中的<strong>长度</strong>，以字节为单位。</td>
+<td style="text-align:left">与 Tx 方向的安全 PDU 配置保持一致。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Authentication Build Attempts</strong></td>
+<td style="text-align:left">认证构建尝试次数</td>
+<td style="text-align:left">指定<strong>认证构建（Authentication Build）</strong> 的最大尝试次数，即 SecOC 在构建认证数据时的重试次数。</td>
+<td style="text-align:left">通常保持默认值（如 1-3 次）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Authentication Verify Attempts</strong></td>
+<td style="text-align:left">认证验证尝试次数</td>
+<td style="text-align:left">指定<strong>认证验证（Authentication Verify）</strong> 的最大尝试次数，即 SecOC 在验证认证数据时的重试次数。</td>
+<td style="text-align:left">通常保持默认值（如 1-3 次）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Client Server Verification Status Propagation Mode</strong></td>
+<td style="text-align:left">客户端/服务器验证状态传播模式</td>
+<td style="text-align:left">指定<strong>验证状态</strong>在客户端/服务器通信中的传播方式。</td>
+<td style="text-align:left">- <code>NONE</code>：不传播验证状态。<br>- <code>BOTH</code>：双向传播。<br>根据项目安全通信架构配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Data Id</strong></td>
+<td style="text-align:left">数据 ID</td>
+<td style="text-align:left">该安全 PDU 的<strong>数据标识符（Data ID）</strong>，用于 CSM 作业中标识该数据。</td>
+<td style="text-align:left"><strong>必须与 CSM 作业配置中的数据 ID 一致</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Freshness Value Id</strong></td>
+<td style="text-align:left">新鲜值 ID</td>
+<td style="text-align:left">该安全 PDU 对应的<strong>新鲜值标识符（Freshness Value ID）</strong>，用于 FvM 中索引对应的新鲜值配置。</td>
+<td style="text-align:left"><strong>必须正确配置</strong>，确保 SecOC 能够从 FvM 获取正确的新鲜值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Freshness Value Length</strong></td>
+<td style="text-align:left">新鲜值长度</td>
+<td style="text-align:left">指定<strong>新鲜值（Freshness Value）</strong> 的<strong>长度</strong>，以字节为单位。</td>
+<td style="text-align:left">根据安全策略配置，通常为 4-8 字节。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Freshness Value Tx Length</strong></td>
+<td style="text-align:left">新鲜值发送长度</td>
+<td style="text-align:left">指定在发送方向上<strong>新鲜值的长度</strong>，以字节为单位。</td>
+<td style="text-align:left">与 Tx 方向的安全 PDU 配置保持一致，通常与 <code>Freshness Value Length</code> 相同。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Immediate Processing Of Csm Callback</strong></td>
+<td style="text-align:left">CSM 回调立即处理</td>
+<td style="text-align:left">勾选后，当 CSM 作业完成时，<strong>立即处理</strong>回调函数，而不将其放入延迟队列。</td>
+<td style="text-align:left">在实时性要求高的场景中勾选，但会增加中断上下文的处理负载。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pdu Processing</strong></td>
+<td style="text-align:left">PDU 处理模式</td>
+<td style="text-align:left">指定该安全 PDU 的<strong>处理模式</strong>。</td>
+<td style="text-align:left">- <code>IMMEDIATE</code>：立即处理。<br>- <code>DEFERRED</code>：延迟处理（在主函数中处理）。<br>根据系统实时性要求选择，通常使用 <code>DEFERRED</code> 以减少中断负载。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Reception Overflow Strategy</strong></td>
+<td style="text-align:left">接收溢出策略</td>
+<td style="text-align:left">指定当接收队列<strong>溢出</strong>时的处理策略。</td>
+<td style="text-align:left">- <code>REJECT</code>：拒绝新报文。<br>- <code>OVERWRITE</code>：覆盖旧报文。<br>根据项目需求配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Reception Queue Size</strong></td>
+<td style="text-align:left">接收队列大小</td>
+<td style="text-align:left">指定该安全 PDU 的<strong>接收队列大小</strong>，即最多可缓存的安全 PDU 数量。</td>
+<td style="text-align:left">根据总线负载和系统处理能力配置，典型值为 5-20。配置过小可能导致丢帧，配置过大浪费内存。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Rx Auth Service Config Ref</strong></td>
+<td style="text-align:left">接收认证服务配置引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>CSM（Crypto Service Manager，加密服务管理器）</strong> 中定义的<strong>认证作业配置</strong>，用于验证接收到的安全 PDU 的 MAC（消息认证码）。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 SecOC 无法对接收到的安全 PDU 进行认证验证。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Same Buffer Pdu Ref</strong></td>
+<td style="text-align:left">相同缓冲区 PDU 引用</td>
+<td style="text-align:left">指定与该安全 PDU <strong>共享同一缓冲区</strong> 的 PDU 配置引用，用于内存优化。</td>
+<td style="text-align:left">通常保持为空，仅在需要内存共享优化时配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Auth Data Freshness</strong></td>
+<td style="text-align:left">使用认证数据新鲜值</td>
+<td style="text-align:left">勾选后，<strong>新鲜值</strong>作为<strong>认证数据（Authenticated Data）</strong> 的一部分参与认证计算（即 MAC 计算包含新鲜值字段）。</td>
+<td style="text-align:left">根据安全策略配置。勾选后，新鲜值被纳入认证范围，防止新鲜值被篡改。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Verification Status Propagation Mode</strong></td>
+<td style="text-align:left">验证状态传播模式</td>
+<td style="text-align:left">指定<strong>验证状态</strong>的传播方式。</td>
+<td style="text-align:left">- <code>NONE</code>：不传播。<br>- <code>BOTH</code>：双向传播。<br>根据项目安全通信架构配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Verification Status With Secured Pdu Propagation Mode</strong></td>
+<td style="text-align:left">带安全 PDU 的验证状态传播模式</td>
+<td style="text-align:left">指定当验证状态与安全 PDU 一起传播时的模式。</td>
+<td style="text-align:left">与 <code>Verification Status Propagation Mode</code> 配合使用，通常保持相同配置。和<code>Verification Status Propagation Mode</code> 的区别就是在传播的时候会带有数据</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>接收安全 PDU 的处理流程</strong>：</p>
+<ul>
+<li>从总线上接收安全 PDU。</li>
+<li>提取新鲜值，调用 FvM 验证新鲜值是否有效。</li>
+<li>调用 CSM 作业验证 MAC（消息认证码）。</li>
+<li>如果新鲜值和 MAC 均验证通过，将数据传递给上层（PduR）。</li>
+<li>如果验证失败，丢弃报文并触发相应的错误处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>CSM 作业配置</strong>：<code>Rx Auth Service Config Ref</code> 指向的 CSM 作业配置中，通常包含以下关键参数：</p>
+<ul>
+<li><strong>加密算法</strong>：如 AES-GCM、CMAC 等。</li>
+<li><strong>密钥引用</strong>：指向密钥存储位置的引用。</li>
+<li><strong>数据 ID</strong>：与 <code>Data Id</code> 参数一致，用于标识该作业处理的数据。</li>
+<li><strong>作业模式</strong>：同步或异步执行模式。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h3 id="SecOCRxAuthenticPduLayer-实例">SecOCRxAuthenticPduLayer 实例</h3>
+<p><code>SecOCRxAuthenticPduLayer</code> 是 <code>SecOCRxSecuredPdu</code> 的子容器，用于配置 <strong>接收方向安全 PDU 的底层通信参数</strong>，定义该安全 PDU 在 PduR 层面的 PDU 类型和关联的底层 PDU 引用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该安全 PDU 层配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pdu Type</strong></td>
+<td style="text-align:left">PDU 类型</td>
+<td style="text-align:left">指定该安全 PDU 的 <strong>PDU 类型</strong>，用于标识其在 PduR 路由中的类型。</td>
+<td style="text-align:left">- <code>SECOC_IFPDU</code>：SecOC 接口 PDU，表示该 PDU 由 SecOC 模块处理。<br>- 其他类型根据项目通信架构定义。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Rx Authentic Layer Pdu Ref</strong></td>
+<td style="text-align:left">接收认证层 PDU 引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>EcuC（ECU 配置）</strong> 中定义的 <strong>PDU 配置实例</strong>，将该安全 PDU 与底层通信 PDU 关联起来。SecOC 通过此引用从底层接收安全 PDU 数据。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 SecOC 无法从底层接收该安全 PDU 的数据。该引用指向 <code>EcuC/EcuPduCollection</code> 中定义的具体 PDU 实例。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>SecOC 与 PduR 的协作</strong>：SecOC 模块在通信栈中位于 PduR 之上，安全 PDU 的接收和发送通过 PduR 与底层通信接口（如 CanIf）进行交互。<code>Rx Authentic Layer Pdu Ref</code> 建立了 SecOC 与 PduR 之间的 PDU 关联，确保安全 PDU 能够正确路由到 SecOC 模块进行处理。</p>
+</li>
+<li>
+<p><strong>Pdu Type 的作用</strong>：<code>SECOC_IFPDU</code> 标识该 PDU 是 SecOC 接口类型的 PDU，PduR 在路由时会根据此类型将该 PDU 转发给 SecOC 模块，而非直接传递给 Com 或 Dcm 等其他上层模块。</p>
+</li>
+<li>
+<p><strong>典型配置链路</strong>：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SecOCRxAuthenticPduLayer.Rx Authentic Layer Pdu Ref</span><br><span class="line">                ↓</span><br><span class="line">EcuPduCollection/.../xxx_Rx（PDU 实例）</span><br><span class="line">                ↓</span><br><span class="line">CanIfRxPduCfg（CanIf 接收 PDU 配置）</span><br></pre></td></tr></table></figure>
+<p>安全 PDU 的完整接收链路为：Can 总线 → CanIf → PduR → SecOC → 上层模块（Com/Dcm）。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="SecOCRxPduSecuredArea-实例">SecOCRxPduSecuredArea 实例</h3>
+<p><code>SecOCRxPduSecuredArea</code> 用于配置 <strong>接收方向安全 PDU 的安全区域（Secured Area）</strong> 属性，定义安全 PDU 中受保护数据的长度和起始偏移位置。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该安全区域配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Secured Rx Pdu Length</strong></td>
+<td style="text-align:left">安全接收 PDU 长度</td>
+<td style="text-align:left">指定安全 PDU 中<strong>受安全保护的数据长度</strong>，以字节为单位。该部分数据参与认证（MAC）计算和新鲜值验证。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置。该长度不应超过 PDU 的总长度，需确保认证数据（Authenticated Data）的完整性。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Secured Rx Pdu Offset</strong></td>
+<td style="text-align:left">安全接收 PDU 偏移</td>
+<td style="text-align:left">指定安全 PDU 中<strong>受安全保护数据的起始偏移位置</strong>，以字节为单位，从 PDU 数据的开头计算。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置，确保受保护数据的起始位置正确。偏移量之前的字段（如 PDU 头）通常不参与安全保护。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>安全区域的作用</strong>：在 SecOC 安全通信中，并非 PDU 的所有字段都需要参与安全保护（如某些 PDU 头部字段可能不参与 MAC 计算）。<code>SecOCRxPduSecuredArea</code> 通过 <code>Offset</code> 和 <code>Length</code> 精确定义了 PDU 中<strong>受安全保护的数据区域</strong>，确保 MAC 计算和新鲜值验证的准确性。</p>
+</li>
+<li>
+<p><strong>安全区域的典型示例</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PDU 数据布局（假设总长度为 20 字节）：</span><br><span class="line">| 头部 (4 字节) | 安全区域 (16 字节) |</span><br><span class="line">↑               ↑</span><br><span class="line">Offset = 0      Offset = 4, Length = 16</span><br></pre></td></tr></table></figure>
+<p>在该示例中：</p>
+<ul>
+<li><code>Secured Rx Pdu Offset = 4</code>：从第 4 字节开始受保护。</li>
+<li><code>Secured Rx Pdu Length = 16</code>：受保护区域长度为 16 字节。</li>
+<li>头部 4 字节不参与安全保护（可能包含 PDU ID 或控制信息）。</li>
+</ul>
+</li>
+<li>
+<p><strong>发送与接收的一致性</strong>：<code>SecOCRxPduSecuredArea</code> 的配置必须与发送方向的 <code>SecOCTxPduSecuredArea</code>（如果有）保持一致，确保发送方和接收方对安全区域的界定相同，否则 MAC 验证将失败。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="SecOCRxSecuredPduLayer-实例">SecOCRxSecuredPduLayer 实例</h3>
+<p><code>SecOCRxSecuredPduLayer</code> 是 <code>SecOCRxSecuredPdu</code> 的子容器（与 <code>SecOCRxAuthenticPduLayer</code> 平级），用于配置 <strong>接收方向安全 PDU 的认证层参数</strong>，定义安全 PDU 的认证头长度、关联的底层 PDU 引用以及验证开关。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该认证层配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Auth Pdu Header Length</strong></td>
+<td style="text-align:left">认证 PDU 头长度</td>
+<td style="text-align:left">指定安全 PDU 中<strong>认证头（Authentication Header）</strong> 的长度，以字节为单位。认证头通常包含新鲜值、计数器等安全相关信息。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置。该长度用于 SecOC 在解析 PDU 时跳过认证头，定位到实际数据部分。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Rx Secured Layer Pdu Id</strong></td>
+<td style="text-align:left">接收安全层 PDU ID</td>
+<td style="text-align:left">该安全 PDU 在 SecOC 模块内部的<strong>数字标识符</strong>，用于索引和识别不同的安全 PDU。</td>
+<td style="text-align:left">通常由工具自动生成，无需手动修改。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Rx Secured Layer Pdu Ref</strong></td>
+<td style="text-align:left">接收安全层 PDU 引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>EcuC（ECU 配置）</strong> 中定义的 <strong>PDU 配置实例</strong>，将该安全 PDU 与底层通信 PDU 关联起来。SecOC 通过此引用从底层接收安全 PDU 数据。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 SecOC 无法从底层接收该安全 PDU 的数据。该引用指向 <code>EcuC/EcuPduCollection</code> 中定义的具体 PDU 实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Secured Rx Pdu Verification</strong></td>
+<td style="text-align:left">安全接收 PDU 验证</td>
+<td style="text-align:left">勾选后，SecOC 对该安全 PDU 执行<strong>完整的安全验证</strong>，包括新鲜值验证和 MAC 认证。</td>
+<td style="text-align:left"><strong>必须勾选</strong>，否则安全 PDU 不会经过任何安全验证，安全通信机制将失效。仅在调试或特殊场景中可暂时关闭。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>认证头的作用</strong>：认证头（Authentication Header）是安全 PDU 中用于携带安全相关信息的字段，通常包含：</p>
+<ul>
+<li><strong>新鲜值</strong>：用于防止重放攻击的计数器或时间戳。</li>
+<li><strong>MAC（消息认证码）</strong>：用于验证 PDU 的完整性和真实性。</li>
+<li><strong>安全状态信息</strong>：如安全等级、算法标识等。</li>
+</ul>
+<p><code>Auth Pdu Header Length</code> 定义了这些安全相关字段的总长度。</p>
+</li>
+<li>
+<p><strong>安全 PDU 的典型结构</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">| 认证头 (Auth Header) | 数据 (Data) | MAC (消息认证码) |</span><br><span class="line">| &lt;Auth Pdu Header Length&gt; | &lt;实际数据&gt; | &lt;MAC 长度&gt; |</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SecOC 根据 <code>Auth Pdu Header Length</code> 解析认证头。</li>
+<li>提取新鲜值后调用 FvM 进行验证。</li>
+<li>提取 MAC 后调用 CSM 进行认证验证。</li>
+<li>验证通过后，将数据部分传递给上层模块。</li>
+</ul>
+</li>
+<li>
+<p><strong>RxSecuredLayerPdu 与 RxAuthenticLayerPdu 的区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">容器</th>
+<th style="text-align:left">职责</th>
+<th style="text-align:left">引用指向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>SecOCRxSecuredPduLayer</code></td>
+<td style="text-align:left">安全层配置，定义认证头和验证开关</td>
+<td style="text-align:left"><code>Rx Secured Layer Pdu Ref</code> → 底层安全 PDU 实例</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SecOCRxAuthenticPduLayer</code></td>
+<td style="text-align:left">认证层配置，定义 PDU 类型和底层数据引用</td>
+<td style="text-align:left"><code>Rx Authentic Layer Pdu Ref</code> → 底层认证数据 PDU 实例</td>
+</tr>
+</tbody>
+</table>
+<p>两者通常指向相同的底层 PDU 实例，但在配置逻辑上分别定义了安全层的属性和认证层的属性。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="SecOCTxPduProcessings">SecOCTxPduProcessings</h2>
+<h3 id="SecOCTxSecuredPdu-实例">SecOCTxSecuredPdu 实例</h3>
+<p><code>SecOCTxPduProcessings</code> 下的每个实例用于配置 <strong>发送方向的安全 PDU 处理参数</strong>，定义 SecOC 如何为待发送的 PDU 生成新鲜值和 MAC（消息认证码）。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该发送安全 PDU 配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例，通常包含对应的安全 PDU 名称和方向信息（<code>_Tx</code> 表示发送方向）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Add CANFD Container Pdu Padding</strong></td>
+<td style="text-align:left">添加 CANFD 容器 PDU 填充</td>
+<td style="text-align:left">勾选后，SecOC 在构建 CANFD 安全 PDU 时会自动添加填充字节以满足容器长度要求。</td>
+<td style="text-align:left">仅在使用 <strong>CANFD 容器 PDU</strong> 时启用，一般项目保持关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Async CSM Job Timeout [ms]</strong></td>
+<td style="text-align:left">异步 CSM 作业超时</td>
+<td style="text-align:left">指定 <strong>异步 CSM（加密服务管理器）作业</strong> 的超时时间，以毫秒为单位。若加密作业在超时时间内未完成，SecOC 将触发超时处理。</td>
+<td style="text-align:left">根据加密运算耗时和系统实时性要求配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Auth Info Tx Length</strong></td>
+<td style="text-align:left">认证信息发送长度</td>
+<td style="text-align:left">指定 <strong>认证信息（Auth Info）</strong> 在发送方向中的长度，以字节为单位。</td>
+<td style="text-align:left">根据安全策略配置，通常与 MAC 长度或新鲜值长度相关。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Authentication Build Attempts</strong></td>
+<td style="text-align:left">认证构建尝试次数</td>
+<td style="text-align:left">指定 <strong>认证构建</strong> 的最大尝试次数，即 SecOC 在构建认证数据时的重试次数。</td>
+<td style="text-align:left">通常保持默认值（如 3 次）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Data Id</strong></td>
+<td style="text-align:left">数据 ID</td>
+<td style="text-align:left">该安全 PDU 的 <strong>数据标识符（Data ID）</strong>，用于 CSM 作业中标识该数据。</td>
+<td style="text-align:left"><strong>必须与 CSM 作业配置中的数据 ID 一致</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Freshness Value Id</strong></td>
+<td style="text-align:left">新鲜值 ID</td>
+<td style="text-align:left">该安全 PDU 对应的 <strong>新鲜值标识符</strong>，用于 FvM 中索引对应的新鲜值配置。</td>
+<td style="text-align:left"><strong>必须正确配置</strong>，确保 SecOC 能够从 FvM 获取正确的新鲜值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Freshness Value Length</strong></td>
+<td style="text-align:left">新鲜值长度</td>
+<td style="text-align:left">指定 <strong>新鲜值</strong> 的 <strong>总长度</strong>，以字节为单位。</td>
+<td style="text-align:left">根据安全策略配置，通常为 4-8 字节。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Freshness Value Tx Length</strong></td>
+<td style="text-align:left">新鲜值发送长度</td>
+<td style="text-align:left">指定在发送方向上实际 <strong>发送的新鲜值长度</strong>，以字节为单位。可以截断新鲜值以节省带宽（<code>Truncated Freshness Value</code>）。</td>
+<td style="text-align:left">通常与 <code>Freshness Value Length</code> 一致，除非需要使用截断新鲜值优化带宽。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Immediate Processing Of Csm Callback</strong></td>
+<td style="text-align:left">CSM 回调立即处理</td>
+<td style="text-align:left">勾选后，当 CSM 作业完成时，<strong>立即处理</strong> 回调函数，而不将其放入延迟队列。</td>
+<td style="text-align:left">在实时性要求高的场景中勾选，但会增加中断上下文的处理负载。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pdu Processing</strong></td>
+<td style="text-align:left">PDU 处理模式</td>
+<td style="text-align:left">指定该安全 PDU 的 <strong>处理模式</strong>。</td>
+<td style="text-align:left">- <code>IMMEDIATE</code>：立即处理。<br>- <code>DEFERRED</code>：延迟处理（在主函数中处理）。<br>通常使用 <code>DEFERRED</code> 以减少中断负载。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Provide Tx Truncated Freshness Value</strong></td>
+<td style="text-align:left">提供发送截断新鲜值</td>
+<td style="text-align:left">勾选后，SecOC 在发送 PDU 时提供 <strong>截断后的新鲜值</strong>（<code>Freshness Value Tx Length</code> 指定的长度）。</td>
+<td style="text-align:left">仅在带宽受限场景中启用，需与接收方协商一致的截断策略。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Same Buffer Pdu Ref</strong></td>
+<td style="text-align:left">相同缓冲区 PDU 引用</td>
+<td style="text-align:left">指定与该安全 PDU <strong>共享同一缓冲区</strong> 的 PDU 配置引用，用于内存优化。</td>
+<td style="text-align:left">通常保持为空，仅在需要内存共享优化时配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Auth Service Config Ref</strong></td>
+<td style="text-align:left">发送认证服务配置引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>CSM</strong> 中定义的 <strong>认证作业配置</strong>，用于为待发送的安全 PDU 生成 MAC。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 SecOC 无法为安全 PDU 生成 MAC。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Tx Confirmation</strong></td>
+<td style="text-align:left">使用发送确认</td>
+<td style="text-align:left">勾选后，SecOC 在 PDU <strong>成功发送后</strong> 会收到发送确认通知，可用于触发后续处理（如更新新鲜值状态）。</td>
+<td style="text-align:left">建议勾选，确保发送状态可追踪。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>发送安全 PDU 的处理流程</strong>：</p>
+<ul>
+<li>上层模块（如 Com）将数据传递给 SecOC。</li>
+<li>SecOC 调用 FvM 获取当前新鲜值。</li>
+<li>SecOC 使用 CSM 作业生成 MAC（消息认证码）。</li>
+<li>SecOC 组装安全 PDU（认证头 + 数据 + MAC）。</li>
+<li>安全 PDU 通过 PduR → CanIf 发送到总线上。</li>
+<li>发送完成后，SecOC 更新新鲜值状态（如递增消息计数器）。</li>
+</ul>
+</li>
+<li>
+<p><strong>新鲜值截断（Truncated Freshness Value）</strong>：在带宽受限的场景中，完整的新鲜值可能过长（如 8 字节），可以通过截断方式仅发送部分字节（如 4 字节）。接收方通过同步机制恢复完整的新鲜值。<code>Provide Tx Truncated Freshness Value</code> 和 <code>Freshness Value Tx Length</code> 共同控制截断行为。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="SecOCTxAuthenticPduLayer-实例">SecOCTxAuthenticPduLayer 实例</h3>
+<p><code>SecOCTxAuthenticPduLayer</code> 是 <code>SecOCTxSecuredPdu</code> 的子容器，用于配置 <strong>发送方向安全 PDU 的认证层参数</strong>，定义该安全 PDU 在 PduR 层面的 PDU 类型和关联的底层 PDU 引用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该认证层配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pdu Type</strong></td>
+<td style="text-align:left">PDU 类型</td>
+<td style="text-align:left">指定该安全 PDU 的 <strong>PDU 类型</strong>，用于标识其在 PduR 路由中的类型。</td>
+<td style="text-align:left">- <code>SECOC_IFPDU</code>：SecOC 接口 PDU，表示该 PDU 由 SecOC 模块处理。<br>- 其他类型根据项目通信架构定义。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Authentic Layer Pdu Id</strong></td>
+<td style="text-align:left">发送认证层 PDU ID</td>
+<td style="text-align:left">该认证层 PDU 在 SecOC 模块内部的 <strong>数字标识符</strong>，用于索引和识别不同的认证层 PDU。</td>
+<td style="text-align:left">通常由工具自动生成，无需手动修改。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Authentic Layer Pdu Ref</strong></td>
+<td style="text-align:left">发送认证层 PDU 引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>EcuC</strong> 中定义的 <strong>PDU 配置实例</strong>，将该安全 PDU 与底层通信 PDU 关联起来。SecOC 通过此引用将安全 PDU 传递给底层通信模块进行发送。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 SecOC 无法将安全 PDU 发送到底层。该引用指向 <code>EcuC/EcuPduCollection</code> 中定义的具体 PDU 实例。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>发送方向的完整配置层级</strong>：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SecOCTxSecuredPdu（发送安全 PDU 配置）</span><br><span class="line">    ├── SecOCTxSecuredPduLayer（安全层配置）</span><br><span class="line">    │   └── Auth Pdu Header Length 等参数</span><br><span class="line">    └── SecOCTxAuthenticPduLayer（认证层配置）</span><br><span class="line">        ├── Pdu Type</span><br><span class="line">        ├── Tx Authentic Layer Pdu Id</span><br><span class="line">        └── Tx Authentic Layer Pdu Ref  ← 指向底层 PDU</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>发送安全 PDU 的底层通信链路</strong>：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecOC（安全处理）→ PduR → CanIf → Can 驱动 → 总线</span><br></pre></td></tr></table></figure>
+<p><code>Tx Authentic Layer Pdu Ref</code> 指向的 PDU 配置实例，与 <code>CanIfTxPduCfgs</code> 中的 PDU 配置关联，确保安全 PDU 能够通过正确的 CAN ID 和通信参数发送到总线上。</p>
+</li>
+<li>
+<p><strong>TxSecuredPduLayer 与 TxAuthenticPduLayer 的区别</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">容器</th>
+<th style="text-align:left">职责</th>
+<th style="text-align:left">关键参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>SecOCTxSecuredPduLayer</code></td>
+<td style="text-align:left">安全层配置，定义认证头长度、验证开关等</td>
+<td style="text-align:left"><code>Auth Pdu Header Length</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>SecOCTxAuthenticPduLayer</code></td>
+<td style="text-align:left">认证层配置，定义 PDU 类型和底层引用</td>
+<td style="text-align:left"><code>Pdu Type</code>、<code>Tx Authentic Layer Pdu Ref</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</blockquote>
+<h3 id="SecOCTxPduSecuredArea-实例">SecOCTxPduSecuredArea 实例</h3>
+<p><code>SecOCTxPduSecuredArea</code> 用于配置 <strong>发送方向安全 PDU 的安全区域（Secured Area）</strong> 属性，定义安全 PDU 中受保护数据的长度和起始偏移位置。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该安全区域配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Secured Tx Pdu Length</strong></td>
+<td style="text-align:left">安全发送 PDU 长度</td>
+<td style="text-align:left">指定安全 PDU 中<strong>受安全保护的数据长度</strong>，以字节为单位。该部分数据参与认证（MAC）计算和新鲜值验证。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置。该长度不应超过 PDU 的总长度。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Secured Tx Pdu Offset</strong></td>
+<td style="text-align:left">安全发送 PDU 偏移</td>
+<td style="text-align:left">指定安全 PDU 中<strong>受安全保护数据的起始偏移位置</strong>，以字节为单位，从 PDU 数据的开头计算。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置，确保受保护数据的起始位置正确。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>发送与接收安全区域的一致性</strong>：<code>SecOCTxPduSecuredArea</code> 的配置必须与接收方向的 <code>SecOCRxPduSecuredArea</code> 配置一致，确保发送方和接收方对安全区域的界定相同，否则接收方 MAC 验证将失败。</p>
+</li>
+<li>
+<p><strong>Tx 与 Rx 的对称关系</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方向</th>
+<th style="text-align:left">容器</th>
+<th style="text-align:left">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">接收（Rx）</td>
+<td style="text-align:left"><code>SecOCRxPduSecuredArea</code></td>
+<td style="text-align:left"><code>Secured Rx Pdu Length</code>、<code>Secured Rx Pdu Offset</code></td>
+</tr>
+<tr>
+<td style="text-align:left">发送（Tx）</td>
+<td style="text-align:left"><code>SecOCTxPduSecuredArea</code></td>
+<td style="text-align:left"><code>Secured Tx Pdu Length</code>、<code>Secured Tx Pdu Offset</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>安全区域的典型配置示例</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PDU 数据布局（总长度 20 字节）：</span><br><span class="line">| 头部 (4 字节) | 安全区域 (16 字节) |</span><br><span class="line">   </span><br><span class="line">Offset = 4（跳过头部 4 字节）</span><br><span class="line">Length = 16（头部之后的所有数据）</span><br></pre></td></tr></table></figure>
+<p>头部 4 字节不参与安全保护，安全区域 16 字节参与 MAC 计算和新鲜值保护。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="SecOCTxSecuredPduLayer-实例">SecOCTxSecuredPduLayer 实例</h3>
+<p><code>SecOCTxSecuredPduLayer</code> 是 <code>SecOCTxSecuredPdu</code> 的子容器（与 <code>SecOCTxAuthenticPduLayer</code> 平级），用于配置 <strong>发送方向安全 PDU 的安全层参数</strong>，定义安全 PDU 的认证头长度、PDU 类型以及关联的底层 PDU 引用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该安全层配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Auth Pdu Header Length</strong></td>
+<td style="text-align:left">认证 PDU 头长度</td>
+<td style="text-align:left">指定安全 PDU 中<strong>认证头（Authentication Header）</strong> 的长度，以字节为单位。认证头通常包含新鲜值、计数器等安全相关信息。SecOC 在构建安全 PDU 时会预留该长度的空间用于填充认证头。</td>
+<td style="text-align:left">根据安全 PDU 的帧格式配置。该长度必须与接收方的 <code>Auth Pdu Header Length</code> 配置一致，否则接收方无法正确解析安全 PDU。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Pdu Type</strong></td>
+<td style="text-align:left">PDU 类型</td>
+<td style="text-align:left">指定该安全 PDU 的 <strong>PDU 类型</strong>，用于标识其在 PduR 路由中的类型。</td>
+<td style="text-align:left"><code>SECOC_IFPDU</code>：SecOC 接口 PDU，表示该 PDU 由 SecOC 模块处理。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Secured Layer Pdu Id</strong></td>
+<td style="text-align:left">发送安全层 PDU ID</td>
+<td style="text-align:left">该安全层 PDU 在 SecOC 模块内部的 <strong>数字标识符</strong>，用于索引和识别不同的安全层 PDU。</td>
+<td style="text-align:left">通常由工具自动生成，无需手动修改。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Tx Secured Layer Pdu Ref</strong></td>
+<td style="text-align:left">发送安全层 PDU 引用</td>
+<td style="text-align:left"><strong>关键引用</strong>。指向 <strong>EcuC</strong> 中定义的 <strong>PDU 配置实例</strong>，将该安全 PDU 与底层通信 PDU 关联起来。SecOC 通过此引用将安全 PDU 传递给底层通信模块进行发送。</td>
+<td style="text-align:left"><strong>必须正确引用</strong>，否则 SecOC 无法将安全 PDU 发送到底层。该引用指向 <code>EcuC/EcuPduCollection</code> 中定义的具体 PDU 实例。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>发送方向的完整配置层级</strong>：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SecOCTxSecuredPdu（发送安全 PDU 配置）</span><br><span class="line">    ├── SecOCTxSecuredPduLayer（安全层配置）</span><br><span class="line">    │   ├── Auth Pdu Header Length</span><br><span class="line">    │   ├── Pdu Type: SECOC_IFPDU</span><br><span class="line">    │   ├── Tx Secured Layer Pdu Id</span><br><span class="line">    │   └── Tx Secured Layer Pdu Ref  ← 指向底层 PDU</span><br><span class="line">    └── SecOCTxAuthenticPduLayer（认证层配置）</span><br><span class="line">        ├── Pdu Type</span><br><span class="line">        ├── Tx Authentic Layer Pdu Id</span><br><span class="line">        └── Tx Authentic Layer Pdu Ref  ← 指向底层 PDU</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>Auth Pdu Header Length 的重要性</strong>：该参数定义了认证头的长度，SecOC 在构建安全 PDU 时会根据此值预留空间。如果配置过短，安全信息（新鲜值、MAC 等）可能无法完整存放；如果配置过长，则会浪费总线带宽。<strong>必须与接收方的配置保持一致</strong>。</p>
+</li>
+<li>
+<p><strong>TxSecuredPduLayer 与 TxAuthenticPduLayer 的协作</strong>：</p>
+<ul>
+<li><code>TxSecuredPduLayer</code>：定义安全 PDU 的<strong>安全属性</strong>（认证头长度、安全层 PDU 引用）。</li>
+<li><code>TxAuthenticPduLayer</code>：定义安全 PDU 的<strong>认证属性</strong>（认证层 PDU 引用）。</li>
+<li>两者共同确保安全 PDU 能够正确构建并发送到底层通信模块。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<h2 id="SecOCGeneral">SecOCGeneral</h2>
+<p><code>SecOCGeneral</code> 是 SecOC 模块的<strong>顶层通用配置容器</strong>，用于配置 SecOC 的全局行为参数，包括错误检测、主函数周期、新鲜值查询方式、验证状态回调等。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该通用配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Can Fd Padding</strong></td>
+<td style="text-align:left">CAN FD 填充</td>
+<td style="text-align:left">勾选后，启用 <strong>CAN FD 填充</strong>，对 CAN FD 报文进行字节填充以满足长度要求。</td>
+<td style="text-align:left">仅在项目使用 CAN FD 时可能需要启用，根据通信矩阵配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Default Authentication Information Pattern</strong></td>
+<td style="text-align:left">默认认证信息模式</td>
+<td style="text-align:left">指定 <strong>默认认证信息模式</strong>，用于 SecOC 在构建安全 PDU 时的默认认证参数。</td>
+<td style="text-align:left">根据项目安全策略配置，通常由 OEM 定义。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Dev Error Detect</strong></td>
+<td style="text-align:left">开发错误检测</td>
+<td style="text-align:left">勾选后，启用 SecOC 内部的<strong>开发错误检测</strong>，当检测到参数错误、状态错误时，调用 <code>Det_ReportError</code> 报告。</td>
+<td style="text-align:left"><strong>开发阶段建议勾选</strong>，便于发现集成问题。<strong>量产阶段建议关闭</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Enable Async CSM Job Timeout</strong></td>
+<td style="text-align:left">启用异步 CSM 作业超时</td>
+<td style="text-align:left">勾选后，启用 <strong>异步 CSM 作业超时</strong> 监控，当 CSM 加密作业超时时触发超时处理。</td>
+<td style="text-align:left">建议勾选，确保加密作业不会无限阻塞。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Enable Custom Authentication API</strong></td>
+<td style="text-align:left">启用自定义认证 API</td>
+<td style="text-align:left">勾选后，启用<strong>自定义认证 API</strong>，允许用户提供自定义的认证函数实现。</td>
+<td style="text-align:left">仅在需要自定义认证逻辑时启用，一般保持默认（不勾选）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Enable Development Mode</strong></td>
+<td style="text-align:left">启用开发模式</td>
+<td style="text-align:left">勾选后，启用 <strong>SecOC 开发模式</strong>，在开发阶段提供更多的调试信息和宽松的检查。</td>
+<td style="text-align:left">仅在开发调试阶段勾选，量产版本<strong>必须关闭</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Enable Forced Pass Override</strong></td>
+<td style="text-align:left">启用强制通过覆盖</td>
+<td style="text-align:left">勾选后，允许<strong>强制通过</strong>安全验证（即使 MAC 或新鲜值验证失败）。</td>
+<td style="text-align:left">仅在开发调试阶段启用，<strong>量产版本必须关闭</strong>，否则安全机制将失效。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Ignore Verification Result</strong></td>
+<td style="text-align:left">忽略验证结果</td>
+<td style="text-align:left">勾选后，SecOC 会<strong>忽略</strong>安全验证结果，即使验证失败也继续处理 PDU 数据。</td>
+<td style="text-align:left">仅在开发调试阶段启用，<strong>量产版本必须关闭</strong>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Main Function Period Rx [ms]</strong></td>
+<td style="text-align:left">接收主函数周期</td>
+<td style="text-align:left">指定 <strong>接收方向主函数（SecOC_MainFunction_Rx）</strong> 的执行周期，以毫秒为单位。</td>
+<td style="text-align:left">根据项目调度周期配置，典型值为 5-20ms。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Main Function Period Tx [ms]</strong></td>
+<td style="text-align:left">发送主函数周期</td>
+<td style="text-align:left">指定 <strong>发送方向主函数（SecOC_MainFunction_Tx）</strong> 的执行周期，以毫秒为单位。</td>
+<td style="text-align:left">根据项目调度周期配置，典型值为 5-20ms。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Max Align Scalar Type</strong></td>
+<td style="text-align:left">最大对齐标量类型</td>
+<td style="text-align:left">指定 SecOC 中使用的<strong>最大对齐标量类型</strong>，用于控制数据结构的对齐方式。</td>
+<td style="text-align:left">通常保持默认，一般不需要手动修改。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Max Message Linker Size Of Rx Pdu</strong></td>
+<td style="text-align:left">接收 PDU 最大消息链接器大小</td>
+<td style="text-align:left">指定接收方向安全 PDU 的<strong>最大消息链接器大小</strong>，用于内存分配。</td>
+<td style="text-align:left">通常保持默认值（0），由工具自动计算。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Propagate Only Final Verification Status</strong></td>
+<td style="text-align:left">仅传播最终验证状态</td>
+<td style="text-align:left">勾选后，SecOC 仅传播<strong>最终验证状态</strong>，而非中间状态。</td>
+<td style="text-align:left">根据项目安全通信架构配置，通常建议勾选以减少状态传递开销。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Query Freshness Value</strong></td>
+<td style="text-align:left">查询新鲜值方式</td>
+<td style="text-align:left">指定 SecOC 查询 FvM 获取新鲜值的<strong>调用方式</strong>。</td>
+<td style="text-align:left"><code>CFUNC</code>：使用 C 函数调用。通常保持默认值。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Retry Failed Transmit Request</strong></td>
+<td style="text-align:left">重试失败的发送请求</td>
+<td style="text-align:left">勾选后，当发送请求失败时，SecOC 会<strong>自动重试</strong>发送。</td>
+<td style="text-align:left">建议勾选，提高发送可靠性。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Safe Bsw Checks</strong></td>
+<td style="text-align:left">安全 BSW 检查</td>
+<td style="text-align:left">勾选后，启用<strong>安全 BSW 检查</strong>，对关键参数进行合法性检查，用于功能安全场景。</td>
+<td style="text-align:left">在 <strong>ASIL/功能安全</strong> 项目中建议勾选，QM 项目保持关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Get Rx Freshness</strong></td>
+<td style="text-align:left">使用获取接收新鲜值 API</td>
+<td style="text-align:left">勾选后，SecOC 使用 <code>GetRxFreshness</code> API 获取接收方向的新鲜值。</td>
+<td style="text-align:left">根据项目 FvM 接口配置，通常保持默认（勾选）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Get Rx Freshness Auth Data</strong></td>
+<td style="text-align:left">使用获取接收新鲜值认证数据 API</td>
+<td style="text-align:left">勾选后，SecOC 使用 <code>GetRxFreshnessAuthData</code> API 获取接收方向的新鲜值认证数据。</td>
+<td style="text-align:left">根据项目 FvM 接口配置，通常保持默认（勾选）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Get Tx Freshness</strong></td>
+<td style="text-align:left">使用获取发送新鲜值 API</td>
+<td style="text-align:left">勾选后，SecOC 使用 <code>GetTxFreshness</code> API 获取发送方向的新鲜值。</td>
+<td style="text-align:left">根据项目 FvM 接口配置，通常保持默认（勾选）。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use Get Tx Freshness Trunc Data</strong></td>
+<td style="text-align:left">使用获取发送截断新鲜值 API</td>
+<td style="text-align:left">勾选后，SecOC 使用 <code>GetTxFreshnessTruncData</code> API 获取发送方向的截断新鲜值。</td>
+<td style="text-align:left">仅在需要截断新鲜值时启用。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use MSB Aligned Truncated Freshness Value In FvM</strong></td>
+<td style="text-align:left">在 FvM 中使用 MSB 对齐截断新鲜值</td>
+<td style="text-align:left">勾选后，FvM 中截断新鲜值采用 <strong>MSB（最高有效位）对齐</strong> 方式。</td>
+<td style="text-align:left">根据项目安全策略配置，需与 FvM 配置保持一致。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Use SPdu Tx Confirmation</strong></td>
+<td style="text-align:left">使用安全 PDU 发送确认</td>
+<td style="text-align:left">勾选后，启用<strong>安全 PDU 发送确认</strong>，SecOC 在安全 PDU 成功发送后收到确认通知。</td>
+<td style="text-align:left">建议勾选，确保发送状态可追踪。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>User Config File</strong></td>
+<td style="text-align:left">用户配置文件</td>
+<td style="text-align:left">指定一个<strong>用户自定义配置文件</strong>的路径，允许用户通过外部文件覆盖部分 SecOC 配置。</td>
+<td style="text-align:left">通常保持为空。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Version Info Api</strong></td>
+<td style="text-align:left">版本信息 API</td>
+<td style="text-align:left">勾选后，生成 <strong><code>SecOC_GetVersionInfo</code></strong> API，用于获取 SecOC 模块的版本信息。</td>
+<td style="text-align:left">建议勾选，便于版本管理和调试。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Verification Status Callout</strong></td>
+<td style="text-align:left">验证状态回调函数</td>
+<td style="text-align:left">指定安全验证完成后的<strong>回调函数名称</strong>。当 SecOC 完成安全 PDU 的验证后，调用此函数通知上层模块验证结果。</td>
+<td style="text-align:left">截图中配置为 <code>FvM_VerificationStatusCallout</code>，表示验证状态通知给 FvM 模块。根据项目架构配置。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Verification Status Callout With Secured Pdu</strong></td>
+<td style="text-align:left">带安全 PDU 的验证状态回调</td>
+<td style="text-align:left">指定带安全 PDU 信息的验证状态回调函数。与 <code>Verification Status Callout</code> 类似，但回调函数会包含安全 PDU 的详细信息。</td>
+<td style="text-align:left">通常保持为空，使用 <code>Verification Status Callout</code> 即可。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>开发 vs 量产配置建议</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">开发阶段</th>
+<th style="text-align:left">量产阶段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>Dev Error Detect</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Enable Development Mode</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Enable Forced Pass Override</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Ignore Verification Result</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Safe Bsw Checks</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">ASIL 项目勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Version Info Api</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Enable Async CSM Job Timeout</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Retry Failed Transmit Request</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Use SPdu Tx Confirmation</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>新鲜值 API 的选择</strong>：SecOC 与 FvM 之间的接口有多种 API 可供选择：</p>
+<ul>
+<li><code>GetTxFreshness</code>：获取发送新鲜值（完整长度）。</li>
+<li><code>GetTxFreshnessTruncData</code>：获取截断后的发送新鲜值。</li>
+<li><code>GetRxFreshness</code>：获取接收新鲜值。</li>
+<li><code>GetRxFreshnessAuthData</code>：获取包含认证数据的接收新鲜值。</li>
+</ul>
+<p>根据项目使用的 FvM 接口版本和功能需求选择启用对应的 API。</p>
+</li>
+<li>
+<p><strong>主函数周期的分离配置</strong>：SecOC 支持将接收处理（Rx）和发送处理（Tx）的主函数周期分别配置，便于根据接收和发送的不同负载需求独立调优。</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="SecOCGeneration">SecOCGeneration</h2>
+<p><code>SecOCGeneration</code> 用于配置 <strong>SecOC 模块代码生成</strong> 时的优化策略，控制生成代码的数据结构、内存占用和调试支持。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名称</th>
+<th style="text-align:left">中文直译 / 作用</th>
+<th style="text-align:left">详细解释</th>
+<th style="text-align:left">配置要点 / 注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Short Name</strong></td>
+<td style="text-align:left">短名称</td>
+<td style="text-align:left">该代码生成配置实例的唯一标识名。</td>
+<td style="text-align:left">用于在工具中识别该配置实例。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Interfaces For Deactivated Data</strong></td>
+<td style="text-align:left">为停用数据生成接口</td>
+<td style="text-align:left">勾选后，为<strong>已停用的数据</strong>也生成 RTE 接口（即使数据未启用）。</td>
+<td style="text-align:left">仅在调试或特殊开发场景中勾选，量产版本保持关闭。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Out Of Bounds Read Sanitizer</strong></td>
+<td style="text-align:left">越界读取清理器</td>
+<td style="text-align:left">勾选后，生成<strong>越界读取检查</strong>代码，在读取数组或缓冲区时检测是否越界。</td>
+<td style="text-align:left">仅在开发调试阶段勾选，量产版本关闭以提升性能。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Out Of Bounds Write Protection Strategy</strong></td>
+<td style="text-align:left">越界写入保护策略</td>
+<td style="text-align:left">指定<strong>越界写入保护</strong>的策略，防止写入操作超出数组或缓冲区的边界。</td>
+<td style="text-align:left">- <code>NONE</code>：不进行保护。<br>- <code>GUARD</code>：添加保护字节。<br>- <code>CHECK</code>：运行时检查。<br>ASIL 项目中建议配置，QM 项目通常选择 <code>NONE</code>。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Out Of Bounds Write Sanitizer</strong></td>
+<td style="text-align:left">越界写入清理器</td>
+<td style="text-align:left">勾选后，生成<strong>越界写入检查</strong>代码，在写入数组或缓冲区时检测是否越界。</td>
+<td style="text-align:left">仅在开发调试阶段勾选，量产版本关闭以提升性能。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Referring Keys In Comments</strong></td>
+<td style="text-align:left">在注释中包含引用键</td>
+<td style="text-align:left">勾选后，在生成的代码注释中包含<strong>引用键（Referring Keys）</strong>，便于追溯配置来源。</td>
+<td style="text-align:left">建议勾选，便于代码与配置的追溯。</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Short Symbols</strong></td>
+<td style="text-align:left">短符号</td>
+<td style="text-align:left">勾选后，生成<strong>短符号名</strong>，减少生成代码中符号的长度以节省内存。</td>
+<td style="text-align:left">仅在内存极度受限的场景中启用，一般保持默认（不勾选）。</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="markdown-alert markdown-alert-note">
+<ol>
+<li>
+<p><strong>开发 vs 量产配置建议</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">开发阶段</th>
+<th style="text-align:left">量产阶段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>Out Of Bounds Read Sanitizer</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Out Of Bounds Write Sanitizer</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Interfaces For Deactivated Data</code></td>
+<td style="text-align:left">❌ 关闭</td>
+<td style="text-align:left">❌ 关闭</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Referring Keys In Comments</code></td>
+<td style="text-align:left">✅ 勾选</td>
+<td style="text-align:left">✅ 勾选</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>Short Symbols</code></td>
+<td style="text-align:left">❌ 关闭</td>
+<td style="text-align:left">按需</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>与 FvMGeneration / PduRGeneration 的一致性</strong>：<code>SecOCGeneration</code> 中的参数与 <code>FvMGeneration</code>、<code>PduRGeneration</code> 中的同名参数功能一致，都是 Vector 工具链中用于控制代码生成的通用选项。建议在同一项目中保持这些参数配置的一致性。</p>
+</li>
+</ol>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Configurator/Security/">https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Configurator/Security/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Developer/Davinci%20Developer/" title="Davinci Developer"><img class="cover" src="/img/RandomCoverImage/random_1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Davinci Developer</div></div><div class="info-2"><div class="info-item-1">核心概念 在开始使用前，需要理解几个核心概念：  SWC（Software Component）：软件组件，AUTOSAR 应用层的基本构建单元 Runnable：SWC 中可执行的函数实体，由 RTE 触发调用 Port：SWC 的对外接口，分为 S/R（发送-接收）和 C/S（客户端-服务...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Davinci%20Configurator/Communication/" title="Davinci Configurator - Communication"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Davinci Configurator - Communication</div></div><div class="info-2"><div class="info-item-1">Can 12345678910111213Can└── CanConfigSet    ├── CanControllers    │   └── CanController实例     │       ├── CanControllerBaudrateConfigs    │       │...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#FVM"><span class="toc-number">1.</span> <span class="toc-text">FVM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FvMFreshnessValueRxProcessing"><span class="toc-number">1.1.</span> <span class="toc-text">FvMFreshnessValueRxProcessing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FreshnessValueProcessing-%E5%AE%9E%E4%BE%8B%EF%BC%88Rx%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">FreshnessValueProcessing 实例（Rx）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FvMJasparAttributes"><span class="toc-number">1.1.2.</span> <span class="toc-text">FvMJasparAttributes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FvMSyncMessage"><span class="toc-number">1.1.3.</span> <span class="toc-text">FvMSyncMessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FvMJasparWithoutResetCounterAttributes"><span class="toc-number">1.1.4.</span> <span class="toc-text">FvMJasparWithoutResetCounterAttributes</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FreshnessValueProcessing"><span class="toc-number">1.2.</span> <span class="toc-text">FreshnessValueProcessing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FreshnessValueProcessing-%E5%AE%9E%E4%BE%8B%EF%BC%88Tx%EF%BC%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">FreshnessValueProcessing 实例（Tx）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FvMGeneral"><span class="toc-number">1.3.</span> <span class="toc-text">FvMGeneral</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FvMGeneration-%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">FvMGeneration 实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FvMJasparGeneral"><span class="toc-number">1.4.</span> <span class="toc-text">FvMJasparGeneral</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SecOc"><span class="toc-number">2.</span> <span class="toc-text">SecOc</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOCRxPduProcessings"><span class="toc-number">2.1.</span> <span class="toc-text">SecOCRxPduProcessings</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCRxSecuredPdu-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.1.1.</span> <span class="toc-text">SecOCRxSecuredPdu 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCRxAuthenticPduLayer-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.1.2.</span> <span class="toc-text">SecOCRxAuthenticPduLayer 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCRxPduSecuredArea-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.1.3.</span> <span class="toc-text">SecOCRxPduSecuredArea 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCRxSecuredPduLayer-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.1.4.</span> <span class="toc-text">SecOCRxSecuredPduLayer 实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOCTxPduProcessings"><span class="toc-number">2.2.</span> <span class="toc-text">SecOCTxPduProcessings</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCTxSecuredPdu-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.2.1.</span> <span class="toc-text">SecOCTxSecuredPdu 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCTxAuthenticPduLayer-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.2.2.</span> <span class="toc-text">SecOCTxAuthenticPduLayer 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCTxPduSecuredArea-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.2.3.</span> <span class="toc-text">SecOCTxPduSecuredArea 实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SecOCTxSecuredPduLayer-%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.2.4.</span> <span class="toc-text">SecOCTxSecuredPduLayer 实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOCGeneral"><span class="toc-number">2.3.</span> <span class="toc-text">SecOCGeneral</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecOCGeneration"><span class="toc-number">2.4.</span> <span class="toc-text">SecOCGeneration</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/AD/" title="AD">AD</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/CANape/" title="CANape">CANape</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/CANoe/" title="CANoe">CANoe</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/Gcc/" title="Gcc">Gcc</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_2.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const changeScriptToMath = article => {
+    article.querySelectorAll('script[type^="math/tex"]').forEach(el => {
+      const display = /mode=display/.test(el.type)
+      const node = document.createElement(display ? 'div' : 'span')
+      node.textContent = display
+        ? `$$${el.textContent}$$`
+        : `$${el.textContent}$`
+      el.parentNode.replaceChild(node, el)
+    })
+  }
+
+  const loadMathjax = () => {
+    const article = document.getElementById('article-container')
+    if (!article || article.querySelector('.hbe-container')) return
+    changeScriptToMath(article)
+
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem',
+            'ui/lazy'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          lazyMargin: '200px',
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/mathjax@4.1.3/tex-mml-chtml.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.typesetClear()
+      MathJax.typesetPromise([ article ])
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (true) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/js/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/toc-fix.js"></script><script src="/js/heading-number.js"></script><script src="/js/file-tree-data.js"></script><script src="/js/file-tree.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([data-fancybox])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      if (!item.parentNode) return
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || ''
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    const responseURL = e.request && e.request.responseURL
+    if (e.request && e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : responseURL && (window.location.href = responseURL)
+    } else if (responseURL) {
+      window.location.href = responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

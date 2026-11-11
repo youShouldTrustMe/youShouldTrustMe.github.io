@@ -1,0 +1,207 @@
+/*************************************** 一图流   ****************************************/
+/* 夜间模式遮罩*/
+[data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] #aside-content .card-widget,
+[data-theme="dark"] div#post,
+[data-theme="dark"] div#archive,
+[data-theme="dark"] div#page {
+  background: var(--trans-dark);
+}
+
+/* 白天模式头图与页脚遮罩 */
+[data-theme="light"] #page-header:before,
+[data-theme="light"] #footer::before {
+  background-color: rgba(0, 0, 0, 0.18) !important;
+  z-index: -3;
+}
+
+/* 头图隐藏 */
+#page-header {
+  background: transparent !important;
+}
+/* 夜间模式页脚遮罩隐藏 */
+[data-theme="dark"] #footer::before {
+  background: transparent !important;
+}
+/* 夜间模式页脚头部遮罩隐藏 */
+[data-theme="dark"] #page-header::before {
+  background: transparent !important;
+}
+
+/*************************************** 栏设置   ****************************************/
+/* 一级菜单居中 */
+#nav .menus_items {
+  /* 这个带不带都可以，本来就是inline */
+  display: inline;
+  position: absolute !important;
+  width: max-content !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+#nav .menus_items .menus_item {
+  padding: 0 0 0 8px !important;
+}
+/* 子菜单横向展示 */
+#nav .menus_items .menus_item:hover .menus_item_child {
+  display: flex !important;
+}
+/* 这里的2是代表导航栏的第二个元素，即有子菜单的元素，可以按自己需求修改 */
+.menus_items .menus_item:nth-child(2) .menus_item_child {
+  left: -95px;
+}
+.menus_items .menus_item:nth-child(3) .menus_item_child {
+  left: -103px;
+}
+.menus_items .menus_item:nth-child(4) .menus_item_child {
+  left: -102px;
+}
+.menus_items .menus_item:nth-child(5) .menus_item_child {
+  left: -117px;
+}
+.menus_items .menus_item:nth-child(6) .menus_item_child {
+  left: -133px;
+}
+.menus_items .menus_item:nth-child(7) .menus_item_child {
+  left: -105px;
+}
+
+/*********************** 文章标题：居中 + 自动编号（风格参考 VLOOK） ***********************/
+:root {
+  --post-num-c: #2082f0; /* 编号色：VLOOK 强调蓝 */
+}
+
+/* 标题居中 */
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4 {
+  text-align: center;
+  display: block;
+}
+
+/* 编号由 source/js/heading-number.js 计算后写入 --h-num 变量
+   （CSS counter 的链式 reset 在部分浏览器上不生效，故改用 JS） */
+#article-container h1::before,
+#article-container h2::before,
+#article-container h3::before,
+#article-container h4::before {
+  content: var(--h-num, "") !important;
+  color: var(--post-num-c);
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+/* H2 下方的短横线装饰 */
+#article-container h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: var(--post-num-c);
+  margin: 8px auto 0;
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+/*********************** ==高亮== 语法（markdown-it-mark 输出 <mark>） ***********************/
+/* 参考 VLOOK 的马克笔效果：文字下半部分涂色 */
+#article-container mark {
+  background: transparent;
+  color: inherit;
+  box-shadow: 0 -0.62em 0 0 rgba(250, 194, 8, 0.38) inset;
+  padding: 0 0.12em;
+  font-weight: 500;
+}
+
+/*********************** GitHub 风格警示框 > [!TIP] 等（配色取自 VLOOK 强调色） ***********************/
+#article-container blockquote.markdown-alert {
+  --alert-c: #2082f0;
+  --alert-bg: rgba(32, 130, 240, 0.08);
+  margin: 1.2em 0;
+  padding: 1em 1em 0.2em;
+  border: none;
+  border-left: 4px solid var(--alert-c);
+  border-radius: 6px;
+  background: var(--alert-bg);
+}
+#article-container blockquote.markdown-alert > :first-child {
+  margin-top: 0;
+}
+#article-container blockquote.markdown-alert > :last-child {
+  margin-bottom: 0.2em;
+}
+/* 标题行（[*XXX*] 标记本身已被渲染插件去掉） */
+#article-container blockquote.markdown-alert::before {
+  content: "说明";
+  display: block;
+  font-weight: 700;
+  color: var(--alert-c);
+  margin-bottom: 0.4em;
+}
+#article-container blockquote.markdown-alert-note {
+  --alert-c: #2082f0;
+  --alert-bg: rgba(32, 130, 240, 0.08);
+}
+#article-container blockquote.markdown-alert-tip {
+  --alert-c: #29a953;
+  --alert-bg: rgba(41, 169, 83, 0.1);
+}
+#article-container blockquote.markdown-alert-important {
+  --alert-c: #735de0;
+  --alert-bg: rgba(115, 93, 224, 0.1);
+}
+#article-container blockquote.markdown-alert-warning {
+  --alert-c: #f38019;
+  --alert-bg: rgba(243, 128, 25, 0.1);
+}
+#article-container blockquote.markdown-alert-caution {
+  --alert-c: #d01010;
+  --alert-bg: rgba(208, 16, 16, 0.09);
+}
+#article-container blockquote.markdown-alert-note::before {
+  content: "说明";
+}
+#article-container blockquote.markdown-alert-tip::before {
+  content: "提示";
+}
+#article-container blockquote.markdown-alert-important::before {
+  content: "重要";
+}
+#article-container blockquote.markdown-alert-warning::before {
+  content: "警告";
+}
+#article-container blockquote.markdown-alert-caution::before {
+  content: "当心";
+}
+
+/*********************** 菜单 iconfont 图标（官方版只输出 <i class="icon-xxx">） ***********************/
+/* iconfont 官方 CSS 仅在 .iconfont 上定义字体，这里让 icon-xxx 单独使用也能生效 */
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: "iconfont" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.menus_items .menus_item i[class^="icon-"] {
+  font-size: 17px;
+  width: 1.3em;
+}
+/* 还原菜单配置里第三个字段 faa-tada 的悬停抖动效果 */
+.menus_items .menus_item a.site-page:hover i[class^="icon-"] {
+  animation: menu-tada 1s linear infinite;
+}
+@keyframes menu-tada {
+  0%   { transform: scale(1); }
+  10%, 20% { transform: scale(0.9) rotate(-3deg); }
+  30%, 50%, 70%, 90% { transform: scale(1.1) rotate(3deg); }
+  40%, 60%, 80% { transform: scale(1.1) rotate(-3deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+/*********************** 统一“分类”图标 ***********************/
+/* 主题两套模板硬编码了不同图标：侧栏分类卡片用 fa-folder-open，文章卡片/文章页 meta 用 fa-inbox。
+   这里把所有 fa-inbox 的字形换成 folder-open（FA7 用 --fa 变量定义字形），全站保持一致。
+   想反过来统一成 inbox 的话，把下面的 \f07c 改成 \f01c 即可。 */
+.fa-inbox {
+  --fa: "\f07c";
+}

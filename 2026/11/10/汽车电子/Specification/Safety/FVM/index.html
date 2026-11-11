@@ -1,0 +1,1726 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FVM | 🍭​你要信我啊の博客​</title><meta name="author" content="ryf"><meta name="copyright" content="ryf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接 https:&#x2F;&#x2F;blog.csdn.net&#x2F;m0_58346868&#x2F;article&#x2F;details&#x2F;149842070 https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42108533&#x2F;article&#x2F;details&#x2F;159755674 概述 AUTOSAR把新鲜度管理完全交给应用层，让FvM成为一个可插拔、可定制的SWC。OEM可以自由实现：  单计数器（每次发送自增） 时间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FVM">
+<meta property="og:url" content="https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/FVM/index.html">
+<meta property="og:site_name" content="🍭​你要信我啊の博客​">
+<meta property="og:description" content="参考链接 https:&#x2F;&#x2F;blog.csdn.net&#x2F;m0_58346868&#x2F;article&#x2F;details&#x2F;149842070 https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_42108533&#x2F;article&#x2F;details&#x2F;159755674 概述 AUTOSAR把新鲜度管理完全交给应用层，让FvM成为一个可插拔、可定制的SWC。OEM可以自由实现：  单计数器（每次发送自增） 时间">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg">
+<meta property="article:published_time" content="2026-11-10T19:43:42.000Z">
+<meta property="article:modified_time" content="2026-11-11T13:00:32.126Z">
+<meta property="article:author" content="ryf">
+<meta property="article:tag" content="AUTOSAR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FVM",
+  "url": "https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/FVM/",
+  "image": "https://youshouldtrustme.github.io/img/RandomCoverImage/random_3.jpg",
+  "datePublished": "2026-11-10T19:43:42.000Z",
+  "dateModified": "2026-11-11T13:00:32.126Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "ryf",
+      "url": "https://youshouldtrustme.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/FVM/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.13.0/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FVM',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/file-tree.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (true) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(/img/index.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/RandomCoverImage/random_3.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">🍭​你要信我啊の博客​</span></a><a class="nav-page-title" href="/"><span class="site-name">FVM</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw icon-a-jiafangzijianzhu"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw icon-a-folderyellow"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw icon-fenlei-"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw icon-a-07biaoqian"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw icon-guanyuwomen"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw icon-lianjie"></i><span> 友链</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FVM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-11-11T13:00:32.126Z" title="更新于 2026-11-11 13:00:32">2026-11-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>24分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="参考链接">参考链接</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_58346868/article/details/149842070">https://blog.csdn.net/m0_58346868/article/details/149842070</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42108533/article/details/159755674">https://blog.csdn.net/weixin_42108533/article/details/159755674</a></p>
+<h1 id="概述">概述</h1>
+<p>AUTOSAR把新鲜度管理完全交给应用层，让FvM成为一个可插拔、可定制的SWC。OEM可以自由实现：</p>
+<ul>
+<li>单计数器（每次发送自增）</li>
+<li>时间戳（基于全局时间）</li>
+<li>多级计数器（Trip + Reset + Message，主从同步）</li>
+</ul>
+<p>FvM的核心任务是“新鲜度值的全生命周期管理”，包括：</p>
+<ol>
+<li><strong>提供新鲜度值</strong>：当SecOC需要时（发送或接收），FvM必须返回一个新鲜度值。
+<ol>
+<li>对于发送，通常返回当前计数器值；</li>
+<li>对于接收，FvM可能需要根据收到的截断值推测完整值（例如，尝试多种可能性，直到MAC验证通过）。</li>
+</ol>
+</li>
+<li><strong>维护计数器状态</strong>：维护每个安全信道（FreshnessValueID）的计数器，确保单调递增。计数器可以放在RAM中，必要时同步到NVM。</li>
+<li><strong>处理同步</strong>：如果采用主从同步，FvM需要处理同步报文（TripResetSyncMsg），更新本地的Trip Counter、Reset Counter。</li>
+<li><strong>通知与故障处理</strong>：接收SecOC的验证结果通知，如果连续失败，可能触发同步或报故障。</li>
+</ol>
+<p>FvM的实现没有“标准模板”，但标准附录提供了三种典型用例作为参考</p>
+<ol>
+<li><code>UC_SecOC_00200</code>：单计数器（Freshness Counter），每次发送递增，接收时通过截断值推测完整值。</li>
+<li><code>UC_SecOC_00201</code>：单时间戳（Freshness Timestamp），使用全局同步时间，接收时检查是否在允许窗口内。</li>
+<li><code>UC_SecOC_00202</code>：多计数器主从同步（Trip + Reset + Message），用于扩展规范，需要周期性同步报文。</li>
+</ol>
+<p>OEM可以根据需求选择其一，或自行创新。</p>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p>在战场上有两个通信兵，这两个通信兵互不认识且来自不同的指挥部，他们要给同一个远方的阵地传达一份完整的情报。</p>
+<ul>
+<li>通信兵A只知道行动的时间计划，</li>
+<li>通信兵B只知道行动的人员安排。</li>
+</ul>
+<p>他们两个来自不同的地方、来自不同的时间，去向相同的目的地，也不是同时到达。到了目的阵地，将军们要想获取完整的作战部署，就要把A+B的信息整合到一起才有意义，这里面：</p>
+<p><strong>通信兵A – 同步报文(SyncMsg)</strong></p>
+<p><strong>通信兵B–安全报文(SecuredMsg)</strong></p>
+<p><strong>完整的作战部署—新鲜值(Freshness Value)</strong></p>
+<p><strong>整合A、B信息的那个部门/个人----新鲜值管理(FVM)。</strong></p>
+<p><strong>FVM最重要的作用就是从分散的报文中恢复/补齐出一个完整的FV！</strong></p>
+</blockquote>
+<h1 id="SecOc和Fvm的交互：">SecOc和Fvm的交互：</h1>
+<p>SecOC需要获取新鲜度值时，必须通过一种方式“呼叫”FvM。AUTOSAR定义了两种互斥的机制，通过配置参数SecOCQueryFreshnessValue选择：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>配置值</th>
+<th>交互方式</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CFUNC模式</td>
+<td>CFUNC</td>
+<td>SecOC直接调用C函数，函数名固定（如<code>SecOC_GetTxFreshness </code>）FvM作为Callout实现这些函数，通常编译进同一个二进制文件</td>
+<td>轻量化，FvM逻辑简单，无需RTE，适用于小型ECU.</td>
+</tr>
+<tr>
+<td>RTE模式</td>
+<td>RTE</td>
+<td>SecOC通过RTE调用SWC端口服务（如 <code>FreshnessManagement_GetTxFreshness</code>）。FvM实现该SWC，提供端口。</td>
+<td>符合标准分层，FvM可以与其他SWC通信，适合大型ECU</td>
+</tr>
+</tbody>
+</table>
+<p>这两种模式是并行可选的，但一个系统只能选其一。如果你选择了CFUNC，就不能再用RTE；反之亦然。它们的核心区别在于“谁来负责函数名映射”——CFUNC是直接函数调用，RTE是通过RTE生成的标准接口。</p>
+<p>无论选择哪种模式，SecOC需要的功能是相同的。下表列出了所有SecOC需要从FvM获得的“服务”以及对应的CFUNC函数名和RTE服务操作名。</p>
+<table>
+<thead>
+<tr>
+<th>服务功能</th>
+<th>CFUNC函数名 （FvM实现）</th>
+<th>RTE服务操作名（FvM实现）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>获取发送新鲜度（完整值）</td>
+<td><code>SecOC_GetTxFreshness</code></td>
+<td><code>FreshnessManagement_GetTxFreshness</code></td>
+</tr>
+<tr>
+<td>获取发送新鲜度（同时返回截断值</td>
+<td><code>SecOC_GetTxFreshnessTruncData</code></td>
+<td><code>FreshnessManagement_GetTxFreshnessTruncData</code></td>
+</tr>
+<tr>
+<td>获取接收验证新鲜度</td>
+<td><code>SecOC_GetRxFreshness</code></td>
+<td><code>FreshnessManagement_GetRxFreshness</code></td>
+</tr>
+<tr>
+<td>获取接收验证新鲜度（传入部分数据）</td>
+<td><code>SecOC_GetRxFreshnessAuthData</code></td>
+<td><code>FreshnessManagement_GetRxFreshnessAuthData</code></td>
+</tr>
+<tr>
+<td>通知发送完成</td>
+<td><code>SecOC_SPduTxConfirmation</code></td>
+<td><code>FreshnessManagement_SPduTxConfirmation</code></td>
+</tr>
+<tr>
+<td>通知验证结果</td>
+<td><code>SecOc_VerificationStatusCallout</code></td>
+<td><code>VerificationStatus</code>（S/R接口）</td>
+</tr>
+</tbody>
+</table>
+<p>这些接口的参数在标准中都有详细定义。例如，SecOC_GetTxFreshnessTruncData除了返回完整新鲜度值，还会返回 截断 值（即要放到报文中的那部分），这样FvM可以灵活决定截断规则（标准要求从LSB侧截取，但FvM也可以自己决定）。</p>
+<p>状态通知：验证结果如何“广播”？</p>
+<p>SecOC每次验证后，都需要将结果告知外部，特别是FvM（因为它需要根据结果决定是否更新计数器）。标准提供了两种通知方式：</p>
+<ul>
+<li>Callout函数：SecOC_VerificationStatusCallout，由FvM实现，每次验证后调用。</li>
+<li>Sender-Receiver接口：VerificationStatus，SecOC提供ProvidePort，任意SWC（包括FvM）可以Require该端口接收状态。</li>
+</ul>
+<p>如果选择了RTE模式，通常使用S/R接口；如果选择了CFUNC模式，则使用Callout。两者同样可以互斥选择，但标准允许同时使用（例如，同时通知FvM和应用层监控）。</p>
+<p>通知的数据结构SecOC_VerificationStatusType包含：</p>
+<ul>
+<li><code>freshnessValueID</code>：哪个新鲜度值ID对应的验证。</li>
+<li><code>verificationStatus</code>：枚举值，包括SECOC_VERIFICATIONSUCCESS、SECOC_VERIFICATIONFAILURE、SECOC_FRESHNESSFAILURE等。</li>
+<li><code>secOCDataId</code>：对应的DataID。</li>
+</ul>
+<p>FvM收到失败通知后，可以执行同步逻辑；收到成功通知后，可以更新“上次成功接收的计数器值”。<br>
+CFUNC模式时序图为：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 上层应用 (ASW)
+    participant PduR as PduR
+    participant SecOC as SecOC (BSW)
+    participant FvM as FvM (ASW Callout)
+    participant CSM as CSM (BSW)
+    participant Bus as 通信总线
+
+    Note over SecOC, FvM: 配置: SecOCQueryFreshnessValue = CFUNC
+
+    App -&gt;&gt; PduR: PduR_&lt;Up&gt;Transmit (Authentic I-PDU)
+    PduR -&gt;&gt; SecOC: SecOC_IfTransmit / TpTransmit
+    SecOC --&gt;&gt; PduR: E_OK (缓冲复制)
+    PduR --&gt;&gt; App: E_OK
+
+    Note over SecOC: 下一周期 MainFunctionTx
+
+    SecOC -&gt;&gt; FvM: SecOC_GetTxFreshnessTruncData (FV ID)
+    FvM --&gt;&gt; SecOC: 完整FV + 截断FV
+
+    SecOC -&gt;&gt; CSM: Csm_MacGenerate (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: MAC
+    SecOC -&gt;&gt; SecOC: 截取MAC (MSB)
+
+    SecOC -&gt;&gt; PduR: PduR_SecOCTransmit (Secured I-PDU)
+    PduR -&gt;&gt; Bus: 发送报文
+
+    Bus --&gt;&gt; PduR: SecOC_SPduTxConfirmation (FV ID)
+    PduR -&gt;&gt; SecOC: SecOC_RxIndication (Secured I-PDU)
+    SecOC --&gt;&gt; PduR: 缓冲复制
+
+    Note over SecOC: 下一周期 MainFunctionRx
+
+    SecOC -&gt;&gt; FvM: SecOC_GetRxFreshness (FV ID, 截断FV, ...)
+    FvM --&gt;&gt; SecOC: 完整FV候选
+
+    SecOC -&gt;&gt; CSM: Csm_MacVerify (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: 验证结果
+
+    SecOC -&gt;&gt; FvM: SecOC_VerificationStatusCallout (状态)
+
+    alt 验证成功
+        SecOC -&gt;&gt; PduR: PduR_SecOCIfRxIndication (Authentic I-PDU)
+        PduR -&gt;&gt; App: 转发给上层
+    else 验证失败
+        SecOC -&gt;&gt; SecOC: 丢弃报文
+    end</code></pre>
+<p>RTE模式时序图为：</p>
+<pre><code class="highlight mermaid">sequenceDiagram
+    participant App as 上层应用 (ASW)
+    participant PduR as PduR
+    participant SecOC as SecOC (BSW)
+    participant RTE as RTE
+    participant FvM as FvM SWC (ASW)
+    participant CSM as CSM (BSW)
+    participant Bus as 通信总线
+
+    Note over SecOC, FvM: 配置: SecOCQueryFreshnessValue = RTE
+
+    App -&gt;&gt; PduR: PduR_&lt;Up&gt;Transmit (Authentic I-PDU)
+    PduR -&gt;&gt; SecOC: SecOC_IfTransmit / TpTransmit
+    SecOC --&gt;&gt; PduR: E_OK (缓冲复制)
+    PduR --&gt;&gt; App: E_OK
+
+    Note over SecOC: 下一周期 MainFunctionTx
+
+    SecOC -&gt;&gt; RTE: Rte_Call_FreshnessManagement_GetTxFreshnessTruncData (FV ID)
+    RTE -&gt;&gt; FvM: FreshnessManagement_GetTxFreshnessTruncData (端口调用)
+    FvM --&gt;&gt; RTE: 完整FV + 截断FV
+    RTE --&gt;&gt; SecOC: 返回数据
+
+    SecOC -&gt;&gt; CSM: Csm_MacGenerate (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: MAC
+    SecOC -&gt;&gt; SecOC: 截取MAC (MSB)
+
+    SecOC -&gt;&gt; PduR: PduR_SecOCTransmit (Secured I-PDU)
+    PduR -&gt;&gt; Bus: 发送报文
+
+    Bus --&gt;&gt; PduR: SecOC_SPduTxConfirmation (FV ID)
+    PduR -&gt;&gt; SecOC: SecOC_RxIndication (Secured I-PDU)
+    SecOC --&gt;&gt; PduR: 缓冲复制
+
+    Note over SecOC: 下一周期 MainFunctionRx
+
+    SecOC -&gt;&gt; RTE: Rte_Call_FreshnessManagement_GetRxFreshness (FV ID, 截断FV, ...)
+    RTE -&gt;&gt; FvM: FreshnessManagement_GetRxFreshness (端口调用)
+    FvM --&gt;&gt; RTE: 完整FV候选
+    RTE --&gt;&gt; SecOC: 返回数据
+
+    SecOC -&gt;&gt; CSM: Csm_MacVerify (DataID | Authentic | 完整FV)
+    CSM --&gt;&gt; SecOC: 验证结果
+
+    SecOC -&gt;&gt; RTE: Rte_Send_VerificationStatus (状态)   [Sender-Receiver 接口]
+    RTE -&gt;&gt; FvM: 状态广播 (如 FvM 订阅了该端口)
+
+    alt 验证成功
+        SecOC -&gt;&gt; PduR: PduR_SecOCIfRxIndication (Authentic I-PDU)
+        PduR -&gt;&gt; App: 转发给上层
+    else 验证失败
+        SecOC -&gt;&gt; SecOC: 丢弃报文
+    end</code></pre>
+<p>两种模式的对比为：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>CFUNC模式</th>
+<th>RTE模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调用方式</td>
+<td>SecOC直接调用C函数 （函数名固定）</td>
+<td>SecOC通过RTE调用SWC端口服务</td>
+</tr>
+<tr>
+<td>FVM形态</td>
+<td>一组Callout函数， 通常与SecOC同编译单元</td>
+<td>独立的AUTOSAR SWC， 通过RTE连接</td>
+</tr>
+<tr>
+<td>配置参数</td>
+<td><code>SecOCQueryFreshnessValue</code>=CFUNC</td>
+<td><code>SecOCQueryFreshnessValue</code> =RTE</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>轻量化、 小型ECU、无需复杂SWC交互</td>
+<td>大型ECU、 需要与其他ASW通信、符合标准分层</td>
+</tr>
+<tr>
+<td>状态通知</td>
+<td><code>SecOc_VerificationStatusCallout</code></td>
+<td><code>VerificationStatus</code> Sender-Receiver 接口</td>
+</tr>
+<tr>
+<td>标准化程序</td>
+<td>函数接口固定，但实现可自由</td>
+<td>完全符合AUTOSAR方法论，工具链自动生成RTE</td>
+</tr>
+</tbody>
+</table>
+<h1 id="FV构成">FV构成</h1>
+<p>FVM分为三类：</p>
+<ol>
+<li>基于Counter的</li>
+<li>基于时间戳计数器的</li>
+<li>复合多计数器的。</li>
+</ol>
+<p>FV的构成为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804130534549.png" alt="FV的构成" loading='lazy'></p>
+<p>完整的FV包含:</p>
+<ul>
+<li>里程计数器(Trip Counter): 变化最慢，递增条件：复位，开始新点火循环，到最大值之后会重置，它的变化会重置Reset Counter。</li>
+<li>复位计数器(Reset Counter):周期性(秒级)递增，到达最大值后会保持，它的递增会重置Message Counter。</li>
+<li>消息计数器(Message Counter):在报文收发成功后会自增，到达最大值后会保持。它分为MsgCnt_Hi和MsgCnt_Lo两部分。</li>
+<li>复位标志(Reset Flag):它就是复位计数器(Reset Counter)低2位的影子。</li>
+</ul>
+<h1 id="同步报文">同步报文</h1>
+<p>同步报文是由FVM主机发给FVM从机的报文，同步报文在FVM主机和构建的时候，采用：<br>
+$$<br>
+CANID + TripCnt|ResetCnt+用Key生成较长长度的MAC<br>
+$$<br>
+比如16Byte。但是在总线上传输的时候，为了节省带宽，只在总线上传输：<br>
+$$<br>
+TripCnt|ResetCnt+裁剪的MAC<br>
+$$<br>
+假设3个byte的trip counter、2个byte的reset counter和11个byte的Mac计算值，那么同步报文的组成格式为：</p>
+<pre><code class="highlight mermaid">---
+title: &quot;同步报文组成&quot;
+---
+packet
+0-23: &quot;Trip counter&quot;
+24-39: &quot;Reset counter&quot;
+40-127: &quot;Mac&quot;
+</code></pre>
+<p>处理过程为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131316851.png" alt="同步报文" loading='lazy'></p>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p><mark>Data ID和Key为可以简单理解为双方提前约定，故而不在总线上传输</mark></p>
+</blockquote>
+<p>从机接收到同步报文后，会根据收到裁剪的新鲜值TripCnt|ResetCnt和本地的key，去逆向计算出一个MAC_Local(这个是在HSM中做的，实际的host Core看不到)，然后调用Csm_MacVerify(MAC)给HSM用于和MAC_Local做对比。对比通过后，FVM会用最新的同步报文里面的信息去更新本地维护的新鲜值FV。</p>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p>实际上，当收到一个正确的同步报文的时候，完整的FV就计算出来了（Msg counter是FV内部维护的）</p>
+</blockquote>
+<h1 id="安全报文">安全报文</h1>
+<p>安全报文是由安全报文的Sender发给receiver的报文，安全报文在本地和构建的时候，采用（这里的完整的FV就是通过同步报文计算出来的）：<br>
+$$<br>
+CANID + 完整的FV+用Key生成较长长度的MAC<br>
+$$<br>
+但是在总线上传输的时候，为了节省带宽，只在总线上传输：<br>
+$$<br>
+Data+MsgCnt_Low|ResetFlag+裁剪的MAC_Trim<br>
+$$<br>
+假设Pdu长度为51个byte，14bit的MsgCounter，2bit的resetflag和11个byte的mac值，那么安全报文的组成格式为：</p>
+<pre><code class="highlight mermaid">---
+title: &quot;安全报文组成&quot;
+---
+packet
+0-407: &quot;PDU Data&quot;
+408-421: &quot;Message counter&quot;
+422-423: &quot;Reset counter flag&quot;
+424-511: &quot;Mac&quot;
+</code></pre>
+<p>处理过程为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131653337.png" alt="安全报文" loading='lazy'></p>
+<p>receiver接收到安全报文后，要校验这个不完整的MAC值是否正确，肯定首先要逆向一个完整的算子，Data ID和Key为事先约定，那么FV如何获取？这个时候SecOC会调用FVM的接口，比如FVM_GetFV()来获取本地维护的完整的FV，然后再采用和Sender一样的方式采用CANID + 完整的FV+用Key生成较长长度的MAC_Local。裁剪后为MAC_Local_Trim。</p>
+<p>然后receiver调用Csm_MacVerify(MAC_Local_Trim)给HSM用于和MAC_Trim做对比。对比通过后，FVM会用最新的安全报文里面的信息去更新本地维护的新鲜值FV。</p>
+<h1 id="关键值">关键值</h1>
+<p><img src="https://cdn.jsdelivr.net/gh/youShouldTrustMe/MyPictures/Images/image-20260804131953093.png" alt="报文接收和发送" loading='lazy'></p>
+<p>在报文发送接受过程中有三个重要的值：</p>
+<ol>
+<li>
+<p><strong>先前值</strong>：是指上次安全报文验证成功时各计数器的值。</p>
+<p>更新时机：安全报文验证通过后，即SecOC在接受到安全报文后</p>
+<ol>
+<li>调用FVM_GetFV获取完整的新鲜值。</li>
+<li>SecOC验证通过后会通过一个接口比如SecOC_VerifyPass()通知FVM，我这个报文是有效的。</li>
+<li>FVM收到通知后，根据一定的策略，决定是否采纳该值。具体策略见下文。</li>
+</ol>
+</li>
+<li>
+<p><strong>最新值</strong>：是指从节点接收到的同步报文中新鲜度计数器值。</p>
+<p>更新时机：从节点对接收的同步报文验证通过后。</p>
+</li>
+<li>
+<p><strong>接收值</strong>：是指当前接收到的安全报文中各计数器的值。</p>
+<p>更新时机：即SecOC在接受到安全报文后，调用FVM_GetFV(uint8* truncatedFreshnessValue…)获取完整的新鲜值时，在实参中传递过来的部分计数器就是接收值。</p>
+</li>
+</ol>
+<h1 id="完整过程">完整过程</h1>
+<h2 id="报文表现">报文表现</h2>
+<p>首先上位机发送一帧同步报文，报文为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 01 04 74 40 02 0C FB A1 E8 E9 45 D3 0A E5</span><br></pre></td></tr></table></figure>
+<p>那么按照上面的假设：</p>
+<ol>
+<li>3Byte的Trip Counter：<code>00 00 01</code></li>
+<li>2Byte的Reset Counter：<code>04 74</code></li>
+<li>11Byte的Mac值：<code>40 02 0C FB A1 E8 E9 45 D3 0A E5</code></li>
+</ol>
+<p>假设这里的Data ID为<code>0x2A</code>，Key为<code>ab55105a61f90abf3596245b9cf0330a</code>，算法使用AES。那么需要计算的序列应该为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 2A 00 00 01 04 74</span><br></pre></td></tr></table></figure>
+<p>计算出来的MAC为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">40 02 0c fb a1 e8 e9 45 d3 0a e5 1e 9f 55 cf 7a</span><br></pre></td></tr></table></figure>
+<p>那么裁剪高11位得到<code>40 02 0C FB A1 E8 E9 45 D3 0A E5</code>，校验通过</p>
+<p>此时收到（发送）安全报文就可以进行拼接完整的FV了，收到的安全报文为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">74 00 5D DF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF 16 F4 78 81 10 54 F5 2B 54 1F 9C 7E A4</span><br></pre></td></tr></table></figure>
+<p>那么按照上面的假设：</p>
+<ol>
+<li>51Byte的PDU Data：<code>74 00 5D DF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF</code></li>
+<li><code>16 F4</code>
+<ol>
+<li>14bit的MsgCounter：<code>0001 0110 1111 01</code></li>
+<li>2bit的ResetFlag：<code>00</code>，这里是通过同步报文的Reset Counter低2位&amp; 0x03得到，<code>04 74</code>的低两位为<code>00</code>，所以这里的flag为00</li>
+</ol>
+</li>
+<li>11Byte的Mac为<code>78 81 10 54 F5 2B 54 1F 9C 7E A4</code></li>
+</ol>
+<p>假设这里的Data ID为<code>0x1F</code>，Key为<code>ab55105a61f90abf3596245b9cf0330a</code>，算法使用AES。需要注意的是，这里的计算就需要使用完整的FV来计算了，将同步报文和安全报文中提取的FV信号拼成一个完整的FV，也就是计算序列为<code>DataID + PDU + 完整的FV</code>，那么需要计算的序列应该为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 1F 74 00 5D DF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF  00 00 01 04 74 16 F4 </span><br></pre></td></tr></table></figure>
+<p>计算出来的Mac为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">78 81 10 54 f5 2b 54 1f 9c 7e a4 80 c7 53 40 4d</span><br></pre></td></tr></table></figure>
+<p>那么裁剪高11位得到<code>78 81 10 54 f5 2b 54 1f 9c 7e a4</code>，校验通过</p>
+<h2 id="操作过程">操作过程</h2>
+<h3 id="发送链路（SecOC-MainFunctionTx）">发送链路（<code>SecOC_MainFunctionTx</code>）</h3>
+<ol>
+<li>
+<p>上层触发 <code>SecOC_Transmit</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">FUNC(Std_ReturnType) SecOC_Transmit(PduIdType id, P2CONST(PduInfoType) info)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 开发错误检查：未初始化、ID 越界、无效句柄、空指针、长度不匹配</span></span><br><span class="line">    <span class="comment">// 取 txPduInfoIdx</span></span><br><span class="line">    <span class="keyword">if</span> (TxPduState == INVALID || TxPduState == PRE_REAUTHENTICATION_NEEDED) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (PduType) &#123;</span><br><span class="line">        <span class="keyword">case</span> IFPDU:</span><br><span class="line">            <span class="comment">// 把 Authentic PDU 拷贝到内部 AuthenticPduDataContainer</span></span><br><span class="line">            VStdMemCpyRamToRam(AuthenticPduDataContainer, info-&gt;SduDataPtr, info-&gt;SduLength);</span><br><span class="line">            <span class="comment">// 重置 TxBuildAttemptsCounter</span></span><br><span class="line">            TxBuildAttemptsCounter = <span class="number">0</span>;</span><br><span class="line">            <span class="comment">// 状态机：进入 PRE_REAUTHENTICATION_NEEDED</span></span><br><span class="line">            TxPduState = SECOC_PRE_REAUTHENTICATION_NEEDED_TXPDUSTATE;</span><br><span class="line">            <span class="comment">// 标记发送请求</span></span><br><span class="line">            TransmitRequest = SECOC_TRANSMIT_TRANSMITREQUEST;</span><br><span class="line">            ret = E_OK;</span><br><span class="line">        <span class="keyword">case</span> TPPDU:</span><br><span class="line">            TxPduState = SECOC_GET_DATA_TXPDUSTATE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote class="markdown-alert markdown-alert-tip">
+<p><strong>关键点</strong>：这一步<strong>不计算 MAC</strong>，只是把数据存进内部缓冲区、设置状态和发送请求，立即返回。报文此时还没发出去。</p>
+</blockquote>
+</li>
+<li>
+<p><code>SecOC_MainFunctionTx</code> → <code>SecOC_TxIf_HandlePdus</code> → <code>SecOC_TxIf_ProcessTxPdu</code></p>
+<p><code>SecOC_MainFunctionTx</code> 只是遍历所有 TxPduInfo，逐个调用 <code>SecOC_TxIf_ProcessTxPdu</code>。核心逻辑都在 <code>SecOC_TxIf_ProcessTxPdu</code> ：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(Std_ReturnType)</span> <span class="title function_">SecOC_TxIf_ProcessTxPdu</span><span class="params">(txPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// (Tp PDU 先取数据)</span></span><br><span class="line">    SecOC_TxIf_HandlePdu_TPPDU(txPduId);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 核心：ReauthenticationNeeded 状态处理</span></span><br><span class="line">    SecOC_TxIf_HandlePdu_ReauthenticationNeeded(txPduId);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (SecOC_IsTxPduStateUnauthenticated(txPduId)) &#123;</span><br><span class="line">        <span class="comment">// 只有状态为 UNAUTHENTICATED_TO_BE_STARTED 才真正算 MAC</span></span><br><span class="line">        <span class="keyword">if</span> (TxPduState == SECOC_UNAUTHENTICATED_TO_BE_STARTED_TXPDUSTATE) &#123;</span><br><span class="line">            SecOC_Authenticate_GenerateAuthenticator(txPduId);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// MAC 算完后，把 Authentic PDU 拷到 SecuredPduDataContainer</span></span><br><span class="line">        <span class="keyword">if</span> (TxPduState == SECOC_UNAUTHENTICATED_FINISHED_TXPDUSTATE) &#123;</span><br><span class="line">            VStdMemCpyRamToRam(SecuredPduDataContainer, AuthenticPduDataContainer, Len);</span><br><span class="line">            TxPduState = SECOC_AUTHENTICATED_TXPDUSTATE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 发送请求 + 已认证 → 调 PduR_SecOCTransmit</span></span><br><span class="line">    <span class="keyword">if</span> (TxPduState == SECOC_AUTHENTICATED_TXPDUSTATE &amp;&amp; TransmitRequest == SECOC_TRANSMIT_TRANSMITREQUEST) &#123;</span><br><span class="line">        PduInfoType pduInfo;</span><br><span class="line">        pduInfo.SduDataPtr = SecuredPduDataContainer;</span><br><span class="line">        pduInfo.SduLength = LengthOfTxSecuredPdu;</span><br><span class="line">        TxPduState = SECOC_TRANSMISSION_INITIATED_TXPDUSTATE;</span><br><span class="line">        retVal = PduR_SecOCTransmit(SecuredExternalId, &amp;pduInfo);</span><br><span class="line">        <span class="keyword">if</span> (retVal == E_OK) &#123;</span><br><span class="line">            <span class="comment">// 发送成功 → 调 FvM 的 SPduTxConfirmation（Update Previous = Latest）</span></span><br><span class="line">            SPduTxConfirmation_FuncName(ExternalFreshnessId);</span><br><span class="line">            TransmitRequest = SECOC_IDLE_TRANSMITREQUEST;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>关键子函数：</p>
+<ol>
+<li>
+<p><code>SecOC_TxIf_HandlePdu_ReauthenticationNeeded</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(<span class="type">void</span>)</span> <span class="title function_">SecOC_TxIf_HandlePdu_ReauthenticationNeeded</span><span class="params">(txPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (TxPduState == SECOC_PRE_REAUTHENTICATION_NEEDED_TXPDUSTATE) &#123;</span><br><span class="line">        TxPduState = SECOC_REAUTHENTICATION_NEEDED_TXPDUSTATE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (TxPduState == SECOC_REAUTHENTICATION_NEEDED_TXPDUSTATE) &#123;</span><br><span class="line">        Std_ReturnType ret = SecOC_FreshnessValue_CopyTxFreshnessValues(txPduId);</span><br><span class="line">        <span class="keyword">if</span> (ret == E_OK) &#123;</span><br><span class="line">            TxPduState = SECOC_UNAUTHENTICATED_TO_BE_STARTED_TXPDUSTATE;  <span class="comment">// 继续算 MAC</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ret == E_NOT_OK) &#123;</span><br><span class="line">            <span class="comment">// 发送默认认证模式 或 INVALID 状态 → 报文不发</span></span><br><span class="line">            ...</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// SECOC_E_BUSY</span></span><br><span class="line">            SecOC_Authenticate_IncrementAndCheckBuildAttempts(txPduId);  <span class="comment">// 重试</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>SecOC_FreshnessValue_CopyTxFreshnessValues</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(Std_ReturnType)</span> <span class="title function_">SecOC_FreshnessValue_CopyTxFreshnessValues</span><span class="params">(txPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    uint8 freshnessValue[SECOC_FRESHNESS_SIZE_TXPDUS];</span><br><span class="line">    uint8 truncatedFreshnessValue[SECOC_TRUNC_FRESHNESS_SIZE_TXPDUS];</span><br><span class="line">    Std_ReturnType ret = SecOC_FreshnessValue_GetValueForTxPduOfCallout(</span><br><span class="line">        txPduId, freshnessValue, SECOC_FRESHNESS_SIZE_TXPDUS,</span><br><span class="line">        truncatedFreshnessValue, SECOC_TRUNC_FRESHNESS_SIZE_TXPDUS);</span><br><span class="line">    <span class="keyword">if</span> (ret == E_OK) &#123;</span><br><span class="line">        <span class="comment">// 把完整 FV 拷到 AuthenticPduDataContainer 的 FreshnessVerifyValue 区域</span></span><br><span class="line">        <span class="keyword">for</span> (...) AuthenticPduDataContainer[valueidx] = freshnessValue[...];</span><br><span class="line">        <span class="comment">// 把截断 FV 写进 SecuredPduDataContainer 的 TruncatedFreshnessValue 区域</span></span><br><span class="line">        SecOC_FreshnessValue_WriteTruncFreshnessValue(txPduId, truncatedFreshnessValue);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它最终调用 <strong><code>GetTxFreshnessTruncData_FuncName</code></strong>（FvM 的 <code>SecOC_GetTxFreshnessTruncData</code>）。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>计算 MAC：<code>SecOC_Authenticate_GenerateAuthenticator</code> → <code>SecOC_Authenticate_GenerateAuthenticatorUsingCSM43</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(<span class="type">void</span>)</span> <span class="title function_">SecOC_Authenticate_GenerateAuthenticator</span><span class="params">(txPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 把 DataID 写进 DataToAuthenticate 头部</span></span><br><span class="line">    SecOC_AddTxDataIdsToDataToAuthenticate(txPduId);</span><br><span class="line">    ret = SecOC_Authenticate_GenerateAuthenticatorUsingCSM43(txPduId);</span><br><span class="line">    <span class="keyword">if</span> (ret == E_OK) &#123;</span><br><span class="line">        <span class="comment">// 把 AuthenticatorCache 里的 MAC 截断后拷到 SecuredPduDataContainer</span></span><br><span class="line">        SecOC_GetArrayByteAligned(AuthenticatorCache, SecuredPduDataContainer[TruncatedAuthenticatorStartIdx],</span><br><span class="line">            TruncatedAuthLength, <span class="number">0</span>, ..., FALSE);</span><br><span class="line">        TxPduState = SECOC_UNAUTHENTICATED_FINISHED_TXPDUSTATE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SecOC_Authenticate_GenerateAuthenticatorUsingCSM43</code> 组装 <code>DataToAuthenticate = DataID | AuthenticPdu | FV</code>，调用 <code>Csm_MacGenerate</code>。</p>
+</li>
+<li>
+<p>发送确认：<code>SecOC_TxConfirmation</code></p>
+<p>底层发出后回调 <code>SecOC_TxConfirmation</code>，它调用 <code>PduR_SecOCTxConfirmation</code> 上传给上层（如果配置了 <code>ConfirmationNeeded</code>）。真正的 FV 前移（Latest → Previous）是在 <code>SecOC_TxIf_ProcessTxPdu</code> 里 <code>PduR_SecOCTransmit</code> 返回 <code>E_OK</code> 后立刻调用 <code>SPduTxConfirmation_FuncName</code> 完成的，<strong>不依赖</strong> <code>SecOC_TxConfirmation</code>。</p>
+</li>
+</ol>
+<p>发送状态定义：</p>
+<table>
+<thead>
+<tr>
+<th>状态枚举</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SECOC_INVALID_SECURED_PDU_TXPDUSTATE</code></td>
+<td>初始/无效状态，不可发送</td>
+</tr>
+<tr>
+<td><code>SECOC_PRE_REAUTHENTICATION_NEEDED_TXPDUSTATE</code></td>
+<td>已收到发送请求，等待 MainFunction 处理</td>
+</tr>
+<tr>
+<td><code>SECOC_REAUTHENTICATION_NEEDED_TXPDUSTATE</code></td>
+<td>MainFunction 已接手，准备获取 FV</td>
+</tr>
+<tr>
+<td><code>SECOC_UNAUTHENTICATED_TO_BE_STARTED_TXPDUSTATE</code></td>
+<td>FV 已获取，等待计算 MAC</td>
+</tr>
+<tr>
+<td><code>SECOC_UNAUTHENTICATED_FINISHED_TXPDUSTATE</code></td>
+<td>MAC 已计算完成，等待组装 Secured PDU</td>
+</tr>
+<tr>
+<td><code>SECOC_AUTHENTICATED_TXPDUSTATE</code></td>
+<td>Secured PDU 已组装完成，等待发送</td>
+</tr>
+<tr>
+<td><code>SECOC_TRANSMISSION_INITIATED_TXPDUSTATE</code></td>
+<td>已调用 PduR 发送，等待确认</td>
+</tr>
+<tr>
+<td><code>SECOC_DEVMODE_AUTHENTICATION_PATTERN_NEEDED_TXPDUSTATE</code></td>
+<td>降级状态：使用默认认证模式</td>
+</tr>
+</tbody>
+</table>
+<p>状态迁移表为</p>
+<table>
+<thead>
+<tr>
+<th>当前状态</th>
+<th>事件</th>
+<th>条件</th>
+<th>动作</th>
+<th>下一状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INVALID</td>
+<td><code>SecOC_Transmit</code> 被调用</td>
+<td>PduType=IF 且长度合法</td>
+<td>拷贝 Authentic PDU 到内部缓冲；置 <code>TransmitRequest=TRANSMIT</code>；重置 BuildAttempts</td>
+<td>PRE_REAUTHENTICATION_NEEDED</td>
+</tr>
+<tr>
+<td>INVALID</td>
+<td><code>SecOC_Transmit</code> 被调用</td>
+<td>PduType=TP</td>
+<td>设置 TxAuthenticPduSizeOffset</td>
+<td>GET_DATA</td>
+</tr>
+<tr>
+<td>PRE_REAUTHENTICATION_NEEDED</td>
+<td>MainFunctionTx</td>
+<td>总是</td>
+<td>无</td>
+<td>REAUTHENTICATION_NEEDED</td>
+</tr>
+<tr>
+<td>REAUTHENTICATION_NEEDED</td>
+<td>MainFunctionTx</td>
+<td><code>CopyTxFreshnessValues</code> 返回 E_OK</td>
+<td>把 FV 写入 DataToAuthenticate；截断 FV 写入 Secured PDU</td>
+<td>UNAUTHENTICATED_TO_BE_STARTED</td>
+</tr>
+<tr>
+<td>REAUTHENTICATION_NEEDED</td>
+<td>MainFunctionTx</td>
+<td>返回 E_NOT_OK 且启用默认认证</td>
+<td>无</td>
+<td>DEVMODE_AUTHENTICATION_PATTERN_NEEDED</td>
+</tr>
+<tr>
+<td>REAUTHENTICATION_NEEDED</td>
+<td>MainFunctionTx</td>
+<td>返回 E_NOT_OK 且未启用默认认证</td>
+<td>置 <code>TransmitRequest=IDLE</code></td>
+<td>INVALID</td>
+</tr>
+<tr>
+<td>REAUTHENTICATION_NEEDED</td>
+<td>MainFunctionTx</td>
+<td>返回 SECOC_E_BUSY</td>
+<td>BuildAttempts++；未达上限则重试，达上限则 INVALID</td>
+<td>REAUTHENTICATION_NEEDED / INVALID</td>
+</tr>
+<tr>
+<td>UNAUTHENTICATED_TO_BE_STARTED</td>
+<td>MainFunctionTx</td>
+<td>总是</td>
+<td>调 CSM 算 MAC；成功则截断 MAC 写入 Secured PDU</td>
+<td>UNAUTHENTICATED_FINISHED</td>
+</tr>
+<tr>
+<td>UNAUTHENTICATED_FINISHED</td>
+<td>MainFunctionTx</td>
+<td>总是</td>
+<td>把 Authentic PDU 拷到 SecuredPduDataContainer</td>
+<td>AUTHENTICATED</td>
+</tr>
+<tr>
+<td>AUTHENTICATED</td>
+<td>MainFunctionTx</td>
+<td><code>TransmitRequest=TRANSMIT</code></td>
+<td>调 <code>PduR_SecOCTransmit</code></td>
+<td>TRANSMISSION_INITIATED</td>
+</tr>
+<tr>
+<td>AUTHENTICATED</td>
+<td>MainFunctionTx</td>
+<td>发送失败且未启用重试</td>
+<td>置 <code>TransmitRequest=IDLE</code></td>
+<td>AUTHENTICATED</td>
+</tr>
+<tr>
+<td>TRANSMISSION_INITIATED</td>
+<td><code>PduR_SecOCTransmit</code> 返回 E_OK</td>
+<td>总是</td>
+<td>调 FvM <code>SPduTxConfirmation</code>（Latest→Previous）；置 <code>TransmitRequest=IDLE</code></td>
+<td>AUTHENTICATED（等待下次发送）</td>
+</tr>
+<tr>
+<td>DEVMODE_AUTHENTICATION_PATTERN_NEEDED</td>
+<td>MainFunctionTx</td>
+<td>总是</td>
+<td>用默认 pattern 覆盖 MAC/FV；拷贝 Authentic PDU</td>
+<td>AUTHENTICATED</td>
+</tr>
+</tbody>
+</table>
+<p>发送状态图</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; INVALID
+
+    INVALID --&gt; PRE_REAUTHENTICATION_NEEDED : SecOC_Transmit(IF)
+    INVALID --&gt; GET_DATA : SecOC_Transmit(TP)
+
+    PRE_REAUTHENTICATION_NEEDED --&gt; REAUTHENTICATION_NEEDED : MainFunctionTx
+
+    REAUTHENTICATION_NEEDED --&gt; UNAUTHENTICATED_TO_BE_STARTED : FV获取成功
+    REAUTHENTICATION_NEEDED --&gt; DEVMODE_AUTHENTICATION_PATTERN_NEEDED : FV失败+默认认证
+    REAUTHENTICATION_NEEDED --&gt; INVALID : FV失败+无默认认证
+    REAUTHENTICATION_NEEDED --&gt; REAUTHENTICATION_NEEDED : BUSY且未达重试上限
+
+    UNAUTHENTICATED_TO_BE_STARTED --&gt; UNAUTHENTICATED_FINISHED : MAC计算成功
+    UNAUTHENTICATED_TO_BE_STARTED --&gt; INVALID : MAC计算失败且达上限
+
+    UNAUTHENTICATED_FINISHED --&gt; AUTHENTICATED : 拷贝AuthenticPDU到SecuredPDU
+
+    AUTHENTICATED --&gt; TRANSMISSION_INITIATED : PduR_SecOCTransmit调用
+    TRANSMISSION_INITIATED --&gt; AUTHENTICATED : 发送成功+SPduTxConfirmation
+
+    DEVMODE_AUTHENTICATION_PATTERN_NEEDED --&gt; AUTHENTICATED : 写入默认pattern
+
+    GET_DATA --&gt; REAUTHENTICATION_NEEDED : 取到数据</code></pre>
+<h3 id="接收链路（SecOC-MainFunctionRx）">接收链路（<code>SecOC_MainFunctionRx</code>）</h3>
+<ol>
+<li>
+<p>底层调用 <code>SecOC_RxIndication</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FUNC(<span class="type">void</span>) SecOC_RxIndication(PduIdType id, P2CONST(PduInfoType) info)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 开发错误检查</span></span><br><span class="line">    boolean wasProcessed = SecOC_RxIndication_PDUProcessing(id, info);</span><br><span class="line">    <span class="keyword">if</span> (wasProcessed == FALSE) &#123;</span><br><span class="line">        <span class="comment">// 队列满 → 尝试入队 或 报 BUFFER_BUSY</span></span><br><span class="line">        SecOC_Queue_AddPDUToQueue(...);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SecOC_RxIndication_PDUProcessing</code> 做的事：</p>
+<ul>
+<li>把收到的 Secured PDU 拷到内部 <code>SecuredPduDataContainer</code></li>
+<li>处理 CAN FD padding、message linker、split PDU</li>
+<li>把 <code>RxPduState</code> 设为 <strong><code>SECOC_PRE_VERIFY_START_RXPDUSTATE</code></strong></li>
+<li>如果配置为 ImmediateProcessing，立即调用 <code>SecOC_Verify_MAC</code></li>
+</ul>
+</li>
+<li>
+<p><code>SecOC_MainFunctionRx</code> → <code>SecOC_RxIf_HandlePdus</code></p>
+<p>遍历所有 RxPduInfo，对状态非 IDLE 的调用 <code>SecOC_Verify_MAC</code>。</p>
+</li>
+<li>
+<p><code>SecOC_Verify_MAC</code>（核心状态机）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(<span class="type">void</span>)</span> <span class="title function_">SecOC_Verify_MAC</span><span class="params">(rxPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// PRE_VERIFY_START → COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE</span></span><br><span class="line">    <span class="keyword">if</span> (RxPduState == SECOC_PRE_VERIFY_START_RXPDUSTATE) &#123;</span><br><span class="line">        RxPduState = SECOC_COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE_RXPDUSTATE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (RxPduState == SECOC_COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE_RXPDUSTATE) &#123;</span><br><span class="line">        <span class="comment">// 去 padding，把 SecuredPDU 拷到 AuthenticPduDataContainer</span></span><br><span class="line">        VStdMemCpyRamToRam(AuthenticPduDataContainer, SecuredPduDataContainer, Len);</span><br><span class="line">        RxPduState = SECOC_FRESHNESS_VALUE_NEEDED_RXPDUSTATE;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (SecOC_IsSecuredRxPduVerficationOfRxPduInfo(rxPduId)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (RxPduState == SECOC_FRESHNESS_VALUE_NEEDED_RXPDUSTATE) &#123;</span><br><span class="line">            <span class="comment">// ★ 调 FvM 计算/校验 FV → SecOC_FreshnessValue_CalculateVerifyValueFromCallout</span></span><br><span class="line">            SecOC_FreshnessValue_CalculateVerifyValueFromCallout(rxPduId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        RxPduState = SECOC_VERIFIED_RXPDUSTATE;</span><br><span class="line">        SecOC_Verify_ProcessSuccessfulVerificationResult(rxPduId, SECOC_VERIFICATIONSUCCESS);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ★ 计算 MAC 并验证</span></span><br><span class="line">    <span class="keyword">if</span> (SecOC_IsRxPduStateUnverified(rxPduId)) &#123;</span><br><span class="line">        SecOC_Verify_MAC_DoUnverifiedProcessing(rxPduId);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ABORTED / VERIFIED → IDLE</span></span><br><span class="line">    <span class="keyword">if</span> (RxPduState == SECOC_ABORTED_RXPDUSTATE) &#123; ... RxPduState = SECOC_IDLE_RXPDUSTATE; &#125;</span><br><span class="line">    <span class="keyword">if</span> (RxPduState == SECOC_VERIFIED_RXPDUSTATE) &#123; RxPduState = SECOC_IDLE_RXPDUSTATE; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>SecOC_FreshnessValue_CalculateVerifyValueFromCallout</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(<span class="type">void</span>)</span> <span class="title function_">SecOC_FreshnessValue_CalculateVerifyValueFromCallout</span><span class="params">(rxPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    uint8 freshnessVerifyValue[SECOC_FRESHNESS_SIZE_RXPDUS];</span><br><span class="line">    result = SecOC_FreshnessValue_GetVerifyValueFromCallout(rxPduId, freshnessVerifyValue, ...);</span><br><span class="line">    <span class="keyword">if</span> (result == E_OK) &#123;</span><br><span class="line">        <span class="comment">// 把 FvM 算出的完整 FV 拷进 AuthenticPduDataContainer 的 FreshnessVerifyValue 区域</span></span><br><span class="line">        SecOC_FreshnessValue_CopyVerifyValueToBuffer(rxPduId, freshnessVerifyValue);</span><br><span class="line">        RxPduState = SECOC_UNVERIFIED_RXPDUSTATE;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (result == SECOC_E_BUSY) &#123;</span><br><span class="line">        SecOC_Verify_IncrementBuildAttempts(rxPduId);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// FV 计算失败 → PropagationStatus(FRESHNESSFAILURE) + RxPduState = ABORTED</span></span><br><span class="line">        SecOC_Verify_PropagateVerificationStatus(rxPduId, SECOC_FRESHNESSFAILURE);</span><br><span class="line">        SecOC_Verify_PropagateVerificationStatusWithSecuredPdu(rxPduId, SECOC_FRESHNESSFAILURE);</span><br><span class="line">        SecOC_SetRxPduState(rxPduId, SECOC_ABORTED_RXPDUSTATE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>SecOC_FreshnessValue_GetVerifyValueFromCallout</code> 内部调用 <strong><code>GetRxFreshness_FuncName</code></strong>（FvM 的 <code>SecOC_GetRxFreshness</code>），并传入从报文里解析出的截断 FV、<code>SecOCAuthVerifyAttempts</code>（<code>SecOC_GetVerifyAttemptsCounter</code>）。</p>
+</li>
+<li>
+<p><code>SecOC_Verify_MAC_DoUnverifiedProcessing</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">SECOC_LOCAL_INLINE <span class="title function_">FUNC</span><span class="params">(<span class="type">void</span>)</span> <span class="title function_">SecOC_Verify_MAC_DoUnverifiedProcessing</span><span class="params">(rxPduId)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="comment">// 根据 VerifyOverrideStatus 决定：真验证 / 强制通过 / 强制失败</span></span><br><span class="line">        <span class="keyword">if</span> (overrideStatus == CANCEL || PASS_UNTIL_LIMIT || PASS_UNTIL_NOTICE) &#123;</span><br><span class="line">            verificationResult = SecOC_Verify_MACUsingCSM43(rxPduId);  <span class="comment">// 调 Csm_MacVerify</span></span><br><span class="line">            wasOverride = FALSE;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            verificationResult = SecOC_Verify_GetVerificationResultOfOverrideStatus(rxPduId);</span><br><span class="line">            wasOverride = TRUE;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (RxPduState == SECOC_UNVERIFIED_VERIFICATION_FINISHED_RXPDUSTATE) &#123;</span><br><span class="line">            SecOC_Verify_ProcessVerificationResult(verificationResult, rxPduId, verifyOverrideStatus);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (wasOverride &amp;&amp; verificationResult != OK) &#123;</span><br><span class="line">            RxPduState = SECOC_ABORTED_RXPDUSTATE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (RxPduState == SECOC_UNVERIFIED_VERIFICATION_TO_BE_STARTED_RXPDUSTATE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>SecOC_Verify_ProcessVerificationResult</code> → 成功/失败分支</p>
+<ul>
+<li><strong>成功</strong>：<code>SecOC_Verify_ProcessSuccessfulVerificationResult</code>
+<ul>
+<li>调 <code>PduR_SecOCRxIndication</code>（IF PDU）或 <code>PduR_SecOCTpCopyRxData</code> + <code>PduR_SecOCTpRxIndication</code>（TP PDU），把 Authentic PDU 上传给上层</li>
+<li>触发 <code>SecOC_Verify_PropagateVerificationStatus</code> → 遍历所有 <code>VerificationStatusCallout</code>（包括 <strong>FvM_VerificationStatusCallout</strong>）→ Rte_Write</li>
+<li><code>RxPduState = SECOC_VERIFIED_RXPDUSTATE</code></li>
+</ul>
+</li>
+<li><strong>失败</strong>：<code>SecOC_Verify_ProcessUnsuccessfulVerificationResult</code>
+<ul>
+<li><code>SecOC_IncVerifyAttemptsCounter(rxPduId)</code></li>
+<li>若重试次数未达 <code>VerifyAttempts</code>：重新 <code>CalculateVerifyValueFromCallout</code>，状态回到 <code>UNVERIFIED_VERIFICATION_TO_BE_STARTED</code>，下一轮循环再试（FvM 会拿 <code>AuthVerifyAttempts</code> 尝试 ±offset 重构 FV）</li>
+<li>若已达上限：PropagationStatus(VERIFICATIONFAILURE)，状态 <code>ABORTED</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>接收状态定义</p>
+<table>
+<thead>
+<tr>
+<th>状态枚举</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SECOC_IDLE_RXPDUSTATE</code></td>
+<td>空闲，可接收新报文</td>
+</tr>
+<tr>
+<td><code>SECOC_PRE_VERIFY_START_RXPDUSTATE</code></td>
+<td>已收到报文，等待 MainFunction 处理</td>
+</tr>
+<tr>
+<td><code>SECOC_COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE_RXPDUSTATE</code></td>
+<td>正在剥离 Authentic PDU</td>
+</tr>
+<tr>
+<td><code>SECOC_FRESHNESS_VALUE_NEEDED_RXPDUSTATE</code></td>
+<td>需要从 FvM 获取/校验 FV</td>
+</tr>
+<tr>
+<td><code>SECOC_UNVERIFIED_RXPDUSTATE</code></td>
+<td>FV 已就绪，等待 MAC 验证</td>
+</tr>
+<tr>
+<td><code>SECOC_UNVERIFIED_VERIFICATION_TO_BE_STARTED_RXPDUSTATE</code></td>
+<td>验证失败但未达重试上限，准备重验</td>
+</tr>
+<tr>
+<td><code>SECOC_UNVERIFIED_VERIFICATION_FINISHED_RXPDUSTATE</code></td>
+<td>MAC 验证完成（结果已出）</td>
+</tr>
+<tr>
+<td><code>SECOC_VERIFIED_RXPDUSTATE</code></td>
+<td>验证通过，已上传上层</td>
+</tr>
+<tr>
+<td><code>SECOC_ABORTED_RXPDUSTATE</code></td>
+<td>验证失败/中止</td>
+</tr>
+<tr>
+<td><code>SECOC_COPYING_RXPDUSTATE</code></td>
+<td>TP 接收中，正在拷贝数据</td>
+</tr>
+</tbody>
+</table>
+<p>状态迁移表</p>
+<table>
+<thead>
+<tr>
+<th>当前状态</th>
+<th>事件</th>
+<th>条件</th>
+<th>动作</th>
+<th>下一状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IDLE</td>
+<td><code>SecOC_RxIndication</code></td>
+<td>缓冲区可用</td>
+<td>拷贝 Secured PDU 到内部缓冲；重置 VerifyAttempts/BuildAttempts</td>
+<td>PRE_VERIFY_START</td>
+</tr>
+<tr>
+<td>IDLE</td>
+<td><code>SecOC_RxIndication</code></td>
+<td>缓冲区忙且有队列</td>
+<td>入队</td>
+<td>IDLE</td>
+</tr>
+<tr>
+<td>IDLE</td>
+<td><code>SecOC_StartOfReception</code>（TP）</td>
+<td>长度合法</td>
+<td>设置 RxAuthenticPduSizeOffset</td>
+<td>COPYING</td>
+</tr>
+<tr>
+<td>COPYING</td>
+<td><code>SecOC_CopyRxData</code></td>
+<td>数据未收完</td>
+<td>逐段拷贝</td>
+<td>COPYING</td>
+</tr>
+<tr>
+<td>COPYING</td>
+<td><code>SecOC_TpRxIndication</code></td>
+<td>接收成功</td>
+<td>无</td>
+<td>COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE</td>
+</tr>
+<tr>
+<td>COPYING</td>
+<td><code>SecOC_TpRxIndication</code></td>
+<td>接收失败</td>
+<td>上报 E_NOT_OK</td>
+<td>IDLE</td>
+</tr>
+<tr>
+<td>PRE_VERIFY_START</td>
+<td>MainFunctionRx</td>
+<td>总是</td>
+<td>无</td>
+<td>COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE</td>
+</tr>
+<tr>
+<td>COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE</td>
+<td>MainFunctionRx</td>
+<td>总是</td>
+<td>去 padding；拷贝 Secured PDU 到 AuthenticPduDataContainer</td>
+<td>FRESHNESS_VALUE_NEEDED</td>
+</tr>
+<tr>
+<td>FRESHNESS_VALUE_NEEDED</td>
+<td>MainFunctionRx</td>
+<td><code>GetRxFreshness</code> 返回 E_OK</td>
+<td>FV 写入 DataToAuthenticate</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>FRESHNESS_VALUE_NEEDED</td>
+<td>MainFunctionRx</td>
+<td>返回 E_NOT_OK</td>
+<td>PropagationStatus(FRESHNESSFAILURE)</td>
+<td>ABORTED</td>
+</tr>
+<tr>
+<td>FRESHNESS_VALUE_NEEDED</td>
+<td>MainFunctionRx</td>
+<td>返回 SECOC_E_BUSY</td>
+<td>BuildAttempts++；未达上限则保持</td>
+<td>FRESHNESS_VALUE_NEEDED / ABORTED</td>
+</tr>
+<tr>
+<td>UNVERIFIED</td>
+<td>MainFunctionRx</td>
+<td>CSM 验证返回 OK</td>
+<td>无</td>
+<td>UNVERIFIED_VERIFICATION_FINISHED</td>
+</tr>
+<tr>
+<td>UNVERIFIED</td>
+<td>MainFunctionRx</td>
+<td>CSM 验证返回 NOT_OK</td>
+<td>IncVerifyAttempts</td>
+<td>UNVERIFIED_VERIFICATION_TO_BE_STARTED</td>
+</tr>
+<tr>
+<td>UNVERIFIED_VERIFICATION_TO_BE_STARTED</td>
+<td>MainFunctionRx</td>
+<td>VerifyAttempts 未达上限</td>
+<td>重新 <code>CalculateVerifyValueFromCallout</code>（FvM 用 ±offset 重构 FV）</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>UNVERIFIED_VERIFICATION_TO_BE_STARTED</td>
+<td>MainFunctionRx</td>
+<td>VerifyAttempts 达上限</td>
+<td>PropagationStatus(VERIFICATIONFAILURE)</td>
+<td>ABORTED</td>
+</tr>
+<tr>
+<td>UNVERIFIED_VERIFICATION_FINISHED</td>
+<td>MainFunctionRx</td>
+<td>验证结果 OK</td>
+<td><code>PduR_SecOCRxIndication</code> 上传；PropagationStatus(SUCCESS)；FvM Callout 前移 Latest→Previous</td>
+<td>VERIFIED</td>
+</tr>
+<tr>
+<td>UNVERIFIED_VERIFICATION_FINISHED</td>
+<td>MainFunctionRx</td>
+<td>验证结果 NOT_OK</td>
+<td>IncVerifyAttempts；未达上限则重验</td>
+<td>UNVERIFIED_VERIFICATION_TO_BE_STARTED / ABORTED</td>
+</tr>
+<tr>
+<td>VERIFIED</td>
+<td>MainFunctionRx</td>
+<td>总是</td>
+<td>无</td>
+<td>IDLE</td>
+</tr>
+<tr>
+<td>ABORTED</td>
+<td>MainFunctionRx</td>
+<td>总是</td>
+<td>无</td>
+<td>IDLE</td>
+</tr>
+</tbody>
+</table>
+<p>接收状态图</p>
+<pre><code class="highlight mermaid">stateDiagram-v2
+    [*] --&gt; IDLE
+
+    IDLE --&gt; PRE_VERIFY_START : SecOC_RxIndication(IF)
+    IDLE --&gt; COPYING : SecOC_StartOfReception(TP)
+
+    COPYING --&gt; COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE : TpRxIndication成功
+    COPYING --&gt; IDLE : TpRxIndication失败
+
+    PRE_VERIFY_START --&gt; COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE : MainFunctionRx
+
+    COPY_AUTHENTIC_PDU_TO_DATA_TO_AUTHENTICATE --&gt; FRESHNESS_VALUE_NEEDED : 拷贝完成
+
+    FRESHNESS_VALUE_NEEDED --&gt; UNVERIFIED : FV成功
+    FRESHNESS_VALUE_NEEDED --&gt; ABORTED : FV失败
+
+    UNVERIFIED --&gt; UNVERIFIED_VERIFICATION_FINISHED : MAC验证完成
+    UNVERIFIED_VERIFICATION_FINISHED --&gt; VERIFIED : 验证OK
+    UNVERIFIED_VERIFICATION_FINISHED --&gt; UNVERIFIED_VERIFICATION_TO_BE_STARTED : 验证失败且未达上限
+    UNVERIFIED_VERIFICATION_FINISHED --&gt; ABORTED : 验证失败且达上限
+
+    UNVERIFIED_VERIFICATION_TO_BE_STARTED --&gt; UNVERIFIED : 重算FV成功
+    UNVERIFIED_VERIFICATION_TO_BE_STARTED --&gt; ABORTED : 重算FV失败
+
+    VERIFIED --&gt; IDLE : 处理完成
+    ABORTED --&gt; IDLE : 处理完成</code></pre>
+<h3 id="排查问题建议">排查问题建议</h3>
+<h4 id="两条状态机与-FvM-的交互点">两条状态机与 FvM 的交互点</h4>
+<table>
+<thead>
+<tr>
+<th>交互点</th>
+<th>SecOC 侧状态</th>
+<th>FvM 侧函数</th>
+<th>返回值影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>发送取 FV</td>
+<td>REAUTHENTICATION_NEEDED</td>
+<td><code>SecOC_GetTxFreshnessTruncData</code></td>
+<td>E_OK → 继续；E_BUSY → 重试；E_NOT_OK → INVALID</td>
+</tr>
+<tr>
+<td>发送成功确认</td>
+<td>TRANSMISSION_INITIATED</td>
+<td><code>SecOC_SPduTxConfirmation</code></td>
+<td>无返回值；FvM 内部 Latest→Previous</td>
+</tr>
+<tr>
+<td>接收取 FV</td>
+<td>FRESHNESS_VALUE_NEEDED</td>
+<td><code>SecOC_GetRxFreshness</code></td>
+<td>E_OK → UNVERIFIED；E_NOT_OK → ABORTED</td>
+</tr>
+<tr>
+<td>接收验证成功回调</td>
+<td>UNVERIFIED_VERIFICATION_FINISHED → VERIFIED</td>
+<td><code>FvM_VerificationStatusCallout</code></td>
+<td>无返回值；FvM 内部 Latest→Previous、同步状态更新</td>
+</tr>
+</tbody>
+</table>
+<h4 id="调试时如何用这张表">调试时如何用这张表</h4>
+<ol>
+<li><strong>发送卡住</strong>：在 <code>SecOC_TxIf_ProcessTxPdu</code> 里读 <code>SecOC_GetTxPduState(txPduId)</code>，对照发送状态表，看停在哪个状态。
+<ul>
+<li>停在 <code>REAUTHENTICATION_NEEDED</code> → FvM 的 <code>SecOC_GetTxFreshnessTruncData</code> 返回了 <code>E_NOT_OK</code>/<code>E_BUSY</code>。</li>
+<li>停在 <code>INVALID</code> → 发送请求被放弃，检查 <code>SendDefaultAuthentication</code> 配置或 FvM 同步状态。</li>
+<li>停在 <code>AUTHENTICATED</code> 但 <code>TransmitRequest=IDLE</code> → 发送失败且未启用重试。</li>
+</ul>
+</li>
+<li><strong>接收验证失败</strong>：在 <code>SecOC_Verify_MAC</code> 里读 <code>SecOC_GetRxPduState(rxPduId)</code>，对照接收状态表，看是卡在 FV 阶段（<code>FRESHNESS_VALUE_NEEDED</code> → <code>ABORTED</code>）还是 MAC 阶段（<code>UNVERIFIED_VERIFICATION_TO_BE_STARTED</code> → <code>ABORTED</code>）。</li>
+<li><strong>Callout 不触发</strong>：只有状态到达 <code>UNVERIFIED_VERIFICATION_FINISHED</code> 且结果为 OK，才会走 <code>VERIFIED</code> 并调用 <code>SecOC_Verify_PropagateVerificationStatus</code> → FvM Callout。如果状态一直是 <code>ABORTED</code>，Callout 永远不会命中。</li>
+</ol>
+<h4 id="建议的调试断点表">建议的调试断点表</h4>
+<table>
+<thead>
+<tr>
+<th>目的</th>
+<th>断点函数</th>
+<th>观察变量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>确认上层是否触发发送</td>
+<td><code>SecOC_Transmit</code></td>
+<td><code>id</code>、<code>info-&gt;SduLength</code>、返回值</td>
+</tr>
+<tr>
+<td>确认 MainFunctionTx 是否调度</td>
+<td><code>SecOC_MainFunctionTx</code></td>
+<td>是否命中</td>
+</tr>
+<tr>
+<td>确认状态机走到哪</td>
+<td><code>SecOC_TxIf_ProcessTxPdu</code></td>
+<td><code>SecOC_GetTxPduState(txPduId)</code>、<code>TransmitRequest</code></td>
+</tr>
+<tr>
+<td>确认 FvM 请求结果</td>
+<td><code>SecOC_TxIf_HandlePdu_ReauthenticationNeeded</code></td>
+<td><code>SecOC_FreshnessValue_CopyTxFreshnessValues</code> 返回值</td>
+</tr>
+<tr>
+<td>确认 FV 内容</td>
+<td><code>SecOC_FreshnessValue_CopyTxFreshnessValues</code></td>
+<td><code>freshnessValue[]</code>、<code>truncatedFreshnessValue[]</code></td>
+</tr>
+<tr>
+<td>确认 MAC 计算</td>
+<td><code>SecOC_Authenticate_GenerateAuthenticatorUsingCSM43</code></td>
+<td><code>Csm_MacGenerate</code> 返回值</td>
+</tr>
+<tr>
+<td>确认是否调 PduR 发送</td>
+<td><code>SecOC_TxIf_ProcessTxPdu</code> 末尾</td>
+<td><code>PduR_SecOCTransmit</code> 返回值</td>
+</tr>
+<tr>
+<td>确认接收入口</td>
+<td><code>SecOC_RxIndication</code></td>
+<td>是否命中、<code>info-&gt;SduLength</code></td>
+</tr>
+<tr>
+<td>确认接收验证</td>
+<td><code>SecOC_Verify_MAC</code></td>
+<td><code>SecOC_GetRxPduState(rxPduId)</code></td>
+</tr>
+<tr>
+<td>确认 FvM 接收 FV</td>
+<td><code>SecOC_FreshnessValue_GetVerifyValueFromCallout</code></td>
+<td><code>GetRxFreshness_FuncName</code> 返回值、<code>verifyAttemptsCounter</code></td>
+</tr>
+<tr>
+<td>确认 Callout 触发</td>
+<td><code>SecOC_Verify_PropagateVerificationStatus</code></td>
+<td>是否遍历到 Callout</td>
+</tr>
+</tbody>
+</table>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io">ryf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/FVM/">https://youshouldtrustme.github.io/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/FVM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://youshouldtrustme.github.io" target="_blank">🍭​你要信我啊の博客​</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AUTOSAR/">AUTOSAR</a></div><div class="post-share"><div class="social-share" data-image="/img/RandomCoverImage/random_3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://unpkg.com/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/SecOc/" title="SecOc"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post" loading='lazy'><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">SecOc</div></div><div class="info-2"><div class="info-item-1">参考链接 https://blog.csdn.net/m0_58346868/article/details/149842070 https://blog.csdn.net/weixin_42108533/article/details/159755674 概述  标准文件请参见https:/...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/E2E/" title="E2E"><img class="cover" src="/img/RandomCoverImage/random_1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post" loading='lazy'><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">E2E</div></div><div class="info-2"><div class="info-item-1">概述  官方标准手册请参见https://www.autosar.org/fileadmin/standards/R25-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf   E2E（End-to-End）通信保护旨在运行时保护安全相关数据在通信链路上传输时免受故障影响...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Memory/Nvm/" title="Nvm"><img class="cover" src="/img/RandomCoverImage/random_2.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-10</div><div class="info-item-2">Nvm</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参见Specification of NVRAM Manager (autosar.org)   NVRAM Manager (NvM) 是 AUTOSAR 基础软件中的非易失性存储管理模块。它为上层的应用和组件提供了统一的接口，用于管理非易失性数据（如校准参数、配置信息、故...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Communication/PduR/" title="PduR"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-10</div><div class="info-item-2">PduR</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参见Specification of PDU Router  如果说 ComM 是“司令部”，那么 PduR 就是 ECU 内部的“物流转运中心”。它不关心数据包（PDU）里装的是什么信号，它只根据“路由表”决定这个包该发往哪里。   PduR 的层级位置：承上启下 PduR...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Communication/CanIf/" title="CanIf"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-10</div><div class="info-item-2">CanIf</div></div><div class="info-2"><div class="info-item-1">概述  标准文件参见AUTOSAR_SWS_CANInterface.pdf  下图展示了Can模块所处的位置：  在MCAL层，看到了不仅仅有CanDriver， 还有SPI和I/O Driver，其中SPI针对的是那些需要外挂CAN controller的应用，除了外部CAN contro...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Safety/E2E/" title="E2E"><img class="cover" src="/img/RandomCoverImage/random_1.png" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-10</div><div class="info-item-2">E2E</div></div><div class="info-2"><div class="info-item-1">概述  官方标准手册请参见https://www.autosar.org/fileadmin/standards/R25-11/FO/AUTOSAR_FO_PRS_E2EProtocol.pdf   E2E（End-to-End）通信保护旨在运行时保护安全相关数据在通信链路上传输时免受故障影响...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Mode%20Management/BswM/" title="BswM"><img class="cover" src="/img/RandomCoverImage/random_4.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-10</div><div class="info-item-2">BswM</div></div><div class="info-2"><div class="info-item-1">概述 上一节介绍了一个非常夸张的EcuM模块，其中多次提到了BswM模块，这两个模块通常狼狈为奸，共同策划且并操作了整个ECU的状态切换。细细研究EcuM模块后就会发现它是比较别动的，都是当一些条件满足或者事件发生时，EcuM才会控制系统进行状态切换，它更像是一个大兵，只会吭哧吭哧干活，而这一...</div></div></div></a><a class="pagination-related" href="/2026/11/10/%E6%B1%BD%E8%BD%A6%E7%94%B5%E5%AD%90/Specification/Memory/MemIf/" title="MemIf"><img class="cover" src="/img/RandomCoverImage/random_3.jpg" alt="cover" loading='lazy'><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-11-10</div><div class="info-item-2">MemIf</div></div><div class="info-2"><div class="info-item-1">概述  标准文件请参见Specification of Memory Abstraction Interface (autosar.org)  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/ loading='lazy'></div><div class="author-info-name">ryf</div><div class="author-info-description">嵌入式菜鸟</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/youShouldTrustMe"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text">参考链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SecOc%E5%92%8CFvm%E7%9A%84%E4%BA%A4%E4%BA%92%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">SecOc和Fvm的交互：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FV%E6%9E%84%E6%88%90"><span class="toc-number">4.</span> <span class="toc-text">FV构成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E6%8A%A5%E6%96%87"><span class="toc-number">5.</span> <span class="toc-text">同步报文</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E6%8A%A5%E6%96%87"><span class="toc-number">6.</span> <span class="toc-text">安全报文</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%80%BC"><span class="toc-number">7.</span> <span class="toc-text">关键值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E8%BF%87%E7%A8%8B"><span class="toc-number">8.</span> <span class="toc-text">完整过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E6%96%87%E8%A1%A8%E7%8E%B0"><span class="toc-number">8.1.</span> <span class="toc-text">报文表现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-number">8.2.</span> <span class="toc-text">操作过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E9%93%BE%E8%B7%AF%EF%BC%88SecOC-MainFunctionTx%EF%BC%89"><span class="toc-number">8.2.1.</span> <span class="toc-text">发送链路（SecOC_MainFunctionTx）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E9%93%BE%E8%B7%AF%EF%BC%88SecOC-MainFunctionRx%EF%BC%89"><span class="toc-number">8.2.2.</span> <span class="toc-text">接收链路（SecOC_MainFunctionRx）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E6%9F%A5%E9%97%AE%E9%A2%98%E5%BB%BA%E8%AE%AE"><span class="toc-number">8.2.3.</span> <span class="toc-text">排查问题建议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E6%9D%A1%E7%8A%B6%E6%80%81%E6%9C%BA%E4%B8%8E-FvM-%E7%9A%84%E4%BA%A4%E4%BA%92%E7%82%B9"><span class="toc-number">8.2.3.1.</span> <span class="toc-text">两条状态机与 FvM 的交互点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%97%B6%E5%A6%82%E4%BD%95%E7%94%A8%E8%BF%99%E5%BC%A0%E8%A1%A8"><span class="toc-number">8.2.3.2.</span> <span class="toc-text">调试时如何用这张表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E8%AE%AE%E7%9A%84%E8%B0%83%E8%AF%95%E6%96%AD%E7%82%B9%E8%A1%A8"><span class="toc-number">8.2.3.3.</span> <span class="toc-text">建议的调试断点表</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/AD/" title="AD">AD</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/CANape/" title="CANape">CANape</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/CANoe/" title="CANoe">CANoe</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/Configuration%20Wizard/" title="Configuration Wizard">Configuration Wizard</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/11/10/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/Gcc/" title="Gcc">Gcc</a><time datetime="2026-11-10T19:43:42.000Z" title="发表于 2026-11-10 19:43:42">2026-11-10</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/RandomCoverImage/random_3.jpg);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2024 - 2026 By ryf</span></div><div class="footer_custom_text">很多事情，都需要有人去做。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.2.0/instantpage.min.js" type="module"></script><div class="js-pjax"><script>(() => {
+  const changeScriptToMath = article => {
+    article.querySelectorAll('script[type^="math/tex"]').forEach(el => {
+      const display = /mode=display/.test(el.type)
+      const node = document.createElement(display ? 'div' : 'span')
+      node.textContent = display
+        ? `$$${el.textContent}$$`
+        : `$${el.textContent}$`
+      el.parentNode.replaceChild(node, el)
+    })
+  }
+
+  const loadMathjax = () => {
+    const article = document.getElementById('article-container')
+    if (!article || article.querySelector('.hbe-container')) return
+    changeScriptToMath(article)
+
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem',
+            'ui/lazy'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          lazyMargin: '200px',
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://unpkg.com/mathjax@4.1.3/tex-mml-chtml.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.typesetClear()
+      MathJax.typesetPromise([ article ])
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.innerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    // Clean up previous event listeners and pending frames
+    if (wrap.__mermaidAbortController) {
+      wrap.__mermaidAbortController.abort()
+      if (wrap.__mermaidRafId) cancelAnimationFrame(wrap.__mermaidRafId)
+    }
+    const ac = new AbortController()
+    wrap.__mermaidAbortController = ac
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+    // Disable default gestures to prevent scroll chaining and pinch-zoom penetration in Chrome
+    svg.style.touchAction = 'none'
+
+    // Cache BoundingClientRect, throttled on scroll to reduce reflow
+    let cachedRect = svg.getBoundingClientRect()
+    let rectDirty = false
+    const markRectDirty = () => { rectDirty = true }
+    window.addEventListener('resize', markRectDirty, { signal: ac.signal })
+    window.addEventListener('scroll', markRectDirty, { signal: ac.signal, capture: true })
+    const getRect = () => {
+      if (rectDirty) {
+        cachedRect = svg.getBoundingClientRect()
+        rectDirty = false
+      }
+      return cachedRect
+    }
+
+    // Precompute clamp bounds from initial viewBox
+    const minW = initVb[2] * 0.1
+    const maxW = initVb[2] * 10
+    const minH = initVb[3] * 0.1
+    const maxH = initVb[3] * 10
+    const clampVb = vb => {
+      const out = vb.slice()
+      out[2] = clamp(out[2], minW, maxW)
+      out[3] = clamp(out[3], minH, maxH)
+      return out
+    }
+
+    // Throttle DOM updates using requestAnimationFrame
+    let pendingVb = null
+    let rafId = null
+    const applyVb = () => {
+      if (pendingVb) {
+        wrap.__mermaidCurViewBox = pendingVb
+        setSvgViewBox(svg, pendingVb)
+        pendingVb = null
+      }
+      rafId = null
+      wrap.__mermaidRafId = null
+    }
+    const setCurVb = vb => {
+      pendingVb = clampVb(vb)
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyVb)
+        wrap.__mermaidRafId = rafId
+      }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      lastPointerX: 0,
+      lastPointerY: 0
+    }
+
+    const onPointerDown = e => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      const curVb = wrap.__mermaidCurViewBox
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      if (state.pointers.size === 1) {
+        state.startVb = curVb.slice()
+        state.lastPointerX = e.clientX
+        state.lastPointerY = e.clientY
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = curVb.slice()
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = state.pointers.values().next().value
+        const dxClient = p.x - state.lastPointerX
+        const dyClient = p.y - state.lastPointerY
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+        const dx = dxClient * (curVb[2] / rect.width)
+        const dy = dyClient * (curVb[3] / rect.height)
+        setCurVb([curVb[0] - dx, curVb[1] - dy, curVb[2], curVb[3]])
+        return
+      }
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const px = curVb[0] + (cx - rect.left) * (curVb[2] / rect.width)
+        const py = curVb[1] + (cy - rect.top) * (curVb[3] / rect.height)
+        setCurVb(zoomAtPoint(state.startVb, factor, px, py))
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      // Release PointerCapture to avoid event capture anomalies
+      if (svg.hasPointerCapture && svg.hasPointerCapture(e.pointerId)) {
+        svg.releasePointerCapture(e.pointerId)
+      }
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+      } else if (state.pointers.size === 1) {
+        const p = state.pointers.values().next().value
+        state.lastPointerX = p.x
+        state.lastPointerY = p.y
+      }
+    }
+
+    const onWheel = e => {
+      // Prevent event bubbling from triggering external scroll
+      e.preventDefault()
+      e.stopPropagation()
+      // Normalize deltaY across deltaMode (Chrome uses pixels, Safari uses lines)
+      let delta = e.deltaY
+      if (e.deltaMode === 1) delta *= 16
+      else if (e.deltaMode === 2) delta *= 400
+
+      // Continuous zoom factor: smoother than fixed 1.1/0.9 steps
+      const zoomFactor = Math.pow(1.001, delta)
+
+      const curVb = wrap.__mermaidCurViewBox
+      const rect = getRect()
+      const px = curVb[0] + (e.clientX - rect.left) * (curVb[2] / rect.width)
+      const py = curVb[1] + (e.clientY - rect.top) * (curVb[3] / rect.height)
+      setCurVb(zoomAtPoint(curVb, zoomFactor, px, py))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (init) setCurVb(init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown, { signal: ac.signal })
+    svg.addEventListener('pointermove', onPointerMove, { signal: ac.signal })
+    svg.addEventListener('pointerup', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('pointercancel', onPointerUpOrCancel, { signal: ac.signal })
+    svg.addEventListener('wheel', onWheel, { passive: false, signal: ac.signal })
+    svg.addEventListener('dblclick', onDblClick, { signal: ac.signal })
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      // Clean up event listeners before removing old SVG
+      if (item.__mermaidAbortController) {
+        item.__mermaidAbortController.abort()
+      }
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      let config = {}
+      try {
+        config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      } catch (e) {
+        console.warn('[mermaid] failed to parse dataset.config:', e)
+      }
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (true) attachMermaidViewerButton(item)
+      }
+
+      const handleError = err => {
+        console.error(`[mermaid] render failed for block #${index}:`, err)
+        const errorEl = document.createElement('div')
+        errorEl.className = 'mermaid-error'
+        errorEl.textContent = `Mermaid render error: ${err.message || err}`
+        mermaidSrc.insertAdjacentElement('afterend', errorEl)
+      }
+
+      try {
+        const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+        // mermaid v9 and v10 compatibility
+        if (typeof renderFn === 'string') {
+          renderMermaid(renderFn)
+        } else {
+          renderFn.then(({ svg }) => renderMermaid(svg)).catch(handleError)
+        }
+      } catch (err) {
+        handleError(err)
+      }
+    })
+  }
+
+  const codeToMermaid = $article => {
+    const codeMermaidEle = $article.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    const $article = document.getElementById('article-container')
+    if (!$article) return
+
+    if (true) codeToMermaid($article)
+    const $mermaid = $article.querySelectorAll('.mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/js/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="/js/toc-fix.js"></script><script src="/js/heading-number.js"></script><script src="/js/file-tree-data.js"></script><script src="/js/file-tree.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js" defer="defer"></script><script>document.addEventListener('DOMContentLoaded', () => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"]):not([data-fancybox])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      if (!item.parentNode) return
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || ''
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    const responseURL = e.request && e.request.responseURL
+    if (e.request && e.request.status === 404) {
+      true
+        ? pjax.loadUrl('/404.html')
+        : responseURL && (window.location.href = responseURL)
+    } else if (responseURL) {
+      window.location.href = responseURL
+    }
+  })
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
