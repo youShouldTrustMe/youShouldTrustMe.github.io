@@ -1,21 +1,21 @@
 /* 左侧文件夹抽屉（配合 source/js/file-tree.js 与 scripts/sidebar-file-tree.js） */
 
-/* 左侧边缘的呼出按钮 */
+/* 左侧边缘的呼出按钮（贴边竖向长条） */
 #ft-toggle {
   position: fixed;
-  left: 6px;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
   z-index: 100;
-  width: 34px;
-  height: 46px;
+  width: 36px;
+  height: 96px;
   border: none;
-  border-radius: 6px;
+  border-radius: 0 10px 10px 0;
   background: var(--card-bg, #fff);
   color: var(--font-color, #4c4948);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
   cursor: pointer;
-  font-size: 15px;
+  font-size: 17px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,9 +112,11 @@ html.ft-open #ft-overlay {
   border-radius: 2px;
 }
 
-/* 目录层级缩进 */
-.ft-group details details {
-  padding-left: 16px;
+/* 目录层级缩进：每个目录下的内容整体右移，并画一条细引导线 */
+.ft-dir > .ft-group {
+  margin-left: 11px;
+  padding-left: 9px;
+  border-left: 1px solid rgba(127, 127, 127, 0.18);
 }
 
 .ft-dir summary {
@@ -135,20 +137,16 @@ html.ft-open #ft-overlay {
 }
 
 /* 展开箭头 */
-.ft-dir summary::before {
-  content: '';
-  width: 5px;
-  height: 5px;
+.ft-angle {
   flex: none;
-  border: solid rgba(127, 127, 127, 0.8);
-  border-width: 0 2px 2px 0;
-  padding: 2.5px;
-  transform: rotate(-45deg);
+  width: 10px;
+  font-size: 10px;
+  color: rgba(127, 127, 127, 0.85);
   transition: transform 0.2s;
 }
 
-.ft-dir[open] > summary::before {
-  transform: rotate(45deg);
+.ft-dir[open] > summary .ft-angle {
+  transform: rotate(90deg);
 }
 
 .ft-dir summary:hover {

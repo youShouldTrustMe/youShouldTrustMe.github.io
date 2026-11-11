@@ -20,18 +20,19 @@
     return n
   }
 
-  // 顶层目录默认展开，更深层默认折叠
-  function render (node, depth) {
+  // 默认全部折叠
+  function render (node) {
     var html = ''
     node.children.forEach(function (child) {
       if (child.t === 'd') {
-        html += '<details class="ft-dir"' + (depth === 0 ? ' open' : '') + '>' +
+        html += '<details class="ft-dir">' +
           '<summary>' +
+            '<i class="fas fa-chevron-right ft-angle"></i>' +
             '<i class="fas fa-folder ft-ic"></i>' +
             '<span class="ft-name">' + esc(child.n) + '</span>' +
             '<span class="ft-count">' + count(child) + '</span>' +
           '</summary>' +
-          render(child, depth + 1) +
+          render(child) +
           '</details>'
       } else {
         html += '<a class="ft-file" href="' + esc(child.u) + '" data-path="' + esc(child.p) + '">' +
@@ -53,7 +54,7 @@
       '<span class="ft-title"><i class="fas fa-folder-open"></i>文件夹</span>' +
       '<button class="ft-close" type="button" aria-label="关闭"><i class="fas fa-xmark"></i></button>' +
     '</div>' +
-    '<nav class="ft-body">' + render(data, 0) + '</nav>'
+    '<nav class="ft-body">' + render(data) + '</nav>'
 
   var toggle = document.createElement('button')
   toggle.id = 'ft-toggle'
@@ -69,7 +70,9 @@
   function closeDrawer () { document.documentElement.classList.remove('ft-open') }
 
   toggle.addEventListener('click', function () {
-    document.documentElement.classList.toggle('ft-open')
+    var open = document.documentElement.classList.toggle('ft-open')
+    // 每次打开抽屉都把当前文章滚动定位到可见区域
+    if (open) markCurrent()
   })
   overlay.addEventListener('click', closeDrawer)
   aside.querySelector('.ft-close').addEventListener('click', closeDrawer)
@@ -77,14 +80,21 @@
     if (e.key === 'Escape') closeDrawer()
   })
 
-  // 点击文章链接后收起抽屉，让内容展示出来
+  // 点击文章链接：立刻高亮该项，再收起抽屉让内容展示出来
   aside.addEventListener('click', function (e) {
     var link = e.target.closest && e.target.closest('a.ft-file')
-    if (link) closeDrawer()
+    if (!link) return
+    var old = aside.querySelector('.ft-file.ft-current')
+    if (old) old.classList.remove('ft-current')
+    link.classList.add('ft-current')
+    closeDrawer()
   })
 
   // 当前文章高亮 + 自动展开所在目录
   function norm (p) {
+    try {
+      p = decodeURIComponent(p)
+    } catch (e) { /* 非法编码时保持原样 */ }
     p = String(p || '').replace(/index\.html$/, '').replace(/\/+$/, '')
     return p || '/'
   }
